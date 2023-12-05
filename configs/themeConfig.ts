@@ -1,3 +1,4 @@
+import { grey } from '@mui/material/colors';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 // theme 인스턴스 생성합니다.
@@ -20,49 +21,49 @@ let themeConfig = createTheme({
 		MuiCssBaseline: {
 			styleOverrides: `
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 100;
-        src: url("/fonts/MinSans-Thin.otf") format("opentype");
+        src: url("/fonts/Pretendard-Thin.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 200;
-        src: url("/fonts/MinSans-ExtraLight.otf") format("opentype");
+        src: url("/fonts/Pretendard-ExtraLight.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 300;
-        src: url("/fonts/MinSans-Light.otf") format("opentype");
+        src: url("/fonts/Pretendard-Light.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 400;
-        src: url("/fonts/MinSans-Regular.otf") format("opentype");
+        src: url("/fonts/Pretendard-Regular.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 500;
-        src: url("/fonts/MinSans-Medium.otf") format("opentype");
+        src: url("/fonts/Pretendard-Medium.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 600;
-        src: url("/fonts/MinSans-SemiBold.otf") format("opentype");
+        src: url("/fonts/Pretendard-SemiBold.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 700;
-        src: url("/fonts/MinSans-Bold.otf") format("opentype");
+        src: url("/fonts/Pretendard-Bold.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 800;
-        src: url("/fonts/MinSans-ExtraBold.otf") format("opentype");
+        src: url("/fonts/Pretendard-ExtraBold.otf") format("opentype");
       }
       @font-face {
-        font-family: "MinSans";
+        font-family: "Pretendard";
         font-weight: 900;
-        src: url("/fonts/MinSans-Black.otf") format("opentype");
+        src: url("/fonts/Pretendard-Black.otf") format("opentype");
       }
       `,
 		},
@@ -90,7 +91,7 @@ let themeConfig = createTheme({
 					'&:disabled': {
 						'-webkit-text-fill-color': '#7F7F7F',
 					},
-					fontFamily: 'MinSans',
+					fontFamily: 'Pretendard',
 				},
 			},
 		},
@@ -150,22 +151,28 @@ let themeConfig = createTheme({
 		mode: 'light',
 		common: {
 			black: '#000',
-			white: '#fff',
+			white: '#f8f8f8',
 		},
+		// blue
 		primary: {
-			main: '#6D6BD1',
+			main: '#305ddc',
+			light: '#f2f6ff',
 		},
+		// grey
 		secondary: {
-			main: '#FF1744',
+			light: '#f1f2f5',
+			main: '#b0b5c2',
+			dark: '#8793ac',
 		},
 		error: {
-			main: '#FF1744',
+			main: '#ff4d71',
 		},
 		warning: {
 			main: '#FD5935',
 		},
+		//cyan blue
 		info: {
-			main: '#D9D9D9',
+			main: '#a8fcff',
 		},
 		success: {
 			main: '#4CAF50',
@@ -226,7 +233,7 @@ let themeConfig = createTheme({
 		tooltip: 1500,
 	},
 	typography: {
-		fontFamily: 'MinSans',
+		fontFamily: 'Pretendard',
 		htmlFontSize: 12.8,
 
 		fontSize: 11.2,
