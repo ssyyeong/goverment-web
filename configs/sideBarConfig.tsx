@@ -25,6 +25,7 @@ import SmartToyRoundedIcon from '@mui/icons-material/SmartToyRounded';
 const sideBarConfig: ISideBar = {
 	menuHeight: 40,
 	loginLink: 'auth/sign_in',
+	disableAlarm: true,
 	menuSets: [
 		{
 			label: '프로필',

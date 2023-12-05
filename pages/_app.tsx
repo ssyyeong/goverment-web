@@ -51,7 +51,6 @@ function App({
 			{/* Head */}
 			<Entry
 				memory={memory}
-				disableSignUp={false}
 				configs={{
 					sidebar: {
 						...sideBarConfig,
@@ -72,7 +71,9 @@ function App({
 					theme: themeConfig,
 				}}
 				Component={Component}
+				useAuthCheck={false}
 				pageProps={pageProps}
+				disableSideBar={true}
 				router={router}
 			/>
 		</React.Fragment>

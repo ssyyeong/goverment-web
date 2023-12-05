@@ -3,9 +3,6 @@ import { INavigatorProps } from '@qillie-corp/ark-office-project/src/@types/ui/g
 
 const navigatorConfig: INavigatorProps = {
 	logoPath: '/images/logo/logo.svg',
-	alarm: {
-		modelName: 'AdminMember',
-	},
 	order: {
 		xs: ['drawer', 'logo', 'alarm'],
 		md: ['logo', 'spacing'],
