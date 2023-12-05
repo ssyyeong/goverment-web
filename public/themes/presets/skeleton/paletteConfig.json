@@ -1,0 +1,41 @@
+{
+    "background": {
+        "paper": "#fff",
+        "default": "#fff"
+    },
+    "primary": {
+        "dark": "#2937FF",
+        "main": "#5C67FF",
+        "light": "#E5E7FF"
+    },
+    "secondary": {
+        "main": "#CCF381"
+    },
+    "error": {
+        "main": "#f44336"
+    },
+    "warning": {
+        "main": "#ffa726"
+    },
+    "info": {
+        "main": "#fff"
+    },
+    "success": {
+        "main": "#2E293B"
+    },
+    "grey": {
+        "50": "",
+        "100": "",
+        "200": "#DCDDE0",
+        "300": "#EFF0F2",
+        "400": "#313438",
+        "500": "#7B7D85",
+        "600": "#C6C7CC",
+        "700": "#DCDDE0",
+        "800": "#EFF0F2",
+        "900": "#F5F6F7",
+        "A100": "#FFFFFF",
+        "A200": "#EFF0F2",
+        "A400": "#F5F6F7"
+    }
+}

@@ -1,0 +1,89 @@
+{
+	"fontFamily": [{ "fontKey": "Noto Sans Korean", "selectedWeight": [400] }],
+	"responsiveFontConfig": {
+		"body1": {
+			"xs": "11px",
+			"sm": "11px",
+			"md": "11px",
+			"lg": "11px",
+			"xl": "11px"
+		},
+		"body2": {
+			"xs": "10.4px",
+			"sm": "10.4px",
+			"md": "10.4px",
+			"lg": "10.4px",
+			"xl": "10.4px"
+		},
+		"button": {
+			"xs": "9.6px",
+			"sm": "9.6px",
+			"md": "9.6px",
+			"lg": "9.6px",
+			"xl": "9.6px"
+		},
+		"caption": {
+			"xs": "7px",
+			"sm": "7px",
+			"md": "7px",
+			"lg": "7px",
+			"xl": "7px"
+		},
+		"h1": {
+			"xs": "24.8px",
+			"sm": "24.8px",
+			"md": "24.8px",
+			"lg": "24.8px",
+			"xl": "24.8px"
+		},
+		"h2": {
+			"xs": "22.4px",
+			"sm": "22.4px",
+			"md": "22.4px",
+			"lg": "22.4px",
+			"xl": "22.4px"
+		},
+		"h3": {
+			"xs": "20px",
+			"sm": "20px",
+			"md": "20px",
+			"lg": "20px",
+			"xl": "20px"
+		},
+		"h4": {
+			"xs": "16.8px",
+			"sm": "16.8px",
+			"md": "16.8px",
+			"lg": "16.8px",
+			"xl": "16.8px"
+		},
+		"h5": {
+			"xs": "15.2px",
+			"sm": "15.2px",
+			"md": "15.2px",
+			"lg": "15.2px",
+			"xl": "15.2px"
+		},
+		"h6": {
+			"xs": "12.8px",
+			"sm": "12.8px",
+			"md": "12.8px",
+			"lg": "12.8px",
+			"xl": "12.8px"
+		},
+		"subtitle1": {
+			"xs": "9.6px",
+			"sm": "9.6px",
+			"md": "9.6px",
+			"lg": "9.6px",
+			"xl": "9.6px"
+		},
+		"subtitle2": {
+			"xs": "8.8px",
+			"sm": "8.8px",
+			"md": "8.8px",
+			"lg": "8.8px",
+			"xl": "8.8px"
+		}
+	}
+}

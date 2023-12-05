@@ -1,0 +1,11 @@
+{
+	"apps": [
+		{
+			"name": "qillie-base-admin-web",
+			"cwd": "./",
+			"script": "npm",
+			"args": "start",
+			"interpreter": "node@18.12.1"
+		}
+	]
+}

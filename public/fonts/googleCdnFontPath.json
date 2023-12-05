@@ -1,0 +1,158 @@
+{
+    "Noto Sans Korean": {
+        "path": "Noto+Sans+KR",
+        "fontFamily": "Noto Sans KR",
+        "selectableWeight": [100, 300, 400, 500, 700, 900]
+    },
+    "Nanum Gothic": {
+        "path": "Nanum+Gothic",
+        "fontFamily": "Nanum Gothic",
+        "selectableWeight": [400, 700, 800]
+    },
+    "Noto Serif Korean": {
+        "path": "Noto+Serif+KR",
+        "fontFamily": "Noto Serif KR",
+        "selectableWeight": [200, 300, 400, 500, 600, 700, 900]
+    },
+    "Nanum Myeongjo": {
+        "path": "Nanum+Myeongjo",
+        "fontFamily": "Nanum Myeongjo",
+        "selectableWeight": [400, 700, 800]
+    },
+    "Gothic A1": {
+        "path": "Gothic+A1",
+        "fontFamily": "Gothic A1",
+        "selectableWeight": [100, 200, 300, 400, 500, 600, 700, 800, 900]
+    },
+    "Nanum Gothic Coding": {
+        "path": "Nanum+Gothic+Coding",
+        "fontFamily": "Nanum Gothic Coding",
+        "selectableWeight": [400, 700]
+    },
+    "Nanum Pen Script": {
+        "path": "Nanum+Pen+Script",
+        "fontFamily": "Nanum Pen Script",
+        "selectableWeight": [400]
+    },
+    "Black Han Sans": {
+        "path": "Black+Han+Sans",
+        "fontFamily": "Black Han Sans",
+        "selectableWeight": [400]
+    },
+    "Jua": {
+        "path": "Jua",
+        "fontFamily": "Jua",
+        "selectableWeight": [400]
+    },
+    "Nanum Brush Script": {
+        "path": "Nanum+Brush+Script",
+        "fontFamily": "Nanum Brush Script",
+        "selectableWeight": [400]
+    },
+    "Hi Melody": {
+        "path": "Hi+Melody",
+        "fontFamily": "Hi Melody",
+        "selectableWeight": [400]
+    },
+    "Do Hyeon": {
+        "path": "Do+Hyeon",
+        "fontFamily": "Do Hyeon",
+        "selectableWeight": [400]
+    },
+    "Sunflower": {
+        "path": "Sunflower",
+        "fontFamily": "Sunflower",
+        "selectableWeight": [300, 500, 700]
+    },
+    "Gugi": {
+        "path": "Gugi",
+        "fontFamily": "Gugi",
+        "selectableWeight": [400]
+    },
+    "Dongle": {
+        "path": "Dongle",
+        "fontFamily": "Dongle",
+        "selectableWeight": [300, 400, 700]
+    },
+    "Dokdo": {
+        "path": "Dokdo",
+        "fontFamily": "Dokdo",
+        "selectableWeight": [400]
+    },
+    "IBM Plex Sans KR": {
+        "path": "IBM+Plex+Sans+KR",
+        "fontFamily": "IBM Plex Sans KR",
+        "selectableWeight": [100, 200, 300, 400, 500, 600, 700]
+    },
+    "Gaegu": {
+        "path": "Gaegu",
+        "fontFamily": "Gaegu",
+        "selectableWeight": [300, 400, 700]
+    },
+    "Gamja Flower": {
+        "path": "Gamja+Flower",
+        "fontFamily": "Gamja Flower",
+        "selectableWeight": [400]
+    },
+    "Song Myung": {
+        "path": "Song+Myung",
+        "fontFamily": "Song Myung",
+        "selectableWeight": [400]
+    },
+    "Stylish": {
+        "path": "Stylish",
+        "fontFamily": "Stylish",
+        "selectableWeight": [400]
+    },
+    "Cute Font": {
+        "path": "Cute+Font",
+        "fontFamily": "Cute Font",
+        "selectableWeight": [400]
+    },
+    "Yeon Sung": {
+        "path": "Yeon+Sung",
+        "fontFamily": "Yeon Sung",
+        "selectableWeight": [400]
+    },
+    "East Sea Dokdo": {
+        "path": "East+Sea+Dokdo",
+        "fontFamily": "East Sea Dokdo",
+        "selectableWeight": [400]
+    },
+    "Hahmlet": {
+        "path": "Hahmlet",
+        "fontFamily": "Hahmlet",
+        "selectableWeight": [400]
+    },
+    "Gowun Batang": {
+        "path": "Gowun+Batang",
+        "fontFamily": "Gowun Batang",
+        "selectableWeight": [400, 700]
+    },
+    "Kirang Haerang": {
+        "path": "Kirang+Haerang",
+        "fontFamily": "Kirang Haerang",
+        "selectableWeight": [400]
+    },
+    "Poor Story": {
+        "path": "Poor+Story",
+        "fontFamily": "Poor Story",
+        "selectableWeight": [400]
+    },
+    "Gowun Dodum": {
+        "path": "Gowun+Dodum",
+        "fontFamily": "Gowun Dodum",
+        "selectableWeight": [400]
+    },
+    "Black And White Picture": {
+        "path": "Black+And+White+Picture",
+        "fontFamily": "Black And White Picture",
+        "selectableWeight": [400]
+    },
+    "Single Day": {
+        "path": "Single+Day",
+        "fontFamily": "Single Day",
+        "selectableWeight": [400]
+    }
+
+}
