@@ -1,11 +1,15 @@
 import React from 'react';
 
-import { Box, BoxProps } from '@mui/material';
+import { Box, BoxProps, Chip } from '@mui/material';
 
-interface ISupportiChipProps {}
+interface ISupportiChipProps {
+	label: string;
+	onClick: () => void;
+	variant: 'outlined' | 'filled' | 'default';
+}
 
 const SupportiChip = (props: ISupportiChipProps) => {
-	return <Box></Box>;
+	return <Chip />;
 };
 
 export default SupportiChip;

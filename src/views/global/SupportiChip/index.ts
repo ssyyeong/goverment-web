@@ -1,1 +1,1 @@
-export {default} from './SupportiChip'
+export { default } from './SupportiChip';

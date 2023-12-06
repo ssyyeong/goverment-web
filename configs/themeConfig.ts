@@ -119,17 +119,13 @@ let themeConfig = createTheme({
 					'&:hover': {
 						boxShadow: 'none',
 					},
-					padding: '17px 16px',
+					// padding: '17px 16px',
 				},
 			},
 		},
 		MuiCheckbox: {
 			styleOverrides: {
-				root: {
-					'&.Mui-checked': {
-						color: '#7323FF',
-					},
-				},
+				root: {},
 			},
 		},
 		MuiContainer: {
