@@ -23,7 +23,7 @@ interface ISuppportiModalProps extends ISupportiModalBtnProps {
 	title?: string;
 	titleStyle?: TypographyProps;
 	disableClose?: boolean;
-	disabledHeader?: boolean;
+	activeHeader?: boolean;
 }
 
 const SuppportiModal = (props: ISuppportiModalProps) => {
@@ -44,17 +44,17 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 		>
 			<Box sx={{ ...style, ...props.style }}>
 				{/* 헤더 */}
-				{props.disabledHeader ? null : (
-					<Box
-						display={'flex'}
-						justifyContent={'space-between'}
-						width={'100%'}
-						alignItems={'center'}
-						bgcolor={'black'}
-						borderRadius={'10px 10px 0px 0px'}
-						p={'20px'}
-					>
-						<Box width={'20%'}></Box>
+				<Box
+					display={'flex'}
+					justifyContent={'space-between'}
+					width={'100%'}
+					alignItems={'center'}
+					bgcolor={props.activeHeader ? 'black' : 'none'}
+					borderRadius={'10px 10px 0px 0px'}
+					p={'20px'}
+				>
+					<Box width={'20%'}></Box>
+					{props.title && (
 						<Box
 							width={'60%'}
 							display={'flex'}
@@ -70,24 +70,20 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 								{props.title}
 							</Typography>
 						</Box>
-						<Box
-							width={'20%'}
-							display={'flex'}
-							justifyContent={'end'}
-						>
-							{props.disableClose ? null : (
-								<Typography
-									sx={{ cursor: 'pointer' }}
-									onClick={props.handleClose}
-									fontWeight={'300'}
-									color={'white'}
-								>
-									X
-								</Typography>
-							)}
-						</Box>
+					)}
+					<Box width={'20%'} display={'flex'} justifyContent={'end'}>
+						{props.disableClose ? null : (
+							<Typography
+								sx={{ cursor: 'pointer' }}
+								onClick={props.handleClose}
+								fontWeight={'300'}
+								color={'white'}
+							>
+								X
+							</Typography>
+						)}
 					</Box>
-				)}
+				</Box>
 				{/* 내용 */}
 				<Box
 					p={'30px'}
