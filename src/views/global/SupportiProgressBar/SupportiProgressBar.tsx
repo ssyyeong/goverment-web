@@ -21,7 +21,7 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 				borderRadius: '5px',
 			}}
 		>
-			{/* 스택 프로그래스바 만들기 */}
+			{/* 스택 프로그래스바 */}
 			{props.materialDataList?.map((item, idx) => {
 				return (
 					<Box

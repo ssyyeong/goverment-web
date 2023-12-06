@@ -14,7 +14,7 @@ import {
 	useTheme,
 	Checkbox,
 } from '@mui/material';
-interface TableHeaderProps {
+export interface TableHeaderProps {
 	label: string;
 	value: string;
 	checkbox?: boolean;
@@ -22,8 +22,9 @@ interface TableHeaderProps {
 	align?: 'left' | 'center' | 'right';
 	minWidth?: number | string;
 	color?: string;
-	format?: (value: any) => any;
-	customFormat?: (value: any) => any;
+	format?: (value: any, key?: any) => any;
+	customFormat?: (value: any, key?: any) => any;
+	customKeyFormat?: (value: any) => any;
 }
 interface ISupportiTableProps {
 	headerData: TableHeaderProps[];
@@ -32,12 +33,14 @@ interface ISupportiTableProps {
 }
 
 const SupportiTable = (props: ISupportiTableProps) => {
+	console.log(props.rowData);
+
 	const theme = useTheme();
 	return (
 		<TableContainer
 			sx={{
-				maxHeight: 240,
 				pr: 1,
+				width: '100%',
 			}}
 		>
 			<Table stickyHeader={props.stikyHeader}>
@@ -77,7 +80,12 @@ const SupportiTable = (props: ISupportiTableProps) => {
 								key={idx}
 							>
 								{props.headerData.map((column) => {
-									const value = row[column.value];
+									const key = column.customKeyFormat
+										? column.customKeyFormat(
+												row[column.value]
+										  )
+										: column.value;
+									const value = row[key];
 									return (
 										<TableCell
 											key={column.value}
@@ -106,17 +114,19 @@ const SupportiTable = (props: ISupportiTableProps) => {
 											) : (
 												<Typography
 													color={
-														column.customFormat(
-															value
-														)
+														column.customFormat
 															? column.customFormat(
-																	value
+																	value,
+																	key
 															  )
 															: 'text.primary'
 													}
 												>
 													{column.format
-														? column.format(value)
+														? column.format(
+																value,
+																key
+														  )
 														: value}
 												</Typography>
 											)}

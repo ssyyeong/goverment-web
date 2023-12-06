@@ -1,16 +1,18 @@
 import { Box } from '@mui/material';
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import MyAccounts from '../../../../src/views/local/internal_service/financial_solution/account_manage/MyAccounts/MyAccounts';
 import { IBankAccount } from '../../../../src/@types/model';
+import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
 	/**
 	 * 컨트롤러들
 	 */
+	const bankAccountController = new DefaultController('BankAccount');
 
 	//* Constants
 
@@ -47,11 +49,25 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 정보 가져오는 훅
 	 */
-	const {} = useAppMember();
+	// const { memberId } = useAppMember();
+	const memberId = 1;
 
 	/**
 	 * 내 계좌 가져오는 훅
 	 */
+	useEffect(() => {
+		bankAccountController.findAllItems(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				setBankAccountList(res.data.result.rows);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	}, []);
 
 	return (
 		<Box>

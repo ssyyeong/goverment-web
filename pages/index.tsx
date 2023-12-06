@@ -9,6 +9,7 @@ import SupportiToggle from '../src/views/global/SupportiToggle';
 import SuppportiModal from '../src/views/global/SuppportiModal';
 import SupportiProgressBar from '../src/views/global/SupportiProgressBar';
 import SupportiTable from '../src/views/global/SupportiTable';
+import { TransactionHistoryTable } from '../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
 type Props = {};
 
 const index = (props: Props) => {
@@ -186,6 +187,18 @@ const index = (props: Props) => {
 					sx={{ width: '100%', height: 20 }}
 				/>
 			</Box>
+			<TransactionHistoryTable
+				setRecomputeTriggerKey={() => {}}
+				bankAccount={{
+					BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
+					BANK_CODE: '002',
+				}}
+				selectedPeriod={{
+					year: 2021,
+					month: 10,
+				}}
+				keyword={''}
+			/>
 		</Grid>
 	);
 };
