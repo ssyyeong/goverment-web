@@ -49,7 +49,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 					justifyContent={'space-between'}
 					width={'100%'}
 					alignItems={'center'}
-					bgcolor={props.activeHeader ? 'black' : 'none'}
+					bgcolor={props.activeHeader ? 'black' : 'transparent'}
 					borderRadius={'10px 10px 0px 0px'}
 					p={'20px'}
 				>
@@ -62,7 +62,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 						>
 							<Typography
 								sx={{ ...props.titleStyle }}
-								color={'white'}
+								color={props.activeHeader ? 'white' : 'black'}
 								variant="h5"
 								fontWeight={'600'}
 								lineHeight={1}
@@ -77,7 +77,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 								sx={{ cursor: 'pointer' }}
 								onClick={props.handleClose}
 								fontWeight={'300'}
-								color={'white'}
+								color={props.activeHeader ? 'white' : 'black'}
 							>
 								X
 							</Typography>
