@@ -13,6 +13,7 @@ interface IGetCertModalProps {
 	certInfo: any;
 	setCertInfo: any;
 	getAccountList: any;
+	isMac: boolean;
 }
 
 const GetCertModal = (props: IGetCertModalProps) => {
@@ -35,6 +36,32 @@ const GetCertModal = (props: IGetCertModalProps) => {
 		return txt;
 	};
 
+	//* Functions
+	//* 인증서 유효성 검사
+	const authCert = () => {
+		const inJson = {
+			orgCd: '',
+			svcCd: '',
+			appCd: '',
+			signCert: '',
+			signPri: '',
+			signPw: '',
+		};
+		inJson.orgCd = 'common';
+		inJson.svcCd = 'getCertInfo';
+		inJson.appCd = 'HYPHEN'; //발급받은 application 코드
+		if (props.isMac) {
+			inJson.signCert = props.certInfo.path + '/signCert.der';
+			inJson.signPri = props.certInfo.path + '/signPri.key';
+		} else {
+			inJson.signCert = props.certInfo.path + '\\signCert.der';
+			inJson.signPri = props.certInfo.path + '\\signPri.key';
+		}
+		inJson.signPw = props.userAccountInfo.CERTIFICATE_PASSWORD;
+
+		props.getCert('execute', JSON.stringify(inJson));
+	};
+
 	return (
 		<Box>
 			<SuppportiModal
@@ -49,7 +76,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 				btnIsGradient
 				btnContents="확인"
 				btnOnClick={() => {
-					props.getAccountList();
+					authCert();
 				}}
 				children={
 					<Box
@@ -130,11 +157,13 @@ const GetCertModal = (props: IGetCertModalProps) => {
 						>
 							<Typography>인증서 암호입력</Typography>
 							<SupportiInput
-								value={props.userAccountInfo.signPw}
+								value={
+									props.userAccountInfo.CERTIFICATE_PASSWORD
+								}
 								setValue={(value) => {
 									props.setUserAccountInfo({
 										...props.userAccountInfo,
-										hyphenSignPw: value,
+										CERTIFICATE_PASSWORD: value,
 									});
 								}}
 								type="input"

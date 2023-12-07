@@ -30,6 +30,7 @@ interface SupportiInputProps {
 	children?: React.ReactNode;
 	btnContent?: string;
 	btnOnclick?: () => void;
+	iconList?: string[];
 }
 
 //* 서포티 인풋 컴포넌트
@@ -83,7 +84,7 @@ const SupportiInput = React.forwardRef(
 		//* Hooks
 
 		//** TODO : 기존의 컴포넌트 속성 props로 반영되게 하기 */
-
+		console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
@@ -109,6 +110,17 @@ const SupportiInput = React.forwardRef(
 						{Object.keys(props.dataList).map((key, index) => {
 							return (
 								<MenuItem key={index} value={key}>
+									{props.iconList && (
+										<img
+											src={props.iconList[index]}
+											alt="icon"
+											style={{
+												width: '15px',
+												// height: '15px',
+												marginRight: '15px',
+											}}
+										/>
+									)}
 									{props.dataList[key]}
 								</MenuItem>
 							);
