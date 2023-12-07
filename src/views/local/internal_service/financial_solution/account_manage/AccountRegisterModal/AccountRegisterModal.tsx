@@ -21,6 +21,14 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	 * 컨트롤러들
 	 */
 
+	//* Constants
+
+	//* bankConfig key value 형태로 커스텀
+	let bankObj = {};
+	for (const [key, value] of Object.entries(bankConfig)) {
+		bankObj = Object.assign(bankObj, { [key]: value.name });
+	}
+
 	//* States
 	const [registerType, setRegisterType] = React.useState<string>('id');
 	const [isMac, setIsMac] = React.useState<boolean>(false);
@@ -36,7 +44,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		React.useState<boolean>(false);
 
 	const [userAccountInfo, setUserAccountInfo] = React.useState({
-		bankCode: '',
+		bankCode: '002',
 		loginMethod: registerType,
 		hyphenUserId: '',
 		hyphenUserPw: '',
@@ -48,14 +56,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		accountNickname: '',
 		accountHolder: '',
 	});
-
-	//* Constants
-
-	//* bankConfig key value 형태로 커스텀
-	let bankObj = {};
-	for (const [key, value] of Object.entries(bankConfig)) {
-		bankObj = Object.assign(bankObj, { [key]: value.name });
-	}
 
 	//* id, pw로 계좌 불러오는 폼
 	const IdRegisterForm = [
@@ -89,6 +89,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="은행사 ID 입력"
+					defaultValue="002"
 					width={300}
 				/>
 			),
@@ -106,6 +107,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					defaultValue=""
+					placeholder="은행사 PW 입력"
 					width={300}
 					btnContent="조회하기"
 					btnOnclick={() => {}}
@@ -290,8 +292,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* Hooks
 	React.useEffect(() => {
+		//* 계좌 불러오는 방법 변경 시 데이터 초기화
 		setUserAccountInfo({
-			bankCode: '',
+			bankCode: '002',
 			loginMethod: registerType,
 			hyphenUserId: '',
 			hyphenUserPw: '',
@@ -321,7 +324,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		isMac();
 	}, []);
 
-	console.log(userAccountInfo);
 	return (
 		<Box>
 			<SuppportiModal
