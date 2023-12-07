@@ -6,6 +6,8 @@ import { InternalServiceLayout } from '../../../../src/views/layout/InternalServ
 import MyAccounts from '../../../../src/views/local/internal_service/financial_solution/account_manage/MyAccounts/MyAccounts';
 import { IBankAccount } from '../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
+import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -17,6 +19,7 @@ const Page: NextPage = () => {
 	//* Constants
 
 	//* States
+	const [open, setOpen] = React.useState(true);
 	/**
 	 * 재계산 트리거 키
 	 */
@@ -51,6 +54,7 @@ const Page: NextPage = () => {
 	 */
 	// const { memberId } = useAppMember();
 	const memberId = 1;
+	//* const {} = useAppMember();
 
 	/**
 	 * 내 계좌 가져오는 훅
@@ -85,6 +89,12 @@ const Page: NextPage = () => {
 
 				{/* 번레이트 계산 */}
 			</InternalServiceLayout>
+			{open && (
+				<AccountRegisterModal
+					accountRegisterModalOpen={open}
+					setAccountRegisterModalOpen={setOpen}
+				/>
+			)}
 		</Box>
 	);
 };

@@ -21,9 +21,9 @@ interface SupportiInputProps {
 	type: string;
 	value: any;
 	setValue: any;
-	defaultValue: string;
+	defaultValue?: string;
 	dataList?: { [key: string]: string };
-	width: number;
+	width: number | string;
 	label?: string;
 	multiple?: boolean;
 	placeholder?: string;
@@ -79,9 +79,6 @@ const SupportiInput = React.forwardRef(
 		};
 
 		//* Hooks
-		useEffect(() => {
-			console.log(inputRef.current);
-		}, [inputRef.current]);
 
 		return (
 			<Box sx={{ width: props.width }}>
@@ -110,6 +107,7 @@ const SupportiInput = React.forwardRef(
 					</Select>
 				) : props.type === 'search' ? (
 					<OutlinedInput
+						sx={{ width: '100%' }}
 						id="outlined-adornment-weight"
 						value={props.value}
 						placeholder={props.placeholder ? props.placeholder : ''}
@@ -206,11 +204,13 @@ const SupportiInput = React.forwardRef(
 								'input[type="file"]': {
 									visibility: 'hidden',
 								},
+								width: '100%',
 							}}
 						/>
 					</Box>
 				) : (
 					<OutlinedInput
+						sx={{ width: '100%' }}
 						value={props.value}
 						onChange={(e) => {
 							props.setValue(e.target.value);
@@ -220,6 +220,7 @@ const SupportiInput = React.forwardRef(
 								{props.children ? props.children : <></>}
 							</InputAdornment>
 						}
+						placeholder={props.placeholder ? props.placeholder : ''}
 					/>
 				)}
 			</Box>
