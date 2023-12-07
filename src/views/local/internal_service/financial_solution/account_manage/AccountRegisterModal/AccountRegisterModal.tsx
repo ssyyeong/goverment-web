@@ -9,6 +9,7 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiToggle from '../../../../../global/SupportiToggle';
 import GetCertModal from '../GetCertModal/GetCertModal';
 import { bankConfig } from '../../../../../../../configs/data/BankConfig';
+import { BankAccountController } from '../../../../../../controller/BankController';
 
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
@@ -20,6 +21,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	/**
 	 * 컨트롤러들
 	 */
+	const bankAccountController = new BankAccountController();
 
 	//* Constants
 
@@ -174,18 +176,17 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* Functions
 
-	// const callAllAccount = async (hyphenData) => {
-	//   setLoading(true)
-	//   await api.post('/hyphen/bank-account', hyphenData)
-	//     .then((res) => {
-	//       setLoading(false)
-	//       setAccountList(res.data.accountList)
-	//     })
-	//     .catch((e) => {
-	//       setLoading(false)
-	//       window.alert(e)
-	//     })
-	// }
+	const getAccountList = () => {
+		bankAccountController.getBankAccountList(
+			{},
+			(response: any) => {
+				setAccountList(response.data.result);
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		);
+	};
 
 	// const saveAccount = async () => {
 	//   if (hyphenData.accountNickname === "") {
@@ -411,6 +412,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				certList={certList}
 				certInfo={certInfo}
 				setCertInfo={setCertInfo}
+				getAccountList={getAccountList}
 			/>
 		</Box>
 	);
