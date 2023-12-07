@@ -10,6 +10,7 @@ import SuppportiModal from '../src/views/global/SuppportiModal';
 import SupportiProgressBar from '../src/views/global/SupportiProgressBar';
 import SupportiTable from '../src/views/global/SupportiTable';
 import { TransactionHistoryTable } from '../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
+import SupportiInput from '../src/views/global/SupportiInput';
 type Props = {};
 
 const index = (props: Props) => {
@@ -19,6 +20,7 @@ const index = (props: Props) => {
 
 	const [tab, setTab] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
+	const [text, setText] = React.useState('');
 	const data = [
 		{
 			name: '김만수',
@@ -44,6 +46,14 @@ const index = (props: Props) => {
 	];
 	return (
 		<Grid container>
+			<SupportiInput
+				type="inputwithbtn"
+				value={text}
+				setValue={setText}
+				defaultValue=""
+				width={200}
+				btnContent="전송하기"
+			/>
 			<SupportiButton
 				contents="다음"
 				onClick={() => {

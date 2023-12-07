@@ -97,8 +97,10 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 		{
 			label: '금액',
 			value: 'IN_AMOUNT',
-			format: (value) => {
-				return value.toLocaleString();
+			format: (value, key) => {
+				return key === 'IN_AMOUNT'
+					? value.toLocaleString()
+					: `-${value.toLocaleString()}`;
 			},
 			customKeyFormat: (value) => {
 				return value !== 0 ? 'IN_AMOUNT' : 'OUT_AMOUNT';
@@ -131,6 +133,41 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			},
 		},
 	];
+	//* 엑셀 다운로드 헤더
+	const transactionHistoryExcelHeaderData = [
+		{
+			key: 'EXCEPTED_YN',
+			label: '제외',
+		},
+		{
+			key: 'IN_AMOUNT',
+			label: '구분',
+		},
+		{
+			key: 'IN_AMOUNT',
+			label: '금액',
+		},
+		{
+			key: 'TRANSACTION_DATE',
+			label: '거래일자',
+		},
+		{
+			key: 'TRADER_BANK_NAME',
+			label: '거래점명',
+		},
+		{
+			key: 'TRANSACTION_DESCRIPTION',
+			label: '거래내용',
+		},
+		{
+			key: 'TRADER_NAME',
+			label: '거래자명',
+		},
+		{
+			key: 'BALANCE',
+			label: '잔액',
+		},
+	];
 	//* States
 	/**
 	 * 입출금 내역
@@ -138,19 +175,6 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	const [transactionHistoryList, setTransactionHistoryList] = React.useState<
 		ITransactionHistory[]
 	>([]);
-
-	const data = {
-		TRANSACTION_HISTORY_IDENTIFICATION_CODE: 1,
-		BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-		EXCEPTED_YN: 'N',
-		IN_AMOUNT: 10000,
-		OUT_AMOUNT: 0,
-		TRANSACTION_DATE: new Date(),
-		TRADER_BANK_NAME: '국민은행',
-		TRANSACTION_DESCRIPTION: '입금',
-		TRADER_NAME: '김만수',
-		BALANCE: 10000,
-	};
 
 	/**
 	 * 총데이터 개수
@@ -185,24 +209,8 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				),
 			},
 			(res) => {
-				// setTransactionHistoryList(res.data.result.rows);
-				// setTotalDataCount(res.data.result.count);
-
-				setTransactionHistoryList([
-					{
-						TRANSACTION_HISTORY_IDENTIFICATION_CODE: 1,
-						BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-						EXCEPTED_YN: 'Y',
-						IN_AMOUNT: 10000,
-						OUT_AMOUNT: 0,
-						TRANSACTION_DATE: new Date(),
-						TRADER_BANK_NAME: '국민은행',
-						TRANSACTION_DESCRIPTION: '입금',
-						TRADER_NAME: '김만수',
-						BALANCE: 10000,
-					},
-				]);
-				setTotalDataCount(1);
+				setTransactionHistoryList(res.data.result.rows);
+				setTotalDataCount(res.data.result.count);
 			},
 			(err) => {
 				console.log(err);
@@ -225,7 +233,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 					display: 'flex',
 					justifyContent: 'space-between',
 					alignItems: 'center',
-					pb: '20px',
+					pb: '5px',
 					px: '15px',
 					width: '100%',
 				}}
@@ -237,17 +245,28 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						width={'30px'}
 						height={'30px'}
 					/>
-					<Typography>
+					<Typography variant="h5" fontWeight={'bold'}>
 						{bankConfig[props.bankAccount.BANK_CODE].name}
 					</Typography>
 				</Box>
 				{/* 리미트, 엑셀다운로드 */}
 				<Box display={'flex'} alignItems={'center'} gap={'10px'}>
 					{/* 리미트 */}
-					<FormControl sx={{ m: 1, minWidth: 70 }} size="small">
+					<FormControl
+						sx={{ m: 1, minWidth: 70, height: 40, pt: '2px' }}
+						size="small"
+						margin="dense"
+					>
 						<Select
 							value={limit}
 							onChange={(e) => setLimit(Number(e.target.value))}
+							size="small"
+							variant="outlined"
+							sx={{
+								'&.MuiInputBase-root': {
+									borderRadius: '10px',
+								},
+							}}
 						>
 							{limitArray.map((item, index) => (
 								<MenuItem key={index} value={item}>
@@ -257,13 +276,41 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						</Select>
 					</FormControl>
 					{/* 엑셀 다운로드 */}
-					{/* <ExcelDownloadButton/> */}
+					<ExcelDownloadButton
+						fileName={`${
+							bankConfig[props.bankAccount.BANK_CODE].name
+						} 입출금내역`}
+						dataConfig={transactionHistoryExcelHeaderData}
+						dataGetterCallback={
+							transactionHistoryController.findAllItems
+						}
+						dataGetterCallbackArgs={{
+							args: {
+								BANK_ACCOUNT_IDENTIFICATION_CODE:
+									props.bankAccount
+										.BANK_ACCOUNT_IDENTIFICATION_CODE,
+							},
+						}}
+					/>
 				</Box>
 			</Box>
 			{/* 제외 파트 변경 시, 부모로부터 받는 preserveKey 변경 (preserveKey 변경 시 재계산 콜백들이 실행됨) */}
 			<Box width={'100%'}>
 				<SupportiTable
-					rowData={transactionHistoryList}
+					rowData={[
+						{
+							TRANSACTION_HISTORY_IDENTIFICATION_CODE: 1,
+							BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
+							EXCEPTED_YN: 'N',
+							IN_AMOUNT: 10000,
+							OUT_AMOUNT: 0,
+							TRANSACTION_DATE: new Date(),
+							TRADER_BANK_NAME: '국민은행',
+							TRANSACTION_DESCRIPTION: '입금',
+							TRADER_NAME: '김만수',
+							BALANCE: 10000,
+						},
+					]}
 					headerData={transactionHistoryHeaderData}
 				/>
 			</Box>
@@ -275,6 +322,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				page={page}
 				handlePageChange={handlePageChange}
 				count={totalDataCount}
+				useLimit={false}
 			/>
 		</Box>
 	);

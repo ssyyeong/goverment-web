@@ -33,8 +33,6 @@ interface ISupportiTableProps {
 }
 
 const SupportiTable = (props: ISupportiTableProps) => {
-	console.log(props.rowData);
-
 	const theme = useTheme();
 	return (
 		<TableContainer
@@ -53,6 +51,9 @@ const SupportiTable = (props: ISupportiTableProps) => {
 						},
 						'th:last-child': {
 							borderRadius: '0 10px 10px 0',
+						},
+						th: {
+							border: 'none',
 						},
 					}}
 				>

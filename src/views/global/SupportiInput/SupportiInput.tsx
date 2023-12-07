@@ -28,6 +28,8 @@ interface SupportiInputProps {
 	multiple?: boolean;
 	placeholder?: string;
 	children?: React.ReactNode;
+	btnContent?: string;
+	btnOnclick?: () => void;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -209,6 +211,31 @@ const SupportiInput = React.forwardRef(
 							}}
 						/>
 					</Box>
+				) : props.type === 'inputwithbtn' ? (
+					<OutlinedInput
+						id="outlined-adornment-weight"
+						value={props.value}
+						placeholder={props.placeholder ? props.placeholder : ''}
+						onChange={(e) => {
+							props.setValue(e.target.value);
+						}}
+						endAdornment={
+							<InputAdornment position="end">
+								<Button
+									sx={{
+										height: '30px',
+										width: '70px',
+										bgcolor: 'secondary.main',
+										color: 'white',
+									}}
+									onClick={props.btnOnclick}
+								>
+									{props.btnContent}
+								</Button>
+							</InputAdornment>
+						}
+						aria-describedby="outlined-weight-helper-text"
+					/>
 				) : (
 					<OutlinedInput
 						value={props.value}

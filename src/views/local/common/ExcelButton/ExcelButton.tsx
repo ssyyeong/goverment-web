@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { Box, BoxProps } from '@mui/material';
-
+import { Avatar, Box, BoxProps, Typography } from '@mui/material';
+import { Thumbnail } from '@qillie-corp/qillie-react-ui';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 interface IExcelDownloadButtonProps {
 	dataConfig: { key: string; label: string }[];
 	dataList?: { [key: string]: any }[];
@@ -80,20 +82,54 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 		});
 
 		/**
-		 * 데이터 합쳐서 엑셀로 추출
-		 */
-		const mergedData = [header, ...convertedDataList];
-
-		/**
 		 * 파일명 받아서 다운로드 시키기
 		 */
+		const excelFileType =
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+		const excelFileExtension = '.xlsx';
+		const excelFileName = props.fileName;
+
+		const ws = XLSX.utils.aoa_to_sheet([[`${props.fileName}`], [], header]);
+		convertedDataList.map((data: any) => {
+			XLSX.utils.sheet_add_aoa(ws, convertedDataList, {
+				origin: -1,
+			});
+			ws['!cols'] = [{ wpx: 150 }, { wpx: 150 }];
+			return false;
+		});
+		const wb: any = { Sheets: { data: ws }, SheetNames: ['data'] };
+		const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+		const excelFile = new Blob([excelButter], { type: excelFileType });
+		FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
 	};
 
 	//* Hooks
 
 	useEffect(() => {});
 
-	return <Box></Box>;
+	return (
+		<Box
+			sx={{
+				width: 125,
+				height: 36,
+				p: '10px 15px',
+				border: 'solid 1px #b4d5c3',
+				borderRadius: '5px',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				cursor: 'pointer',
+			}}
+			onClick={onClickExcelDownloadButton}
+		>
+			<Avatar
+				src={'/images/logo/excel.png'}
+				sx={{ width: 20, height: 20 }}
+				variant="square"
+			/>
+			<Typography variant="body2">엑셀 다운로드</Typography>
+		</Box>
+	);
 };
 
 export default ExcelDownloadButton;
