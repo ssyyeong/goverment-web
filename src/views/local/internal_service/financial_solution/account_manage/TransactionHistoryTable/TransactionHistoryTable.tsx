@@ -265,6 +265,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 							sx={{
 								'&.MuiInputBase-root': {
 									borderRadius: '10px',
+									height: 38,
 								},
 							}}
 						>

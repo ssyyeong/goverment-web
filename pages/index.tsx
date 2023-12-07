@@ -53,6 +53,7 @@ const index = (props: Props) => {
 				defaultValue=""
 				width={200}
 				btnContent="전송하기"
+				btnOnclick={() => {}}
 			/>
 			<SupportiButton
 				contents="다음"
