@@ -94,10 +94,12 @@ const SupportiInput = React.forwardRef(
 							props.setValue(e.target.value);
 						}}
 						defaultValue={
-							props.defaultValue ? props.defaultValue : ''
+							props.defaultValue ? props.defaultValue : '선택'
 						}
 						displayEmpty
-						placeholder={props.placeholder ? props.placeholder : ''}
+						placeholder={
+							props.placeholder ? props.placeholder : '선택'
+						}
 					>
 						{props.defaultValue !== undefined && (
 							<MenuItem value={props.defaultValue}>
@@ -218,6 +220,7 @@ const SupportiInput = React.forwardRef(
 				) : props.type === 'inputwithbtn' ? (
 					<OutlinedInput
 						id="outlined-adornment-weight"
+						sx={{ width: '100%' }}
 						value={props.value}
 						placeholder={props.placeholder ? props.placeholder : ''}
 						onChange={(e) => {
