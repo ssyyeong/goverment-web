@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, BoxProps } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { IBankAccount } from '../../../../../../@types/model';
 
 interface IMyAccountsProps {
@@ -60,7 +60,34 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	return (
 		<Box>
 			{/* 연도 선택 및 수입 / 지출 */}
-			<Box></Box>
+			<Box
+				sx={{
+					width: '338px',
+					height: '90px',
+					margin: '0 16px 0 0',
+					padding: '22px 25px',
+					borderRadius: '10px',
+					boxShadow: '0 3px 15px 0 #e1eaff',
+					backgroundImage:
+						'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
+					display: 'flex',
+					alignItems: 'center',
+				}}
+			>
+				{/* 날짜 선택 */}
+				<Box></Box>
+				{/* 수입 지출 */}
+				<Box>
+					<Box>
+						<Typography>수입</Typography>
+						<Typography></Typography>
+					</Box>
+					<Box>
+						<Typography>지출</Typography>
+						<Typography></Typography>
+					</Box>
+				</Box>
+			</Box>
 
 			{/* 계좌 리스트 */}
 			{props.bankAccountList.map((bankAccount) => (

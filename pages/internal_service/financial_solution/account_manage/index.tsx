@@ -7,6 +7,7 @@ import MyAccounts from '../../../../src/views/local/internal_service/financial_s
 import { IBankAccount } from '../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
+import { BankController } from '../../../../src/controller/BankController';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -14,6 +15,7 @@ const Page: NextPage = () => {
 	 * 컨트롤러들
 	 */
 	const bankAccountController = new DefaultController('BankAccount');
+	const bankController = new BankController();
 
 	//* Constants
 
@@ -31,7 +33,7 @@ const Page: NextPage = () => {
 	const [keyword, setKeyword] = React.useState<string>('');
 
 	/**
-	 * 선택한 연/월
+	 * 계산 조건 선택한 연/월
 	 */
 	const [selectedPeriod, setSelectedPeriod] = React.useState<{
 		year: number;
@@ -45,7 +47,28 @@ const Page: NextPage = () => {
 		IBankAccount[]
 	>([]);
 
+	/**
+	 * 계산 결과 데이터
+	 */
+	const [calculationResult, setCalculationResult] = React.useState<{
+		[key: string]: any;
+	}>({});
+
 	//* Functions
+	/**
+	 * 계산 결과 조회
+	 */
+	const getCalculationResult = () => {
+		bankController.getFinancialRatio(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				setCalculationResult(res.data.result);
+			},
+			(err) => {}
+		);
+	};
 
 	//* Hooks
 	/**
@@ -72,11 +95,22 @@ const Page: NextPage = () => {
 		);
 	}, []);
 
+	/**
+	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
+	 */
+	useEffect(() => {
+		getCalculationResult();
+	}, [recomputeTriggerKey]);
+
+	/**
+	 * 계좌 추가 함수 (추가 후, 리스트 변경)
+	 */
+
 	return (
 		<Box>
 			{/* 컨텐츠 레이아웃 */}
 			<InternalServiceLayout>
-				{/* 등록 계좌 내역 영역 */}
+				{/* 등록 계좌, 계좌 등록 영역 */}
 				{/* <MyAccounts /> */}
 
 				{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
