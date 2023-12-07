@@ -8,6 +8,7 @@ import axios from 'axios';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiToggle from '../../../../../global/SupportiToggle';
 import GetCertModal from '../GetCertModal/GetCertModal';
+import { bankConfig } from '../../../../../../../configs/data/BankConfig';
 
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
@@ -45,34 +46,15 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		hyphenAcctPw: '',
 		accountNickname: '',
 		accountHolder: '',
-		accountNumber: '',
 	});
 
 	//* Constants
-	//은행코드
-	const BankCode = {
-		산업은행: '002',
-		기업은행: '003',
-		국민은행: '004',
-		수협은행: '007',
-		농협은행: '011',
-		우리은행: '020',
-		SC은행: '023',
-		씨티은행: '027',
-		대구은행: '031',
-		부산은행: '032',
-		광주은행: '034',
-		제주은행: '035',
-		전북은행: '037',
-		경남은행: '039',
-		새마을: '045',
-		신협: '048',
-		우체국: '079',
-		하나은행: '081',
-		신한은행: '088',
-		K뱅크: '089',
-		카카오뱅크: '090',
-	};
+
+	//* bankConfig key value 형태로 커스텀
+	let bankObj = {};
+	for (const [key, value] of Object.entries(bankConfig)) {
+		bankObj = Object.assign(bankObj, { [key]: value.name });
+	}
 
 	//* id, pw로 계좌 불러오는 폼
 	const IdRegisterForm = [
@@ -82,15 +64,14 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				<SupportiInput
 					type="select"
 					value={userAccountInfo.bankCode}
-					setValue={(value) => {
+					setValue={(e) => {
 						setUserAccountInfo({
 							...userAccountInfo,
-							bankCode: value,
+							bankCode: e,
 						});
 					}}
-					dataList={BankCode}
+					dataList={bankObj}
 					width={300}
-					defaultValue={Object.keys(BankCode)[0]}
 				/>
 			),
 		},
@@ -124,16 +105,16 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			component: (
 				<SupportiInput
 					type="select"
-					value={userAccountInfo.accountNumber}
+					value={userAccountInfo.hyphenAcctNo}
 					setValue={(value) => {
 						setUserAccountInfo({
 							...userAccountInfo,
-							bankCode: value,
+							hyphenAcctNo: value,
 						});
 					}}
-					dataList={BankCode}
+					placeholder="계좌 선택"
+					dataList={bankObj}
 					width={300}
-					defaultValue={Object.keys(BankCode)[0]}
 				/>
 			),
 		},
@@ -142,11 +123,11 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			component: (
 				<SupportiInput
 					type={'input'}
-					value={userAccountInfo.hyphenUserId}
+					value={userAccountInfo.hyphenAcctPw}
 					setValue={(value) => {
 						setUserAccountInfo({
 							...userAccountInfo,
-							hyphenUserId: value,
+							hyphenAcctPw: value,
 						});
 					}}
 					placeholder="선택한 계좌의 비밀번호 4자리 입력"
@@ -159,11 +140,11 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			component: (
 				<SupportiInput
 					type={'input'}
-					value={userAccountInfo.hyphenUserId}
+					value={userAccountInfo.accountNickname}
 					setValue={(value) => {
 						setUserAccountInfo({
 							...userAccountInfo,
-							hyphenUserId: value,
+							accountNickname: value,
 						});
 					}}
 					placeholder="계좌 별칭 입력"
@@ -293,6 +274,22 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* Hooks
 	React.useEffect(() => {
+		setUserAccountInfo({
+			bankCode: '',
+			loginMethod: registerType,
+			hyphenUserId: '',
+			hyphenUserPw: '',
+			hyphenSignCert: '',
+			hyphenSignPri: '',
+			hyphenSignPw: '',
+			hyphenAcctNo: '',
+			hyphenAcctPw: '',
+			accountNickname: '',
+			accountHolder: '',
+		});
+	}, [registerType]);
+
+	React.useEffect(() => {
 		//* 유저 os 확인해서 os에 따른 설치 파일 링크 다르게 설정하기 위함
 		const userOs = navigator.userAgent.replace(/ /g, '').toLowerCase();
 		const isMac = () => {
@@ -308,6 +305,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		isMac();
 	}, []);
 
+	console.log(userAccountInfo);
 	return (
 		<Box>
 			<SuppportiModal

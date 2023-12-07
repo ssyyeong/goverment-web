@@ -46,7 +46,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 					width: '70%',
 				}}
 				btnIsGradient
-				btnContents="등록하기"
+				btnContents="확인"
 				children={
 					<Box
 						width="80%"

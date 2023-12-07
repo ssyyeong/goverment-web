@@ -7,7 +7,6 @@ import MyAccounts from '../../../../src/views/local/internal_service/financial_s
 import { IBankAccount } from '../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
-import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
 
 const Page: NextPage = () => {
 	//* Modules

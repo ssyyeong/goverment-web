@@ -22,7 +22,7 @@ interface SupportiInputProps {
 	value: any;
 	setValue: any;
 	defaultValue?: string;
-	dataList?: { [key: string]: string };
+	dataList?: { [key: string | number | symbol]: any };
 	width: number | string;
 	label?: string;
 	multiple?: boolean;
@@ -82,6 +82,8 @@ const SupportiInput = React.forwardRef(
 
 		//* Hooks
 
+		//** TODO : 기존의 컴포넌트 속성 props로 반영되게 하기 */
+
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
@@ -91,6 +93,9 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
+						defaultValue={
+							props.defaultValue ? props.defaultValue : ''
+						}
 						displayEmpty
 						placeholder={props.placeholder ? props.placeholder : ''}
 					>
