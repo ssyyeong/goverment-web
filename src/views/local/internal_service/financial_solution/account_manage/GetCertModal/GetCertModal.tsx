@@ -12,6 +12,7 @@ interface IGetCertModalProps {
 	certList: any;
 	certInfo: any;
 	setCertInfo: any;
+	getAccountList: any;
 }
 
 const GetCertModal = (props: IGetCertModalProps) => {
@@ -47,6 +48,9 @@ const GetCertModal = (props: IGetCertModalProps) => {
 				}}
 				btnIsGradient
 				btnContents="확인"
+				btnOnClick={() => {
+					props.getAccountList();
+				}}
 				children={
 					<Box
 						width="80%"
