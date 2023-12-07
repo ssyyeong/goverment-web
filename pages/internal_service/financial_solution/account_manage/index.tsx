@@ -8,6 +8,7 @@ import { IBankAccount } from '../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
 import { BankController } from '../../../../src/controller/BankController';
+import { TransactionHistoryTable } from '../../../../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -20,7 +21,7 @@ const Page: NextPage = () => {
 	//* Constants
 
 	//* States
-	const [open, setOpen] = React.useState(true);
+	const [open, setOpen] = React.useState(false);
 	/**
 	 * 재계산 트리거 키
 	 */
@@ -111,13 +112,78 @@ const Page: NextPage = () => {
 			{/* 컨텐츠 레이아웃 */}
 			<InternalServiceLayout>
 				{/* 등록 계좌, 계좌 등록 영역 */}
-				{/* <MyAccounts /> */}
+				<MyAccounts
+					setRecomputeTriggerKey={setRecomputeTriggerKey}
+					bankAccountList={[
+						{
+							BANK_CODE: '003',
+							BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
+							APP_MEMBER_IDENTIFICATION_CODE: 1,
+							ACCOUNT_NUMBER: '110-123-456789',
+							ACCOUNT_HOLDER: '김만수',
+							ACCOUNT_NICKNAME: '닉넴',
+						},
+					]}
+					calculationResult={{
+						monthlyIncome: {
+							'2022-05': 100000000,
+							'2022-06': 7430,
+							'2022-07': 0,
+							'2022-08': 0,
+							'2022-09': 0,
+							'2022-10': 0,
+							'2022-11': 0,
+							'2022-12': 6097,
+							'2023-01': 0,
+							'2023-02': 0,
+							'2023-03': 0,
+							'2023-04': 0,
+							'2023-05': 0,
+							'2023-12': 0,
+						},
+						monthlySpending: {
+							'2022-05': 39634785,
+							'2022-06': 18432970,
+							'2022-07': 17434615,
+							'2022-08': 17732282,
+							'2022-09': 5768500,
+							'2022-10': 1004278,
+							'2022-11': 0,
+							'2022-12': 0,
+							'2023-01': 6097,
+							'2023-02': 0,
+							'2023-03': 0,
+							'2023-04': 0,
+							'2023-05': 0,
+							'2023-12': 0,
+						},
+					}}
+				/>
 
 				{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
 
 				{/* 실제 계좌 내역 */}
+				<TransactionHistoryTable
+					setRecomputeTriggerKey={() => {}}
+					bankAccount={{
+						BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
+						BANK_CODE: '002',
+					}}
+					selectedPeriod={{
+						year: 2021,
+						month: 10,
+					}}
+					keyword={''}
+				/>
 				{bankAccountList.map((bankAccount) => (
-					<Box>{/* {<ITransactionHistoryTable />} */}</Box>
+					<Box>
+						<TransactionHistoryTable
+							setRecomputeTriggerKey={setRecomputeTriggerKey}
+							bankAccount={bankAccount}
+							selectedPeriod={selectedPeriod}
+							keyword={''}
+						/>
+					</Box>
 				))}
 
 				{/* 번레이트 계산 */}
