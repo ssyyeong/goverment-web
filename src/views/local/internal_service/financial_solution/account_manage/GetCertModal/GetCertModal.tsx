@@ -81,6 +81,8 @@ const GetCertModal = (props: IGetCertModalProps) => {
 												isSelected === index
 													? 'pink'
 													: '#ffffff',
+											mt: 2,
+											mb: 2,
 										}}
 										onClick={() => {
 											setIsSelected(index);
@@ -89,6 +91,8 @@ const GetCertModal = (props: IGetCertModalProps) => {
 												path: item.path,
 											});
 										}}
+										display={'flex'}
+										justifyContent={'space-around'}
 									>
 										<Typography>
 											{stringSplit(
@@ -113,7 +117,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 							})}
 						</Box>
 
-						{/** 인증서 암호 입렧하는 섹션 */}
+						{/** 인증서 암호 입력하는 섹션 */}
 						<Box
 							display={'flex'}
 							flexDirection={'column'}

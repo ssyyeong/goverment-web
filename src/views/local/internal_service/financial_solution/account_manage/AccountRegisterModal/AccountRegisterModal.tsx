@@ -25,6 +25,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	const [registerType, setRegisterType] = React.useState<string>('id');
 	const [isMac, setIsMac] = React.useState<boolean>(false);
 
+	const [accountList, setAccountList] = React.useState([]);
 	const [certList, setCertList] = React.useState([]);
 	const [certInfo, setCertInfo] = React.useState({
 		path: '',
@@ -94,7 +95,22 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		},
 		{
 			title: '은행사 PW',
-			component: <Typography>버튼 인 인풋</Typography>,
+			component: (
+				<SupportiInput
+					type="inputwithbtn"
+					value={userAccountInfo.hyphenUserPw}
+					setValue={(value) => {
+						setUserAccountInfo({
+							...userAccountInfo,
+							hyphenUserPw: value,
+						});
+					}}
+					defaultValue=""
+					width={300}
+					btnContent="조회하기"
+					btnOnclick={() => {}}
+				/>
+			),
 		},
 	];
 
@@ -357,6 +373,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								<SupportiButton
 									contents={'공용/금융 인증서 등록'}
 									onClick={() => {
+										getCert('certList', null);
 										setGetCertModalOpen(true);
 									}}
 									isGradient={true}
