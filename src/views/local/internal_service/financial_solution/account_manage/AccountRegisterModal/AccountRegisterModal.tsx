@@ -359,9 +359,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				style={{
 					width: '70%',
 				}}
-				btnIsGradient
-				btnContents="등록하기"
-				btnOnClick={() => registerAccount()}
 				children={
 					<Box>
 						{/** 계좌 불러오는 방식 선택하는 토글 섹션 */}
@@ -438,6 +435,15 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								);
 							})}
 						</Box>
+						<SupportiButton
+							contents="등록하기"
+							onClick={() => registerAccount()}
+							fullWidth
+							isGradient={true}
+							style={{
+								color: 'white',
+							}}
+						/>
 					</Box>
 				}
 			/>

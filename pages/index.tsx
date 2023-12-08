@@ -131,18 +131,6 @@ const index = (props: Props) => {
 					}}
 				/>
 			</Box>
-			<SuppportiModal
-				open={open}
-				handleClose={() => {
-					setOpen(false);
-				}}
-				children={<Box>집</Box>}
-				title="목표등록"
-				style={{
-					width: '70%',
-				}}
-				btnIsGradient
-			/>
 			{/* <SupportiTable
 				headerData={[
 					{

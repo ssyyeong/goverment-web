@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import { useAlertModalData } from '../../../src/hooks/useAlertModalData/useAlertModalData';
 
 const Page: NextPage = () => {
 	//* Modules

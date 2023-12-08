@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
+import SupportiButton from '../../../../../global/SupportiButton';
 
 interface IGetCertModalProps {
 	modalOpen: boolean;
@@ -83,11 +84,6 @@ const GetCertModal = (props: IGetCertModalProps) => {
 				title="공용/금융 인증서 등록"
 				style={{
 					width: '70%',
-				}}
-				btnIsGradient
-				btnContents="확인"
-				btnOnClick={() => {
-					authCert();
 				}}
 				children={
 					<Box
@@ -188,6 +184,13 @@ const GetCertModal = (props: IGetCertModalProps) => {
 								변경하기 바랍니다.
 							</Typography>
 						</Box>
+						<SupportiButton
+							contents={'확인'}
+							isGradient={true}
+							onClick={() => {
+								authCert();
+							}}
+						/>
 					</Box>
 				}
 			/>

@@ -4,6 +4,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import SuppportiModal, {
 	ISuppportiModalProps,
 } from '../SuppportiModal/SuppportiModal';
+import SupportiButton from '../SupportiButton';
 
 interface ISupportiAlertModalProps extends ISuppportiModalProps {
 	type: 'success' | 'error' | 'warning' | 'info';
@@ -53,6 +54,11 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				<Typography variant="h5" fontWeight={'bold'}>
 					{props.alertContents}
 				</Typography>
+				<SupportiButton
+					contents={'확인'}
+					style={{ marginTop: '16px' }}
+					onClick={() => {}}
+				/>
 			</Box>
 		</SuppportiModal>
 	);
