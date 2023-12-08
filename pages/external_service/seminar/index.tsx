@@ -10,6 +10,7 @@ import SupportiTable, {
 import moment from 'moment';
 import { usePagination } from '../../../src/hooks/usePagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -18,17 +19,20 @@ const Page: NextPage = () => {
 		{
 			label: 'NO',
 			value: '',
-			format: (value, idx) => {
+			format: (value, key, idx) => {
 				return idx + 1;
 			},
+			align: 'center',
 		},
 		{
 			label: '제목',
 			value: 'PRODUCT_NAME',
+			align: 'center',
 		},
 		{
 			label: '선착순 제한',
 			value: 'PERSONNEL',
+			align: 'center',
 		},
 		{
 			label: '일정',
@@ -36,10 +40,11 @@ const Page: NextPage = () => {
 			format: (value) => {
 				return moment(value).format('YYYY-MM-DD');
 			},
+			align: 'center',
 		},
 	];
 
-	const freeSeminarHeaderData: TableHeaderProps = {
+	const chargedSeminarHeaderData: TableHeaderProps = {
 		label: '금액',
 		value: 'PRICE',
 		format: (value) => {
@@ -53,6 +58,10 @@ const Page: NextPage = () => {
 	 * 세미나 데이터 리스트
 	 */
 	const [seminarDataList, setSeminarDataList] = React.useState([]);
+	/**
+	 * 세미나 데이터 총 개수
+	 */
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 	//* Functions
 	//* Hooks
 	/**
@@ -63,15 +72,20 @@ const Page: NextPage = () => {
 	 * 세미나 리스트 가져오기
 	 */
 	useEffect(() => {
-		const seminarController = new DefaultController('Seminar');
+		const seminarController = new DefaultController('SeminarProduct');
 		seminarController.findAllItems(
-			{},
+			{
+				LIMIT: 10,
+				PAGE: page,
+				PRICE: tab === 0 ? 0 : undefined,
+			},
 			(res) => {
-				setSeminarDataList(res.data.result);
+				setTotalDataCount(res.data.result.count);
+				setSeminarDataList(res.data.result.rows);
 			},
 			(err) => {}
 		);
-	}, []);
+	}, [tab, page]);
 
 	return (
 		<Box width={'100%'}>
@@ -99,25 +113,23 @@ const Page: NextPage = () => {
 			/>
 			<Box width={'100%'} p={2}>
 				<SupportiTable
-					rowData={[
-						{
-							TRANSACTION_HISTORY_IDENTIFICATION_CODE: 1,
-							BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-							EXCEPTED_YN: 'N',
-							IN_AMOUNT: 10000,
-							OUT_AMOUNT: 0,
-							TRANSACTION_DATE: new Date(),
-							TRADER_BANK_NAME: '국민은행',
-							TRANSACTION_DESCRIPTION: '입금',
-							TRADER_NAME: '김만수',
-							BALANCE: 10000,
-						},
-					]}
+					rowData={seminarDataList}
 					headerData={
 						tab === 0
 							? seminarHeaderData
-							: [...seminarHeaderData, freeSeminarHeaderData]
+							: [...seminarHeaderData, chargedSeminarHeaderData]
 					}
+				/>
+			</Box>
+			{/* 페이지 네이션 */}
+			<Box width={'100%'} p={2}>
+				<SupportiPagination
+					limit={limit}
+					setLimit={setLimit}
+					page={page}
+					handlePageChange={handlePageChange}
+					count={totalDataCount}
+					useLimit={false}
 				/>
 			</Box>
 		</Box>

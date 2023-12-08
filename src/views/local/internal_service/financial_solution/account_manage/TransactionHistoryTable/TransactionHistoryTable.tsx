@@ -202,10 +202,10 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				TRADER_NAME: props.keyword,
 				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
 				PERIOD_START: new Date(
-					`${props.selectedPeriod.year}-${props.selectedPeriod.month}-01`
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
 				),
 				PERIOD_END: new Date(
-					`${props.selectedPeriod.year}-${props.selectedPeriod.month}-31`
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
 				),
 			},
 			(res) => {
