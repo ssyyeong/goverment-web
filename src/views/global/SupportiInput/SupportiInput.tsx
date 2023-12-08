@@ -89,7 +89,7 @@ const SupportiInput = React.forwardRef(
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
 					<Select
-						sx={{ width: '100%' }}
+						sx={{ width: '100%', bgcolor: 'white' }}
 						value={props.value}
 						onChange={(e) => {
 							props.setValue(e.target.value);
@@ -132,7 +132,7 @@ const SupportiInput = React.forwardRef(
 					</Select>
 				) : props.type === 'search' ? (
 					<OutlinedInput
-						sx={{ width: '100%' }}
+						sx={{ width: '100%', bgcolor: 'white' }}
 						id="outlined-adornment-weight"
 						value={props.value}
 						placeholder={props.placeholder ? props.placeholder : ''}

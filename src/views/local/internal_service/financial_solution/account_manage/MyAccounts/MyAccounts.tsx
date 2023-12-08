@@ -70,7 +70,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	 * 계좌 등록 모달 오픈 여부
 	 */
 	const [accountRegisterModalOpen, setAccountRegisterModalOpen] =
-		React.useState<boolean>(true);
+		React.useState<boolean>(false);
 
 	/**
 	 * 계좌 수정 모달 오픈 여부
@@ -86,7 +86,6 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	/**
 	 * 계좌별 내역 리스트 (날짜, 거래 내역 키워드로 백엔드 필터링)
 	 */
-	console.log(props.calculationResult);
 	//* Functions
 	/**
 	 * 계좌 추가 함수 (추가 후, 리스트 변경)
@@ -158,368 +157,380 @@ const MyAccounts = (props: IMyAccountsProps) => {
 		alignItems: 'center',
 	};
 
-	return (
-		<Box display={'flex'} alignItems={'center'} mb={'40px'}>
-			{/* 연도 선택 및 수입 / 지출 */}
-			<Box
-				sx={{
-					...boxStyle,
-					padding: '22px 25px',
-					backgroundImage:
-						'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
-				}}
-			>
-				{/* 날짜 선택 */}
-				<Box
-					sx={{
-						display: 'flex',
-						gap: '19px',
-						alignItems: 'center',
-						cursor: 'pointer',
-					}}
-					onClick={(event) => {
-						setDateAnchorEl(event.currentTarget);
-					}}
-					id="basic-button2"
-					aria-controls={dateopen ? 'basic-menu2' : undefined}
-					aria-haspopup="true"
-					aria-expanded={dateopen ? 'true' : undefined}
-				>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<Typography color={'white'} variant="subtitle1">
-							{selectedPeriod?.year}년
-						</Typography>
-						<Typography
-							color={'white'}
-							variant="h3"
-							sx={{
-								display: 'flex',
-								alignItems: 'baseline',
-								gap: '3px',
-							}}
-						>
-							{selectedPeriod?.month}
-							<Typography color={'white'} variant="subtitle1">
-								월
-							</Typography>
-						</Typography>
-					</Box>
-					<KeyboardArrowDownIcon
-						sx={{
-							color: 'white',
-						}}
-					/>
-				</Box>
-				{/* 날짜 메뉴 */}
-				<Menu
-					id="basic-menu2"
-					open={dateopen}
-					anchorEl={dateAnchorEl}
-					onClose={() => {
-						setDateAnchorEl(null);
-					}}
-					MenuListProps={{
-						'aria-labelledby': 'basic-button2',
-					}}
-					sx={{
-						'& .MuiPaper-root': {
-							borderRadius: '5px',
-							boxShadow: '0 3px 15px 0 #e1eaff',
-						},
-					}}
-					PaperProps={{
-						style: {
-							maxHeight: 48 * 4.5,
-							width: '10ch',
-						},
-					}}
-				>
-					{selectablePeriod.map((period) => (
-						<MenuItem
-							onClick={() => {
-								setSelectedPeriod(period);
-								setDateAnchorEl(null);
-							}}
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								p: 1,
-							}}
-						>
-							{period.year}년 {period.month}월
-						</MenuItem>
-					))}
-				</Menu>
-				{/* 수입 지출 */}
-				<Box sx={{ ml: 3 }}>
-					<Box
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-							gap: '15px',
-						}}
-					>
-						<Typography
-							variant="subtitle1"
-							color={'info.main'}
-							fontWeight={'500'}
-						>
-							수입
-						</Typography>
-						<Typography
-							variant="subtitle1"
-							color={'white'}
-							fontWeight={'500'}
-						>
-							{props.calculationResult.monthlyIncome[
-								`${selectedPeriod?.year}-${selectedPeriod?.month}`
-							]?.toLocaleString()}{' '}
-							원
-						</Typography>
-					</Box>
-					<Box
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-							gap: '15px',
-						}}
-					>
-						<Typography
-							variant="subtitle1"
-							color={'info.main'}
-							fontWeight={'500'}
-						>
-							지출
-						</Typography>
-						<Typography
-							variant="subtitle1"
-							color={'white'}
-							fontWeight={'500'}
-						>
-							{props.calculationResult.monthlySpending[
-								`${selectedPeriod?.year}-${selectedPeriod?.month}`
-							]?.toLocaleString()}{' '}
-							원
-						</Typography>
-					</Box>
-				</Box>
-			</Box>
+	console.log(selectedPeriod);
 
-			{/* 계좌 리스트 */}
-			{props.bankAccountList.map((bankAccount) => (
+	return (
+		props.bankAccountList && (
+			<Box display={'flex'} alignItems={'center'} mb={'40px'}>
+				{/* 연도 선택 및 수입 / 지출 */}
 				<Box
 					sx={{
 						...boxStyle,
-						padding: '26px 15px 26px 25px',
-						justifyContent: 'space-between',
-						bgcolor: 'white',
+						padding: '22px 25px',
+						backgroundImage:
+							'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
 					}}
 				>
-					{/* 은행 아이콘 */}
-					<Thumbnail
-						src={bankConfig[bankAccount.BANK_CODE]?.iconPath}
-						width={'30px'}
-						height={'30px'}
-					/>
-					{/* 계좌내용 */}
-					<Box sx={{ width: '70%' }}>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: '5px',
-							}}
-						>
-							<Typography variant="subtitle1" fontWeight={'600'}>
-								{bankConfig[bankAccount.BANK_CODE]?.name}
-							</Typography>
-							<Typography variant="subtitle1" fontWeight={'600'}>
-								{bankAccount.ACCOUNT_NUMBER}
-							</Typography>
-						</Box>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: '5px',
-								mt: '5px',
-							}}
-						>
-							<Typography
-								variant="subtitle2"
-								color={'secondary.main'}
-							>
-								{bankAccount.ACCOUNT_HOLDER}
-							</Typography>
-							<Typography
-								variant="subtitle2"
-								color={'secondary.main'}
-							>
-								|
-							</Typography>
-							<Typography
-								variant="subtitle2"
-								color={'secondary.main'}
-							>
-								{bankAccount.ACCOUNT_NICKNAME}
-							</Typography>
-						</Box>
-					</Box>
-					{/* 메뉴 */}
-					<MoreVertIcon
-						id="basic-button"
-						aria-controls={open ? 'basic-menu' : undefined}
-						aria-haspopup="true"
-						aria-expanded={open ? 'true' : undefined}
+					{/* 날짜 선택 */}
+					<Box
 						sx={{
+							display: 'flex',
+							gap: '19px',
+							alignItems: 'center',
 							cursor: 'pointer',
 						}}
 						onClick={(event) => {
-							setAnchorEl(event.currentTarget);
+							setDateAnchorEl(event.currentTarget);
 						}}
-						color="secondary"
-					/>
+						id="basic-button2"
+						aria-controls={dateopen ? 'basic-menu2' : undefined}
+						aria-haspopup="true"
+						aria-expanded={dateopen ? 'true' : undefined}
+					>
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<Typography color={'white'} variant="subtitle1">
+								{selectedPeriod?.year}년
+							</Typography>
+							<Typography
+								color={'white'}
+								variant="h3"
+								sx={{
+									display: 'flex',
+									alignItems: 'baseline',
+									gap: '3px',
+								}}
+							>
+								{selectedPeriod?.month}
+								<Typography color={'white'} variant="subtitle1">
+									월
+								</Typography>
+							</Typography>
+						</Box>
+						<KeyboardArrowDownIcon
+							sx={{
+								color: 'white',
+							}}
+						/>
+					</Box>
+					{/* 날짜 메뉴 */}
 					<Menu
-						id="basic-menu"
-						open={open}
-						anchorEl={anchorEl}
+						id="basic-menu2"
+						open={dateopen}
+						anchorEl={dateAnchorEl}
 						onClose={() => {
-							setAnchorEl(null);
+							setDateAnchorEl(null);
 						}}
 						MenuListProps={{
-							'aria-labelledby': 'basic-button',
+							'aria-labelledby': 'basic-button2',
 						}}
 						sx={{
 							'& .MuiPaper-root': {
 								borderRadius: '5px',
 								boxShadow: '0 3px 15px 0 #e1eaff',
-								width: '90px',
+							},
+						}}
+						PaperProps={{
+							style: {
+								maxHeight: 48 * 4.5,
+								width: '10ch',
 							},
 						}}
 					>
-						<MenuItem
-							sx={{
-								borderBottom: '1px solid #e1eaff',
-								pb: '10px',
-								mb: '5px',
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-							onClick={() => {
-								setAccountNickname(
-									bankAccount.ACCOUNT_NICKNAME
-								);
-								setAccountModifyModalOpen(true);
-							}}
-						>
-							수정하기
-						</MenuItem>
-						<MenuItem
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-							onClick={() => {
-								deleteBankAccount(
-									bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
-								);
-							}}
-						>
-							삭제하기
-						</MenuItem>
+						{selectablePeriod.map((period) => (
+							<MenuItem
+								onClick={() => {
+									setSelectedPeriod(period);
+									setDateAnchorEl(null);
+								}}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									p: 1,
+								}}
+							>
+								{period.year}년 {period.month}월
+							</MenuItem>
+						))}
 					</Menu>
-					{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
-					<SuppportiModal
-						open={accountModifyModalOpen}
-						handleClose={() => {
-							setAccountModifyModalOpen(false);
-						}}
-						title="계좌 수정"
-						activeHeader={true}
-						children={
-							<Box>
-								<Box mb={3}>
-									<Typography m={'auto'} sx={{ mb: 2 }}>
-										계좌 별칭
-									</Typography>
-									<SupportiInput
-										type={'input'}
-										value={accountNickname}
-										setValue={(value) => {
-											setAccountNickname(value);
-										}}
-										placeholder="계좌 별칭 입력"
-										width={300}
-									/>
-								</Box>
-								<SupportiButton
-									isGradient={true}
-									contents={'수정하기'}
-									onClick={() => {
-										updateBankAccount(
-											bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
-										);
-									}}
-								/>
-							</Box>
-						}
-					/>
-				</Box>
-			))}
-
-			{/* 계좌 등록 */}
-			{props.bankAccountList.length >= 3 ? null : (
-				<Box
-					onClick={() => setAccountRegisterModalOpen(true)}
-					sx={{
-						...boxStyle,
-						padding: '26px 10px 26px 21px',
-						border: 'solid 1px #305ddc',
-						cursor: 'pointer',
-						bgcolor: 'white',
-					}}
-				>
-					<Thumbnail
-						src={'/images/main/bank.png'}
-						width={'30px'}
-						height={'30px'}
-					/>
-					<Box ml={2}>
-						<Typography
-							color={'primary'}
-							variant="subtitle1"
-							fontWeight={'600'}
+					{/* 수입 지출 */}
+					<Box sx={{ ml: 3 }}>
+						<Box
 							sx={{
-								mb: '3px',
+								display: 'flex',
+								alignItems: 'center',
+								gap: '15px',
 							}}
 						>
-							+ 계좌 등록하기 (최대 3개)
-						</Typography>
-						<Typography
-							color={'secondary'}
-							variant="body1"
-							fontWeight={'500'}
+							<Typography
+								variant="subtitle1"
+								color={'info.main'}
+								fontWeight={'500'}
+							>
+								수입
+							</Typography>
+							<Typography
+								variant="subtitle1"
+								color={'white'}
+								fontWeight={'500'}
+							>
+								{props.calculationResult.monthlyIncome[
+									`${selectedPeriod?.year}-${selectedPeriod?.month}`
+								]?.toLocaleString()}{' '}
+								원
+							</Typography>
+						</Box>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								gap: '15px',
+							}}
 						>
-							등록 시, 은행계정 또는 인증서 등록 필요
-						</Typography>
+							<Typography
+								variant="subtitle1"
+								color={'info.main'}
+								fontWeight={'500'}
+							>
+								지출
+							</Typography>
+							<Typography
+								variant="subtitle1"
+								color={'white'}
+								fontWeight={'500'}
+							>
+								{props.calculationResult.monthlySpending[
+									`${selectedPeriod?.year}-${selectedPeriod?.month}`
+								]?.toLocaleString()}{' '}
+								원
+							</Typography>
+						</Box>
 					</Box>
 				</Box>
-			)}
-			{/* 계좌 등록 모달 */}
-			{accountRegisterModalOpen && (
-				<AccountRegisterModal
-					accountRegisterModalOpen={accountRegisterModalOpen}
-					setAccountRegisterModalOpen={setAccountRegisterModalOpen}
-				/>
-			)}
-		</Box>
+
+				{/* 계좌 리스트 */}
+				{props.bankAccountList.map((bankAccount) => (
+					<Box
+						sx={{
+							...boxStyle,
+							padding: '26px 15px 26px 25px',
+							justifyContent: 'space-between',
+							bgcolor: 'white',
+						}}
+					>
+						{/* 은행 아이콘 */}
+						<Thumbnail
+							src={bankConfig[bankAccount.BANK_CODE]?.iconPath}
+							width={'30px'}
+							height={'30px'}
+						/>
+						{/* 계좌내용 */}
+						<Box sx={{ width: '70%' }}>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: '5px',
+								}}
+							>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'600'}
+								>
+									{bankConfig[bankAccount.BANK_CODE]?.name}
+								</Typography>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'600'}
+								>
+									{bankAccount.ACCOUNT_NUMBER}
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: '5px',
+									mt: '5px',
+								}}
+							>
+								<Typography
+									variant="subtitle2"
+									color={'secondary.main'}
+								>
+									{bankAccount.ACCOUNT_HOLDER}
+								</Typography>
+								<Typography
+									variant="subtitle2"
+									color={'secondary.main'}
+								>
+									|
+								</Typography>
+								<Typography
+									variant="subtitle2"
+									color={'secondary.main'}
+								>
+									{bankAccount.ACCOUNT_NICKNAME}
+								</Typography>
+							</Box>
+						</Box>
+						{/* 메뉴 */}
+						<MoreVertIcon
+							id="basic-button"
+							aria-controls={open ? 'basic-menu' : undefined}
+							aria-haspopup="true"
+							aria-expanded={open ? 'true' : undefined}
+							sx={{
+								cursor: 'pointer',
+							}}
+							onClick={(event) => {
+								setAnchorEl(event.currentTarget);
+							}}
+							color="secondary"
+						/>
+						<Menu
+							id="basic-menu"
+							open={open}
+							anchorEl={anchorEl}
+							onClose={() => {
+								setAnchorEl(null);
+							}}
+							MenuListProps={{
+								'aria-labelledby': 'basic-button',
+							}}
+							sx={{
+								'& .MuiPaper-root': {
+									borderRadius: '5px',
+									boxShadow: '0 3px 15px 0 #e1eaff',
+									width: '90px',
+								},
+							}}
+						>
+							<MenuItem
+								sx={{
+									borderBottom: '1px solid #e1eaff',
+									pb: '10px',
+									mb: '5px',
+									display: 'flex',
+									justifyContent: 'center',
+								}}
+								onClick={() => {
+									setAccountNickname(
+										bankAccount.ACCOUNT_NICKNAME
+									);
+									setAccountModifyModalOpen(true);
+								}}
+							>
+								수정하기
+							</MenuItem>
+							<MenuItem
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+								}}
+								onClick={() => {
+									deleteBankAccount(
+										bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
+									);
+								}}
+							>
+								삭제하기
+							</MenuItem>
+						</Menu>
+						{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
+						<SuppportiModal
+							open={accountModifyModalOpen}
+							handleClose={() => {
+								setAccountModifyModalOpen(false);
+							}}
+							title="계좌 수정"
+							activeHeader={true}
+							children={
+								<Box>
+									<Box mb={3}>
+										<Typography m={'auto'} sx={{ mb: 2 }}>
+											계좌 별칭
+										</Typography>
+										<SupportiInput
+											type={'input'}
+											value={accountNickname}
+											setValue={(value) => {
+												setAccountNickname(value);
+											}}
+											placeholder="계좌 별칭 입력"
+											width={300}
+										/>
+									</Box>
+									<SupportiButton
+										isGradient={true}
+										contents={'수정하기'}
+										onClick={() => {
+											updateBankAccount(
+												bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
+											);
+										}}
+									/>
+								</Box>
+							}
+						/>
+					</Box>
+				))}
+
+				{/* 계좌 등록 */}
+				{props.bankAccountList.length >= 3 ? null : (
+					<Box
+						onClick={() => setAccountRegisterModalOpen(true)}
+						sx={{
+							...boxStyle,
+							padding: '26px 10px 26px 21px',
+							border: 'solid 1px #305ddc',
+							cursor: 'pointer',
+							bgcolor: 'white',
+						}}
+					>
+						<Thumbnail
+							src={'/images/main/bank.png'}
+							width={'30px'}
+							height={'30px'}
+						/>
+						<Box ml={2}>
+							<Typography
+								color={'primary'}
+								variant="subtitle1"
+								fontWeight={'600'}
+								sx={{
+									mb: '3px',
+								}}
+							>
+								+ 계좌 등록하기 (최대 3개)
+							</Typography>
+							<Typography
+								color={'secondary'}
+								variant="body1"
+								fontWeight={'500'}
+							>
+								등록 시, 은행계정 또는 인증서 등록 필요
+							</Typography>
+						</Box>
+					</Box>
+				)}
+				{/* 계좌 등록 모달 */}
+				{accountRegisterModalOpen && (
+					<AccountRegisterModal
+						accountRegisterModalOpen={accountRegisterModalOpen}
+						setAccountRegisterModalOpen={
+							setAccountRegisterModalOpen
+						}
+					/>
+				)}
+			</Box>
+		)
 	);
 };
 

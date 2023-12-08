@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	Box,
@@ -35,119 +35,134 @@ interface ISupportiTableProps {
 }
 
 const SupportiTable = (props: ISupportiTableProps) => {
+	//* State
+	/**
+	 * hydration
+	 */
+	const [mounted, setMounted] = React.useState(false);
+	//* Hooks
+	/**
+	 * hydration
+	 */
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
 	const theme = useTheme();
 	return (
-		<TableContainer
-			sx={{
-				pr: 1,
-				width: '100%',
-			}}
-		>
-			<Table stickyHeader={props.stikyHeader}>
-				{/* 테이블 헤드 */}
-				<TableHead
-					sx={{
-						bgcolor: theme.palette.primary.light,
-						'th:first-child': {
-							borderRadius: '10px 0 0 10px',
-						},
-						'th:last-child': {
-							borderRadius: '0 10px 10px 0',
-						},
-						th: {
-							border: 'none',
-						},
-					}}
-				>
-					<TableRow>
-						{props.headerData.map((column) => (
-							<TableCell
-								key={column.value}
-								align={column.align}
-								style={{ minWidth: column.minWidth }}
-							>
-								{column.label}
-							</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
-				<Box my={0.5}></Box>
-				{/* 테이블 바디 */}
-				<TableBody>
-					{props.rowData.map((row, idx) => {
-						return (
-							<TableRow
-								hover
-								role="checkbox"
-								tabIndex={-1}
-								key={idx}
-								onClick={
-									props.onClick
-										? () => props.onClick(row)
-										: () => {}
-								}
-							>
-								{props.headerData.map((column) => {
-									const key = column.customKeyFormat
-										? column.customKeyFormat(
-												row[column.value]
-										  )
-										: column.value;
-									const value = row[key];
-									return (
-										<TableCell
-											key={column.value}
-											align={column.align}
-										>
-											{column.checkbox ? (
-												<Checkbox
-													color="primary"
-													checked={
-														column.format
-															? column.format(
-																	value
-															  )
-															: value
-													}
-													onChange={
-														column.checkBoxOnClick
-															? () =>
-																	column.checkBoxOnClick(
+		mounted && (
+			<TableContainer
+				sx={{
+					pr: 1,
+					width: '100%',
+				}}
+			>
+				<Table stickyHeader={props.stikyHeader}>
+					{/* 테이블 헤드 */}
+					<TableHead
+						sx={{
+							bgcolor: theme.palette.primary.light,
+							'th:first-child': {
+								borderRadius: '10px 0 0 10px',
+							},
+							'th:last-child': {
+								borderRadius: '0 10px 10px 0',
+							},
+							th: {
+								border: 'none',
+							},
+						}}
+					>
+						<TableRow>
+							{props.headerData.map((column) => (
+								<TableCell
+									key={column.value}
+									align={column.align}
+									style={{ minWidth: column.minWidth }}
+								>
+									{column.label}
+								</TableCell>
+							))}
+						</TableRow>
+					</TableHead>
+					<Box my={0.5}></Box>
+					{/* 테이블 바디 */}
+					<TableBody>
+						{props.rowData.map((row, idx) => {
+							return (
+								<TableRow
+									hover
+									role="checkbox"
+									tabIndex={-1}
+									key={idx}
+									onClick={
+										props.onClick
+											? () => props.onClick(row)
+											: () => {}
+									}
+								>
+									{props.headerData.map((column) => {
+										const key = column.customKeyFormat
+											? column.customKeyFormat(
+													row[column.value]
+											  )
+											: column.value;
+										const value = row[key];
+										return (
+											<TableCell
+												key={column.value}
+												align={column.align}
+											>
+												{column.checkbox ? (
+													<Checkbox
+														color="primary"
+														checked={
+															column.format
+																? column.format(
+																		value
+																  )
+																: value
+														}
+														onChange={
+															column.checkBoxOnClick
+																? () =>
+																		column.checkBoxOnClick(
+																			value,
+																			idx
+																		)
+																: () => {}
+														}
+													/>
+												) : (
+													<Typography
+														color={
+															column.customFormat
+																? column.customFormat(
 																		value,
-																		idx
-																	)
-															: () => {}
-													}
-												/>
-											) : (
-												<Typography
-													color={
-														column.customFormat
-															? column.customFormat(
+																		key
+																  )
+																: 'text.primary'
+														}
+													>
+														{column.format
+															? column.format(
 																	value,
-																	key
+																	key,
+																	idx
 															  )
-															: 'text.primary'
-													}
-												>
-													{column.format
-														? column.format(
-																value,
-																key,
-																idx
-														  )
-														: value}
-												</Typography>
-											)}
-										</TableCell>
-									);
-								})}
-							</TableRow>
-						);
-					})}
-				</TableBody>
-			</Table>
-		</TableContainer>
+															: value}
+													</Typography>
+												)}
+											</TableCell>
+										);
+									})}
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		)
 	);
 };
 
