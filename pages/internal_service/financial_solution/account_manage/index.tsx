@@ -182,16 +182,7 @@ const Page: NextPage = () => {
 				{/* 등록 계좌, 계좌 등록 영역 */}
 				<MyAccounts
 					setRecomputeTriggerKey={setRecomputeTriggerKey}
-					bankAccountList={[
-						{
-							BANK_CODE: '003',
-							BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-							APP_MEMBER_IDENTIFICATION_CODE: 1,
-							ACCOUNT_NUMBER: '110-123-456789',
-							ACCOUNT_HOLDER: '김만수',
-							ACCOUNT_NICKNAME: '닉넴',
-						},
-					]}
+					bankAccountList={bankAccountList}
 					calculationResult={example}
 				/>
 
@@ -227,7 +218,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				{/* 실제 계좌 내역 */}
-				<TransactionHistoryTable
+				{/* <TransactionHistoryTable
 					setRecomputeTriggerKey={() => {}}
 					bankAccount={{
 						BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
@@ -238,14 +229,14 @@ const Page: NextPage = () => {
 						month: 10,
 					}}
 					keyword={''}
-				/>
+				/> */}
 				{bankAccountList.map((bankAccount) => (
 					<Box>
 						<TransactionHistoryTable
 							setRecomputeTriggerKey={setRecomputeTriggerKey}
 							bankAccount={bankAccount}
 							selectedPeriod={selectedPeriod}
-							keyword={''}
+							keyword={keyword}
 						/>
 					</Box>
 				))}
