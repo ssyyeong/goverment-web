@@ -6,7 +6,7 @@ import { InternalServiceLayout } from '../../../../src/views/layout/InternalServ
 import MyAccounts from '../../../../src/views/local/internal_service/financial_solution/account_manage/MyAccounts/MyAccounts';
 import { IBankAccount } from '../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
+
 import { BankController } from '../../../../src/controller/BankController';
 import { TransactionHistoryTable } from '../../../../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
@@ -63,7 +63,7 @@ const Page: NextPage = () => {
 	//* Constants
 
 	//* States
-	const [open, setOpen] = React.useState(true);
+
 	/**
 	 * 재계산 트리거 키
 	 */
@@ -256,12 +256,6 @@ const Page: NextPage = () => {
 					calculationResult={example}
 				/>
 			</InternalServiceLayout>
-			{open && (
-				<AccountRegisterModal
-					accountRegisterModalOpen={open}
-					setAccountRegisterModalOpen={setOpen}
-				/>
-			)}
 		</Box>
 	);
 };

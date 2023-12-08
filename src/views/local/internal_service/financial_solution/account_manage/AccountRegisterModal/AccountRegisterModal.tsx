@@ -206,6 +206,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
+		console.log(userAccountInfo);
 		bankController.registerBankAccount(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: 1,

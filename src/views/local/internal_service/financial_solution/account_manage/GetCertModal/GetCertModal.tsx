@@ -64,11 +64,13 @@ const GetCertModal = (props: IGetCertModalProps) => {
 
 	//* Hooks
 	React.useEffect(() => {
-		setIsSelected('');
-		props.setUserAccountInfo({
-			...props.userAccountInfo,
-			CERTIFICATE_PASSWORD: '',
-		});
+		if (props.modalOpen) {
+			setIsSelected('');
+			props.setUserAccountInfo({
+				...props.userAccountInfo,
+				CERTIFICATE_PASSWORD: '',
+			});
+		}
 	}, [props.modalOpen]);
 
 	return (
@@ -177,7 +179,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 										CERTIFICATE_PASSWORD: value,
 									});
 								}}
-                type={'password'}
+								type={'password'}
 								width={'100%'}
 								placeholder="인증서 암호 입력"
 							/>

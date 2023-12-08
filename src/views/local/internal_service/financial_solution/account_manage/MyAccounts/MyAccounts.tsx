@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { IAccountCalculationResultProps } from '../AccountCalculation/AccountCalculation';
+import AccountRegisterModal from '../AccountRegisterModal/AccountRegisterModal';
 interface IMyAccountsProps {
 	/**
 	 * 재계산 트리거 키 변경 함수
@@ -65,9 +66,15 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	const dateopen = Boolean(dateAnchorEl);
 
 	/**
-	 * 계좌 수정 모달 오픈 여부
+	 * 계좌 등록 모달 오픈 여부
 	 */
 	const [accountRegisterModalOpen, setAccountRegisterModalOpen] =
+		React.useState<boolean>(false);
+
+	/**
+	 * 계좌 수정 모달 오픈 여부
+	 */
+	const [accountModifyModalOpen, setAccountModifyModalOpen] =
 		React.useState<boolean>(false);
 
 	/**
@@ -465,6 +472,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 			{/* 계좌 등록 */}
 			{props.bankAccountList.length >= 3 ? null : (
 				<Box
+				onClick={()=> setAccountRegisterModalOpen(true)}
 					sx={{
 						...boxStyle,
 						padding: '26px 10px 26px 21px',
@@ -498,6 +506,13 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						</Typography>
 					</Box>
 				</Box>
+			)}
+			{/* 계좌 등록 모달 */}
+			{accountRegisterModalOpen && (
+				<AccountRegisterModal
+					accountRegisterModalOpen={accountRegisterModalOpen}
+					setAccountRegisterModalOpen={setAccountRegisterModalOpen}
+				/>
 			)}
 		</Box>
 	);
