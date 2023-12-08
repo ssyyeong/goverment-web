@@ -1,54 +1,75 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { IKpi, IOkrCombination } from '../../../src/@types/model';
+import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
+import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
+
+type TSelectableIndicator = {
+	name: string;
+	indicatorManagementBoardProps: IIndicatorManagementBoardProps;
+};
 
 const Page: NextPage = () => {
 	//* Modules
 	/**
-	 * 컨트롤러들
+	 * OKR 컨트롤러
 	 */
+	const okrController = new DefaultController('OkrMain');
+
+	/**
+	 * KPI 컨트롤러
+	 */
+	const kpiController = new DefaultController('Kpi');
 
 	//* States
-	/**
-	 * 선택된 카테고리
-	 */
-	const [selectedCategory, setSelectedCategory] =
-		React.useState<number>(null);
-
-	/**
-	 * ORK 지표 데이터 리스트
-	 */
-	const [okrList, setOkrList] = React.useState<IOkrCombination[]>([]);
-
-	/**
-	 * KPI 지표 데이터 리스트
-	 */
-	const [kpiList, setKpiList] = React.useState<IKpi[]>([]);
 
 	//* Constants
 	/**
-	 * 카테고리 목록
+	 * 선택 가능한 지표 목록
 	 */
-	const categoryList: { name: string; controller: any }[] = [
-		// {
-		// 	name: 'OKR',
-		//     registerModal:,
-		//         board: <OkrBoard dataList={okrList} />
-		// },
-		// {
-		// 	name: 'KPI',
-		// 	registerModal: ,
-		//         board: <KpiBoard dataList={kpiList} />
-		// },
+	const selectableIndicatorList: TSelectableIndicator[] = [
+		{
+			name: 'OKR',
+			indicatorManagementBoardProps: {
+				infiniteLoadBoardProps: {
+					renderItem: (data, index) => {
+						return <Box></Box>;
+					},
+					injectedParams: {
+						APP_MEMBER_IDENTIFICATION_CODE: 0,
+					},
+					getAllCallback:
+						okrController.createItem.bind(okrController),
+				},
+			},
+		},
+		{
+			name: 'KPI',
+			indicatorManagementBoardProps: {
+				infiniteLoadBoardProps: {
+					renderItem: (data, index) => {
+						return <Box></Box>;
+					},
+					injectedParams: {
+						APP_MEMBER_IDENTIFICATION_CODE: 0,
+					},
+					getAllCallback:
+						kpiController.createItem.bind(kpiController),
+				},
+			},
+		},
 	];
 
+	//* States (2)
 	/**
-	 * 진행 상태 필터
+	 * 선택된 지표
 	 */
-	const statusFilterList = ['진행 중', '완료', '보류', '취소'];
+	const [selectedIndicator, setSelectedIndicator] =
+		React.useState<TSelectableIndicator>(selectableIndicatorList[0]);
 
 	//* Functions
 	/**
@@ -56,19 +77,32 @@ const Page: NextPage = () => {
 	 */
 
 	//* Hooks
+	/**
+	 * 페이지 진입 시 유저 권한 검사
+	 */
+	const userAccess = useUserAccess('SUBSCRIPTION');
 
 	return (
 		<Box>
 			{/* 컨텐츠 레이아웃 */}
-			<InternalServiceLayout>
-				{/* 새로운 목표 등록 영역  */}
+			{userAccess === true && (
+				<InternalServiceLayout>
+					{/* 지표 (OKR / KPI) 선택 영역 */}
+					<Box>
+						{selectableIndicatorList.map((selectableIndicator) => (
+							<Box>
+								<Button>{selectableIndicator.name}</Button>
+							</Box>
+						))}
+					</Box>
 
-				{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
-
-				{/* 실제 계좌 내역 */}
-
-				{/* 번레이트 계산 */}
-			</InternalServiceLayout>
+					{/* 지표 보드 영역 */}
+					<IndicatorManagementBoard
+						key={JSON.stringify(selectedIndicator)}
+						{...selectedIndicator.indicatorManagementBoardProps}
+					/>
+				</InternalServiceLayout>
+			)}
 		</Box>
 	);
 };

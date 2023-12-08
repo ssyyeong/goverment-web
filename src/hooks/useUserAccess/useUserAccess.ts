@@ -5,14 +5,10 @@ import { useEffect, useState } from 'react';
 
 type TCheckTarget = 'SIGN_IN' | 'SUBSCRIPTION';
 
-interface IUseUserAccessProps {
-	checkTarget: TCheckTarget;
-}
-
 /**
  * 결제 정보 혹은 로그인 정보 가져오는 훅
  */
-const useUserAccess = (props: IUseUserAccessProps) => {
+const useUserAccess = (checkTarget: TCheckTarget) => {
 	//* Modules
 	const router = useRouter();
 
@@ -65,8 +61,8 @@ const useUserAccess = (props: IUseUserAccessProps) => {
 			 * 권한이 없을 경우 (메세지 및 경로 설정)
 			 */
 			if (access === false) {
-				alert(redirectConfig[props.checkTarget].message);
-				router.push(redirectConfig[props.checkTarget].redirectUrl);
+				alert(redirectConfig[checkTarget].message);
+				router.push(redirectConfig[checkTarget].redirectUrl);
 			}
 		}
 	}, [access]);
@@ -75,7 +71,7 @@ const useUserAccess = (props: IUseUserAccessProps) => {
 	 * 구독 권한 체크
 	 */
 	useEffect(() => {
-		if (isSubscribed !== undefined && props.checkTarget == 'SUBSCRIPTION') {
+		if (isSubscribed !== undefined && checkTarget == 'SUBSCRIPTION') {
 			setAccess(isSubscribed);
 		}
 	}, [isSubscribed]);
@@ -84,7 +80,7 @@ const useUserAccess = (props: IUseUserAccessProps) => {
 	 * 로그인 권한 체크
 	 */
 	useEffect(() => {
-		if (isSignedIn !== undefined && props.checkTarget == 'SIGN_IN') {
+		if (isSignedIn !== undefined && checkTarget == 'SIGN_IN') {
 			setAccess(isSignedIn);
 		}
 	}, [isSignedIn]);

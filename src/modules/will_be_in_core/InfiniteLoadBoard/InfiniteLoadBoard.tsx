@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, BoxProps } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import { TRenderItemCallback } from '../../../@types/callbacks';
 
 interface IInfiniteLoadBoardProps {
 	/**
@@ -17,7 +18,7 @@ interface IInfiniteLoadBoardProps {
 	/**
 	 * 각 아이템 랜더링 함수
 	 */
-	renderItem: (data: any, index: number) => React.ReactElement;
+	renderItem?: TRenderItemCallback;
 
 	/**
 	 * 게시판을 위한 값들
@@ -32,7 +33,7 @@ interface IInfiniteLoadBoardProps {
 	/**
 	 * 데이터 로더 함수
 	 */
-	getAllCallback: (
+	getAllCallback?: (
 		args: { [key: string]: any },
 		successCallback?: (response: any) => void,
 		failCallback?: (err: any) => void
@@ -98,74 +99,78 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	 * 실제로 데이터 가져오는 함수
 	 */
 	const callData = () => {
-		let params: { [key: string]: any } =
-			props.injectedParams !== undefined ? props.injectedParams : {};
+		if (props.getAllCallback !== undefined) {
+			let params: { [key: string]: any } =
+				props.injectedParams !== undefined ? props.injectedParams : {};
 
-		params.PAGE = selectedPage - 1;
-		params.LIMIT = props.contentPerPage || 10;
+			params.PAGE = selectedPage - 1;
+			params.LIMIT = props.contentPerPage || 10;
 
-		/**
-		 * 로딩 시작
-		 */
-		setLoading(true);
+			/**
+			 * 로딩 시작
+			 */
+			setLoading(true);
 
-		/**
-		 * 데이터 부르기
-		 */
-		props.getAllCallback(
-			params,
-			(response: any) => {
-				let clonedAllData: any = [];
+			/**
+			 * 데이터 부르기
+			 */
+			props.getAllCallback(
+				params,
+				(response: any) => {
+					let clonedAllData: any = [];
 
-				// eslint-disable-next-line array-callback-return
-				response.data.result.rows.map((el: any, index: any) => {
-					clonedAllData.push(el);
-				});
-				if (
-					props.setAllData !== undefined &&
-					props.allData !== undefined
-				) {
-					props.setAllData(clonedAllData);
-				} else {
-					setAllData(clonedAllData);
-				}
-
-				/**
-				 * 최대 페이지 계산
-				 */
-				if (maxPage === undefined) {
-					const calculatedMaxPage = countMaxPage(
-						response.data.result.count,
-						props.contentPerPage || 10
-					);
-
-					setMaxPage(calculatedMaxPage);
-				} else {
-					if (selectedPage < maxPage) {
-						setSelectedPage(selectedPage + 1);
+					// eslint-disable-next-line array-callback-return
+					response.data.result.rows.map((el: any, index: any) => {
+						clonedAllData.push(el);
+					});
+					if (
+						props.setAllData !== undefined &&
+						props.allData !== undefined
+					) {
+						props.setAllData(clonedAllData);
 					} else {
-						setHasNextPage(false);
+						setAllData(clonedAllData);
 					}
+
+					/**
+					 * 최대 페이지 계산
+					 */
+					if (maxPage === undefined) {
+						const calculatedMaxPage = countMaxPage(
+							response.data.result.count,
+							props.contentPerPage || 10
+						);
+
+						setMaxPage(calculatedMaxPage);
+					} else {
+						if (selectedPage < maxPage) {
+							setSelectedPage(selectedPage + 1);
+						} else {
+							setHasNextPage(false);
+						}
+					}
+
+					/**
+					 * 로딩 종료
+					 */
+					setLoading(false);
+				},
+				(err: any) => {
+					/**
+					 * 로딩 종료
+					 */
+					setLoading(false);
+
+					/**
+					 * 에러 트리거
+					 */
+					setError(err);
+					alert('실패');
 				}
-
-				/**
-				 * 로딩 종료
-				 */
-				setLoading(false);
-			},
-			(err: any) => {
-				/**
-				 * 로딩 종료
-				 */
-				setLoading(false);
-
-				/**
-				 * 에러 트리거
-				 */
-				setError(err);
-				alert('실패');
-			}
-		);
+			);
+		} else {
+			throw new Error('getAllCallback is not defined');
+		}
 	};
 
 	//* Refs
@@ -189,7 +194,9 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 				? props.allData
 				: allData
 			).map((el: any, index: any) => {
-				return props.renderItem(el, index);
+				if (props.renderItem !== undefined) {
+					return props.renderItem(el, index);
+				}
 			})}
 
 			{/* 데이터 로딩 감지 영역 */}
@@ -199,3 +206,4 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 };
 
 export default InfiniteLoadBoard;
+export type { IInfiniteLoadBoardProps };
