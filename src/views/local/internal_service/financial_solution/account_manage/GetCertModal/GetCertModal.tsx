@@ -13,6 +13,7 @@ interface IGetCertModalProps {
 	certInfo: any;
 	setCertInfo: any;
 	getAccountList: any;
+	isMac: boolean;
 }
 
 const GetCertModal = (props: IGetCertModalProps) => {
@@ -35,6 +36,43 @@ const GetCertModal = (props: IGetCertModalProps) => {
 		return txt;
 	};
 
+	//* Functions
+	//* 인증서 유효성 검사
+	const authCert = () => {
+		const inJson = {
+			orgCd: '',
+			svcCd: '',
+			appCd: '',
+			signCert: '',
+			signPri: '',
+			signPw: '',
+		};
+		inJson.orgCd = 'common';
+		inJson.svcCd = 'getCertInfo';
+		inJson.appCd = 'HYPHEN'; //발급받은 application 코드
+		if (props.isMac) {
+			inJson.signCert = props.certInfo.path + '/signCert.der';
+			inJson.signPri = props.certInfo.path + '/signPri.key';
+		} else {
+			inJson.signCert = props.certInfo.path + '\\signCert.der';
+			inJson.signPri = props.certInfo.path + '\\signPri.key';
+		}
+		inJson.signPw = props.userAccountInfo.CERTIFICATE_PASSWORD;
+
+		props.getCert('execute', JSON.stringify(inJson));
+	};
+
+	//* Hooks
+	React.useEffect(() => {
+		if (props.modalOpen) {
+			setIsSelected('');
+			props.setUserAccountInfo({
+				...props.userAccountInfo,
+				CERTIFICATE_PASSWORD: '',
+			});
+		}
+	}, [props.modalOpen]);
+
 	return (
 		<Box>
 			<SuppportiModal
@@ -49,7 +87,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 				btnIsGradient
 				btnContents="확인"
 				btnOnClick={() => {
-					props.getAccountList();
+					authCert();
 				}}
 				children={
 					<Box
@@ -83,10 +121,12 @@ const GetCertModal = (props: IGetCertModalProps) => {
 										sx={{
 											bgcolor:
 												isSelected === index
-													? 'pink'
+													? 'secondary.light'
 													: '#ffffff',
 											mt: 2,
 											mb: 2,
+											pt: 1,
+											pb: 1,
 										}}
 										onClick={() => {
 											setIsSelected(index);
@@ -130,14 +170,16 @@ const GetCertModal = (props: IGetCertModalProps) => {
 						>
 							<Typography>인증서 암호입력</Typography>
 							<SupportiInput
-								value={props.userAccountInfo.signPw}
+								value={
+									props.userAccountInfo.CERTIFICATE_PASSWORD
+								}
 								setValue={(value) => {
 									props.setUserAccountInfo({
 										...props.userAccountInfo,
-										hyphenSignPw: value,
+										CERTIFICATE_PASSWORD: value,
 									});
 								}}
-								type="input"
+								type={'password'}
 								width={'100%'}
 								placeholder="인증서 암호 입력"
 							/>

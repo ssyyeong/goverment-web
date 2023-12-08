@@ -30,6 +30,7 @@ interface SupportiInputProps {
 	children?: React.ReactNode;
 	btnContent?: string;
 	btnOnclick?: () => void;
+	iconList?: string[];
 }
 
 //* 서포티 인풋 컴포넌트
@@ -83,7 +84,7 @@ const SupportiInput = React.forwardRef(
 		//* Hooks
 
 		//** TODO : 기존의 컴포넌트 속성 props로 반영되게 하기 */
-
+		console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
@@ -108,7 +109,22 @@ const SupportiInput = React.forwardRef(
 						)}
 						{Object.keys(props.dataList).map((key, index) => {
 							return (
-								<MenuItem key={index} value={key}>
+								<MenuItem
+									key={index}
+									value={key}
+									sx={{ display: 'flex' }}
+								>
+									{props.iconList && (
+										<img
+											src={props.iconList[index]}
+											alt="icon"
+											style={{
+												width: '15px',
+												// height: '15px',
+												marginRight: '15px',
+											}}
+										/>
+									)}
 									{props.dataList[key]}
 								</MenuItem>
 							);
@@ -242,6 +258,21 @@ const SupportiInput = React.forwardRef(
 							</InputAdornment>
 						}
 						aria-describedby="outlined-weight-helper-text"
+					/>
+				) : props.type === 'password' ? (
+					<OutlinedInput
+						sx={{ width: '100%' }}
+						type={'password'}
+						value={props.value}
+						onChange={(e) => {
+							props.setValue(e.target.value);
+						}}
+						endAdornment={
+							<InputAdornment position="end">
+								{props.children ? props.children : <></>}
+							</InputAdornment>
+						}
+						placeholder={props.placeholder ? props.placeholder : ''}
 					/>
 				) : (
 					<OutlinedInput

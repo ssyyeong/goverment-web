@@ -298,22 +298,22 @@ let themeConfig = createTheme({
 		},
 		h4: {
 			fontWeight: 400,
-			fontSize: '20px',
+			fontSize: '20px !important',
 			lineHeight: 1.167,
 			'@media (min-width:0px)': {
-				fontSize: '20px',
+				fontSize: '20px !important',
 			},
 			'@media (min-width:600px)': {
-				fontSize: '20px',
+				fontSize: '20px !important',
 			},
 			'@media (min-width:900px)': {
-				fontSize: '20px',
+				fontSize: '20px !important',
 			},
 			'@media (min-width:1260px)': {
-				fontSize: '20px',
+				fontSize: '20px !important',
 			},
 			'@media (min-width:1536px)': {
-				fontSize: '20px',
+				fontSize: '20px !important',
 			},
 		},
 		h5: {

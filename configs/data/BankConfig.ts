@@ -22,7 +22,7 @@ const bankConfig: {
 	'007': {
 		name: '수협은행',
 		iconPath:
-			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/007.png',
+			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/007.jpg',
 	},
 	'011': {
 		name: '농협은행',
@@ -42,7 +42,7 @@ const bankConfig: {
 	'027': {
 		name: '씨티은행',
 		iconPath:
-			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/027.png',
+			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/027.jpg',
 	},
 	'031': {
 		name: '대구은행',
@@ -102,7 +102,7 @@ const bankConfig: {
 	'089': {
 		name: 'K뱅크',
 		iconPath:
-			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/089.png',
+			'https://s3.ap-northeast-2.amazonaws.com/v2.supporti.biz-server/bank/089.jpg',
 	},
 	'090': {
 		name: '카카오뱅크',

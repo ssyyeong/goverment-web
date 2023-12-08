@@ -24,6 +24,7 @@ interface ISuppportiModalProps extends ISupportiModalBtnProps {
 	titleStyle?: TypographyProps;
 	disableClose?: boolean;
 	activeHeader?: boolean;
+	customBtn?: React.ReactNode;
 }
 
 const SuppportiModal = (props: ISuppportiModalProps) => {
@@ -94,19 +95,23 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 				>
 					{props.children}
 					{/* 버튼 */}
-					<SupportiButton
-						contents={props.btnContents || '확인'}
-						onClick={() => {
-							props.btnOnClick
-								? props.btnOnClick()
-								: props.handleClose();
-						}}
-						isGradient={props.btnIsGradient}
-						variant="contained"
-						style={{
-							width: props.btnWidth || '100%',
-						}}
-					/>
+					{props.customBtn ? (
+						props.customBtn
+					) : (
+						<SupportiButton
+							contents={props.btnContents || '확인'}
+							onClick={() => {
+								props.btnOnClick
+									? props.btnOnClick()
+									: props.handleClose();
+							}}
+							isGradient={props.btnIsGradient}
+							variant="contained"
+							style={{
+								width: props.btnWidth || '100%',
+							}}
+						/>
+					)}
 				</Box>
 			</Box>
 		</Modal>
