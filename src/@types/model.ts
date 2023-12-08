@@ -18,4 +18,36 @@ interface ITransactionHistory {
 	[key: string]: any;
 }
 
-export type { IBankAccount, ITransactionHistory };
+/**
+ * OKR 메인
+ */
+interface IOkrMain {
+	[key: string]: any;
+}
+
+/**
+ * OKR 하위
+ */
+interface IOkrDetail {}
+
+/**
+ * OKR 조합 (메인 + 하위)
+ */
+interface IOkrCombination {
+	main: IOkrMain;
+	detail: IOkrDetail[];
+}
+
+/**
+ * KPI
+ */
+interface IKpi {}
+
+export type {
+	IBankAccount,
+	ITransactionHistory,
+	IOkrMain,
+	IOkrDetail,
+	IKpi,
+	IOkrCombination,
+};

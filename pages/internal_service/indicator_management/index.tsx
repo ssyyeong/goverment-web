@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import { IKpi, IOkrCombination } from '../../../src/@types/model';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -10,27 +11,44 @@ const Page: NextPage = () => {
 	 * 컨트롤러들
 	 */
 
-	//* Constants
-	/**
-	 * 카테고리 목록
-	 */
-	const categoryList: { name: string; controller: any }[] = [
-		{
-			name: 'OKR',
-			controller: new DefaultController('OKR'),
-		},
-		{
-			name: 'KPI',
-			controller: new DefaultController('KPI'),
-		},
-	];
-
 	//* States
 	/**
 	 * 선택된 카테고리
 	 */
 	const [selectedCategory, setSelectedCategory] =
 		React.useState<number>(null);
+
+	/**
+	 * ORK 지표 데이터 리스트
+	 */
+	const [okrList, setOkrList] = React.useState<IOkrCombination[]>([]);
+
+	/**
+	 * KPI 지표 데이터 리스트
+	 */
+	const [kpiList, setKpiList] = React.useState<IKpi[]>([]);
+
+	//* Constants
+	/**
+	 * 카테고리 목록
+	 */
+	const categoryList: { name: string; controller: any }[] = [
+		// {
+		// 	name: 'OKR',
+		//     registerModal:,
+		//         board: <OkrBoard dataList={okrList} />
+		// },
+		// {
+		// 	name: 'KPI',
+		// 	registerModal: ,
+		//         board: <KpiBoard dataList={kpiList} />
+		// },
+	];
+
+	/**
+	 * 진행 상태 필터
+	 */
+	const statusFilterList = ['진행 중', '완료', '보류', '취소'];
 
 	//* Functions
 	/**
