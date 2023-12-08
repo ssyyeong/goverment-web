@@ -23,19 +23,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	 */
 	const bankController = new BankController();
 
-	//* Constants
-
-	//* bankConfig key value 형태로 커스텀
-	let bankObj = {};
-	for (const [key, value] of Object.entries(bankConfig)) {
-		bankObj = Object.assign(bankObj, { [key]: value.name });
-	}
-
-	let iconList = [];
-	for (const [key, value] of Object.entries(bankConfig)) {
-		iconList.push(value.iconPath);
-	}
-
 	//* States
 	const [loginMethod, setLoginMethod] = React.useState<string>('SIGN_IN');
 	const [isMac, setIsMac] = React.useState<boolean>(false);
@@ -65,26 +52,28 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		START_DATE: '2022-03-30',
 	});
 
+	//* Constants
+	//* bankConfig key value 형태로 커스텀
+	let bankObj = {};
+	for (const [key, value] of Object.entries(bankConfig)) {
+		bankObj = Object.assign(bankObj, { [key]: value.name });
+	}
+
+	//* bank icon 리스트 커스텀
+	let iconObj = [];
+	for (const [key, value] of Object.entries(bankConfig)) {
+		iconObj.push(value.iconPath);
+	}
+
+	let accountObj = [];
+	for (const [key, value] of Object.entries(accountList)) {
+		accountObj = Object.assign(accountObj, {
+			[value.acctNo]: value.acctNo + ' ' + value.acctNm,
+		});
+	}
+
 	//* id, pw로 계좌 불러오는 폼
 	const IdRegisterForm = [
-		{
-			title: '은행',
-			component: (
-				<SupportiInput
-					type="select"
-					value={userAccountInfo.BANK_CODE}
-					setValue={(e) => {
-						setUserAccountInfo({
-							...userAccountInfo,
-							BANK_CODE: e,
-						});
-					}}
-					dataList={bankObj}
-					width={300}
-					iconList={iconList}
-				/>
-			),
-		},
 		{
 			title: '은행사 ID',
 			component: (
@@ -140,7 +129,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="계좌 선택"
-					dataList={bankConfig}
+					dataList={accountObj}
 					width={300}
 				/>
 			),
@@ -149,7 +138,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			title: '계좌 비밀번호',
 			component: (
 				<SupportiInput
-					type={'input'}
+					type={'password'}
 					value={userAccountInfo.ACCOUNT_PASSWORD}
 					setValue={(value) => {
 						setUserAccountInfo({
@@ -215,16 +204,16 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		);
 	};
 
+	//* 계좌 등록 함수
 	const registerAccount = async () => {
 		bankController.registerBankAccount(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: 1,
-				BURN_RATE_START_DATE: '2022-03-30',
-				BURN_RATE_END_DATE: '2022-06-30',
+				...userAccountInfo,
 			},
 			(response: any) => {
-				setAccountList(response.data.result);
-				setGetCertModalOpen(!getCertModalOpen);
+				alert('등록 완료!');
+				props.setAccountRegisterModalOpen(false);
 			},
 			(err: any) => {
 				console.log(err);
@@ -285,9 +274,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							CERTIFICATE_PASSWORD:
 								userAccountInfo.CERTIFICATE_PASSWORD,
 						});
-
-						//* 모든 계좌 불러오는 백엔드 api 호출
-						getAccountList();
 					} else {
 						window.alert(res.data.errMsg);
 					}
@@ -326,6 +312,23 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			START_DATE: '2022-03-30',
 		});
 	}, [loginMethod]);
+
+	React.useEffect(() => {
+		//* 모든 계좌 불러오는 백엔드 api 호출
+
+		if (
+			userAccountInfo.CERTIFICATE_SIGN !== '' &&
+			userAccountInfo.CERTIFICATE_PRIVATE_KEY !== ''
+		) {
+			if (userAccountInfo.CERTIFICATE_PASSWORD !== '') getAccountList();
+			else {
+				alert('정보가 부족합니다.');
+			}
+		}
+	}, [
+		userAccountInfo.CERTIFICATE_PRIVATE_KEY,
+		userAccountInfo.CERTIFICATE_SIGN,
+	]);
 
 	React.useEffect(() => {
 		//* 유저 os 확인해서 os에 따른 설치 파일 링크 다르게 설정하기 위함
@@ -372,13 +375,31 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							}
 						/>
 
-						{/** 계좌 불러오는 방식 (id, cert) 에 따라 폼 또는 인증서 선택 버튼 보여지는 섹션 */}
 						<Box
 							p={5}
 							display={'flex'}
 							gap={1}
 							flexDirection={'column'}
 						>
+							{/** loginMethod에 상관없이 공통 select box */}
+							<Box display={'flex'} mb={2}>
+								<Typography m={'auto'}>은행</Typography>
+								<SupportiInput
+									type="select"
+									value={userAccountInfo.BANK_CODE}
+									setValue={(e) => {
+										setUserAccountInfo({
+											...userAccountInfo,
+											BANK_CODE: e,
+										});
+									}}
+									dataList={bankObj}
+									width={300}
+									iconList={iconObj}
+								/>
+							</Box>
+
+							{/** 계좌 불러오는 방식 (id, cert) 에 따라 폼 또는 인증서 선택 버튼 보여지는 섹션 */}
 							{loginMethod === 'SIGN_IN' ? (
 								IdRegisterForm.map((item, index) => {
 									return (

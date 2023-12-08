@@ -62,6 +62,15 @@ const GetCertModal = (props: IGetCertModalProps) => {
 		props.getCert('execute', JSON.stringify(inJson));
 	};
 
+	//* Hooks
+	React.useEffect(() => {
+		setIsSelected('');
+		props.setUserAccountInfo({
+			...props.userAccountInfo,
+			CERTIFICATE_PASSWORD: '',
+		});
+	}, [props.modalOpen]);
+
 	return (
 		<Box>
 			<SuppportiModal
@@ -110,10 +119,12 @@ const GetCertModal = (props: IGetCertModalProps) => {
 										sx={{
 											bgcolor:
 												isSelected === index
-													? 'pink'
+													? 'secondary.light'
 													: '#ffffff',
 											mt: 2,
 											mb: 2,
+											pt: 1,
+											pb: 1,
 										}}
 										onClick={() => {
 											setIsSelected(index);
@@ -166,7 +177,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 										CERTIFICATE_PASSWORD: value,
 									});
 								}}
-								type="input"
+                type={'password'}
 								width={'100%'}
 								placeholder="인증서 암호 입력"
 							/>

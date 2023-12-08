@@ -21,7 +21,7 @@ const Page: NextPage = () => {
 	//* Constants
 
 	//* States
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(true);
 	/**
 	 * 재계산 트리거 키
 	 */

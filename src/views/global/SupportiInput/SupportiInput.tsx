@@ -109,7 +109,11 @@ const SupportiInput = React.forwardRef(
 						)}
 						{Object.keys(props.dataList).map((key, index) => {
 							return (
-								<MenuItem key={index} value={key}>
+								<MenuItem
+									key={index}
+									value={key}
+									sx={{ display: 'flex' }}
+								>
 									{props.iconList && (
 										<img
 											src={props.iconList[index]}
@@ -254,6 +258,21 @@ const SupportiInput = React.forwardRef(
 							</InputAdornment>
 						}
 						aria-describedby="outlined-weight-helper-text"
+					/>
+				) : props.type === 'password' ? (
+					<OutlinedInput
+						sx={{ width: '100%' }}
+						type={'password'}
+						value={props.value}
+						onChange={(e) => {
+							props.setValue(e.target.value);
+						}}
+						endAdornment={
+							<InputAdornment position="end">
+								{props.children ? props.children : <></>}
+							</InputAdornment>
+						}
+						placeholder={props.placeholder ? props.placeholder : ''}
 					/>
 				) : (
 					<OutlinedInput
