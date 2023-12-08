@@ -30,6 +30,8 @@ interface ISupportiTableProps {
 	headerData: TableHeaderProps[];
 	rowData: { [key: string]: any }[];
 	stikyHeader?: boolean;
+	onClickKey?: string;
+	onClick?: (value: any) => any;
 }
 
 const SupportiTable = (props: ISupportiTableProps) => {
@@ -79,6 +81,11 @@ const SupportiTable = (props: ISupportiTableProps) => {
 								role="checkbox"
 								tabIndex={-1}
 								key={idx}
+								onClick={
+									props.onClick
+										? () => props.onClick(row)
+										: () => {}
+								}
 							>
 								{props.headerData.map((column) => {
 									const key = column.customKeyFormat

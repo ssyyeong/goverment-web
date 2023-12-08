@@ -11,9 +11,11 @@ import moment from 'moment';
 import { usePagination } from '../../../src/hooks/usePagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
+import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
 	//* Modules
+	const router = useRouter();
 	//* Constants
 	const seminarHeaderData: TableHeaderProps[] = [
 		{
@@ -53,6 +55,9 @@ const Page: NextPage = () => {
 	};
 
 	//* States
+	/**
+	 * 탭 데이터
+	 */
 	const [tab, setTab] = React.useState(0);
 	/**
 	 * 세미나 데이터 리스트
@@ -89,6 +94,7 @@ const Page: NextPage = () => {
 
 	return (
 		<Box width={'100%'}>
+			{/* 탭 */}
 			<SupportiToggle
 				chipDataList={[
 					{
@@ -111,6 +117,7 @@ const Page: NextPage = () => {
 					},
 				}}
 			/>
+			{/* 테이블 */}
 			<Box width={'100%'} p={2}>
 				<SupportiTable
 					rowData={seminarDataList}
@@ -119,6 +126,11 @@ const Page: NextPage = () => {
 							? seminarHeaderData
 							: [...seminarHeaderData, chargedSeminarHeaderData]
 					}
+					onClick={(data) => {
+						router.push(
+							`/external_service/seminar/${data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+						);
+					}}
 				/>
 			</Box>
 			{/* 페이지 네이션 */}

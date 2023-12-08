@@ -15,7 +15,7 @@ interface ISupportiModalBtnProps {
 	btnIsGradient?: boolean;
 	btnWidth?: string;
 }
-interface ISuppportiModalProps extends ISupportiModalBtnProps {
+export interface ISuppportiModalProps extends ISupportiModalBtnProps {
 	open: boolean;
 	handleClose: () => void;
 	children: React.ReactNode;
