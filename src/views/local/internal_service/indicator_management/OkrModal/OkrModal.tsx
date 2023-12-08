@@ -6,19 +6,12 @@ interface IOkrModalProps {}
 
 const OkrModal = (props: IOkrModalProps) => {
 	//* Modules
-	/**
-	 * 컨트롤러들
-	 */
 
 	//* Constants
 
 	//* States
 
 	//* Functions
-
-	/**
-	 * 삭제하기 함수
-	 */
 
 	return (
 		<Box>
