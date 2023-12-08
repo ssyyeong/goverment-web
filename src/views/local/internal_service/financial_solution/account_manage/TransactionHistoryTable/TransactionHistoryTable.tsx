@@ -202,10 +202,10 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				TRADER_NAME: props.keyword,
 				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
 				PERIOD_START: new Date(
-					`${props.selectedPeriod.year}-${props.selectedPeriod.month}-01`
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
 				),
 				PERIOD_END: new Date(
-					`${props.selectedPeriod.year}-${props.selectedPeriod.month}-31`
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
 				),
 			},
 			(res) => {
@@ -298,20 +298,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			{/* 제외 파트 변경 시, 부모로부터 받는 preserveKey 변경 (preserveKey 변경 시 재계산 콜백들이 실행됨) */}
 			<Box width={'100%'}>
 				<SupportiTable
-					rowData={[
-						{
-							TRANSACTION_HISTORY_IDENTIFICATION_CODE: 1,
-							BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-							EXCEPTED_YN: 'N',
-							IN_AMOUNT: 10000,
-							OUT_AMOUNT: 0,
-							TRANSACTION_DATE: new Date(),
-							TRADER_BANK_NAME: '국민은행',
-							TRANSACTION_DESCRIPTION: '입금',
-							TRADER_NAME: '김만수',
-							BALANCE: 10000,
-						},
-					]}
+					rowData={transactionHistoryList}
 					headerData={transactionHistoryHeaderData}
 				/>
 			</Box>

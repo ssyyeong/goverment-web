@@ -128,6 +128,9 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	}, []);
 
 	//* Hooks
+	/**
+	 * 데이트 피커 포커스
+	 */
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	return (
@@ -288,7 +291,8 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					}}
 					onClick={() => handleSave()}
 				/>
-				|<Box border={'0.5px solid white'} mx={4} height={'50px'}></Box>
+				<Box border={'0.5px solid white'} mx={4} height={'50px'}></Box>
+				{/* 데이터 노출 */}
 				{resultConfig.map((item, index) => {
 					return (
 						<Box

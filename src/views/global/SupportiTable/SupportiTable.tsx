@@ -22,7 +22,7 @@ export interface TableHeaderProps {
 	align?: 'left' | 'center' | 'right';
 	minWidth?: number | string;
 	color?: string;
-	format?: (value: any, key?: any) => any;
+	format?: (value: any, key?: any, idx?: number) => any;
 	customFormat?: (value: any, key?: any) => any;
 	customKeyFormat?: (value: any) => any;
 }
@@ -126,7 +126,8 @@ const SupportiTable = (props: ISupportiTableProps) => {
 													{column.format
 														? column.format(
 																value,
-																key
+																key,
+																idx
 														  )
 														: value}
 												</Typography>

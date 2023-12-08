@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, SxProps } from '@mui/material';
 
 interface ISupportiButtonProps {
-	contents: string;
+	contents: any;
 	onClick: (config?: any) => void;
 	disabled?: boolean;
 	color?:

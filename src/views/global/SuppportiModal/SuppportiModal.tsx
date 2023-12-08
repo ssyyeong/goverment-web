@@ -10,7 +10,7 @@ import {
 import SupportiButton from '../SupportiButton';
 
 interface ISupportiModalBtnProps {
-	btnContents?: string;
+	btnContents?: any;
 	btnOnClick?: () => void;
 	btnIsGradient?: boolean;
 	btnWidth?: string;

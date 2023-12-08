@@ -14,6 +14,7 @@ interface ISupportiToggleProps {
 	chipHeight?: number;
 	angled?: boolean;
 	isToggled?: boolean;
+	selectedChipColor?: string;
 	style?: {
 		outerBoxStyle?: BoxProps;
 		chipStyle?: BoxProps;
@@ -65,7 +66,13 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 					return (
 						<Box
 							key={index}
-							color={props.value !== data.value ? '#b0b5c2' : ''}
+							color={
+								props.value !== data.value
+									? '#b0b5c2'
+									: props.selectedChipColor
+									? props.selectedChipColor
+									: ''
+							}
 							onClick={() => {
 								props.setValue(data.value);
 								setSelectedChipIndex(index);
