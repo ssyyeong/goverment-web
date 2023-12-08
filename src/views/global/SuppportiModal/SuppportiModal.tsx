@@ -1,34 +1,55 @@
 import React from 'react';
 
-import {
-	Box,
-	BoxProps,
-	Modal,
-	Typography,
-	TypographyProps,
-} from '@mui/material';
-import SupportiButton from '../SupportiButton';
+import { Box, BoxProps, Grid, Modal, Typography } from '@mui/material';
 
-interface ISupportiModalBtnProps {
-	btnContents?: any;
-	btnOnClick?: () => void;
-	btnIsGradient?: boolean;
-	btnWidth?: string;
-}
-export interface ISuppportiModalProps extends ISupportiModalBtnProps {
+export interface ISuppportiModalProps {
+	/**
+	 * 모달 열림 여부
+	 */
 	open: boolean;
-	handleClose: () => void;
+
+	/**
+	 * 모달 닫기 함수
+	 */
+	handleClose?: () => void;
+
+	/**
+	 * 모달 내용
+	 */
 	children: React.ReactNode;
+
+	/**
+	 * 모달 추가 스타일
+	 */
 	style?: BoxProps;
+
+	/**
+	 * 뮤이 모달 Props
+	 */
+	muiModalProps?: any;
+
+	/**
+	 * 모달 제목
+	 */
 	title?: string;
-	titleStyle?: TypographyProps;
-	disableClose?: boolean;
+
+	/**
+	 * 모달 헤더 색상 반전
+	 */
 	activeHeader?: boolean;
-	customBtn?: React.ReactNode;
+
+	/**
+	 * 모달 열기 버튼
+	 */
+	modalButtonElement?: React.ReactNode;
 }
 
 const SuppportiModal = (props: ISuppportiModalProps) => {
-	const style = {
+	//* Constants
+	/**
+	 * 기본 스타일
+	 */
+	const defaultStyle = {
 		position: 'absolute' as 'absolute',
 		top: '50%',
 		left: '50%',
@@ -39,82 +60,75 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 	};
 
 	return (
-		<Modal
-			open={props.open}
-			onClose={props.disableClose ? undefined : props.handleClose}
-		>
-			<Box sx={{ ...style, ...props.style }}>
-				{/* 헤더 */}
-				<Box
-					display={'flex'}
-					justifyContent={'space-between'}
-					width={'100%'}
-					alignItems={'center'}
-					bgcolor={props.activeHeader ? 'black' : 'transparent'}
-					borderRadius={'10px 10px 0px 0px'}
-					p={'20px'}
-				>
-					<Box width={'20%'}></Box>
-					{props.title && (
-						<Box
-							width={'60%'}
-							display={'flex'}
-							justifyContent={'center'}
-						>
-							<Typography
-								sx={{ ...props.titleStyle }}
-								color={props.activeHeader ? 'white' : 'black'}
-								variant="h5"
-								fontWeight={'600'}
-								lineHeight={1}
-							>
-								{props.title}
-							</Typography>
-						</Box>
-					)}
-					<Box width={'20%'} display={'flex'} justifyContent={'end'}>
-						{props.disableClose ? null : (
-							<Typography
-								sx={{ cursor: 'pointer' }}
-								onClick={props.handleClose}
-								fontWeight={'300'}
-								color={props.activeHeader ? 'white' : 'black'}
-							>
-								X
-							</Typography>
-						)}
+		<React.Fragment>
+			{/* 모달 열기 버튼 */}
+			<Box width={'100%'} height={'100%'}>
+				{props.modalButtonElement}
+			</Box>
+
+			{/* 모달 */}
+			<Modal
+				{...props.muiModalProps}
+				open={props.open}
+				onClose={props.handleClose}
+			>
+				<Box sx={{ ...defaultStyle, ...props.style }}>
+					{/* 헤더 */}
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						width={'100%'}
+						alignItems={'center'}
+						bgcolor={props.activeHeader ? 'black' : 'transparent'}
+						borderRadius={'10px 10px 0px 0px'}
+						p={'20px'}
+					>
+						<Grid container alignItems={'center'}>
+							<Grid item xs={2.5}></Grid>
+							<Grid item xs={7} textAlign={'center'}>
+								<Typography
+									color={
+										props.activeHeader ? 'white' : 'black'
+									}
+									variant="h5"
+									fontWeight={'600'}
+									lineHeight={1}
+								>
+									{props.title}
+								</Typography>
+							</Grid>
+							<Grid item xs={2.5} justifyContent={'end'}>
+								{props.handleClose && (
+									<Typography
+										sx={{ cursor: 'pointer' }}
+										onClick={props.handleClose}
+										fontWeight={'300'}
+										color={
+											props.activeHeader
+												? 'white'
+												: 'black'
+										}
+									>
+										X
+									</Typography>
+								)}
+							</Grid>
+						</Grid>
+					</Box>
+
+					{/* 내용 */}
+					<Box
+						p={'30px'}
+						display={'flex'}
+						flexDirection={'column'}
+						justifyContent={'center'}
+						alignItems={'center'}
+					>
+						{props.children}
 					</Box>
 				</Box>
-				{/* 내용 */}
-				<Box
-					p={'30px'}
-					display={'flex'}
-					flexDirection={'column'}
-					justifyContent={'center'}
-					alignItems={'center'}
-				>
-					{props.children}
-					{/* 버튼 */}
-					{props.customBtn ? (
-						props.customBtn
-					) : (
-						<SupportiButton
-							contents={props.btnContents || '확인'}
-							onClick={() => {
-								props.btnOnClick
-									? props.btnOnClick()
-									: props.handleClose();
-							}}
-							isGradient={props.btnIsGradient}
-							variant="contained"
-							style={{
-								width: props.btnWidth || '100%',
-							}}
-						/>
-					)}
-				</Box>
-			</Box>
-		</Modal>
+			</Modal>
+		</React.Fragment>
 	);
 };
 
