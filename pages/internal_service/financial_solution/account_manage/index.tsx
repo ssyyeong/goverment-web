@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
@@ -9,8 +9,50 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import AccountRegisterModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountRegisterModal/AccountRegisterModal';
 import { BankController } from '../../../../src/controller/BankController';
 import { TransactionHistoryTable } from '../../../../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
+import SupportiInput from '../../../../src/views/global/SupportiInput';
+import { AccountCalculation } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation';
 
 const Page: NextPage = () => {
+	const example = {
+		burnRate: 20527185.978260867,
+		runWay: 0,
+		totalIncome: 100013527,
+		totalSpending: 100013527,
+		totalBalance: 0,
+		monthlyIncome: {
+			'2022-05': 100000000,
+			'2022-06': 7430,
+			'2022-07': 0,
+			'2022-08': 0,
+			'2022-09': 0,
+			'2022-10': 0,
+			'2022-11': 0,
+			'2022-12': 6097,
+			'2023-01': 0,
+			'2023-02': 0,
+			'2023-03': 0,
+			'2023-04': 0,
+			'2023-05': 0,
+			'2023-06': 0,
+		},
+		monthlySpending: {
+			'2022-05': 39634785,
+			'2022-06': 18432970,
+			'2022-07': 17434615,
+			'2022-08': 17732282,
+			'2022-09': 5768500,
+			'2022-10': 1004278,
+			'2022-11': 0,
+			'2022-12': 0,
+			'2023-01': 6097,
+			'2023-02': 0,
+			'2023-03': 0,
+			'2023-04': 0,
+			'2023-05': 0,
+			'2023-06': 0,
+		},
+	};
+
 	//* Modules
 	/**
 	 * 컨트롤러들
@@ -32,7 +74,15 @@ const Page: NextPage = () => {
 	 * 검색용 키워드
 	 */
 	const [keyword, setKeyword] = React.useState<string>('');
-
+	/**
+	 * 선택 연/월 셀렉트 데이터
+	 */
+	const [selectablePeriodList, setSelectablePeriodList] = React.useState<{
+		[key: string]: {
+			year: number;
+			month: number;
+		};
+	}>({});
 	/**
 	 * 계산 조건 선택한 연/월
 	 */
@@ -65,6 +115,22 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
+				let temp = {};
+				for (const [key, value] of Object.entries(
+					res.data.result.monthlyIncome
+				)) {
+					temp = Object.assign(temp, {
+						[key]: {
+							year: key.split('-')[0],
+							month: key.split('-')[1],
+						},
+					});
+				}
+				setSelectablePeriodList(temp);
+				setSelectedPeriod({
+					year: new Date().getFullYear(),
+					month: new Date().getMonth() + 1,
+				});
 				setCalculationResult(res.data.result);
 			},
 			(err) => {}
@@ -107,8 +173,10 @@ const Page: NextPage = () => {
 	 * 계좌 추가 함수 (추가 후, 리스트 변경)
 	 */
 
+	const theme = useTheme();
+
 	return (
-		<Box>
+		<Box position={'relative'} bgcolor={theme.palette.primary.light}>
 			{/* 컨텐츠 레이아웃 */}
 			<InternalServiceLayout>
 				{/* 등록 계좌, 계좌 등록 영역 */}
@@ -124,44 +192,40 @@ const Page: NextPage = () => {
 							ACCOUNT_NICKNAME: '닉넴',
 						},
 					]}
-					calculationResult={{
-						monthlyIncome: {
-							'2022-05': 100000000,
-							'2022-06': 7430,
-							'2022-07': 0,
-							'2022-08': 0,
-							'2022-09': 0,
-							'2022-10': 0,
-							'2022-11': 0,
-							'2022-12': 6097,
-							'2023-01': 0,
-							'2023-02': 0,
-							'2023-03': 0,
-							'2023-04': 0,
-							'2023-05': 0,
-							'2023-12': 0,
-						},
-						monthlySpending: {
-							'2022-05': 39634785,
-							'2022-06': 18432970,
-							'2022-07': 17434615,
-							'2022-08': 17732282,
-							'2022-09': 5768500,
-							'2022-10': 1004278,
-							'2022-11': 0,
-							'2022-12': 0,
-							'2023-01': 6097,
-							'2023-02': 0,
-							'2023-03': 0,
-							'2023-04': 0,
-							'2023-05': 0,
-							'2023-12': 0,
-						},
-					}}
+					calculationResult={example}
 				/>
 
 				{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
+				<Box
+					width={'100%'}
+					display={'flex'}
+					justifyContent={'space-between'}
+					alignItems={'center'}
+				>
+					{/* 날짜 선택 영역 */}
+					<Box display={'flex'} gap={1} alignItems={'center'}>
+						{' '}
+						<SupportiInput
+							type="select"
+							value={selectedPeriod}
+							setValue={(value) => {
+								setSelectedPeriod(value);
+							}}
+							placeholder="계좌 선택"
+							dataList={selectablePeriodList}
+							width={145}
+						/>
+					</Box>
 
+					{/* 검색 영역 */}
+					<SupportiInput
+						type="search"
+						value={keyword}
+						setValue={setKeyword}
+						placeholder={'거래 내역 검색'}
+						width={'300px'}
+					/>
+				</Box>
 				{/* 실제 계좌 내역 */}
 				<TransactionHistoryTable
 					setRecomputeTriggerKey={() => {}}
@@ -187,6 +251,10 @@ const Page: NextPage = () => {
 				))}
 
 				{/* 번레이트 계산 */}
+				<AccountCalculation
+					setRecomputeTriggerKey={setRecomputeTriggerKey}
+					calculationResult={example}
+				/>
 			</InternalServiceLayout>
 			{open && (
 				<AccountRegisterModal

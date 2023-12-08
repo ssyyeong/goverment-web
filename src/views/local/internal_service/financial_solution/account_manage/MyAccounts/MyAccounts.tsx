@@ -10,6 +10,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import { v4 as uuidv4 } from 'uuid';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
+import { IAccountCalculationResultProps } from '../AccountCalculation/AccountCalculation';
 interface IMyAccountsProps {
 	/**
 	 * 재계산 트리거 키 변경 함수
@@ -19,11 +20,7 @@ interface IMyAccountsProps {
 	/**
 	 * 수입, 지출 데이터
 	 */
-	calculationResult: {
-		monthlyIncome: { [key: string]: any };
-		monthlySpending: { [key: string]: any };
-		[key: string]: any;
-	};
+	calculationResult: IAccountCalculationResultProps;
 
 	/**
 	 * 등록한 계좌 리스트
@@ -81,7 +78,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	/**
 	 * 계좌별 내역 리스트 (날짜, 거래 내역 키워드로 백엔드 필터링)
 	 */
-	console.log(`${selectedPeriod?.year}-${selectedPeriod?.month}`);
+	console.log(props.calculationResult);
 	//* Functions
 	/**
 	 * 계좌 추가 함수 (추가 후, 리스트 변경)
@@ -275,7 +272,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						>
 							{props.calculationResult.monthlyIncome[
 								`${selectedPeriod?.year}-${selectedPeriod?.month}`
-							].toLocaleString()}
+							]?.toLocaleString()}{' '}
+							원
 						</Typography>
 					</Box>
 					<Box
@@ -299,7 +297,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						>
 							{props.calculationResult.monthlySpending[
 								`${selectedPeriod?.year}-${selectedPeriod?.month}`
-							].toLocaleString()}
+							]?.toLocaleString()}{' '}
+							원
 						</Typography>
 					</Box>
 				</Box>
@@ -312,6 +311,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						...boxStyle,
 						padding: '26px 15px 26px 25px',
 						justifyContent: 'space-between',
+						bgcolor: 'white',
 					}}
 				>
 					{/* 은행 아이콘 */}
@@ -470,6 +470,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						padding: '26px 10px 26px 21px',
 						border: 'solid 1px #305ddc',
 						cursor: 'pointer',
+						bgcolor: 'white',
 					}}
 				>
 					<Thumbnail
