@@ -8,7 +8,6 @@ import SupportiButton from '../SupportiButton';
 
 interface ISupportiAlertModalProps extends ISuppportiModalProps {
 	type: 'success' | 'error' | 'warning' | 'info';
-	alertContents: string;
 }
 
 const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
@@ -51,14 +50,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 						<img src={'/images/icons/icon_info.svg'} alt={'info'} />
 					)}
 				</Box>
-				<Typography variant="h5" fontWeight={'bold'}>
-					{props.alertContents}
-				</Typography>
-				<SupportiButton
-					contents={'확인'}
-					style={{ marginTop: '16px' }}
-					onClick={() => {}}
-				/>
+				{props.children}
 			</Box>
 		</SuppportiModal>
 	);

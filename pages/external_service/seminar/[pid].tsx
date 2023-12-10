@@ -69,6 +69,17 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, [pid]);
+
+	/**
+	 * 알럿 모달
+	 */
+	/**
+	 * 1. 로그인체크
+	 * 2. 구독체크
+	 * 3. 포인트체크
+	 * 4. 세미나 already check (서버)
+	 */
+
 	return (
 		<Box width={'100%'} position={'relative'}>
 			{/* 세미나 헤더 */}

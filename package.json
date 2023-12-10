@@ -24,6 +24,7 @@
 		"next": "13.3.0",
 		"next-transpile-modules": "^10.0.0",
 		"react": "18.2.0",
+		"react-calendar": "^4.7.0",
 		"react-copy-to-clipboard": "^5.1.0",
 		"react-date-range": "^1.4.0",
 		"react-dom": "18.2.0",

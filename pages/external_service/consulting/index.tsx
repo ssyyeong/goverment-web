@@ -86,7 +86,7 @@ const Page: NextPage = () => {
 					headerData={consultingHeaderData}
 					onClick={(data) => {
 						router.push(
-							`/external_service/consulting/${data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+							`/external_service/consulting/${data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
 						);
 					}}
 				/>

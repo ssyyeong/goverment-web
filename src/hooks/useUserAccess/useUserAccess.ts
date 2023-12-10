@@ -14,6 +14,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 
 	//* Controller
 	const appMemberController = new DefaultController('AppMember');
+	const subscriptionController = new DefaultController('UserSubscription');
 
 	//* Constant
 	/**
@@ -37,7 +38,10 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 * 유저 체크
 	 */
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>();
-
+	/**
+	 * 유저 아이디
+	 */
+	const [userId, setUserId] = useState<any>();
 	/**
 	 * 구독 여부 체크
 	 */
@@ -88,12 +92,52 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	/**
 	 * 진입 시 로그인 체크 (setIsSignedIn)
 	 */
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const accessToken = cookie.getItemInCookies('accessToken');
+
+		if (accessToken) {
+			appMemberController.getOneItem(
+				{
+					ACCESS_TOKEN: accessToken,
+				},
+				(res) => {
+					if (res.data.result !== null) {
+						setUserId(
+							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
+						);
+						setIsSignedIn(true);
+					}
+				},
+				(err) => {
+					setIsSignedIn(false);
+				}
+			);
+		} else {
+			setIsSignedIn(false);
+		}
+	}, []);
 
 	/**
 	 * 진입 시 구독 체크 (setIsSubscribed)
 	 */
-	useEffect(() => {}, []);
+	useEffect(() => {
+		userId &&
+			subscriptionController.getOneItem(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: userId,
+				},
+				(res) => {
+					if (res.data.result !== null) {
+						setIsSubscribed(true);
+					} else {
+						setIsSubscribed(false);
+					}
+				},
+				(err) => {
+					setIsSubscribed(false);
+				}
+			);
+	}, []);
 
 	return access;
 };

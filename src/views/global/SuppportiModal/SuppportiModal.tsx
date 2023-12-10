@@ -84,8 +84,8 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 						p={'20px'}
 					>
 						<Grid container alignItems={'center'}>
-							<Grid item xs={2.5}></Grid>
-							<Grid item xs={7} textAlign={'center'}>
+							<Grid item xs={1}></Grid>
+							<Grid item xs={10} textAlign={'center'}>
 								<Typography
 									color={
 										props.activeHeader ? 'white' : 'black'
@@ -97,7 +97,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 									{props.title}
 								</Typography>
 							</Grid>
-							<Grid item xs={2.5} justifyContent={'end'}>
+							<Grid item xs={1} justifyContent={'end'}>
 								{props.handleClose && (
 									<Typography
 										sx={{ cursor: 'pointer' }}
