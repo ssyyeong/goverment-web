@@ -3,20 +3,13 @@ import React from 'react';
 import { NextPage } from 'next';
 
 import { Box, BoxProps } from '@mui/material';
-import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
 	//* Modules
-	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType } = router.query;
 	//* Constants
 	//* States
 	//* Functions
 	//* Hooks
-	/**
-	 * 결제 성공 데이터 백에 보내기
-	 */
-
 	return <Box></Box>;
 };
 
