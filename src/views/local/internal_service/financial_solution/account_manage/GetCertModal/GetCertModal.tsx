@@ -3,6 +3,8 @@ import { Box, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../global/SupportiButton';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 interface IGetCertModalProps {
 	modalOpen: boolean;
@@ -15,6 +17,8 @@ interface IGetCertModalProps {
 	setCertInfo: any;
 	getAccountList: any;
 	isMac: boolean;
+	loading: boolean;
+	setLoading: any;
 }
 
 const GetCertModal = (props: IGetCertModalProps) => {
@@ -67,6 +71,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 	React.useEffect(() => {
 		if (props.modalOpen) {
 			setIsSelected('');
+			props.setLoading(false);
 			props.setUserAccountInfo({
 				...props.userAccountInfo,
 				CERTIFICATE_PASSWORD: '',
@@ -184,13 +189,28 @@ const GetCertModal = (props: IGetCertModalProps) => {
 								변경하기 바랍니다.
 							</Typography>
 						</Box>
-						<SupportiButton
+						{/* <SupportiButton
+							style={{ color: 'white' }}
 							contents={'확인'}
 							isGradient={true}
 							onClick={() => {
 								authCert();
 							}}
-						/>
+						/> */}
+						<LoadingButton
+							onClick={() => {
+								props.setLoading(true);
+								authCert();
+							}}
+							endIcon={<SaveIcon />}
+							loading={props.loading}
+							loadingPosition="end"
+							variant="contained"
+							sx={{ height: '50px' }}
+						>
+							<Typography color={'white'}>확인</Typography>
+						</LoadingButton>
+						{/* <LoadingButton /> */}
 					</Box>
 				}
 			/>

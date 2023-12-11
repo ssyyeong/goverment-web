@@ -26,6 +26,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	//* States
 	const [loginMethod, setLoginMethod] = React.useState<string>('SIGN_IN');
 	const [isMac, setIsMac] = React.useState<boolean>(false);
+	const [loading, setLoading] = React.useState(false);
 
 	const [accountList, setAccountList] = React.useState([]);
 	const [certList, setCertList] = React.useState([]);
@@ -123,6 +124,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					type="select"
 					value={userAccountInfo.ACCOUNT_NUMBER}
 					setValue={(value) => {
+						//* TODO :: 여기서 계좌 예금주 셋팅
+
 						setUserAccountInfo({
 							...userAccountInfo,
 							ACCOUNT_NUMBER: value,
@@ -195,6 +198,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		bankController.getBankAccountList(
 			{ APP_MEMBER_IDENTIFICATION_CODE: 1, ...sendData },
 			(response: any) => {
+				setLoading(false);
+
 				setAccountList(response.data.result);
 				setGetCertModalOpen(!getCertModalOpen);
 			},
@@ -214,6 +219,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			},
 			(response: any) => {
 				alert('등록 완료!');
+				console.log(response.data.result);
 				props.setAccountRegisterModalOpen(false);
 			},
 			(err: any) => {
@@ -274,7 +280,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							CERTIFICATE_PRIVATE_KEY: KEY2PEM,
 							CERTIFICATE_PASSWORD:
 								userAccountInfo.CERTIFICATE_PASSWORD,
-						});
+						});						
 					} else {
 						window.alert(res.data.errMsg);
 					}
@@ -435,14 +441,15 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								);
 							})}
 						</Box>
+
 						<SupportiButton
-							contents="등록하기"
-							onClick={() => registerAccount()}
+							style={{ color: 'white' }}
+							contents={'등록'}
 							fullWidth
-							isGradient={true}
-							style={{
-								color: 'white',
+							onClick={() => {
+								registerAccount();
 							}}
+							isGradient={true}
 						/>
 					</Box>
 				}
@@ -460,6 +467,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				setCertInfo={setCertInfo}
 				getAccountList={getAccountList}
 				isMac={isMac}
+				loading={loading}
+				setLoading={setLoading}
 			/>
 		</Box>
 	);
