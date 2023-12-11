@@ -327,8 +327,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						{/* 은행 아이콘 */}
 						<Thumbnail
 							src={bankConfig[bankAccount.BANK_CODE]?.iconPath}
-							width={'30px'}
-							height={'30px'}
+							width={'120px'}
+							height={'120px'}
 						/>
 						{/* 계좌내용 */}
 						<Box sx={{ width: '70%' }}>
@@ -336,12 +336,13 @@ const MyAccounts = (props: IMyAccountsProps) => {
 								sx={{
 									display: 'flex',
 									alignItems: 'center',
-									gap: '5px',
+									gap: 0.5,
 								}}
 							>
 								<Typography
 									variant="subtitle1"
 									fontWeight={'600'}
+									width={'70px'}
 								>
 									{bankConfig[bankAccount.BANK_CODE]?.name}
 								</Typography>
@@ -356,7 +357,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 								sx={{
 									display: 'flex',
 									alignItems: 'center',
-									gap: '5px',
+									gap: 3,
 									mt: '5px',
 								}}
 							>
