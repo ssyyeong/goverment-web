@@ -28,7 +28,7 @@ const Page: NextPage = () => {
 	 * 예약 스케쥴 모달
 	 */
 	const [reservationScheduleModal, setReservationScheduleModal] =
-		React.useState<boolean>(true);
+		React.useState<boolean>(false);
 	//* Functions
 	/**
 	 * 컨설팅 신청하기
@@ -63,10 +63,11 @@ const Page: NextPage = () => {
 			<Box
 				width={'100%'}
 				p={3}
-				bgcolor={'#F5F5F5'}
+				bgcolor={'primary.light'}
 				display={'flex'}
 				justifyContent={'space-between'}
 				alignItems={'center'}
+				borderRadius={2}
 			>
 				<Typography variant={'h4'} fontWeight={'600'}>
 					{consultingData.PRODUCT_NAME}
@@ -110,7 +111,7 @@ const Page: NextPage = () => {
 				<SupportiButton
 					contents={'신청하기'}
 					isGradient={true}
-					onClick={() => applyConsulting()}
+					onClick={() => setReservationScheduleModal(true)}
 					style={{
 						color: 'white',
 						width: '200px',
@@ -119,6 +120,7 @@ const Page: NextPage = () => {
 			</Box>
 			<ConsultingSchedular
 				open={reservationScheduleModal}
+				handleClose={() => setReservationScheduleModal(false)}
 				consultingData={consultingData}
 			/>
 		</Box>

@@ -5,10 +5,38 @@
  */
 
 /**
+ * 사용자
+ */
+interface IUser {
+	USER_GRADE: 'GENERAL' | 'BUSINESS';
+	USER_NAME?: string;
+	PASSWORD?: string;
+	FULL_NAME?: string;
+	PHONE_NUMBER?: string;
+	SNS_ID?: string;
+	SNS_TYPE?: 'KAKAO' | 'NAVER' | 'GOOGLE';
+	ALIMTALK_YN?: 'Y' | 'N';
+	[key: string]: any;
+}
+
+/**
  * 은행계좌
  */
 interface IBankAccount {
-	[key: string]: any;
+	BANK_ACCOUNT_IDENTIFICATION_CODE: number;
+	APP_MEMBER_IDENTIFICATION_CODE: number;
+	BANK_CODE: string;
+	LOGIN_METHOD: 'CERTIFICATE' | 'SIGN_IN';
+	ACCOUNT_NUMBER: string;
+	ACCOUNT_HOLDER: string;
+	ACCOUNT_NICKNAME?: string;
+	START_DATE: Date;
+	ACCOUNT_PASSWORD: string;
+	LOGIN_USER_ID?: string;
+	LOGIN_USER_PASSWORD?: string;
+	CERTIFICATE_SIGN?: string;
+	CERTIFICATE_PASSWORD?: string;
+	CERTIFICATE_PRIVATE_KEY?: string;
 }
 
 /**
@@ -50,4 +78,5 @@ export type {
 	IOkrDetail,
 	IKpi,
 	IOkrCombination,
+	IUser,
 };

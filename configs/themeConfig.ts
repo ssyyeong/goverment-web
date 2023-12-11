@@ -278,22 +278,22 @@ let themeConfig = createTheme({
 		},
 		h3: {
 			fontWeight: 700,
-			fontSize: '22px',
+			fontSize: '22px !important',
 			lineHeight: 1.167,
 			'@media (min-width:0px)': {
-				fontSize: '22px',
+				fontSize: '22px !important',
 			},
 			'@media (min-width:600px)': {
-				fontSize: '22px',
+				fontSize: '22px !important',
 			},
 			'@media (min-width:900px)': {
-				fontSize: '22px',
+				fontSize: '22px !important',
 			},
 			'@media (min-width:1260px)': {
-				fontSize: '22px',
+				fontSize: '22px !important',
 			},
 			'@media (min-width:1536px)': {
-				fontSize: '22px',
+				fontSize: '22px !important',
 			},
 		},
 		h4: {

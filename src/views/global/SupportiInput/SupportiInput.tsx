@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import { ImageController } from '../../../controller/ImageController';
 
 interface SupportiInputProps {
 	type: string;
@@ -40,6 +41,7 @@ const SupportiInput = React.forwardRef(
 		const inputRef = React.useRef<HTMLInputElement>(null);
 
 		//* Modules
+		const imageController = new ImageController();
 		//* States
 
 		//* Functions
@@ -62,7 +64,13 @@ const SupportiInput = React.forwardRef(
 					resetInputValue();
 				}
 			} else {
-				props.setValue?.(files[0] || null);
+				const formData = new FormData();
+				formData.append('file', files[0]);
+				imageController.uploadImage(formData, (res) => {
+					props.setValue(res);
+				});
+
+				// props.setValue?.(files[0] || null);
 
 				if (!files[0]) {
 					resetInputValue();
@@ -84,7 +92,7 @@ const SupportiInput = React.forwardRef(
 		//* Hooks
 
 		//** TODO : 기존의 컴포넌트 속성 props로 반영되게 하기 */
-		console.log(props.dataList);
+		// console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
@@ -173,6 +181,11 @@ const SupportiInput = React.forwardRef(
 										}}
 									/>
 								}
+								sx={{
+									alignItems: 'center',
+									display: 'flex',
+								}}
+								labelPlacement="end"
 								label={props.label ? props.label : ''}
 							/>
 						) : (
@@ -192,24 +205,34 @@ const SupportiInput = React.forwardRef(
 							onChange={fileChange}
 							InputProps={{
 								startAdornment: (
-									<InputAdornment position="start">
-										<>{props.value?.name}</>
+									<InputAdornment
+										position="start"
+										sx={{
+											width: '50%',
+										}}
+									>
+										<Typography
+											color={'secondary.main'}
+											noWrap
+										>
+											{props.value}
+										</Typography>
 									</InputAdornment>
 								),
 								endAdornment: (
 									<InputAdornment position="end">
 										<Button
 											sx={{
-												height: '80%',
+												// height: '80%',
 												color: 'white',
 											}}
 											variant="contained"
 											color="secondary"
 											onClick={(e) => {
 												if (inputRef.current !== null) {
-													console.log(
-														inputRef.current
-													);
+													// console.log(
+													// 	inputRef.current
+													// );
 													inputRef.current.click();
 												}
 											}}
@@ -281,11 +304,6 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						endAdornment={
-							<InputAdornment position="end">
-								{props.children ? props.children : <></>}
-							</InputAdornment>
-						}
 						placeholder={props.placeholder ? props.placeholder : ''}
 					/>
 				)}

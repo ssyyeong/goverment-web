@@ -15,6 +15,7 @@
 		"@qillie-corp/ark-office-project": "^0.0.1655",
 		"@qillie-corp/qillie-react-ui": "^0.5.19",
 		"@qillie-corp/qillie-utility": "^0.2.22",
+		"@tosspayments/payment-sdk": "^1.7.0",
 		"@types/react-copy-to-clipboard": "^5.0.4",
 		"axios": "^1.2.3",
 		"dayjs": "^1.11.7",

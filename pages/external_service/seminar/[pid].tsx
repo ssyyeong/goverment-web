@@ -86,10 +86,11 @@ const Page: NextPage = () => {
 			<Box
 				width={'100%'}
 				p={3}
-				bgcolor={'#F5F5F5'}
+				bgcolor={'primary.light'}
 				display={'flex'}
 				justifyContent={'space-between'}
 				alignItems={'center'}
+				borderRadius={2}
 			>
 				<Typography variant={'h4'} fontWeight={'600'}>
 					{seminarData.PRODUCT_NAME}
