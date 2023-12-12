@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
-import SupportiButton from '../../../../../global/SupportiButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -162,7 +161,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 							})}
 						</Box>
 
-						{/** 인증서 암호 입력하는 섹션 */}
+						{/** 인증서 암호 입력 섹션 */}
 						<Box
 							display={'flex'}
 							flexDirection={'column'}
@@ -189,14 +188,8 @@ const GetCertModal = (props: IGetCertModalProps) => {
 								변경하기 바랍니다.
 							</Typography>
 						</Box>
-						{/* <SupportiButton
-							style={{ color: 'white' }}
-							contents={'확인'}
-							isGradient={true}
-							onClick={() => {
-								authCert();
-							}}
-						/> */}
+
+						{/** 등록 버튼 */}
 						<LoadingButton
 							onClick={() => {
 								props.setLoading(true);
@@ -208,9 +201,8 @@ const GetCertModal = (props: IGetCertModalProps) => {
 							variant="contained"
 							sx={{ height: '50px' }}
 						>
-							<Typography color={'white'}>확인</Typography>
+							<Typography color={'white'}>등록</Typography>
 						</LoadingButton>
-						{/* <LoadingButton /> */}
 					</Box>
 				}
 			/>

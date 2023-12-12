@@ -157,7 +157,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 		alignItems: 'center',
 	};
 
-	console.log(selectedPeriod);
+	console.log(props.bankAccountList);
 
 	return (
 		props.bankAccountList && (
@@ -327,8 +327,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						{/* 은행 아이콘 */}
 						<Thumbnail
 							src={bankConfig[bankAccount.BANK_CODE]?.iconPath}
-							width={'120px'}
-							height={'120px'}
+							width={'40px'}
+							height={'40px'}
 						/>
 						{/* 계좌내용 */}
 						<Box sx={{ width: '70%' }}>
@@ -444,42 +444,48 @@ const MyAccounts = (props: IMyAccountsProps) => {
 								삭제하기
 							</MenuItem>
 						</Menu>
+
 						{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
-						<SuppportiModal
-							open={accountModifyModalOpen}
-							handleClose={() => {
-								setAccountModifyModalOpen(false);
-							}}
-							title="계좌 수정"
-							activeHeader={true}
-							children={
-								<Box>
-									<Box mb={3}>
-										<Typography m={'auto'} sx={{ mb: 2 }}>
-											계좌 별칭
-										</Typography>
-										<SupportiInput
-											type={'input'}
-											value={accountNickname}
-											setValue={(value) => {
-												setAccountNickname(value);
+						{accountModifyModalOpen && (
+							<SuppportiModal
+								open={accountModifyModalOpen}
+								handleClose={() => {
+									setAccountModifyModalOpen(false);
+								}}
+								title="계좌 수정"
+								activeHeader={true}
+								children={
+									<Box>
+										<Box mb={3}>
+											<Typography
+												m={'auto'}
+												sx={{ mb: 2 }}
+											>
+												계좌 별칭
+											</Typography>
+											<SupportiInput
+												type={'input'}
+												value={accountNickname}
+												setValue={(value) => {
+													setAccountNickname(value);
+												}}
+												placeholder="계좌 별칭 입력"
+												width={300}
+											/>
+										</Box>
+										<SupportiButton
+											isGradient={true}
+											contents={'수정하기'}
+											onClick={() => {
+												updateBankAccount(
+													bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
+												);
 											}}
-											placeholder="계좌 별칭 입력"
-											width={300}
 										/>
 									</Box>
-									<SupportiButton
-										isGradient={true}
-										contents={'수정하기'}
-										onClick={() => {
-											updateBankAccount(
-												bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
-											);
-										}}
-									/>
-								</Box>
-							}
-						/>
+								}
+							/>
+						)}
 					</Box>
 				))}
 

@@ -1,4 +1,12 @@
-import { Box, Grid, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Grid,
+	MobileStepper,
+	Paper,
+	Typography,
+	useTheme,
+} from '@mui/material';
 import React from 'react';
 import SignIn from '@qillie-corp/ark-office-project/src/layout/auth/SignIn';
 import SideBar from '@qillie-corp/ark-office-project/src/layout/SideBar/index';
@@ -8,12 +16,13 @@ import SupportiButton from '../src/views/global/SupportiButton';
 import { NextPage } from 'next';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
-// import SwiperCore from 'swiper';
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
+
+// import 'swiper/swiper-bundle.min.css';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'swiper/swiper.min.css';
+// import 'swiper/modules/navigation/navigation.min.css';
+// import '#styles/swiper.css';
 
 // import SupportiToggle from '../src/Boxs/global/SupportiToggle';
 // import SuppportiModal from '../src/Boxs/global/SuppportiModal';
@@ -34,6 +43,45 @@ const Page: NextPage = () => {
 	const [tab, setTab] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 	// const [Typography, setTypography] = React.useState('');
+
+	const images = [
+		{
+			label: 'San Francisco – Oakland Bay Bridge, United States',
+			imgPath:
+				'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+		},
+		{
+			label: 'Bird',
+			imgPath:
+				'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+		},
+		{
+			label: 'Bali, Indonesia',
+			imgPath:
+				'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
+		},
+		{
+			label: 'Goč, Serbia',
+			imgPath:
+				'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+		},
+	];
+
+	const theme = useTheme();
+	const [activeStep, setActiveStep] = React.useState(0);
+	const maxSteps = images.length;
+
+	const handleNext = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
+
+	const handleBack = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
+
+	const handleStepChange = (step: number) => {
+		setActiveStep(step);
+	};
 
 	const data = [
 		{
@@ -136,7 +184,7 @@ const Page: NextPage = () => {
 	});
 
 	return (
-		<Grid container>
+		<Grid container width={'100%'}>
 			<Grid item xs={12} p={10}>
 				<Grid container>
 					<Grid item xs={6}>
@@ -529,6 +577,10 @@ const Page: NextPage = () => {
 						<SupportiButton
 							contents={'재무 솔루션 자세히보기'}
 							onClick={() => setOpen(true)}
+							style={{
+								border: '1px solid #3C52BB',
+								marginTop: 4,
+							}}
 						/>
 					</Grid>
 				</Grid>
@@ -551,38 +603,6 @@ const Page: NextPage = () => {
 					>
 						재무 솔루션 서비스 이용안내
 					</Typography>
-					{/* <Swiper
-						navigation={true}
-						className="mySwiper"
-						// pagination={{ clickable: true }}
-						slidesPerView={1}
-					>
-						<SwiperSlide>
-							<Box>
-								<img
-									src={'/images/main/financeStep1.svg'}
-									alt="img"
-									style={{ width: 100, height: 50 }}
-								/>
-							</Box>
-						</SwiperSlide>
-						<SwiperSlide>
-							<Box>
-								<img
-									src={'/images/main/financeStep1.svg'}
-									alt="img"
-									style={{ width: 100, height: 50 }}
-								/>
-							</Box>
-						</SwiperSlide>
-						<SwiperSlide>
-							<img
-								src={'/images/main/financeStep1.svg'}
-								alt="img"
-								style={{ width: 100, height: 50 }}
-							/>
-						</SwiperSlide>
-					</Swiper> */}
 					<Grid
 						container
 						borderRadius={4}
@@ -591,7 +611,41 @@ const Page: NextPage = () => {
 						mt={5}
 						mb={5}
 					>
-						<Grid item xs={6} textAlign={'left'}>
+						<Swiper
+							// navigation={true}
+							className="mySwiper"
+							// pagination={{ clickable: true }}
+							modules={[Navigation, Pagination]}
+							slidesPerView={1}
+						>
+							<SwiperSlide>
+								<Box>
+									<img
+										src={'/images/main/financeStep1.svg'}
+										alt="img"
+										style={{ width: 100, height: 50 }}
+									/>
+								</Box>
+							</SwiperSlide>
+							<SwiperSlide>
+								<Box>
+									<img
+										src={'/images/main/financeStep1.svg'}
+										alt="img"
+										style={{ width: 100, height: 50 }}
+									/>
+								</Box>
+							</SwiperSlide>
+							<SwiperSlide>
+								<img
+									src={'/images/main/financeStep1.svg'}
+									alt="img"
+									style={{ width: 100, height: 50 }}
+								/>
+							</SwiperSlide>
+						</Swiper>
+
+						{/* <Grid item xs={6} textAlign={'left'}>
 							<Box>
 								<Typography>STEP 2</Typography>
 							</Box>
@@ -602,7 +656,7 @@ const Page: NextPage = () => {
 								BurnRate와 RunWay 외 달별 지출, 달별 수입 까지
 								한눈에 확인 해보세요.
 							</Typography>
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</Grid>
 			)}
@@ -698,12 +752,12 @@ const Page: NextPage = () => {
 				</Box>
 			</Grid>
 
-			<Grid item xs={12} p={10}>
+			<Grid item xs={12} p={10} width={'860px'}>
 				<Box
 					textAlign={'center'}
 					position="absolute"
 					bgcolor={'rgba(0, 0, 0, 0.7)'}
-					width={'100%'}
+					width={'inherit'}
 					height={'300px'}
 					display={'flex'}
 					flexDirection={'column'}
@@ -734,7 +788,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				<img
-					style={{ zIndex: -100 }}
+					style={{ zIndex: -100, width: '1000px', height: '300px' }}
 					src={'/images/main/mainBackgroundImg.jpg'}
 					alt="img"
 				/>

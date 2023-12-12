@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
@@ -7,6 +7,7 @@ import { IKpi, IOkrCombination } from '../../../src/@types/model';
 import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
 import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import SupportiButton from '../../../src/views/global/SupportiButton';
 
 type TSelectableIndicator = {
 	name: string;
@@ -80,7 +81,8 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	const userAccess = useUserAccess('SUBSCRIPTION');
+	// const userAccess = useUserAccess('SUBSCRIPTION');
+	const userAccess = true;
 
 	return (
 		<Box>
@@ -90,9 +92,24 @@ const Page: NextPage = () => {
 					{/* 지표 (OKR / KPI) 선택 영역 */}
 					<Box>
 						{selectableIndicatorList.map((selectableIndicator) => (
-							<Box>
-								<Button>{selectableIndicator.name}</Button>
-							</Box>
+							<SupportiButton
+								contents={selectableIndicator.name}
+								onClick={() => {
+									setSelectedIndicator(selectableIndicator);
+								}}
+								style={{
+									border: '1px solid',
+									borderRadius: 10,
+									height: 3,
+									marginRight: 1,
+								}}
+								color={
+									selectableIndicator.name ===
+									selectedIndicator.name
+										? 'primary'
+										: 'secondary'
+								}
+							/>
 						))}
 					</Box>
 
@@ -100,6 +117,7 @@ const Page: NextPage = () => {
 					<IndicatorManagementBoard
 						key={JSON.stringify(selectedIndicator)}
 						{...selectedIndicator.indicatorManagementBoardProps}
+						name={selectedIndicator.name}
 					/>
 				</InternalServiceLayout>
 			)}

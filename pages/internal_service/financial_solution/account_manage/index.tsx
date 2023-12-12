@@ -155,6 +155,7 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				setBankAccountList(res.data.result.rows);
+				console.log(res.data.result);
 			},
 			(err) => {
 				console.log(err);
@@ -218,18 +219,24 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				{/* 실제 계좌 내역 */}
-				{/* <TransactionHistoryTable
+				<TransactionHistoryTable
 					setRecomputeTriggerKey={() => {}}
 					bankAccount={{
 						BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
 						BANK_CODE: '002',
+						LOGIN_METHOD: 'SIGN_IN',
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						ACCOUNT_NUMBER: '110-123-456789',
+						ACCOUNT_HOLDER: '홍길동',
+						ACCOUNT_PASSWORD: '1234',
+						START_DATE: new Date(),
 					}}
 					selectedPeriod={{
 						year: 2021,
 						month: 10,
 					}}
 					keyword={''}
-				/> */}
+				/>
 				{bankAccountList.map((bankAccount) => (
 					<Box>
 						<TransactionHistoryTable

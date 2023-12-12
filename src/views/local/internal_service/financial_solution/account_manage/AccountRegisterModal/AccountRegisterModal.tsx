@@ -55,9 +55,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* Constants
 	//* bankConfig key value 형태로 커스텀
-	let bankObj = {};
+	let bankList = [{}];
 	for (const [key, value] of Object.entries(bankConfig)) {
-		bankObj = Object.assign(bankObj, { [key]: value.name });
+		bankList.push({ label: key, value: value.name });
 	}
 
 	//* bank icon 리스트 커스텀
@@ -68,9 +68,10 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	let accountObj = [];
 	for (const [key, value] of Object.entries(accountList)) {
-		accountObj = Object.assign(accountObj, {
-			[value.acctNo]: value.acctNo + ' ' + value.acctNm,
-		});
+		// accountObj = Object.assign(accountObj, {
+		// 	[value.acctNo + '  ' + value.acctHolder]:
+		// 		value.acctNo + ' ' + value.acctNm,
+		// });
 	}
 
 	//* id, pw로 계좌 불러오는 폼
@@ -122,17 +123,24 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			component: (
 				<SupportiInput
 					type="select"
-					value={userAccountInfo.ACCOUNT_NUMBER}
+					value={
+						userAccountInfo.ACCOUNT_NUMBER +
+						' ' +
+						userAccountInfo.ACCOUNT_HOLDER
+					}
 					setValue={(value) => {
 						//* TODO :: 여기서 계좌 예금주 셋팅
+						let acctNum = value.split(' ')[0];
+						let acctHolder = value.split(' ')[1];
 
 						setUserAccountInfo({
 							...userAccountInfo,
-							ACCOUNT_NUMBER: value,
+							ACCOUNT_NUMBER: acctNum,
+							ACCOUNT_HOLDER: acctHolder,
 						});
 					}}
 					placeholder="계좌 선택"
-					dataList={accountObj}
+					dataList={bankList}
 					width={300}
 				/>
 			),
@@ -280,7 +288,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							CERTIFICATE_PRIVATE_KEY: KEY2PEM,
 							CERTIFICATE_PASSWORD:
 								userAccountInfo.CERTIFICATE_PASSWORD,
-						});						
+						});
 					} else {
 						window.alert(res.data.errMsg);
 					}
@@ -397,7 +405,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 											BANK_CODE: e,
 										});
 									}}
-									dataList={bankObj}
+									dataList={bankList}
 									width={300}
 									iconList={iconObj}
 								/>

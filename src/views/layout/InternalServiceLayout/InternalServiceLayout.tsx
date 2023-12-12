@@ -14,7 +14,9 @@ const InternalServiceLayout = (props: IInternalServiceLayoutProps) => {
 			<InternalServiceHeader />
 
 			{/* 콘텐츠 영역 */}
-			<Box>{props.children}</Box>
+			<Box display="flex" flexDirection={'column'} gap={2}>
+				{props.children}
+			</Box>
 		</Box>
 	);
 };

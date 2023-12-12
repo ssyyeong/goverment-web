@@ -32,6 +32,7 @@
 		"react-date-range": "^1.4.0",
 		"react-dom": "18.2.0",
 		"react-infinite-scroll-hook": "^4.1.1",
+		"swiper": "^11.0.5",
 		"web3": "^1.9.0",
 		"xlsx": "^0.18.5"
 	},

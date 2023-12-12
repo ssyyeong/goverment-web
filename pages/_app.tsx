@@ -62,9 +62,10 @@ function App({
 							plugin: [],
 						},
 					},
-					head: { title: '관리자' },
+					head: { title: '서포티' },
 					header: navigatorConfig,
 					footer: footerConfig,
+					useFooter: true,
 				}}
 				cache={{
 					emotion: emotionCache,

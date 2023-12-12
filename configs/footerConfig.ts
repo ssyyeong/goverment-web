@@ -3,27 +3,27 @@
 const footerConfig: any = {
 	terms: {},
 	information: {
-		ceo: { label: '대표', value: '전빈준' },
+		ceo: { label: '대표', value: '김영진' },
 		companyRegistrationNumber: {
 			label: '사업자 등록 번호',
-			value: '866-86-02741',
+			value: '563-87-01952',
 		},
-		contactNumber: { label: '고객센터', value: '010-9426-7666' },
+		contactNumber: { label: '고객센터', value: '010--' },
 		contactAvailableTime: {
 			label: '운영시간',
 			value: '평일 10:00 ~ 19:00 (점심시간 13:00 ~ 14:00 / 주말 및 공휴일 제외)',
 		},
 		address: {
 			label: '주소',
-			value: '대구광역시 북구 중앙대로 550-14, 116호(칠성동 2가)',
+			value: '서울특별시 강남구 강남대로 364, 1303호',
 		},
 	},
 	copyright: {
 		foundingYear: 2022,
-		name: '(유)리프레쉬',
+		name: '주식회사 린온컴퍼니',
 	},
 	contact: {
-		number: '010-9426-7666',
+		number: '010--',
 		availableTime: '평일 10:00 ~ 19:00',
 		additionalInfoOfAvailableTime:
 			'(점심시간 13:00 ~ 14:00 / 주말 및 공휴일 제외)',

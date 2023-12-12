@@ -165,7 +165,7 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 					 * 에러 트리거
 					 */
 					setError(err);
-					alert('실패');
+					// alert('실패');
 				}
 			);
 		} else {

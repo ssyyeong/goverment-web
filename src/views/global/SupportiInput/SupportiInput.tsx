@@ -23,7 +23,7 @@ interface SupportiInputProps {
 	value: any;
 	setValue: any;
 	defaultValue?: string;
-	dataList?: { [key: string | number | symbol]: any };
+	dataList?: any;
 	width: number | string;
 	label?: string;
 	multiple?: boolean;
@@ -33,6 +33,8 @@ interface SupportiInputProps {
 	btnOnclick?: () => void;
 	iconList?: string[];
 	style?: any;
+	multiline?: boolean;
+	useIcon?: boolean;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -115,11 +117,11 @@ const SupportiInput = React.forwardRef(
 								<em>{props.defaultValue}</em>
 							</MenuItem>
 						)}
-						{Object.keys(props.dataList).map((key, index) => {
+						{props.dataList.map((item, index) => {
 							return (
 								<MenuItem
-									key={index}
-									value={key}
+									key={item.label}
+									value={item.value}
 									sx={{ display: 'flex' }}
 								>
 									{props.iconList && (
@@ -133,7 +135,7 @@ const SupportiInput = React.forwardRef(
 											}}
 										/>
 									)}
-									{props.dataList[key]}
+									{item.label}
 								</MenuItem>
 							);
 						})}
@@ -298,6 +300,25 @@ const SupportiInput = React.forwardRef(
 						}
 						placeholder={props.placeholder ? props.placeholder : ''}
 					/>
+				) : props.type === 'chip' ? (
+					<Box display={'flex'}>
+						{props.dataList.map((item, index) => {
+							return (
+								<Box
+									key={index}
+									sx={{
+										bgcolor: 'primary.main',
+										color: 'white',
+										borderRadius: '5px',
+										padding: '5px 10px',
+										marginRight: '5px',
+									}}
+								>
+									{item}
+								</Box>
+							);
+						})}
+					</Box>
 				) : (
 					<OutlinedInput
 						sx={{ width: '100%', ...props.style }}
@@ -306,6 +327,7 @@ const SupportiInput = React.forwardRef(
 							props.setValue(e.target.value);
 						}}
 						placeholder={props.placeholder ? props.placeholder : ''}
+						multiline={props.multiple}
 					/>
 				)}
 			</Box>

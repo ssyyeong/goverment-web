@@ -20,6 +20,8 @@ interface ISupportiButtonProps {
 	disabledGutters?: boolean;
 	isGradient?: boolean;
 	style?: SxProps;
+	startIcon?: any;
+	endIcon?: any;
 }
 
 const SupportiButton = (props: ISupportiButtonProps) => {
@@ -29,6 +31,8 @@ const SupportiButton = (props: ISupportiButtonProps) => {
 			variant={props.variant}
 			onClick={props.onClick}
 			color={props.color}
+			startIcon={props.startIcon}
+			endIcon={props.endIcon}
 			sx={{
 				borderRadius: '5px',
 				padding: props.disabledGutters ? '0px' : '17px 16px',
