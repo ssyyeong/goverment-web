@@ -8,8 +8,13 @@ import SupportiButton from '../src/views/global/SupportiButton';
 import { NextPage } from 'next';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+// import SwiperCore from 'swiper';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
 
-// import Video from '../public/videos/시연영상.mp4';
 // import SupportiToggle from '../src/Boxs/global/SupportiToggle';
 // import SuppportiModal from '../src/Boxs/global/SuppportiModal';
 // import SupportiProgressBar from '../src/Boxs/global/SupportiProgressBar';
@@ -22,6 +27,7 @@ type Props = {};
 const Page: NextPage = () => {
 	const router = useRouter();
 	const memberId = 1;
+	// SwiperCore.use([Navigation, Scrollbar]);
 
 	useEffect(() => {}, []);
 
@@ -88,22 +94,22 @@ const Page: NextPage = () => {
 		{
 			text1: '투자를 받을 예정이거나',
 			text2: '받고 있는 창업가들',
-			imagePath: '/images/main/mainCardImg1.png',
+			imgPath: '/images/main/mainCardImg1.png',
 		},
 		{
 			text1: '초기 스타트업을',
 			text2: '운영하는 대표님',
-			imagePath: '/images/main/mainCardImg2.png',
+			imgPath: '/images/main/mainCardImg2.png',
 		},
 		{
 			text1: '직접 회사의 재무를',
 			text2: '관리하는 소규모 창업가',
-			imagePath: '/images/main/mainCardImg3.png',
+			imgPath: '/images/main/mainCardImg3.png',
 		},
 		{
 			text1: '매출과 서비스에',
 			text2: '고민이 있는 창업가',
-			imagePath: '/images/main/mainCardImg4.png',
+			imgPath: '/images/main/mainCardImg4.png',
 		},
 	];
 
@@ -180,8 +186,8 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
-							{/* <Image source={mainTitle} style={styles.imageStyle} />
-        <Image source={mobileMainTitle} style={styles.mImageStyle} /> */}
+							{/* <img src={mainTitle} style={styles.imgStyle} />
+        <img src={mobileMainTitle} style={styles.mimgStyle} /> */}
 						</Box>
 					</Grid>
 					<Grid item xs={6}>
@@ -190,7 +196,7 @@ const Page: NextPage = () => {
 				</Grid>
 			</Grid>
 
-			<Grid item xs={12} bgcolor={'#3C52BB'} borderRadius={4} p={15}>
+			<Grid item xs={12} bgcolor={'#3C52BB'} borderRadius={4} p={10}>
 				<Grid container>
 					<Grid item xs={6}>
 						<Box
@@ -198,6 +204,7 @@ const Page: NextPage = () => {
 							display={'flex'}
 							flexDirection={'column'}
 							gap={0.5}
+							p={5}
 						>
 							<Typography
 								color={'white'}
@@ -230,13 +237,14 @@ const Page: NextPage = () => {
 						</Box>
 					</Grid>
 					<Grid item xs={6}>
-						{/* <video
-							src={Video}
+						<video
+							src={'/videos/시연영상.mp4'}
 							id="vid"
 							muted={true}
 							autoPlay={false}
 							controls
-						/> */}
+							style={{ width: '300px', height: '200px' }}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -304,7 +312,7 @@ const Page: NextPage = () => {
 									</Box>
 									<img
 										alt="img"
-										src={item.imagePath}
+										src={item.imgPath}
 										style={{
 											width: 'inherit',
 											height: 'inherit',
@@ -511,10 +519,10 @@ const Page: NextPage = () => {
 						<Typography variant={'h1'} lineHeight={3}>
 							재무 솔루션
 						</Typography>
-						<Typography variant={'h5'} lineHeight={2}>
+						<Typography variant={'subtitle1'} lineHeight={2}>
 							지표를 바탕으로 효과적인 전략을 수립하고 데이터를
 						</Typography>
-						<Typography variant={'h5'} lineHeight={2}>
+						<Typography variant={'subtitle1'} lineHeight={2}>
 							가시적으로 확인하여 회사의 재무 상황을 한눈에
 							파악해보세요.
 						</Typography>
@@ -526,40 +534,78 @@ const Page: NextPage = () => {
 				</Grid>
 			</Grid>
 
-			<Grid
-				item
-				xs={12}
-				textAlign={'center'}
-				p={10}
-				bgcolor={'#3C52BB'}
-				mt={10}
-				mb={10}
-			>
-				<Typography fontWeight={'600'} variant={'h2'} color={'white'}>
-					재무 솔루션 서비스 이용안내
-				</Typography>
+			{open && (
 				<Grid
-					container
-					borderRadius={4}
-					p={5}
-					bgcolor={'white'}
-					mt={5}
-					mb={5}
+					item
+					xs={12}
+					textAlign={'center'}
+					p={10}
+					bgcolor={'#3C52BB'}
+					mt={10}
+					mb={10}
 				>
-					<Grid item xs={6} textAlign={'left'}>
-						<Box>
-							<Typography>STEP 2</Typography>
-						</Box>
-						<Typography variant={'h4'} fontWeight={'700'}>
-							한눈에 보는 BurnRate와 Runway
-						</Typography>
-						<Typography>
-							BurnRate와 RunWay 외 달별 지출, 달별 수입 까지
-							한눈에 확인 해보세요.
-						</Typography>
+					<Typography
+						fontWeight={'600'}
+						variant={'h2'}
+						color={'white'}
+					>
+						재무 솔루션 서비스 이용안내
+					</Typography>
+					{/* <Swiper
+						navigation={true}
+						className="mySwiper"
+						// pagination={{ clickable: true }}
+						slidesPerView={1}
+					>
+						<SwiperSlide>
+							<Box>
+								<img
+									src={'/images/main/financeStep1.svg'}
+									alt="img"
+									style={{ width: 100, height: 50 }}
+								/>
+							</Box>
+						</SwiperSlide>
+						<SwiperSlide>
+							<Box>
+								<img
+									src={'/images/main/financeStep1.svg'}
+									alt="img"
+									style={{ width: 100, height: 50 }}
+								/>
+							</Box>
+						</SwiperSlide>
+						<SwiperSlide>
+							<img
+								src={'/images/main/financeStep1.svg'}
+								alt="img"
+								style={{ width: 100, height: 50 }}
+							/>
+						</SwiperSlide>
+					</Swiper> */}
+					<Grid
+						container
+						borderRadius={4}
+						p={5}
+						bgcolor={'white'}
+						mt={5}
+						mb={5}
+					>
+						<Grid item xs={6} textAlign={'left'}>
+							<Box>
+								<Typography>STEP 2</Typography>
+							</Box>
+							<Typography variant={'h4'} fontWeight={'700'}>
+								한눈에 보는 BurnRate와 Runway
+							</Typography>
+							<Typography>
+								BurnRate와 RunWay 외 달별 지출, 달별 수입 까지
+								한눈에 확인 해보세요.
+							</Typography>
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			)}
 
 			<Grid item xs={12} p={10}>
 				<Box textAlign={'center'}>
@@ -573,23 +619,23 @@ const Page: NextPage = () => {
 								{data2.map((item, index) => {
 									if (index < 2) {
 										return (
-											<Grid item xs={6} p={2}>
+											<Grid item xs={6} p={3.5}>
 												<Box
 													key={index}
 													boxShadow={
 														'rgb(213, 212, 239) 0px 4px 30px'
 													}
-													p={5}
+													p={3}
 													borderRadius={5}
-													width={'300px'}
-													height={'290px'}
+													width={'280px'}
+													height={'260px'}
 													ml={'auto'}
 													mr={'auto'}
 												>
 													<Typography
 														fontWeight={'600'}
 														variant={'h5'}
-														mb={5}
+														mb={3}
 													>
 														{item.reBoxer}
 													</Typography>
@@ -615,23 +661,23 @@ const Page: NextPage = () => {
 								{data2.map((item, index) => {
 									if (index > 1) {
 										return (
-											<Grid item xs={6} p={2}>
+											<Grid item xs={6} p={3.5}>
 												<Box
 													key={index}
 													boxShadow={
 														'rgb(213, 212, 239) 0px 4px 30px'
 													}
-													p={5}
+													p={3}
 													borderRadius={5}
-													width={'300px'}
-													height={'290px'}
+													width={'280px'}
+													height={'260px'}
 													ml={'auto'}
 													mr={'auto'}
 												>
 													<Typography
 														fontWeight={'600'}
 														variant={'h5'}
-														mb={5}
+														mb={3}
 													>
 														{item.reBoxer}
 													</Typography>
@@ -662,6 +708,7 @@ const Page: NextPage = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					gap={2}
+					p={10}
 				>
 					<Typography color={'white'} variant="h4" fontWeight={'500'}>
 						여러분의 사업을 편리하게 관리하세요
@@ -679,7 +726,11 @@ const Page: NextPage = () => {
 							}
 						}}
 						variant="contained"
-						style={{ width: '200px' }}
+						style={{
+							width: '200px',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+						}}
 					/>
 				</Box>
 				<img
@@ -713,7 +764,7 @@ export default Page;
 				variant="contained"
 				disabledGutters
 				style={{
-					backgroundImage:
+					backgroundimg:
 						'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
 					border: 'solid 1px #fff',
 					p: 3,

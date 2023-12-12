@@ -32,6 +32,7 @@ interface SupportiInputProps {
 	btnContent?: string;
 	btnOnclick?: () => void;
 	iconList?: string[];
+	style?: any;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -91,13 +92,12 @@ const SupportiInput = React.forwardRef(
 
 		//* Hooks
 
-		//** TODO : 기존의 컴포넌트 속성 props로 반영되게 하기 */
-		// console.log(props.dataList);
+		console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
 					<Select
-						sx={{ width: '100%', bgcolor: 'white' }}
+						sx={{ width: '100%', bgcolor: 'white', ...props.style }}
 						value={props.value}
 						onChange={(e) => {
 							props.setValue(e.target.value);
@@ -140,7 +140,7 @@ const SupportiInput = React.forwardRef(
 					</Select>
 				) : props.type === 'search' ? (
 					<OutlinedInput
-						sx={{ width: '100%', bgcolor: 'white' }}
+						sx={{ width: '100%', bgcolor: 'white', ...props.style }}
 						id="outlined-adornment-weight"
 						value={props.value}
 						placeholder={props.placeholder ? props.placeholder : ''}
@@ -253,13 +253,14 @@ const SupportiInput = React.forwardRef(
 									visibility: 'hidden',
 								},
 								width: '100%',
+								...props.style,
 							}}
 						/>
 					</Box>
 				) : props.type === 'inputwithbtn' ? (
 					<OutlinedInput
 						id="outlined-adornment-weight"
-						sx={{ width: '100%' }}
+						sx={{ width: '100%', ...props.style }}
 						value={props.value}
 						placeholder={props.placeholder ? props.placeholder : ''}
 						onChange={(e) => {
@@ -284,7 +285,7 @@ const SupportiInput = React.forwardRef(
 					/>
 				) : props.type === 'password' ? (
 					<OutlinedInput
-						sx={{ width: '100%' }}
+						sx={{ width: '100%', ...props.style }}
 						type={'password'}
 						value={props.value}
 						onChange={(e) => {
@@ -299,7 +300,7 @@ const SupportiInput = React.forwardRef(
 					/>
 				) : (
 					<OutlinedInput
-						sx={{ width: '100%' }}
+						sx={{ width: '100%', ...props.style }}
 						value={props.value}
 						onChange={(e) => {
 							props.setValue(e.target.value);
