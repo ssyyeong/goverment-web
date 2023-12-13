@@ -12,7 +12,7 @@ const useAppMember = () => {
 	/**
 	 * 유저 아이디
 	 */
-	const [memberId, setMemberId] = useState<number>(1);
+	const [memberId, setMemberId] = useState<number | undefined>(1);
 	//* Cookie
 	const cookie = new CookieManager();
 	//* Hooks

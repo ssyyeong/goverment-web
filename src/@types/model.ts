@@ -71,6 +71,27 @@ interface IOkrCombination {
  */
 interface IKpi {}
 
+/**
+ * 재표제표
+ */
+interface IFinancialStatement {
+	[key: string]: any;
+}
+
+/**
+ * 비즈니스 개요
+ */
+interface IBusiness {
+	[key: string]: any;
+}
+
+/**
+ * 비즈니스 로그
+ */
+interface IBusinessHistory {
+	[key: string]: any;
+}
+
 export type {
 	IBankAccount,
 	ITransactionHistory,
@@ -79,4 +100,7 @@ export type {
 	IKpi,
 	IOkrCombination,
 	IUser,
+	IFinancialStatement,
+	IBusiness,
+	IBusinessHistory,
 };
