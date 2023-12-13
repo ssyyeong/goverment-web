@@ -22,37 +22,37 @@ const Page: NextPage = () => {
 	/**
 	 * 재무제표 컨트롤러
 	 */
-	const financialStatementController = new DefaultController(
-		'FinancialStatement'
-	);
+	// const financialStatementController = new DefaultController(
+	// 	'FinancialStatement'
+	// );
 
 	//* Constants
 	/**
 	 * 해당 연도에 재무제표가 없을 시 기본 재무제표
 	 */
-	const defaultFinancialStatement: IFinancialStatement = (() => {
-		let result: { [key: string]: any };
+	// const defaultFinancialStatement: IFinancialStatement = (() => {
+	// 	let result: { [key: string]: any };
 
-		financialStatementConfig.map((financialStatementMapping) => {
-			result[financialStatementMapping.key] = 0;
-		});
+	// 	financialStatementConfig.map((financialStatementMapping) => {
+	// 		result[financialStatementMapping.key] = 0;
+	// 	});
 
-		return result;
-	})();
+	// 	return result;
+	// })();
 
 	//* States
 	/**
 	 * 재무제표 관련 값
 	 */
-	const [financialStatement, setFinancialStatement] =
-		React.useState<IFinancialStatement>({ ...defaultFinancialStatement });
+	// const [financialStatement, setFinancialStatement] =
+	// 	React.useState<IFinancialStatement>({ ...defaultFinancialStatement });
 
 	/**
 	 * 대상 일자
 	 */
-	const [targetDate, setTargetDate] = React.useState<moment.Moment>(
-		moment().endOf('years')
-	);
+	// const [targetDate, setTargetDate] = React.useState<moment.Moment>(
+	// 	moment().endOf('years')
+	// );
 
 	//* Functions
 	/**
@@ -66,59 +66,59 @@ const Page: NextPage = () => {
 	 * 재무제표 저장 함수
 	 * upsert 형태로 수행
 	 */
-	const saveFinancialStatement = () => {
-		if (memberId !== undefined) {
-			if (
-				defaultFinancialStatement[
-					'FINANCIAL_STATEMENT_IDENTIFICATION_CODE'
-				] === undefined
-			) {
-				//* 새로운 재무제표를 생성하는 경우
-				financialStatementController.createItem(
-					{
-						...financialStatement,
-						APP_MEMBER_IDENTIFICATION_CODE: useAppMember(),
-						STANDARD_YEAR: targetDate,
-					},
-					(res) => {
-						//* 생성한 재무제표에 아이디 부여
-						setFinancialStatement({
-							...financialStatement,
-							FINANCIAL_STATEMENT_IDENTIFICATION_CODE:
-								res.data.result
-									.FINANCIAL_STATEMENT_IDENTIFICATION_CODE,
-						});
+	// const saveFinancialStatement = () => {
+	// 	if (memberId !== undefined) {
+	// 		if (
+	// 			defaultFinancialStatement[
+	// 				'FINANCIAL_STATEMENT_IDENTIFICATION_CODE'
+	// 			] === undefined
+	// 		) {
+	// 			//* 새로운 재무제표를 생성하는 경우
+	// 			financialStatementController.createItem(
+	// 				{
+	// 					...financialStatement,
+	// 					APP_MEMBER_IDENTIFICATION_CODE: useAppMember(),
+	// 					STANDARD_YEAR: targetDate,
+	// 				},
+	// 				(res) => {
+	// 					//* 생성한 재무제표에 아이디 부여
+	// 					setFinancialStatement({
+	// 						...financialStatement,
+	// 						FINANCIAL_STATEMENT_IDENTIFICATION_CODE:
+	// 							res.data.result
+	// 								.FINANCIAL_STATEMENT_IDENTIFICATION_CODE,
+	// 					});
 
-						alert('재무제표를 생성했습니다.');
-					},
-					(err) => {
-						alert('재무제표 생성에 실패했습니다.');
-					}
-				);
-			} else {
-				//* 기존 재무제표를 수정하는 경우
-				financialStatementController.updateItem(
-					{
-						...financialStatement,
-					},
-					(res) => {
-						alert('재무제표를 수정했습니다.');
-					},
-					(err) => {
-						alert('재무제표 수정에 실패했습니다.');
-					}
-				);
-			}
-		} else {
-			alert('로그인이 필요합니다.');
-		}
-	};
+	// 					alert('재무제표를 생성했습니다.');
+	// 				},
+	// 				(err) => {
+	// 					alert('재무제표 생성에 실패했습니다.');
+	// 				}
+	// 			);
+	// 		} else {
+	// 			//* 기존 재무제표를 수정하는 경우
+	// 			financialStatementController.updateItem(
+	// 				{
+	// 					...financialStatement,
+	// 				},
+	// 				(res) => {
+	// 					alert('재무제표를 수정했습니다.');
+	// 				},
+	// 				(err) => {
+	// 					alert('재무제표 수정에 실패했습니다.');
+	// 				}
+	// 			);
+	// 		}
+	// 	} else {
+	// 		alert('로그인이 필요합니다.');
+	// 	}
+	// };
 
 	//* Hooks
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	// const memberId = useAppMember();
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
@@ -129,40 +129,40 @@ const Page: NextPage = () => {
 	/**
 	 * 재무제표 데이터 로드
 	 */
-	React.useEffect(() => {
-		if (userAccess && memberId) {
-			financialStatementController.getOneItemByKey(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					STANDARD_YEAR: targetDate,
-				},
-				(res) => {
-					if (res.data.result !== null) {
-						setFinancialStatement(res.data.result);
-					} else {
-						/**
-						 * 해당 연도에 값이 없을 시 기본 값으로 설정
-						 */
-						setFinancialStatement({ ...defaultFinancialStatement });
-					}
-				},
-				(err) => {
-					alert('재무제표 정보를 가져오는데 실패했습니다.');
-				}
-			);
-		}
-	}, [userAccess, targetDate, memberId]);
+	// React.useEffect(() => {
+	// 	if (userAccess && memberId) {
+	// 		financialStatementController.getOneItemByKey(
+	// 			{
+	// 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+	// 				STANDARD_YEAR: targetDate,
+	// 			},
+	// 			(res) => {
+	// 				if (res.data.result !== null) {
+	// 					setFinancialStatement(res.data.result);
+	// 				} else {
+	// 					/**
+	// 					 * 해당 연도에 값이 없을 시 기본 값으로 설정
+	// 					 */
+	// 					setFinancialStatement({ ...defaultFinancialStatement });
+	// 				}
+	// 			},
+	// 			(err) => {
+	// 				alert('재무제표 정보를 가져오는데 실패했습니다.');
+	// 			}
+	// 		);
+	// 	}
+	// }, [userAccess, targetDate, memberId]);
 
 	return (
 		<Box>
-			{/* 컨텐츠 레이아웃 */}
+			컨텐츠 레이아웃
 			{userAccess === true && (
 				<InternalServiceLayout>
 					{/* 저장하기 */}
 					<Box>
-						<Button onClick={saveFinancialStatement}>
+						{/* <Button onClick={saveFinancialStatement}>
 							저장하기
-						</Button>
+						</Button> */}
 					</Box>
 
 					{/* 페이지 컨트롤러 */}
@@ -170,31 +170,31 @@ const Page: NextPage = () => {
 						<Box display={'flex'} alignItems={'center'}>
 							{/* 이전 페이지 */}
 							<Box>
-								<Button
+								{/* <Button
 									onClick={() => {
 										changeTargetDate('previous');
 									}}
 								>
 									이전
-								</Button>
+								</Button> */}
 							</Box>
 
 							{/* 현재 연도 */}
 							<Box>
 								<Typography variant={'h6'}>
-									{targetDate.format('YYYY.MM.DD')}
+									{/* {targetDate.format('YYYY.MM.DD')} */}
 								</Typography>
 							</Box>
 
 							{/* 다음 페이지 */}
 							<Box>
-								<Button
+								{/* <Button
 									onClick={() => {
 										changeTargetDate('next');
 									}}
 								>
 									다음
-								</Button>
+								</Button> */}
 							</Box>
 						</Box>
 					</Box>
@@ -217,7 +217,7 @@ const Page: NextPage = () => {
 								<Grid item xs={6} md={3}>
 									<Box>
 										<Typography variant={'h6'}>
-											{targetDate.format('YYYY.MM.DD')}
+											{/* {targetDate.format('YYYY.MM.DD')} */}
 										</Typography>
 									</Box>
 								</Grid>
@@ -256,7 +256,7 @@ const Page: NextPage = () => {
 											</Grid>
 
 											{/* 각 재무제표 값 */}
-											<Grid item xs={6} md={3}>
+											{/* <Grid item xs={6} md={3}>
 												<Box>
 													<Typography variant={'h6'}>
 														<TextField
@@ -282,7 +282,7 @@ const Page: NextPage = () => {
 														/>
 													</Typography>
 												</Box>
-											</Grid>
+											</Grid> */}
 										</Grid>
 									</Box>
 								)
