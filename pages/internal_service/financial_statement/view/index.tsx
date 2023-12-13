@@ -46,9 +46,14 @@ const Page: NextPage = () => {
 	 * 타겟 연도 변경 함수
 	 */
 	const changeTargetDate = (direction: 'previous' | 'next') => {
+		setTargetDate(
+			direction === 'previous'
+				? targetDate.subtract(1, 'years')
+				: targetDate.add(1, 'years')
+		)
 		// setTargetDate
 	};
-
+ 
 	//* Hooks
 	/**
 	 * 유저 정보 가져오는 훅
@@ -68,7 +73,7 @@ const Page: NextPage = () => {
 		if (userAccess && memberId) {
 			financialStatementController.getAllItems(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					APP_MEMBER_IDENTIFICATION_CODE: 1,
 					PERIOD_TARGET_KEY: 'STANDARD_YEAR',
 					PERIOD_END: targetDate,
 					LIMIT: 3,
@@ -84,10 +89,15 @@ const Page: NextPage = () => {
 	}, [userAccess, targetDate, memberId]);
 
 	return (
-		<Box>
+		<Box sx={{
+			display: 'flex',
+			alignItems: 'space-between',
+			flexDirection: 'column',
+			p: 10,
+		}}>
 			{/* 컨텐츠 레이아웃 */}
 			{userAccess === true && (
-				<InternalServiceLayout>
+				<InternalServiceLayout >
 					{/* 컨트롤러 */}
 					<Box>
 						<Grid container>
@@ -97,16 +107,21 @@ const Page: NextPage = () => {
 									{/* 편집 페이지로 이동 */}
 									<Box>
 										<Button
+											variant={'contained'}
+											sx={{
+												backgroundColor: '#d2d2d2'
+											}}
 											onClick={() => {
 												router.push(
 													'/internal_service/financial_statement/edit'
 												);
 											}}
 										>
-											편집
+											<Typography variant="h4" color={'black'} width={100}>
+											편집하기
+											</Typography>
 										</Button>
-									</Box>
-
+										</Box>
 									{/* 엑셀 추출 버튼 */}
 									<Box>{/* <ExcelDownloadButton /> */}</Box>
 								</Box>
@@ -122,7 +137,7 @@ const Page: NextPage = () => {
 												changeTargetDate('previous');
 											}}
 										>
-											이전
+											이동
 										</Button>
 									</Box>
 
@@ -148,7 +163,7 @@ const Page: NextPage = () => {
 							<Grid container>
 								{/* 각 재무제표 항목 */}
 								<Grid item xs={6} md={3}>
-									<Box></Box>
+									<Box ></Box>
 								</Grid>
 
 								{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
@@ -183,14 +198,24 @@ const Page: NextPage = () => {
 											{/* 각 재무제표 라벨 */}
 											<Grid item xs={6} md={3}>
 												<Box
+													sx={{
+														backgroundColor: '#d2d2d2',
+													}}
+													border={0.5}
+													borderColor={'#bebebe'}
 													pl={
 														financialStatementMapping.isHighlighted
-															? 2
-															: 0
-													} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
+															? 3
+															: 1
+													} 
+													pr={2}
+													pt={1}
+													pb={1}
 												>
 													<Typography
-														variant={'h6'}
+														variant={
+															'body1'
+														}
 														fontWeight={
 															financialStatementMapping.isHighlighted
 																? '700'
@@ -221,9 +246,13 @@ const Page: NextPage = () => {
 															},
 														}}
 													>
-														<Box>
+														<Box
+														border={0.5}
+														borderColor={'#bebebe'}
+														>
 															<Typography
 																variant={'h6'}
+																align='center'
 															>
 																{
 																	financialStatement[
