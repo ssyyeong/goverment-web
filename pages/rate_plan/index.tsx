@@ -4,7 +4,6 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import SupportiButton from '../../src/views/global/SupportiButton';
-import ChargeModal from '../../src/views/local/external_service/chargeModal/ChargeModal';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
 
 const Page: NextPage = () => {
@@ -35,6 +34,8 @@ const Page: NextPage = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '100%',
+				p: 10,
+				bgcolor: 'primary.light',
 			}}
 		>
 			<Typography
@@ -74,6 +75,7 @@ const Page: NextPage = () => {
 								marginTop: '20px',
 								maxWidth: '270px',
 								height: 600,
+								bgcolor: 'white',
 							}}
 						>
 							<Typography
