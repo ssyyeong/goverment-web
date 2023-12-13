@@ -146,4 +146,18 @@ export class AppMemberController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	//* 회원정보 업데이트
+	public updateMemberInfo(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.putData(
+			args,
+			`${this.mergedPath}/update`,
+			successCallback,
+			failCallback
+		);
+	}
 }

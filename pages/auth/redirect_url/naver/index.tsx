@@ -18,6 +18,8 @@ const Page: NextPage = () => {
 	//* Constants
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
+	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
+	const [userData, setUserData] = React.useState<any>({});
 	//* Functions
 	//* Hooks
 	useEffect(() => {
@@ -27,25 +29,26 @@ const Page: NextPage = () => {
 					code,
 				},
 				(res) => {
-					if (res.data.result == false) {
-						alert(
-							'이미 존재하는 계정입니다. 다른 소셜로그인을 이용해 주세요!'
-						);
-						setTimeout(() => {
-							router.push('/auth/sign_in');
-						}, 2000);
+					if (res.data.result.user.USER_GRADE === 'NOT_GENERATED') {
+						alert('회원가입이 필요합니다.');
+						setUserData(res.data.result.user);
+						setUpdateModal(true);
 						return;
+					} else {
+						cookie.setItemInCookies(
+							'ACCESS_TOKEN',
+							res.data.result.signUpResult.accessToken,
+							{ path: '/', maxAge: 3600 * 24 * 30 }
+						);
+						router.push('/');
 					}
-					cookie.setItemInCookies(
-						'userId',
-						res.data.result.user.APP_MEMBER_IDENTIFICATION_CODE,
-						{ path: '/', maxAge: 3600 * 24 * 30 }
-					);
 				},
 				(err) => {
 					console.log(err);
-					// alert('로그인에 실패하였습니다.');
-					alert(err.response.data.message);
+					alert(err?.response?.data.message);
+					setTimeout(() => {
+						router.push('/auth/sign_in');
+					}, 2000);
 				}
 			);
 		} else {
