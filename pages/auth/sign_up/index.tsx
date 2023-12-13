@@ -112,7 +112,7 @@ const Page: NextPage = () => {
 	 * 회원가입
 	 */
 	const signUp = () => {
-		if (isBusinessNumOk !== 'OK')
+		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
 		if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
 		appMemberController.register(
@@ -310,6 +310,18 @@ const Page: NextPage = () => {
 
 	//* Functions
 	//* Hooks
+	/**
+	 * 탭 변화시 값 초기화
+	 */
+	React.useEffect(() => {
+		setSignupData({} as IUser);
+		setPasswordConfirm('');
+		setEncrypted('');
+		setVerifyNumber('');
+		setIsVerified(false);
+		setIsBusinessNumOk('NOT_YET');
+	}, [tabs]);
+
 	return (
 		<SignUpLayout>
 			<Typography variant="h1" fontWeight={'bold'}>

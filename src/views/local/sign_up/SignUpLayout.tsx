@@ -14,6 +14,7 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 			alignItems={'center'}
 			justifyContent={'center'}
 			bgcolor={'primary.light'}
+			p={10}
 		>
 			<Box
 				width={{ sx: '100%', md: '500px' }}

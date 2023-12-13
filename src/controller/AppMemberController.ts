@@ -104,4 +104,46 @@ export class AppMemberController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	//*카카오 로그인
+	public kakaoLogin(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/kakao_login`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	//* 네이버 로그인
+	public naverLogin(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/naver_login`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	//* 구글 로그인
+	public googleLogin(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/google_login`,
+			successCallback,
+			failCallback
+		);
+	}
 }

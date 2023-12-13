@@ -16,11 +16,13 @@ import SupportiInput from '../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { useRouter } from 'next/router';
+import { CookieManager } from '@qillie-corp/qillie-utility';
 
 const Page: NextPage = () => {
 	//* Modules
 	const appMemberController = new AppMemberController();
 	const router = useRouter();
+	const cookie = new CookieManager();
 	//* Constants
 	//* States
 	/**
@@ -50,6 +52,15 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result !== null) {
+					cookie.setItemInCookies(
+						'ACCESS_TOKEN',
+						res.data.result.accessToken,
+						{
+							path: '/',
+							maxAge: autoLogin ? 3600 * 24 * 30 : 3600 * 24,
+						}
+					);
+
 					router.push('/');
 				}
 			},
@@ -72,6 +83,8 @@ const Page: NextPage = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				flexDirection: 'column',
+				bgcolor: 'primary.light',
+				p: 10,
 			}}
 		>
 			<img
@@ -87,7 +100,7 @@ const Page: NextPage = () => {
 					type="email"
 					onChange={(e) => setEmail(e.target.value)}
 					variant={'outlined'}
-					sx={{ mb: 2 }}
+					sx={{ mb: 2, bgcolor: 'white' }}
 					placeholder="이메일 입력"
 					onKeyDown={onKeyPress}
 				/>
@@ -98,7 +111,7 @@ const Page: NextPage = () => {
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					variant={'outlined'}
-					sx={{ mb: 2 }}
+					sx={{ mb: 2, bgcolor: 'white' }}
 					placeholder="비밀번호 입력"
 					onKeyDown={onKeyPress}
 				/>
@@ -126,14 +139,27 @@ const Page: NextPage = () => {
 						label={'자동 로그인'}
 						width={'120px'}
 					/>
-					<Typography
-						variant="subtitle2"
-						sx={{
-							cursor: 'pointer',
-						}}
-					>
-						아이디 / 비밀번호 찾기
-					</Typography>
+					<Box display={'flex'} alignItems={'center'} gap={0.5}>
+						<Typography
+							variant="subtitle2"
+							sx={{
+								cursor: 'pointer',
+							}}
+							onClick={() => router.push('/auth/find_id')}
+						>
+							아이디
+						</Typography>
+						/
+						<Typography
+							variant="subtitle2"
+							sx={{
+								cursor: 'pointer',
+							}}
+							onClick={() => router.push('/auth/find_pw')}
+						>
+							비밀번호 찾기
+						</Typography>
+					</Box>
 				</Box>
 				{/* 소셜로그인 */}
 				<Box display={'flex'} justifyContent={'space-between'}>
@@ -165,10 +191,9 @@ const Page: NextPage = () => {
 					mb={6}
 				>
 					<SocialLogin
-						clientId={'6459bed5636a10ab059180b7d7a4158b'}
+						clientId={'e06884a5c42a479c4766d55703829af3'}
 						callbackUrl={
-							process.env.NEXT_PUBLIC_WEB_HOST +
-							'/auth/redirect_url/kakao'
+							'http://localhost:3000' + '/auth/redirect_url/kakao'
 						}
 						type={'kakao'}
 						children={
@@ -179,10 +204,9 @@ const Page: NextPage = () => {
 						}
 					/>
 					<SocialLogin
-						clientId={'bgdGjKz30ACPP8djXYq8'}
+						clientId={'zNdksk9TIpT9iJZPjBcQ'}
 						callbackUrl={
-							process.env.NEXT_PUBLIC_WEB_HOST +
-							'/auth/redirect_url/naver'
+							'http://localhost:3000' + '/auth/redirect_url/naver'
 						}
 						state={'false'}
 						type={'naver'}
@@ -195,10 +219,10 @@ const Page: NextPage = () => {
 					/>
 					<SocialLogin
 						clientId={
-							'684271033180-564i1mu7bta4cui93qj4b0va67l46bml.apps.googleusercontent.com'
+							'723926736636-q43fi38slh2c86gei55dm4qmhe5kha50.apps.googleusercontent.com'
 						}
 						callbackUrl={
-							process.env.NEXT_PUBLIC_WEB_HOST +
+							'http://localhost:3000' +
 							'/auth/redirect_url/google'
 						}
 						type={'google'}
@@ -214,7 +238,9 @@ const Page: NextPage = () => {
 				<SupportiButton
 					contents={'회원가입하고 서포티 2주간 무료로 이용하기'}
 					variant="outlined"
-					onClick={() => {}}
+					onClick={() => {
+						router.push('/auth/sign_up');
+					}}
 					fullWidth
 				/>
 			</Box>

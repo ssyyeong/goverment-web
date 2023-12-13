@@ -30,6 +30,27 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				console.log(res);
+				setQnaSheet({
+					TITLE: '',
+					CONTENT: '',
+				});
+				getQuestion();
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
+	/**
+	 * 질문 가져오기
+	 */
+	const getQuestion = () => {
+		qnaController.findAllItems(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+			},
+			(res) => {
+				setQuestionList(res.data.result.rows);
 			},
 			(err) => {
 				console.log(err);
@@ -44,17 +65,7 @@ const Page: NextPage = () => {
 	 * 질문 리스트 조회
 	 */
 	useEffect(() => {
-		qnaController.findAllItems(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
-			},
-			(res) => {
-				setQuestionList(res.data.result.rows);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
+		getQuestion();
 	}, []);
 	return (
 		<Box>
