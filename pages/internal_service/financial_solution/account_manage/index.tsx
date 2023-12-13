@@ -204,7 +204,7 @@ const Page: NextPage = () => {
 								setSelectedPeriod(value);
 							}}
 							placeholder="계좌 선택"
-							dataList={selectablePeriodList}
+							// dataList={selectablePeriodList}
 							width={145}
 						/>
 					</Box>

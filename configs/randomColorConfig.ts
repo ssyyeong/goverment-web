@@ -1,4 +1,4 @@
-export const randomColor = [
+const randomColor = [
 	'#FF0000',
 	'#008000',
 	'#0000FF',

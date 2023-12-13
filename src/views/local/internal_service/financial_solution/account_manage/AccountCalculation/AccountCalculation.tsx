@@ -257,7 +257,9 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 											alignItems: 'center',
 										}}
 										onClick={(e) => {
-											InputProps.endAdornment?.props.children.props.onClick();
+											InputProps.endAdornment?.[
+												'props'
+											].children.props.onClick();
 										}}
 									>
 										<Typography

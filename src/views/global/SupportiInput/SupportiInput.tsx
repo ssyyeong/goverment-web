@@ -117,28 +117,29 @@ const SupportiInput = React.forwardRef(
 								<em>{props.defaultValue}</em>
 							</MenuItem>
 						)}
-						{props.dataList.map((item, index) => {
-							return (
-								<MenuItem
-									key={item.label}
-									value={item.value}
-									sx={{ display: 'flex' }}
-								>
-									{props.iconList && (
-										<img
-											src={props.iconList[index]}
-											alt="icon"
-											style={{
-												width: '15px',
-												// height: '15px',
-												marginRight: '15px',
-											}}
-										/>
-									)}
-									{item.label}
-								</MenuItem>
-							);
-						})}
+						{props.dataList &&
+							props.dataList?.map((item, index) => {
+								return (
+									<MenuItem
+										key={item.label}
+										value={item.value}
+										sx={{ display: 'flex' }}
+									>
+										{props.iconList && (
+											<img
+												src={props.iconList[index]}
+												alt="icon"
+												style={{
+													width: '15px',
+													// height: '15px',
+													marginRight: '15px',
+												}}
+											/>
+										)}
+										{item.label}
+									</MenuItem>
+								);
+							})}
 					</Select>
 				) : props.type === 'search' ? (
 					<OutlinedInput
