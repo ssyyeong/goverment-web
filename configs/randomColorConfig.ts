@@ -50,3 +50,5 @@ export const randomColor = [
 	'#FF69B4',
 	'#7FFFD4',
 ];
+
+export { randomColor };

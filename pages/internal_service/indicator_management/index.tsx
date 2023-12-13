@@ -36,6 +36,7 @@ const Page: NextPage = () => {
 		{
 			name: 'OKR',
 			indicatorManagementBoardProps: {
+				name: 'OKR',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
 						return <Box></Box>;
@@ -51,6 +52,7 @@ const Page: NextPage = () => {
 		{
 			name: 'KPI',
 			indicatorManagementBoardProps: {
+				name: 'KPI',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
 						return <Box></Box>;
