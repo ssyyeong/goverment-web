@@ -50,6 +50,7 @@ function App({
 		<React.Fragment>
 			{/* Head */}
 			<Entry
+				disableBreadCrumb={true}
 				memory={memory}
 				configs={{
 					sidebar: {
@@ -57,7 +58,7 @@ function App({
 						...{
 							signIn: {
 								tokenExpireHours: 1,
-								signInSuccessLink: '/basic/member/admin_member',
+								signInSuccessLink: '/login',
 							},
 							plugin: [],
 						},
@@ -75,6 +76,9 @@ function App({
 				useAuthCheck={false}
 				pageProps={pageProps}
 				disableSideBar={true}
+				disableGutturs={true}
+				containerPaddingX={'0'}
+				containerMaxWidth={'3000px !important'}
 				router={router}
 			/>
 		</React.Fragment>

@@ -13,7 +13,7 @@
 		"@mui/lab": "^5.0.0-alpha.155",
 		"@mui/material": "^5.11.4",
 		"@mui/x-date-pickers": "^5.0.15",
-		"@qillie-corp/ark-office-project": "^0.0.1655",
+		"@qillie-corp/ark-office-project": "^0.0.1670",
 		"@qillie-corp/qillie-react-ui": "^0.5.19",
 		"@qillie-corp/qillie-utility": "^0.2.22",
 		"@tosspayments/payment-sdk": "^1.7.0",

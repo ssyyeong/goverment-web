@@ -28,6 +28,9 @@ const footerConfig: any = {
 		additionalInfoOfAvailableTime:
 			'(점심시간 13:00 ~ 14:00 / 주말 및 공휴일 제외)',
 	},
+	wrapperBoxProps: {
+		mt: 0,
+	},
 };
 
 export default footerConfig;
