@@ -60,7 +60,7 @@ const Page: NextPage = () => {
 		<Box>
 			{/* 약관 제목 */}
 			<Typography variant="h5" fontWeight={'600'}>
-				{termsTitle[type as string]}
+				서포티 {termsTitle[type as string]}
 			</Typography>
 			{/* 약관 내용 */}
 			<TextField

@@ -32,11 +32,12 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 					display={'flex'}
 					flexDirection={'column'}
 					alignItems={'center'}
-					justifyContent={'center'}
+					// justifyContent={'center'}
 					width={'100%'}
 					bgcolor={'white'}
 					borderRadius={2}
 					mt={5}
+					minHeight={'500px'}
 				>
 					{props.children}
 				</Box>

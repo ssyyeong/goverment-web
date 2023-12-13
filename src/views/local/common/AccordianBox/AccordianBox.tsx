@@ -10,6 +10,7 @@ interface IAccordianBoxProps {
 	title: string;
 	created_at: Date;
 	content: string;
+	additional?: string;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
@@ -41,6 +42,16 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				<Typography variant="body1" fontWeight={'bold'}>
 					{props.title}
 				</Typography>
+				{props.additional && open && (
+					<Typography variant="body1" my={2}>
+						{props.additional}
+					</Typography>
+				)}
+				{props.additional && open && (
+					<Typography variant="body1" fontWeight={'bold'}>
+						답변
+					</Typography>
+				)}
 				{open && (
 					<TextField
 						sx={{ width: '100%', bgcolor: 'white', my: 2 }}

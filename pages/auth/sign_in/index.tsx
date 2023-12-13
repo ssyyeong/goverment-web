@@ -50,7 +50,7 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result !== null) {
-					router.push('/main');
+					router.push('/');
 				}
 			},
 			(err) => {}
@@ -71,9 +71,15 @@ const Page: NextPage = () => {
 				width: '100%',
 				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
-			<Box width={'320px'}>
+			<img
+				src="/images/logo/Suppor-TFulllogo.svg"
+				alt="logo"
+				style={{ width: 230, margin: 'auto' }}
+			/>
+			<Box width={'320px'} mt={5}>
 				<TextField
 					fullWidth
 					// label={'이메일 입력'}
