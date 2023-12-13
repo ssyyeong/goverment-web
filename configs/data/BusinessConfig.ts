@@ -17,6 +17,7 @@ const businessConfig: {
 		isFromBusinessHistory: true,
 		type: 'number',
 	},
+	// ...
 ];
 
 export { businessConfig };
