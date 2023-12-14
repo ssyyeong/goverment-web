@@ -46,14 +46,14 @@ const Page: NextPage = () => {
 	 * 타겟 연도 변경 함수
 	 */
 	const changeTargetDate = (direction: 'previous' | 'next') => {
+		console.log(direction);
 		setTargetDate(
 			direction === 'previous'
 				? targetDate.subtract(1, 'years')
 				: targetDate.add(1, 'years')
-		)
-		// setTargetDate
+		);
 	};
- 
+
 	//* Hooks
 	/**
 	 * 유저 정보 가져오는 훅
@@ -89,15 +89,17 @@ const Page: NextPage = () => {
 	}, [userAccess, targetDate, memberId]);
 
 	return (
-		<Box sx={{
-			display: 'flex',
-			alignItems: 'space-between',
-			flexDirection: 'column',
-			p: 10,
-		}}>
+		<Box
+			sx={{
+				display: 'flex',
+				alignItems: 'space-between',
+				flexDirection: 'column',
+				p: 10,
+			}}
+		>
 			{/* 컨텐츠 레이아웃 */}
 			{userAccess === true && (
-				<InternalServiceLayout >
+				<InternalServiceLayout>
 					{/* 컨트롤러 */}
 					<Box>
 						<Grid container>
@@ -109,19 +111,23 @@ const Page: NextPage = () => {
 										<Button
 											variant={'contained'}
 											sx={{
-												backgroundColor: '#d2d2d2'
+												backgroundColor: '#d2d2d2',
 											}}
 											onClick={() => {
 												router.push(
-													'/internal_service/financial_statement/edit'
+													'/internal_service/business_info/view'
 												);
 											}}
 										>
-											<Typography variant="h4" color={'black'} width={100}>
-											편집하기
+											<Typography
+												variant="h4"
+												color={'black'}
+												width={100}
+											>
+												편집하기
 											</Typography>
 										</Button>
-										</Box>
+									</Box>
 									{/* 엑셀 추출 버튼 */}
 									<Box>{/* <ExcelDownloadButton /> */}</Box>
 								</Box>
@@ -159,11 +165,22 @@ const Page: NextPage = () => {
 					{/* 테이블 */}
 					<Box>
 						{/* 테이블 헤더 */}
-						<Box>
+						<Box sx={{ backgroundColor: '#1E3269' }}>
 							<Grid container>
 								{/* 각 재무제표 항목 */}
 								<Grid item xs={6} md={3}>
-									<Box ></Box>
+									<Box border={0.5} borderColor={'#bebebe'}>
+										<Typography
+											textAlign={'center'}
+											variant={'body1'}
+											fontWeight={'700'}
+											color={'white'}
+											pt={1}
+											pb={1}
+										>
+											항목
+										</Typography>
+									</Box>
 								</Grid>
 
 								{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
@@ -182,7 +199,35 @@ const Page: NextPage = () => {
 											},
 										}}
 									>
-										<Box></Box>
+										<Box
+											border={0.5}
+											borderColor={'#bebebe'}
+										>
+											<Typography
+												textAlign={'center'}
+												variant={'body1'}
+												fontWeight={'700'}
+												color={'white'}
+												pt={1}
+												pb={1}
+											>
+												{index == 0
+													? targetDate.format(
+															'YYYY.MM.DD'
+													  )
+													: index == 1
+													? targetDate
+															.add(1, 'year')
+															.format(
+																'YYYY.MM.DD'
+															)
+													: targetDate
+															.add(2, 'year')
+															.format(
+																'YYYY.MM.DD'
+															)}
+											</Typography>
+										</Box>
 									</Grid>
 								))}
 							</Grid>
@@ -199,7 +244,8 @@ const Page: NextPage = () => {
 											<Grid item xs={6} md={3}>
 												<Box
 													sx={{
-														backgroundColor: '#d2d2d2',
+														backgroundColor:
+															'#d2d2d2',
 													}}
 													border={0.5}
 													borderColor={'#bebebe'}
@@ -207,15 +253,13 @@ const Page: NextPage = () => {
 														financialStatementMapping.isHighlighted
 															? 3
 															: 1
-													} 
+													}
 													pr={2}
 													pt={1}
 													pb={1}
 												>
 													<Typography
-														variant={
-															'body1'
-														}
+														variant={'body1'}
 														fontWeight={
 															financialStatementMapping.isHighlighted
 																? '700'
@@ -247,12 +291,20 @@ const Page: NextPage = () => {
 														}}
 													>
 														<Box
-														border={0.5}
-														borderColor={'#bebebe'}
+															border={0.5}
+															borderColor={
+																'#bebebe'
+															}
+															pt={1}
+															pb={1}
 														>
 															<Typography
-																variant={'h6'}
-																align='center'
+																variant={
+																	'body1'
+																}
+																textAlign={
+																	'center'
+																}
 															>
 																{
 																	financialStatement[

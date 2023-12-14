@@ -60,11 +60,12 @@ const Page: NextPage = () => {
 	 */
 	React.useEffect(() => {
 		if (userAccess && memberId) {
-			businessController.getOneItemByKey(
+			businessController.getOneItem(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					APP_MEMBER_IDENTIFICATION_CODE: 3,
 				},
 				(res) => {
+					console.log(res);
 					setBusiness(res.data.result);
 				},
 				(err) => {
@@ -83,8 +84,8 @@ const Page: NextPage = () => {
 				{
 					BUSINESS_IDENTIFICATION_CODE:
 						business.BUSINESS_IDENTIFICATION_CODE,
-					SORT_KEY: 'CREATED_AT',
-					SORT_TYPE: 'DESC',
+					// SORT_KEY: 'CREATED_AT',
+					// SORT_TYPE: 'DESC',
 					LIMIT: 1,
 				},
 				(res) => {
@@ -100,7 +101,14 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				p: 10,
+			}}
+		>
 			{/* 컨텐츠 레이아웃 */}
 			{userAccess === true && (
 				<InternalServiceLayout>
@@ -108,7 +116,7 @@ const Page: NextPage = () => {
 					{business && businessHistory && (
 						<Box>
 							{/* 컨트롤러 */}
-							<Box>
+							<Box mb={2}>
 								<Grid container>
 									{/* 데이터 편집 및 추출 */}
 									<Grid item xs={12} md={6}>
@@ -116,13 +124,24 @@ const Page: NextPage = () => {
 											{/* 편집 페이지로 이동 */}
 											<Box>
 												<Button
+													variant={'contained'}
+													sx={{
+														backgroundColor:
+															'#d2d2d2',
+													}}
 													onClick={() => {
 														router.push(
 															'/internal_service/business_info/edit'
 														);
 													}}
 												>
-													편집
+													<Typography
+														variant="h4"
+														color={'black'}
+														width={100}
+													>
+														편집하기
+													</Typography>
 												</Button>
 											</Box>
 										</Box>
@@ -138,8 +157,22 @@ const Page: NextPage = () => {
 										<Grid container>
 											{/* 각 비즈니스 개요 라벨 */}
 											<Grid item xs={6} md={3}>
-												<Box>
-													<Typography variant={'h6'}>
+												<Box
+													sx={{
+														backgroundColor:
+															'#1E3269',
+													}}
+													border={0.5}
+													borderColor={'#bebebe'}
+												>
+													<Typography
+														textAlign={'center'}
+														variant={'h6'}
+														fontWeight={'700'}
+														color={'white'}
+														pt={1}
+														pb={1}
+													>
 														{businessMapping.label}
 													</Typography>
 												</Box>
@@ -147,8 +180,16 @@ const Page: NextPage = () => {
 
 											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
 											<Grid item xs={6} md={3}>
-												<Box>
-													<Typography variant={'h6'}>
+												<Box
+													border={0.5}
+													borderColor={'#bebebe'}
+												>
+													<Typography
+														variant={'h6'}
+														pt={1}
+														pb={1}
+														pl={1}
+													>
 														{businessMapping.isFromBusinessHistory ==
 														true
 															? businessHistory[
