@@ -8,14 +8,17 @@ import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { OkrController } from '../../../../../../controller/OkrController';
+import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 
-interface IOkrModalProps {
+interface IOkrDetailModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	mode?: string;
+	okrMainData: any;
+	okrDetailData: any;
 }
 
-const OkrModal = (props: IOkrModalProps) => {
+const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	//* Controllers
 	const okrController = new OkrController();
 
@@ -76,6 +79,8 @@ const OkrModal = (props: IOkrModalProps) => {
 		);
 	};
 
+	console.log(props.okrMainData, props.okrDetailData);
+
 	return (
 		<Box>
 			<SuppportiModal
@@ -83,7 +88,7 @@ const OkrModal = (props: IOkrModalProps) => {
 				handleClose={() => {
 					props.setModalOpen(false);
 				}}
-				title="목표 등록"
+				title=""
 				style={{
 					width: '70%',
 					padding: '20px',
@@ -99,20 +104,30 @@ const OkrModal = (props: IOkrModalProps) => {
 					>
 						{/** 상위 목표 작성 */}
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<SupportiInput
-								type="input"
-								multiline={true}
-								value={okrMainData.TITLE}
-								setValue={(value: string) => {
-									setOkrMainData({
-										...okrMainData,
-										TITLE: value,
-									});
-								}}
-								width={'400px'}
-								placeholder="상위 목표 타이틀을 입력해주세요."
-							/>
-							{/** 날짜 선택 */}
+							<Box
+								display={'flex'}
+								justifyContent={'space-between'}
+							>
+								<Typography fontWeight={'bold'} variant="h5">
+									{props.okrMainData?.TITLE}
+								</Typography>
+
+								{/** 수정 버튼 */}
+								<SupportiButton
+									contents={'수정'}
+									onClick={() => {
+										createOkr();
+									}}
+									style={{
+										height: '20px',
+										width: '100px',
+									}}
+									color={'primary'}
+									variant="contained"
+									isGradient={true}
+								/>
+							</Box>
+							{/** 날짜 */}
 							<Box display={'flex'}>
 								<SupportiInput
 									type="datepicker"
@@ -140,23 +155,91 @@ const OkrModal = (props: IOkrModalProps) => {
 								/>
 							</Box>
 
+							<Box display="flex" gap={1}>
+								<Typography>현재 달성률</Typography>
+								<Typography ml={1} color={'primary.main'}>
+									{calculateAchieveRate(props.okrDetailData)}{' '}
+									%
+								</Typography>
+							</Box>
 							{/** 프로그레스바 */}
-							{/* <SupportiProgressBar
+							<SupportiProgressBar
 								materialDataList={[
 									{
-										percentage: '50',
+										percentage: calculateAchieveRate(
+											props.okrDetailData
+										).toString(),
 										color: 'primary.main',
 									},
 								]}
-							/> */}
+							/>
+
+							{/** 메모 입력 */}
+							<SupportiInput
+								type="inputwithbtn"
+								value={okrMainData.NOTE}
+								setValue={(value) => {
+									setOkrMainData({
+										...okrMainData,
+										NOTE: value,
+									});
+								}}
+								btnContent="등록하기"
+								btnOnclick={() => {}}
+								width={'100%'}
+							/>
 						</Box>
 
 						<Divider sx={{ my: 2 }} />
 
 						{/** 하위 목표 작성 */}
 						<Box>
+							<Box
+								display={'flex'}
+								justifyContent={'space-between'}
+							>
+								<Box display={'flex'}>
+									<Typography fontWeight={600}>
+										하위목표
+									</Typography>
+									{/** 갯수 */}
+									<Typography
+										color="primary.main"
+										ml={1}
+										fontWeight={600}
+									>
+										{props.okrDetailData.length}
+									</Typography>
+								</Box>
+
+								{/** 하위 목표 추가 버튼 */}
+								{/* <SupportiButton
+									contents={'하위 목표 추가 +'}
+									onClick={() => {
+										setOkrDetailData([
+											...okrDetailData,
+											{
+												TITLE: '',
+												START_DATE: '',
+												END_DATE: '',
+												TARGET_AMOUNT: '',
+												TARGET_UNIT: '',
+												NOTE: '',
+												ACHIEVED_AMOUNT: 0,
+												APP_MEMBER_IDENTIFICATION_CODE: 1,
+											},
+										]);
+									}}
+									style={{
+										height: 5,
+										color: 'black',
+									}}
+									color={'secondary'}
+									variant="outlined"
+								/> */}
+							</Box>
 							{/** 작성 컴포넌트 */}
-							{okrDetailData?.map((okr, index) => {
+							{/* {okrDetailData?.map((okr, index) => {
 								return (
 									<OkrModalDetailBox
 										key={index}
@@ -168,51 +251,21 @@ const OkrModal = (props: IOkrModalProps) => {
 										deleteOkrDetail={deleteOkrDetail}
 									/>
 								);
-							})}
+							})} */}
 
-							{/** 하위 목표 추가 버튼 */}
-							<SupportiButton
-								contents={'하위 목표 추가 +'}
-								onClick={() => {
-									setOkrDetailData([
-										...okrDetailData,
-										{
-											TITLE: '',
-											START_DATE: '',
-											END_DATE: '',
-											TARGET_AMOUNT: '',
-											TARGET_UNIT: '',
-											NOTE: '',
-											ACHIEVED_AMOUNT: 0,
-											APP_MEMBER_IDENTIFICATION_CODE: 1,
-										},
-									]);
-								}}
-								style={{
-									height: 5,
-									marginTop: 2,
-									color: 'black',
-								}}
-								color={'secondary'}
-								variant="outlined"
-							/>
+							{/** 하위 목표 리스트 */}
+							{props.okrDetailData.map((item, index) => {
+								return (
+									<OkrModalDetailBox
+										data={item}
+										index={index}
+										okrDetailData={okrDetailData}
+										setOkrDetailData={setOkrDetailData}
+										mode={'detail'}
+									/>
+								);
+							})}
 						</Box>
-						{/** 등록 버튼 */}
-						<SupportiButton
-							contents={'등록하기'}
-							onClick={() => {
-								createOkr();
-							}}
-							style={{
-								height: '20px',
-								width: '200px',
-								marginLeft: 'auto',
-								marginRight: 'auto',
-							}}
-							color={'primary'}
-							variant="contained"
-							isGradient={true}
-						/>
 					</Box>
 				}
 			/>
@@ -220,4 +273,4 @@ const OkrModal = (props: IOkrModalProps) => {
 	);
 };
 
-export default OkrModal;
+export default OkrDetailModal;

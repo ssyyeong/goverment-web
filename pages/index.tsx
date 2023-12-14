@@ -185,7 +185,7 @@ const Page: NextPage = () => {
 
 	return (
 		<Grid container width={'100%'}>
-			<Grid item xs={12} p={10}>
+			<Grid item xs={12} p={15}>
 				<Grid container>
 					<Grid item xs={6}>
 						<Box
@@ -371,52 +371,56 @@ const Page: NextPage = () => {
 						);
 					})}
 				</Grid>
-				<Box display={'flex'} gap={4}>
-					{data4.map((item, index) => {
-						return (
-							<Box
-								p={3}
-								borderRadius={4}
-								width={'300px'}
-								boxShadow={'rgb(213, 212, 239) 0px 4px 30px'}
-							>
-								<Typography
-									color={'#BAC7FB'}
-									fontWeight={'500'}
+				<Grid item xs={12}>
+					<Box display={'flex'} gap={4}>
+						{data4.map((item, index) => {
+							return (
+								<Box
+									p={3}
+									borderRadius={4}
+									width={'300px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 30px'
+									}
 								>
-									PROBLEM
-								</Typography>
-								<Box mt={2} mb={2}>
 									<Typography
-										variant={'h5'}
+										color={'#BAC7FB'}
 										fontWeight={'500'}
 									>
-										{item.text1}
+										PROBLEM
 									</Typography>
-									<Box
-										display={'flex'}
-										justifyContent={'center'}
-									>
+									<Box mt={2} mb={2}>
 										<Typography
 											variant={'h5'}
 											fontWeight={'500'}
 										>
-											{item.text2}
+											{item.text1}
 										</Typography>
-										<Typography
-											variant={'h5'}
-											fontWeight={'600'}
-											color={'#3C52BB'}
-											pl={0.5}
+										<Box
+											display={'flex'}
+											justifyContent={'center'}
 										>
-											{item.target}
-										</Typography>
+											<Typography
+												variant={'h5'}
+												fontWeight={'500'}
+											>
+												{item.text2}
+											</Typography>
+											<Typography
+												variant={'h5'}
+												fontWeight={'600'}
+												color={'#3C52BB'}
+												pl={0.5}
+											>
+												{item.target}
+											</Typography>
+										</Box>
 									</Box>
 								</Box>
-							</Box>
-						);
-					})}
-				</Box>
+							);
+						})}
+					</Box>
+				</Grid>
 			</Grid>
 
 			<Grid
@@ -452,7 +456,7 @@ const Page: NextPage = () => {
 									<img
 										alt="img"
 										src={'/images/main/financeNum0.svg'}
-										style={{ width: '600px', zIndex: 100 }}
+										style={{ width: '500px', zIndex: 100 }}
 									/>
 									<Box
 										data-aos="fade-up"
@@ -461,14 +465,14 @@ const Page: NextPage = () => {
 										style={{
 											zIndex: -100,
 											marginLeft: 350,
-											marginTop: -240,
+											marginTop: -400,
 										}}
 									>
 										<img
 											alt="img"
 											src={'/images/main/financeNum2.svg'}
 											style={{
-												width: '600px',
+												width: '500px',
 												zIndex: 100,
 											}}
 										/>
@@ -478,7 +482,7 @@ const Page: NextPage = () => {
 											data-aos-duration="2000"
 											style={{
 												width: '303px',
-												marginLeft: -450,
+												marginLeft: -400,
 												marginTop: -50,
 											}}
 										>
@@ -488,7 +492,7 @@ const Page: NextPage = () => {
 													'/images/main/financeNum1.svg'
 												}
 												style={{
-													width: '600px',
+													width: '500px',
 													zIndex: 100,
 												}}
 											/>
@@ -498,7 +502,7 @@ const Page: NextPage = () => {
 												data-aos-duration="2000"
 												style={{
 													marginLeft: '40px',
-													marginTop: '50px',
+													marginTop: '10px',
 												}}
 											>
 												<img
@@ -752,17 +756,17 @@ const Page: NextPage = () => {
 				</Box>
 			</Grid>
 
-			<Grid item xs={12} p={10} width={'860px'}>
+			<Grid item xs={12}>
 				<Box
 					textAlign={'center'}
 					position="absolute"
 					bgcolor={'rgba(0, 0, 0, 0.7)'}
-					width={'inherit'}
-					height={'300px'}
+					width={'100%'}
+					height={'400px'}
 					display={'flex'}
 					flexDirection={'column'}
 					gap={2}
-					p={10}
+					p={15}
 				>
 					<Typography color={'white'} variant="h4" fontWeight={'500'}>
 						여러분의 사업을 편리하게 관리하세요
@@ -788,7 +792,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				<img
-					style={{ zIndex: -100, width: '1000px', height: '300px' }}
+					style={{ zIndex: -100, width: '100%', height: '400px' }}
 					src={'/images/main/mainBackgroundImg.jpg'}
 					alt="img"
 				/>

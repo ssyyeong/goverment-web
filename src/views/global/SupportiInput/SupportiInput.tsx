@@ -14,8 +14,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 import { ImageController } from '../../../controller/ImageController';
 
 interface SupportiInputProps {
@@ -94,7 +94,6 @@ const SupportiInput = React.forwardRef(
 
 		//* Hooks
 
-		// console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (
@@ -159,11 +158,12 @@ const SupportiInput = React.forwardRef(
 					/>
 				) : props.type === 'datepicker' ? (
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							onChange={(e) => {
-								props.setValue(dayjs(e).format('YYYY-MM-DD'));
+						<MobileDatePicker
+							inputFormat="YYYY-MM-DD"
+							onChange={(newValue: Dayjs | null) => {
+								props.setValue(newValue);
 							}}
-							value={props.value}
+							value={dayjs(props.value)}
 							renderInput={(params) => <TextField {...params} />}
 						/>
 					</LocalizationProvider>

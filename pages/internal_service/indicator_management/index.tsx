@@ -3,11 +3,12 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import { IKpi, IOkrCombination } from '../../../src/@types/model';
 import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
 import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import SupportiButton from '../../../src/views/global/SupportiButton';
+import KpiCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
+import OkrCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/OkrCard/OkrCard';
 
 type TSelectableIndicator = {
 	name: string;
@@ -39,13 +40,13 @@ const Page: NextPage = () => {
 				name: 'OKR',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
-						return <Box></Box>;
+						return <OkrCard data={data} />;
 					},
 					injectedParams: {
-						APP_MEMBER_IDENTIFICATION_CODE: 0,
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
 					},
 					getAllCallback:
-						okrController.createItem.bind(okrController),
+						okrController.findAllItems.bind(okrController),
 				},
 			},
 		},
@@ -55,13 +56,13 @@ const Page: NextPage = () => {
 				name: 'KPI',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
-						return <Box></Box>;
+						return <KpiCard data={data} />;
 					},
 					injectedParams: {
-						APP_MEMBER_IDENTIFICATION_CODE: 0,
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
 					},
 					getAllCallback:
-						kpiController.createItem.bind(kpiController),
+						kpiController.findAllItems.bind(kpiController),
 				},
 			},
 		},
@@ -87,7 +88,7 @@ const Page: NextPage = () => {
 	const userAccess = true;
 
 	return (
-		<Box>
+		<Box bgcolor={'primary.light'} p={5}>
 			{/* 컨텐츠 레이아웃 */}
 			{userAccess === true && (
 				<InternalServiceLayout>
