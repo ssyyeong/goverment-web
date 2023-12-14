@@ -23,6 +23,7 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 			borderRadius={1}
 			gap={2}
 			width={'100%'}
+			mb={1}
 		>
 			<Typography variant="h5" fontWeight={'600'}>
 				{props.title}

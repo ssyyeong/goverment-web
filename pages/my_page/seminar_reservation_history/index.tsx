@@ -1,0 +1,206 @@
+import React, { useEffect } from 'react';
+
+import { NextPage } from 'next';
+
+import { Box, BoxProps, Button, Typography } from '@mui/material';
+import SupportiToggle from '../../../src/views/global/SupportiToggle';
+import { usePagination } from '../../../src/hooks/usePagination';
+import SupportiTable, {
+	TableHeaderProps,
+} from '../../../src/views/global/SupportiTable/SupportiTable';
+import moment from 'moment';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
+import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+
+const Page: NextPage = () => {
+	//* Modules
+	const seminarApplicationController = new DefaultController(
+		'SeminarApplication'
+	);
+	//* Constants
+	const seminarHeaderData: TableHeaderProps[] = [
+		{
+			label: 'NO',
+			value: '',
+			format: (value, key, idx) => {
+				return idx + 1;
+			},
+			align: 'center',
+		},
+		{
+			label: '제목',
+			value: 'SeminarProduct.PRODUCT_NAME',
+			customValue: (value) => {
+				return value.SeminarProduct.PRODUCT_NAME;
+			},
+			align: 'center',
+		},
+		{
+			label: '금액',
+			value: 'SeminarProduct.PRICE',
+			customValue: (value) => {
+				return value.SeminarProduct.PRICE;
+			},
+			align: 'center',
+			format: (value) => {
+				return `${value.toLocaleString()} 원`;
+			},
+		},
+		{
+			label: '일정',
+			value: 'SeminarProduct.SEMINAR_DATE',
+			customValue: (value) => {
+				return value.SeminarProduct.SEMINAR_DATE;
+			},
+			format: (value) => {
+				return moment(value).format('YYYY-MM-DD');
+			},
+			align: 'center',
+		},
+	];
+	const cancelSeminarHeaderData: TableHeaderProps = {
+		label: '취소',
+		value: 'SEMINAR_APPLICATION_IDENTIFICATION_CODE',
+		align: 'center',
+		customView: (value) => {
+			return (
+				<Button
+					variant="contained"
+					onClick={() => {
+						setSelectedSeminarId(value);
+						setCancelModal(true);
+					}}
+					sx={{
+						fontWeight: '400',
+						fontSize: '12px',
+					}}
+				>
+					취소
+				</Button>
+			);
+		},
+	};
+	//* States
+	/**
+	 * 탭
+	 */
+	const [tab, setTab] = React.useState(0);
+	/**
+	 * 세미나 데이터 리스트
+	 */
+	const [seminarDataList, setSeminarDataList] = React.useState([]);
+	/**
+	 * 세미나 데이터 총 개수
+	 */
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
+	/**
+	 * 취소 모달
+	 */
+	const [cancelModal, setCancelModal] = React.useState(false);
+	/**
+	 * 선택된 세미나 아이디
+	 */
+	const [selectedSeminarId, setSelectedSeminarId] = React.useState(0);
+	//* Functions
+	/**
+	 * 세미나 취소하기
+	 */
+	const cancelSeminar = (id) => {
+		seminarApplicationController.deleteItem(
+			{
+				SEMINAR_APPLICATION_IDENTIFICATION_CODE: id,
+			},
+			(res) => {
+				// alert('취소되었습니다.');
+				setCancelModal(false);
+			},
+			(err) => {
+				alert('취소에 실패하였습니다.');
+			}
+		);
+	};
+	//* Hooks
+	/**
+	 * 페이징 관련
+	 */
+	const { page, limit, handlePageChange, setLimit } = usePagination();
+	/**
+	 * 세미나 리스트 가져오기
+	 */
+	useEffect(() => {
+		seminarApplicationController.findAllItems(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				LIMIT: 10,
+				PAGE: page,
+			},
+			(res) => {
+				setTotalDataCount(res.data.result.count);
+				setSeminarDataList(res.data.result.rows);
+			},
+			(err) => {}
+		);
+	}, [page, tab, cancelModal]);
+	return (
+		<Box width={'100%'} p={10}>
+			<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
+				내 세미나 예약 내역
+			</Typography>
+			{/* 탭 */}
+			<SupportiToggle
+				chipDataList={[
+					{
+						label: '진행전 세미나',
+						value: 0,
+					},
+					{
+						label: '진행완료 세미나',
+						value: 1,
+					},
+				]}
+				angled
+				value={tab}
+				setValue={setTab}
+				chipHeight={40}
+				selectedChipColor="white"
+				style={{
+					chipStyle: {
+						// height: '40px',
+						bgcolor: 'rgba(85, 131, 228, 1)',
+					},
+				}}
+			/>
+			{/* 테이블 */}
+			<Box width={'100%'} p={2}>
+				<SupportiTable
+					rowData={seminarDataList}
+					headerData={
+						tab === 1
+							? seminarHeaderData
+							: [...seminarHeaderData, cancelSeminarHeaderData]
+					}
+				/>
+			</Box>
+			{/* 페이지 네이션 */}
+			<Box width={'100%'} p={2}>
+				<SupportiPagination
+					limit={limit}
+					setLimit={setLimit}
+					page={page}
+					handlePageChange={handlePageChange}
+					count={totalDataCount}
+					useLimit={false}
+				/>
+			</Box>
+			<SupportiAlertModal
+				type="cancel"
+				open={cancelModal}
+				handleClose={() => setCancelModal(false)}
+				customHandleClose={() => cancelSeminar(selectedSeminarId)}
+			/>
+		</Box>
+	);
+};
+
+export default Page;

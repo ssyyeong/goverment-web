@@ -23,8 +23,9 @@ const useAppMember = () => {
 	useEffect(() => {
 		if (accessToken === undefined) return;
 		else {
-			appMemberController.getOneItem(
-				{ ACCESS_TOKEN: accessToken },
+			appMemberController.getData(
+				{},
+				`${appMemberController.mergedPath}/profile`,
 				(res) => {
 					if (res.data.result !== null) {
 						setMemberId(

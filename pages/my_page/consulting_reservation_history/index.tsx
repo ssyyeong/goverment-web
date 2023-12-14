@@ -1,4 +1,4 @@
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
@@ -7,30 +7,32 @@ import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import SupportiTable from '../../../src/views/global/SupportiTable';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
+import moment from 'moment';
+import SupportiToggle from '../../../src/views/global/SupportiToggle';
 
 const Page: NextPage = () => {
 	//* Modules
-	const pointHistoryController = new DefaultController('PointHistory');
+	const consultingApplicationController = new DefaultController(
+		'ConsultingApplication'
+	);
 	const matches = false; //useMediaQuery(theme.breakpoints.down('md')
 
 	//* States
 	/**
 	 * 결제 정보 리스트
 	 */
-	const [pointHistoryList, setPointHistoryList] = React.useState([]);
+	const [consultingApplicationList, setConsultingApplicationList] =
+		React.useState([]);
 	/**
 	 * 총 데이터 크기
 	 */
 	const [totalDataSize, setTotalDataSize] = React.useState<number>(0);
 	/**
-	 * STATUS
+	 * 탭
 	 */
-	const [status, setStatus] = React.useState<
-		'CHARGED' | 'USED' | 'REFUNDED' | undefined
-	>();
-
+	const [tab, setTab] = React.useState<'COMPLETE' | 'WAITING'>('WAITING');
 	//* Constants
-	const pointHistoryHeaderData: TableHeaderProps[] = [
+	const consultingApplicationHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
 			value: '',
@@ -40,39 +42,54 @@ const Page: NextPage = () => {
 			align: 'left',
 		},
 		{
-			label: '포인트타입',
-			value: 'TYPE',
-			format: (value) => {
-				return value === 'CHARGED'
-					? '충전'
-					: value === 'USED'
-					? '사용'
-					: '환불';
+			label: '제목',
+			value: 'ConsultingProduct.PRODUCT_NAME',
+			customValue: (value) => {
+				return value.ConsultingProduct.PRODUCT_NAME;
 			},
-		},
-		{
-			label: '포인트내용',
-			value: 'DESCRIPTION',
 			align: 'center',
 		},
 		{
 			label: '금액',
+			value: 'ConsultingProduct.PRICE',
+			customValue: (value) => {
+				return value.ConsultingProduct.PRICE;
+			},
 			align: 'center',
-			value: 'AMOUNT',
 			format: (value) => {
-				return `${value.toLocaleString()} 포인트`;
+				return `${value.toLocaleString()} 원`;
 			},
 		},
 		{
-			label: '결제일',
-			align: 'center',
-			value: 'CREATED_AT',
-			format: (value) => {
-				return value.split('T')[0];
+			label: '일정',
+			value: 'RESERVATION_DATE',
+			customValue: (value) => {
+				return `${moment(value.RESERVATION_DATE).format(
+					'YYYY-MM-DD'
+				)} ${value.RESERVATION_START_TIME}`;
 			},
+			align: 'center',
 		},
 	];
-
+	const cancelConsultingHeaderData: TableHeaderProps = {
+		label: '변경',
+		value: 'CONSULTING_APPLICATION_IDENTIFICATION_CODE',
+		align: 'center',
+		customView: (value) => {
+			return (
+				<Button
+					variant="contained"
+					onClick={() => {}}
+					sx={{
+						fontWeight: '400',
+						fontSize: '12px',
+					}}
+				>
+					변경
+				</Button>
+			);
+		},
+	};
 	//* Hooks
 	/**
 	 * 페이지네이션
@@ -82,56 +99,56 @@ const Page: NextPage = () => {
 	 *결제 히스토리 가져오기
 	 */
 	useEffect(() => {
-		pointHistoryController.findAllItems(
+		consultingApplicationController.findAllItems(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: 1,
 				LIMIT: 10,
 				PAGE: page,
-				TYPE: status,
+				STATUS: tab,
 			},
 			(res) => {
-				setPointHistoryList(res.data.result.rows);
+				setConsultingApplicationList(res.data.result.rows);
 				setTotalDataSize(res.data.result.count);
 			},
 			(err) => {
 				console.log(err);
 			}
 		);
-	}, [page, status]);
+	}, [page, tab]);
 
 	return (
 		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
-			<Typography variant="h4" fontWeight={'bold'}>
-				포인트 내역
+			<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
+				내 컨설팅 예약 내역
 			</Typography>
-			{/* 필터 */}
-			<Box px={2} display={'flex'} gap={1} mt={2}>
-				<Chip
-					label={'전체'}
-					onClick={() => {
-						setStatus(undefined);
-					}}
-					color={status === undefined ? 'primary' : 'default'}
-				/>
-				<Chip
-					label={'충전'}
-					onClick={() => {
-						setStatus('CHARGED');
-					}}
-					color={status === 'CHARGED' ? 'primary' : 'default'}
-				/>
-				<Chip
-					label={'사용'}
-					onClick={() => {
-						setStatus('USED');
-					}}
-					color={status === 'USED' ? 'primary' : 'default'}
-				/>
-			</Box>
+			{/* 탭 */}
+			<SupportiToggle
+				chipDataList={[
+					{
+						label: '진행전',
+						value: 'WAITING',
+					},
+					{
+						label: '일정완료',
+						value: 'COMPLETE',
+					},
+				]}
+				angled
+				value={tab}
+				setValue={setTab}
+				chipHeight={40}
+				selectedChipColor="white"
+				style={{
+					chipStyle: {
+						// height: '40px',
+						bgcolor: 'rgba(85, 131, 228, 1)',
+					},
+				}}
+			/>
 			{/* 테이블 */}
-			<Box width={'100%'} p={2}>
+			<Box width={'100%'} p={2} mt={2}>
 				{matches ? (
-					pointHistoryList.map((item, idx) => {
+					consultingApplicationList.map((item, idx) => {
 						return (
 							<MobileTableRow
 								index={idx}
@@ -141,16 +158,6 @@ const Page: NextPage = () => {
 										label: '금액',
 										value: item.AMOUNT,
 									},
-									{
-										label: '포인트타입',
-										value:
-											item.TYPE === 'CHARGED'
-												? '충전'
-												: item.TYPE === 'USED'
-												? '사용'
-												: '환불',
-									},
-
 									{
 										label: '결제일',
 										value: `${
@@ -163,8 +170,14 @@ const Page: NextPage = () => {
 					})
 				) : (
 					<SupportiTable
-						rowData={pointHistoryList}
-						headerData={pointHistoryHeaderData}
+						rowData={consultingApplicationList}
+						headerData={
+							tab === 'WAITING'
+								? consultingApplicationHeaderData.concat(
+										cancelConsultingHeaderData
+								  )
+								: consultingApplicationHeaderData
+						}
 					/>
 				)}
 			</Box>

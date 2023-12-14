@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiTable, {
 	TableHeaderProps,
@@ -93,30 +93,39 @@ const Page: NextPage = () => {
 	}, [tab, page]);
 
 	return (
-		<Box width={'100%'} p={10}>
+		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+			<Typography variant="h4" fontWeight={'bold'}>
+				예약 가능 세미나
+			</Typography>
 			{/* 탭 */}
-			<SupportiToggle
-				chipDataList={[
-					{
-						label: '모든 회원 세미나',
-						value: 0,
-					},
-					{
-						label: '유료 회원 세미나',
-						value: 1,
-					},
-				]}
-				value={tab}
-				setValue={setTab}
-				chipHeight={40}
-				selectedChipColor="white"
-				style={{
-					chipStyle: {
-						// height: '40px',
-						bgcolor: 'rgba(85, 131, 228, 1)',
-					},
-				}}
-			/>
+			<Box p={2}>
+				<SupportiToggle
+					chipDataList={[
+						{
+							label: '모든 회원 세미나',
+							value: 0,
+						},
+						{
+							label: '유료 회원 세미나',
+							value: 1,
+						},
+					]}
+					value={tab}
+					setValue={setTab}
+					chipHeight={40}
+					selectedChipColor="white"
+					style={{
+						chipStyle: {
+							// height: '40px',
+							bgcolor: 'rgba(85, 131, 228, 1)',
+						},
+						outerBoxStyle: {
+							mt: 2,
+						},
+					}}
+				/>
+			</Box>
+
 			{/* 테이블 */}
 			<Box width={'100%'} p={2}>
 				<SupportiTable

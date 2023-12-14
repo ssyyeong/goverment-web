@@ -11,7 +11,15 @@ import ChargeModal from '../../local/external_service/chargeModal/ChargeModal';
 interface ISupportiAlertModalProps {
 	open: boolean;
 	handleClose: () => void;
-	type: 'success' | 'login' | 'subscribe' | 'point' | 'already';
+	type:
+		| 'success'
+		| 'login'
+		| 'subscribe'
+		| 'point'
+		| 'already'
+		| 'withdraw'
+		| 'unsubscribe'
+		| 'cancel';
 	customHandleClose?: () => void;
 }
 
@@ -28,6 +36,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.handleClose();
 				props.customHandleClose && props.customHandleClose();
 			},
+			cancelButtonAvailable: false,
 		},
 		login: {
 			type: 'error',
@@ -36,6 +45,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			onclick: () => {
 				router.push('/auth/sign_in');
 			},
+			cancelButtonAvailable: false,
 		},
 		subscribe: {
 			type: 'error',
@@ -44,6 +54,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			onclick: () => {
 				router.push('/rate_plan');
 			},
+			cancelButtonAvailable: false,
 		},
 		point: {
 			type: 'error',
@@ -52,6 +63,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			onclick: () => {
 				setOpenChargeModal(true);
 			},
+			cancelButtonAvailable: false,
 		},
 		already: {
 			type: 'error',
@@ -61,6 +73,34 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.handleClose();
 				props.customHandleClose && props.customHandleClose();
 			},
+			cancelButtonAvailable: false,
+		},
+		withdraw: {
+			type: 'error',
+			title: '탈퇴시 모든 개인정보가 삭제됩니다. 탈퇴하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		unsubscribe: {
+			type: 'error',
+			title: '구독 취소 시 다음 결제 일 기준으로 모든 유료 서비스가 제한됩니다. 구독 취소하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		cancel: {
+			type: 'error',
+			title: '정말 취소하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
 		},
 	};
 
@@ -103,16 +143,41 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				<Typography variant={'h4'} fontWeight={'bold'} my={1}>
 					{modalConfig[props.type].title}
 				</Typography>
-				<SupportiButton
-					contents={modalConfig[props.type].content}
-					fullWidth
-					isGradient={true}
-					style={{
-						color: '#fff',
-						mt: 3,
-					}}
-					onClick={() => modalConfig[props.type].onclick()}
-				/>
+				<Box
+					display={'flex'}
+					alignItems={'center'}
+					width={'100%'}
+					gap={2}
+				>
+					{modalConfig[props.type].cancelButtonAvailable && (
+						<SupportiButton
+							contents={'취소'}
+							// fullWidth
+							isGradient={false}
+							style={{
+								bgcolor: '#a4a4a4',
+								color: '#fff',
+								mt: 3,
+								width: '50%',
+							}}
+							onClick={() => {
+								props.handleClose();
+							}}
+						/>
+					)}
+					<SupportiButton
+						contents={modalConfig[props.type].content}
+						isGradient={true}
+						style={{
+							color: '#fff',
+							mt: 3,
+							width: modalConfig[props.type].cancelButtonAvailable
+								? '50%'
+								: '100%',
+						}}
+						onClick={() => modalConfig[props.type].onclick()}
+					/>
+				</Box>
 			</Box>
 			<ChargeModal
 				open={openChargeModal}

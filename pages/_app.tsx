@@ -26,6 +26,7 @@ import 'react-clock/dist/Clock.css';
 import sideBarConfig from '../configs/sideBarConfig';
 import Memory from '@qillie-corp/ark-office-project/src/utils/data/Memory';
 import dotenv from 'dotenv';
+import CustomHeader from '../src/views/local/common/CustomHeader/CustomHeader';
 
 //* .env 지정
 dotenv.config({ path: '.env' });
@@ -52,6 +53,7 @@ function App({
 			<Entry
 				disableBreadCrumb={true}
 				memory={memory}
+				customHeader={<CustomHeader />}
 				configs={{
 					sidebar: {
 						...sideBarConfig,

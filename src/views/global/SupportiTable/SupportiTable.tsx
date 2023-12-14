@@ -17,6 +17,8 @@ import {
 export interface TableHeaderProps {
 	label: string;
 	value: string;
+	customValue?: (value: any) => any;
+	customView?: (value: any) => any;
 	checkbox?: boolean;
 	checkBoxOnClick?: (value: any, idx: number) => any;
 	align?: 'left' | 'center' | 'right';
@@ -109,13 +111,17 @@ const SupportiTable = (props: ISupportiTableProps) => {
 													row[column.value]
 											  )
 											: column.value;
-										const value = row[key];
+										const value = column.customValue
+											? column.customValue(row)
+											: row[key];
 										return (
 											<TableCell
 												key={column.value}
 												align={column.align}
 											>
-												{column.checkbox ? (
+												{column.customView ? (
+													column.customView(value)
+												) : column.checkbox ? (
 													<Checkbox
 														color="primary"
 														checked={

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 
 import {
+	Autocomplete,
 	Box,
 	BoxProps,
 	Button,
@@ -23,6 +24,7 @@ import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { businessSector } from '../../../configs/data/BusinessConfig';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -42,6 +44,7 @@ const Page: NextPage = () => {
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
 
+	console.log(signupData);
 	//*Functions
 	/**
 	 * 알림톡 발송
@@ -405,35 +408,56 @@ const Page: NextPage = () => {
 									<Typography>
 										{!item.nolabel && item.label}
 									</Typography>
-									<TextField
-										type={item.type}
-										value={item.value}
-										onChange={item.onChange}
-										error={item.error}
-										focused={item.isVerified}
-										disabled={
-											item.isVerified &&
-											item.value === verifyNumber
-										}
-										color={
-											item.isVerified
-												? 'primary'
-												: 'secondary'
-										}
-										fullWidth
-										InputProps={{
-											endAdornment: item.endAdornment,
-										}}
-										helperText={item.helperText}
-										sx={{
-											mt: 1,
-										}}
-										placeholder={
-											item.placeholder
-												? item.placeholder
-												: `${item.label} 입력`
-										}
-									/>
+
+									{item.label == '사업 분류' ? (
+										<Autocomplete
+											options={businessSector}
+											fullWidth
+											onChange={(e, newValue) => {
+												setSignupData({
+													...signupData,
+													BUSINESS_SECTOR: newValue,
+												});
+											}}
+											value={item.value}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													sx={{ mt: 1 }}
+												/>
+											)}
+										/>
+									) : (
+										<TextField
+											type={item.type}
+											value={item.value}
+											onChange={item.onChange}
+											error={item.error}
+											focused={item.isVerified}
+											disabled={
+												item.isVerified &&
+												item.value === verifyNumber
+											}
+											color={
+												item.isVerified
+													? 'primary'
+													: 'secondary'
+											}
+											fullWidth
+											InputProps={{
+												endAdornment: item.endAdornment,
+											}}
+											helperText={item.helperText}
+											sx={{
+												mt: 1,
+											}}
+											placeholder={
+												item.placeholder
+													? item.placeholder
+													: `${item.label} 입력`
+											}
+										/>
+									)}
 								</Box>
 							);
 						})}
