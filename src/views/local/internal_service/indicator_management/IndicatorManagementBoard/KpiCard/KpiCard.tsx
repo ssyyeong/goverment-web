@@ -8,6 +8,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { IKpi } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
+import KpiModal from '../KpiModal/KpiModal';
 
 interface IKpiCardProps {
 	data: IKpi;
@@ -23,7 +24,12 @@ const KpiCard = (props: IKpiCardProps) => {
 	//* Modules
 
 	//* States
+
+	// 메모
 	const [note, setNote] = React.useState<string>('');
+
+	// 수정모달 오픈 여부
+	const [isModifyModalOpen, setIsModifyModalOpen] = React.useState(false);
 
 	/**
 	 *s
@@ -57,7 +63,7 @@ const KpiCard = (props: IKpiCardProps) => {
 		);
 	};
 
-	//* kpi 달성상태 업데이트 함수
+	// kpi 업데이트 함수
 	const updateKpi = (injectedObj) => {
 		kpiController.updateItem(
 			Object.assign(
@@ -70,6 +76,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			),
 			(response: any) => {
 				alert('수정 성공');
+				setIsModifyModalOpen(false);
 				// Toast.fire({
 				//   icon: 'success',
 				//   title: '성공적으로 수정 되었습니다.',
@@ -86,7 +93,7 @@ const KpiCard = (props: IKpiCardProps) => {
 	};
 
 	//* Constants
-	//* kpi 변경하는 핸들러 버튼들
+	// kpi 변경하는 핸들러 버튼들
 	const controllButtons = [
 		{
 			label: '달성',
@@ -106,13 +113,13 @@ const KpiCard = (props: IKpiCardProps) => {
 		{
 			label: '수정',
 			color: 'primary.light',
-			onclick: () => updateKpi({}),
+			onclick: () => setIsModifyModalOpen(true),
 		},
 	];
 
 	console.log(props.data);
 	return (
-		<Box borderRadius={2} bgcolor={'white'} p={2} mb={2}>
+		<Box borderRadius={2} bgcolor={'white'} p={2} mb={2} boxShadow={'0 3px 15px 0 #e1eaff'}>
 			<Box display="flex" justifyContent={'space-between'}>
 				<Box display="flex" gap={1}>
 					<Box display="flex" flexDirection="column" gap={1}>
@@ -264,9 +271,17 @@ const KpiCard = (props: IKpiCardProps) => {
 						}}
 						width={'100%'}
 						placeholder="메모"
+						multiline={true}
 					/>
 				</Box>
 			)}
+			<KpiModal
+				modalOpen={isModifyModalOpen}
+				setModalOpen={setIsModifyModalOpen}
+				data={props.data}
+				mode={'modify'}
+				updateKpi={updateKpi}
+			/>
 		</Box>
 	);
 };

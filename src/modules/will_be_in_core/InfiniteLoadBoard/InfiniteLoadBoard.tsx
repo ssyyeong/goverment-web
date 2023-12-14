@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, BoxProps } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { TRenderItemCallback } from '../../../@types/callbacks';
@@ -172,6 +172,18 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 			throw new Error('getAllCallback is not defined');
 		}
 	};
+	//* Hooks
+	/**
+	 * 필터 바뀔때 초기화시키기
+	 */
+	console.log(props.injectedParams);
+	useEffect(() => {
+		callData();
+	}, [
+		props.injectedParams.SORT_DIRECTION,
+		props.injectedParams.PERIOD_START,
+		props.injectedParams.PERIOD_END,
+	]);
 
 	//* Refs
 	/**

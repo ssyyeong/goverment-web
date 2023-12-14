@@ -7,7 +7,7 @@ export class OkrController extends ControllerABC {
 	}
 
 	/**
-	 * 구독권 생성
+	 * OKR 목표 생성
 	 */
 	public createItem(
 		args: { [key: string]: any },
@@ -21,4 +21,38 @@ export class OkrController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	/**
+	 * OKR 목표 수정
+	 */
+	public updateItem(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/update_okr`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	/**
+	 * OKR 목표 삭제
+	 */
+
+	public deleteItem(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/delete_okr`,
+			successCallback,
+			failCallback
+		);
+	}
+	
 }

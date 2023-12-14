@@ -22,7 +22,7 @@ interface SupportiInputProps {
 	type: string;
 	value: any;
 	setValue?: any;
-	defaultValue?: string;
+	defaultValue?: any;
 	dataList?: any;
 	width?: number | string;
 	label?: string;
@@ -275,6 +275,7 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
+						multiline={props.multiline ? props.multiline : false}
 						endAdornment={
 							<InputAdornment position="end">
 								<Button
@@ -283,6 +284,7 @@ const SupportiInput = React.forwardRef(
 										width: '70px',
 										bgcolor: 'secondary.main',
 										color: 'white',
+										marginTop: props.multiline ? 'auto' : 0,
 									}}
 									onClick={props.btnOnclick}
 								>

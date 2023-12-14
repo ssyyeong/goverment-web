@@ -5,11 +5,15 @@ import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import OkrDetailModal from '../OkrDetailModal/OkrDetailModal';
+import OkrModal from '../OkrModal/OkrModal';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
+import { randomColor } from '../../../../../../../configs/randomColorConfig';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
+	mode?: string;
+	index?: number;
+	okrMainId: number;
 }
 
 const OkrCard = (props: IOkrCardProps) => {
@@ -29,9 +33,40 @@ const OkrCard = (props: IOkrCardProps) => {
 	 */
 	const [isMoreModalOpen, setIsMoreModalOpen] = React.useState(false);
 
+	const [okrMainData, setOkrMainData] = React.useState(props.data);
+	const [okrDetailData, setOkrDetailData] = React.useState(
+		props.data.OkrDetails
+	);
+
 	//* Functions
 
-	console.log(props.data, props.data.OkrDetails);
+	//* Hooks
+	// React.useEffect(() => {
+	// 	okrController
+	// 		.getOneItem({
+	// 			APP_MEMBER_IDENTIFICATION_CODE: 1,
+	// 			OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+	// 		})
+	// 		.then((res) => {
+	// 			console.log(res);
+	// 			// setOkrMainData(res);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
+
+	console.log(props.data, props.data.OkrDetails, okrDetailData);
+	const materialDataList = okrDetailData.map((item, index) => {
+		return {
+			percentage: Math.round(
+				((Number(item.ACHIEVED_AMOUNT) / Number(item.TARGET_AMOUNT)) *
+					100) /
+					okrDetailData.length
+			).toString(),
+			color: randomColor[index],
+		};
+	});
 
 	return (
 		<Box
@@ -46,7 +81,7 @@ const OkrCard = (props: IOkrCardProps) => {
 		>
 			<Box display={'flex'} justifyContent={'space-between'}>
 				<Typography variant="h3" fontWeight={'bold'}>
-					{props.data?.TITLE}
+					{okrMainData.TITLE}
 				</Typography>
 				{/** 상세보기 */}
 				<Box display="flex" onClick={() => setIsMoreModalOpen(true)}>
@@ -63,7 +98,7 @@ const OkrCard = (props: IOkrCardProps) => {
 			{/** 기간 */}
 			<Box display={'flex'}>
 				<Typography fontWeight={500} color={'secondary.main'}>
-					{(props.data?.START_DATE as string).split('T')[0]}
+					{(okrMainData.START_DATE as string).split('T')[0]}
 				</Typography>
 				<Typography
 					ml={0.5}
@@ -74,7 +109,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					~
 				</Typography>
 				<Typography fontWeight={500} color={'secondary.main'}>
-					{(props.data?.END_DATE as string).split('T')[0]}
+					{(okrMainData.END_DATE as string).split('T')[0]}
 				</Typography>
 
 				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
@@ -82,50 +117,46 @@ const OkrCard = (props: IOkrCardProps) => {
 			</Box>
 
 			{/** 달성률*/}
-			<Box display="flex">
-				<Typography>현재 달성률</Typography>
-				<Typography ml={1} color={'primary.main'}>
-					{calculateAchieveRate(props.data.OkrDetails)} %
-				</Typography>
-			</Box>
+			<Box display="flex" flexDirection="column" gap={1}>
+				<Box display="flex">
+					<Typography>현재 달성률</Typography>
+					<Typography ml={1} color={'primary.main'}>
+						{calculateAchieveRate(okrDetailData)} %
+					</Typography>
+				</Box>
 
-			{/** 프로그레스 바 */}
-			<SupportiProgressBar
-				materialDataList={[
-					{
-						percentage: calculateAchieveRate(
-							props.data.OkrDetails
-						).toString(),
-						color: 'primary.main',
-					},
-				]}
-			/>
+				{/** 프로그레스 바 */}
+				<SupportiProgressBar materialDataList={materialDataList} />
+			</Box>
 
 			{/** 하위 목표리스트 */}
 
 			<Box>
-				<Box display={'flex'}>
+				<Box display={'flex'} mb={1}>
 					<Typography fontWeight={600}>하위목표</Typography>
 					{/** 갯수 */}
 					<Typography color="primary.main" ml={1} fontWeight={600}>
-						{props.data.OkrDetails.length}
+						{okrDetailData.length}
 					</Typography>
 				</Box>
 
 				{/** 하위 리스트들 카드로 출력 */}
-				<Box display={'flex'} width="100%" gap={1}>
-					{props.data.OkrDetails.map((item, index) => {
+				<Box display={'flex'} width="100%" gap={1} sx={{overflowX: 'scroll'}}>
+					{okrDetailData.map((item, index) => {
 						return <OkrDetailCard data={item} index={index} />;
 					})}
 				</Box>
 			</Box>
 			{isMoreModalOpen && (
-				<OkrDetailModal
-					mode={'edit'}
+				<OkrModal
+					mode={'detail'}
 					modalOpen={isMoreModalOpen}
 					setModalOpen={setIsMoreModalOpen}
-					okrMainData={props.data}
-					okrDetailData={props.data.OkrDetails}
+					okrMainData={okrMainData}
+					setOkrMainData={setOkrMainData}
+					okrDetailData={okrDetailData}
+					setOkrDetailData={setOkrDetailData}
+					materialDataList={materialDataList}
 				/>
 			)}
 		</Box>

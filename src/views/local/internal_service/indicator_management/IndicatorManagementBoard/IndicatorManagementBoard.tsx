@@ -13,6 +13,7 @@ import OkrModal from './OkrModal/OkrModal';
 import KpiModal from './KpiModal/KpiModal';
 import SupportiToggle from '../../../../global/SupportiToggle';
 import SupportiInput from '../../../../global/SupportiInput';
+import moment from 'moment';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -55,6 +56,27 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			label: '최신순',
 		},
 	];
+	/**
+	 * 선택 가능한 정렬
+	 */
+	const selectablePeriodList: { value: string; label: string }[] = [
+		{
+			value: JSON.stringify({
+				PERIOD_TARGET_KEY: 'END_DATE',
+				PERIOD_START: new Date(),
+				PERIOD_END: moment().add(1, 'year').toDate(),
+			}),
+			label: '진행중',
+		},
+		{
+			value: JSON.stringify({
+				PERIOD_TARGET_KEY: 'END_DATE',
+				PERIOD_END: new Date(),
+				PERIOD_START: moment().subtract(1, 'year').toDate(),
+			}),
+			label: '완료',
+		},
+	];
 
 	/**
 	 * 선택 가능한 상태
@@ -93,7 +115,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	 * 상태 영역 (진행중 / 완료) 선택
 	 */
 	const [selectedStatus, setSelectedStatus] = React.useState<string>(
-		selectableStatusList[0].value
+		selectablePeriodList[0].value
 	);
 
 	/**
@@ -150,9 +172,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			<Box display={'flex'} justifyContent={'space-between'}>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
-					chipDataList={selectableStatusList}
+					chipDataList={selectablePeriodList}
 					value={selectedStatus}
 					setValue={(value) => setSelectedStatus(value as string)}
+					chipHeight={'30px'}
 					style={{
 						outerBoxStyle: {
 							width: '150px',

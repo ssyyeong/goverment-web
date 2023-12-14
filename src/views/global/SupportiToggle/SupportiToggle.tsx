@@ -11,7 +11,7 @@ interface ISupportiToggleProps {
 	chipDataList: ISupportiChipProps[];
 	setValue: React.Dispatch<React.SetStateAction<string | number>>;
 	value: string | number;
-	chipHeight?: number;
+	chipHeight?: number | string;
 	angled?: boolean;
 	isToggled?: boolean;
 	selectedChipColor?: string;

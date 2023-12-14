@@ -50,7 +50,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		ACCOUNT_PASSWORD: '',
 		ACCOUNT_NICKNAME: '',
 		ACCOUNT_HOLDER: '',
-		START_DATE: '2022-03-30',
+		START_DATE: new Date(),
 	});
 
 	//* Constants
@@ -324,7 +324,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			ACCOUNT_PASSWORD: '',
 			ACCOUNT_NICKNAME: '',
 			ACCOUNT_HOLDER: '',
-			START_DATE: '2022-03-30',
+			START_DATE: new Date(),
 		});
 	}, [loginMethod]);
 

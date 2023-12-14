@@ -13,7 +13,9 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 interface IKpiModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
-	mode?: 'detail' | 'create';
+	mode?: 'modify' | 'create';
+	data?: any;
+	updateKpi?: (injectedObj) => void;
 }
 
 const KpiModal = (props: IKpiModalProps) => {
@@ -25,18 +27,22 @@ const KpiModal = (props: IKpiModalProps) => {
 	//* Constants
 
 	//* States
-	const [kpiData, setKpiData] = React.useState<IKpi>({
-		TITLE: '',
-		START_DATE: '',
-		END_DATE: '',
-		TARGET_AMOUNT: '',
-		TARGET_UNIT: '',
-		NOTE: '',
-		CATEGORY: '',
-		ASSIGNEE: '',
-		RATE: 1,
-		STATUS: 'PROCEEDING',
-	});
+	const [kpiData, setKpiData] = React.useState<IKpi>(
+		props.data
+			? props.data
+			: {
+					TITLE: '',
+					START_DATE: new Date(),
+					END_DATE: new Date(),
+					TARGET_AMOUNT: '',
+					TARGET_UNIT: '',
+					NOTE: '',
+					CATEGORY: '',
+					ASSIGNEE: '',
+					RATE: 1,
+					STATUS: 'PROCEEDING',
+			  }
+	);
 
 	//* Functions
 	/**
@@ -55,6 +61,7 @@ const KpiModal = (props: IKpiModalProps) => {
 			}
 		);
 	};
+	console.log(props.data);
 
 	return (
 		<Box>
@@ -63,7 +70,7 @@ const KpiModal = (props: IKpiModalProps) => {
 				handleClose={() => {
 					props.setModalOpen(false);
 				}}
-				title="목표 등록"
+				title={props.mode === 'modify' ? '수정하기' : '목표 등록'}
 				style={{
 					width: '70%',
 					padding: '20px',
@@ -147,7 +154,7 @@ const KpiModal = (props: IKpiModalProps) => {
 								</Box>
 							</Box>
 
-							<Box display={'flex'}>
+							<Box display={'flex'} gap={2}>
 								{/** 카테고리 */}
 								<Box>
 									<Typography fontWeight={500} mb={1}>
@@ -206,28 +213,30 @@ const KpiModal = (props: IKpiModalProps) => {
 									/>
 								</Box>
 								{/** 목표량 */}
-								<Box>
-									<Typography fontWeight={500} mb={1}>
-										목표량
-									</Typography>
-									<Box display={'flex'}>
-										<SupportiInput
-											type="input"
-											value={kpiData.TARGET_AMOUNT}
-											setValue={(value) => {
-												setKpiData({
-													...kpiData,
-													TARGET_AMOUNT: value,
-												});
-											}}
-											width={'150px'}
-										/>
-									</Box>
+								<Box display={'flex'}>
 									<Box>
-										<Typography>{kpiData.TARGET_UNIT}</Typography>
+										<Typography fontWeight={500} mb={1}>
+											목표량
+										</Typography>
+										<Box display={'flex'}>
+											<SupportiInput
+												type="input"
+												value={kpiData.TARGET_AMOUNT}
+												setValue={(value) => {
+													setKpiData({
+														...kpiData,
+														TARGET_AMOUNT: value,
+													});
+												}}
+												width={'150px'}
+											/>
+										</Box>
 									</Box>
+									{/* <Box>
+										<Typography>{kpiData.TARGET_UNIT}</Typography>
+									</Box> */}
 								</Box>
-								{props.mode === 'detail' && (
+								{props.mode === 'create' && (
 									<SupportiButton
 										contents={'등록하기'}
 										onClick={() => {
@@ -247,9 +256,21 @@ const KpiModal = (props: IKpiModalProps) => {
 
 						{/** 등록 버튼 */}
 						<SupportiButton
-							contents={'등록하기'}
+							contents={
+								props.mode === 'modify'
+									? '수정하기'
+									: '등록하기'
+							}
 							onClick={() => {
-								createKpi();
+								props.mode === 'modify'
+									? props.updateKpi({
+											...kpiData,
+											KPI_IDENTIFICATION_CODE:
+												props.data[
+													'KPI_IDENTIFICATION_CODE'
+												],
+									  })
+									: createKpi();
 							}}
 							style={{
 								height: '30px',

@@ -10,6 +10,7 @@ import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import { previewData } from 'next/dist/client/components/headers';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
+import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 
 interface IOkrModalDetailBoxProps {
 	mode: string;
@@ -18,66 +19,58 @@ interface IOkrModalDetailBoxProps {
 	okrDetailData: any;
 	setOkrDetailData: any;
 	deleteOkrDetail?: any;
+	updateOkr?: any;
+	okrMainId?: number;
 }
 
 const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
+	//* Controllers
+	const okrController = new DefaultController('OkrDetail');
+
 	//* Modules
 
 	//* Constants
 
 	//* States
-	/**
-' 더보기 여부
- */
-	const [isMoreOpen, setIsMoreOpen] = React.useState(false);
 
 	//* Functions
+	const updateOkr = () => {
+		okrController
+			.createItem({
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+				TITLE: props.data.TITLE,
+				START_DATE: props.data.START_DATE,
+				END_DATE: props.data.END_DATE,
+				TARGET_UNIT: props.data.TARGET_UNIT,
+				TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+				ACHIEVED_AMOUNT: 0,
+			})
+			.then((res) => {
+				alert('생성');
+				props.setOkrDetailData([
+					...props.okrDetailData,
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+						TITLE: props.data.TITLE,
+						START_DATE: props.data.START_DATE,
+						END_DATE: props.data.END_DATE,
+						TARGET_UNIT: props.data.TARGET_UNIT,
+						TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+						ACHIEVED_AMOUNT: 0,
+					},
+				]);
+				// 리셋
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
 	return (
 		<Box>
-			{props.mode === 'detail' && (
-				<Box>
-					<Box display={'flex'} justifyContent={'space-between'}>
-						<Box display={'flex'}>
-							<Typography fontWeight={600}>하위목표</Typography>
-							{/** 갯수 */}
-							<Typography
-								color="primary.main"
-								ml={1}
-								fontWeight={600}
-							>
-								{props.data.length}
-							</Typography>
-						</Box>
-
-						{/** 하위 목표 추가 버튼 */}
-						<SupportiButton
-							contents={'하위 목표 추가 +'}
-							onClick={() => {
-								// setOkrDetailData([
-								// 	...okrDetailData,
-								// 	{
-								// 		TITLE: '',
-								// 		START_DATE: '',
-								// 		END_DATE: '',
-								// 		TARGET_AMOUNT: '',
-								// 		TARGET_UNIT: '',
-								// 		NOTE: '',
-								// 		ACHIEVED_AMOUNT: 0,
-								// 		APP_MEMBER_IDENTIFICATION_CODE: 1,
-								// 	},
-								// ]);
-							}}
-							style={{
-								height: 5,
-								color: 'black',
-							}}
-							color={'secondary'}
-							variant="outlined"
-						/>
-					</Box>
-				</Box>
-			)}
 			<Box
 				p={3}
 				bgcolor={'secondary.light'}
@@ -94,7 +87,13 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							<Box
 								sx={{
 									borderRadius: '50%',
-									bgcolor: randomColor[props.index],
+									bgcolor:
+										randomColor[
+											props.mode === 'detail' ?
+											props.okrDetailData.length +
+												props.index
+												:props.index
+										],
 									width: '10px',
 									height: '10px',
 								}}
@@ -106,7 +105,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							<SupportiInput
 								type="input"
 								multiline={true}
-								value={props.okrDetailData[props.index].TITLE}
+								value={props.data.TITLE}
 								setValue={(value: string) => {
 									let temp: any = [...props.okrDetailData];
 									temp[props.index].TITLE = value;
@@ -202,6 +201,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 										props.setOkrDetailData(temp);
 									}}
 									width={'150px'}
+									style={{
+										bgcolor: 'white',
+									}}
 								/>
 								<Box>
 									<Typography></Typography>
@@ -212,11 +214,13 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							<SupportiButton
 								contents={'등록하기'}
 								onClick={() => {
-									//** 메모 등록 */
+									updateOkr();
 								}}
 								style={{
-									height: '20px',
+									height: '25px',
 									width: '100px',
+									marginTop: 'auto',
+									marginLeft: 'auto',
 								}}
 								color={'primary'}
 								variant="contained"
@@ -226,135 +230,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					</Box>
 				</Box>
 			</Box>
-			{props.mode === 'detail' && (
-				<Box
-					p={3}
-					bgcolor={'secondary.light'}
-					borderRadius={2}
-					display={'flex'}
-					flexDirection={'column'}
-					gap={2}
-					mb={2}
-				>
-					<Box display={'flex'} justifyContent={'space-between'}>
-						<Box display={'flex'}>
-							{/** 컬러 칩 */}
-							<Box
-								sx={{
-									borderRadius: '50%',
-									bgcolor: randomColor[props.index],
-									width: '10px',
-									height: '10px',
-								}}
-								mt={'auto'}
-								mb={'auto'}
-							/>
-
-							{/** 하위 목표 타이틀 */}
-							<Typography fontWeight={'bold'} variant="h5" ml={1}>
-								title
-							</Typography>
-						</Box>
-
-						{/** 토글 arrow 아이콘 */}
-						<CancelIcon
-							color={'secondary'}
-							sx={{
-								cursor: 'pointer',
-								marginTop: 'auto',
-								marginBottom: 'auto',
-							}}
-							onClick={() => {
-								setIsMoreOpen(true);
-							}}
-						/>
-					</Box>
-
-					<Box display={'flex'} flexDirection={'column'} gap={2}>
-						{/** 날짜 */}
-						<Box display={'flex'}>
-							<SupportiInput
-								type="datepicker"
-								value={
-									props.okrDetailData[props.index].START_DATE
-								}
-								setValue={(value) => {
-									let temp: any = [...props.okrDetailData];
-									temp[props.index].START_DATE = value;
-
-									props.setOkrDetailData(temp);
-								}}
-								width={'130px'}
-								useIcon={false}
-							/>
-							<SupportiInput
-								type="datepicker"
-								value={
-									props.okrDetailData[props.index].END_DATE
-								}
-								setValue={(value) => {
-									let temp: any = [...props.okrDetailData];
-									temp[props.index].END_DATE = value;
-
-									props.setOkrDetailData(temp);
-								}}
-								width={'130px'}
-								useIcon={false}
-							/>
-						</Box>
-
-						{/** 현재 달성률 */}
-						<Box display="flex" gap={1}>
-							<Typography>현재 달성률</Typography>
-							<Typography ml={1} color={'primary.main'}>
-								{calculateAchieveRate(props.okrDetailData)} %
-							</Typography>
-						</Box>
-						{/** 프로그레스바 */}
-						<SupportiProgressBar
-							materialDataList={[
-								{
-									percentage: calculateAchieveRate(
-										props.okrDetailData
-									).toString(),
-									color: randomColor[props.index],
-								},
-							]}
-						/>
-
-						{/** 달성량 추가 */}
-						<Box>
-							<Typography fontWeight={500} mb={1}>
-								달성량 추가
-							</Typography>
-							<SupportiInput
-								type="inputwithbtn"
-								value={'dd'}
-								setValue={(value) => {}}
-								defaultValue=""
-								placeholder="달성량 입력"
-								width={'150px'}
-								btnContent="달성량 추가"
-								btnOnclick={() => {}}
-							/>
-						</Box>
-						{/** 메모 입력 */}
-						{/* <SupportiInput 
-							type='inputwithbtn'
-							value={okrMainData.NOTE}
-							setValue={(value) => {
-								setOkrMainData({
-									...okrMainData,
-									NOTE: value,
-								});
-							}}
-							btnContent='등록하기'
-							btnOnclick={() => {}}
-							width={'100%'}
-							/> */}
-					</Box>
-				</Box>
-			)}
 		</Box>
 	);
 };
