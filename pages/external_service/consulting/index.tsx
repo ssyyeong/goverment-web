@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from '@mui/material';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiTable, {
 	TableHeaderProps,
@@ -12,10 +18,14 @@ import { usePagination } from '../../../src/hooks/usePagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
+import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
+	const theme = useTheme();
+	const matches = false; //useMediaQuery(theme.breakpoints.down('md')
+	console.log(matches);
 	//* Constants
 	const consultingHeaderData: TableHeaderProps[] = [
 		{
@@ -75,21 +85,42 @@ const Page: NextPage = () => {
 	}, [page]);
 
 	return (
-		<Box width={'100%'} p={10}>
+		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
 			<Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 컨설팅
 			</Typography>
 			{/* 테이블 */}
 			<Box width={'100%'} p={2} mt={2}>
-				<SupportiTable
-					rowData={consultingDataList}
-					headerData={consultingHeaderData}
-					onClick={(data) => {
-						router.push(
-							`/external_service/consulting/${data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+				{matches ? (
+					consultingDataList.map((item, idx) => {
+						return (
+							<MobileTableRow
+								index={idx}
+								title={item.PRODUCT_NAME}
+								colums={[
+									{
+										label: '제목',
+										value: item.PRODUCT_NAME,
+									},
+									{
+										label: '금액',
+										value: `${item.PRICE.toLocaleString()} 원`,
+									},
+								]}
+							/>
 						);
-					}}
-				/>
+					})
+				) : (
+					<SupportiTable
+						rowData={consultingDataList}
+						headerData={consultingHeaderData}
+						onClick={(data) => {
+							router.push(
+								`/external_service/consulting/${data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+							);
+						}}
+					/>
+				)}
 			</Box>
 			{/* 페이지 네이션 */}
 			<Box width={'100%'} p={2}>

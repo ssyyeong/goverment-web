@@ -53,8 +53,10 @@ const SupportiTable = (props: ISupportiTableProps) => {
 		mounted && (
 			<TableContainer
 				sx={{
-					pr: 1,
+					p: 2,
 					width: '100%',
+					bgcolor: 'white',
+					borderRadius: 1,
 				}}
 			>
 				<Table stickyHeader={props.stikyHeader}>
