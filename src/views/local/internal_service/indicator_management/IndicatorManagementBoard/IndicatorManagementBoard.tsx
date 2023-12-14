@@ -206,10 +206,12 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				setAllData={setIndicatorList}
 			/>
 			{props.name === 'OKR' && (
-				<OkrModal
-					modalOpen={indicatorRegisterModal}
-					setModalOpen={setIndicatorRegisterModal}
-				/>
+				// <OkrModal
+				// 	modalOpen={indicatorRegisterModal}
+				// 	setModalOpen={setIndicatorRegisterModal}
+				// />
+
+				<></>
 			)}
 			{props.name === 'KPI' && (
 				<KpiModal
