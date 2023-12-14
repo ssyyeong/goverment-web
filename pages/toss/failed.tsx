@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
@@ -13,7 +13,43 @@ const Page: NextPage = () => {
 	//* States
 	//* Functions
 	//* Hooks
-	return <Box></Box>;
+	useEffect(() => {
+		setTimeout(() => {
+			router.back();
+		}, 3000);
+	}, [router.query]);
+
+	return (
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				width: '100%',
+				height: '80vh',
+			}}
+		>
+			<Typography
+				variant="h6"
+				color={'error'}
+				sx={{
+					mt: 3,
+				}}
+			>
+				{message}
+			</Typography>
+			<Typography
+				variant="h3"
+				fontWeight={'bold'}
+				sx={{
+					mt: 3,
+				}}
+			>
+				결제에 실패했습니다!
+			</Typography>
+		</Box>
+	);
 };
 
 export default Page;

@@ -12,23 +12,33 @@ const useAppMember = () => {
 	/**
 	 * 유저 아이디
 	 */
-	const [memberId, setMemberId] = useState<number | undefined>(1);
+	const [memberId, setMemberId] = useState<number | undefined>(undefined);
 	//* Cookie
 	const cookie = new CookieManager();
+	const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오기
 	 */
 	useEffect(() => {
-		appMemberController.getOneItem(
-			{ ACCESS_TOKEN: cookie.getItemInCookies('ACCESS_TOKEN') },
-			(res) => {
-				setMemberId(res.data.result.APP_MEMBER_IDENTIFICATION_CODE);
-			}
-		);
-	}, []);
+		if (accessToken === undefined) return;
+		else {
+			appMemberController.getOneItem(
+				{ ACCESS_TOKEN: accessToken },
+				(res) => {
+					if (res.data.result !== null) {
+						setMemberId(
+							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
+						);
+					} else {
+						setMemberId(undefined);
+					}
+				}
+			);
+		}
+	}, [accessToken]);
 
-	return memberId || 1;
+	return memberId;
 };
 
 export default useAppMember;

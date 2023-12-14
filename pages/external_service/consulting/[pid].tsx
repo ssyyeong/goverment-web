@@ -8,15 +8,14 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import ConsultingSchedular from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedular';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	//* Controller
 	const consultingController = new DefaultController('ConsultingProduct');
-	const consultingApplicationController = new DefaultController(
-		'ConsultingApplication'
-	);
 	//* Constants
 	const { pid } = router.query;
 	//* States
@@ -29,19 +28,22 @@ const Page: NextPage = () => {
 	 */
 	const [reservationScheduleModal, setReservationScheduleModal] =
 		React.useState<boolean>(false);
+	/**
+	 * 알럿 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+	/**
+	 * 알럿 모달 타입
+	 */
+	const [alertModalType, setAlertModalType] = React.useState<
+		'success' | 'login' | 'subscribe' | 'point' | 'already'
+	>('success');
+	const { access } = useUserAccess('SIGN_IN');
 	//* Functions
 	/**
 	 * 컨설팅 신청하기
 	 */
-	const applyConsulting = () => {
-		consultingApplicationController.createItem(
-			{
-				CONSULTING_PRODUCT_IDENTIFICATION_CODE: pid,
-			},
-			(res) => {},
-			(err) => {}
-		);
-	};
+
 	//* Hooks
 	/**
 	 * 컨설팅 데이터 가져오기
@@ -58,8 +60,8 @@ const Page: NextPage = () => {
 		);
 	}, []);
 	return (
-		<Box width={'100%'} position={'relative'}>
-			{/* 세미나 헤더 */}
+		<Box width={'100%'} position={'relative'} p={10} minHeight={'90vh'}>
+			{/* 컨설팅 헤더 */}
 			<Box
 				width={'100%'}
 				p={3}
@@ -80,7 +82,7 @@ const Page: NextPage = () => {
 					</Typography>
 				</Box>
 			</Box>
-			{/* 세미나 내용 */}
+			{/* 컨설팅 내용 */}
 			<Box
 				display={'flex'}
 				width={'100%'}
@@ -111,7 +113,14 @@ const Page: NextPage = () => {
 				<SupportiButton
 					contents={'신청하기'}
 					isGradient={true}
-					onClick={() => setReservationScheduleModal(true)}
+					onClick={() => {
+						if (!access) {
+							setAlertModalType('login');
+							setAlertModal(true);
+							return;
+						}
+						setReservationScheduleModal(true);
+					}}
 					style={{
 						color: 'white',
 						width: '200px',
@@ -122,6 +131,11 @@ const Page: NextPage = () => {
 				open={reservationScheduleModal}
 				handleClose={() => setReservationScheduleModal(false)}
 				consultingData={consultingData}
+			/>
+			<SupportiAlertModal
+				type={alertModalType}
+				open={alertModal}
+				handleClose={() => setAlertModal(false)}
 			/>
 		</Box>
 	);

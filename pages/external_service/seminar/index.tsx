@@ -93,7 +93,7 @@ const Page: NextPage = () => {
 	}, [tab, page]);
 
 	return (
-		<Box width={'100%'}>
+		<Box width={'100%'} p={10}>
 			{/* 탭 */}
 			<SupportiToggle
 				chipDataList={[
@@ -112,7 +112,7 @@ const Page: NextPage = () => {
 				selectedChipColor="white"
 				style={{
 					chipStyle: {
-						height: '40px',
+						// height: '40px',
 						bgcolor: 'rgba(85, 131, 228, 1)',
 					},
 				}}

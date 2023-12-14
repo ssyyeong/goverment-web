@@ -52,6 +52,17 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 */
 	const [access, setAccess] = useState<boolean | undefined>();
 
+	/**
+	 * alert modal
+	 */
+	const [alertModal, setAlertModal] = useState<boolean>(false);
+	/**
+	 * alert modal type
+	 */
+	const [alertModalType, setAlertModalType] = useState<
+		'success' | 'login' | 'subscribe' | 'point' | 'already'
+	>('login');
+
 	//* Cookie
 	const cookie = new CookieManager();
 
@@ -59,17 +70,17 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	/**
 	 * 권한에 따른 alert 및 페이지 이동
 	 */
-	useEffect(() => {
-		if (access !== undefined) {
-			/**
-			 * 권한이 없을 경우 (메세지 및 경로 설정)
-			 */
-			if (access === false) {
-				alert(redirectConfig[checkTarget].message);
-				router.push(redirectConfig[checkTarget].redirectUrl);
-			}
-		}
-	}, [access]);
+	// useEffect(() => {
+	// 	if (access !== undefined) {
+	// 		/**
+	// 		 * 권한이 없을 경우 (메세지 및 경로 설정)
+	// 		 */
+	// 		if (access === false) {
+	// 			alert(redirectConfig[checkTarget].message);
+	// 			router.push(redirectConfig[checkTarget].redirectUrl);
+	// 		}
+	// 	}
+	// }, [access]);
 
 	/**
 	 * 구독 권한 체크
@@ -93,7 +104,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 * 진입 시 로그인 체크 (setIsSignedIn)
 	 */
 	useEffect(() => {
-		const accessToken = cookie.getItemInCookies('accessToken');
+		const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
 
 		if (accessToken) {
 			appMemberController.getOneItem(
@@ -106,6 +117,10 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 						);
 						setIsSignedIn(true);
+					} else {
+						setIsSignedIn(false);
+						setAlertModal(true);
+						setAlertModalType('login');
 					}
 				},
 				(err) => {
@@ -131,6 +146,8 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 						setIsSubscribed(true);
 					} else {
 						setIsSubscribed(false);
+						setAlertModal(true);
+						setAlertModalType('subscribe');
 					}
 				},
 				(err) => {
@@ -139,7 +156,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 			);
 	}, []);
 
-	return access;
+	return { access, alertModal, alertModalType, setAlertModal };
 };
 
 export default useUserAccess;

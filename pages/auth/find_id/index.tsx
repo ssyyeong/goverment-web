@@ -2,15 +2,24 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	Button,
+	Link,
+	TextField,
+	Typography,
+} from '@mui/material';
 import SignUpLayout from '../../../src/views/local/sign_up/SignUpLayout';
 import { useRouter } from 'next/router';
 import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import SupportiButton from '../../../src/views/global/SupportiButton';
+import { AppMemberController } from '../../../src/controller/AppMemberController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const alimTalkController = new AlimTalkController();
+	const appMemberController = new AppMemberController();
 	const router = useRouter();
 	//* States
 	const [signupData, setSignupData] = React.useState({
@@ -18,9 +27,9 @@ const Page: NextPage = () => {
 	});
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
-	const [isVerified, setIsVerified] = React.useState<boolean>(false);
+	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
 	const [page, setPage] = React.useState<number>(0);
-
+	const [userNotExist, setUserNotExist] = React.useState<boolean>(false);
 	const [userName, setUserName] = React.useState<string>('');
 
 	//*Functions
@@ -30,14 +39,17 @@ const Page: NextPage = () => {
 	 */
 	const sendAlimTalk = () => {
 		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
-		alimTalkController.sendAuthCode(
+		appMemberController.sendFindAccountAuthCode(
 			{
-				TARGET_PHONE_NUMBER: signupData.PHONE_NUMBER,
+				PHONE_NUMBER: signupData.PHONE_NUMBER,
 			},
 			(res) => {
 				setEncrypted(res.data.result);
+				setUserNotExist(false);
 			},
-			(err) => {}
+			(err) => {
+				setUserNotExist(true);
+			}
 		);
 	};
 	/**
@@ -45,18 +57,23 @@ const Page: NextPage = () => {
 	 */
 	const verifyAuthCode = () => {
 		if (!verifyNumber) return alert('인증번호를 입력해주세요.');
-		alimTalkController.checkAuthCode(
+		appMemberController.checkFindAccountAuthCode(
 			{
 				ENCRYPTED_AUTH_CODE: encrypted,
 				AUTH_CODE: verifyNumber,
+				PHONE_NUMBER: signupData.PHONE_NUMBER,
 			},
 			(res) => {
 				if (res.data.result) {
 					// 인증번호 일치]
-					setIsVerified(true);
+					setIsVerified('OK');
+					setUserName(res.data.result.USER_NAME);
+					setPage(1);
 				}
 			},
-			(err) => {}
+			(err) => {
+				setIsVerified('NOT_OK');
+			}
 		);
 	};
 	//* Constants
@@ -72,7 +89,7 @@ const Page: NextPage = () => {
 						backgroundColor: '#d1d1d1',
 					}}
 					onClick={() => sendAlimTalk()}
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
 						인증번호 받기
@@ -80,8 +97,10 @@ const Page: NextPage = () => {
 				</Button>
 			),
 			value: signupData.PHONE_NUMBER,
-			error: false,
-			helperText: '인증번호를 입력해주세요.',
+			error: userNotExist,
+			helperText: userNotExist
+				? '존재하지 않는 회원이거나 소셜로그인 유저입니다.'
+				: '',
 			isVerified: isVerified,
 			onChange: (e) => {
 				setSignupData({
@@ -96,7 +115,9 @@ const Page: NextPage = () => {
 			for: ['BUSINESS', 'GENERAL'],
 			nolabel: true,
 			isVerified: isVerified,
-
+			error: isVerified === 'NOT_OK',
+			helperText:
+				isVerified === 'NOT_OK' ? '인증번호가 일치하지 않습니다.' : '',
 			value: verifyNumber,
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
@@ -157,7 +178,50 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			) : (
-				<Box my={3} width={'100%'}></Box>
+				<Box
+					my={3}
+					width={'100%'}
+					display={'flex'}
+					justifyContent={'center'}
+					alignItems={'center'}
+					flexDirection={'column'}
+					gap={2}
+					height={'100%'}
+					pt={6}
+				>
+					<Typography>회원님의 아이디를 찾았습니다</Typography>
+					<Typography
+						variant="h3"
+						fontWeight={'bold'}
+						color={'primary'}
+					>
+						{userName}
+					</Typography>
+					<SupportiButton
+						contents={'로그인 하러 가기'}
+						fullWidth
+						isGradient={true}
+						style={{
+							color: '#fff',
+							mt: 3,
+						}}
+						onClick={() => {
+							router.push('/auth/sign_in');
+						}}
+					/>
+					<Typography sx={{ mt: 4, textAlign: 'center' }}>
+						비밀번호가 기억나지 않는다면?{' '}
+						<Link
+							href="/auth/find_pw"
+							style={{
+								textDecoration: 'underline',
+								color: 'blue',
+							}}
+						>
+							비밀번호 찾기
+						</Link>
+					</Typography>
+				</Box>
 			)}
 		</SignUpLayout>
 	);

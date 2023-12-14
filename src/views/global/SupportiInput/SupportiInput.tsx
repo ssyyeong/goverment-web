@@ -94,7 +94,7 @@ const SupportiInput = React.forwardRef(
 
 		//* Hooks
 
-		console.log(props.dataList);
+		// console.log(props.dataList);
 		return (
 			<Box sx={{ width: props.width }}>
 				{props.type === 'select' ? (

@@ -39,6 +39,8 @@ const Page: NextPage = () => {
 	const [activeStep, setActiveStep] = React.useState<number>(0);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
+	const [phoneNumDuplication, setPhoneNumDuplication] =
+		React.useState<boolean>(false);
 
 	//*Functions
 	/**
@@ -46,14 +48,17 @@ const Page: NextPage = () => {
 	 */
 	const sendAlimTalk = () => {
 		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
-		alimTalkController.sendAuthCode(
+		appMemberController.sendAuthCode(
 			{
-				TARGET_PHONE_NUMBER: signupData.PHONE_NUMBER,
+				PHONE_NUMBER: signupData.PHONE_NUMBER,
 			},
 			(res) => {
 				setEncrypted(res.data.result);
+				setPhoneNumDuplication(false);
 			},
-			(err) => {}
+			(err) => {
+				setPhoneNumDuplication(true);
+			}
 		);
 	};
 	/**
@@ -61,14 +66,14 @@ const Page: NextPage = () => {
 	 */
 	const verifyAuthCode = () => {
 		if (!verifyNumber) return alert('인증번호를 입력해주세요.');
-		alimTalkController.checkAuthCode(
+		appMemberController.checkAuthCode(
 			{
 				ENCRYPTED_AUTH_CODE: encrypted,
 				AUTH_CODE: verifyNumber,
 			},
 			(res) => {
 				if (res.data.result) {
-					// 인증번호 일치]
+					// 인증번호 일치
 					setIsVerified(true);
 				}
 			},
@@ -225,6 +230,10 @@ const Page: NextPage = () => {
 					PHONE_NUMBER: e.target.value,
 				});
 			},
+			error: phoneNumDuplication,
+			helperText: phoneNumDuplication
+				? '이미 가입된 전화번호입니다.'
+				: '',
 		},
 		{
 			label: '인증번호',
