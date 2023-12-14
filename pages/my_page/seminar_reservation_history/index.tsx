@@ -12,6 +12,7 @@ import moment from 'moment';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -122,6 +123,10 @@ const Page: NextPage = () => {
 	};
 	//* Hooks
 	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const memberId = useAppMember();
+	/**
 	 * 페이징 관련
 	 */
 	const { page, limit, handlePageChange, setLimit } = usePagination();
@@ -129,19 +134,21 @@ const Page: NextPage = () => {
 	 * 세미나 리스트 가져오기
 	 */
 	useEffect(() => {
-		seminarApplicationController.findAllItems(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
-				LIMIT: 10,
-				PAGE: page,
-			},
-			(res) => {
-				setTotalDataCount(res.data.result.count);
-				setSeminarDataList(res.data.result.rows);
-			},
-			(err) => {}
-		);
-	}, [page, tab, cancelModal]);
+		memberId &&
+			seminarApplicationController.findAllItems(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					LIMIT: 10,
+					PAGE: page,
+				},
+				(res) => {
+					setTotalDataCount(res.data.result.count);
+					setSeminarDataList(res.data.result.rows);
+				},
+				(err) => {}
+			);
+	}, [page, tab, cancelModal, memberId]);
+
 	return (
 		<Box width={'100%'} p={10}>
 			<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>

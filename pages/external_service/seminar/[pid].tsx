@@ -9,6 +9,7 @@ import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -38,6 +39,10 @@ const Page: NextPage = () => {
 
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const memberId = useAppMember();
 	//* Functions
 	/**
 	 * 세미나 신청하기
@@ -51,7 +56,7 @@ const Page: NextPage = () => {
 		seminarApplicationController.createItem(
 			{
 				SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				NAME: '홍길동',
 				PHONE: '010-1234-5678',
 				EMAIL: '',

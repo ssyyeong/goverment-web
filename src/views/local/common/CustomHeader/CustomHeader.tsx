@@ -35,7 +35,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '고객센터',
-			path: '/customer_center/notice',
+			path: '/customer_service/notice',
 		},
 		{
 			label: '로그인',
@@ -57,11 +57,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '컨설팅 내역',
-			path: '/my_page/consulting_history',
+			path: '/my_page/consulting_reservation_history',
 		},
 		{
 			label: '세미나 내역',
-			path: '/my_page/seminar_history',
+			path: '/my_page/seminar_reservation_history',
 		},
 	];
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -83,7 +83,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		setAnchorElUser(null);
 	};
 	return (
-		<AppBar position="static" color="secondary">
+		<AppBar
+			position="static"
+			sx={{
+				bgcolor: 'primary.light',
+			}}
+		>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Box
@@ -139,7 +144,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							display: { xs: 'none', md: 'flex' },
 						}}
 					>
-						<Box>
+						<Box onClick={() => router.push('/')}>
 							<img src="/images/logo/Suppor-T1.png" alt="logo" />
 						</Box>
 					</Box>
@@ -156,7 +161,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								onClick={() => router.push(page.path)}
 								sx={{
 									my: 2,
-									color: 'white',
+									// color: 'white',
 									display: 'block',
 								}}
 							>

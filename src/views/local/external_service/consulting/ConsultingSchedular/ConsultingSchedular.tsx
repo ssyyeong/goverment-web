@@ -18,6 +18,7 @@ import { ImageController } from '../../../../../controller/ImageController';
 import ConsultingQna from '../ConsultingQna/ConsultingQna';
 import { ConsultingAnswerController } from '../../../../../controller/ConsultingAnswerController';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
+import { useAppMember } from '../../../../../hooks/useAppMember';
 
 interface IConsultingSchedularProps {
 	open: boolean;
@@ -105,7 +106,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				RESERVATION_START_TIME: selectedTime.START,
 				RESERVATION_END_TIME: selectedTime.END,
 				STATUS: 'WAITING',
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				/**
@@ -142,11 +143,21 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					setAlertModal(true);
 					setAlertModalType('point');
 				}
+				if (
+					err.response.data.message === '구독 회원만 이용 가능합니다.'
+				) {
+					setAlertModal(true);
+					setAlertModalType('subscribe');
+				}
 			}
 		);
 	};
 	console.log(consultingAnswer);
 	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const memberId = useAppMember();
 	useEffect(() => {
 		getMonthSchedule(moment().format('YYYY-MM'));
 		//* 컨설팅 질문에 대한 답변 초기화

@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
@@ -151,7 +151,7 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		bankAccountController.findAllItems(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				// APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				setBankAccountList(res.data.result.rows);
@@ -177,9 +177,20 @@ const Page: NextPage = () => {
 	const theme = useTheme();
 
 	return (
-		<Box position={'relative'} bgcolor={theme.palette.primary.light}>
+		<Box
+			position={'relative'}
+			bgcolor={theme.palette.primary.light}
+			p={{ xs: 2, md: 10 }}
+		>
 			{/* 컨텐츠 레이아웃 */}
 			<InternalServiceLayout>
+				<Typography variant="h3" fontWeight={'bold'}>
+					등록계좌 내역
+				</Typography>
+				<Typography color={'secondary.dark'}>
+					내역 확인을 위해 은행계정(ID/PW)입력 또는 인증서 등록이
+					필요합니다. 계좌 등록은 최대 3개까지 가능합니다.
+				</Typography>
 				{/* 등록 계좌, 계좌 등록 영역 */}
 				<MyAccounts
 					setRecomputeTriggerKey={setRecomputeTriggerKey}

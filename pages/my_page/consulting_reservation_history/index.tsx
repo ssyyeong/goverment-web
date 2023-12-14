@@ -9,6 +9,7 @@ import MobileTableRow from '../../../src/views/local/external_service/mobileTabl
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
 import moment from 'moment';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -98,23 +99,25 @@ const Page: NextPage = () => {
 	/**
 	 *결제 히스토리 가져오기
 	 */
+	const memberId = useAppMember();
 	useEffect(() => {
-		consultingApplicationController.findAllItems(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
-				LIMIT: 10,
-				PAGE: page,
-				STATUS: tab,
-			},
-			(res) => {
-				setConsultingApplicationList(res.data.result.rows);
-				setTotalDataSize(res.data.result.count);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	}, [page, tab]);
+		memberId &&
+			consultingApplicationController.findAllItems(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					LIMIT: 10,
+					PAGE: page,
+					STATUS: tab,
+				},
+				(res) => {
+					setConsultingApplicationList(res.data.result.rows);
+					setTotalDataSize(res.data.result.count);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [page, tab, memberId]);
 
 	return (
 		<Box width={'100%'} p={10} bgcolor={'primary.light'}>

@@ -26,7 +26,7 @@ const Page: NextPage = () => {
 		);
 	}, []);
 	return (
-		<Box>
+		<Box p={{ md: 10, xs: 3 }}>
 			<Typography variant="h5" fontWeight={'bold'}>
 				공지사항
 			</Typography>

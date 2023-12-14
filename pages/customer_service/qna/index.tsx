@@ -6,6 +6,7 @@ import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
 import SupportiInput from '../../../src/views/global/SupportiInput';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -47,7 +48,7 @@ const Page: NextPage = () => {
 	const getQuestion = () => {
 		qnaController.findAllItems(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				setQuestionList(res.data.result.rows);
@@ -61,14 +62,15 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
+	const memberId = useAppMember();
 	/**
 	 * 질문 리스트 조회
 	 */
 	useEffect(() => {
-		getQuestion();
-	}, []);
+		memberId && getQuestion();
+	}, [memberId]);
 	return (
-		<Box>
+		<Box p={{ md: 10, xs: 3 }}>
 			<Typography variant="h5" fontWeight={'bold'}>
 				Q&A
 			</Typography>

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -31,7 +32,7 @@ const Page: NextPage = () => {
 				TYPE: 'CHARGED',
 				DESCRIPTION: `포인트 단건결제 : ${amount}포인트`,
 				AMOUNT: amount,
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				console.log('포인트 내역 생성 성공');
@@ -54,7 +55,7 @@ const Page: NextPage = () => {
 				APPROVED_DATE: new Date(),
 				PAY_METHOD: 'CARD',
 				STATUS: 'COMPLETED',
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				console.log('결제 내역 생성 성공');
@@ -98,14 +99,18 @@ const Page: NextPage = () => {
 	};
 	//* Hooks
 	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const memberId = useAppMember();
+	/**
 	 * 결제 성공 데이터 백에 보내기
 	 */
 	useEffect(() => {
 		setLoading(true);
-		if (paymentKey) {
+		if (paymentKey && memberId) {
 			confirmPayment();
 		}
-	}, [router.query]);
+	}, [router.query, memberId]);
 
 	return (
 		<Box

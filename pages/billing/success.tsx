@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { PaymentInfoController } from '../../src/controller/PaymentInfoController';
 import { LoadingButton } from '@mui/lab';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -43,11 +44,15 @@ const Page: NextPage = () => {
 				const billingKey = response.data.billingKey;
 				console.log(billingKey);
 				/**
+				 * 유저 아이디 가져오는 훅
+				 */
+				const memberId = useAppMember();
+				/**
 				 * 빌링키 등록
 				 */
 				paymentInfoController.createSubscription(
 					{
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 						SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE: customerKey
 							.toString()
 							.split('RatePlanId')[1],
@@ -72,6 +77,7 @@ const Page: NextPage = () => {
 			});
 	};
 	//* Hooks
+
 	useEffect(() => {
 		setLoading(true);
 		customerKey && authKey && getBillingkey();
