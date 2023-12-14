@@ -35,6 +35,98 @@ export class AppMemberController extends ControllerABC {
 	}
 
 	//* 알림톡 전송
+	public sendAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/sign_up/phone_auth`,
+			successCallback,
+			failCallback
+		);
+	}
+	//* 인증 코드 확인
+	public checkAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/sign_up/phone_auth/validation`,
+			successCallback,
+			failCallback
+		);
+	}
+	//* 계정 찾기 인증번호 발송
+	public sendFindAccountAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.postData(
+			args,
+			`${this.mergedPath}/find/user_name/phone_auth`,
+			successCallback,
+			failCallback
+		);
+	}
+	//* 계정 찾기 인증번호 확인
+	public checkFindAccountAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.postData(
+			args,
+			`${this.mergedPath}/find/user_name/success`,
+			successCallback,
+			failCallback
+		);
+	}
+	//* 비밀번호 찾기 인증번호 발송
+	public sendFindPasswordAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.postData(
+			args,
+			`${this.mergedPath}/find/password/phone_auth`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	//* 비밀번호 찾기 인증번호 확인
+	public checkFindPasswordAuthCode(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.postData(
+			args,
+			`${this.mergedPath}/validate_phone_auth`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	//* 비밀번호 찾기 비밀번호 변경
+	public changePassword(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.postData(
+			args,
+			`${this.mergedPath}/find/password/success`,
+			successCallback,
+			failCallback
+		);
+	}
 
 	//* 전화번호 중복
 	public checkPhoneNumber(

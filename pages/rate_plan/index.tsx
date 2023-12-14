@@ -5,6 +5,8 @@ import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import SupportiButton from '../../src/views/global/SupportiButton';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
+import { useUserAccess } from '../../src/hooks/useUserAccess';
+import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -12,7 +14,19 @@ const Page: NextPage = () => {
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
 	const [payModal, setPayModal] = React.useState<boolean>(false);
+	/**
+	 * 알럿 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+	/**
+	 * 알럿 모달 타입
+	 */
+	const [alertModalType, setAlertModalType] = React.useState<
+		'success' | 'login' | 'subscribe' | 'point' | 'already'
+	>('success');
+
 	//* Hooks
+	const { access } = useUserAccess('SIGN_IN');
 	/**
 	 * 요금제 리스트 조회
 	 */
@@ -56,7 +70,7 @@ const Page: NextPage = () => {
 			>
 				요금제를 알아보세요!
 			</Typography>
-			<Box display={'flex'} alignItems={'center'}>
+			<Box display={'flex'} alignItems={'center'} gap={2}>
 				{ratePlanList.map((ratePlan, id) => {
 					return (
 						<Box
@@ -138,7 +152,14 @@ const Page: NextPage = () => {
 								fullWidth
 								isGradient={true}
 								contents={'지금 사용하기'}
-								onClick={() => setPayModal(true)}
+								onClick={() => {
+									if (!access) {
+										setAlertModalType('login');
+										setAlertModal(true);
+										return;
+									}
+									setPayModal(true);
+								}}
 							/>
 							<BillingModal
 								open={payModal}
@@ -151,6 +172,11 @@ const Page: NextPage = () => {
 					);
 				})}
 			</Box>
+			<SupportiAlertModal
+				type={alertModalType}
+				open={alertModal}
+				handleClose={() => setAlertModal(false)}
+			/>
 		</Box>
 	);
 };

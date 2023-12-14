@@ -12,7 +12,6 @@ import { AppMemberController } from '../../../src/controller/AppMemberController
 
 const Page: NextPage = () => {
 	//* Modules
-	const alimTalkController = new AlimTalkController();
 	const appMemberController = new AppMemberController();
 	const router = useRouter();
 	//* States
@@ -22,12 +21,12 @@ const Page: NextPage = () => {
 	});
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
-	const [isVerified, setIsVerified] = React.useState<boolean>(false);
-	const [page, setPage] = React.useState<number>(1);
+	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
+	const [page, setPage] = React.useState<number>(0);
 	const [passwordConfirm, setPasswordConfirm] = React.useState<string>('');
 	const [password, setPassword] = React.useState<string>('');
 	const [userId, setUserId] = React.useState<number>();
-
+	const [userNotExist, setUserNotExist] = React.useState<boolean>(false);
 	//*Functions
 
 	/**
@@ -35,14 +34,19 @@ const Page: NextPage = () => {
 	 */
 	const sendAlimTalk = () => {
 		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
-		alimTalkController.sendAuthCode(
+		if (!signupData.USER_NAME) return alert('이메일을 입력해주세요.');
+		appMemberController.sendFindPasswordAuthCode(
 			{
-				TARGET_PHONE_NUMBER: signupData.PHONE_NUMBER,
+				PHONE_NUMBER: signupData.PHONE_NUMBER,
+				USER_NAME: signupData.USER_NAME,
 			},
 			(res) => {
 				setEncrypted(res.data.result);
+				setUserNotExist(false);
 			},
-			(err) => {}
+			(err) => {
+				setUserNotExist(true);
+			}
 		);
 	};
 	/**
@@ -50,7 +54,7 @@ const Page: NextPage = () => {
 	 */
 	const verifyAuthCode = () => {
 		if (!verifyNumber) return alert('인증번호를 입력해주세요.');
-		alimTalkController.checkAuthCode(
+		appMemberController.checkFindPasswordAuthCode(
 			{
 				ENCRYPTED_AUTH_CODE: encrypted,
 				AUTH_CODE: verifyNumber,
@@ -58,10 +62,14 @@ const Page: NextPage = () => {
 			(res) => {
 				if (res.data.result) {
 					// 인증번호 일치]
-					setIsVerified(true);
+					setIsVerified('OK');
+					setPage(1);
 				}
 			},
-			(err) => {}
+
+			(err) => {
+				setIsVerified('NOT_OK');
+			}
 		);
 	};
 	/**
@@ -72,9 +80,10 @@ const Page: NextPage = () => {
 			return alert('비밀번호를 입력해주세요.');
 		if (password !== passwordConfirm)
 			return alert('비밀번호가 일치하지 않습니다.');
-		appMemberController.updateItem(
+		appMemberController.changePassword(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: userId,
+				PHONE_NUMBER: signupData.PHONE_NUMBER,
+				USER_NAME: signupData.USER_NAME,
 				PASSWORD: password,
 			},
 			(res) => {
@@ -117,7 +126,7 @@ const Page: NextPage = () => {
 						backgroundColor: '#d1d1d1',
 					}}
 					onClick={() => sendAlimTalk()}
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
 						인증번호 받기
@@ -125,9 +134,12 @@ const Page: NextPage = () => {
 				</Button>
 			),
 			value: signupData.PHONE_NUMBER,
-			error: false,
-			helperText: '인증번호를 입력해주세요.',
+			error: userNotExist,
+			helperText: userNotExist
+				? '존재하지 않는 회원이거나 소셜로그인 유저입니다.'
+				: '',
 			isVerified: isVerified,
+
 			onChange: (e) => {
 				setSignupData({
 					...signupData,
@@ -141,7 +153,9 @@ const Page: NextPage = () => {
 			for: ['BUSINESS', 'GENERAL'],
 			nolabel: true,
 			isVerified: isVerified,
-
+			error: isVerified === 'NOT_OK',
+			helperText:
+				isVerified === 'NOT_OK' ? '인증번호가 일치하지 않습니다.' : '',
 			value: verifyNumber,
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
@@ -272,7 +286,7 @@ const Page: NextPage = () => {
 							color: '#fff',
 							mt: 3,
 						}}
-						onClick={() => {}}
+						onClick={() => changePassword()}
 					/>
 				</Box>
 			)}

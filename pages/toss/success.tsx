@@ -6,6 +6,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -66,6 +67,35 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+
+	/**
+	 * toss 에 결제 승인 요청
+	 */
+	const secretKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_SECRET_KEY;
+	const confirmPayment = async () => {
+		await axios
+			.post(
+				'https://api.tosspayments.com/v1/payments/confirm',
+				{
+					paymentKey: paymentKey,
+					orderId: orderId,
+					amount: amount,
+				},
+				{
+					headers: {
+						Authorization:
+							'Basic ' +
+							Buffer.from(secretKey + ':').toString('base64'),
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			.then((response) => {
+				console.log(response);
+				console.log('결제 성공');
+				createPointHistory();
+			});
+	};
 	//* Hooks
 	/**
 	 * 결제 성공 데이터 백에 보내기
@@ -73,9 +103,7 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		setLoading(true);
 		if (paymentKey) {
-			setLoading(true);
-			createPointHistory();
-			// createPaymentHistory();
+			confirmPayment();
 		}
 	}, [router.query]);
 
@@ -90,13 +118,7 @@ const Page: NextPage = () => {
 				height: '80vh',
 			}}
 		>
-			<LoadingButton
-				size="large"
-				onClick={() => {}}
-				loading={loading}
-				// loadingIndicator="Loading…"
-				// variant="outlined"
-			>
+			<LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span> 결제가 완료되었습니다!</span>
 			</LoadingButton>
 			<Typography

@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -28,29 +30,35 @@ const Page: NextPage = () => {
 	 */
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 	/**
-	 * 알럿 모달 내용
-	 */
-	const [alertModalContent, setAlertModalContent] =
-		React.useState<string>('');
-	/**
 	 * 알럿 모달 타입
 	 */
-	const [alertModalType, setAlertModalType] = React.useState<string>('');
+	const [alertModalType, setAlertModalType] = React.useState<
+		'success' | 'login' | 'subscribe' | 'point' | 'already'
+	>('success');
 
-	// const {content, type, onClick} = useAlertModalData
-
+	//* Hooks
+	const { access } = useUserAccess('SIGN_IN');
 	//* Functions
 	/**
 	 * 세미나 신청하기
 	 */
 	const applySeminar = () => {
+		if (!access) {
+			setAlertModal(true);
+			setAlertModalType('login');
+			return;
+		}
 		seminarApplicationController.createItem(
 			{
 				SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				NAME: '홍길동',
+				PHONE: '010-1234-5678',
+				EMAIL: '',
 			},
 			(res) => {
 				setAlertModal(true);
-				setAlertModalContent('신청이 완료되었습니다.');
+				setAlertModalType('success');
 			},
 			(err) => {}
 		);
@@ -70,18 +78,8 @@ const Page: NextPage = () => {
 		);
 	}, [pid]);
 
-	/**
-	 * 알럿 모달
-	 */
-	/**
-	 * 1. 로그인체크
-	 * 2. 구독체크
-	 * 3. 포인트체크
-	 * 4. 세미나 already check (서버)
-	 */
-
 	return (
-		<Box width={'100%'} position={'relative'}>
+		<Box width={'100%'} position={'relative'} p={10} minHeight={'90vh'}>
 			{/* 세미나 헤더 */}
 			<Box
 				width={'100%'}
@@ -142,6 +140,11 @@ const Page: NextPage = () => {
 					}}
 				/>
 			</Box>
+			<SupportiAlertModal
+				type={alertModalType}
+				open={alertModal}
+				handleClose={() => setAlertModal(false)}
+			/>
 		</Box>
 	);
 };

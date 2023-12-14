@@ -16,6 +16,8 @@ import './Calendar.module.css';
 import SupportiButton from '../../../../global/SupportiButton';
 import { ImageController } from '../../../../../controller/ImageController';
 import ConsultingQna from '../ConsultingQna/ConsultingQna';
+import { ConsultingAnswerController } from '../../../../../controller/ConsultingAnswerController';
+import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 
 interface IConsultingSchedularProps {
 	open: boolean;
@@ -37,6 +39,16 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 선택된 시간
 	 */
 	const [selectedTime, setSelectedTime] = React.useState<any>(null);
+	/**
+	 * 알럿 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+	/**
+	 * 알럿 모달 타입
+	 */
+	const [alertModalType, setAlertModalType] = React.useState<
+		'success' | 'login' | 'subscribe' | 'point' | 'already'
+	>('success');
 	/**
 	 * 월별 가능 시간 데이터
 	 */
@@ -141,7 +153,8 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	//* Controller
 	const consultingApplicationController =
 		new ConsultingApplicationController();
-	const imageController = new ImageController();
+	const consultingAnswerController = new ConsultingAnswerController();
+
 	//* Functions
 	/**
 	 * 매 월 일정을 가져온다
@@ -156,10 +169,60 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			(res) => {
 				// setAvailableDateList(Object.keys(res.data.result));
 				// setMonthSchedule(res.data.result);
-				// setAvailableDateList(Object.keys(test));
-				// setMonthSchedule(test);
 			},
 			(err) => {}
+		);
+	};
+	/**
+	 * 컨설팅 신청하기
+	 */
+	const applyConsulting = () => {
+		consultingApplicationController.createItem(
+			{
+				CONSULTING_PRODUCT_IDENTIFICATION_CODE:
+					props.consultingData.CONSULTING_PRODUCT_IDENTIFICATION_CODE,
+				RESERVATION_DATE: selectedDate,
+				RESERVATION_START_TIME: selectedTime.START,
+				RESERVATION_END_TIME: selectedTime.END,
+				STATUS: 'WAITING',
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+			},
+			(res) => {
+				/**
+				 * 컨설팅 답변 업로드 (res로 들어온 id 값 consultingAnswer에 꽂아넣기)
+				 */
+				const answermap = consultingAnswer.map((x) => {
+					return {
+						...x,
+						CONSULTING_APPLICATION_IDENTIFICATION_CODE:
+							res.data.result
+								.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
+					};
+				});
+				consultingAnswerController.uploadConsultingAnswer(
+					answermap,
+					(res) => {
+						// alert('예약이 완료되었습니다.');
+						setAlertModal(true);
+						setAlertModalType('success');
+						// props.handleClose();
+					},
+					(err) => {}
+				);
+			},
+			(err) => {
+				if (
+					err.response.data.message ===
+					'동일 고객 예약 금지 횟수를 초과하였습니다.'
+				) {
+					setAlertModal(true);
+					setAlertModalType('already');
+				}
+				if (err.response.data.message === '포인트가 부족합니다.') {
+					setAlertModal(true);
+					setAlertModalType('point');
+				}
+			}
 		);
 	};
 	console.log(consultingAnswer);
@@ -518,13 +581,23 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						{/* 제출버튼 */}
 						<SupportiButton
 							contents={'예약하기'}
-							onClick={() => {}}
+							onClick={() => {
+								applyConsulting();
+							}}
 							variant="contained"
 							fullWidth
 						/>
 					</Box>
 				</Box>
 			)}
+			<SupportiAlertModal
+				type={alertModalType}
+				open={alertModal}
+				handleClose={() => setAlertModal(false)}
+				customHandleClose={() => {
+					props.handleClose();
+				}}
+			/>
 		</SuppportiModal>
 	);
 };

@@ -75,7 +75,7 @@ const Page: NextPage = () => {
 	}, [page]);
 
 	return (
-		<Box width={'100%'}>
+		<Box width={'100%'} p={10}>
 			<Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 컨설팅
 			</Typography>

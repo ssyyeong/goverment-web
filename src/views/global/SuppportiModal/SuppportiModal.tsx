@@ -81,7 +81,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 						alignItems={'center'}
 						bgcolor={props.activeHeader ? 'black' : 'transparent'}
 						borderRadius={'10px 10px 0px 0px'}
-						p={'20px'}
+						p={props.activeHeader ? '20px' : '0px'}
 					>
 						<Grid container alignItems={'center'}>
 							<Grid item xs={1}></Grid>
@@ -103,11 +103,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 										sx={{ cursor: 'pointer' }}
 										onClick={props.handleClose}
 										fontWeight={'300'}
-										color={
-											props.activeHeader
-												? 'white'
-												: 'black'
-										}
+										color={'white'}
 									>
 										X
 									</Typography>
