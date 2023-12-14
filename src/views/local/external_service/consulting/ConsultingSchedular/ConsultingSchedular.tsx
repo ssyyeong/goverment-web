@@ -52,99 +52,19 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 월별 가능 시간 데이터
 	 */
-	const test = {
-		'2023-12-11': [
-			{
-				START: '09:00',
-				END: '09:30',
-			},
-			{
-				START: '09:30',
-				END: '10:00',
-			},
-
-			{
-				START: '15:30',
-				END: '16:00',
-			},
-			{
-				START: '16:00',
-				END: '16:30',
-			},
-			{
-				START: '16:30',
-				END: '17:00',
-			},
-			{
-				START: '17:00',
-				END: '17:30',
-			},
-			{
-				START: '17:30',
-				END: '18:00',
-			},
-		],
-		'2023-12-13': [
-			{
-				START: '09:00',
-				END: '09:30',
-			},
-			{
-				START: '09:30',
-				END: '10:00',
-			},
-			{
-				START: '10:00',
-				END: '10:30',
-			},
-
-			{
-				START: '15:00',
-				END: '15:30',
-			},
-			{
-				START: '15:30',
-				END: '16:00',
-			},
-			{
-				START: '16:00',
-				END: '16:30',
-			},
-		],
-		'2023-12-15': [
-			{
-				START: '09:00',
-				END: '09:30',
-			},
-			{
-				START: '09:30',
-				END: '10:00',
-			},
-			{
-				START: '10:00',
-				END: '10:30',
-			},
-
-			{
-				START: '17:30',
-				END: '18:00',
-			},
-		],
-	};
 	const [monthSchedule, setMonthSchedule] = React.useState<{
 		[key: string]: {
 			START: string;
 			END: string;
 		}[];
-	}>(test);
+	}>({});
+
 	/**
 	 * 해당 월의 선택 가능한 날짜 리스트
 	 */
-	const [availableDateList, setAvailableDateList] = React.useState<string[]>([
-		'2023-12-15',
-		'2023-12-13',
-		'2023-12-11',
-	]);
+	const [availableDateList, setAvailableDateList] = React.useState<string[]>(
+		[]
+	);
 
 	/**
 	 * 페이지
@@ -167,8 +87,8 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				MONTH: month,
 			},
 			(res) => {
-				// setAvailableDateList(Object.keys(res.data.result));
-				// setMonthSchedule(res.data.result);
+				setAvailableDateList(Object.keys(res.data.result));
+				setMonthSchedule(res.data.result);
 			},
 			(err) => {}
 		);

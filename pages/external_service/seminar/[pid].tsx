@@ -69,13 +69,15 @@ const Page: NextPage = () => {
 	 * 세미나 데이터 조회
 	 */
 	useEffect(() => {
-		seminarController.getOneItem(
-			{ SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid },
-			(res) => {
-				setSeminarData(res.data.result);
-			},
-			(err) => {}
-		);
+		if (pid !== undefined) {
+			seminarController.getOneItem(
+				{ SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid },
+				(res) => {
+					setSeminarData(res.data.result);
+				},
+				(err) => {}
+			);
+		}
 	}, [pid]);
 
 	return (

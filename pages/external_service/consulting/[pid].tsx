@@ -22,7 +22,7 @@ const Page: NextPage = () => {
 	/**
 	 * 컨설팅 데이터
 	 */
-	const [consultingData, setConsultingData] = React.useState<any>({});
+	const [consultingData, setConsultingData] = React.useState<any>();
 	/**
 	 * 예약 스케쥴 모달
 	 */
@@ -49,94 +49,101 @@ const Page: NextPage = () => {
 	 * 컨설팅 데이터 가져오기
 	 */
 	React.useEffect(() => {
-		consultingController.getOneItem(
-			{
-				CONSULTING_PRODUCT_IDENTIFICATION_CODE: pid,
-			},
-			(res) => {
-				setConsultingData(res.data.result);
-			},
-			(err) => {}
-		);
+		if (pid !== undefined) {
+			consultingController.getOneItem(
+				{
+					CONSULTING_PRODUCT_IDENTIFICATION_CODE: pid,
+				},
+				(res) => {
+					setConsultingData(res.data.result);
+				},
+				(err) => {}
+			);
+		}
 	}, []);
+
 	return (
 		<Box width={'100%'} position={'relative'} p={10} minHeight={'90vh'}>
-			{/* 컨설팅 헤더 */}
-			<Box
-				width={'100%'}
-				p={3}
-				bgcolor={'primary.light'}
-				display={'flex'}
-				justifyContent={'space-between'}
-				alignItems={'center'}
-				borderRadius={2}
-			>
-				<Typography variant={'h4'} fontWeight={'600'}>
-					{consultingData.PRODUCT_NAME}
-				</Typography>
-				<Box display={'flex'} gap={3}>
-					<Typography variant={'body1'}>
-						{moment(consultingData.SEMINAR_DATE).format(
-							'YYYY-MM-DD'
-						)}
-					</Typography>
+			{consultingData !== undefined && (
+				<Box>
+					{/* 컨설팅 헤더 */}
+					<Box
+						width={'100%'}
+						p={3}
+						bgcolor={'primary.light'}
+						display={'flex'}
+						justifyContent={'space-between'}
+						alignItems={'center'}
+						borderRadius={2}
+					>
+						<Typography variant={'h4'} fontWeight={'600'}>
+							{consultingData.PRODUCT_NAME}
+						</Typography>
+						<Box display={'flex'} gap={3}>
+							<Typography variant={'body1'}>
+								{moment(consultingData.SEMINAR_DATE).format(
+									'YYYY-MM-DD'
+								)}
+							</Typography>
+						</Box>
+					</Box>
+					{/* 컨설팅 내용 */}
+					<Box
+						display={'flex'}
+						width={'100%'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						mt={3}
+					>
+						{consultingData.PRODUCT_DETAIL_IMAGE_LIST &&
+							JSON.parse(
+								consultingData.PRODUCT_DETAIL_IMAGE_LIST
+							).map((item, index) => {
+								return (
+									<Box key={index}>
+										<img src={item} alt="" />
+									</Box>
+								);
+							})}
+					</Box>
+					{/* 스티키 버튼 */}
+					<Box
+						display={'flex'}
+						width={'100%'}
+						position={'fixed'}
+						justifyContent={'center'}
+						bottom={40}
+						left={0}
+					>
+						<SupportiButton
+							contents={'신청하기'}
+							isGradient={true}
+							onClick={() => {
+								if (!access) {
+									setAlertModalType('login');
+									setAlertModal(true);
+									return;
+								}
+								setReservationScheduleModal(true);
+							}}
+							style={{
+								color: 'white',
+								width: '200px',
+							}}
+						/>
+					</Box>
+					<ConsultingSchedular
+						open={reservationScheduleModal}
+						handleClose={() => setReservationScheduleModal(false)}
+						consultingData={consultingData}
+					/>
+					<SupportiAlertModal
+						type={alertModalType}
+						open={alertModal}
+						handleClose={() => setAlertModal(false)}
+					/>
 				</Box>
-			</Box>
-			{/* 컨설팅 내용 */}
-			<Box
-				display={'flex'}
-				width={'100%'}
-				flexDirection={'column'}
-				alignItems={'center'}
-				mt={3}
-			>
-				{consultingData.PRODUCT_DETAIL_IMAGE_LIST &&
-					JSON.parse(consultingData.PRODUCT_DETAIL_IMAGE_LIST).map(
-						(item, index) => {
-							return (
-								<Box key={index}>
-									<img src={item} alt="" />
-								</Box>
-							);
-						}
-					)}
-			</Box>
-			{/* 스티키 버튼 */}
-			<Box
-				display={'flex'}
-				width={'100%'}
-				position={'fixed'}
-				justifyContent={'center'}
-				bottom={40}
-				left={0}
-			>
-				<SupportiButton
-					contents={'신청하기'}
-					isGradient={true}
-					onClick={() => {
-						if (!access) {
-							setAlertModalType('login');
-							setAlertModal(true);
-							return;
-						}
-						setReservationScheduleModal(true);
-					}}
-					style={{
-						color: 'white',
-						width: '200px',
-					}}
-				/>
-			</Box>
-			<ConsultingSchedular
-				open={reservationScheduleModal}
-				handleClose={() => setReservationScheduleModal(false)}
-				consultingData={consultingData}
-			/>
-			<SupportiAlertModal
-				type={alertModalType}
-				open={alertModal}
-				handleClose={() => setAlertModal(false)}
-			/>
+			)}
 		</Box>
 	);
 };
