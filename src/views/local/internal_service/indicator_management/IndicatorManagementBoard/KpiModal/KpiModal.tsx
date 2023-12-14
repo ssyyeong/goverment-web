@@ -4,9 +4,11 @@ import { Box, BoxProps, Rating, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../global/SupportiButton';
-import { IndicatorUnitConfig } from '../../../../../../../configs/data/IndicatorUnitConfig';
-import { IndicatorCategoryConfig } from '../../../../../../../configs/data/IndicatorCategoryConfig';
+import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
+import { IndicatorCategory } from '../../../../../../../configs/data/IndicatorCategoryConfig';
 import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
+import { IKpi } from '../../../../../../../src/@types/model';
+import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 
 interface IKpiModalProps {
 	modalOpen: boolean;
@@ -15,12 +17,15 @@ interface IKpiModalProps {
 }
 
 const KpiModal = (props: IKpiModalProps) => {
+	//* Controllers
+	const kpiController = new DefaultController('Kpi');
+
 	//* Modules
 
 	//* Constants
 
 	//* States
-	const [kpiData, setKpiData] = React.useState({
+	const [kpiData, setKpiData] = React.useState<IKpi>({
 		TITLE: '',
 		START_DATE: '',
 		END_DATE: '',
@@ -29,11 +34,27 @@ const KpiModal = (props: IKpiModalProps) => {
 		NOTE: '',
 		CATEGORY: '',
 		ASSIGNEE: '',
-		RATE: 5,
+		RATE: 1,
 		STATUS: 'PROCEEDING',
 	});
 
 	//* Functions
+	/**
+	 *
+	 * 목표 등록하는 api 호출 처리
+	 */
+	const createKpi = () => {
+		kpiController.createItem(
+			{ APP_MEMBER_IDENTIFICATION_CODE: 1, ...kpiData },
+			(response) => {
+				console.log(response);
+				props.setModalOpen(false);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
 
 	return (
 		<Box>
@@ -52,10 +73,10 @@ const KpiModal = (props: IKpiModalProps) => {
 						width="80%"
 						display={'flex'}
 						flexDirection={'column'}
-						gap={4}
+						gap={5}
 					>
 						{/** 목표 작성 */}
-						<Box display={'flex'} flexDirection={'column'} gap={5}>
+						<Box display={'flex'} flexDirection={'column'} gap={2}>
 							<SupportiInput
 								type="input"
 								multiline={true}
@@ -73,7 +94,7 @@ const KpiModal = (props: IKpiModalProps) => {
 							<Box display={'flex'}>
 								<SupportiInput
 									type="datepicker"
-									value="2022-12-20"
+									value={kpiData.START_DATE}
 									setValue={(value) => {
 										setKpiData({
 											...kpiData,
@@ -85,11 +106,11 @@ const KpiModal = (props: IKpiModalProps) => {
 								/>
 								<SupportiInput
 									type="datepicker"
-									value="2022-12-20"
+									value={kpiData.END_DATE}
 									setValue={(value) => {
 										setKpiData({
 											...kpiData,
-											START_DATE: value,
+											END_DATE: value,
 										});
 									}}
 									width={'130px'}
@@ -98,25 +119,40 @@ const KpiModal = (props: IKpiModalProps) => {
 							</Box>
 
 							{/** 중요도 */}
-							<Box display="flex">
-								<Rating
-									name="simple-controlled"
-									value={kpiData.RATE}
-									size="large"
-									readOnly
-								/>
-								<Typography>
-									{RatingConfig[kpiData.RATE]}
+							<Box>
+								<Typography fontWeight={500} mb={1}>
+									중요도
 								</Typography>
+								<Box display="flex">
+									<Rating
+										name="simple-controlled"
+										value={kpiData.RATE}
+										onChange={(event, newValue) => {
+											setKpiData({
+												...kpiData,
+												RATE: newValue,
+											});
+										}}
+										size="large"
+									/>
+									<Typography
+										ml={1}
+										mt="auto"
+										mb="auto"
+										color="primary.main"
+										fontWeight={500}
+									>
+										{RatingConfig[kpiData.RATE]}
+									</Typography>
+								</Box>
 							</Box>
 
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-							>
+							<Box display={'flex'}>
 								{/** 카테고리 */}
 								<Box>
-									<Typography>카테고리</Typography>
+									<Typography fontWeight={500} mb={1}>
+										카테고리
+									</Typography>
 									<SupportiInput
 										type="select"
 										value={kpiData.CATEGORY}
@@ -126,13 +162,15 @@ const KpiModal = (props: IKpiModalProps) => {
 												CATEGORY: value,
 											});
 										}}
-										dataList={IndicatorCategoryConfig}
+										dataList={IndicatorCategory}
 										width={'150px'}
 									/>
 								</Box>
 								{/** 담당자 */}
 								<Box>
-									<Typography>담당자</Typography>
+									<Typography fontWeight={500} mb={1}>
+										담당자
+									</Typography>
 									<SupportiInput
 										type="input"
 										value={kpiData.ASSIGNEE}
@@ -147,11 +185,13 @@ const KpiModal = (props: IKpiModalProps) => {
 								</Box>
 							</Box>
 
-							{/** 목표분류 목표양 등록 */}
+							{/** 목표분류 목표량 등록 */}
 							<Box display={'flex'} gap={2}>
 								{/** 목표분류 */}
 								<Box>
-									<Typography>목표분류</Typography>
+									<Typography fontWeight={500} mb={1}>
+										목표분류
+									</Typography>
 									<SupportiInput
 										type="select"
 										value={kpiData.TARGET_UNIT}
@@ -161,13 +201,15 @@ const KpiModal = (props: IKpiModalProps) => {
 												TARGET_UNIT: value,
 											});
 										}}
-										dataList={IndicatorUnitConfig}
+										dataList={IndicatorUnit}
 										width={'150px'}
 									/>
 								</Box>
-								{/** 목표양 */}
+								{/** 목표량 */}
 								<Box>
-									<Typography>목표양</Typography>
+									<Typography fontWeight={500} mb={1}>
+										목표량
+									</Typography>
 									<Box display={'flex'}>
 										<SupportiInput
 											type="input"
@@ -180,15 +222,17 @@ const KpiModal = (props: IKpiModalProps) => {
 											}}
 											width={'150px'}
 										/>
-										<Box>
-											<Typography>만원</Typography>
-										</Box>
+									</Box>
+									<Box>
+										<Typography>{kpiData.TARGET_UNIT}</Typography>
 									</Box>
 								</Box>
 								{props.mode === 'detail' && (
 									<SupportiButton
 										contents={'등록하기'}
-										onClick={() => {}}
+										onClick={() => {
+											createKpi();
+										}}
 										style={{
 											height: '20px',
 											width: '100px',
@@ -205,7 +249,7 @@ const KpiModal = (props: IKpiModalProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
-								props.setModalOpen(false);
+								createKpi();
 							}}
 							style={{
 								height: '30px',

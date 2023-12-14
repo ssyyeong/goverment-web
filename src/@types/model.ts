@@ -50,26 +50,47 @@ interface ITransactionHistory {
  * OKR 메인
  */
 interface IOkrMain {
-	[key: string]: any;
+	TITLE: string;
+	START_DATE: Date | string;
+	END_DATE: Date | string;
+	NOTE: string;
 }
 
 /**
  * OKR 하위
  */
-interface IOkrDetail {}
+interface IOkrDetail {
+	TITLE: string;
+	START_DATE: Date | string;
+	END_DATE: Date | string;
+	NOTE: string;
+	TARGET_AMOUNT: string;
+	TARGET_UNIT: string;
+	ACHIEVED_AMOUNT: string;
+}
 
 /**
  * OKR 조합 (메인 + 하위)
  */
-interface IOkrCombination {
-	main: IOkrMain;
-	detail: IOkrDetail[];
+interface IOkrCombination extends IOkrMain {
+	OkrDetails: IOkrDetail[];
 }
 
 /**
  * KPI
  */
-interface IKpi {}
+interface IKpi {
+	TITLE: string;
+	START_DATE: Date | string;
+	END_DATE: Date | string;
+	NOTE: string;
+	TARGET_AMOUNT: string;
+	TARGET_UNIT: string;
+	CATEGORY: string;
+	ASSIGNEE: string;
+	RATE: number;
+	STATUS: 'PROCEEDING' | 'SUCCESS' | 'FAILURE';
+}
 
 /**
  * 재표제표

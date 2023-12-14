@@ -62,15 +62,13 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	const selectableStatusList: { value: string; label: string }[] = [
 		{
 			value: JSON.stringify({
-				SORT_KEY: 'CREATED_AT',
-				SORT_DIRECTION: 'ASC',
+				STATUS: 'PROCEEDING',
 			}),
 			label: '진행중',
 		},
 		{
 			value: JSON.stringify({
-				SORT_KEY: 'CREATED_AT',
-				SORT_DIRECTION: 'DESC',
+				STATUS: 'COMPLETED',
 			}),
 			label: '완료',
 		},
@@ -114,9 +112,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			/**
 			 * 상태 선택
 			 */
-			{
-				STATUS: selectedStatus,
-			},
+			JSON.parse(selectedStatus),
 			/**
 			 * 정렬 선택
 			 */
@@ -133,7 +129,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	};
 
 	return (
-		<Box>
+		<Box display="flex" flexDirection="column" gap={1}>
 			{/* 새로운 목표 등록 영역 */}
 			<Box>
 				<SupportiButton
@@ -143,10 +139,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					isGradient={true}
 					style={{ height: 20, color: 'white' }}
 				/>
-				<Typography>
-					목표 값은 수치화 할 수 있는 값이어야 합니다. 차트 내의
-					햄버거 버튼을 눌러 차트를 다운로드 받으실 수 있습니다.
-				</Typography>
 			</Box>
 
 			{/* 추가 필터 영역 */}
@@ -164,10 +156,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					style={{
 						outerBoxStyle: {
 							width: '150px',
-							height: '40px',
+							height: '36px',
 						},
 						chipStyle: {
-							height: '34px',
+							height: '30px',
 						},
 					}}
 				/>

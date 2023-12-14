@@ -8,6 +8,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import moment from 'moment';
 import { businessConfig } from '../../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
+import build from 'next/dist/build';
 
 /**
  * 비즈니스 개요 페이지
@@ -123,7 +124,8 @@ const Page: NextPage = () => {
 		if (userAccess && memberId) {
 			businessController.getOneItemByKey(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					APP_MEMBER_IDENTIFICATION_CODE: 3,
+					BUSINESS_IDENTIFICATION_CODE: 2,
 				},
 				(res) => {
 					setBusiness(res.data.result);
@@ -144,8 +146,8 @@ const Page: NextPage = () => {
 				{
 					BUSINESS_IDENTIFICATION_CODE:
 						business.BUSINESS_IDENTIFICATION_CODE,
-					SORT_KEY: 'CREATED_AT',
-					SORT_TYPE: 'DESC',
+					// SORT_KEY: 'CREATED_AT',
+					// SORT_TYPE: 'DESC',
 					LIMIT: 1,
 				},
 				(res) => {
@@ -162,7 +164,14 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				p: 10,
+			}}
+		>
 			{/* 컨텐츠 레이아웃 */}
 			{userAccess === true && (
 				<InternalServiceLayout>
@@ -182,8 +191,22 @@ const Page: NextPage = () => {
 										<Grid container>
 											{/* 각 비즈니스 개요 라벨 */}
 											<Grid item xs={6} md={3}>
-												<Box>
-													<Typography variant={'h6'}>
+												<Box
+													sx={{
+														backgroundColor:
+															'#1E3269',
+													}}
+													border={0.5}
+													borderColor={'#bebebe'}
+												>
+													<Typography
+														variant={'h6'}
+														textAlign={'center'}
+														fontWeight={'700'}
+														color={'white'}
+														pt={1}
+														pb={1}
+													>
 														{businessMapping.label}
 													</Typography>
 												</Box>
@@ -192,54 +215,49 @@ const Page: NextPage = () => {
 											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
 											<Grid item xs={6} md={3}>
 												<Box>
-													<Typography variant={'h6'}>
-														<TextField
-															type={
-																businessMapping.type
-															}
-															value={
+													<TextField
+														type={
+															businessMapping.type
+														}
+														value={
+															businessMapping.isFromBusinessHistory ==
+															true
+																? businessHistory[
+																		businessMapping
+																			.key
+																  ]
+																: business[
+																		businessMapping
+																			.key
+																  ]
+														}
+														onChange={(e) => {
+															if (
 																businessMapping.isFromBusinessHistory ==
 																true
-																	? businessHistory[
-																			businessMapping
-																				.key
-																	  ]
-																	: business[
-																			businessMapping
-																				.key
-																	  ]
+															) {
+																// 비즈니스 로그에서 가져온 데이터일 경우
+																setCopiedBusinessHistory(
+																	{
+																		...copiedBusinessHistory,
+																		[businessMapping.key]:
+																			e
+																				.target
+																				.value,
+																	}
+																);
+															} else {
+																// 비즈니스 개요에서 가져온 데이터일 경우
+																setBusiness({
+																	...business,
+																	[businessMapping.key]:
+																		e.target
+																			.value,
+																});
 															}
-															onChange={(e) => {
-																if (
-																	businessMapping.isFromBusinessHistory ==
-																	true
-																) {
-																	// 비즈니스 로그에서 가져온 데이터일 경우
-																	setCopiedBusinessHistory(
-																		{
-																			...copiedBusinessHistory,
-																			[businessMapping.key]:
-																				e
-																					.target
-																					.value,
-																		}
-																	);
-																} else {
-																	// 비즈니스 개요에서 가져온 데이터일 경우
-																	setBusiness(
-																		{
-																			...business,
-																			[businessMapping.key]:
-																				e
-																					.target
-																					.value,
-																		}
-																	);
-																}
-															}}
-															fullWidth
-														/>
-													</Typography>
+														}}
+														fullWidth
+													/>
 												</Box>
 											</Grid>
 										</Grid>

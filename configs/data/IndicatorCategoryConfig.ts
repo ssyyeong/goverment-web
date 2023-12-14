@@ -1,4 +1,4 @@
-const IndicatorCategoryConfig = [
+const IndicatorCategory = [
 	{
 		label: '재무',
 		value: '재무',
@@ -45,4 +45,4 @@ const IndicatorCategoryConfig = [
 	},
 ];
 
-export { IndicatorCategoryConfig };
+export { IndicatorCategory };
