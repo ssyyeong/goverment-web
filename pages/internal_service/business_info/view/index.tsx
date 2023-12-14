@@ -8,6 +8,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import moment from 'moment';
 import { businessConfig } from '../../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
+import SupportiButton from '../../../../src/views/global/SupportiButton';
 
 /**
  * 비즈니스 개요 페이지
@@ -47,12 +48,13 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	// const memberId = useAppMember();
+	const memberId = 3;
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('SUBSCRIPTION');
+	// const userAccess = useUserAccess('BUSINESS_MEMBER');
 	const userAccess = true;
 
 	/**
@@ -60,13 +62,39 @@ const Page: NextPage = () => {
 	 */
 	React.useEffect(() => {
 		if (userAccess && memberId) {
-			businessController.getOneItem(
+			businessController.getOneItemByKey(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: 3,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
 				(res) => {
-					console.log(res);
-					setBusiness(res.data.result);
+					if (res.data.result !== null) {
+						//* 기업형태 정보 변경
+						let businessType = '';
+						const parsedBusinessType = JSON.parse(
+							res.data.result.CORPORATE_TYPE
+						);
+
+						parsedBusinessType.map(
+							(element: string, index: number) => {
+								businessType += `${
+									index == 0 ? '' : ','
+								}${element}`;
+							}
+						);
+
+						res.data.result.CORPORATE_TYPE = businessType;
+
+						//* 날짜 정보 변경
+						res.data.result.ESTABLISHMENT_DATE = moment(
+							res.data.result.ESTABLISHMENT_DATE
+						).format('YYYY-MM-DD');
+
+						res.data.result.LISTING_DATE = moment(
+							res.data.result.LISTING_DATE
+						).format('YYYY-MM-DD');
+
+						setBusiness(res.data.result);
+					}
 				},
 				(err) => {
 					alert('비즈니스 개요 정보를 가져오는데 실패했습니다.');
@@ -123,33 +151,23 @@ const Page: NextPage = () => {
 										<Box display={'flex'}>
 											{/* 편집 페이지로 이동 */}
 											<Box>
-												<Button
-													variant={'contained'}
-													sx={{
-														backgroundColor:
-															'#d2d2d2',
-													}}
+												<SupportiButton
+													contents="편집하기"
+													isGradient={true}
 													onClick={() => {
 														router.push(
 															'/internal_service/business_info/edit'
 														);
 													}}
-												>
-													<Typography
-														variant="h4"
-														color={'black'}
-														width={100}
-													>
-														편집하기
-													</Typography>
-												</Button>
+													style={{ color: 'white' }}
+												/>
 											</Box>
 										</Box>
 									</Grid>
 								</Grid>
 							</Box>
 
-							{/* 테이블  */}
+							{/* 테이블 */}
 							<Box>
 								{/* 각 비즈니스 개요 항목 맵핑 */}
 								{businessConfig.map((businessMapping) => (
@@ -160,7 +178,7 @@ const Page: NextPage = () => {
 												<Box
 													sx={{
 														backgroundColor:
-															'#1E3269',
+															'#305ddc',
 													}}
 													border={0.5}
 													borderColor={'#bebebe'}

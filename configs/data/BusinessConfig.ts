@@ -6,6 +6,7 @@ const businessConfig: {
 	label: string;
 	isFromBusinessHistory?: boolean;
 	type?: string;
+	additionalProps?: { [key: string]: any };
 }[] = [
 	{
 		key: 'COMPANY_NAME',
@@ -18,10 +19,12 @@ const businessConfig: {
 	{
 		key: 'ESTABLISHMENT_DATE',
 		label: '설립일자',
+		type: 'datepicker',
 	},
 	{
 		key: 'LISTING_DATE',
 		label: '상장일자',
+		type: 'datepicker',
 	},
 	{
 		key: 'BUSINESS_NUMBER',
@@ -43,7 +46,9 @@ const businessConfig: {
 		key: 'NUM_OF_EMPLOYEES',
 		label: '종업원 수',
 		isFromBusinessHistory: true,
-		type: 'number',
+		additionalProps: {
+			type: 'number',
+		},
 	},
 	{
 		key: 'MAIN_BANK',

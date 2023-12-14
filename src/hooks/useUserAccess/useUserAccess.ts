@@ -3,7 +3,7 @@ import { CookieManager } from '@qillie-corp/qillie-utility';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-type TCheckTarget = 'SIGN_IN' | 'SUBSCRIPTION';
+type TCheckTarget = 'SIGN_IN' | 'SUBSCRIPTION' | 'BUSINESS_MEMBER';
 
 /**
  * 결제 정보 혹은 로그인 정보 가져오는 훅
@@ -31,6 +31,10 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 			message: '구독 후 이용 가능합니다.',
 			redirectUrl: '/subscription',
 		},
+		BUSINESS_MEMBER: {
+			message: '사업자 회원만 이용 가능합니다.',
+			redirectUrl: '/my_page/edit',
+		},
 	};
 
 	//* State
@@ -42,10 +46,18 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 * 유저 아이디
 	 */
 	const [userId, setUserId] = useState<any>();
+
 	/**
 	 * 구독 여부 체크
 	 */
 	const [isSubscribed, setIsSubscribed] = useState<boolean | undefined>();
+
+	/**
+	 * 사업자 회원 체크
+	 */
+	const [isBusinessMember, setIsBusinessMember] = useState<
+		boolean | undefined
+	>();
 
 	/**
 	 * 최종 권한 체크 결과
@@ -86,6 +98,18 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 * 구독 권한 체크
 	 */
 	useEffect(() => {
+		if (
+			isBusinessMember !== undefined &&
+			checkTarget == 'BUSINESS_MEMBER'
+		) {
+			setAccess(isBusinessMember);
+		}
+	}, [isBusinessMember]);
+
+	/**
+	 * 구독 권한 체크
+	 */
+	useEffect(() => {
 		if (isSubscribed !== undefined && checkTarget == 'SUBSCRIPTION') {
 			setAccess(isSubscribed);
 		}
@@ -117,6 +141,9 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 						);
 						setIsSignedIn(true);
+						setIsBusinessMember(
+							res.data.result.USER_GRADE == 'BUSINESS'
+						);
 					} else {
 						setIsSignedIn(false);
 						setAlertModal(true);

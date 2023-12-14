@@ -21,10 +21,10 @@ import { ImageController } from '../../../controller/ImageController';
 interface SupportiInputProps {
 	type: string;
 	value: any;
-	setValue: any;
+	setValue?: any;
 	defaultValue?: string;
 	dataList?: any;
-	width: number | string;
+	width?: number | string;
 	label?: string;
 	multiple?: boolean;
 	placeholder?: string;
@@ -35,6 +35,7 @@ interface SupportiInputProps {
 	style?: any;
 	multiline?: boolean;
 	useIcon?: boolean;
+	additionalProps?: { [key: string]: any };
 }
 
 //* 서포티 인풋 컴포넌트
@@ -164,7 +165,12 @@ const SupportiInput = React.forwardRef(
 								props.setValue(newValue);
 							}}
 							value={dayjs(props.value)}
-							renderInput={(params) => <TextField {...params} />}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									{...props.additionalProps}
+								/>
+							)}
 						/>
 					</LocalizationProvider>
 				) : props.type === 'checkbox' ? (
@@ -329,6 +335,7 @@ const SupportiInput = React.forwardRef(
 						}}
 						placeholder={props.placeholder ? props.placeholder : ''}
 						multiline={props.multiple}
+						{...props.additionalProps}
 					/>
 				)}
 			</Box>

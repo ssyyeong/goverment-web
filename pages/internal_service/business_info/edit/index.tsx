@@ -9,6 +9,8 @@ import moment from 'moment';
 import { businessConfig } from '../../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
 import build from 'next/dist/build';
+import SupportiInput from '../../../../src/views/global/SupportiInput';
+import SupportiButton from '../../../../src/views/global/SupportiButton';
 
 /**
  * 비즈니스 개요 페이지
@@ -54,9 +56,17 @@ const Page: NextPage = () => {
 	 */
 	const saveBusiness = () => {
 		if (memberId !== undefined) {
+			//* 비즈니스 개요 정보 페이로드화
+			const clonedBusiness = { ...business };
+			clonedBusiness.CORPORATE_TYPE = JSON.stringify(
+				clonedBusiness.CORPORATE_TYPE.split(',').map((item) =>
+					item.trim()
+				)
+			);
+
 			//* 비즈니스 개요 정보 저장
 			businessController.updateItem(
-				business,
+				clonedBusiness,
 				(res) => {
 					//* 비즈니스 히스토리 정보 저장
 					if (
@@ -109,12 +119,13 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	// const memberId = useAppMember();
+	const memberId = 3;
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('SUBSCRIPTION');
+	// const userAccess = useUserAccess('BUSINESS_MEMBER');
 	const userAccess = true;
 
 	/**
@@ -124,11 +135,27 @@ const Page: NextPage = () => {
 		if (userAccess && memberId) {
 			businessController.getOneItemByKey(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: 3,
-					BUSINESS_IDENTIFICATION_CODE: 2,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
 				(res) => {
-					setBusiness(res.data.result);
+					if (res.data.result !== null) {
+						//* 기업형태 정보 변경
+						let businessType = '';
+						const parsedBusinessType = JSON.parse(
+							res.data.result.CORPORATE_TYPE
+						);
+
+						parsedBusinessType.map(
+							(element: string, index: number) => {
+								businessType += `${
+									index == 0 ? '' : ','
+								}${element}`;
+							}
+						);
+
+						res.data.result.CORPORATE_TYPE = businessType;
+						setBusiness(res.data.result);
+					}
 				},
 				(err) => {
 					alert('비즈니스 개요 정보를 가져오는데 실패했습니다.');
@@ -141,7 +168,7 @@ const Page: NextPage = () => {
 	 * 비즈니스 히스토리 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (business) {
+		if (business && businessHistory === undefined) {
 			businessHistoryController.getAllItems(
 				{
 					BUSINESS_IDENTIFICATION_CODE:
@@ -179,8 +206,13 @@ const Page: NextPage = () => {
 					{business && businessHistory && (
 						<Box>
 							{/* 저장하기 */}
-							<Box>
-								<Button onClick={saveBusiness}>저장하기</Button>
+							<Box mb={2}>
+								<SupportiButton
+									contents="저장하기"
+									isGradient={true}
+									onClick={saveBusiness}
+									style={{ color: 'white' }}
+								/>
 							</Box>
 
 							{/* 테이블  */}
@@ -194,7 +226,7 @@ const Page: NextPage = () => {
 												<Box
 													sx={{
 														backgroundColor:
-															'#1E3269',
+															'#305ddc',
 													}}
 													border={0.5}
 													borderColor={'#bebebe'}
@@ -215,14 +247,15 @@ const Page: NextPage = () => {
 											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
 											<Grid item xs={6} md={3}>
 												<Box>
-													<TextField
+													<SupportiInput
+														width={'100%'}
 														type={
 															businessMapping.type
 														}
 														value={
 															businessMapping.isFromBusinessHistory ==
 															true
-																? businessHistory[
+																? copiedBusinessHistory[
 																		businessMapping
 																			.key
 																  ]
@@ -231,7 +264,7 @@ const Page: NextPage = () => {
 																			.key
 																  ]
 														}
-														onChange={(e) => {
+														setValue={(value) => {
 															if (
 																businessMapping.isFromBusinessHistory ==
 																true
@@ -241,9 +274,7 @@ const Page: NextPage = () => {
 																	{
 																		...copiedBusinessHistory,
 																		[businessMapping.key]:
-																			e
-																				.target
-																				.value,
+																			value,
 																	}
 																);
 															} else {
@@ -251,12 +282,21 @@ const Page: NextPage = () => {
 																setBusiness({
 																	...business,
 																	[businessMapping.key]:
-																		e.target
-																			.value,
+																		value,
 																});
 															}
 														}}
-														fullWidth
+														additionalProps={Object.assign(
+															{
+																sx: {
+																	width: '100%',
+																},
+															},
+															businessMapping.additionalProps !==
+																undefined
+																? businessMapping.additionalProps
+																: {}
+														)}
 													/>
 												</Box>
 											</Grid>
