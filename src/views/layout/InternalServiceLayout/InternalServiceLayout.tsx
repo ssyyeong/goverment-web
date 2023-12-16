@@ -9,12 +9,12 @@ interface IInternalServiceLayoutProps {
 
 const InternalServiceLayout = (props: IInternalServiceLayoutProps) => {
 	return (
-		<Box>
+		<Box width={'100%'}>
 			{/* 헤더 영역 */}
 			<InternalServiceHeader />
 
 			{/* 콘텐츠 영역 */}
-			<Box display="flex" flexDirection={'column'} gap={2}>
+			<Box display="flex" flexDirection={'column'}>
 				{props.children}
 			</Box>
 		</Box>

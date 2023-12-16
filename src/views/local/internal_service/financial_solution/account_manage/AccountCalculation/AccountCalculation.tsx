@@ -16,6 +16,7 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 export interface IAccountCalculationResultProps {
 	monthlyIncome: { [key: string]: any };
@@ -63,26 +64,26 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	const resultConfig = [
 		{
 			lable: 'RunWay',
-			value: props.calculationResult.runWay,
+			value: props.calculationResult?.runWay,
 			extra: true,
 			month: true,
 		},
 		{
 			lable: 'BurnRate',
-			value: props.calculationResult.burnRate,
+			value: props.calculationResult?.burnRate,
 			extra: true,
 		},
 		{
 			lable: '총 수입',
-			value: props.calculationResult.totalIncome,
+			value: props.calculationResult?.totalIncome,
 		},
 		{
 			lable: '총 지출',
-			value: props.calculationResult.totalSpending,
+			value: props.calculationResult?.totalSpending,
 		},
 		{
 			lable: '회사 보유 자금',
-			value: props.calculationResult.totalBalance,
+			value: props.calculationResult?.totalBalance,
 		},
 	];
 	//* Functions
@@ -92,7 +93,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	const handleSave = () => {
 		bankController.saveBankAccountCondition(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				BURN_RATE_END_DATE: standardDate,
 				BURN_RATE_START_DATE: moment(standardDate).subtract(
 					averageMonth,
@@ -107,27 +108,38 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	};
 	//* Hooks
 	/**
+	 * 유저 아이디 정보 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
+	/**
 	 * 분석 조건 가져오는 함수
 	 */
 	useEffect(() => {
-		financialRatioConfigController.getOneItem(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
-			},
-			(res) => {
-				setStandardDate(res.data.result.BURN_RATE_END_DATE);
-				setAverageMonth(
-					res.data.result.BURN_RATE_END_DATE.diff(
-						res.data.result.BURN_RATE_START_DATE,
-						'month'
-					)
-				);
-			},
-			(err) => {}
-		);
-	}, []);
+		memberId &&
+			financialRatioConfigController.getOneItem(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					if (res.data.result == null) {
+						setStandardDate(moment());
+						setAverageMonth(1);
+					} else {
+						setStandardDate(res.data.result.BURN_RATE_END_DATE);
+						setAverageMonth(
+							res.data.result.BURN_RATE_END_DATE.diff(
+								res.data.result.BURN_RATE_START_DATE,
+								'month'
+							)
+						);
+					}
+				},
+				(err) => {}
+			);
+	}, [memberId]);
 
 	//* Hooks
+
 	/**
 	 * 데이트 피커 포커스
 	 */
@@ -136,13 +148,14 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	return (
 		<Box
 			sx={{
-				width: '100%',
+				width: { sm: `calc(100% - 300px)` },
 				backgroundImage: 'linear-gradient(to bottom, #262626, #000)',
 				height: '150px',
-				p: '25px 90px',
+				p: '25px 60px 40px',
 				position: 'fixed',
 				bottom: 0,
-				left: 0,
+				right: 0,
+				zIndex: 1,
 			}}
 		>
 			<Typography variant="h4" fontWeight={'bold'} color={'white'} pb={2}>
@@ -161,7 +174,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					</Typography>
 					<Box display={'flex'} alignItems={'center'}>
 						<Typography
-							variant="h5"
+							variant="h6"
 							fontWeight={'bold'}
 							color={'white'}
 						>
@@ -194,6 +207,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 									borderRadius: '5px',
 									boxShadow: '0 3px 15px 0 #e1eaff',
 									width: '90px',
+									zIndex: 1,
 								},
 							}}
 						>
@@ -221,7 +235,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 				</Box>
 				{/* 기준일 */}
 				<Box
-					mr={'30px'}
+					mr={'15px'}
 					display={'flex'}
 					flexDirection={'column'}
 					gap={'10px'}
@@ -263,7 +277,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 										}}
 									>
 										<Typography
-											variant="h5"
+											variant="h6"
 											fontWeight={'bold'}
 											color={'white'}
 											ref={inputRef}
@@ -289,34 +303,43 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					style={{
 						border: '1px solid white',
 						color: 'white',
-						width: '100px',
+						width: '85px',
+						height: '40px',
 					}}
 					onClick={() => handleSave()}
 				/>
 				<Box border={'0.5px solid white'} mx={4} height={'50px'}></Box>
 				{/* 데이터 노출 */}
-				{resultConfig.map((item, index) => {
-					return (
-						<Box
-							mx={'25px'}
-							display={'flex'}
-							flexDirection={'column'}
-							gap={'10px'}
-						>
-							<Typography color={'#b0b5c2'} variant="body2">
-								{item.lable}
-							</Typography>
-							<Typography
-								color={item.extra ? 'info.main' : 'white'}
-								variant="h5"
-								fontWeight={'bold'}
+				{props.calculationResult?.burnRate !== null &&
+					props.calculationResult &&
+					resultConfig.map((item, index) => {
+						return (
+							<Box
+								mx={'20px'}
+								display={'flex'}
+								flexDirection={'column'}
+								gap={'8px'}
 							>
-								{Math.round(item.value).toLocaleString()}{' '}
-								{item.month ? '개월' : '원'}
-							</Typography>
-						</Box>
-					);
-				})}
+								<Typography color={'#b0b5c2'} variant="body2">
+									{item.lable}
+								</Typography>
+								<Typography
+									color={item.extra ? 'info.main' : 'white'}
+									variant="h6"
+									fontWeight={'bold'}
+								>
+									{Math.round(item.value).toLocaleString()}{' '}
+									{item.month ? '개월' : '원'}
+								</Typography>
+							</Box>
+						);
+					})}
+				{/* 조건 등록 전 */}
+				{props.calculationResult?.burnRate === null && (
+					<Typography color={'white'} fontWeight={'bold'}>
+						좌측에서 조건선택 후 조회하기를 눌러주세요!
+					</Typography>
+				)}
 			</Box>
 		</Box>
 	);

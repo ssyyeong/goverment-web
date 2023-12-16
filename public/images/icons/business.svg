@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <linearGradient id="gcbu9syzda" x1=".864" y1="1" x2=".869" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#28aa79"/>
+            <stop offset="1" stop-color="#239a6d"/>
+        </linearGradient>
+        <linearGradient id="1vhdla2dob" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#72ecbd"/>
+            <stop offset="1" stop-color="#15c480"/>
+        </linearGradient>
+    </defs>
+    <g data-name="그룹 83133">
+        <g data-name="그룹 83068">
+            <g data-name="그룹 34183">
+                <g data-name="그룹 34182" transform="translate(2.884 11.63)">
+                    <rect data-name="사각형 6855" width="20" height="10" rx="1" transform="translate(.116 -.021)" style="fill:url(#gcbu9syzda)"/>
+                </g>
+                <path data-name="합치기 16" d="M0 19V4.4a1 1 0 0 1 1-1h1.611V2a1 1 0 0 1 1-1h4.778a1 1 0 0 1 1 1v1.4H11a1 1 0 0 1 1 1V19z" transform="translate(7 2.61)" style="fill:url(#1vhdla2dob)"/>
+            </g>
+            <path data-name="사각형 6142" style="fill:none" d="M0 0h26v26H0z"/>
+        </g>
+        <path data-name="패스 43155" d="M6837.1-3167.02v6.753" transform="translate(-6826.034 3177.574)" style="stroke:#fff;stroke-linecap:round;stroke-width:1.2px;fill:none"/>
+        <path data-name="패스 43156" d="M6837.1-3167.02v6.753" transform="translate(-6822.165 3177.574)" style="stroke:#fff;stroke-linecap:round;stroke-width:1.2px;fill:none"/>
+    </g>
+</svg>

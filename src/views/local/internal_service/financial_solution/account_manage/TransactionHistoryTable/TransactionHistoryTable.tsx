@@ -70,12 +70,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			checkbox: true,
 			checkBoxOnClick: (value, idx) => {
 				props.setRecomputeTriggerKey(uuidv4());
-				setTransactionHistoryList((prev) => {
-					const newTransactionHistoryList = [...prev];
-					newTransactionHistoryList[idx].EXCEPTED_YN =
-						value == 'Y' ? 'N' : 'Y';
-					return newTransactionHistoryList;
-				});
+				handleExcept(value, idx);
 			},
 			format: (value) => {
 				return value === 'Y' ? true : false;
@@ -96,14 +91,14 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 		},
 		{
 			label: '금액',
-			value: 'IN_AMOUNT',
+			value: 'OUT_AMOUNT',
 			format: (value, key) => {
 				return key === 'IN_AMOUNT'
 					? value.toLocaleString()
 					: `-${value.toLocaleString()}`;
 			},
 			customKeyFormat: (value) => {
-				return value !== 0 ? 'IN_AMOUNT' : 'OUT_AMOUNT';
+				return value !== 0 ? 'OUT_AMOUNT' : 'IN_AMOUNT';
 			},
 		},
 		{
@@ -182,12 +177,37 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 
 	//* Functions
+	/**
+	 * 거래내역 제외 함수
+	 */
+	const handleExcept = (value: string, idx: number) => {
+		transactionHistoryController.updateItem(
+			{
+				TRANSACTION_HISTORY_IDENTIFICATION_CODE:
+					transactionHistoryList[idx]
+						.TRANSACTION_HISTORY_IDENTIFICATION_CODE,
+				EXCEPTED_YN: value == 'Y' ? 'N' : 'Y',
+			},
+			(res) => {
+				setTransactionHistoryList((prev) => {
+					const newTransactionHistoryList = [...prev];
+					newTransactionHistoryList[idx].EXCEPTED_YN =
+						value == 'Y' ? 'N' : 'Y';
+					return newTransactionHistoryList;
+				});
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
 
 	//* Hooks
 	/**
 	 * 페이징 관련
 	 */
-	const { page, limit, handlePageChange, setLimit } = usePagination();
+	const { page, limit, handlePageChange, setLimit, setPage } =
+		usePagination();
 
 	/**
 	 * 입출금 내역 가져오기
@@ -199,7 +219,6 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
 				LIMIT: limit,
 				PAGE: page,
-				TRADER_NAME: props.keyword,
 				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
 				PERIOD_START: new Date(
 					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
@@ -216,7 +235,45 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				console.log(err);
 			}
 		);
-	}, [props.bankAccount, limit, page, props.keyword]);
+	}, [props.bankAccount, limit, page, props.selectedPeriod]);
+
+	/**
+	 * 기간
+	 */
+	useEffect(() => {
+		setPage(0);
+	}, [props.selectedPeriod]);
+	/**
+	 * 검색
+	 */
+	useEffect(() => {
+		transactionHistoryController.findAllItems(
+			{
+				BANK_ACCOUNT_IDENTIFICATION_CODE:
+					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+				LIMIT: limit,
+				PAGE: page,
+				KEYWORD: {
+					columnKey: 'TRADER_NAME',
+					keyword: props.keyword,
+				},
+				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
+				PERIOD_START: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
+				),
+				PERIOD_END: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
+				),
+			},
+			(res) => {
+				setTransactionHistoryList(res.data.result.rows);
+				setTotalDataCount(res.data.result.count);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	}, [props.keyword]);
 
 	return (
 		<Box

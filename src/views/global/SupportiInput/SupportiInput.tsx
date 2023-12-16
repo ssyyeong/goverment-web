@@ -150,9 +150,19 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								props.btnOnclick && props.btnOnclick();
+							}
+						}}
 						endAdornment={
 							<InputAdornment position="end">
-								<SearchIcon fontSize="small" />
+								<SearchIcon
+									fontSize="small"
+									onClick={() => {
+										props.btnOnclick && props.btnOnclick();
+									}}
+								/>
 							</InputAdornment>
 						}
 						aria-describedby="outlined-weight-helper-text"

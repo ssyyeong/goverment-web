@@ -16,6 +16,7 @@ export default function usePagination() {
 		limit,
 		setLimit,
 		page,
+		setPage,
 		handlePageChange,
 	};
 }

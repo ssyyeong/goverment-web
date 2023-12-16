@@ -236,7 +236,7 @@ const Page: NextPage = () => {
 	}, [memberInfo]);
 
 	return (
-		<Container>
+		<Container sx={{ my: 6 }}>
 			{dataConfig.map((data, idx) => {
 				return (
 					<Box width={{ sm: '50%', xs: '100%' }} p={2}>
