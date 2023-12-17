@@ -10,6 +10,7 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import KpiCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
 import OkrCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/OkrCard/OkrCard';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 type TSelectableIndicator = {
 	name: string;
@@ -27,7 +28,11 @@ const Page: NextPage = () => {
 	 * KPI 컨트롤러
 	 */
 	const kpiController = new DefaultController('Kpi');
-
+	//* Hooks
+	/**
+	 * 유저 정보 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* States
 
 	//* Constants
@@ -44,7 +49,7 @@ const Page: NextPage = () => {
 						return <OkrCard data={data} />;
 					},
 					injectedParams: {
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					getAllCallback:
 						okrController.findAllItems.bind(okrController),
@@ -60,7 +65,7 @@ const Page: NextPage = () => {
 						return <KpiCard data={data} />;
 					},
 					injectedParams: {
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					getAllCallback:
 						kpiController.findAllItems.bind(kpiController),

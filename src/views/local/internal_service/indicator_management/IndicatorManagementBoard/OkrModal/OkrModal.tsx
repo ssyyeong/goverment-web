@@ -13,6 +13,7 @@ import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 interface IOkrModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
@@ -32,7 +33,11 @@ const OkrModal = (props: IOkrModalProps) => {
 	const okrDetailController = new DefaultController('OkrDetail');
 
 	//* Modules
-
+	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* Constants
 
 	//* States
@@ -45,7 +50,7 @@ const OkrModal = (props: IOkrModalProps) => {
 		END_DATE:
 			props.mode === 'detail' ? props.okrMainData?.END_DATE : new Date(),
 		NOTE: props.mode === 'detail' ? props.okrMainData?.NOTE : '',
-		APP_MEMBER_IDENTIFICATION_CODE: 1,
+		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
 
 	const [okrDetailData, setOkrDetailData] = React.useState([
@@ -57,7 +62,7 @@ const OkrModal = (props: IOkrModalProps) => {
 			TARGET_UNIT: '',
 			NOTE: '',
 			ACHIEVED_AMOUNT: 0,
-			APP_MEMBER_IDENTIFICATION_CODE: 1,
+			APP_MEMBER_IDENTIFICATION_CODE: memberId,
 		},
 	]);
 
@@ -102,7 +107,7 @@ const OkrModal = (props: IOkrModalProps) => {
 			okrMainController.updateItem(
 				Object.assign(
 					{
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 						OKR_MAIN_IDENTIFICATION_CODE:
 							props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
 					},
@@ -128,7 +133,7 @@ const OkrModal = (props: IOkrModalProps) => {
 			okrDetailController.updateItem(
 				Object.assign(
 					{
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					injectedObj
 				),
@@ -152,7 +157,7 @@ const OkrModal = (props: IOkrModalProps) => {
 
 	//* Hooks
 	React.useEffect(() => {
-		if (!isEditMode) {
+		if (!isEditMode && memberId) {
 			setOkrMainData({
 				TITLE: props.mode === 'detail' ? props.okrMainData?.TITLE : '',
 				START_DATE:
@@ -164,10 +169,10 @@ const OkrModal = (props: IOkrModalProps) => {
 						? props.okrMainData?.END_DATE
 						: new Date(),
 				NOTE: props.mode === 'detail' ? props.okrMainData?.NOTE : '',
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
 		}
-	}, [isEditMode]);
+	}, [isEditMode, memberId]);
 
 	console.log(props.okrDetailData);
 
@@ -524,7 +529,8 @@ const OkrModal = (props: IOkrModalProps) => {
 													TARGET_UNIT: '',
 													NOTE: '',
 													ACHIEVED_AMOUNT: 0,
-													APP_MEMBER_IDENTIFICATION_CODE: 1,
+													APP_MEMBER_IDENTIFICATION_CODE:
+														memberId,
 												},
 											]);
 										}}
@@ -610,7 +616,8 @@ const OkrModal = (props: IOkrModalProps) => {
 												TARGET_UNIT: '',
 												NOTE: '',
 												ACHIEVED_AMOUNT: 0,
-												APP_MEMBER_IDENTIFICATION_CODE: 1,
+												APP_MEMBER_IDENTIFICATION_CODE:
+													memberId,
 											},
 										]);
 									}}
@@ -630,7 +637,7 @@ const OkrModal = (props: IOkrModalProps) => {
 							contents={'등록하기'}
 							onClick={() => {
 								//* Okr 메인 목표 등록
-								if (okrMainData.TITLE == '' ) {
+								if (okrMainData.TITLE == '') {
 									alert('필수 값 미입력');
 								} else {
 									if (props.mode === 'detail') {

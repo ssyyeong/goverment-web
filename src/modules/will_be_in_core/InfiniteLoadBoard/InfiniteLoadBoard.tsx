@@ -183,6 +183,8 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 		props.injectedParams.SORT_DIRECTION,
 		props.injectedParams.PERIOD_START,
 		props.injectedParams.PERIOD_END,
+		props.injectedParams.CATEGORY,
+		props.injectedParams,
 	]);
 
 	//* Refs

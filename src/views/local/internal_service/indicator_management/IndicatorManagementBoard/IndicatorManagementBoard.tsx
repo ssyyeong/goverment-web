@@ -14,6 +14,7 @@ import KpiModal from './KpiModal/KpiModal';
 import SupportiToggle from '../../../../global/SupportiToggle';
 import SupportiInput from '../../../../global/SupportiInput';
 import moment from 'moment';
+import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCategoryConfig';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -115,8 +116,16 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	 * 상태 영역 (진행중 / 완료) 선택
 	 */
 	const [selectedStatus, setSelectedStatus] = React.useState<string>(
-		props.name === 'OKR' ? okrSelectablePeriodList[0].value : kpiSelectableStatusList[0].value
+		props.name === 'OKR'
+			? okrSelectablePeriodList[0].value
+			: kpiSelectableStatusList[0].value
 	);
+	/**
+	 * KPI 카테고리 선택
+	 */
+	const [selectedKpiCategory, setSelectedKpiCategory] = React.useState<
+		string | undefined
+	>(undefined);
 
 	/**
 	 *  지표 등록하는 모달 오픈 여부
@@ -138,7 +147,14 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			/**
 			 * 정렬 선택
 			 */
-			JSON.parse(selectedSort)
+			JSON.parse(selectedSort),
+			/**
+			 * KPI 카테고리 선택
+			 */
+			selectedKpiCategory !== null &&
+				props.name === 'KPI' && {
+					CATEGORY: selectedKpiCategory,
+				}
 		);
 
 		if (props.additionalFilterConfigList) {
@@ -163,16 +179,15 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				/>
 			</Box>
 
-			{/* 추가 필터 영역 */}
-			{props.additionalFilterConfigList?.map((config, index) => (
-				<Box></Box>
-			))}
-
 			{/* 컨트롤러 영역 */}
 			<Box display={'flex'} justifyContent={'space-between'}>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
-					chipDataList={props.name === "OKR" ? okrSelectablePeriodList : kpiSelectableStatusList}
+					chipDataList={
+						props.name === 'OKR'
+							? okrSelectablePeriodList
+							: kpiSelectableStatusList
+					}
 					value={selectedStatus}
 					setValue={(value) => setSelectedStatus(value as string)}
 					chipHeight={'30px'}
@@ -197,6 +212,29 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				/>
 			</Box>
 
+			{/* 추가 필터 영역 */}
+			{props.additionalFilterConfigList?.map((config, index) => (
+				<Box></Box>
+			))}
+			{/* KPI 카테고리 셀렉터 */}
+			{props.name === 'KPI' && (
+				<SupportiInput
+					type="select"
+					value={selectedKpiCategory}
+					setValue={(value) =>
+						setSelectedKpiCategory(value as string)
+					}
+					defaultValue={undefined}
+					dataList={[
+						{
+							label: '전체',
+							value: undefined,
+						},
+						...IndicatorCategory,
+					]}
+					width={'100px'}
+				/>
+			)}
 			{/* 지표 목록 영역 */}
 			<InfiniteLoadBoard
 				{...Object.assign(props.infiniteLoadBoardProps, {

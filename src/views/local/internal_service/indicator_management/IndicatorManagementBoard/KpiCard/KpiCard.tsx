@@ -9,6 +9,7 @@ import { IKpi } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
 import KpiModal from '../KpiModal/KpiModal';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 interface IKpiCardProps {
 	data: IKpi;
@@ -36,14 +37,18 @@ const KpiCard = (props: IKpiCardProps) => {
 	 * 더보기 아이콘 클릭 여부
 	 */
 	const [isMore, setIsMore] = React.useState(false);
-
+	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* Functions
 
 	//* kpi 삭제하는 함수
 	const deleteKpi = () => {
 		kpiController.deleteItem(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				KPI_IDENTIFICATION_CODE: props.data['KPI_IDENTIFICATION_CODE'],
 			},
 			(response: any) => {
@@ -68,7 +73,7 @@ const KpiCard = (props: IKpiCardProps) => {
 		kpiController.updateItem(
 			Object.assign(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: 1,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					KPI_IDENTIFICATION_CODE:
 						props.data['KPI_IDENTIFICATION_CODE'],
 				},
@@ -119,7 +124,13 @@ const KpiCard = (props: IKpiCardProps) => {
 
 	console.log(props.data);
 	return (
-		<Box borderRadius={2} bgcolor={'white'} p={2} mb={2} boxShadow={'0 3px 15px 0 #e1eaff'}>
+		<Box
+			borderRadius={2}
+			bgcolor={'white'}
+			p={2}
+			mb={2}
+			boxShadow={'0 3px 15px 0 #e1eaff'}
+		>
 			<Box display="flex" justifyContent={'space-between'}>
 				<Box display="flex" gap={1}>
 					<Box display="flex" flexDirection="column" gap={1}>

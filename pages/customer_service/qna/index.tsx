@@ -27,7 +27,7 @@ const Page: NextPage = () => {
 		qnaController.createItem(
 			{
 				...qnaSheet,
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				console.log(res);

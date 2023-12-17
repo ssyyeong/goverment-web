@@ -7,6 +7,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import OkrModal from '../OkrModal/OkrModal';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import SupportiInput from '../../../../../global/SupportiInput';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 interface IAchieveBoxProps {
 	data: IOkrCombination;
@@ -36,14 +37,18 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	const [note, setNote] = React.useState(
 		props.data.NOTE !== '' ? props.data.NOTE : ''
 	);
-
+	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* Functions
 
 	// okr 하위 목표 달성량 추가
 	const updateOkr = () => {
 		okrController.updateItem(
 			Object.assign({
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_DETAIL_IDENTIFICATION_CODE:
 					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
 				NOTE: note,

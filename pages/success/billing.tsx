@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { PaymentInfoController } from '../../src/controller/PaymentInfoController';
 import { LoadingButton } from '@mui/lab';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -27,7 +28,11 @@ const Page: NextPage = () => {
 		authKey: authKey,
 		customerKey: customerKey,
 	};
-
+	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
 	//* Functions
@@ -49,7 +54,7 @@ const Page: NextPage = () => {
 					{
 						BILLING_KEY: billingKey,
 						CUSTOMER_KEY: customerKey,
-						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					(res) => {
 						// console.log(res);
@@ -58,7 +63,7 @@ const Page: NextPage = () => {
 						 */
 						paymentInfoController.createSubscription(
 							{
-								APP_MEMBER_IDENTIFICATION_CODE: 1,
+								APP_MEMBER_IDENTIFICATION_CODE: memberId,
 								SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE:
 									customerKey
 										.toString()

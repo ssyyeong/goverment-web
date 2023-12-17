@@ -10,6 +10,7 @@ import SupportiToggle from '../../../../../global/SupportiToggle';
 import GetCertModal from '../GetCertModal/GetCertModal';
 import { bankConfig } from '../../../../../../../configs/data/BankConfig';
 import { BankController } from '../../../../../../controller/BankController';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
@@ -22,7 +23,11 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	 * 컨트롤러들
 	 */
 	const bankController = new BankController();
-
+	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 	//* States
 	const [loginMethod, setLoginMethod] = React.useState<string>('SIGN_IN');
 	const [isMac, setIsMac] = React.useState<boolean>(false);
@@ -204,7 +209,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				  };
 
 		bankController.getBankAccountList(
-			{ APP_MEMBER_IDENTIFICATION_CODE: 1, ...sendData },
+			{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...sendData },
 			(response: any) => {
 				setLoading(false);
 
@@ -222,7 +227,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		console.log(userAccountInfo);
 		bankController.registerBankAccount(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: 6,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				...userAccountInfo,
 			},
 			(response: any) => {

@@ -67,8 +67,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	// const memberId = useAppMember();
-	const memberId = 3;
+	const { memberId } = useAppMember();
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
@@ -83,7 +82,7 @@ const Page: NextPage = () => {
 		if (userAccess && memberId) {
 			financialStatementController.getAllItems(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: 1,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					PERIOD_TARGET_KEY: 'STANDARD_YEAR',
 					PERIOD_END: targetDate,
 					LIMIT: 3,

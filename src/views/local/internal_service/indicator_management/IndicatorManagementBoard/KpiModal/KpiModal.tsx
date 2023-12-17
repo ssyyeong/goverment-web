@@ -9,6 +9,7 @@ import { IndicatorCategory } from '../../../../../../../configs/data/IndicatorCa
 import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
 import { IKpi } from '../../../../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 interface IKpiModalProps {
 	modalOpen: boolean;
@@ -25,7 +26,8 @@ const KpiModal = (props: IKpiModalProps) => {
 	//* Modules
 
 	//* Constants
-
+	//* Hooks
+	const { memberId } = useAppMember();
 	//* States
 	const [kpiData, setKpiData] = React.useState<IKpi>(
 		props.data
@@ -51,7 +53,7 @@ const KpiModal = (props: IKpiModalProps) => {
 	 */
 	const createKpi = () => {
 		kpiController.createItem(
-			{ APP_MEMBER_IDENTIFICATION_CODE: 1, ...kpiData },
+			{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
 			(response) => {
 				console.log(response);
 				props.setModalOpen(false);
@@ -98,34 +100,34 @@ const KpiModal = (props: IKpiModalProps) => {
 								placeholder="목표 타이틀을 입력해주세요."
 							/>
 							<Box display="flex" ml={'auto'} my={1} gap={0.5}>
-										<Typography
-											color={
-												kpiData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
-										>
-											{kpiData.TITLE.length}
-										</Typography>
-										<Typography
-											color={
-												kpiData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
-										>
-											/
-										</Typography>
-										<Typography
-											color={
-												kpiData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
-										>
-											50
-										</Typography>
-									</Box>
+								<Typography
+									color={
+										kpiData.TITLE.length < 50
+											? 'secondary.main'
+											: 'warning.main'
+									}
+								>
+									{kpiData.TITLE.length}
+								</Typography>
+								<Typography
+									color={
+										kpiData.TITLE.length < 50
+											? 'secondary.main'
+											: 'warning.main'
+									}
+								>
+									/
+								</Typography>
+								<Typography
+									color={
+										kpiData.TITLE.length < 50
+											? 'secondary.main'
+											: 'warning.main'
+									}
+								>
+									50
+								</Typography>
+							</Box>
 							{/** 날짜 선택 */}
 							<Box display={'flex'}>
 								<SupportiInput
@@ -258,8 +260,7 @@ const KpiModal = (props: IKpiModalProps) => {
 												setValue={(value: number) => {
 													setKpiData({
 														...kpiData,
-														TARGET_AMOUNT:
-															value,
+														TARGET_AMOUNT: value,
 													});
 												}}
 												width={'150px'}
