@@ -170,7 +170,7 @@ const OkrCard = (props: IOkrCardProps) => {
 								data={item}
 								index={index}
 								okrMainData={okrMainData}
-								setOkrMainData={setOkrMainData}
+								setOkrDetailData={setOkrMainData}
 							/>
 						);
 					})}

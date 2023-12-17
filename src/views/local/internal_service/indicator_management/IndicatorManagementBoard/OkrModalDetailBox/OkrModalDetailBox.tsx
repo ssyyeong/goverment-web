@@ -118,6 +118,10 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 							width={'300px'}
 							placeholder="하위 목표 타이틀을 입력해주세요."
+							readOnly={
+								props.okrDetailData[props.index].TITLE.length >
+								50
+							}
 						/>
 					</Box>
 
@@ -128,6 +132,10 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							cursor: 'pointer',
 							marginTop: 'auto',
 							marginBottom: 'auto',
+							display:
+								props.okrDetailData.length === 1
+									? 'none'
+									: 'block',
 						}}
 						onClick={() => {
 							props.deleteOkrDetail(props.index);

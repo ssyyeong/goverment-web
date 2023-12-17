@@ -53,18 +53,22 @@ const OkrModal = (props: IOkrModalProps) => {
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
 
-	const [okrDetailData, setOkrDetailData] = React.useState([
-		{
-			TITLE: '',
-			START_DATE: new Date(),
-			END_DATE: new Date(),
-			TARGET_AMOUNT: 0,
-			TARGET_UNIT: '',
-			NOTE: '',
-			ACHIEVED_AMOUNT: 0,
-			APP_MEMBER_IDENTIFICATION_CODE: memberId,
-		},
-	]);
+	const [okrDetailData, setOkrDetailData] = React.useState(
+		props.mode === 'detail'
+			? props.okrMainData?.OkrDetails
+			: [
+					{
+						TITLE: '',
+						START_DATE: new Date(),
+						END_DATE: new Date(),
+						TARGET_AMOUNT: 0,
+						TARGET_UNIT: '',
+						NOTE: '',
+						ACHIEVED_AMOUNT: 0,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					},
+			  ]
+	);
 
 	/**
 	 * 수정 모드인지 여부
@@ -153,6 +157,23 @@ const OkrModal = (props: IOkrModalProps) => {
 				}
 			);
 		}
+	};
+
+	/**
+	 * 필수값 미입력 판단 함수
+	 */
+	const checkRequiredValue = () => {
+		if (okrMainData.TITLE == '') {
+			return false;
+		}
+
+		okrDetailData.map((item) => {
+			return item.TITLE == '' ||
+				item.TARGET_AMOUNT == 0 ||
+				item.TARGET_UNIT == ''
+				? false
+				: true;
+		});
 	};
 
 	//* Hooks
@@ -292,6 +313,7 @@ const OkrModal = (props: IOkrModalProps) => {
 										}}
 										width={'400px'}
 										placeholder="상위 목표 타이틀을 입력해주세요."
+										readOnly={okrMainData.TITLE.length > 50}
 									/>
 									<Box
 										display="flex"
@@ -455,6 +477,7 @@ const OkrModal = (props: IOkrModalProps) => {
 										}}
 										width={'100%'}
 										multiline={true}
+										placeholder='메모 입력'
 									/>
 									<Box display="flex" ml={'auto'} gap={0.5}>
 										<Typography
@@ -565,39 +588,37 @@ const OkrModal = (props: IOkrModalProps) => {
 
 							{props.mode === 'detail' && (
 								<Box>
-									{props.okrMainData.OkrDetails.map(
-										(item, index) => {
-											return (
-												<Box
-													bgcolor={'secondary.light'}
-													borderRadius={2}
-													display={'flex'}
-													flexDirection={'column'}
-													gap={2}
-													mb={2}
-													pl={1}
-												>
-													<OkrDetailCard
-														data={item}
-														index={index}
-														mode={props.mode}
-														isEditMode={isEditMode}
-														children={
-															<AchieveBox
-																data={item}
-															/>
-														}
-														okrMainData={
-															props.okrMainData
-														}
-														setOkrMainData={
-															props.setOkrMainData
-														}
-													/>
-												</Box>
-											);
-										}
-									)}
+									{okrDetailData.map((item, index) => {
+										return (
+											<Box
+												bgcolor={'secondary.light'}
+												borderRadius={2}
+												display={'flex'}
+												flexDirection={'column'}
+												gap={2}
+												mb={2}
+												pl={1}
+											>
+												<OkrDetailCard
+													data={item}
+													index={index}
+													mode={props.mode}
+													isEditMode={isEditMode}
+													children={
+														<AchieveBox
+															data={item}
+														/>
+													}
+													okrDetailData={
+														okrDetailData
+													}
+													setOkrDetailData={
+														setOkrDetailData
+													}
+												/>
+											</Box>
+										);
+									})}
 								</Box>
 							)}
 
@@ -637,42 +658,39 @@ const OkrModal = (props: IOkrModalProps) => {
 							contents={'등록하기'}
 							onClick={() => {
 								//* Okr 메인 목표 등록
-								if (okrMainData.TITLE == '') {
-									alert('필수 값 미입력');
+								if (checkRequiredValue) {
+									createOkr();
 								} else {
-									if (props.mode === 'detail') {
-										updateOkr('main', okrMainData);
+									alert('필수 값 미입력');
+								}
 
-										//* Okr 하위 목표 등록
-										props.okrMainData.OkrDetails.map(
-											(item) => {
-												{
-													item.TITLE == '' ||
-													item.TARGET_AMOUNT == 0 ||
-													item.TARGET_UNIT == ''
-														? alert(
-																'필수 값 미입력'
-														  )
-														: updateOkr('detail', {
-																TITLE: item.TITLE,
-																START_DATE:
-																	item.START_DATE,
-																END_DATE:
-																	item.END_DATE,
-																TARGET_AMOUNT:
-																	item.TARGET_AMOUNT,
-																TARGET_UNIT:
-																	item.TARGET_UNIT,
-																NOTE: item.NOTE,
-																ACHIEVED_AMOUNT:
-																	item.ACHIEVED_AMOUNT,
-																OKR_DETAIL_IDENTIFICATION_CODE:
-																	item.OKR_DETAIL_IDENTIFICATION_CODE,
-														  });
-												}
-											}
-										);
-									} else createOkr();
+								if (props.mode === 'detail') {
+									updateOkr('main', okrMainData);
+
+									//* Okr 하위 목표 등록
+									props.okrMainData.OkrDetails.map((item) => {
+										{
+											item.TITLE == '' ||
+											item.TARGET_AMOUNT == 0 ||
+											item.TARGET_UNIT == ''
+												? alert('필수 값 미입력')
+												: updateOkr('detail', {
+														TITLE: item.TITLE,
+														START_DATE:
+															item.START_DATE,
+														END_DATE: item.END_DATE,
+														TARGET_AMOUNT:
+															item.TARGET_AMOUNT,
+														TARGET_UNIT:
+															item.TARGET_UNIT,
+														NOTE: item.NOTE,
+														ACHIEVED_AMOUNT:
+															item.ACHIEVED_AMOUNT,
+														OKR_DETAIL_IDENTIFICATION_CODE:
+															item.OKR_DETAIL_IDENTIFICATION_CODE,
+												  });
+										}
+									});
 								}
 							}}
 							style={{

@@ -131,7 +131,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			mb={2}
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 		>
-			<Box display="flex" justifyContent={'space-between'}>
+			<Box display="flex" justifyContent={'space-between'} flexWrap='wrap'>
 				<Box display="flex" gap={1}>
 					<Box display="flex" flexDirection="column" gap={1}>
 						<Typography variant="h5" fontWeight={'bold'}>
@@ -281,8 +281,13 @@ const KpiCard = (props: IKpiCardProps) => {
 							updateKpi({ NOTE: note });
 						}}
 						width={'100%'}
-						placeholder="메모"
+						placeholder="메모 입력"
 						multiline={true}
+						readOnly={
+							note.length > 500
+								? true
+								: false
+						}
 					/>
 				</Box>
 			)}

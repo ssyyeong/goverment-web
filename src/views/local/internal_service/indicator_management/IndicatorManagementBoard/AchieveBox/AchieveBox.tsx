@@ -111,7 +111,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 					updateOkr();
 				}}
 				width={'100%'}
-				placeholder="메모"
+				placeholder="메모 입력"
 				style={{
 					bgcolor: 'white',
 				}}

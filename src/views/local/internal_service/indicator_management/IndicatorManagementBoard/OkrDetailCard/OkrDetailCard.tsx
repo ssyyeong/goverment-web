@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
-import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
@@ -17,8 +16,8 @@ interface IOkrDetailCardProps {
 	mode?: string;
 	isEditMode?: boolean;
 	children?: React.ReactNode;
-	okrMainData: any;
-	setOkrMainData: any;
+	okrDetailData: any;
+	setOkrDetailData: any;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -30,8 +29,6 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	//* Constants
 
 	//* Functions
-
-	console.log(props.okrMainData?.OkrDetails);
 
 	return (
 		<Box
@@ -62,9 +59,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 						type="input"
 						value={props.data.TITLE}
 						setValue={(value: string) => {
-							props.setOkrMainData({
-								...props.okrMainData,
-								OkrDetails: props.okrMainData?.OkrDetails.map(
+							props.setOkrDetailData(
+								props.okrDetailData.map(
 									(item: IOkrDetail, index: number) => {
 										if (index === props.index) {
 											return {
@@ -75,11 +71,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 											return item;
 										}
 									}
-								),
-							});
+								)
+							);
 						}}
 						width={'400px'}
 						placeholder="하위 목표 타이틀을 입력해주세요."
+						readOnly={props.okrDetailData[props.index].TITLE.length > 50}
 					/>
 				) : (
 					<Typography fontWeight={500} mt={'auto'} mb={'auto'}>
@@ -121,27 +118,25 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								defaultValue={props.data?.START_DATE}
 								value={props.data?.START_DATE}
 								setValue={(value) => {
-									props.setOkrMainData({
-										...props.okrMainData,
-										OkrDetails:
-											props.okrMainData?.OkrDetails.map(
-												(
-													item: IOkrDetail,
-													index: number
-												) => {
-													if (index === props.index) {
-														return {
-															...item,
-															START_DATE: value
-																.toDate()
-																.toISOString(),
-														};
-													} else {
-														return item;
-													}
+									props.setOkrDetailData(
+										props.okrDetailData.map(
+											(
+												item: IOkrDetail,
+												index: number
+											) => {
+												if (index === props.index) {
+													return {
+														...item,
+														START_DATE: value
+															.toDate()
+															.toISOString(),
+													};
+												} else {
+													return item;
 												}
-											),
-									});
+											}
+										)
+									);
 								}}
 								width={'110px'}
 								useIcon={false}
@@ -152,27 +147,25 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								defaultValue={props.data?.END_DATE}
 								value={props.data?.END_DATE}
 								setValue={(value) => {
-									props.setOkrMainData({
-										...props.okrMainData,
-										OkrDetails:
-											props.okrMainData?.OkrDetails.map(
-												(
-													item: IOkrDetail,
-													index: number
-												) => {
-													if (index === props.index) {
-														return {
-															...item,
-															END_DATE: value
-																.toDate()
-																.toISOString(),
-														};
-													} else {
-														return item;
-													}
+									props.setOkrDetailData(
+										props.okrDetailData.map(
+											(
+												item: IOkrDetail,
+												index: number
+											) => {
+												if (index === props.index) {
+													return {
+														...item,
+														END_DATE: value
+															.toDate()
+															.toISOString(),
+													};
+												} else {
+													return item;
 												}
-											),
-									});
+											}
+										)
+									);
 								}}
 								width={'110px'}
 								useIcon={false}

@@ -10,7 +10,7 @@ import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
 import { IKpi } from '../../../../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 interface IKpiModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
@@ -98,6 +98,7 @@ const KpiModal = (props: IKpiModalProps) => {
 								}}
 								width={'400px'}
 								placeholder="목표 타이틀을 입력해주세요."
+								readOnly={kpiData.TITLE.length > 50}
 							/>
 							<Box display="flex" ml={'auto'} my={1} gap={0.5}>
 								<Typography
@@ -130,6 +131,15 @@ const KpiModal = (props: IKpiModalProps) => {
 							</Box>
 							{/** 날짜 선택 */}
 							<Box display={'flex'}>
+							<CalendarTodayIcon
+											sx={{
+												width: '15px',
+												height: '15px',
+												marginTop: 'auto',
+												marginBottom: 'auto',
+												marginRight: '5px',
+											}}
+										/>
 								<SupportiInput
 									type="datepicker"
 									value={kpiData.START_DATE}
