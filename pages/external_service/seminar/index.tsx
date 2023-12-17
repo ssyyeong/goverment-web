@@ -12,6 +12,7 @@ import { usePagination } from '../../../src/hooks/usePagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
+import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -50,7 +51,7 @@ const Page: NextPage = () => {
 		label: '금액',
 		value: 'PRICE',
 		format: (value) => {
-			return `${value.toLocaleString()} 원`;
+			return value == 0 ? '무료' : `${value.toLocaleString()} 원`;
 		},
 	};
 
@@ -93,7 +94,14 @@ const Page: NextPage = () => {
 	}, [tab, page]);
 
 	return (
-		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+		<Box
+			width={'100%'}
+			p={{
+				xs: 2,
+				md: 10,
+			}}
+			bgcolor={'primary.light'}
+		>
 			<Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 세미나
 			</Typography>
@@ -127,7 +135,7 @@ const Page: NextPage = () => {
 			</Box>
 
 			{/* 테이블 */}
-			<Box width={'100%'} p={2}>
+			<Box width={'100%'} p={2} display={{ xs: 'none', sm: 'block' }}>
 				<SupportiTable
 					rowData={seminarDataList}
 					headerData={
@@ -141,6 +149,36 @@ const Page: NextPage = () => {
 						);
 					}}
 				/>
+			</Box>
+			{/* 모바일 테이블 */}
+			<Box width={'100%'} p={2} display={{ xs: 'block', sm: 'none' }}>
+				{seminarDataList.map((data, idx) => {
+					return (
+						<MobileTableRow
+							index={idx}
+							title={data.PRODUCT_NAME}
+							colums={[
+								{
+									label: '선착순 제한',
+									value: data.PERSONNEL,
+								},
+								{
+									label: '일정',
+									value: moment(data.SEMINAR_DATE).format(
+										'YYYY-MM-DD'
+									),
+								},
+								{
+									label: '금액',
+									value:
+										data.PRICE == 0
+											? '무료'
+											: `${data.PRICE.toLocaleString()} 원`,
+								},
+							]}
+						/>
+					);
+				})}
 			</Box>
 			{/* 페이지 네이션 */}
 			<Box width={'100%'} p={2}>

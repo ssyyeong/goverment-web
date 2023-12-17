@@ -46,16 +46,15 @@ const CustomFooter = (props: ICustomFooterProps) => {
 	return (
 		!router.asPath.includes('/internal_service') &&
 		!router.asPath.includes('/my_page') && (
-			<Box pt={7} pb={4}>
+			<Box pb={4}>
 				<Box
 					sx={{
 						height: '5px',
 						backgroundColor: '#F8F9FA',
-						marginTop: '40px',
 					}}
 				/>
 				<Container>
-					<Grid container spacing={7} pt={7} pb={4}>
+					<Grid container spacing={7} pt={5} pb={3}>
 						<Grid item xs={12} md={4}>
 							<img
 								src={'/images/logo/Suppor-TFulllogo.svg'}
@@ -65,24 +64,6 @@ const CustomFooter = (props: ICustomFooterProps) => {
 								style={{ cursor: 'pointer' }}
 								onClick={() => router.push('/')}
 							/>
-							<Box
-								display={'flex'}
-								alignItems={'center'}
-								mt={4}
-								gap={1}
-							>
-								{IconList.map((data, index) => (
-									<Box
-										key={index}
-										onClick={() => router.push(data.link)}
-										sx={{
-											cursor: 'pointer',
-										}}
-									>
-										{data.logo}
-									</Box>
-								))}
-							</Box>
 						</Grid>
 						<Grid item xs={12} md={8}>
 							<Box
@@ -91,6 +72,7 @@ const CustomFooter = (props: ICustomFooterProps) => {
 								// margin={{ xs: 1, ml: 5 }}
 								ml={{ md: 5, xs: 1 }}
 								gap={4}
+								mb={3}
 								// justifyContent={'space-evenly'}
 							>
 								{MenuList.map((data, index) => (
@@ -135,7 +117,7 @@ const CustomFooter = (props: ICustomFooterProps) => {
 						padding={'10px 0'}
 					>
 						<Typography variant={'body2'} color={'text.secondary'}>
-							Copyright © SupporT 2023
+							Copyright © Suppor-T 2023
 						</Typography>
 					</Box>
 				</Container>

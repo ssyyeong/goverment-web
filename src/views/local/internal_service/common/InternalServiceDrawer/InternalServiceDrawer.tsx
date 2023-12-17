@@ -213,9 +213,21 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					width: { md: `calc(100% - ${drawerWidth}px)` },
 					ml: { md: `${drawerWidth}px` },
 					display: { md: 'none' },
+					bgcolor: 'primary.light',
+					boxShadow: 'none',
 				}}
 			>
-				<Toolbar>
+				<Toolbar
+					sx={{
+						justifyContent: 'space-between',
+					}}
+				>
+					<img
+						src="/images/logo/Suppor-T1.png"
+						onClick={() => {
+							router.push('/');
+						}}
+					/>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -223,11 +235,8 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						onClick={handleDrawerToggle}
 						sx={{ mr: 2, display: { md: 'none' } }}
 					>
-						<MenuIcon />
+						<MenuIcon color="primary" />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						Responsive drawer
-					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Box
@@ -274,8 +283,8 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					bgcolor: 'primary.light',
 					width: { md: `calc(100% - ${drawerWidth}px)` },
 					height: '100vh',
-					overflowY: 'scroll',
-					pt: { md: 0, xs: 5 },
+					overflowY: 'auto',
+					pt: { md: 0, xs: 8 },
 				}}
 			>
 				{props.children}

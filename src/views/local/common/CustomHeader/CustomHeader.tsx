@@ -226,7 +226,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									vertical: 'bottom',
 									horizontal: 'center',
 								}}
-								keepMounted
+								// keepMounted
 								transformOrigin={{
 									vertical: 'top',
 									horizontal: 'center',
@@ -238,9 +238,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								}}
 								PaperProps={{
 									sx: {
-										width: '100%',
+										width: '110%',
 										boxShadow: '2px 4px 2px #f5f5f5',
 										mt: 1,
+										left: '0 !important',
+										p: 2,
 									},
 								}}
 							>
@@ -319,7 +321,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								{mobileMenu.map((page) => (
 									<MenuItem
 										key={page.label}
-										onClick={() => router.push(page.path)}
+										onClick={() => {
+											router.push(page.path);
+											handleCloseNavMenu();
+										}}
 									>
 										<Typography
 											textAlign="center"

@@ -59,6 +59,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 					width: '100%',
 					bgcolor: 'white',
 					borderRadius: 1,
+					minHeight: 400,
 				}}
 			>
 				<Table stickyHeader={props.stikyHeader}>

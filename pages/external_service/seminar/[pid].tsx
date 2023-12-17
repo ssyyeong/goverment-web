@@ -105,7 +105,14 @@ const Page: NextPage = () => {
 	}, [pid]);
 
 	return (
-		<Box width={'100%'} position={'relative'} p={10} minHeight={'90vh'}>
+		<Box
+			width={'100%'}
+			p={{
+				xs: 2,
+				md: 10,
+			}}
+			minHeight={'90vh'}
+		>
 			{/* 세미나 헤더 */}
 			<Box
 				width={'100%'}
@@ -135,6 +142,8 @@ const Page: NextPage = () => {
 				flexDirection={'column'}
 				alignItems={'center'}
 				mt={3}
+				height={'auto'}
+				position={'relative'}
 			>
 				{seminarData.PRODUCT_DETAIL_IMAGE_LIST &&
 					JSON.parse(seminarData.PRODUCT_DETAIL_IMAGE_LIST).map(
@@ -146,26 +155,31 @@ const Page: NextPage = () => {
 							);
 						}
 					)}
-			</Box>
-			{/* 스티키 버튼 */}
-			<Box
-				display={'flex'}
-				width={'100%'}
-				position={'fixed'}
-				justifyContent={'center'}
-				bottom={40}
-				left={0}
-			>
-				<SupportiButton
-					contents={'신청하기'}
-					isGradient={true}
-					onClick={() => applySeminar()}
-					style={{
-						color: 'white',
-						width: '200px',
+				{/* 스티키 버튼 */}
+
+				<Box
+					width={'100%'}
+					justifyContent={'center'}
+					// bgcolor={'red'}
+					sx={{
+						position: 'sticky',
+						display: 'flex',
+						top: 0,
 					}}
-				/>
+					height={40}
+				>
+					<SupportiButton
+						contents={'신청하기'}
+						isGradient={true}
+						onClick={() => applySeminar()}
+						style={{
+							color: 'white',
+							width: '200px',
+						}}
+					/>
+				</Box>
 			</Box>
+
 			<SupportiAlertModal
 				type={alertModalType}
 				open={alertModal}
