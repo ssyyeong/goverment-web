@@ -28,6 +28,10 @@ const Page: NextPage = () => {
 		authKey: authKey,
 		customerKey: customerKey,
 	};
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
 
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
@@ -43,10 +47,7 @@ const Page: NextPage = () => {
 				//카드 정보 등록 완료 후 빌링키 받아오기
 				const billingKey = response.data.billingKey;
 				console.log(billingKey);
-				/**
-				 * 유저 아이디 가져오는 훅
-				 */
-				const memberId = useAppMember();
+
 				/**
 				 * 빌링키 등록
 				 */
@@ -67,12 +68,16 @@ const Page: NextPage = () => {
 					},
 					(err) => {
 						console.log(err);
+						console.log(err.response.data.message);
+						alert(`${err.response.data.message}`);
+						router.push('/rate_plan');
 					}
 				);
 			})
 			.catch((e) => {
 				console.log(e);
-				alert(`${e.response.data.message} 다시 시도해주세요!`);
+				console.log(e.response.data.message);
+				alert(`다시 시도해주세요!`);
 				router.push('/rate_plan');
 			});
 	};
@@ -80,8 +85,8 @@ const Page: NextPage = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		customerKey && authKey && getBillingkey();
-	}, [router.query]);
+		memberId && customerKey && authKey && getBillingkey();
+	}, [router.query, memberId]);
 	return (
 		<Box
 			sx={{

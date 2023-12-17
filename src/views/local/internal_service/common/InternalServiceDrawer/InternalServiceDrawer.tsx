@@ -275,8 +275,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					width: { md: `calc(100% - ${drawerWidth}px)` },
 					height: '100vh',
 					overflowY: 'scroll',
-					// '-ms-overflow-style': 'none',
-					// '&::-webkit-scrollbar': { display: 'none' },
+					pt: { md: 0, xs: 5 },
 				}}
 			>
 				{props.children}

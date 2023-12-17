@@ -101,7 +101,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	const { memberId } = useAppMember();
 	/**
 	 * 결제 성공 데이터 백에 보내기
 	 */

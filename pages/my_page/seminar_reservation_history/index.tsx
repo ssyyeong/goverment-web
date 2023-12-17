@@ -14,12 +14,11 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { SeminarApplicationController } from '../../../src/controller/SeminarApplicationController';
 
 const Page: NextPage = () => {
 	//* Modules
-	const seminarApplicationController = new DefaultController(
-		'SeminarApplication'
-	);
+	const seminarApplicationController = new SeminarApplicationController();
 	//* Constants
 	const seminarHeaderData: TableHeaderProps[] = [
 		{
@@ -126,7 +125,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	const { memberId } = useAppMember();
 	/**
 	 * 페이징 관련
 	 */
@@ -136,11 +135,14 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		memberId &&
-			seminarApplicationController.findAllItems(
+			seminarApplicationController.getSeminarApplicationList(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					LIMIT: 10,
-					PAGE: page,
+					FIND_OPTION_KEY_LIST: {
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						LIMIT: 10,
+						PAGE: page,
+					},
+					COMPLETED: tab === 0 ? false : true,
 				},
 				(res) => {
 					setTotalDataCount(res.data.result.count);

@@ -62,7 +62,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	const { memberId } = useAppMember();
 	/**
 	 * 페이지네이션
 	 */

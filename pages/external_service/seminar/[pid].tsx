@@ -42,7 +42,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
-	const memberId = useAppMember();
+	const { memberId } = useAppMember();
 	//* Functions
 	/**
 	 * 세미나 신청하기
@@ -65,7 +65,26 @@ const Page: NextPage = () => {
 				setAlertModal(true);
 				setAlertModalType('success');
 			},
-			(err) => {}
+			(err) => {
+				console.log(err.response);
+				if (
+					err.response.data.message === '구독 회원만 이용 가능합니다.'
+				) {
+					setAlertModal(true);
+					setAlertModalType('subscribe');
+					return;
+				}
+				if (err.response.data.message === '신청 내역이 존재합니다.') {
+					setAlertModal(true);
+					setAlertModalType('already');
+					return;
+				}
+				if (err.response.data.message === '포인트가 부족합니다.') {
+					setAlertModal(true);
+					setAlertModalType('point');
+					return;
+				}
+			}
 		);
 	};
 

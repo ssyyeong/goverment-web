@@ -18,7 +18,7 @@ const Page: NextPage = () => {
 		'ConsultingApplication'
 	);
 	const matches = false; //useMediaQuery(theme.breakpoints.down('md')
-
+	//*
 	//* States
 	/**
 	 * 결제 정보 리스트
@@ -100,7 +100,7 @@ const Page: NextPage = () => {
 	/**
 	 *결제 히스토리 가져오기
 	 */
-	const memberId = useAppMember();
+	const { memberId } = useAppMember();
 	useEffect(() => {
 		memberId &&
 			consultingApplicationController.findAllItems(

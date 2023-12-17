@@ -97,11 +97,12 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 컨설팅 신청하기
 	 */
-	const applyConsulting = () => {
-		consultingApplicationController.createItem(
+	const updateApplyConsulting = () => {
+		consultingApplicationController.updateItem(
 			{
-				CONSULTING_PRODUCT_IDENTIFICATION_CODE:
-					props.consultingData.CONSULTING_PRODUCT_IDENTIFICATION_CODE,
+				CONSULTING_APPLICATION_IDENTIFICATION_CODE:
+					props.consultingData
+						.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
 				RESERVATION_DATE: selectedDate,
 				RESERVATION_START_TIME: selectedTime.START,
 				RESERVATION_END_TIME: selectedTime.END,
@@ -158,20 +159,6 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
-	useEffect(() => {
-		getMonthSchedule(moment().format('YYYY-MM'));
-		//* 컨설팅 질문에 대한 답변 초기화
-		let question = [];
-		props.consultingData?.ConsultingQuestions?.map((x) => {
-			question.push({
-				CONSULTING_QUESTION_IDENTIFICATION_CODE:
-					x.CONSULTING_QUESTION_IDENTIFICATION_CODE,
-				ANSWER_CONTENT: '',
-				FILE_LIST: [],
-			});
-		});
-		setConsultingAnswer(question);
-	}, [props.consultingData]);
 
 	return (
 		<SuppportiModal
@@ -494,7 +481,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						</Typography>
 						{/* 질문 */}
 						<Box mb={2}>
-							{props.consultingData.ConsultingQuestions?.map(
+							{props.consultingData.ConsultingAnswers?.map(
 								(question, index) => {
 									return (
 										<ConsultingQna
@@ -513,7 +500,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						<SupportiButton
 							contents={'예약하기'}
 							onClick={() => {
-								applyConsulting();
+								updateApplyConsulting();
 							}}
 							variant="contained"
 							fullWidth

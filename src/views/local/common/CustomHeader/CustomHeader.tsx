@@ -20,6 +20,9 @@ import { useRouter } from 'next/router';
 import { useAppMember } from '../../../../hooks/useAppMember';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CookieManager } from '@qillie-corp/qillie-utility';
+import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+
 interface ICustomHeaderProps {}
 
 const CustomHeader = (props: ICustomHeaderProps) => {
@@ -46,6 +49,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 * 모바일 메뉴
 	 */
 	const mobileMenu = [
+		{
+			label: '대시보드',
+			path: '/internal_service/financial_solution/account_manage',
+		},
 		{
 			label: '세미나',
 			path: '/external_service/seminar',
@@ -217,25 +224,110 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								anchorEl={anchorElNav}
 								anchorOrigin={{
 									vertical: 'bottom',
-									horizontal: 'left',
+									horizontal: 'center',
 								}}
 								keepMounted
 								transformOrigin={{
 									vertical: 'top',
-									horizontal: 'left',
+									horizontal: 'center',
 								}}
 								open={Boolean(anchorElNav)}
 								onClose={handleCloseNavMenu}
 								sx={{
 									display: { xs: 'block', md: 'none' },
 								}}
+								PaperProps={{
+									sx: {
+										width: '100%',
+										boxShadow: '2px 4px 2px #f5f5f5',
+										mt: 1,
+									},
+								}}
 							>
+								<Box
+									width={'100%'}
+									display={'flex'}
+									justifyContent={'space-between'}
+									pr={2}
+									my={1}
+									alignItems={'center'}
+									mb={2}
+								>
+									<img src="/images/logo/Suppor-TFulllogo.svg" />
+									<Typography
+										onClick={handleCloseNavMenu}
+										sx={{
+											cursor: 'pointer',
+
+											fontWeight: '600',
+										}}
+									>
+										X
+									</Typography>
+								</Box>
+								<Box
+									bgcolor={'secondary.light'}
+									sx={{
+										borderRadius: 2,
+										p: 2,
+										display: 'flex',
+										flexDirection: 'column',
+										gap: 2,
+										mb: 1,
+									}}
+								>
+									<Box
+										display={'flex'}
+										justifyContent={'space-between'}
+										alignItems={'center'}
+									>
+										<Typography fontWeight={'600'}>
+											{memberName}님 안녕하세요!
+										</Typography>
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={1}
+											color={'secondary.dark'}
+											sx={{
+												cursor: 'pointer',
+											}}
+											onClick={() => {
+												cookie.removeItemInCookies(
+													'ACCESS_TOKEN'
+												);
+												router.push('/auth/sign_in');
+											}}
+										>
+											<Typography
+												fontWeight={'500'}
+												color={'secondary.dark'}
+											>
+												로그아웃
+											</Typography>
+											<LogoutRoundedIcon
+												sx={{
+													fontSize: '1.1rem',
+												}}
+											/>
+										</Box>
+									</Box>
+									<Typography fontWeight={'600'}>
+										보유 포인트 {memberPoint}P
+									</Typography>
+								</Box>
 								{mobileMenu.map((page) => (
 									<MenuItem
 										key={page.label}
 										onClick={() => router.push(page.path)}
 									>
-										<Typography textAlign="center">
+										<Typography
+											textAlign="center"
+											sx={{
+												fontWeight: '500',
+												py: 1,
+											}}
+										>
 											{page.label}
 										</Typography>
 									</MenuItem>
@@ -344,12 +436,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										sx={{
 											my: 1,
 											ml: 2,
-											display: 'block',
-											width: 80,
+											display: 'flex',
+											width: 110,
 											borderRadius: 2,
+											gap: 1,
 										}}
 										variant="contained"
 									>
+										<GridViewRoundedIcon />
 										<Typography
 											color={'white'}
 											fontWeight={'600'}
