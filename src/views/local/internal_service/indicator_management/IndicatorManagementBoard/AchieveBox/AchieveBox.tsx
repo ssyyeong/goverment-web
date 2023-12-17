@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
-import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import OkrModal from '../OkrModal/OkrModal';
@@ -108,9 +107,9 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				}}
 				width={'100%'}
 				placeholder="메모"
-        style={{
-          bgcolor: 'white',
-        }}
+				style={{
+					bgcolor: 'white',
+				}}
 			/>
 		</Box>
 	);

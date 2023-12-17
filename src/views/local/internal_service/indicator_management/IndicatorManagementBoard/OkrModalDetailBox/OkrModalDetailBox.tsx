@@ -9,8 +9,8 @@ import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import { previewData } from 'next/dist/client/components/headers';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
-import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 interface IOkrModalDetailBoxProps {
 	mode: string;
@@ -70,7 +70,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	};
 
 	return (
-		<Box>
 			<Box
 				p={3}
 				bgcolor={'secondary.light'}
@@ -89,10 +88,10 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 									borderRadius: '50%',
 									bgcolor:
 										randomColor[
-											props.mode === 'detail' ?
-											props.okrDetailData.length +
-												props.index
-												:props.index
+											props.mode === 'detail'
+												? props.okrDetailData.length +
+												  props.index
+												: props.index
 										],
 									width: '10px',
 									height: '10px',
@@ -132,16 +131,27 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					</Box>
 					{/** 날짜 선택 */}
 					<Box display={'flex'}>
+						<CalendarTodayIcon
+							sx={{
+								width: '15px',
+								height: '15px',
+								marginTop: 'auto',
+								marginBottom: 'auto',
+								marginRight: '5px',
+							}}
+						/>
 						<SupportiInput
 							type="datepicker"
 							value={props.okrDetailData[props.index].START_DATE}
 							setValue={(value) => {
 								let temp: any = [...props.okrDetailData];
-								temp[props.index].START_DATE = value;
+								temp[props.index].START_DATE = value
+									.toDate()
+									.toISOString();
 
 								props.setOkrDetailData(temp);
 							}}
-							width={'130px'}
+							width={'110px'}
 							useIcon={false}
 						/>
 						<SupportiInput
@@ -149,11 +159,13 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							value={props.okrDetailData[props.index].END_DATE}
 							setValue={(value) => {
 								let temp: any = [...props.okrDetailData];
-								temp[props.index].END_DATE = value;
+								temp[props.index].END_DATE = value
+									.toDate()
+									.toISOString();
 
 								props.setOkrDetailData(temp);
 							}}
-							width={'130px'}
+							width={'110px'}
 							useIcon={false}
 						/>
 					</Box>
@@ -192,7 +204,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 										props.okrDetailData[props.index]
 											.TARGET_AMOUNT
 									}
-									setValue={(value) => {
+									setValue={(value: number) => {
 										let temp: any = [
 											...props.okrDetailData,
 										];
@@ -230,7 +242,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					</Box>
 				</Box>
 			</Box>
-		</Box>
 	);
 };
 

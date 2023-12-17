@@ -11,22 +11,25 @@ import { OkrController } from '../../../../../../controller/OkrController';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
-import { randomColor } from '../../../../../../../configs/randomColorConfig';
-
+import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 interface IOkrModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	mode?: string;
+	setMode?: any;
 	okrMainData?: any;
 	setOkrMainData?: any;
 	okrDetailData?: any;
 	setOkrDetailData?: any;
-	materialDataList: any;
+	materialDataList?: any;
 }
 
 const OkrModal = (props: IOkrModalProps) => {
 	//* Controllers
 	const okrController = new OkrController();
+	const okrMainController = new DefaultController('OkrMain');
+	const okrDetailController = new DefaultController('OkrDetail');
 
 	//* Modules
 
@@ -34,10 +37,14 @@ const OkrModal = (props: IOkrModalProps) => {
 
 	//* States
 	const [okrMainData, setOkrMainData] = React.useState({
-		TITLE: '',
-		START_DATE: new Date(),
-		END_DATE: new Date(),
-		NOTE: '',
+		TITLE: props.mode === 'detail' ? props.okrMainData?.TITLE : '',
+		START_DATE:
+			props.mode === 'detail'
+				? props.okrMainData?.START_DATE
+				: new Date(),
+		END_DATE:
+			props.mode === 'detail' ? props.okrMainData?.END_DATE : new Date(),
+		NOTE: props.mode === 'detail' ? props.okrMainData?.NOTE : '',
 		APP_MEMBER_IDENTIFICATION_CODE: 1,
 	});
 
@@ -46,7 +53,7 @@ const OkrModal = (props: IOkrModalProps) => {
 			TITLE: '',
 			START_DATE: new Date(),
 			END_DATE: new Date(),
-			TARGET_AMOUNT: '',
+			TARGET_AMOUNT: 0,
 			TARGET_UNIT: '',
 			NOTE: '',
 			ACHIEVED_AMOUNT: 0,
@@ -58,11 +65,6 @@ const OkrModal = (props: IOkrModalProps) => {
 	 * 수정 모드인지 여부
 	 * **/
 	const [isEditMode, setIsEditMode] = React.useState(false);
-
-	/**
-' 더보기 여부
- */
-	const [isMoreOpen, setIsMoreOpen] = React.useState(false);
 
 	//* Functions
 	/**
@@ -95,34 +97,79 @@ const OkrModal = (props: IOkrModalProps) => {
 	};
 
 	//* okr 업데이트 함수
-	const updateOkr = (injectedObj) => {
-		okrController.updateItem(
-			Object.assign(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: 1,
-					OKR_MAIN_IDENTIFICATION_CODE:
-						props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
-					OKR_DETAIL_IDENTIFICATION_CODE:
-						props.okrDetailData['OKR_DETAIL_IDENTIFICATION_CODE'],
+	const updateOkr = (target, injectedObj) => {
+		if (target === 'main') {
+			okrMainController.updateItem(
+				Object.assign(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
+						OKR_MAIN_IDENTIFICATION_CODE:
+							props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
+					},
+					injectedObj
+				),
+				(response: any) => {
+					alert('업데이트 성공');
+					setIsEditMode(false);
+					// Toast.fire({
+					//   icon: 'success',
+					//   title: '성공적으로 수정 되었습니다.',
+					// });
 				},
-				injectedObj
-			),
-			(response: any) => {
-				alert('수정 성공');
-				// Toast.fire({
-				//   icon: 'success',
-				//   title: '성공적으로 수정 되었습니다.',
-				// });
-			},
-			(err: any) => {
-				// console.log(err);
-				// Toast.fire({
-				//   icon: 'error',
-				//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
-				// });
-			}
-		);
+				(err: any) => {
+					// console.log(err);
+					// Toast.fire({
+					//   icon: 'error',
+					//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
+					// });
+				}
+			);
+		} else {
+			okrDetailController.updateItem(
+				Object.assign(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: 1,
+					},
+					injectedObj
+				),
+				(response: any) => {
+					setIsEditMode(false);
+					// Toast.fire({
+					//   icon: 'success',
+					//   title: '성공적으로 수정 되었습니다.',
+					// });
+				},
+				(err: any) => {
+					// console.log(err);
+					// Toast.fire({
+					//   icon: 'error',
+					//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
+					// });
+				}
+			);
+		}
 	};
+
+	//* Hooks
+	React.useEffect(() => {
+		if (!isEditMode) {
+			setOkrMainData({
+				TITLE: props.mode === 'detail' ? props.okrMainData?.TITLE : '',
+				START_DATE:
+					props.mode === 'detail'
+						? props.okrMainData?.START_DATE
+						: new Date(),
+				END_DATE:
+					props.mode === 'detail'
+						? props.okrMainData?.END_DATE
+						: new Date(),
+				NOTE: props.mode === 'detail' ? props.okrMainData?.NOTE : '',
+				APP_MEMBER_IDENTIFICATION_CODE: 1,
+			});
+		}
+	}, [isEditMode]);
+
+	console.log(props.okrDetailData);
 
 	return (
 		<Box>
@@ -152,13 +199,65 @@ const OkrModal = (props: IOkrModalProps) => {
 									display={'flex'}
 									justifyContent={'space-between'}
 								>
-									<Typography
-										fontWeight={'bold'}
-										variant="h5"
-									>
-										{props.okrMainData?.TITLE}
-									</Typography>
-
+									{isEditMode ? (
+										<Box ml={'auto'}>
+											<SupportiInput
+												type="input"
+												value={okrMainData.TITLE}
+												setValue={(value: string) => {
+													setOkrMainData({
+														...okrMainData,
+														TITLE: value,
+													});
+												}}
+												width={'400px'}
+												placeholder="상위 목표 타이틀을 입력해주세요."
+											/>
+											<Box
+												display="flex"
+												ml={'auto'}
+												gap={0.5}
+											>
+												<Typography
+													color={
+														okrMainData.TITLE
+															.length < 50
+															? 'secondary.main'
+															: 'warning.main'
+													}
+												>
+													{okrMainData.TITLE.length}
+												</Typography>
+												<Typography
+													color={
+														okrMainData.TITLE
+															.length < 50
+															? 'secondary.main'
+															: 'warning.main'
+													}
+												>
+													/
+												</Typography>
+												<Typography
+													color={
+														okrMainData.TITLE
+															.length < 50
+															? 'secondary.main'
+															: 'warning.main'
+													}
+												>
+													50
+												</Typography>
+											</Box>
+										</Box>
+									) : (
+										<Typography
+											fontWeight={'bold'}
+											variant="h5"
+										>
+											{okrMainData?.TITLE}
+										</Typography>
+									)}
 									{/** 수정 버튼 */}
 									<SupportiButton
 										contents={isEditMode ? '취소' : '수정'}
@@ -175,7 +274,7 @@ const OkrModal = (props: IOkrModalProps) => {
 									/>
 								</Box>
 							) : (
-								<Box display="flex">
+								<Box width={'100%'}>
 									<SupportiInput
 										type="input"
 										multiline={true}
@@ -189,45 +288,121 @@ const OkrModal = (props: IOkrModalProps) => {
 										width={'400px'}
 										placeholder="상위 목표 타이틀을 입력해주세요."
 									/>
+									<Box
+										display="flex"
+										ml={'auto'}
+										my={1}
+										gap={0.5}
+									>
+										<Typography
+											color={
+												okrMainData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											{okrMainData.TITLE.length}
+										</Typography>
+										<Typography
+											color={
+												okrMainData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											/
+										</Typography>
+										<Typography
+											color={
+												okrMainData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											50
+										</Typography>
+									</Box>
 								</Box>
 							)}
 
 							{/** 날짜  */}
 							<Box display={'flex'}>
-								<SupportiInput
-									type="datepicker"
-									value={
-										props.okrMainData?.START_DATE
-											? props.okrMainData?.START_DATE
-											: okrMainData.START_DATE
-									}
-									setValue={(value) => {
-										setOkrMainData({
-											...okrMainData,
-											START_DATE: value,
-										});
-									}}
-									width={'130px'}
-									useIcon={false}
-									style={{ height: '20px' }}
-								/>
-								<SupportiInput
-									type="datepicker"
-									defaultValue={new Date()}
-									value={
-										props.okrMainData?.END_DATE
-											? props.okrMainData?.END_DATE
-											: okrMainData.END_DATE
-									}
-									setValue={(value) => {
-										setOkrMainData({
-											...okrMainData,
-											END_DATE: value,
-										});
-									}}
-									width={'130px'}
-									useIcon={false}
-								/>
+								{props.mode === 'detail' && !isEditMode ? (
+									<Box display={'flex'}>
+										<Typography
+											fontWeight={500}
+											color={'secondary.main'}
+										>
+											{
+												(
+													okrMainData?.START_DATE as string
+												).split('T')[0]
+											}
+										</Typography>
+										<Typography
+											ml={0.5}
+											mr={0.5}
+											fontWeight={500}
+											color={'secondary.main'}
+										>
+											~
+										</Typography>
+										<Typography
+											fontWeight={500}
+											color={'secondary.main'}
+										>
+											{
+												(
+													okrMainData?.END_DATE as string
+												).split('T')[0]
+											}
+										</Typography>
+									</Box>
+								) : (
+									<Box display={'flex'}>
+										<CalendarTodayIcon
+											sx={{
+												width: '15px',
+												height: '15px',
+												marginTop: 'auto',
+												marginBottom: 'auto',
+												marginRight: '5px',
+											}}
+										/>
+										<SupportiInput
+											type="datepicker"
+											readOnly={isEditMode ? false : true}
+											value={okrMainData?.START_DATE}
+											setValue={(value) => {
+												setOkrMainData({
+													...okrMainData,
+													START_DATE: value
+														.toDate()
+														.toISOString(),
+												});
+											}}
+											width={'110px'}
+											useIcon={false}
+											style={{ height: '20px' }}
+										/>
+										<SupportiInput
+											type="datepicker"
+											defaultValue={new Date()}
+											readOnly={isEditMode ? false : true}
+											value={okrMainData.END_DATE}
+											setValue={(value) => {
+												setOkrMainData({
+													...okrMainData,
+													END_DATE: value
+														.toDate()
+														.toISOString(),
+												});
+											}}
+											width={'110px'}
+											useIcon={false}
+										/>
+									</Box>
+								)}
 							</Box>
 
 							{props.mode === 'detail' && (
@@ -240,8 +415,8 @@ const OkrModal = (props: IOkrModalProps) => {
 										<Typography>현재 달성률</Typography>
 										<Typography color={'primary.main'}>
 											{calculateAchieveRate(
-												props.okrDetailData
-											)}{' '}
+												props.okrMainData.OkrDetails
+											)}
 											%
 										</Typography>
 									</Box>
@@ -256,6 +431,11 @@ const OkrModal = (props: IOkrModalProps) => {
 									<SupportiInput
 										type="inputwithbtn"
 										value={okrMainData.NOTE}
+										readOnly={
+											okrMainData.NOTE.length > 500
+												? true
+												: false
+										}
 										setValue={(value) => {
 											setOkrMainData({
 												...okrMainData,
@@ -263,10 +443,43 @@ const OkrModal = (props: IOkrModalProps) => {
 											});
 										}}
 										btnContent="등록하기"
-										btnOnclick={() => {}}
+										btnOnclick={() => {
+											updateOkr('main', {
+												NOTE: okrMainData.NOTE,
+											});
+										}}
 										width={'100%'}
 										multiline={true}
 									/>
+									<Box display="flex" ml={'auto'} gap={0.5}>
+										<Typography
+											color={
+												okrMainData.NOTE.length < 500
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											{okrMainData.NOTE.length}
+										</Typography>
+										<Typography
+											color={
+												okrMainData.NOTE.length < 500
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											/
+										</Typography>
+										<Typography
+											color={
+												okrMainData.NOTE.length < 500
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											500
+										</Typography>
+									</Box>
 								</Box>
 							)}
 						</Box>
@@ -290,7 +503,10 @@ const OkrModal = (props: IOkrModalProps) => {
 											ml={1}
 											fontWeight={600}
 										>
-											{props.okrDetailData.length}
+											{
+												props.okrMainData.OkrDetails
+													.length
+											}
 										</Typography>
 									</Box>
 
@@ -304,7 +520,7 @@ const OkrModal = (props: IOkrModalProps) => {
 													TITLE: '',
 													START_DATE: new Date(),
 													END_DATE: new Date(),
-													TARGET_AMOUNT: '',
+													TARGET_AMOUNT: 0,
 													TARGET_UNIT: '',
 													NOTE: '',
 													ACHIEVED_AMOUNT: 0,
@@ -315,7 +531,7 @@ const OkrModal = (props: IOkrModalProps) => {
 										style={{
 											height: 5,
 											color: 'black',
-											marginBottom: '10px'
+											marginBottom: '10px',
 										}}
 										color={'secondary'}
 										variant="outlined"
@@ -343,30 +559,39 @@ const OkrModal = (props: IOkrModalProps) => {
 
 							{props.mode === 'detail' && (
 								<Box>
-									{props.okrDetailData.map((item, index) => {
-										return (
-											<Box
-												bgcolor={'secondary.light'}
-												borderRadius={2}
-												display={'flex'}
-												flexDirection={'column'}
-												gap={2}
-												mb={2}
-												pl={1}
-											>
-												<OkrDetailCard
-													data={item}
-													index={index}
-													mode={props.mode}
-													children={
-														<AchieveBox
-															data={item}
-														/>
-													}
-												/>
-											</Box>
-										);
-									})}
+									{props.okrMainData.OkrDetails.map(
+										(item, index) => {
+											return (
+												<Box
+													bgcolor={'secondary.light'}
+													borderRadius={2}
+													display={'flex'}
+													flexDirection={'column'}
+													gap={2}
+													mb={2}
+													pl={1}
+												>
+													<OkrDetailCard
+														data={item}
+														index={index}
+														mode={props.mode}
+														isEditMode={isEditMode}
+														children={
+															<AchieveBox
+																data={item}
+															/>
+														}
+														okrMainData={
+															props.okrMainData
+														}
+														setOkrMainData={
+															props.setOkrMainData
+														}
+													/>
+												</Box>
+											);
+										}
+									)}
 								</Box>
 							)}
 
@@ -381,7 +606,7 @@ const OkrModal = (props: IOkrModalProps) => {
 												TITLE: '',
 												START_DATE: new Date(),
 												END_DATE: new Date(),
-												TARGET_AMOUNT: '',
+												TARGET_AMOUNT: 0,
 												TARGET_UNIT: '',
 												NOTE: '',
 												ACHIEVED_AMOUNT: 0,
@@ -400,12 +625,48 @@ const OkrModal = (props: IOkrModalProps) => {
 							)}
 						</Box>
 
-						{props.mode !== 'detail' && (<Box>
 						{/** 등록 버튼 */}
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
-								createOkr();
+								//* Okr 메인 목표 등록
+								if (okrMainData.TITLE == '' ) {
+									alert('필수 값 미입력');
+								} else {
+									if (props.mode === 'detail') {
+										updateOkr('main', okrMainData);
+
+										//* Okr 하위 목표 등록
+										props.okrMainData.OkrDetails.map(
+											(item) => {
+												{
+													item.TITLE == '' ||
+													item.TARGET_AMOUNT == 0 ||
+													item.TARGET_UNIT == ''
+														? alert(
+																'필수 값 미입력'
+														  )
+														: updateOkr('detail', {
+																TITLE: item.TITLE,
+																START_DATE:
+																	item.START_DATE,
+																END_DATE:
+																	item.END_DATE,
+																TARGET_AMOUNT:
+																	item.TARGET_AMOUNT,
+																TARGET_UNIT:
+																	item.TARGET_UNIT,
+																NOTE: item.NOTE,
+																ACHIEVED_AMOUNT:
+																	item.ACHIEVED_AMOUNT,
+																OKR_DETAIL_IDENTIFICATION_CODE:
+																	item.OKR_DETAIL_IDENTIFICATION_CODE,
+														  });
+												}
+											}
+										);
+									} else createOkr();
+								}
 							}}
 							style={{
 								height: '20px',
@@ -417,7 +678,6 @@ const OkrModal = (props: IOkrModalProps) => {
 							variant="contained"
 							isGradient={true}
 						/>
-												</Box>)}
 					</Box>
 				}
 			/>

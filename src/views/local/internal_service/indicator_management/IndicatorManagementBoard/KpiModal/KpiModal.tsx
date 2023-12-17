@@ -34,7 +34,7 @@ const KpiModal = (props: IKpiModalProps) => {
 					TITLE: '',
 					START_DATE: new Date(),
 					END_DATE: new Date(),
-					TARGET_AMOUNT: '',
+					TARGET_AMOUNT: 0,
 					TARGET_UNIT: '',
 					NOTE: '',
 					CATEGORY: '',
@@ -97,6 +97,35 @@ const KpiModal = (props: IKpiModalProps) => {
 								width={'400px'}
 								placeholder="목표 타이틀을 입력해주세요."
 							/>
+							<Box display="flex" ml={'auto'} my={1} gap={0.5}>
+										<Typography
+											color={
+												kpiData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											{kpiData.TITLE.length}
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											/
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 50
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											50
+										</Typography>
+									</Box>
 							{/** 날짜 선택 */}
 							<Box display={'flex'}>
 								<SupportiInput
@@ -105,7 +134,9 @@ const KpiModal = (props: IKpiModalProps) => {
 									setValue={(value) => {
 										setKpiData({
 											...kpiData,
-											START_DATE: value,
+											START_DATE: value
+												.toDate()
+												.toISOString(),
 										});
 									}}
 									width={'130px'}
@@ -117,7 +148,9 @@ const KpiModal = (props: IKpiModalProps) => {
 									setValue={(value) => {
 										setKpiData({
 											...kpiData,
-											END_DATE: value,
+											END_DATE: value
+												.toDate()
+												.toISOString(),
 										});
 									}}
 									width={'130px'}
@@ -222,19 +255,17 @@ const KpiModal = (props: IKpiModalProps) => {
 											<SupportiInput
 												type="input"
 												value={kpiData.TARGET_AMOUNT}
-												setValue={(value) => {
+												setValue={(value: number) => {
 													setKpiData({
 														...kpiData,
-														TARGET_AMOUNT: value,
+														TARGET_AMOUNT:
+															value,
 													});
 												}}
 												width={'150px'}
 											/>
 										</Box>
 									</Box>
-									{/* <Box>
-										<Typography>{kpiData.TARGET_UNIT}</Typography>
-									</Box> */}
 								</Box>
 								{props.mode === 'create' && (
 									<SupportiButton

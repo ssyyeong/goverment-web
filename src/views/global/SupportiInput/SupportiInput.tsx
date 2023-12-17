@@ -36,6 +36,7 @@ interface SupportiInputProps {
 	multiline?: boolean;
 	useIcon?: boolean;
 	additionalProps?: { [key: string]: any };
+	readOnly?: boolean;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -107,16 +108,11 @@ const SupportiInput = React.forwardRef(
 						defaultValue={
 							props.defaultValue ? props.defaultValue : '선택'
 						}
-						displayEmpty
 						placeholder={
 							props.placeholder ? props.placeholder : '선택'
 						}
+						readOnly={props.readOnly}
 					>
-						{props.defaultValue !== undefined && (
-							<MenuItem value={props.defaultValue}>
-								<em>{props.defaultValue}</em>
-							</MenuItem>
-						)}
 						{props.dataList &&
 							props.dataList?.map((item, index) => {
 								return (
@@ -281,6 +277,7 @@ const SupportiInput = React.forwardRef(
 						id="outlined-adornment-weight"
 						sx={{ width: '100%', ...props.style }}
 						value={props.value}
+						readOnly={props.readOnly}
 						placeholder={props.placeholder ? props.placeholder : ''}
 						onChange={(e) => {
 							props.setValue(e.target.value);
@@ -312,6 +309,7 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
+						readOnly={props.readOnly}
 						endAdornment={
 							<InputAdornment position="end">
 								{props.children ? props.children : <></>}
@@ -342,6 +340,7 @@ const SupportiInput = React.forwardRef(
 					<OutlinedInput
 						sx={{ width: '100%', ...props.style }}
 						value={props.value}
+						readOnly={props.readOnly}
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}

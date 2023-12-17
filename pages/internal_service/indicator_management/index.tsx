@@ -41,12 +41,7 @@ const Page: NextPage = () => {
 				name: 'OKR',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
-						return (
-							<OkrCard
-								data={data}
-								okrMainId={data['OKR_MAIN_IDENTIFICATION_CODE']}
-							/>
-						);
+						return <OkrCard data={data} />;
 					},
 					injectedParams: {
 						APP_MEMBER_IDENTIFICATION_CODE: 1,

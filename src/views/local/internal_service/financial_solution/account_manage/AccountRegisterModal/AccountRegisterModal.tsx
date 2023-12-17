@@ -57,7 +57,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	//* bankConfig key value 형태로 커스텀
 	let bankList = [{}];
 	for (const [key, value] of Object.entries(bankConfig)) {
-		bankList.push({ label: key, value: value.name });
+		bankList.push({ label: value.name, value: key });
 	}
 
 	//* bank icon 리스트 커스텀
@@ -66,12 +66,12 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		iconObj.push(value.iconPath);
 	}
 
-	let accountObj = [];
+	let userAccountList = [];
 	for (const [key, value] of Object.entries(accountList)) {
-		// accountObj = Object.assign(accountObj, {
-		// 	[value.acctNo + '  ' + value.acctHolder]:
-		// 		value.acctNo + ' ' + value.acctNm,
-		// });
+		userAccountList.push({
+			label: value.acctNo + ' ' + value.acctNm,
+			value: value.acctNo + '  ' + value.acctHolder,
+		});
 	}
 
 	//* id, pw로 계좌 불러오는 폼
@@ -130,8 +130,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					}
 					setValue={(value) => {
 						//* TODO :: 여기서 계좌 예금주 셋팅
-						let acctNum = value.split(' ')[0];
-						let acctHolder = value.split(' ')[1];
+						let acctNum = value.split('  ')[0];
+						let acctHolder = value.split('  ')[1];
 
 						setUserAccountInfo({
 							...userAccountInfo,
@@ -140,7 +140,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="계좌 선택"
-					dataList={bankList}
+					dataList={userAccountList}
 					width={300}
 				/>
 			),
@@ -222,7 +222,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		console.log(userAccountInfo);
 		bankController.registerBankAccount(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: 1,
+				APP_MEMBER_IDENTIFICATION_CODE: 6,
 				...userAccountInfo,
 			},
 			(response: any) => {

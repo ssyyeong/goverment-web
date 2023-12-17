@@ -84,7 +84,7 @@ interface IKpi {
 	START_DATE: Date | string;
 	END_DATE: Date | string;
 	NOTE: string;
-	TARGET_AMOUNT: string;
+	TARGET_AMOUNT: number;
 	TARGET_UNIT: string;
 	CATEGORY: string;
 	ASSIGNEE: string;
