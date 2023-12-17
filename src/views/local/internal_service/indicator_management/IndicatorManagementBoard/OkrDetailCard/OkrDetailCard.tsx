@@ -16,8 +16,8 @@ interface IOkrDetailCardProps {
 	mode?: string;
 	isEditMode?: boolean;
 	children?: React.ReactNode;
-	okrDetailData: any;
-	setOkrDetailData: any;
+	okrDetailData?: any;
+	setOkrDetailData?: any;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {

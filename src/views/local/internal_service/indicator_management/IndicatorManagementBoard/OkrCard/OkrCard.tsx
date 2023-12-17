@@ -165,14 +165,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					sx={{ overflowX: 'scroll' }}
 				>
 					{okrMainData?.OkrDetails.map((item, index) => {
-						return (
-							<OkrDetailCard
-								data={item}
-								index={index}
-								okrMainData={okrMainData}
-								setOkrDetailData={setOkrMainData}
-							/>
-						);
+						return <OkrDetailCard data={item} index={index} />;
 					})}
 				</Box>
 			</Box>
