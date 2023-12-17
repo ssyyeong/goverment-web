@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, BoxProps, Rating, Typography } from '@mui/material';
+import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
@@ -8,12 +8,11 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import OkrModal from '../OkrModal/OkrModal';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
+import dayjs from 'dayjs';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
-	mode?: string;
 	index?: number;
-	okrMainId: number;
 }
 
 const OkrCard = (props: IOkrCardProps) => {
@@ -26,6 +25,7 @@ const OkrCard = (props: IOkrCardProps) => {
 	//* Modules
 
 	//* Constants
+	const Today = dayjs();
 
 	//* States
 	/**
@@ -33,36 +33,47 @@ const OkrCard = (props: IOkrCardProps) => {
 	 */
 	const [isMoreModalOpen, setIsMoreModalOpen] = React.useState(false);
 
-	const [okrMainData, setOkrMainData] = React.useState(props.data);
-	const [okrDetailData, setOkrDetailData] = React.useState(
-		props.data.OkrDetails
-	);
+	const [okrMainData, setOkrMainData] = React.useState({
+		TITLE: props.data.TITLE,
+		START_DATE: props.data.START_DATE,
+		END_DATE: props.data.END_DATE,
+		NOTE: props.data.NOTE,
+		OKR_MAIN_IDENTIFICATION_CODE:
+			props.data['OKR_MAIN_IDENTIFICATION_CODE'],
+		OkrDetails: props.data.OkrDetails,
+	});
 
 	//* Functions
+	const calcDeadline = (day) => {
+		const diff = Today.diff(day, 'day', true);
+		const days = Math.floor(diff);
+		return days < 7 ? '마감일 임박' : days === 7 ? '마감일' : '마감일 지남';
+	};
 
 	//* Hooks
-	// React.useEffect(() => {
-	// 	okrController
-	// 		.getOneItem({
-	// 			APP_MEMBER_IDENTIFICATION_CODE: 1,
-	// 			OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-	// 		})
-	// 		.then((res) => {
-	// 			console.log(res);
-	// 			// setOkrMainData(res);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
+	React.useEffect(() => {
+		okrController
+			.getOneItem({
+				OKR_MAIN_IDENTIFICATION_CODE:
+					props.data['OKR_MAIN_IDENTIFICATION_CODE'],
+			})
+			.then((res) => {
+				console.log(res);
 
-	console.log(props.data, props.data.OkrDetails, okrDetailData);
-	const materialDataList = okrDetailData.map((item, index) => {
+				// setOkrMainData(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
+	console.log(props.data, props.data.OkrDetails);
+	const materialDataList = okrMainData?.OkrDetails.map((item, index) => {
 		return {
 			percentage: Math.round(
 				((Number(item.ACHIEVED_AMOUNT) / Number(item.TARGET_AMOUNT)) *
 					100) /
-					okrDetailData.length
+					okrMainData?.OkrDetails.length
 			).toString(),
 			color: randomColor[index],
 		};
@@ -113,21 +124,27 @@ const OkrCard = (props: IOkrCardProps) => {
 				</Typography>
 
 				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
-				<Typography></Typography>
+				<Typography ml={1}>
+					{calcDeadline(
+						(okrMainData.END_DATE as string).split('T')[0]
+					)}
+				</Typography>
 			</Box>
 
 			{/** 달성률*/}
 			<Box display="flex" flexDirection="column" gap={1}>
 				<Box display="flex">
 					<Typography>현재 달성률</Typography>
-					<Typography ml={1} color={'primary.main'}>
-						{calculateAchieveRate(okrDetailData)} %
+					<Typography ml={1} color={'primary.main'} fontWeight={600}>
+						{calculateAchieveRate(okrMainData?.OkrDetails)}%
 					</Typography>
 				</Box>
 
 				{/** 프로그레스 바 */}
 				<SupportiProgressBar materialDataList={materialDataList} />
 			</Box>
+
+			<Divider sx={{ my: 2 }} />
 
 			{/** 하위 목표리스트 */}
 
@@ -136,14 +153,26 @@ const OkrCard = (props: IOkrCardProps) => {
 					<Typography fontWeight={600}>하위목표</Typography>
 					{/** 갯수 */}
 					<Typography color="primary.main" ml={1} fontWeight={600}>
-						{okrDetailData.length}
+						{okrMainData?.OkrDetails.length}
 					</Typography>
 				</Box>
 
 				{/** 하위 리스트들 카드로 출력 */}
-				<Box display={'flex'} width="100%" gap={1} sx={{overflowX: 'scroll'}}>
-					{okrDetailData.map((item, index) => {
-						return <OkrDetailCard data={item} index={index} />;
+				<Box
+					display={'flex'}
+					width="100%"
+					gap={1}
+					sx={{ overflowX: 'scroll' }}
+				>
+					{okrMainData?.OkrDetails.map((item, index) => {
+						return (
+							<OkrDetailCard
+								data={item}
+								index={index}
+								okrMainData={okrMainData}
+								setOkrMainData={setOkrMainData}
+							/>
+						);
 					})}
 				</Box>
 			</Box>
@@ -154,8 +183,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					setModalOpen={setIsMoreModalOpen}
 					okrMainData={okrMainData}
 					setOkrMainData={setOkrMainData}
-					okrDetailData={okrDetailData}
-					setOkrDetailData={setOkrDetailData}
+					okrDetailData={okrMainData?.OkrDetails}
 					materialDataList={materialDataList}
 				/>
 			)}
