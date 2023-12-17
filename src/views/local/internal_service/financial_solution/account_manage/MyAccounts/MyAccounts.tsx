@@ -130,24 +130,36 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	 * 들어온 수입 수출 데이터를 날짜키값을 가져와서 셋해주는 훅
 	 */
 	useEffect(() => {
-		if (selectablePeriod.length !== 0) {
-			const temp = [];
-			for (const [key, value] of Object.entries(
-				props.calculationResult?.monthlyIncome
-			)) {
-				temp.push({
-					year: key.split('-')[0],
-					month: key.split('-')[1],
-				});
-			}
-			setSelectablePeriod(temp);
-			setSelectedPeriod(temp[temp.length - 1]);
+		// if (selectablePeriod.length !== 0) {
+		// 	const temp = [];
+		// 	for (const [key, value] of Object.entries(
+		// 		props.calculationResult?.monthlyIncome
+		// 	)) {
+		// 		temp.push({
+		// 			year: key.split('-')[0],
+		// 			month: key.split('-')[1],
+		// 		});
+		// 	}
+		// 	setSelectablePeriod(temp);
+		// 	setSelectedPeriod(temp[temp.length - 1]);
+		// }
+		const temp = [];
+		for (const [key, value] of Object.entries(
+			props.calculationResult?.monthlyIncome
+		)) {
+			temp.push({
+				year: key.split('-')[0],
+				month: key.split('-')[1],
+			});
 		}
+		setSelectablePeriod(temp);
+		setSelectedPeriod(temp[temp.length - 1]);
 	}, [props.calculationResult]);
 
 	//* Styles
 	const boxStyle = {
-		width: '338px',
+		width: '338px !important',
+		minWidth: '338px !important',
 		height: '90px',
 		margin: '0 16px 0 0',
 		borderRadius: '10px',
@@ -158,13 +170,20 @@ const MyAccounts = (props: IMyAccountsProps) => {
 
 	return (
 		props.bankAccountList && (
-			<Box display={'flex'} alignItems={'center'} mb={'40px'} mt={2}>
+			<Box
+				display={'flex'}
+				alignItems={'center'}
+				mb={'40px'}
+				mt={2}
+				pb={1}
+			>
 				{/* 연도 선택 및 수입 / 지출 */}
 				{props.bankAccountList.length !== 0 && (
 					<Box
 						sx={{
 							...boxStyle,
 							padding: '22px 25px',
+
 							backgroundImage:
 								'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
 						}}
@@ -315,7 +334,14 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						</Box>
 					</Box>
 				)}
-				<Box display={'flex'} sx={{ overflowX: 'auto' }}>
+				<Box
+					display={'flex'}
+					sx={{
+						overflowX: 'auto',
+						'-ms-overflow-style': 'none',
+						'&::-webkit-scrollbar': { display: 'none' },
+					}}
+				>
 					{/* 계좌 리스트 */}
 					<Box display={'flex'}>
 						{props.bankAccountList.map((bankAccount) => (

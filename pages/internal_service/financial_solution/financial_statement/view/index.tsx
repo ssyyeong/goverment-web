@@ -10,6 +10,7 @@ import { financialStatementConfig } from '../../../../../configs/data/FinancialS
 import { useRouter } from 'next/router';
 import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
 import SupportiButton from '../../../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 /**
  * 재무제표 뷰 페이지
@@ -100,110 +101,85 @@ const Page: NextPage = () => {
 	}, [userAccess, targetDate, memberId]);
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				alignItems: 'space-between',
-				flexDirection: 'column',
-				p: 10,
-			}}
-		>
-			{/* 컨텐츠 레이아웃 */}
-			{userAccess === true && (
-				<InternalServiceLayout>
-					{/* 컨트롤러 */}
-					<Box>
-						<Grid container alignItems={'center'}>
-							{/* 데이터 편집 및 추출 */}
-							<Grid item xs={12} md={6}>
-								<Box display={'flex'}>
-									{/* 편집 페이지로 이동 */}
-									<Box>
-										<SupportiButton
-											contents="편집하기"
-											isGradient={true}
-											onClick={() => {
-												router.push(
-													'/internal_service/business_info/view'
-												);
-											}}
-											style={{ color: 'white' }}
-										/>
-									</Box>
-									{/* 엑셀 추출 버튼 */}
-									<Box>{/* <ExcelDownloadButton /> */}</Box>
-								</Box>
-							</Grid>
-
-							{/* 페이징 버튼 */}
-							<Grid item xs={12} md={6}>
-								<Box
-									display={'flex'}
-									justifyContent={'flex-end'}
-								>
-									{/* 이전 페이지 */}
-									<Box>
-										<Button
-											onClick={() => {
-												changeTargetDate('previous');
-											}}
-										>
-											이동
-										</Button>
-									</Box>
-
-									{/* 다음 페이지 */}
-									<Box>
-										<Button
-											onClick={() => {
-												changeTargetDate('next');
-											}}
-										>
-											다음
-										</Button>
-									</Box>
-								</Box>
-							</Grid>
-						</Grid>
-					</Box>
-
-					{/* 테이블 */}
-					<Box>
-						{/* 테이블 헤더 */}
-						<Box sx={{ backgroundColor: '#305ddc' }}>
-							<Grid container>
-								{/* 각 재무제표 항목 */}
-								<Grid item xs={6} md={3}>
-									<Box border={0.5} borderColor={'#bebebe'}>
-										<Typography
-											textAlign={'center'}
-											variant={'body1'}
-											fontWeight={'700'}
-											color={'white'}
-											pt={1}
-											pb={1}
-										>
-											항목
-										</Typography>
+		<InternalServiceDrawer type="dashboard">
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'space-between',
+					flexDirection: 'column',
+					p: 10,
+				}}
+			>
+				{/* 컨텐츠 레이아웃 */}
+				{userAccess === true && (
+					<InternalServiceLayout>
+						{/* 컨트롤러 */}
+						<Box>
+							<Grid container alignItems={'center'}>
+								{/* 데이터 편집 및 추출 */}
+								<Grid item xs={12} md={6}>
+									<Box display={'flex'}>
+										{/* 편집 페이지로 이동 */}
+										<Box>
+											<SupportiButton
+												contents="편집하기"
+												isGradient={true}
+												onClick={() => {
+													router.push(
+														'/internal_service/business_info/view'
+													);
+												}}
+												style={{ color: 'white' }}
+											/>
+										</Box>
+										{/* 엑셀 추출 버튼 */}
+										<Box>
+											{/* <ExcelDownloadButton /> */}
+										</Box>
 									</Box>
 								</Grid>
 
-								{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
-								{financialStatementList.map((el, index) => (
-									<Grid
-										item
-										xs={6}
-										md={3}
-										sx={{
-											display: {
-												xs:
-													index === 0
-														? 'block'
-														: 'none',
-												md: 'block',
-											},
-										}}
+								{/* 페이징 버튼 */}
+								<Grid item xs={12} md={6}>
+									<Box
+										display={'flex'}
+										justifyContent={'flex-end'}
 									>
+										{/* 이전 페이지 */}
+										<Box>
+											<Button
+												onClick={() => {
+													changeTargetDate(
+														'previous'
+													);
+												}}
+											>
+												이동
+											</Button>
+										</Box>
+
+										{/* 다음 페이지 */}
+										<Box>
+											<Button
+												onClick={() => {
+													changeTargetDate('next');
+												}}
+											>
+												다음
+											</Button>
+										</Box>
+									</Box>
+								</Grid>
+							</Grid>
+						</Box>
+
+						{/* 테이블 */}
+						<Box>
+							{/* 테이블 헤더 */}
+							<Box sx={{ backgroundColor: '#305ddc' }}>
+								<Grid container>
+									{/* 각 재무제표 항목 */}
+									<Grid item xs={6} md={3}>
 										<Box
 											border={0.5}
 											borderColor={'#bebebe'}
@@ -216,113 +192,151 @@ const Page: NextPage = () => {
 												pt={1}
 												pb={1}
 											>
-												{moment(
-													el.STANDARD_YEAR
-												).format('YYYY.MM.DD')}
+												항목
 											</Typography>
 										</Box>
 									</Grid>
-								))}
-							</Grid>
-						</Box>
 
-						{/* 테이블 바디 */}
-						<Box>
-							{/* 각 재무제표 항목 맵핑 */}
-							{financialStatementConfig.map(
-								(financialStatementMapping) => (
-									<Box>
-										<Grid container>
-											{/* 각 재무제표 라벨 */}
-											<Grid item xs={6} md={3}>
-												<Box
-													sx={{
-														backgroundColor:
-															'#d2d2d2',
-													}}
-													border={0.5}
-													borderColor={'#bebebe'}
-													pl={
-														financialStatementMapping.isHighlighted
-															? 3
-															: 1
-													}
-													py={'15.7px'}
-													pr={2}
+									{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
+									{financialStatementList.map((el, index) => (
+										<Grid
+											item
+											xs={6}
+											md={3}
+											sx={{
+												display: {
+													xs:
+														index === 0
+															? 'block'
+															: 'none',
+													md: 'block',
+												},
+											}}
+										>
+											<Box
+												border={0.5}
+												borderColor={'#bebebe'}
+											>
+												<Typography
+													textAlign={'center'}
+													variant={'body1'}
+													fontWeight={'700'}
+													color={'white'}
+													pt={1}
+													pb={1}
 												>
-													<Typography
-														variant={'body1'}
-														fontWeight={
-															financialStatementMapping.isHighlighted
-																? '700'
-																: '400'
-														} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
-													>
-														{
-															financialStatementMapping.label
-														}
-													</Typography>
-												</Box>
-											</Grid>
+													{moment(
+														el.STANDARD_YEAR
+													).format('YYYY.MM.DD')}
+												</Typography>
+											</Box>
+										</Grid>
+									))}
+								</Grid>
+							</Box>
 
-											{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
-											{financialStatementList.map(
-												(financialStatement, index) => (
-													<Grid
-														item
-														xs={6}
-														md={3}
+							{/* 테이블 바디 */}
+							<Box>
+								{/* 각 재무제표 항목 맵핑 */}
+								{financialStatementConfig.map(
+									(financialStatementMapping) => (
+										<Box>
+											<Grid container>
+												{/* 각 재무제표 라벨 */}
+												<Grid item xs={6} md={3}>
+													<Box
 														sx={{
-															display: {
-																xs:
-																	index === 0
-																		? 'block'
-																		: 'none',
-																md: 'block',
-															},
+															backgroundColor:
+																'#d2d2d2',
 														}}
+														border={0.5}
+														borderColor={'#bebebe'}
+														pl={
+															financialStatementMapping.isHighlighted
+																? 3
+																: 1
+														}
+														py={'15.7px'}
+														pr={2}
 													>
-														<Box
-															border={0.5}
-															borderColor={
-																'#bebebe'
-															}
-															width={'100%'}
-															height={'100%'}
-															display={'flex'}
-															alignItems={
-																'center'
-															}
-															justifyContent={
-																'center'
-															}
+														<Typography
+															variant={'body1'}
+															fontWeight={
+																financialStatementMapping.isHighlighted
+																	? '700'
+																	: '400'
+															} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
 														>
-															<Typography
-																variant={
-																	'body1'
+															{
+																financialStatementMapping.label
+															}
+														</Typography>
+													</Box>
+												</Grid>
+
+												{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
+												{financialStatementList.map(
+													(
+														financialStatement,
+														index
+													) => (
+														<Grid
+															item
+															xs={6}
+															md={3}
+															sx={{
+																display: {
+																	xs:
+																		index ===
+																		0
+																			? 'block'
+																			: 'none',
+																	md: 'block',
+																},
+															}}
+														>
+															<Box
+																border={0.5}
+																borderColor={
+																	'#bebebe'
 																}
-																textAlign={
+																width={'100%'}
+																height={'100%'}
+																display={'flex'}
+																alignItems={
+																	'center'
+																}
+																justifyContent={
 																	'center'
 																}
 															>
-																{financialStatement[
-																	financialStatementMapping
-																		.key
-																].toLocaleString()}
-															</Typography>
-														</Box>
-													</Grid>
-												)
-											)}
-										</Grid>
-									</Box>
-								)
-							)}
+																<Typography
+																	variant={
+																		'body1'
+																	}
+																	textAlign={
+																		'center'
+																	}
+																>
+																	{financialStatement[
+																		financialStatementMapping
+																			.key
+																	].toLocaleString()}
+																</Typography>
+															</Box>
+														</Grid>
+													)
+												)}
+											</Grid>
+										</Box>
+									)
+								)}
+							</Box>
 						</Box>
-					</Box>
-				</InternalServiceLayout>
-			)}
-		</Box>
+					</InternalServiceLayout>
+				)}
+			</Box>
+		</InternalServiceDrawer>
 	);
 };
 

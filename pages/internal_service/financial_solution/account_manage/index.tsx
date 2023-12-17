@@ -99,6 +99,7 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
+	console.log(selectedPeriod);
 	/**
 	 * 계산결과 조회 after first try
 	 */
@@ -141,7 +142,7 @@ const Page: NextPage = () => {
 	const theme = useTheme();
 
 	return (
-		<InternalServiceDrawer>
+		<InternalServiceDrawer type={'dashboard'}>
 			<Box
 				position={'relative'}
 				bgcolor={theme.palette.primary.light}
@@ -150,10 +151,10 @@ const Page: NextPage = () => {
 			>
 				{/* 컨텐츠 레이아웃 */}
 				<InternalServiceLayout>
-					<Typography variant="h3" fontWeight={'bold'}>
+					<Typography variant="h3" fontWeight={'bold'} sx={{ mb: 2 }}>
 						등록계좌 내역
 					</Typography>
-					<Typography color={'secondary.dark'}>
+					<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
 						내역 확인을 위해 은행계정(ID/PW)입력 또는 인증서 등록이
 						필요합니다. 계좌 등록은 최대 3개까지 가능합니다.
 					</Typography>
@@ -176,16 +177,18 @@ const Page: NextPage = () => {
 					>
 						{/* 날짜 선택 영역 */}
 						<Box display={'flex'} gap={1} alignItems={'center'}>
-							<SupportiInput
-								type="select"
-								value={selectedPeriod}
-								setValue={(value) => {
-									setSelectedPeriod(value);
-								}}
-								placeholder="계좌 선택"
-								dataList={selectablePeriodList}
-								width={145}
-							/>
+							{selectedPeriod && (
+								<SupportiInput
+									type="select"
+									value={selectedPeriod}
+									setValue={(value) => {
+										setSelectedPeriod(value);
+									}}
+									placeholder="계좌 선택"
+									dataList={selectablePeriodList}
+									width={145}
+								/>
+							)}
 						</Box>
 
 						{/* 검색 영역 */}

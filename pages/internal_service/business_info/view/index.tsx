@@ -9,6 +9,7 @@ import moment from 'moment';
 import { businessConfig } from '../../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 /**
  * 비즈니스 개요 페이지
@@ -129,107 +130,113 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				width: '100%',
-				p: 10,
-			}}
-		>
-			{/* 컨텐츠 레이아웃 */}
-			{userAccess === true && (
-				<InternalServiceLayout>
-					{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
-					{business && businessHistory && (
-						<Box>
-							{/* 컨트롤러 */}
-							<Box mb={2}>
-								<Grid container>
-									{/* 데이터 편집 및 추출 */}
-									<Grid item xs={12} md={6}>
-										<Box display={'flex'}>
-											{/* 편집 페이지로 이동 */}
-											<Box>
-												<SupportiButton
-													contents="편집하기"
-													isGradient={true}
-													onClick={() => {
-														router.push(
-															'/internal_service/business_info/edit'
-														);
-													}}
-													style={{ color: 'white' }}
-												/>
-											</Box>
-										</Box>
-									</Grid>
-								</Grid>
-							</Box>
-
-							{/* 테이블 */}
+		<InternalServiceDrawer type="dashboard">
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					width: '100%',
+					p: 10,
+				}}
+			>
+				{/* 컨텐츠 레이아웃 */}
+				{userAccess === true && (
+					<InternalServiceLayout>
+						{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
+						{business && businessHistory && (
 							<Box>
-								{/* 각 비즈니스 개요 항목 맵핑 */}
-								{businessConfig.map((businessMapping) => (
-									<Box>
-										<Grid container>
-											{/* 각 비즈니스 개요 라벨 */}
-											<Grid item xs={6} md={3}>
-												<Box
-													sx={{
-														backgroundColor:
-															'#305ddc',
-													}}
-													border={0.5}
-													borderColor={'#bebebe'}
-												>
-													<Typography
-														textAlign={'center'}
-														variant={'h6'}
-														fontWeight={'700'}
-														color={'white'}
-														pt={1}
-														pb={1}
-													>
-														{businessMapping.label}
-													</Typography>
+								{/* 컨트롤러 */}
+								<Box mb={2}>
+									<Grid container>
+										{/* 데이터 편집 및 추출 */}
+										<Grid item xs={12} md={6}>
+											<Box display={'flex'}>
+												{/* 편집 페이지로 이동 */}
+												<Box>
+													<SupportiButton
+														contents="편집하기"
+														isGradient={true}
+														onClick={() => {
+															router.push(
+																'/internal_service/business_info/edit'
+															);
+														}}
+														style={{
+															color: 'white',
+														}}
+													/>
 												</Box>
-											</Grid>
-
-											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
-											<Grid item xs={6} md={3}>
-												<Box
-													border={0.5}
-													borderColor={'#bebebe'}
-												>
-													<Typography
-														variant={'h6'}
-														pt={1}
-														pb={1}
-														pl={1}
-													>
-														{businessMapping.isFromBusinessHistory ==
-														true
-															? businessHistory[
-																	businessMapping
-																		.key
-															  ]
-															: business[
-																	businessMapping
-																		.key
-															  ]}
-													</Typography>
-												</Box>
-											</Grid>
+											</Box>
 										</Grid>
-									</Box>
-								))}
+									</Grid>
+								</Box>
+
+								{/* 테이블 */}
+								<Box>
+									{/* 각 비즈니스 개요 항목 맵핑 */}
+									{businessConfig.map((businessMapping) => (
+										<Box>
+											<Grid container>
+												{/* 각 비즈니스 개요 라벨 */}
+												<Grid item xs={6} md={3}>
+													<Box
+														sx={{
+															backgroundColor:
+																'#305ddc',
+														}}
+														border={0.5}
+														borderColor={'#bebebe'}
+													>
+														<Typography
+															textAlign={'center'}
+															variant={'h6'}
+															fontWeight={'700'}
+															color={'white'}
+															pt={1}
+															pb={1}
+														>
+															{
+																businessMapping.label
+															}
+														</Typography>
+													</Box>
+												</Grid>
+
+												{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
+												<Grid item xs={6} md={3}>
+													<Box
+														border={0.5}
+														borderColor={'#bebebe'}
+													>
+														<Typography
+															variant={'h6'}
+															pt={1}
+															pb={1}
+															pl={1}
+														>
+															{businessMapping.isFromBusinessHistory ==
+															true
+																? businessHistory[
+																		businessMapping
+																			.key
+																  ]
+																: business[
+																		businessMapping
+																			.key
+																  ]}
+														</Typography>
+													</Box>
+												</Grid>
+											</Grid>
+										</Box>
+									))}
+								</Box>
 							</Box>
-						</Box>
-					)}
-				</InternalServiceLayout>
-			)}
-		</Box>
+						)}
+					</InternalServiceLayout>
+				)}
+			</Box>
+		</InternalServiceDrawer>
 	);
 };
 
