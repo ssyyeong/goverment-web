@@ -8,6 +8,7 @@ import SupportiTable from '../../../src/views/global/SupportiTable';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -88,52 +89,54 @@ const Page: NextPage = () => {
 	}, [page, memberId]);
 
 	return (
-		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
-			<Typography variant="h4" fontWeight={'bold'}>
-				결제내역
-			</Typography>
-			{/* 테이블 */}
-			<Box width={'100%'} p={2} mt={2}>
-				{matches ? (
-					paymentHistoryList.map((item, idx) => {
-						return (
-							<MobileTableRow
-								index={idx}
-								title={item.DESCRIPTION}
-								colums={[
-									{
-										label: '금액',
-										value: item.AMOUNT,
-									},
-									{
-										label: '결제일',
-										value: `${
-											item.APPROVED_DATE.split('T')[0]
-										} 원`,
-									},
-								]}
-							/>
-						);
-					})
-				) : (
-					<SupportiTable
-						rowData={paymentHistoryList}
-						headerData={paymentHistoryHeaderData}
+		<InternalServiceDrawer type="mypage">
+			<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+				<Typography variant="h4" fontWeight={'bold'}>
+					결제내역
+				</Typography>
+				{/* 테이블 */}
+				<Box width={'100%'} p={2} mt={2}>
+					{matches ? (
+						paymentHistoryList.map((item, idx) => {
+							return (
+								<MobileTableRow
+									index={idx}
+									title={item.DESCRIPTION}
+									colums={[
+										{
+											label: '금액',
+											value: item.AMOUNT,
+										},
+										{
+											label: '결제일',
+											value: `${
+												item.APPROVED_DATE.split('T')[0]
+											} 원`,
+										},
+									]}
+								/>
+							);
+						})
+					) : (
+						<SupportiTable
+							rowData={paymentHistoryList}
+							headerData={paymentHistoryHeaderData}
+						/>
+					)}
+				</Box>
+				{/* 페이지 네이션 */}
+				<Box width={'100%'} p={2}>
+					<SupportiPagination
+						limit={limit}
+						setLimit={setLimit}
+						page={page}
+						handlePageChange={handlePageChange}
+						count={totalDataSize}
+						useLimit={false}
 					/>
-				)}
+				</Box>
 			</Box>
-			{/* 페이지 네이션 */}
-			<Box width={'100%'} p={2}>
-				<SupportiPagination
-					limit={limit}
-					setLimit={setLimit}
-					page={page}
-					handlePageChange={handlePageChange}
-					count={totalDataSize}
-					useLimit={false}
-				/>
-			</Box>
-		</Box>
+		</InternalServiceDrawer>
 	);
 };
 

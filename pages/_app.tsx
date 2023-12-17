@@ -27,6 +27,7 @@ import sideBarConfig from '../configs/sideBarConfig';
 import Memory from '@qillie-corp/ark-office-project/src/utils/data/Memory';
 import dotenv from 'dotenv';
 import CustomHeader from '../src/views/local/common/CustomHeader/CustomHeader';
+import CustomFooter from '../src/views/local/common/CustomFooter/CustomFooter';
 
 //* .env 지정
 dotenv.config({ path: '.env' });
@@ -82,6 +83,7 @@ function App({
 				containerPaddingX={'0'}
 				containerMaxWidth={'3000px !important'}
 				router={router}
+				anotherFooter={<CustomFooter />}
 			/>
 		</React.Fragment>
 	);

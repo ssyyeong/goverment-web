@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import AppMemberUpdateModal from '../../../src/views/local/auth/appMemberUpdateModal/AppMemeberUpdateModal';
 import ProfileUpdateModal from '../../../src/views/local/auth/profileUpdateModal/ProfileUpdateModal';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -236,121 +237,125 @@ const Page: NextPage = () => {
 	}, [memberInfo]);
 
 	return (
-		<Container sx={{ my: 6 }}>
-			{dataConfig.map((data, idx) => {
-				return (
-					<Box width={{ sm: '50%', xs: '100%' }} p={2}>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'space-between',
-								mb: 2,
-							}}
-						>
-							<Typography variant="h5" fontWeight={'bold'}>
-								{data.title}
-							</Typography>
-							{data.button.condition && (
-								<SupportiButton
-									variant="contained"
-									onClick={data.button.onClick}
-									contents={data.button.label}
-									style={{
-										height: '40px',
-									}}
-								/>
-							)}
-						</Box>
-						<Box
-							display={'flex'}
-							flexDirection={'column'}
-							gap={1}
-							my={2}
-							mt={5}
-						>
-							{data.data.map((memberInfo, idx) => {
-								return (
-									<Box
-										display={'flex'}
-										flexDirection={'row'}
-										justifyContent={'space-between'}
-										alignItems={'center'}
-									>
-										<Typography
-											variant="subtitle1"
-											fontWeight={'500'}
-											color={'secondary.dark'}
-										>
-											{memberInfo.label}
-										</Typography>
-										<Typography
-											variant="subtitle1"
-											fontWeight={'500'}
-										>
-											{memberInfo.value}
-										</Typography>
-										{memberInfo.type === 'switch' && (
-											<Switch
-												checked={memberInfo.value}
-											/>
-										)}
-									</Box>
-								);
-							})}
-						</Box>
-						{/* 버튼 섹션 */}
-						<Box display={'flex'} alignItems={'center'} gap={2}>
-							{data.additionalButton.map((button, idx) => {
-								return (
-									<Typography
-										sx={{
-											textDecoration: 'underline',
-											color: 'secondary.main',
-											cursor: 'pointer',
+		<InternalServiceDrawer type="mypage">
+			<Container sx={{ my: 6 }}>
+				{dataConfig.map((data, idx) => {
+					return (
+						<Box width={{ sm: '50%', xs: '100%' }} p={2}>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									mb: 2,
+								}}
+							>
+								<Typography variant="h5" fontWeight={'bold'}>
+									{data.title}
+								</Typography>
+								{data.button.condition && (
+									<SupportiButton
+										variant="contained"
+										onClick={data.button.onClick}
+										contents={data.button.label}
+										style={{
+											height: '40px',
 										}}
-										display={
-											!button.condition ? 'block' : 'none'
-										}
-										onClick={button.onClick}
-									>
-										{button.label}
-									</Typography>
-								);
-							})}
+									/>
+								)}
+							</Box>
+							<Box
+								display={'flex'}
+								flexDirection={'column'}
+								gap={1}
+								my={2}
+								mt={5}
+							>
+								{data.data.map((memberInfo, idx) => {
+									return (
+										<Box
+											display={'flex'}
+											flexDirection={'row'}
+											justifyContent={'space-between'}
+											alignItems={'center'}
+										>
+											<Typography
+												variant="subtitle1"
+												fontWeight={'500'}
+												color={'secondary.dark'}
+											>
+												{memberInfo.label}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												fontWeight={'500'}
+											>
+												{memberInfo.value}
+											</Typography>
+											{memberInfo.type === 'switch' && (
+												<Switch
+													checked={memberInfo.value}
+												/>
+											)}
+										</Box>
+									);
+								})}
+							</Box>
+							{/* 버튼 섹션 */}
+							<Box display={'flex'} alignItems={'center'} gap={2}>
+								{data.additionalButton.map((button, idx) => {
+									return (
+										<Typography
+											sx={{
+												textDecoration: 'underline',
+												color: 'secondary.main',
+												cursor: 'pointer',
+											}}
+											display={
+												!button.condition
+													? 'block'
+													: 'none'
+											}
+											onClick={button.onClick}
+										>
+											{button.label}
+										</Typography>
+									);
+								})}
+							</Box>
 						</Box>
-					</Box>
-				);
-			})}
-			<SupportiAlertModal
-				open={alertModal}
-				type={alertModalType}
-				handleClose={() => {
-					setAlertModal(false);
-				}}
-				customHandleClose={
-					alertModalType === 'withdraw' ? withdraw : unsubscribe
-				}
-			/>
-			<ProfileUpdateModal
-				open={editProfileModal}
-				handleClose={() => setEditProfileModal(false)}
-				appMemberData={memberInfo}
-				infoUpdate={true}
-			/>
-			<ProfileUpdateModal
-				open={editBusinessProfileModal}
-				handleClose={() => setEditBusinessProfileModal(false)}
-				appMemberData={memberInfo}
-				businessUpdate={true}
-			/>
-			<ProfileUpdateModal
-				open={editPasswordModal}
-				handleClose={() => setEditPasswordModal(false)}
-				appMemberData={memberInfo}
-				passwordUpdate={true}
-			/>
-		</Container>
+					);
+				})}
+				<SupportiAlertModal
+					open={alertModal}
+					type={alertModalType}
+					handleClose={() => {
+						setAlertModal(false);
+					}}
+					customHandleClose={
+						alertModalType === 'withdraw' ? withdraw : unsubscribe
+					}
+				/>
+				<ProfileUpdateModal
+					open={editProfileModal}
+					handleClose={() => setEditProfileModal(false)}
+					appMemberData={memberInfo}
+					infoUpdate={true}
+				/>
+				<ProfileUpdateModal
+					open={editBusinessProfileModal}
+					handleClose={() => setEditBusinessProfileModal(false)}
+					appMemberData={memberInfo}
+					businessUpdate={true}
+				/>
+				<ProfileUpdateModal
+					open={editPasswordModal}
+					handleClose={() => setEditPasswordModal(false)}
+					appMemberData={memberInfo}
+					passwordUpdate={true}
+				/>
+			</Container>
+		</InternalServiceDrawer>
 	);
 };
 

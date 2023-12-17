@@ -10,6 +10,7 @@ import { TableHeaderProps } from '../../../src/views/global/SupportiTable/Suppor
 import moment from 'moment';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -120,82 +121,84 @@ const Page: NextPage = () => {
 	}, [page, tab, memberId]);
 
 	return (
-		<Box width={'100%'} p={10} bgcolor={'primary.light'}>
-			<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
-				내 컨설팅 예약 내역
-			</Typography>
-			{/* 탭 */}
-			<SupportiToggle
-				chipDataList={[
-					{
-						label: '진행전',
-						value: 'WAITING',
-					},
-					{
-						label: '일정완료',
-						value: 'COMPLETE',
-					},
-				]}
-				angled
-				value={tab}
-				setValue={setTab}
-				chipHeight={40}
-				selectedChipColor="white"
-				style={{
-					chipStyle: {
-						// height: '40px',
-						bgcolor: 'rgba(85, 131, 228, 1)',
-					},
-				}}
-			/>
-			{/* 테이블 */}
-			<Box width={'100%'} p={2} mt={2}>
-				{matches ? (
-					consultingApplicationList.map((item, idx) => {
-						return (
-							<MobileTableRow
-								index={idx}
-								title={item.DESCRIPTION}
-								colums={[
-									{
-										label: '금액',
-										value: item.AMOUNT,
-									},
-									{
-										label: '결제일',
-										value: `${
-											item.APPROVED_DATE.split('T')[0]
-										} 원`,
-									},
-								]}
-							/>
-						);
-					})
-				) : (
-					<SupportiTable
-						rowData={consultingApplicationList}
-						headerData={
-							tab === 'WAITING'
-								? consultingApplicationHeaderData.concat(
-										cancelConsultingHeaderData
-								  )
-								: consultingApplicationHeaderData
-						}
-					/>
-				)}
-			</Box>
-			{/* 페이지 네이션 */}
-			<Box width={'100%'} p={2}>
-				<SupportiPagination
-					limit={limit}
-					setLimit={setLimit}
-					page={page}
-					handlePageChange={handlePageChange}
-					count={totalDataSize}
-					useLimit={false}
+		<InternalServiceDrawer type="mypage">
+			<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
+					내 컨설팅 예약 내역
+				</Typography>
+				{/* 탭 */}
+				<SupportiToggle
+					chipDataList={[
+						{
+							label: '진행전',
+							value: 'WAITING',
+						},
+						{
+							label: '일정완료',
+							value: 'COMPLETE',
+						},
+					]}
+					angled
+					value={tab}
+					setValue={setTab}
+					chipHeight={40}
+					selectedChipColor="white"
+					style={{
+						chipStyle: {
+							// height: '40px',
+							bgcolor: 'rgba(85, 131, 228, 1)',
+						},
+					}}
 				/>
+				{/* 테이블 */}
+				<Box width={'100%'} p={2} mt={2}>
+					{matches ? (
+						consultingApplicationList.map((item, idx) => {
+							return (
+								<MobileTableRow
+									index={idx}
+									title={item.DESCRIPTION}
+									colums={[
+										{
+											label: '금액',
+											value: item.AMOUNT,
+										},
+										{
+											label: '결제일',
+											value: `${
+												item.APPROVED_DATE.split('T')[0]
+											} 원`,
+										},
+									]}
+								/>
+							);
+						})
+					) : (
+						<SupportiTable
+							rowData={consultingApplicationList}
+							headerData={
+								tab === 'WAITING'
+									? consultingApplicationHeaderData.concat(
+											cancelConsultingHeaderData
+									  )
+									: consultingApplicationHeaderData
+							}
+						/>
+					)}
+				</Box>
+				{/* 페이지 네이션 */}
+				<Box width={'100%'} p={2}>
+					<SupportiPagination
+						limit={limit}
+						setLimit={setLimit}
+						page={page}
+						handlePageChange={handlePageChange}
+						count={totalDataSize}
+						useLimit={false}
+					/>
+				</Box>
 			</Box>
-		</Box>
+		</InternalServiceDrawer>
 	);
 };
 

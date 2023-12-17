@@ -4,6 +4,7 @@ import {
 	AppBar,
 	Box,
 	BoxProps,
+	Button,
 	Collapse,
 	CssBaseline,
 	Divider,
@@ -22,7 +23,11 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from 'next/router';
-import { dashboardMenu } from '../../../../../../configs/menu/menuConfig';
+import {
+	dashboardMenu,
+	mypageMenu,
+} from '../../../../../../configs/menu/menuConfig';
+import { CookieManager } from '@qillie-corp/qillie-utility';
 
 interface IInternalServiceDrawerProps {
 	children: React.ReactNode;
@@ -32,7 +37,7 @@ interface IInternalServiceDrawerProps {
 const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	//* Modules
 	const router = useRouter();
-
+	const cookie = new CookieManager();
 	//*State
 	/**
 	 * 모바일 메뉴 오픈 여부
@@ -147,16 +152,55 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	};
 
 	const drawer = (
-		<Box mt={3}>
-			<Toolbar>
-				<img src="/images/logo/Suppor-TFulllogo.svg" />
-			</Toolbar>
-			<List>
-				{props.type === 'dashboard' &&
-					dashboardMenu.map((page, index) => (
-						<ListItemMap page={page} index={index} />
-					))}
-			</List>
+		<Box
+			mt={3}
+			display={'flex'}
+			flexDirection={'column'}
+			justifyContent={'space-between'}
+			height={'100vh'}
+		>
+			<Box>
+				<Toolbar
+					onClick={() => {
+						router.push('/');
+					}}
+					sx={{
+						cursor: 'pointer',
+					}}
+				>
+					<img src="/images/logo/Suppor-TFulllogo.svg" />
+				</Toolbar>
+				<List>
+					{props.type === 'dashboard' &&
+						dashboardMenu.map((page, index) => (
+							<ListItemMap page={page} index={index} />
+						))}
+					{props.type === 'mypage' &&
+						mypageMenu.map((page, index) => (
+							<ListItemMap page={page} index={index} />
+						))}
+				</List>
+			</Box>
+			<Box p={4} pb={10}>
+				<Typography fontWeight={'600'} sx={{ mb: 1 }}>
+					주식회사 린온컴퍼니
+				</Typography>
+				<Typography color={'secondary.main'}>
+					2022. leanoncompany Inc.
+				</Typography>
+				<Typography color={'secondary.main'}>
+					all rights reserved.
+				</Typography>
+				<Button
+					sx={{ color: 'black', mt: 2 }}
+					onClick={() => {
+						cookie.removeItemInCookies('ACCESS_TOKEN');
+						router.push('/');
+					}}
+				>
+					로그아웃
+				</Button>
+			</Box>
 		</Box>
 	);
 	const drawerWidth = 300;
@@ -166,9 +210,9 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 			<AppBar
 				position="fixed"
 				sx={{
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					ml: { sm: `${drawerWidth}px` },
-					display: { sm: 'none' },
+					width: { md: `calc(100% - ${drawerWidth}px)` },
+					ml: { md: `${drawerWidth}px` },
+					display: { md: 'none' },
 				}}
 			>
 				<Toolbar>
@@ -177,7 +221,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						aria-label="open drawer"
 						edge="start"
 						onClick={handleDrawerToggle}
-						sx={{ mr: 2, display: { sm: 'none' } }}
+						sx={{ mr: 2, display: { md: 'none' } }}
 					>
 						<MenuIcon />
 					</IconButton>
@@ -188,7 +232,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 			</AppBar>
 			<Box
 				component="nav"
-				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+				sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
 				aria-label="mailbox folders"
 			>
 				<Drawer
@@ -200,7 +244,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						keepMounted: true,
 					}}
 					sx={{
-						display: { xs: 'block', sm: 'none' },
+						display: { xs: 'block', md: 'none' },
 						'& .MuiDrawer-paper': {
 							boxSizing: 'border-box',
 							width: drawerWidth,
@@ -212,7 +256,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<Drawer
 					variant="permanent"
 					sx={{
-						display: { xs: 'none', sm: 'block' },
+						display: { xs: 'none', md: 'block' },
 						'& .MuiDrawer-paper': {
 							boxSizing: 'border-box',
 							width: drawerWidth,
@@ -228,7 +272,11 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				sx={{
 					flexGrow: 1,
 					bgcolor: 'primary.light',
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
+					width: { md: `calc(100% - ${drawerWidth}px)` },
+					height: '100vh',
+					overflowY: 'scroll',
+					// '-ms-overflow-style': 'none',
+					// '&::-webkit-scrollbar': { display: 'none' },
 				}}
 			>
 				{props.children}

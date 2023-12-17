@@ -13,6 +13,7 @@ import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -150,63 +151,68 @@ const Page: NextPage = () => {
 	}, [page, tab, cancelModal, memberId]);
 
 	return (
-		<Box width={'100%'} p={10}>
-			<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
-				내 세미나 예약 내역
-			</Typography>
-			{/* 탭 */}
-			<SupportiToggle
-				chipDataList={[
-					{
-						label: '진행전 세미나',
-						value: 0,
-					},
-					{
-						label: '진행완료 세미나',
-						value: 1,
-					},
-				]}
-				angled
-				value={tab}
-				setValue={setTab}
-				chipHeight={40}
-				selectedChipColor="white"
-				style={{
-					chipStyle: {
-						// height: '40px',
-						bgcolor: 'rgba(85, 131, 228, 1)',
-					},
-				}}
-			/>
-			{/* 테이블 */}
-			<Box width={'100%'} p={2}>
-				<SupportiTable
-					rowData={seminarDataList}
-					headerData={
-						tab === 1
-							? seminarHeaderData
-							: [...seminarHeaderData, cancelSeminarHeaderData]
-					}
+		<InternalServiceDrawer type="mypage">
+			<Box width={'100%'} p={10}>
+				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
+					내 세미나 예약 내역
+				</Typography>
+				{/* 탭 */}
+				<SupportiToggle
+					chipDataList={[
+						{
+							label: '진행전 세미나',
+							value: 0,
+						},
+						{
+							label: '진행완료 세미나',
+							value: 1,
+						},
+					]}
+					angled
+					value={tab}
+					setValue={setTab}
+					chipHeight={40}
+					selectedChipColor="white"
+					style={{
+						chipStyle: {
+							// height: '40px',
+							bgcolor: 'rgba(85, 131, 228, 1)',
+						},
+					}}
+				/>
+				{/* 테이블 */}
+				<Box width={'100%'} p={2}>
+					<SupportiTable
+						rowData={seminarDataList}
+						headerData={
+							tab === 1
+								? seminarHeaderData
+								: [
+										...seminarHeaderData,
+										cancelSeminarHeaderData,
+								  ]
+						}
+					/>
+				</Box>
+				{/* 페이지 네이션 */}
+				<Box width={'100%'} p={2}>
+					<SupportiPagination
+						limit={limit}
+						setLimit={setLimit}
+						page={page}
+						handlePageChange={handlePageChange}
+						count={totalDataCount}
+						useLimit={false}
+					/>
+				</Box>
+				<SupportiAlertModal
+					type="cancel"
+					open={cancelModal}
+					handleClose={() => setCancelModal(false)}
+					customHandleClose={() => cancelSeminar(selectedSeminarId)}
 				/>
 			</Box>
-			{/* 페이지 네이션 */}
-			<Box width={'100%'} p={2}>
-				<SupportiPagination
-					limit={limit}
-					setLimit={setLimit}
-					page={page}
-					handlePageChange={handlePageChange}
-					count={totalDataCount}
-					useLimit={false}
-				/>
-			</Box>
-			<SupportiAlertModal
-				type="cancel"
-				open={cancelModal}
-				handleClose={() => setCancelModal(false)}
-				customHandleClose={() => cancelSeminar(selectedSeminarId)}
-			/>
-		</Box>
+		</InternalServiceDrawer>
 	);
 };
 

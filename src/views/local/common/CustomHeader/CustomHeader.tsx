@@ -153,7 +153,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	//* Hooks
 	const { memberName, memberPoint } = useAppMember();
 	return (
-		!router.asPath.includes('/internal_service') && (
+		!router.asPath.includes('/internal_service') &&
+		!router.asPath.includes('/my_page') && (
 			<AppBar
 				position="static"
 				sx={{

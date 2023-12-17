@@ -148,6 +148,12 @@ const Page: NextPage = () => {
 				bgcolor={theme.palette.primary.light}
 				p={{ xs: 2, md: 10 }}
 				width={'100%'}
+				sx={{
+					overflowY: 'scroll',
+					'-ms-overflow-style': 'none',
+					'&::-webkit-scrollbar': { display: 'none' },
+					mb: 20,
+				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
 				<InternalServiceLayout>
