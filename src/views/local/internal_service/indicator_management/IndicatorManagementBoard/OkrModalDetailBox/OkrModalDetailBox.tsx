@@ -246,6 +246,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 						<Box display={'flex'}>
 							<SupportiInput
 								type="input"
+								inputType="number"
 								value={
 									props.okrDetailData[props.index]
 										.TARGET_AMOUNT

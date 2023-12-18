@@ -208,8 +208,21 @@ const OkrModal = (props: IOkrModalProps) => {
 				NOTE: props.mode === 'detail' ? props.okrMainData?.NOTE : '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
+
+			setOkrDetailData([
+				{
+					TITLE: '',
+					START_DATE: new Date(),
+					END_DATE: new Date(),
+					TARGET_AMOUNT: 0,
+					TARGET_UNIT: '',
+					NOTE: '',
+					ACHIEVED_AMOUNT: 0,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+			])
 		}
-	}, [isEditMode, memberId]);
+	}, [isEditMode, memberId, props.modalOpen]);
 
 	console.log(props.okrDetailData);
 

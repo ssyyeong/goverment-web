@@ -83,6 +83,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				</Typography>
 				<SupportiInput
 					type="inputwithbtn"
+					inputType='number'
 					value={achieveAmount}
 					setValue={(value) => {
 						setAchieveAmount(value);

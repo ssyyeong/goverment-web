@@ -38,6 +38,7 @@ interface SupportiInputProps {
 	additionalProps?: { [key: string]: any };
 	readOnly?: boolean;
 	minDate?: string;
+	inputType?: string;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -280,6 +281,7 @@ const SupportiInput = React.forwardRef(
 						sx={{ width: '100%', ...props.style }}
 						value={props.value}
 						readOnly={props.readOnly}
+						type={props.inputType}
 						placeholder={props.placeholder ? props.placeholder : ''}
 						onChange={(e) => {
 							props.setValue(e.target.value);
@@ -349,6 +351,7 @@ const SupportiInput = React.forwardRef(
 						placeholder={props.placeholder ? props.placeholder : ''}
 						multiline={props.multiple}
 						{...props.additionalProps}
+						type={props.inputType}
 					/>
 				)}
 			</Box>
