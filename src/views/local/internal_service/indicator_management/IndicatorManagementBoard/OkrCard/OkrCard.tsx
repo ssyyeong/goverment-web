@@ -48,7 +48,14 @@ const OkrCard = (props: IOkrCardProps) => {
 	const calcDeadline = (day) => {
 		const diff = Today.diff(day, 'day', true);
 		const days = Math.floor(diff);
-		return days < 7 ? '마감일 임박' : days === 7 ? '마감일' : '마감일 지남';
+
+		return days > -7
+			? '마감일 임박'
+			: days === 0
+			? '마감일'
+			: days > 0
+			? '마감일 지남'
+			: '';
 	};
 
 	//* Hooks

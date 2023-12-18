@@ -99,50 +99,52 @@ const Page: NextPage = () => {
 	const userAccess = true;
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} p={5}>
-				{/* 컨텐츠 레이아웃 */}
-				{userAccess === true && (
-					<InternalServiceLayout>
-						{/* 지표 (OKR / KPI) 선택 영역 */}
-						<Box>
-							{selectableIndicatorList.map(
-								(selectableIndicator) => (
-									<SupportiButton
-										contents={selectableIndicator.name}
-										onClick={() => {
-											setSelectedIndicator(
-												selectableIndicator
-											);
-										}}
-										style={{
-											border: '1px solid',
-											borderRadius: 10,
-											height: 3,
-											marginRight: 1,
-										}}
-										color={
-											selectableIndicator.name ===
-											selectedIndicator.name
-												? 'primary'
-												: 'secondary'
-										}
-									/>
-								)
-							)}
-						</Box>
+		memberId && (
+			<InternalServiceDrawer type="dashboard">
+				<Box bgcolor={'primary.light'} p={5}>
+					{/* 컨텐츠 레이아웃 */}
+					{userAccess === true && (
+						<InternalServiceLayout>
+							{/* 지표 (OKR / KPI) 선택 영역 */}
+							<Box>
+								{selectableIndicatorList.map(
+									(selectableIndicator) => (
+										<SupportiButton
+											contents={selectableIndicator.name}
+											onClick={() => {
+												setSelectedIndicator(
+													selectableIndicator
+												);
+											}}
+											style={{
+												border: '1px solid',
+												borderRadius: 10,
+												height: 3,
+												marginRight: 1,
+											}}
+											color={
+												selectableIndicator.name ===
+												selectedIndicator.name
+													? 'primary'
+													: 'secondary'
+											}
+										/>
+									)
+								)}
+							</Box>
 
-						{/* 지표 보드 영역 */}
-						<IndicatorManagementBoard
-							key={JSON.stringify(selectedIndicator)}
-							{...selectedIndicator.indicatorManagementBoardProps}
-							name={selectedIndicator.name}
-							triggerKey={triggerKey}
-						/>
-					</InternalServiceLayout>
-				)}
-			</Box>
-		</InternalServiceDrawer>
+							{/* 지표 보드 영역 */}
+							<IndicatorManagementBoard
+								key={JSON.stringify(selectedIndicator)}
+								{...selectedIndicator.indicatorManagementBoardProps}
+								name={selectedIndicator.name}
+								triggerKey={triggerKey}
+							/>
+						</InternalServiceLayout>
+					)}
+				</Box>
+			</InternalServiceDrawer>
+		)
 	);
 };
 
