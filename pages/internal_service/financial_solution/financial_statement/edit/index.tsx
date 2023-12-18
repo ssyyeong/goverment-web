@@ -103,11 +103,10 @@ const Page: NextPage = () => {
 				//* 새로운 재무제표를 생성하는 경우
 				financialStatementController.createItem(
 					{
-						...financialStatement,
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-						STANDARD_YEAR: targetDate,
 						BUSINESS_IDENTIFICATION_CODE:
 							business?.BUSINESS_IDENTIFICATION_CODE,
+						...financialStatement,
+						STANDARD_YEAR: targetDate,
 					},
 					(res) => {
 						//* 생성한 재무제표에 아이디 부여
@@ -159,10 +158,11 @@ const Page: NextPage = () => {
 	 * 재무제표 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (access && memberId) {
+		if (access && business) {
 			financialStatementController.getOneItemByKey(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					BUSINESS_IDENTIFICATION_CODE:
+						business?.BUSINESS_IDENTIFICATION_CODE,
 					STANDARD_YEAR: targetDate,
 				},
 				(res) => {
@@ -180,7 +180,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [access, targetDate, memberId]);
+	}, [access, targetDate, business]);
 
 	/**
 	 * 비즈니스 개요 데이터 로드

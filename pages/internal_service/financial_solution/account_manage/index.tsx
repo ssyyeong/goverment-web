@@ -165,50 +165,51 @@ const Page: NextPage = () => {
 						필요합니다. 계좌 등록은 최대 3개까지 가능합니다.
 					</Typography>
 					{/* 등록 계좌, 계좌 등록 영역 */}
-					{calculationResult && (
-						<MyAccounts
-							setRecomputeTriggerKey={setRecomputeTriggerKey}
-							bankAccountList={bankAccountList}
-							calculationResult={calculationResult}
-						/>
-					)}
+
+					<MyAccounts
+						setRecomputeTriggerKey={setRecomputeTriggerKey}
+						bankAccountList={bankAccountList}
+						calculationResult={calculationResult}
+					/>
 
 					{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
-					<Box
-						width={'100%'}
-						display={'flex'}
-						justifyContent={'space-between'}
-						alignItems={'center'}
-						mb={2}
-					>
-						{/* 날짜 선택 영역 */}
-						<Box display={'flex'} gap={1} alignItems={'center'}>
-							{selectedPeriod && (
-								<SupportiInput
-									type="select"
-									value={selectedPeriod}
-									setValue={(value) => {
-										setSelectedPeriod(value);
-									}}
-									placeholder="계좌 선택"
-									dataList={selectablePeriodList}
-									width={145}
-								/>
-							)}
-						</Box>
+					{calculationResult && (
+						<Box
+							width={'100%'}
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+							mb={2}
+						>
+							{/* 날짜 선택 영역 */}
+							<Box display={'flex'} gap={1} alignItems={'center'}>
+								{selectedPeriod && (
+									<SupportiInput
+										type="select"
+										value={selectedPeriod}
+										setValue={(value) => {
+											setSelectedPeriod(value);
+										}}
+										placeholder="계좌 선택"
+										dataList={selectablePeriodList}
+										width={145}
+									/>
+								)}
+							</Box>
 
-						{/* 검색 영역 */}
-						<SupportiInput
-							type="search"
-							value={keyword}
-							setValue={setKeyword}
-							placeholder={'거래 내역 검색'}
-							btnOnclick={() => {
-								setSearchTriggerKey(keyword);
-							}}
-							width={'300px'}
-						/>
-					</Box>
+							{/* 검색 영역 */}
+							<SupportiInput
+								type="search"
+								value={keyword}
+								setValue={setKeyword}
+								placeholder={'거래 내역 검색'}
+								btnOnclick={() => {
+									setSearchTriggerKey(keyword);
+								}}
+								width={'300px'}
+							/>
+						</Box>
+					)}
 
 					{/* 실제 계좌 내역 */}
 					{bankAccountList.map((bankAccount) => (

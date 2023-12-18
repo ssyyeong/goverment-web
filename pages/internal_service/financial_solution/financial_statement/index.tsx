@@ -2,7 +2,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
-import { IFinancialStatement } from '../../../../src/@types/model';
+import { IBusiness, IFinancialStatement } from '../../../../src/@types/model';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
@@ -28,8 +28,16 @@ const Page: NextPage = () => {
 	const financialStatementController = new DefaultController(
 		'FinancialStatement'
 	);
+	/**
+	 * 비즈니스 개요 컨트롤러
+	 */
+	const businessController = new DefaultController('Business');
 
 	//* States
+	/**
+	 * 비즈니스 개요
+	 */
+	const [business, setBusiness] = React.useState<IBusiness>();
 	/**
 	 * 재무제표 리스트
 	 */
@@ -64,6 +72,7 @@ const Page: NextPage = () => {
 	};
 
 	//* Hooks
+
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
@@ -73,15 +82,37 @@ const Page: NextPage = () => {
 	 * 페이지 진입 시 유저 권한 검사
 	 */
 	const { access } = useUserAccess('BUSINESS_MEMBER');
+	console.log(memberId);
+	/**
+	 * 비즈니스 개요 데이터 로드
+	 */
+	React.useEffect(() => {
+		if (access && memberId && access) {
+			businessController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					if (res.data.result !== null) {
+						setBusiness(res.data.result);
+					}
+				},
+				(err) => {
+					alert('비즈니스 개요 정보를 가져오는데 실패했습니다.');
+				}
+			);
+		}
+	}, [access, memberId]);
 
 	/**
 	 * 재무제표 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (access && memberId) {
+		if (memberId && business && access) {
 			financialStatementController.getAllItems(
 				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					BUSINESS_IDENTIFICATION_CODE:
+						business?.BUSINESS_IDENTIFICATION_CODE,
 					PERIOD_TARGET_KEY: 'STANDARD_YEAR',
 					PERIOD_END: targetDate,
 					LIMIT: 3,
@@ -96,7 +127,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [access, targetDate, memberId]);
+	}, [access, targetDate, business]);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -109,7 +140,7 @@ const Page: NextPage = () => {
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
-				{access === true && (
+				{
 					<InternalServiceLayout>
 						<Typography
 							variant="h3"
@@ -345,7 +376,7 @@ const Page: NextPage = () => {
 							</Box>
 						</Box>
 					</InternalServiceLayout>
-				)}
+				}
 			</Box>
 		</InternalServiceDrawer>
 	);
