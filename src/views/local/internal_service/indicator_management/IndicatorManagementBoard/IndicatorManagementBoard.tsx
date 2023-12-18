@@ -32,6 +32,10 @@ interface IIndicatorManagementBoardProps {
 		selectableList: { value: any; label: string }[];
 		renderItem: TRenderItemCallback;
 	}[];
+	/**
+	 * 트리거키
+	 */
+	triggerKey?: string;
 }
 
 const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
@@ -242,6 +246,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				})}
 				allData={indicatorList}
 				setAllData={setIndicatorList}
+				triggerKey={props.triggerKey}
 			/>
 			{props.name === 'OKR' && (
 				<OkrModal

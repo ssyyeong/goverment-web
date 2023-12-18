@@ -34,7 +34,7 @@ const Page: NextPage = () => {
 	 */
 	const { memberId } = useAppMember();
 	//* States
-
+	const [triggerKey, setTriggerKey] = React.useState<string>();
 	//* Constants
 	/**
 	 * 선택 가능한 지표 목록
@@ -46,7 +46,12 @@ const Page: NextPage = () => {
 				name: 'OKR',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
-						return <OkrCard data={data} />;
+						return (
+							<OkrCard
+								data={data}
+								setTriggerKey={setTriggerKey}
+							/>
+						);
 					},
 					injectedParams: {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -132,6 +137,7 @@ const Page: NextPage = () => {
 							key={JSON.stringify(selectedIndicator)}
 							{...selectedIndicator.indicatorManagementBoardProps}
 							name={selectedIndicator.name}
+							triggerKey={triggerKey}
 						/>
 					</InternalServiceLayout>
 				)}

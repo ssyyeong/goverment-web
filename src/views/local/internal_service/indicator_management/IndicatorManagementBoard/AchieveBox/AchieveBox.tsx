@@ -43,7 +43,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	 */
 	const { memberId } = useAppMember();
 	//* Functions
-
+	console.log(memberId);
 	// okr 하위 목표 달성량 추가
 	const updateOkr = () => {
 		okrController.updateItem(

@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
+	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 	index?: number;
 }
 
@@ -178,6 +179,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					setOkrMainData={setOkrMainData}
 					okrDetailData={okrMainData?.OkrDetails}
 					materialDataList={materialDataList}
+					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
 		</Box>
