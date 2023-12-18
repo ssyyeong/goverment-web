@@ -78,6 +78,7 @@ const Page: NextPage = () => {
 		value: 'CONSULTING_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
 		customView: (value) => {
+			console.log(value);
 			return (
 				<Button
 					variant="contained"
@@ -122,7 +123,14 @@ const Page: NextPage = () => {
 
 	return (
 		<InternalServiceDrawer type="mypage">
-			<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+			<Box
+				width={'100%'}
+				p={{
+					xs: 2,
+					md: 10,
+				}}
+				bgcolor={'primary.light'}
+			>
 				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
 					내 컨설팅 예약 내역
 				</Typography>

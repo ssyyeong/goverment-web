@@ -7,7 +7,8 @@ interface IConsultingQnaProps {
 	qnaData: any;
 	setConsultingAnswer: any;
 	consultingAnswer: {
-		CONSULTING_QUESTION_IDENTIFICATION_CODE: string;
+		CONSULTING_QUESTION_IDENTIFICATION_CODE: string | number;
+		CONSULTING_APPLICATION_IDENTIFICATION_CODE?: number;
 		ANSWER_CONTENT: string;
 		FILE_LIST: string[];
 	}[];

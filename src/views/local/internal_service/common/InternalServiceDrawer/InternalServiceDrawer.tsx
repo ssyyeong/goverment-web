@@ -28,6 +28,8 @@ import {
 	mypageMenu,
 } from '../../../../../../configs/menu/menuConfig';
 import { CookieManager } from '@qillie-corp/qillie-utility';
+import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
+import { useUserAccess } from '../../../../../hooks/useUserAccess';
 
 interface IInternalServiceDrawerProps {
 	children: React.ReactNode;
@@ -43,11 +45,21 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	 * 모바일 메뉴 오픈 여부
 	 */
 	const [mobileOpen, setMobileOpen] = React.useState(false);
+	/**
+	 * 알러트 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState(false);
 
 	//* Functions
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
+
+	//* Hooks
+	/**
+	 * 기업 회원인지 확인하는 훅
+	 */
+	const forBusiness = useUserAccess('BUSINESS_MEMBER');
 
 	const ListItemMap = (page1: any, index: number) => {
 		const [open, setOpen] = React.useState(false);
@@ -57,6 +69,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<ListItem key={index}>
 					<ListItemButton
 						onClick={() => {
+							if (page.forBusines && !forBusiness) {
+								setAlertModal(true);
+								return;
+							}
 							if (page.submenu) {
 								setOpen(!open);
 							} else {
@@ -288,6 +304,11 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				}}
 			>
 				{props.children}
+				<SupportiAlertModal
+					open={alertModal}
+					handleClose={() => setAlertModal(false)}
+					type="business"
+				/>
 			</Box>
 		</Box>
 	);

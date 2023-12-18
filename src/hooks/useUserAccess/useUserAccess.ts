@@ -95,7 +95,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	// }, [access]);
 
 	/**
-	 * 구독 권한 체크
+	 * 사업가 권한 체크
 	 */
 	useEffect(() => {
 		if (
@@ -183,7 +183,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 			);
 	}, []);
 
-	return { access, alertModal, alertModalType, setAlertModal };
+	return { access };
 };
 
 export default useUserAccess;

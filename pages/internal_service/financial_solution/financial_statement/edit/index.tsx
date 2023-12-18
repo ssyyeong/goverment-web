@@ -12,6 +12,8 @@ import moment from 'moment';
 import { financialStatementConfig } from '../../../../../configs/data/FinancialStatementConfig';
 import { useRouter } from 'next/router';
 import SupportiButton from '../../../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
 
 /**
  * 재무제표 편집 페이지
@@ -145,20 +147,19 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	const memberId = 3;
-	// const memberId = useAppMember();
+	// const memberId = 3;
+	const { memberId } = useAppMember();
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('BUSINESS_MEMBER');
-	const userAccess = true;
+	const { access } = useUserAccess('BUSINESS_MEMBER');
 
 	/**
 	 * 재무제표 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (userAccess && memberId) {
+		if (access && memberId) {
 			financialStatementController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -179,13 +180,13 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [userAccess, targetDate, memberId]);
+	}, [access, targetDate, memberId]);
 
 	/**
 	 * 비즈니스 개요 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (userAccess && memberId) {
+		if (access && memberId) {
 			businessController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -200,199 +201,223 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [userAccess, memberId]);
+	}, [access, memberId]);
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				alignItems: 'space-between',
-				flexDirection: 'column',
-				p: 10,
-			}}
-		>
-			{userAccess === true && (
-				<InternalServiceLayout>
-					<Grid container alignItems={'center'}>
-						{/* 데이터 편집 및 추출 */}
-						<Grid item xs={6} md={3}>
-							<Box display={'flex'}>
-								{/* 저장하기 */}
-								<Box>
-									<SupportiButton
-										contents="저장하기"
-										isGradient={true}
-										onClick={saveFinancialStatement}
-										style={{ color: 'white' }}
-									/>
-								</Box>
-							</Box>
-						</Grid>
-
-						{/* 페이징 버튼 */}
-						<Grid item xs={6} md={3}>
-							<Box
-								display={'flex'}
-								justifyContent={'center'}
-								alignItems={'center'}
-							>
-								{/* 이전 페이지 */}
-								<Box>
-									<Button
-										onClick={() => {
-											changeTargetDate('previous');
-										}}
-									>
-										이전
-									</Button>
-								</Box>
-
-								{/* 현재 연도 */}
-								<Box mx={1.5}>
-									<Typography variant={'h6'}>
-										{targetDate.format('YYYY.MM.DD')}
-									</Typography>
-								</Box>
-
-								{/* 다음 페이지 */}
-								<Box>
-									<Button
-										onClick={() => {
-											changeTargetDate('next');
-										}}
-									>
-										다음
-									</Button>
-								</Box>
-							</Box>
-						</Grid>
-					</Grid>
-
-					{/* 테이블 */}
-					<Box>
-						<Grid container>
-							{/* 각 재무제표 항목 */}
+		<InternalServiceDrawer type="dashboard">
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'space-between',
+					flexDirection: 'column',
+					p: 10,
+				}}
+			>
+				{access === true && (
+					<InternalServiceLayout>
+						<Typography
+							variant="h3"
+							fontWeight={'bold'}
+							sx={{ mb: 2 }}
+						>
+							재무제표
+						</Typography>
+						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+							재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
+							있습니다.
+						</Typography>
+						<Grid container alignItems={'center'}>
+							{/* 데이터 편집 및 추출 */}
 							<Grid item xs={6} md={3}>
-								<Box
-									border={0.5}
-									borderColor={'#bebebe'}
-									sx={{ backgroundColor: '#305ddc' }}
-								>
-									<Typography
-										textAlign={'center'}
-										variant={'body1'}
-										fontWeight={'700'}
-										color={'white'}
-										pt={1}
-										pb={1}
-									>
-										항목
-									</Typography>
+								<Box display={'flex'}>
+									{/* 저장하기 */}
+									<Box>
+										<SupportiButton
+											contents="저장하기"
+											isGradient={true}
+											onClick={saveFinancialStatement}
+											style={{ color: 'white' }}
+										/>
+									</Box>
 								</Box>
 							</Grid>
 
-							{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
+							{/* 페이징 버튼 */}
 							<Grid item xs={6} md={3}>
 								<Box
-									border={0.5}
-									borderColor={'#bebebe'}
-									sx={{ backgroundColor: '#305ddc' }}
+									display={'flex'}
+									justifyContent={'center'}
+									alignItems={'center'}
 								>
-									<Typography
-										textAlign={'center'}
-										variant={'body1'}
-										fontWeight={'700'}
-										color={'white'}
-										pt={1}
-										pb={1}
-									>
-										{targetDate.format('YYYY.MM.DD')}
-									</Typography>
+									{/* 이전 페이지 */}
+									<Box>
+										<Button
+											onClick={() => {
+												changeTargetDate('previous');
+											}}
+										>
+											이전
+										</Button>
+									</Box>
+
+									{/* 현재 연도 */}
+									<Box mx={1.5}>
+										<Typography variant={'h6'}>
+											{targetDate.format('YYYY.MM.DD')}
+										</Typography>
+									</Box>
+
+									{/* 다음 페이지 */}
+									<Box>
+										<Button
+											onClick={() => {
+												changeTargetDate('next');
+											}}
+										>
+											다음
+										</Button>
+									</Box>
 								</Box>
 							</Grid>
 						</Grid>
 
-						{/* 테이블 바디 */}
+						{/* 테이블 */}
 						<Box>
-							<Box>
-								{/* 각 재무제표 항목 맵핑 */}
-								{financialStatementConfig.map(
-									(financialStatementMapping) => (
-										<Box>
-											<Grid container>
-												{/* 각 재무제표 라벨 */}
-												<Grid item xs={6} md={3}>
-													<Box
-														sx={{
-															backgroundColor:
-																'#d2d2d2',
-														}}
-														border={0.5}
-														borderColor={'#bebebe'}
-														pl={
-															financialStatementMapping.isHighlighted
-																? 3
-																: 1
-														}
-														pr={2}
-														height={'100%'}
-														display={'flex'}
-														alignItems={'center'}
-													>
-														<Typography
-															variant={'body1'}
-															fontWeight={
-																financialStatementMapping.isHighlighted
-																	? '700'
-																	: '400'
-															} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
-														>
-															{
-																financialStatementMapping.label
-															}
-														</Typography>
-													</Box>
-												</Grid>
+							<Grid container>
+								{/* 각 재무제표 항목 */}
+								<Grid item xs={6} md={3}>
+									<Box
+										border={0.5}
+										borderColor={'#bebebe'}
+										sx={{ backgroundColor: '#305ddc' }}
+									>
+										<Typography
+											textAlign={'center'}
+											variant={'body1'}
+											fontWeight={'700'}
+											color={'white'}
+											pt={1}
+											pb={1}
+										>
+											항목
+										</Typography>
+									</Box>
+								</Grid>
 
-												{/* 각 재무제표 값 */}
-												<Grid item xs={6} md={3}>
-													<Box
-														border={0.5}
-														borderColor={'#bebebe'}
-													>
-														<TextField
-															type={'number'}
-															value={
-																financialStatement[
-																	financialStatementMapping
-																		.key
-																]
-															}
-															onChange={(e) => {
-																setFinancialStatement(
-																	{
-																		...financialStatement,
-																		[financialStatementMapping.key]:
-																			e
-																				.target
-																				.value,
-																	}
-																);
+								{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
+								<Grid item xs={6} md={3}>
+									<Box
+										border={0.5}
+										borderColor={'#bebebe'}
+										sx={{ backgroundColor: '#305ddc' }}
+									>
+										<Typography
+											textAlign={'center'}
+											variant={'body1'}
+											fontWeight={'700'}
+											color={'white'}
+											pt={1}
+											pb={1}
+										>
+											{targetDate.format('YYYY.MM.DD')}
+										</Typography>
+									</Box>
+								</Grid>
+							</Grid>
+
+							{/* 테이블 바디 */}
+							<Box>
+								<Box>
+									{/* 각 재무제표 항목 맵핑 */}
+									{financialStatementConfig.map(
+										(financialStatementMapping) => (
+											<Box>
+												<Grid container>
+													{/* 각 재무제표 라벨 */}
+													<Grid item xs={6} md={3}>
+														<Box
+															sx={{
+																backgroundColor:
+																	'#d2d2d2',
 															}}
-															fullWidth
-														/>
-													</Box>
+															border={0.5}
+															borderColor={
+																'#bebebe'
+															}
+															pl={
+																financialStatementMapping.isHighlighted
+																	? 3
+																	: 1
+															}
+															pr={2}
+															height={'100%'}
+															display={'flex'}
+															alignItems={
+																'center'
+															}
+														>
+															<Typography
+																variant={
+																	'body1'
+																}
+																fontWeight={
+																	financialStatementMapping.isHighlighted
+																		? '700'
+																		: '400'
+																} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
+															>
+																{
+																	financialStatementMapping.label
+																}
+															</Typography>
+														</Box>
+													</Grid>
+
+													{/* 각 재무제표 값 */}
+													<Grid item xs={6} md={3}>
+														<Box
+															border={0.5}
+															borderColor={
+																'#bebebe'
+															}
+															bgcolor={'white'}
+														>
+															<TextField
+																type={'number'}
+																value={
+																	financialStatement[
+																		financialStatementMapping
+																			.key
+																	]
+																}
+																onChange={(
+																	e
+																) => {
+																	setFinancialStatement(
+																		{
+																			...financialStatement,
+																			[financialStatementMapping.key]:
+																				e
+																					.target
+																					.value,
+																		}
+																	);
+																}}
+																fullWidth
+															/>
+														</Box>
+													</Grid>
 												</Grid>
-											</Grid>
-										</Box>
-									)
-								)}
+											</Box>
+										)
+									)}
+								</Box>
 							</Box>
 						</Box>
-					</Box>
-				</InternalServiceLayout>
-			)}
-		</Box>
+					</InternalServiceLayout>
+				)}
+			</Box>
+		</InternalServiceDrawer>
 	);
 };
 

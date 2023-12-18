@@ -2,14 +2,16 @@ interface IMenu {
 	label: string;
 	path: string;
 	icon?: string;
+	forBusiness?: boolean;
 	submenu?: IMenu[];
 }
 
 const dashboardMenu: IMenu[] = [
 	{
 		label: '비즈니스 개요',
-		path: '/internal_service/business_info/view',
+		path: '/internal_service/business_info',
 		icon: '/images/icons/business.svg',
+		forBusiness: true,
 	},
 	{
 		label: '재무 솔루션',
@@ -22,7 +24,7 @@ const dashboardMenu: IMenu[] = [
 			},
 			{
 				label: '재무 정보',
-				path: '/internal_service/financial_solution/financial_statement/view',
+				path: '/internal_service/financial_solution/financial_statement',
 			},
 		],
 	},

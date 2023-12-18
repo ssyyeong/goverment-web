@@ -1,16 +1,16 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
-import { InternalServiceLayout } from '../../../../../src/views/layout/InternalServiceLayout';
-import { IFinancialStatement } from '../../../../../src/@types/model';
-import { useAppMember } from '../../../../../src/hooks/useAppMember';
+import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
+import { IFinancialStatement } from '../../../../src/@types/model';
+import { useAppMember } from '../../../../src/hooks/useAppMember';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
-import { financialStatementConfig } from '../../../../../configs/data/FinancialStatementConfig';
+import { financialStatementConfig } from '../../../../configs/data/FinancialStatementConfig';
 import { useRouter } from 'next/router';
-import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
-import SupportiButton from '../../../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { useUserAccess } from '../../../../src/hooks/useUserAccess';
+import SupportiButton from '../../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 
 /**
  * 재무제표 뷰 페이지
@@ -72,14 +72,13 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('BUSINESS_MEMBER');
-	const userAccess = true;
+	const { access } = useUserAccess('BUSINESS_MEMBER');
 
 	/**
 	 * 재무제표 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (userAccess && memberId) {
+		if (access && memberId) {
 			financialStatementController.getAllItems(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -97,7 +96,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [userAccess, targetDate, memberId]);
+	}, [access, targetDate, memberId]);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -110,8 +109,19 @@ const Page: NextPage = () => {
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
-				{userAccess === true && (
+				{access === true && (
 					<InternalServiceLayout>
+						<Typography
+							variant="h3"
+							fontWeight={'bold'}
+							sx={{ mb: 2 }}
+						>
+							재무제표
+						</Typography>
+						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+							재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
+							있습니다.
+						</Typography>
 						{/* 컨트롤러 */}
 						<Box>
 							<Grid container alignItems={'center'}>
@@ -125,7 +135,7 @@ const Page: NextPage = () => {
 												isGradient={true}
 												onClick={() => {
 													router.push(
-														'/internal_service/business_info/view'
+														'/internal_service/financial_solution/financial_statement/edit'
 													);
 												}}
 												style={{ color: 'white' }}
@@ -292,6 +302,8 @@ const Page: NextPage = () => {
 																			: 'none',
 																	md: 'block',
 																},
+																bgcolor:
+																	'white',
 															}}
 														>
 															<Box

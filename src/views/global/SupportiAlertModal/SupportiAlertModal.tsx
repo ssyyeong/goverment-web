@@ -19,7 +19,8 @@ interface ISupportiAlertModalProps {
 		| 'already'
 		| 'withdraw'
 		| 'unsubscribe'
-		| 'cancel';
+		| 'cancel'
+		| 'business';
 	customHandleClose?: () => void;
 }
 
@@ -101,6 +102,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: true,
+		},
+		business: {
+			type: 'error',
+			title: '기업회원만 이용하실 수 있는 서비스입니다.',
+			content: '확인',
+			onclick: () => {
+				// props.customHandleClose && props.customHandleClose();
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
 		},
 	};
 

@@ -514,6 +514,10 @@ const MyAccounts = (props: IMyAccountsProps) => {
 													/>
 												</Box>
 												<SupportiButton
+													style={{
+														color: 'white',
+													}}
+													fullWidth
 													isGradient={true}
 													contents={'수정하기'}
 													onClick={() => {

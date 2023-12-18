@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import build from 'next/dist/build';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 
 /**
  * 비즈니스 개요 페이지
@@ -119,20 +121,20 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	// const memberId = useAppMember();
-	const memberId = 3;
+	const { memberId } = useAppMember();
+	// const memberId = 3;
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('BUSINESS_MEMBER');
-	const userAccess = true;
+	const { access } = useUserAccess('BUSINESS_MEMBER');
+	// const userAccess = true;
 
 	/**
 	 * 비즈니스 개요 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (userAccess && memberId) {
+		if (access && memberId) {
 			businessController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -162,7 +164,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [userAccess, memberId]);
+	}, [access, memberId]);
 
 	/**
 	 * 비즈니스 히스토리 데이터 로드
@@ -191,124 +193,142 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				width: '100%',
-				p: 10,
-			}}
-		>
-			{/* 컨텐츠 레이아웃 */}
-			{userAccess === true && (
-				<InternalServiceLayout>
-					{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
-					{business && businessHistory && (
-						<Box>
-							{/* 저장하기 */}
-							<Box mb={2}>
-								<SupportiButton
-									contents="저장하기"
-									isGradient={true}
-									onClick={saveBusiness}
-									style={{ color: 'white' }}
-								/>
-							</Box>
-
-							{/* 테이블  */}
+		<InternalServiceDrawer type="dashboard">
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					width: '100%',
+					p: 10,
+				}}
+			>
+				{/* 컨텐츠 레이아웃 */}
+				{access === true && (
+					<InternalServiceLayout>
+						<Typography
+							variant="h3"
+							fontWeight={'bold'}
+							sx={{ mb: 2 }}
+						>
+							기업 정보
+						</Typography>
+						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+							기업 정보를 확인할 수 있습니다.
+						</Typography>
+						{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
+						{business && businessHistory && (
 							<Box>
-								{/* 각 비즈니스 개요 항목 맵핑 */}
-								{businessConfig.map((businessMapping) => (
-									<Box>
-										<Grid container>
-											{/* 각 비즈니스 개요 라벨 */}
-											<Grid item xs={6} md={3}>
-												<Box
-													sx={{
-														backgroundColor:
-															'#305ddc',
-													}}
-													border={0.5}
-													borderColor={'#bebebe'}
-												>
-													<Typography
-														variant={'h6'}
-														textAlign={'center'}
-														fontWeight={'700'}
-														color={'white'}
-														pt={1}
-														pb={1}
-													>
-														{businessMapping.label}
-													</Typography>
-												</Box>
-											</Grid>
+								{/* 저장하기 */}
+								<Box mb={2}>
+									<SupportiButton
+										contents="저장하기"
+										isGradient={true}
+										onClick={saveBusiness}
+										style={{ color: 'white' }}
+									/>
+								</Box>
 
-											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
-											<Grid item xs={6} md={3}>
-												<Box>
-													<SupportiInput
-														width={'100%'}
-														type={
-															businessMapping.type
-														}
-														value={
-															businessMapping.isFromBusinessHistory ==
-															true
-																? copiedBusinessHistory[
-																		businessMapping
-																			.key
-																  ]
-																: business[
-																		businessMapping
-																			.key
-																  ]
-														}
-														setValue={(value) => {
-															if (
+								{/* 테이블  */}
+								<Box>
+									{/* 각 비즈니스 개요 항목 맵핑 */}
+									{businessConfig.map((businessMapping) => (
+										<Box>
+											<Grid container>
+												{/* 각 비즈니스 개요 라벨 */}
+												<Grid item xs={6} md={3}>
+													<Box
+														sx={{
+															backgroundColor:
+																'#305ddc',
+														}}
+														border={0.5}
+														borderColor={'#bebebe'}
+													>
+														<Typography
+															variant={'h6'}
+															textAlign={'center'}
+															fontWeight={'700'}
+															color={'white'}
+															pt={1}
+															pb={1}
+														>
+															{
+																businessMapping.label
+															}
+														</Typography>
+													</Box>
+												</Grid>
+
+												{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
+												<Grid item xs={6} md={3}>
+													<Box bgcolor={'white'}>
+														<SupportiInput
+															width={'100%'}
+															type={
+																businessMapping.type
+															}
+															value={
 																businessMapping.isFromBusinessHistory ==
 																true
-															) {
-																// 비즈니스 로그에서 가져온 데이터일 경우
-																setCopiedBusinessHistory(
-																	{
-																		...copiedBusinessHistory,
-																		[businessMapping.key]:
-																			value,
-																	}
-																);
-															} else {
-																// 비즈니스 개요에서 가져온 데이터일 경우
-																setBusiness({
-																	...business,
-																	[businessMapping.key]:
-																		value,
-																});
+																	? copiedBusinessHistory[
+																			businessMapping
+																				.key
+																	  ]
+																	: business[
+																			businessMapping
+																				.key
+																	  ]
 															}
-														}}
-														additionalProps={Object.assign(
-															{
-																sx: {
-																	width: '100%',
+															setValue={(
+																value
+															) => {
+																if (
+																	businessMapping.isFromBusinessHistory ==
+																	true
+																) {
+																	// 비즈니스 로그에서 가져온 데이터일 경우
+																	setCopiedBusinessHistory(
+																		{
+																			...copiedBusinessHistory,
+																			[businessMapping.key]:
+																				value,
+																		}
+																	);
+																} else {
+																	// 비즈니스 개요에서 가져온 데이터일 경우
+																	setBusiness(
+																		{
+																			...business,
+																			[businessMapping.key]:
+																				value,
+																		}
+																	);
+																}
+															}}
+															additionalProps={Object.assign(
+																{
+																	sx: {
+																		width: '100%',
+																	},
 																},
-															},
-															businessMapping.additionalProps !==
-																undefined
-																? businessMapping.additionalProps
-																: {}
-														)}
-													/>
-												</Box>
+																businessMapping.additionalProps !==
+																	undefined
+																	? businessMapping.additionalProps
+																	: {}
+															)}
+														/>
+													</Box>
+												</Grid>
 											</Grid>
-										</Grid>
-									</Box>
-								))}
+										</Box>
+									))}
+								</Box>
 							</Box>
-						</Box>
-					)}
-				</InternalServiceLayout>
-			)}
-		</Box>
+						)}
+					</InternalServiceLayout>
+				)}
+			</Box>
+		</InternalServiceDrawer>
 	);
 };
 

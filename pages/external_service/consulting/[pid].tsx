@@ -10,12 +10,16 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import ConsultingSchedular from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedular';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { ConsultingApplicationController } from '../../../src/controller/ConsultingApplicationController';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	//* Controller
 	const consultingController = new DefaultController('ConsultingProduct');
+	const consultingApplicationController =
+		new ConsultingApplicationController();
 	//* Constants
 	const { pid } = router.query;
 	//* States
@@ -38,11 +42,49 @@ const Page: NextPage = () => {
 	const [alertModalType, setAlertModalType] = React.useState<
 		'success' | 'login' | 'subscribe' | 'point' | 'already'
 	>('success');
+
+	//* Hooks
+	const { memberId } = useAppMember();
 	const { access } = useUserAccess('SIGN_IN');
 	//* Functions
 	/**
-	 * 컨설팅 신청하기
+	 * 컨설팅 신청 여부 체크하기
 	 */
+	const checkConsultingApplication = () => {
+		consultingApplicationController.checkAvailable(
+			{
+				CONSULTING_PRODUCT_IDENTIFICATION_CODE: pid,
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				if (!res.data.result) {
+					setAlertModalType('already');
+					setAlertModal(true);
+				} else {
+					setReservationScheduleModal(true);
+				}
+			},
+			(err) => {
+				if (
+					err.response.data.message === '구독 회원만 이용 가능합니다.'
+				) {
+					setAlertModal(true);
+					setAlertModalType('subscribe');
+					return;
+				}
+				if (err.response.data.message === '신청 내역이 존재합니다.') {
+					setAlertModal(true);
+					setAlertModalType('already');
+					return;
+				}
+				if (err.response.data.message === '포인트가 부족합니다.') {
+					setAlertModal(true);
+					setAlertModalType('point');
+					return;
+				}
+			}
+		);
+	};
 
 	//* Hooks
 
@@ -94,6 +136,7 @@ const Page: NextPage = () => {
 						width={'100%'}
 						flexDirection={'column'}
 						alignItems={'center'}
+						minHeight={'50vh'}
 						mt={3}
 					>
 						{consultingData.PRODUCT_DETAIL_IMAGE_LIST &&
@@ -111,9 +154,9 @@ const Page: NextPage = () => {
 					<Box
 						display={'flex'}
 						width={'100%'}
-						position={'fixed'}
+						position={'sticky'}
 						justifyContent={'center'}
-						bottom={40}
+						bottom={0}
 						left={0}
 					>
 						<SupportiButton
@@ -125,7 +168,7 @@ const Page: NextPage = () => {
 									setAlertModal(true);
 									return;
 								}
-								setReservationScheduleModal(true);
+								checkConsultingApplication();
 							}}
 							style={{
 								color: 'white',

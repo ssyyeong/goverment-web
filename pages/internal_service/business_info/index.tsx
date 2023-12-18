@@ -1,15 +1,16 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
-import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
-import { IBusiness, IBusinessHistory } from '../../../../src/@types/model';
-import { useAppMember } from '../../../../src/hooks/useAppMember';
+import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
+import { IBusiness, IBusinessHistory } from '../../../src/@types/model';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
-import { businessConfig } from '../../../../configs/data/BusinessConfig';
+import { businessConfig } from '../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
-import SupportiButton from '../../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import useUserAccess from '../../../src/hooks/useUserAccess/useUserAccess';
 
 /**
  * 비즈니스 개요 페이지
@@ -49,20 +50,18 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
-	// const memberId = useAppMember();
-	const memberId = 3;
+	const { memberId } = useAppMember();
 
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
-	// const userAccess = useUserAccess('BUSINESS_MEMBER');
-	const userAccess = true;
+	const { access } = useUserAccess('BUSINESS_MEMBER');
 
 	/**
 	 * 비즈니스 개요 데이터 로드
 	 */
 	React.useEffect(() => {
-		if (userAccess && memberId) {
+		if (access && memberId) {
 			businessController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -102,7 +101,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [userAccess, memberId]);
+	}, [access, memberId]);
 
 	/**
 	 * 비즈니스 히스토리 데이터 로드
@@ -136,12 +135,22 @@ const Page: NextPage = () => {
 					display: 'flex',
 					flexDirection: 'column',
 					width: '100%',
-					p: 10,
+					p: { xs: 2, md: 10 },
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
-				{userAccess === true && (
+				{access === true && (
 					<InternalServiceLayout>
+						<Typography
+							variant="h3"
+							fontWeight={'bold'}
+							sx={{ mb: 2 }}
+						>
+							기업 정보
+						</Typography>
+						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+							기업 정보를 확인할 수 있습니다.
+						</Typography>
 						{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
 						{business && businessHistory && (
 							<Box>

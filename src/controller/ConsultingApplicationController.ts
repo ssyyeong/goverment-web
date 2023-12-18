@@ -21,4 +21,19 @@ export class ConsultingApplicationController extends ControllerABC {
 			failCallback
 		);
 	}
+	/**
+	 * 신청 가능 여부 체크
+	 */
+	public checkAvailable(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/check_condition`,
+			successCallback,
+			failCallback
+		);
+	}
 }
