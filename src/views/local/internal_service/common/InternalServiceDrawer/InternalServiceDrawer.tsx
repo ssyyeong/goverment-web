@@ -59,7 +59,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	/**
 	 * 기업 회원인지 확인하는 훅
 	 */
-	const forBusiness = useUserAccess('BUSINESS_MEMBER');
+	const { access } = useUserAccess('BUSINESS_MEMBER');
 
 	const ListItemMap = (page1: any, index: number) => {
 		const [open, setOpen] = React.useState(false);
@@ -69,7 +69,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<ListItem key={index}>
 					<ListItemButton
 						onClick={() => {
-							if (page.forBusines && !forBusiness) {
+							if (page.forBusiness && !access) {
 								setAlertModal(true);
 								return;
 							}
@@ -119,6 +119,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 									<ListItemButton
 										key={index2}
 										onClick={() => {
+											if (page2.forBusiness && !access) {
+												setAlertModal(true);
+												return;
+											}
 											router.push(page2.path);
 										}}
 										selected={router.asPath.includes(

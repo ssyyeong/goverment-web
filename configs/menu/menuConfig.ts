@@ -25,6 +25,7 @@ const dashboardMenu: IMenu[] = [
 			{
 				label: '재무 정보',
 				path: '/internal_service/financial_solution/financial_statement',
+				forBusiness: true,
 			},
 		],
 	},
