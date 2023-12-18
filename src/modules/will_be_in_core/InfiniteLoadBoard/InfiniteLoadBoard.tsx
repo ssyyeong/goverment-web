@@ -43,6 +43,10 @@ interface IInfiniteLoadBoardProps {
 	 * 영역 감싸는 Box 의 props
 	 */
 	boxProps?: BoxProps;
+	/**
+	 * 트리거 키
+	 */
+	triggerKey?: string;
 }
 
 /**
@@ -185,6 +189,7 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 		props.injectedParams.PERIOD_END,
 		props.injectedParams.CATEGORY,
 		props.injectedParams,
+		props.triggerKey,
 	]);
 
 	//* Refs
