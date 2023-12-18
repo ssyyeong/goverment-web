@@ -83,48 +83,66 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 			flexDirection={'column'}
 			gap={1}
 			mb={2}
+			pl={5}
 		>
 			<Box display={'flex'} flexDirection={'column'} gap={2}>
 				<Box display={'flex'} justifyContent={'space-between'}>
-					<Box display={'flex'}>
-						{/** 컬러 칩 */}
-						<Box
+					<Box>
+						<Box display={'flex'}>
+							{/** 컬러 칩 */}
+							<Box
+								sx={{
+									borderRadius: '50%',
+									bgcolor:
+										randomColor[
+											props.mode === 'detail'
+												? props.okrDetailData.length +
+												  props.index
+												: props.index
+										],
+									width: '10px',
+									height: '10px',
+								}}
+								mt={'auto'}
+								mb={'auto'}
+							/>
+
+							{/** 하위 목표 타이틀 */}
+
+							<SupportiInput
+								type="input"
+								multiline={true}
+								value={props.data.TITLE}
+								setValue={(value: string) => {
+									let temp: any = [...props.okrDetailData];
+									temp[props.index].TITLE = value;
+
+									props.setOkrDetailData(temp);
+								}}
+								width={'300px'}
+								placeholder="하위 목표 타이틀을 입력해주세요."
+								readOnly={
+									props.okrDetailData[props.index].TITLE
+										.length > 50
+								}
+							/>
+						</Box>
+
+						<Typography
+							fontWeight={500}
+							variant="body1"
+							color="error.main"
+							mt={'5px'}
 							sx={{
-								borderRadius: '50%',
-								bgcolor:
-									randomColor[
-										props.mode === 'detail'
-											? props.okrDetailData.length +
-											  props.index
-											: props.index
-									],
-								width: '10px',
-								height: '10px',
+								visibility:
+									props.data.TITLE !== ''
+										? 'hidden'
+										: 'block',
 							}}
-							mt={'auto'}
-							mb={'auto'}
-						/>
-
-						{/** 하위 목표 타이틀 */}
-						<SupportiInput
-							type="input"
-							multiline={true}
-							value={props.data.TITLE}
-							setValue={(value: string) => {
-								let temp: any = [...props.okrDetailData];
-								temp[props.index].TITLE = value;
-
-								props.setOkrDetailData(temp);
-							}}
-							width={'300px'}
-							placeholder="하위 목표 타이틀을 입력해주세요."
-							readOnly={
-								props.okrDetailData[props.index].TITLE.length >
-								50
-							}
-						/>
+						>
+							필수 값 입니다.
+						</Typography>
 					</Box>
-
 					{/** x 아이콘 */}
 					<CancelIcon
 						color={'secondary'}
@@ -178,6 +196,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 							props.setOkrDetailData(temp);
 						}}
+						minDate={props.okrDetailData[props.index].START_DATE}
 						width={'110px'}
 						useIcon={false}
 					/>
@@ -202,6 +221,22 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							dataList={IndicatorUnit}
 							width={'150px'}
 						/>
+
+						<Typography
+							fontWeight={500}
+							variant="body1"
+							color="error.main"
+							mt={'5px'}
+							sx={{
+								visibility:
+									props.okrDetailData[props.index]
+										.TARGET_UNIT !== ''
+										? 'hidden'
+										: 'block',
+							}}
+						>
+							필수 값 입니다.
+						</Typography>
 					</Box>
 					{/** 목표량 */}
 					<Box>
@@ -230,6 +265,23 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								<Typography></Typography>
 							</Box>
 						</Box>
+						<Typography
+							fontWeight={500}
+							variant="body1"
+							color="error.main"
+							mt={'5px'}
+							sx={{
+								visibility:
+									props.okrDetailData[props.index]
+										.TARGET_AMOUNT !== '' &&
+									props.okrDetailData[props.index]
+										.TARGET_AMOUNT !== 0
+										? 'hidden'
+										: 'block',
+							}}
+						>
+							필수 값 입니다.
+						</Typography>
 					</Box>
 					{props.mode === 'detail' && (
 						<SupportiButton

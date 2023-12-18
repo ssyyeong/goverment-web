@@ -37,6 +37,7 @@ interface SupportiInputProps {
 	useIcon?: boolean;
 	additionalProps?: { [key: string]: any };
 	readOnly?: boolean;
+	minDate?: string;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -171,6 +172,7 @@ const SupportiInput = React.forwardRef(
 								props.setValue(newValue);
 							}}
 							value={dayjs(props.value)}
+							minDate={dayjs(props.minDate)}
 							renderInput={(params) => (
 								<TextField
 									{...params}

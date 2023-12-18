@@ -55,29 +55,44 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 				{/** 타이틀 */}
 				{props.isEditMode ? (
-					<SupportiInput
-						type="input"
-						value={props.data.TITLE}
-						setValue={(value: string) => {
-							props.setOkrDetailData(
-								props.okrDetailData.map(
-									(item: IOkrDetail, index: number) => {
-										if (index === props.index) {
-											return {
-												...item,
-												TITLE: value,
-											};
-										} else {
-											return item;
+					<Box>
+						<SupportiInput
+							type="input"
+							value={props.data.TITLE}
+							setValue={(value: string) => {
+								props.setOkrDetailData(
+									props.okrDetailData.map(
+										(item: IOkrDetail, index: number) => {
+											if (index === props.index) {
+												return {
+													...item,
+													TITLE: value,
+												};
+											} else {
+												return item;
+											}
 										}
-									}
-								)
-							);
-						}}
-						width={'400px'}
-						placeholder="하위 목표 타이틀을 입력해주세요."
-						readOnly={props.okrDetailData[props.index].TITLE.length > 50}
-					/>
+									)
+								);
+							}}
+							width={'400px'}
+							placeholder="하위 목표 타이틀을 입력해주세요."
+							readOnly={
+								props.data.TITLE.length >
+								50
+							}
+						/>
+						<Typography
+							variant="h5"
+							color="error.main"
+							sx={{
+								visibility:
+									props.data.TITLE !== '' ? 'hidden' : 'block',
+							}}
+						>
+							필수값입니다.
+						</Typography>
+					</Box>
 				) : (
 					<Typography fontWeight={500} mt={'auto'} mb={'auto'}>
 						{props.data.TITLE}
@@ -146,6 +161,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								type="datepicker"
 								defaultValue={props.data?.END_DATE}
 								value={props.data?.END_DATE}
+								minDate={props.data?.START_DATE as string}
 								setValue={(value) => {
 									props.setOkrDetailData(
 										props.okrDetailData.map(

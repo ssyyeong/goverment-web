@@ -61,32 +61,11 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			label: '최신순',
 		},
 	];
-	/**
-	 * 선택 가능한 정렬
-	 */
-	const okrSelectablePeriodList: { value: string; label: string }[] = [
-		{
-			value: JSON.stringify({
-				PERIOD_TARGET_KEY: 'END_DATE',
-				PERIOD_START: new Date(),
-				PERIOD_END: moment().add(1, 'year').toDate(),
-			}),
-			label: '진행중',
-		},
-		{
-			value: JSON.stringify({
-				PERIOD_TARGET_KEY: 'END_DATE',
-				PERIOD_END: new Date(),
-				PERIOD_START: moment().subtract(1, 'year').toDate(),
-			}),
-			label: '완료',
-		},
-	];
 
 	/**
 	 * 선택 가능한 상태
 	 */
-	const kpiSelectableStatusList: { value: string; label: string }[] = [
+	const selectableStatusList: { value: string; label: string }[] = [
 		{
 			value: JSON.stringify({
 				STATUS: 'PROCEEDING',
@@ -120,9 +99,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	 * 상태 영역 (진행중 / 완료) 선택
 	 */
 	const [selectedStatus, setSelectedStatus] = React.useState<string>(
-		props.name === 'OKR'
-			? okrSelectablePeriodList[0].value
-			: kpiSelectableStatusList[0].value
+		selectableStatusList[0].value
 	);
 	/**
 	 * KPI 카테고리 선택
@@ -187,11 +164,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			<Box display={'flex'} justifyContent={'space-between'}>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
-					chipDataList={
-						props.name === 'OKR'
-							? okrSelectablePeriodList
-							: kpiSelectableStatusList
-					}
+					chipDataList={selectableStatusList}
 					value={selectedStatus}
 					setValue={(value) => setSelectedStatus(value as string)}
 					chipHeight={'30px'}

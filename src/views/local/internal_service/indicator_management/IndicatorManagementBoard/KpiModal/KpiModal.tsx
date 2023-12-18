@@ -86,60 +86,87 @@ const KpiModal = (props: IKpiModalProps) => {
 					>
 						{/** 목표 작성 */}
 						<Box display={'flex'} flexDirection={'column'} gap={2}>
-							<SupportiInput
-								type="input"
-								multiline={true}
-								value={kpiData.TITLE}
-								setValue={(value: string) => {
-									setKpiData({
-										...kpiData,
-										TITLE: value,
-									});
-								}}
-								width={'400px'}
-								placeholder="목표 타이틀을 입력해주세요."
-								readOnly={kpiData.TITLE.length > 50}
-							/>
-							<Box display="flex" ml={'auto'} my={1} gap={0.5}>
-								<Typography
-									color={
-										kpiData.TITLE.length < 50
-											? 'secondary.main'
-											: 'warning.main'
-									}
-								>
-									{kpiData.TITLE.length}
-								</Typography>
-								<Typography
-									color={
-										kpiData.TITLE.length < 50
-											? 'secondary.main'
-											: 'warning.main'
-									}
-								>
-									/
-								</Typography>
-								<Typography
-									color={
-										kpiData.TITLE.length < 50
-											? 'secondary.main'
-											: 'warning.main'
-									}
-								>
-									50
-								</Typography>
+							<Box>
+								<SupportiInput
+									type="input"
+									multiline={true}
+									value={kpiData.TITLE}
+									setValue={(value: string) => {
+										setKpiData({
+											...kpiData,
+											TITLE: value,
+										});
+									}}
+									width={'400px'}
+									placeholder="목표 타이틀을 입력해주세요."
+									readOnly={kpiData.TITLE.length > 50}
+								/>
 							</Box>
+							<Box
+								display="flex"
+								justifyContent={'space-between'}
+							>
+								<Typography
+									fontWeight={500}
+									variant="body1"
+									color="error.main"
+									sx={{
+										visibility:
+											kpiData.TITLE !== ''
+												? 'hidden'
+												: 'block',
+									}}
+								>
+									필수 값 입니다.
+								</Typography>
+
+								<Box
+									display="flex"
+									ml={'auto'}
+									my={1}
+									gap={0.5}
+								>
+									<Typography
+										color={
+											kpiData.TITLE.length < 50
+												? 'secondary.main'
+												: 'warning.main'
+										}
+									>
+										{kpiData.TITLE.length}
+									</Typography>
+									<Typography
+										color={
+											kpiData.TITLE.length < 50
+												? 'secondary.main'
+												: 'warning.main'
+										}
+									>
+										/
+									</Typography>
+									<Typography
+										color={
+											kpiData.TITLE.length < 50
+												? 'secondary.main'
+												: 'warning.main'
+										}
+									>
+										50
+									</Typography>
+								</Box>
+							</Box>
+
 							{/** 날짜 선택 */}
 							<Box display={'flex'}>
-							<CalendarTodayIcon
-											sx={{
-												width: '15px',
-												height: '15px',
-												marginTop: 'auto',
-												marginBottom: 'auto',
-												marginRight: '5px',
-											}}
-										/>
+								<CalendarTodayIcon
+									sx={{
+										width: '15px',
+										height: '15px',
+										marginTop: 'auto',
+										marginBottom: 'auto',
+										marginRight: '5px',
+									}}
+								/>
 								<SupportiInput
 									type="datepicker"
 									value={kpiData.START_DATE}
@@ -157,6 +184,7 @@ const KpiModal = (props: IKpiModalProps) => {
 								<SupportiInput
 									type="datepicker"
 									value={kpiData.END_DATE}
+									minDate={kpiData.START_DATE as string}
 									setValue={(value) => {
 										setKpiData({
 											...kpiData,
@@ -217,6 +245,20 @@ const KpiModal = (props: IKpiModalProps) => {
 										dataList={IndicatorCategory}
 										width={'150px'}
 									/>
+									<Typography
+										fontWeight={500}
+										mt={'5px'}
+										variant="body1"
+										color="error.main"
+										sx={{
+											visibility:
+												kpiData.CATEGORY !== ''
+													? 'hidden'
+													: 'block',
+										}}
+									>
+										필수 값 입니다.
+									</Typography>
 								</Box>
 								{/** 담당자 */}
 								<Box>
@@ -234,6 +276,20 @@ const KpiModal = (props: IKpiModalProps) => {
 										}}
 										width={'150px'}
 									/>
+									<Typography
+										fontWeight={500}
+										variant="body1"
+										mt={'5px'}
+										color="error.main"
+										sx={{
+											visibility:
+												kpiData.ASSIGNEE !== ''
+													? 'hidden'
+													: 'block',
+										}}
+									>
+										필수 값 입니다.
+									</Typography>
 								</Box>
 							</Box>
 
@@ -256,6 +312,20 @@ const KpiModal = (props: IKpiModalProps) => {
 										dataList={IndicatorUnit}
 										width={'150px'}
 									/>
+									<Typography
+										fontWeight={500}
+										variant="body1"
+										mt={'5px'}
+										color="error.main"
+										sx={{
+											visibility:
+												kpiData.ASSIGNEE !== ''
+													? 'hidden'
+													: 'block',
+										}}
+									>
+										필수 값 입니다.
+									</Typography>
 								</Box>
 								{/** 목표량 */}
 								<Box display={'flex'}>
@@ -263,19 +333,31 @@ const KpiModal = (props: IKpiModalProps) => {
 										<Typography fontWeight={500} mb={1}>
 											목표량
 										</Typography>
-										<Box display={'flex'}>
-											<SupportiInput
-												type="input"
-												value={kpiData.TARGET_AMOUNT}
-												setValue={(value: number) => {
-													setKpiData({
-														...kpiData,
-														TARGET_AMOUNT: value,
-													});
-												}}
-												width={'150px'}
-											/>
-										</Box>
+										<SupportiInput
+											type="input"
+											value={kpiData.TARGET_AMOUNT}
+											setValue={(value: number) => {
+												setKpiData({
+													...kpiData,
+													TARGET_AMOUNT: value,
+												});
+											}}
+											width={'150px'}
+										/>
+										<Typography
+											fontWeight={500}
+											variant="body1"
+											mt={'5px'}
+											color="error.main"
+											sx={{
+												visibility:
+													kpiData.TARGET_AMOUNT !== 0
+														? 'hidden'
+														: 'block',
+											}}
+										>
+											필수 값 입니다.
+										</Typography>
 									</Box>
 								</Box>
 								{props.mode === 'create' && (

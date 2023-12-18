@@ -111,9 +111,8 @@ const OkrModal = (props: IOkrModalProps) => {
 			},
 			(response) => {
 				alert('등록 성공');
-				props.setTriggerKey&&
-				props.setTriggerKey(uuidv4());
-				
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
+
 				props.setModalOpen(false);
 			},
 			(err) => {
@@ -179,18 +178,18 @@ const OkrModal = (props: IOkrModalProps) => {
 	/**
 	 * 필수값 미입력 판단 함수
 	 */
-	const checkRequiredValue = () => {
-		if (okrMainData.TITLE == '') {
+	const checkRequiredValue = (target) => {
+		if (target == '') {
 			return false;
 		}
 
-		okrDetailData.map((item) => {
-			return item.TITLE == '' ||
-				item.TARGET_AMOUNT == 0 ||
-				item.TARGET_UNIT == ''
-				? false
-				: true;
-		});
+		// okrDetailData.map((item) => {
+		// 	return item.TITLE == '' ||
+		// 		item.TARGET_AMOUNT == 0 ||
+		// 		item.TARGET_UNIT == ''
+		// 		? false
+		// 		: true;
+		// });
 	};
 
 	//* Hooks
@@ -243,7 +242,7 @@ const OkrModal = (props: IOkrModalProps) => {
 									justifyContent={'space-between'}
 								>
 									{isEditMode ? (
-										<Box ml={'auto'}>
+										<Box>
 											<SupportiInput
 												type="input"
 												value={okrMainData.TITLE}
@@ -258,39 +257,61 @@ const OkrModal = (props: IOkrModalProps) => {
 											/>
 											<Box
 												display="flex"
-												ml={'auto'}
-												gap={0.5}
+												justifyContent={'space-between'}
 											>
 												<Typography
-													color={
-														okrMainData.TITLE
-															.length < 50
-															? 'secondary.main'
-															: 'warning.main'
-													}
+													variant="body1"
+													color="error.main"
+													sx={{
+														visibility:
+															okrMainData.TITLE !==
+															''
+																? 'hidden'
+																: 'block',
+													}}
 												>
-													{okrMainData.TITLE.length}
+													필수값입니다.
 												</Typography>
-												<Typography
-													color={
-														okrMainData.TITLE
-															.length < 50
-															? 'secondary.main'
-															: 'warning.main'
-													}
+
+												<Box
+													display="flex"
+													ml={'auto'}
+													gap={0.5}
 												>
-													/
-												</Typography>
-												<Typography
-													color={
-														okrMainData.TITLE
-															.length < 50
-															? 'secondary.main'
-															: 'warning.main'
-													}
-												>
-													50
-												</Typography>
+													<Typography
+														color={
+															okrMainData.TITLE
+																.length < 50
+																? 'secondary.main'
+																: 'warning.main'
+														}
+													>
+														{
+															okrMainData.TITLE
+																.length
+														}
+													</Typography>
+													<Typography
+														color={
+															okrMainData.TITLE
+																.length < 50
+																? 'secondary.main'
+																: 'warning.main'
+														}
+													>
+														/
+													</Typography>
+													<Typography
+														color={
+															okrMainData.TITLE
+																.length < 50
+																? 'secondary.main'
+																: 'warning.main'
+														}
+													>
+														50
+													</Typography>
+												</Box>
 											</Box>
 										</Box>
 									) : (
@@ -334,37 +355,59 @@ const OkrModal = (props: IOkrModalProps) => {
 									/>
 									<Box
 										display="flex"
-										ml={'auto'}
-										my={1}
-										gap={0.5}
+										justifyContent="space-between"
 									>
 										<Typography
-											color={
-												okrMainData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
+											fontWeight={500}
+											variant="body1"
+											color="error.main"
+											mt={'5px'}
+											sx={{
+												visibility:
+													okrMainData.TITLE !== ''
+														? 'hidden'
+														: 'block',
+											}}
 										>
-											{okrMainData.TITLE.length}
+											필수 값 입니다.
 										</Typography>
-										<Typography
-											color={
-												okrMainData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
+										<Box
+											display="flex"
+											ml={'auto'}
+											my={1}
+											gap={0.5}
 										>
-											/
-										</Typography>
-										<Typography
-											color={
-												okrMainData.TITLE.length < 50
-													? 'secondary.main'
-													: 'warning.main'
-											}
-										>
-											50
-										</Typography>
+											<Typography
+												color={
+													okrMainData.TITLE.length <
+													50
+														? 'secondary.main'
+														: 'warning.main'
+												}
+											>
+												{okrMainData.TITLE.length}
+											</Typography>
+											<Typography
+												color={
+													okrMainData.TITLE.length <
+													50
+														? 'secondary.main'
+														: 'warning.main'
+												}
+											>
+												/
+											</Typography>
+											<Typography
+												color={
+													okrMainData.TITLE.length <
+													50
+														? 'secondary.main'
+														: 'warning.main'
+												}
+											>
+												50
+											</Typography>
+										</Box>
 									</Box>
 								</Box>
 							)}
@@ -434,6 +477,9 @@ const OkrModal = (props: IOkrModalProps) => {
 											defaultValue={new Date()}
 											readOnly={isEditMode ? false : true}
 											value={okrMainData.END_DATE}
+											minDate={
+												okrMainData?.START_DATE as string
+											}
 											setValue={(value) => {
 												setOkrMainData({
 													...okrMainData,
