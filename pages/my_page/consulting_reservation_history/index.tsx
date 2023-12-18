@@ -11,6 +11,7 @@ import moment from 'moment';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import ConsultingSchedularUpdate from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedularUpdate';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -33,6 +34,14 @@ const Page: NextPage = () => {
 	 * 탭
 	 */
 	const [tab, setTab] = React.useState<'COMPLETE' | 'WAITING'>('WAITING');
+	/**
+	 * 업데이트 모달
+	 */
+	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
+	/**
+	 * 업데이트 모달 데이터
+	 */
+	const [updateModalData, setUpdateModalData] = React.useState<any>();
 	//* Constants
 	const consultingApplicationHeaderData: TableHeaderProps[] = [
 		{
@@ -79,10 +88,19 @@ const Page: NextPage = () => {
 		align: 'center',
 		customView: (value) => {
 			console.log(value);
-			return (
+			const selectedData = consultingApplicationList.find(
+				(item) =>
+					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
+			);
+			return selectedData.CAN_BE_CANCELED === 'N' ? (
+				<Typography>예약불가</Typography>
+			) : (
 				<Button
 					variant="contained"
-					onClick={() => {}}
+					onClick={() => {
+						setUpdateModalData(selectedData);
+						setUpdateModal(true);
+					}}
 					sx={{
 						fontWeight: '400',
 						fontSize: '12px',
@@ -119,7 +137,7 @@ const Page: NextPage = () => {
 					console.log(err);
 				}
 			);
-	}, [page, tab, memberId]);
+	}, [page, tab, memberId, updateModal]);
 
 	return (
 		<InternalServiceDrawer type="mypage">
@@ -206,6 +224,13 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Box>
+			{updateModalData && (
+				<ConsultingSchedularUpdate
+					open={updateModal}
+					handleClose={() => setUpdateModal(false)}
+					consultingData={updateModalData}
+				/>
+			)}
 		</InternalServiceDrawer>
 	);
 };

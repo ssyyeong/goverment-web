@@ -10,7 +10,7 @@ interface IConsultingQnaProps {
 		CONSULTING_QUESTION_IDENTIFICATION_CODE: string | number;
 		CONSULTING_APPLICATION_IDENTIFICATION_CODE?: number;
 		ANSWER_CONTENT: string;
-		FILE_LIST: string[];
+		FILE_LIST: string;
 	}[];
 }
 
@@ -84,6 +84,21 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 			return temp;
 		});
 	}, [fileAnswer]);
+
+	/**
+	 * 들어온 데이터 등록
+	 */
+	React.useEffect(() => {
+		let idx = props.consultingAnswer.findIndex(
+			(item: any) =>
+				item.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
+				props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE
+		);
+		if (idx !== -1) {
+			setTextAnswer(props.consultingAnswer[idx].ANSWER_CONTENT);
+			setFileAnswer(props.consultingAnswer[idx].FILE_LIST);
+		}
+	}, []);
 
 	return (
 		<Box mt={2}>

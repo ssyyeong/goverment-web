@@ -26,7 +26,7 @@ interface IConsultingSchedularProps {
 	consultingData: any;
 }
 
-const ConsultingSchedular = (props: IConsultingSchedularProps) => {
+const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	//* States
 	/**
 	 * 컨설팅 답변
@@ -95,7 +95,24 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 		);
 	};
 	/**
-	 * 컨설팅 신청하기
+	 * 컨설팅 신청 취소하기
+	 */
+	const cancelApplyConsulting = () => {
+		consultingApplicationController.deleteItem(
+			{
+				CONSULTING_APPLICATION_IDENTIFICATION_CODE:
+					props.consultingData
+						.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
+			},
+			(res) => {
+				alert('예약이 취소되었습니다.');
+				props.handleClose();
+			},
+			(err) => {}
+		);
+	};
+	/**
+	 * 컨설팅 신청하기 업데이트
 	 */
 	const updateApplyConsulting = () => {
 		consultingApplicationController.updateItem(
@@ -113,24 +130,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				/**
 				 * 컨설팅 답변 업로드 (res로 들어온 id 값 consultingAnswer에 꽂아넣기)
 				 */
-				const answermap = consultingAnswer.map((x) => {
-					return {
-						...x,
-						CONSULTING_APPLICATION_IDENTIFICATION_CODE:
-							res.data.result
-								.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
-					};
-				});
-				consultingAnswerController.uploadConsultingAnswer(
-					answermap,
-					(res) => {
-						// alert('예약이 완료되었습니다.');
-						setAlertModal(true);
-						setAlertModalType('success');
-						// props.handleClose();
-					},
-					(err) => {}
-				);
+				updateConsultingAnswer();
 			},
 			(err) => {
 				if (
@@ -153,12 +153,55 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			}
 		);
 	};
-	console.log(consultingAnswer);
+	/**
+	 * 컨설팅 답변 업데이트
+	 */
+	const updateConsultingAnswer = () => {
+		consultingAnswer.map((x) => {
+			consultingAnswerController.updateItem(x, (res) => {
+				setSelectedDate(null);
+				setPage(0);
+				setConsultingAnswer([]);
+				setAlertModal(true);
+				setAlertModalType('success');
+			});
+		});
+	};
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+	/**
+	 * 질문 리스트 정리
+	 */
+	useEffect(() => {
+		if (props.consultingData.ConsultingAnswers) {
+			const answerList = props.consultingData.ConsultingAnswers.map(
+				(x) => {
+					return {
+						CONSULTING_QUESTION_IDENTIFICATION_CODE:
+							x.CONSULTING_QUESTION_IDENTIFICATION_CODE,
+						CONSULTING_APPLICATION_IDENTIFICATION_CODE:
+							props.consultingData
+								.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
+						ANSWER_CONTENT: x.ANSWER_CONTENT,
+						FILE_LIST: x.FILE_LIST,
+					};
+				}
+			);
+			setConsultingAnswer(answerList);
+		}
+	}, [props.consultingData]);
+
+	useEffect(() => {
+		getMonthSchedule(moment().format('YYYY-MM'));
+		return () => {
+			setSelectedDate(null);
+			setPage(0);
+			setConsultingAnswer([]);
+		};
+	}, []);
 
 	return (
 		<SuppportiModal
@@ -187,10 +230,20 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							alignItems={'center'}
 						>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.consultingData.PRODUCT_NAME} 예약 일정
+								{
+									props.consultingData.ConsultingProduct
+										.PRODUCT_NAME
+								}{' '}
+								예약 일정
 							</Typography>
-							<Typography>
-								{props.consultingData.PRICE} 원
+							<Typography
+								sx={{
+									textDecoration: 'underline',
+									cursor: 'pointer',
+								}}
+								onClick={() => cancelApplyConsulting()}
+							>
+								취소하기
 							</Typography>
 						</Box>
 
@@ -203,7 +256,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							<AccessTimeIcon />
 							<Typography ml={1}>
 								{
-									props.consultingData
+									props.consultingData.ConsultingProduct
 										.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -221,13 +274,15 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
-								{moment(props.consultingData.START_DATE).format(
-									'YYYY-MM-DD'
-								)}{' '}
+								{moment(
+									props.consultingData.ConsultingProduct
+										.START_DATE
+								).format('YYYY-MM-DD')}{' '}
 								-{' '}
-								{moment(props.consultingData.END_DATE).format(
-									'YYYY-MM-DD'
-								)}
+								{moment(
+									props.consultingData.ConsultingProduct
+										.END_DATE
+								).format('YYYY-MM-DD')}
 							</Typography>
 						</Box>
 					</Box>
@@ -244,7 +299,11 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							minDetail="month"
 							maxDetail="month"
 							minDate={new Date()}
-							maxDate={new Date(props.consultingData.END_DATE)}
+							maxDate={
+								new Date(
+									props.consultingData.ConsultingProduct.END_DATE
+								)
+							}
 							formatDay={(locale, date) =>
 								moment(date).format('DD')
 							}
@@ -417,7 +476,11 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							alignItems={'center'}
 						>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.consultingData.PRODUCT_NAME} 예약 일정
+								{
+									props.consultingData.ConsultingProduct
+										.PRODUCT_NAME
+								}{' '}
+								예약 일정
 							</Typography>
 						</Box>
 
@@ -430,7 +493,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							<AccessTimeIcon />
 							<Typography ml={1}>
 								{
-									props.consultingData
+									props.consultingData.ConsultingProduct
 										.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -448,13 +511,15 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
-								{moment(props.consultingData.START_DATE).format(
-									'YYYY-MM-DD'
-								)}{' '}
+								{moment(
+									props.consultingData.ConsultingProduct
+										.START_DATE
+								).format('YYYY-MM-DD')}{' '}
 								-{' '}
-								{moment(props.consultingData.END_DATE).format(
-									'YYYY-MM-DD'
-								)}
+								{moment(
+									props.consultingData.ConsultingProduct
+										.END_DATE
+								).format('YYYY-MM-DD')}
 							</Typography>
 						</Box>
 					</Box>
@@ -482,11 +547,11 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						{/* 질문 */}
 						<Box mb={2}>
 							{props.consultingData.ConsultingAnswers?.map(
-								(question, index) => {
+								(answer, index) => {
 									return (
 										<ConsultingQna
 											key={index}
-											qnaData={question}
+											qnaData={answer.ConsultingQuestion}
 											consultingAnswer={consultingAnswer}
 											setConsultingAnswer={
 												setConsultingAnswer
@@ -520,4 +585,4 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	);
 };
 
-export default ConsultingSchedular;
+export default ConsultingSchedularUpdate;
