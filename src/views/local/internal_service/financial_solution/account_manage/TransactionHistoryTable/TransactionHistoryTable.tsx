@@ -213,28 +213,29 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 입출금 내역 가져오기
 	 */
 	useEffect(() => {
-		transactionHistoryController.findAllItems(
-			{
-				BANK_ACCOUNT_IDENTIFICATION_CODE:
-					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
-				LIMIT: limit,
-				PAGE: page,
-				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
-				PERIOD_START: new Date(
-					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
-				),
-				PERIOD_END: new Date(
-					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
-				),
-			},
-			(res) => {
-				setTransactionHistoryList(res.data.result.rows);
-				setTotalDataCount(res.data.result.count);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
+		props.bankAccount &&
+			transactionHistoryController.findAllItems(
+				{
+					BANK_ACCOUNT_IDENTIFICATION_CODE:
+						props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+					LIMIT: limit,
+					PAGE: page,
+					PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
+					PERIOD_START: new Date(
+						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
+					),
+					PERIOD_END: new Date(
+						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
+					),
+				},
+				(res) => {
+					setTransactionHistoryList(res.data.result.rows);
+					setTotalDataCount(res.data.result.count);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
 	}, [props.bankAccount, limit, page, props.selectedPeriod]);
 
 	/**

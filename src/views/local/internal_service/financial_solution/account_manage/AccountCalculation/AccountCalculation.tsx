@@ -116,7 +116,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 */
 	useEffect(() => {
 		memberId &&
-			financialRatioConfigController.getOneItem(
+			financialRatioConfigController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},

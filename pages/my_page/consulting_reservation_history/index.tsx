@@ -93,7 +93,7 @@ const Page: NextPage = () => {
 					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
 			);
 			return selectedData.CAN_BE_CANCELED === 'N' ? (
-				<Typography>예약불가</Typography>
+				<Typography>변경불가</Typography>
 			) : (
 				<Button
 					variant="contained"

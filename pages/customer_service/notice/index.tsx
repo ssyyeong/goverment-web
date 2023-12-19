@@ -20,11 +20,15 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		noticeController.findAllItems(
-			{},
+			{
+				SORT_KEY: 'CREATED_AT',
+				SORT_DIRECTION: 'DESC',
+			},
 			(res) => setNoticeList(res.data.result.rows),
 			(err) => console.log(err)
 		);
 	}, []);
+
 	return (
 		<Box p={{ md: 10, xs: 3 }}>
 			<Typography variant="h5" fontWeight={'bold'}>

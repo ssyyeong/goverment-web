@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
+import {
+	Autocomplete,
+	Box,
+	BoxProps,
+	Button,
+	TextField,
+	Typography,
+} from '@mui/material';
 import SuppportiModal from '../../../global/SuppportiModal';
 import SupportiButton from '../../../global/SupportiButton';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
@@ -13,6 +20,7 @@ import { useRouter } from 'next/router';
 import { IUser } from '../../../../@types/model';
 import axios from 'axios';
 import { CookieManager } from '@qillie-corp/qillie-utility';
+import { businessSector } from '../../../../../configs/data/BusinessConfig';
 
 interface IAppMemberUpdateModalProps {
 	open: boolean;
@@ -31,11 +39,11 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	//* State
 	const [tabs, setTabs] = useState<string>('BUSINESS');
 	const [signupData, setSignupData] = useState<IUser>({} as IUser);
-	const [businessData, setBusinessData] = useState<any>({
-		BUSINESS_SECTOR: '',
-		BUSINESS_NUMBER: '',
-		COMPANY_NAME: '',
-	});
+	const [businessData, setBusinessData] = useState<{
+		BUSINESS_SECTOR: string;
+		BUSINESS_NUMBER: any;
+		COMPANY_NAME: string;
+	}>();
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
 	const [isVerified, setIsVerified] = React.useState<boolean>(false);
@@ -86,7 +94,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 사업가 번호 체크
 	 */
 	const businessNumCheck = () => {
-		if (!businessData.BUSINESS_NUMBER)
+		if (!businessData?.BUSINESS_NUMBER)
 			return alert('사업자 등록번호를 입력해주세요.');
 		axios
 			.post(
@@ -134,11 +142,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				COMPANY_NAME: businessData.COMPANY_NAME,
 			},
 			(res) => {
-				alert('회원 정보가 업데이트 되었습니다.');
 				cookie.setItemInCookies('ACCESS_TOKEN', props.accessToken, {
 					path: '/',
 					maxAge: 3600 * 24 * 30,
 				});
+				alert('회원 정보가 업데이트 되었습니다.');
+
 				router.push('/');
 			},
 			(err) => {
@@ -160,8 +169,13 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				},
 			},
 			(res) => {
+				cookie.setItemInCookies('ACCESS_TOKEN', props.accessToken, {
+					path: '/',
+					maxAge: 3600 * 24 * 30,
+				});
 				alert('회원 정보가 업데이트 되었습니다.');
-				router.reload();
+
+				router.push('/');
 			},
 			(err) => {
 				alert('회원 정보 업데이트에 실패하였습니다.');
@@ -239,7 +253,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '사업 분류',
 			for: 'BUSINESS',
 			type: 'select',
-			value: businessData.BUSINESS_SECTOR,
+			value: businessData?.BUSINESS_SECTOR,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -251,7 +265,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '사업자 등록번호',
 			type: 'text',
 			for: 'BUSINESS',
-			value: businessData.BUSINESS_NUMBER,
+			value: businessData?.BUSINESS_NUMBER,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -282,7 +296,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '회사명',
 			type: 'text',
 			for: 'BUSINESS',
-			value: businessData.COMPANY_NAME,
+			value: businessData?.COMPANY_NAME,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -311,7 +325,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		}
 	}, [tabs, props.needPhoneUpdate]);
 
-	console.log(props.appMemberData);
+	console.log(businessData);
 
 	return (
 		<SuppportiModal
@@ -357,34 +371,61 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							alignItems={'center'}
 							width={'100%'}
 							mt={!item.nolabel && 2}
-							// display={item.optional ? 'block' : 'none'}
 						>
 							<Typography>
 								{!item.nolabel && item.label}
 							</Typography>
-							<TextField
-								type={item.type}
-								value={item.value}
-								onChange={item.onChange}
-								error={item?.error}
-								focused={item.isVerified}
-								disabled={
-									item.isVerified &&
-									item.value === verifyNumber
-								}
-								color={
-									item.isVerified ? 'primary' : 'secondary'
-								}
-								fullWidth
-								InputProps={{
-									endAdornment: item.endAdornment,
-								}}
-								helperText={item?.helperText}
-								sx={{
-									mt: 1,
-								}}
-								placeholder={`${item.label} 입력`}
-							/>
+							{item.label == '사업 분류' ? (
+								<Autocomplete
+									size="small"
+									options={businessSector}
+									fullWidth
+									onChange={(e, newValue) => {
+										setBusinessData({
+											...businessData,
+											BUSINESS_SECTOR: newValue,
+										});
+									}}
+									value={item.value}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											sx={{
+												mt: 1,
+												'& .MuiAutocomplete-input': {
+													padding: '8px !important',
+												},
+											}}
+										/>
+									)}
+								/>
+							) : (
+								<TextField
+									type={item.type}
+									value={item.value}
+									onChange={item.onChange}
+									error={item?.error}
+									focused={item.isVerified}
+									disabled={
+										item.isVerified &&
+										item.value === verifyNumber
+									}
+									color={
+										item.isVerified
+											? 'primary'
+											: 'secondary'
+									}
+									fullWidth
+									InputProps={{
+										endAdornment: item.endAdornment,
+									}}
+									helperText={item?.helperText}
+									sx={{
+										mt: 1,
+									}}
+									placeholder={`${item.label} 입력`}
+								/>
+							)}
 						</Box>
 					);
 				})}

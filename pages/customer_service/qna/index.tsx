@@ -84,7 +84,7 @@ const Page: NextPage = () => {
 	return (
 		<Box p={{ md: 10, xs: 3 }}>
 			<Typography variant="h5" fontWeight={'bold'}>
-				Q&A
+				문의하기
 			</Typography>
 			<Typography
 				variant="subtitle1"

@@ -299,6 +299,7 @@ const Page: NextPage = () => {
 					</Typography>
 				</Button>
 			),
+			placeholder: '사업자 등록번호를 입력해주세요.(-제외)',
 			isVerified: isBusinessNumOk === 'OK',
 			error: isBusinessNumOk === 'NOT_OK',
 			helperText:
@@ -411,6 +412,7 @@ const Page: NextPage = () => {
 
 									{item.label == '사업 분류' ? (
 										<Autocomplete
+											size="small"
 											options={businessSector}
 											fullWidth
 											onChange={(e, newValue) => {
@@ -423,7 +425,14 @@ const Page: NextPage = () => {
 											renderInput={(params) => (
 												<TextField
 													{...params}
-													sx={{ mt: 1 }}
+													sx={{
+														mt: 1,
+														'& .MuiAutocomplete-input':
+															{
+																padding:
+																	'8px !important',
+															},
+													}}
 												/>
 											)}
 										/>

@@ -84,6 +84,8 @@ const Page: NextPage = () => {
 				LIMIT: 10,
 				PAGE: page,
 				PRICE: tab === 0 ? 0 : undefined,
+				PERIOD_TARGET_KEY: tab === 1 ? 'PRICE' : undefined,
+				PERIOD_START: tab === 1 ? 1 : undefined,
 			},
 			(res) => {
 				setTotalDataCount(res.data.result.count);

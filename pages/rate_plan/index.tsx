@@ -14,6 +14,8 @@ const Page: NextPage = () => {
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
 	const [payModal, setPayModal] = React.useState<boolean>(false);
+	const [payModalData, setPayModalData] = React.useState<any>({});
+
 	/**
 	 * 알럿 모달
 	 */
@@ -160,20 +162,21 @@ const Page: NextPage = () => {
 										setAlertModal(true);
 										return;
 									}
+									setPayModalData(ratePlan);
 									setPayModal(true);
 								}}
-							/>
-							<BillingModal
-								open={payModal}
-								handleClose={() => {
-									setPayModal(false);
-								}}
-								ratePlanInfo={ratePlan}
 							/>
 						</Box>
 					);
 				})}
 			</Box>
+			<BillingModal
+				open={payModal}
+				handleClose={() => {
+					setPayModal(false);
+				}}
+				ratePlanInfo={payModalData}
+			/>
 			<SupportiAlertModal
 				type={alertModalType}
 				open={alertModal}

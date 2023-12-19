@@ -75,34 +75,35 @@ const Page: NextPage = () => {
 	 * 계산 결과 조회
 	 */
 	const getCalculationResult = () => {
-		bankController.getFinancialRatio(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				if (!selectablePeriodList) {
-					let temp = [];
-					for (const [key, value] of Object.entries(
-						res.data.result.monthlyIncome
-					)) {
-						temp.push({
-							value: {
-								year: Number(key.split('-')[0]),
-								month: Number(key.split('-')[1]),
-							},
-							label: `${key.split('-')[0]}년 ${
-								key.split('-')[1]
-							}월`,
-						});
+		memberId &&
+			bankController.getFinancialRatio(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					if (!selectablePeriodList) {
+						let temp = [];
+						for (const [key, value] of Object.entries(
+							res.data.result.monthlyIncome
+						)) {
+							temp.push({
+								value: {
+									year: Number(key.split('-')[0]),
+									month: Number(key.split('-')[1]),
+								},
+								label: `${key.split('-')[0]}년 ${
+									key.split('-')[1]
+								}월`,
+							});
+						}
+						setSelectablePeriodList(temp);
+						setSelectedPeriod(temp[temp.length - 1].value);
 					}
-					setSelectablePeriodList(temp);
-					setSelectedPeriod(temp[temp.length - 1].value);
-				}
 
-				setCalculationResult(res.data.result);
-			},
-			(err) => {}
-		);
+					setCalculationResult(res.data.result);
+				},
+				(err) => {}
+			);
 	};
 	console.log(selectedPeriod);
 	/**
@@ -119,25 +120,26 @@ const Page: NextPage = () => {
 	 * 내 계좌 가져오는 훅
 	 */
 	useEffect(() => {
-		bankAccountController.findAllItems(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				setBankAccountList(res.data.result.rows);
-				console.log(res.data.result);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	}, [accountTriggerKey]);
+		memberId !== undefined &&
+			bankAccountController.findAllItems(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					setBankAccountList(res.data.result.rows);
+					console.log(res.data.result);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [accountTriggerKey, memberId]);
 
 	/**
 	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
 	 */
 	useEffect(() => {
-		memberId && getCalculationResult();
+		memberId !== undefined && getCalculationResult();
 	}, [recomputeTriggerKey, memberId]);
 
 	/**

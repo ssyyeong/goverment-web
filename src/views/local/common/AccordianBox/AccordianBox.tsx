@@ -26,6 +26,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				display: 'flex',
 				justifyContent: 'space-between',
 				alignItems: open ? '' : 'center',
+				width: '100%',
 			}}
 		>
 			<Box
@@ -33,12 +34,25 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 					display: 'flex',
 					flexDirection: 'column',
 					gap: 1,
-					width: '90%',
+					width: '100%',
 				}}
 			>
-				<Typography color={'primary'} fontWeight={'500'}>
-					{props.type}
-				</Typography>
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						width: '100%',
+						alignItems: 'center',
+					}}
+					onClick={() => setOpen(!open)}
+				>
+					{' '}
+					<Typography color={'primary'} fontWeight={'500'}>
+						{props.type}
+					</Typography>{' '}
+					{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+				</Box>
+
 				<Typography variant="body1" fontWeight={'bold'}>
 					{props.title}
 				</Typography>
@@ -54,24 +68,25 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				)}
 				{open && (
 					<TextField
-						sx={{ width: '100%', bgcolor: 'white', my: 2 }}
+						sx={{
+							width: '100%',
+							my: 2,
+							bgcolor: 'white',
+						}}
+						fullWidth
 						multiline
 						rows={5}
 						value={props.content}
 						InputProps={{
 							readOnly: true,
 						}}
+						focused={false}
 					/>
 				)}
 				<Typography variant="body1">
 					{moment(props.created_at).format('YYYY-MM-DD(ddd) HH:mm')}
 				</Typography>
 			</Box>
-			{open ? (
-				<ExpandLessIcon onClick={() => setOpen(!open)} />
-			) : (
-				<ExpandMoreIcon onClick={() => setOpen(!open)} />
-			)}
 		</Box>
 	);
 };

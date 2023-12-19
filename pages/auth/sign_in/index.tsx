@@ -17,6 +17,7 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { useRouter } from 'next/router';
 import { CookieManager } from '@qillie-corp/qillie-utility';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -37,6 +38,11 @@ const Page: NextPage = () => {
 	 * 자동로그인
 	 */
 	const [autoLogin, setAutoLogin] = React.useState<boolean>(false);
+	/**
+	 * 알러트 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+
 	//* Functions
 	/**
 	 * 로그인
@@ -60,11 +66,14 @@ const Page: NextPage = () => {
 							maxAge: autoLogin ? 3600 * 24 * 30 : 3600 * 24,
 						}
 					);
-
 					router.push('/');
+				} else {
+					setAlertModal(true);
 				}
 			},
-			(err) => {}
+			(err) => {
+				setAlertModal(true);
+			}
 		);
 	};
 
@@ -246,6 +255,13 @@ const Page: NextPage = () => {
 					fullWidth
 				/>
 			</Box>
+			<SupportiAlertModal
+				open={alertModal}
+				handleClose={() => {
+					setAlertModal(false);
+				}}
+				type="loginfail"
+			/>
 		</Box>
 	);
 };

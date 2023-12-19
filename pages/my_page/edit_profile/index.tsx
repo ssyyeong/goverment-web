@@ -89,6 +89,7 @@ const Page: NextPage = () => {
 				USER_SUBSCRIPTION_IDENTIFICATION_CODE:
 					subscriptionInfo.USER_SUBSCRIPTION_IDENTIFICATION_CODE,
 				CANCELED_YN: 'Y',
+				EXPIRED_YN: 'Y',
 			},
 			(res) => {
 				router.push('/rate_plan');
@@ -98,6 +99,40 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+
+	/**
+	 * 업데이트
+	 */
+	const updateUserInfo = (checked) => {
+		appMemberController.updateItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE:
+					memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
+				ALIMTALK_YN: checked ? 'Y' : 'N',
+			},
+			(res) => {
+				getUserInfo();
+			}
+		);
+	};
+	/**
+	 * 회원정보 가져오기
+	 */
+	const getUserInfo = () => {
+		appMemberController.getData(
+			{},
+			`${appMemberController.mergedPath}/profile`,
+			(res) => {
+				if (res.data.result !== null) {
+					setMemberInfo(res.data.result);
+				}
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
+
 	const { memberPoint } = useAppMember();
 	//* Constants
 	/**
@@ -132,21 +167,31 @@ const Page: NextPage = () => {
 	const subscriptionInfoConfig = [
 		{
 			label: '구독권',
-			value: subscriptionInfo?.SubscriptionProduct?.NAME,
+			value: !subscriptionInfo
+				? '-'
+				: subscriptionInfo?.SubscriptionProduct?.NAME,
 		},
 		{
 			label: '다음 결제일',
-			value: moment(subscriptionInfo?.NEXT_BILLING_DATE).format(
-				'YYYY-MM-DD'
-			),
+			value: !subscriptionInfo
+				? '-'
+				: moment(subscriptionInfo?.NEXT_BILLING_DATE).format(
+						'YYYY-MM-DD'
+				  ),
 		},
 		{
 			label: '정기 결제 금액',
-			value: subscriptionInfo?.SubscriptionProduct?.DISCOUNT_PRICE.toLocaleString(),
+			value: !subscriptionInfo
+				? '-'
+				: subscriptionInfo?.SubscriptionProduct?.DISCOUNT_PRICE.toLocaleString(),
 		},
 		{
 			label: '월 / 연 구독',
-			value: subscriptionInfo?.INTERVAL == 'MONTHLY' ? '월' : '연',
+			value: !subscriptionInfo
+				? '-'
+				: subscriptionInfo?.INTERVAL == 'MONTHLY'
+				? '월'
+				: '연',
 		},
 	];
 	/**
@@ -215,19 +260,8 @@ const Page: NextPage = () => {
 	 *유저정보 가져오기
 	 */
 	useEffect(() => {
-		appMemberController.getData(
-			{},
-			`${appMemberController.mergedPath}/profile`,
-			(res) => {
-				if (res.data.result !== null) {
-					setMemberInfo(res.data.result);
-				}
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	}, []);
+		getUserInfo();
+	}, [editProfileModal, editBusinessProfileModal]);
 	/**
 	 * 구독권 정보 가져오기
 	 */
@@ -237,7 +271,7 @@ const Page: NextPage = () => {
 				{
 					APP_MEMBER_IDENTIFICATION_CODE:
 						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
-					CANCELED_YN: 'N',
+					EXPIRED_YN: 'N',
 				},
 				(res) => {
 					setSubscriptionInfo(res.data.result);
@@ -307,6 +341,11 @@ const Page: NextPage = () => {
 											{memberInfo.type === 'switch' && (
 												<Switch
 													checked={memberInfo.value}
+													onChange={(e) => {
+														updateUserInfo(
+															e.target.checked
+														);
+													}}
 												/>
 											)}
 										</Box>

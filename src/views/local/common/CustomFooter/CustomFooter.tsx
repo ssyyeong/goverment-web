@@ -23,9 +23,13 @@ const CustomFooter = (props: ICustomFooterProps) => {
 	const BrandInfoList: { [key: string]: any }[] = [
 		{ subject: '법인명', content: '(주)린온 컴퍼니' },
 		{ subject: '대표', content: '김영진' },
-		{ subject: '주소', content: '대전광역시 유성구 온천북로33번길' },
-		{ subject: '사업자등록번호', content: '819-51-00726' },
-		{ subject: '대표전화', content: '010-7963-8101' },
+		{
+			subject: '주소',
+			content:
+				'경기도 안양시 동안구 시민대로327번길 11-41, 3층 3호(관양동)',
+		},
+		{ subject: '사업자등록번호', content: '563-87-01952' },
+		{ subject: '대표전화', content: '010-5676-4066' },
 		{ subject: '이메일', content: 'leanoncompany@gmail.com' },
 	];
 

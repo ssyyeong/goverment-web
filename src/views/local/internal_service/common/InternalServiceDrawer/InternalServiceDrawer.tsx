@@ -79,7 +79,6 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 		if (isLogin.access == false) {
 			setAlertModalType('login');
 			setAlertModal(true);
-			return;
 		}
 		if (isSubscribed.access == false) {
 			setAlertModalType('subscribe');

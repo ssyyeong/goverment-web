@@ -18,7 +18,7 @@ const BillingModal = (props: IBillingModalProps) => {
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY_BILLING;
 	const orderId =
 		uuidv4() +
-		`RatePlanId${props.ratePlanInfo.SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE}`;
+		`RatePlanId${props.ratePlanInfo?.SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE}`;
 	// 토스페이
 	const tossPay = () => {
 		loadTossPayments(clientKey).then((tossPayments) => {
@@ -75,7 +75,7 @@ const BillingModal = (props: IBillingModalProps) => {
 					variant="subtitle1"
 					sx={{ borderBottom: '1px solid lightgrey', py: 1, mb: 1 }}
 				>
-					{props.ratePlanInfo.NAME}
+					{props.ratePlanInfo?.NAME}
 				</Typography>
 				<Typography variant="h6" fontWeight={'600'}>
 					가격
@@ -85,7 +85,7 @@ const BillingModal = (props: IBillingModalProps) => {
 					variant="subtitle1"
 					sx={{ borderBottom: '1px solid lightgrey', py: 1, mb: 1 }}
 				>
-					{props.ratePlanInfo.DISCOUNT_PRICE.toLocaleString()}원
+					{props.ratePlanInfo?.DISCOUNT_PRICE?.toLocaleString()}원
 				</Typography>
 				<Typography variant="h6" fontWeight={'600'}>
 					다음 결제일

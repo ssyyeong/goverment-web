@@ -20,7 +20,8 @@ interface ISupportiAlertModalProps {
 		| 'withdraw'
 		| 'unsubscribe'
 		| 'cancel'
-		| 'business';
+		| 'business'
+		| 'loginfail';
 	customHandleClose?: () => void;
 }
 
@@ -109,6 +110,15 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			content: '확인',
 			onclick: () => {
 				// props.customHandleClose && props.customHandleClose();
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		loginfail: {
+			type: 'error',
+			title: '입력하신 정보와 일치하는 회원이 없습니다.',
+			content: '확인',
+			onclick: () => {
 				props.handleClose();
 			},
 			cancelButtonAvailable: false,

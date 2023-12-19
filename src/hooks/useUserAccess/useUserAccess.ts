@@ -120,10 +120,9 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 
 	useEffect(() => {
 		if (accessToken) {
-			appMemberController.getOneItem(
-				{
-					ACCESS_TOKEN: accessToken,
-				},
+			appMemberController.getData(
+				{},
+				`${appMemberController.mergedPath}/profile`,
 				(res) => {
 					if (res.data.result !== null) {
 						setUserId(
@@ -151,9 +150,10 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 */
 	useEffect(() => {
 		userId &&
-			subscriptionController.getOneItem(
+			subscriptionController.getOneItemByKey(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: userId,
+					EXPIRED_YN: 'N',
 				},
 				(res) => {
 					if (res.data.result !== null) {
