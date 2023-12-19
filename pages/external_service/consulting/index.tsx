@@ -114,12 +114,17 @@ const Page: NextPage = () => {
 				/>
 			</Box>
 			{/* 모바일 테이블 */}
-			<Box width={'100%'} p={2} display={{ xs: 'block', sm: 'none' }}>
+			<Box width={'100%'} mt={2} display={{ xs: 'block', sm: 'none' }}>
 				{consultingDataList.map((item, idx) => {
 					return (
 						<MobileTableRow
 							index={idx}
 							title={item.PRODUCT_NAME}
+							onClick={() => {
+								router.push(
+									`/external_service/consulting/${item.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+								);
+							}}
 							colums={[
 								{
 									label: '제목',

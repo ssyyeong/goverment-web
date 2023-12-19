@@ -153,12 +153,17 @@ const Page: NextPage = () => {
 				/>
 			</Box>
 			{/* 모바일 테이블 */}
-			<Box width={'100%'} p={2} display={{ xs: 'block', sm: 'none' }}>
+			<Box width={'100%'} mt={2} display={{ xs: 'block', sm: 'none' }}>
 				{seminarDataList.map((data, idx) => {
 					return (
 						<MobileTableRow
 							index={idx}
 							title={data.PRODUCT_NAME}
+							onClick={() => {
+								router.push(
+									`/external_service/seminar/${data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+								);
+							}}
 							colums={[
 								{
 									label: '선착순 제한',

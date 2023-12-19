@@ -106,7 +106,15 @@ const Page: NextPage = () => {
 	}, []);
 
 	return (
-		<Box width={'100%'} position={'relative'} p={10} minHeight={'90vh'}>
+		<Box
+			width={'100%'}
+			position={'relative'}
+			p={{
+				xs: 2,
+				md: 10,
+			}}
+			minHeight={'90vh'}
+		>
 			{consultingData !== undefined && (
 				<Box>
 					{/* 컨설팅 헤더 */}

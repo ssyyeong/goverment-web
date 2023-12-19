@@ -5,6 +5,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 interface IMobileTableRowProps {
 	index: number;
 	title: string;
+	onClick?: () => void;
 	colums: {
 		label: string;
 		value?: any;
@@ -24,6 +25,7 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 			gap={2}
 			width={'100%'}
 			mb={1}
+			onClick={props.onClick}
 		>
 			<Typography variant="h5" fontWeight={'600'}>
 				{props.title}

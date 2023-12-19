@@ -193,6 +193,9 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			muiModalProps={{
 				maxWidth: '60%',
 			}}
+			style={{
+				width: { sm: '60%', xs: '100%' },
+			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 */}
 			{page === 0 && (
