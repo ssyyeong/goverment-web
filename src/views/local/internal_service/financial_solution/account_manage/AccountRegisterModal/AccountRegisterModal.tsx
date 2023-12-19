@@ -15,6 +15,10 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
 	setAccountRegisterModalOpen: (open: boolean) => void;
+	/**
+	 * 계좌 추가 삭제용 트리거 키 변경 함수
+	 */
+	setAccountTriggerKey: (key: string | undefined) => void;
 }
 
 const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
@@ -237,13 +241,16 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
 		console.log(userAccountInfo);
+		setLoading(true);
 		bankController.registerBankAccount(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				...userAccountInfo,
 			},
 			(response: any) => {
+				props.setAccountTriggerKey(response.data.result);
 				alert('등록 완료!');
+				setLoading(false);
 				console.log(response.data.result);
 				props.setAccountRegisterModalOpen(false);
 			},

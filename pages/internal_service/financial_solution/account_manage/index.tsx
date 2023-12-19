@@ -32,6 +32,11 @@ const Page: NextPage = () => {
 		React.useState<string>();
 
 	/**
+	 * 계좌 추가 삭제용 트리거키
+	 */
+	const [accountTriggerKey, setAccountTriggerKey] = React.useState<string>();
+
+	/**
 	 * 검색용 키워드
 	 */
 	const [keyword, setKeyword] = React.useState<string>('');
@@ -126,7 +131,7 @@ const Page: NextPage = () => {
 				console.log(err);
 			}
 		);
-	}, []);
+	}, [accountTriggerKey]);
 
 	/**
 	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
@@ -168,6 +173,7 @@ const Page: NextPage = () => {
 
 					<MyAccounts
 						setRecomputeTriggerKey={setRecomputeTriggerKey}
+						setAccountTriggerKey={setAccountTriggerKey}
 						bankAccountList={bankAccountList}
 						calculationResult={calculationResult}
 					/>
@@ -212,7 +218,7 @@ const Page: NextPage = () => {
 
 					{/* 실제 계좌 내역 */}
 					{bankAccountList.map((bankAccount) => (
-						<Box>
+						<Box mb={2}>
 							<TransactionHistoryTable
 								setRecomputeTriggerKey={setRecomputeTriggerKey}
 								bankAccount={bankAccount}

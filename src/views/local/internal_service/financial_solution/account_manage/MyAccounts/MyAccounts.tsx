@@ -18,7 +18,10 @@ interface IMyAccountsProps {
 	 * 재계산 트리거 키 변경 함수
 	 */
 	setRecomputeTriggerKey: (key: string | undefined) => void;
-
+	/**
+	 * 계좌 추가 삭제용 트리거 키 변경 함수
+	 */
+	setAccountTriggerKey: (key: string | undefined) => void;
 	/**
 	 * 수입, 지출 데이터
 	 */
@@ -100,7 +103,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 				BANK_ACCOUNT_IDENTIFICATION_CODE: bankAccountId,
 			},
 			(res) => {
-				props.setRecomputeTriggerKey(uuidv4());
+				props.setAccountTriggerKey(uuidv4());
 			},
 			(err) => {}
 		);
@@ -602,6 +605,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						setAccountRegisterModalOpen={
 							setAccountRegisterModalOpen
 						}
+						setAccountTriggerKey={props.setAccountTriggerKey}
 					/>
 				)}
 			</>
