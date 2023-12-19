@@ -18,6 +18,7 @@ interface IOkrDetailCardProps {
 	children?: React.ReactNode;
 	okrDetailData?: any;
 	setOkrDetailData?: any;
+	memberId?: number;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -26,9 +27,36 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	//* States
 	const [isMoreOpen, setIsMoreOpen] = React.useState(false);
 
+	const [okrDetailData, setOkrDetailData] = React.useState({
+		TITLE: props.data.TITLE,
+		START_DATE: props.data.START_DATE,
+		END_DATE: props.data.END_DATE,
+		TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+		TARGET_UNIT: props.data.TARGET_UNIT,
+		NOTE: props.data.NOTE,
+		ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+		APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+	});
+
 	//* Constants
 
 	//* Functions
+
+	//* Hooks
+	React.useEffect(() => {
+		if (!props.isEditMode) {
+			setOkrDetailData({
+				TITLE: props.data.TITLE,
+				START_DATE: props.data.START_DATE,
+				END_DATE: props.data.END_DATE,
+				TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+				TARGET_UNIT: props.data.TARGET_UNIT,
+				NOTE: props.data.NOTE,
+				ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+			});
+		}
+	}, [props.isEditMode]);
 
 	return (
 		<Box
@@ -58,33 +86,23 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					<Box>
 						<SupportiInput
 							type="input"
-							value={props.data.TITLE}
+							value={okrDetailData.TITLE}
 							setValue={(value: string) => {
-								props.setOkrDetailData(
-									props.okrDetailData.map(
-										(item: IOkrDetail, index: number) => {
-											if (index === props.index) {
-												return {
-													...item,
-													TITLE: value,
-												};
-											} else {
-												return item;
-											}
-										}
-									)
-								);
+								setOkrDetailData({
+									...okrDetailData,
+									TITLE: value,
+								});
 							}}
 							width={'400px'}
 							placeholder="하위 목표 타이틀을 입력해주세요."
-							readOnly={props.data.TITLE.length > 50}
+							readOnly={okrDetailData.TITLE.length > 50}
 						/>
 						<Typography
 							variant="h5"
 							color="error.main"
 							sx={{
 								visibility:
-									props.data.TITLE !== ''
+									okrDetailData.TITLE !== ''
 										? 'hidden'
 										: 'block',
 							}}
@@ -129,28 +147,15 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							/>
 							<SupportiInput
 								type="datepicker"
-								defaultValue={props.data?.START_DATE}
-								value={props.data?.START_DATE}
+								defaultValue={okrDetailData.START_DATE}
+								value={okrDetailData.START_DATE}
 								setValue={(value) => {
-									props.setOkrDetailData(
-										props.okrDetailData.map(
-											(
-												item: IOkrDetail,
-												index: number
-											) => {
-												if (index === props.index) {
-													return {
-														...item,
-														START_DATE: value
-															.toDate()
-															.toISOString(),
-													};
-												} else {
-													return item;
-												}
-											}
-										)
-									);
+									setOkrDetailData({
+										...okrDetailData,
+										START_DATE: value
+											.toDate()
+											.toISOString(),
+									});
 								}}
 								width={'110px'}
 								useIcon={false}
@@ -158,29 +163,14 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							/>
 							<SupportiInput
 								type="datepicker"
-								defaultValue={props.data?.END_DATE}
-								value={props.data?.END_DATE}
-								minDate={props.data?.START_DATE as string}
+								defaultValue={okrDetailData?.END_DATE}
+								value={okrDetailData?.END_DATE}
+								minDate={okrDetailData?.START_DATE as string}
 								setValue={(value) => {
-									props.setOkrDetailData(
-										props.okrDetailData.map(
-											(
-												item: IOkrDetail,
-												index: number
-											) => {
-												if (index === props.index) {
-													return {
-														...item,
-														END_DATE: value
-															.toDate()
-															.toISOString(),
-													};
-												} else {
-													return item;
-												}
-											}
-										)
-									);
+									setOkrDetailData({
+										...okrDetailData,
+										END_DATE: value.toDate().toISOString(),
+									});
 								}}
 								width={'110px'}
 								useIcon={false}
