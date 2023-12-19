@@ -237,6 +237,25 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							},
 						]}
 					/>
+					{/** 목표량 목표분류 */}
+					<Box display={'flex'}>
+						<Typography fontWeight={500} ml={'auto'}>
+							{props.data?.ACHIEVED_AMOUNT as string}
+						</Typography>
+						<Typography
+							ml={0.5}
+							mr={0.5}
+							fontWeight={500}
+							color={'secondary.main'}
+						>
+							/
+						</Typography>
+						<Typography fontWeight={500} color={'secondary.main'}>
+							{(props.data?.TARGET_AMOUNT as string) +
+								' ' +
+								(props.data?.TARGET_UNIT as string)}
+						</Typography>
+					</Box>
 					{props.children}
 				</Box>
 			) : props.mode === 'detail' && !isMoreOpen ? null : (
