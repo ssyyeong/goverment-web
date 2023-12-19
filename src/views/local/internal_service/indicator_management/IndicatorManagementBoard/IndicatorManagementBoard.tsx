@@ -65,17 +65,13 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	/**
 	 * 선택 가능한 상태
 	 */
-	const selectableStatusList: { value: string; label: string }[] = [
+	const selectableStatusList: { value: boolean; label: string }[] = [
 		{
-			value: JSON.stringify({
-				STATUS: 'PROCEEDING',
-			}),
+			value: false,
 			label: '진행중',
 		},
 		{
-			value: JSON.stringify({
-				STATUS: 'COMPLETED',
-			}),
+			value: true,
 			label: '완료',
 		},
 	];
@@ -98,7 +94,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	/**
 	 * 상태 영역 (진행중 / 완료) 선택
 	 */
-	const [selectedStatus, setSelectedStatus] = React.useState<string>(
+	const [selectedStatus, setSelectedStatus] = React.useState<boolean>(
 		selectableStatusList[0].value
 	);
 	/**
@@ -124,7 +120,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			/**
 			 * 상태 선택
 			 */
-			JSON.parse(selectedStatus),
+			// JSON.parse(selectedStatus),
 			/**
 			 * 정렬 선택
 			 */
@@ -144,7 +140,12 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			});
 		}
 
-		return injectedParams;
+		const newInjectedParams = {
+			FIND_OPTION_KEY_LIST: injectedParams,
+			COMPLETED: selectedStatus,
+		};
+
+		return newInjectedParams;
 	};
 
 	return (
@@ -156,7 +157,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					startIcon={<FlagIcon />}
 					onClick={() => setIndicatorRegisterModal(true)}
 					isGradient={true}
-					style={{ height: 20, color: 'white' }}
+					style={{ height: 20, color: 'white', marginTop: '10px' }}
 				/>
 			</Box>
 
@@ -166,7 +167,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				<SupportiToggle
 					chipDataList={selectableStatusList}
 					value={selectedStatus}
-					setValue={(value) => setSelectedStatus(value as string)}
+					setValue={(value) => setSelectedStatus(value as boolean)}
 					chipHeight={'30px'}
 					style={{
 						outerBoxStyle: {

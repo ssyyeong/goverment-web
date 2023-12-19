@@ -1,6 +1,6 @@
 import { ControllerABC } from '@qillie-corp/ark-office-project/src/controller/base/ControllerABC';
 
-export class OkrController extends ControllerABC {
+export class OkrDetailController extends ControllerABC {
 	//* 클래스 멤버
 	constructor(role?: string) {
 		super('OkrDetail', role);
@@ -54,5 +54,4 @@ export class OkrController extends ControllerABC {
 			failCallback
 		);
 	}
-	
 }

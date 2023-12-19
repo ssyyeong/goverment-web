@@ -17,13 +17,6 @@ import { NextPage } from 'next';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-// import 'swiper/swiper-bundle.min.css';
-import { Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-// import 'swiper/swiper.min.css';
-// import 'swiper/modules/navigation/navigation.min.css';
-// import '#styles/swiper.css';
-
 // import SupportiToggle from '../src/Boxs/global/SupportiToggle';
 // import SuppportiModal from '../src/Boxs/global/SuppportiModal';
 // import SupportiProgressBar from '../src/Boxs/global/SupportiProgressBar';
@@ -187,12 +180,19 @@ const Page: NextPage = () => {
 		<Grid container width={'100%'}>
 			<Grid item xs={12} p={15}>
 				<Grid container>
-					<Grid item xs={6}>
+					<Box
+						display="flex"
+						gap={10}
+						ml="auto"
+						mr="auto"
+						flexWrap={'wrap'}
+					>
 						<Box
 							textAlign={'left'}
 							display={'flex'}
 							flexDirection={'column'}
 							gap={2}
+							mt="70px"
 						>
 							<Typography variant={'h1'} fontWeight={'700'}>
 								창업가를 위한
@@ -237,10 +237,20 @@ const Page: NextPage = () => {
 							{/* <img src={mainTitle} style={styles.imgStyle} />
         <img src={mobileMainTitle} style={styles.mimgStyle} /> */}
 						</Box>
-					</Grid>
-					<Grid item xs={6}>
-						<img src="/images/main/mainTitle.png" alt="img" />
-					</Grid>
+
+						<Box>
+							<img
+								src="/images/main/mainTitle.png"
+								alt="img"
+								style={{
+									marginTop: 'auto',
+									marginBottom: 'auto',
+									width: '650px',
+									height: '480px',
+								}}
+							/>
+						</Box>
+					</Box>
 				</Grid>
 			</Grid>
 
@@ -249,58 +259,69 @@ const Page: NextPage = () => {
 				xs={12}
 				bgcolor={'#3C52BB'}
 				borderRadius={4}
+				sx={{
+					p: { sm: 15, xs: 5 },
+				}}
 				p={15}
-				pl={20}
 			>
 				<Grid container>
-					<Grid item xs={6} m="auto">
-						<Box
-							textAlign={'left'}
-							display={'flex'}
-							flexDirection={'column'}
-							gap={0.5}
-							p={5}
-						>
-							<Typography
-								color={'white'}
-								variant={'h5'}
-								fontWeight={'600'}
+					<Box
+						display="flex"
+						gap={10}
+						ml="auto"
+						mr="auto"
+						flexWrap={'wrap'}
+					>
+						<Box>
+							<Box
+								textAlign={'left'}
+								display={'flex'}
+								flexDirection={'column'}
+								gap={0.5}
+								p={5}
+								width={'250px'}
 							>
-								법인계좌 연동으로 재무 관리부터
-							</Typography>
-							<Typography
-								color={'white'}
-								variant={'h5'}
-								fontWeight={'500'}
-							>
-								우리회사 성과 지표 까지 한번에!
-							</Typography>
-							<Typography
-								color={'white'}
-								variant={'h5'}
-								fontWeight={'400'}
-							>
-								쉬운 사업 관리
-							</Typography>
-							<Typography
-								color={'white'}
-								variant={'h5'}
-								fontWeight={'400'}
-							>
-								서포티로 시작하세요.
-							</Typography>
+								<Typography
+									color={'white'}
+									variant={'h5'}
+									fontWeight={'600'}
+								>
+									법인계좌 연동으로 재무 관리부터
+								</Typography>
+								<Typography
+									color={'white'}
+									variant={'h5'}
+									fontWeight={'500'}
+								>
+									우리회사 성과 지표 까지 한번에!
+								</Typography>
+								<Typography
+									color={'white'}
+									variant={'h5'}
+									fontWeight={'400'}
+								>
+									쉬운 사업 관리
+								</Typography>
+								<Typography
+									color={'white'}
+									variant={'h5'}
+									fontWeight={'400'}
+								>
+									서포티로 시작하세요.
+								</Typography>
+							</Box>
 						</Box>
-					</Grid>
-					<Grid item xs={6} m="auto">
-						<video
-							src={'/videos/시연영상.mp4'}
-							id="vid"
-							muted={true}
-							autoPlay={false}
-							controls
-							style={{ width: '300px', height: '200px' }}
-						/>
-					</Grid>
+						<Box>
+							<video
+								src={'/videos/시연영상.mp4'}
+								id="vid"
+								muted={true}
+								autoPlay={false}
+								controls
+								style={{ width: '300px', height: '200px' }}
+							/>
+						</Box>
+					</Box>
 				</Grid>
 			</Grid>
 
@@ -333,53 +354,71 @@ const Page: NextPage = () => {
 				</Box>
 
 				<Grid container>
-					{data3.map((item, index) => {
-						return (
-							<Grid key={index} xs={6}>
-								<Box
-									width={'350px'}
-									height={'330px'}
-									mt={5}
-									ml={'auto'}
-									mr={'auto'}
-								>
+					<Box gap={10} ml="auto" mr="auto">
+						{data3.map((item, index) => {
+							return (
+								<Grid key={index} xs={6}>
 									<Box
-										position={'absolute'}
-										bgcolor={'rgba(0, 0, 0, 0.7)'}
-										borderRadius={5}
-										width={'inherit'}
-										height={'inherit'}
-										pt={'140px'}
-									>
-										<Typography
-											color={'white'}
-											variant={'h4'}
-										>
-											{item.text1}
-										</Typography>
-										<Typography
-											color={'white'}
-											variant={'h4'}
-											lineHeight={2}
-										>
-											{item.text2}
-										</Typography>
-									</Box>
-									<img
-										alt="img"
-										src={item.imgPath}
-										style={{
-											width: 'inherit',
-											height: 'inherit',
+										sx={{
+											width: { sm: '350px', xs: '250px' },
+											height: {
+												sm: '330px',
+												xs: '250px',
+											},
 										}}
-									/>
-								</Box>
-							</Grid>
-						);
-					})}
+										mt={5}
+										ml={'auto'}
+										mr={'auto'}
+									>
+										<Box
+											position={'absolute'}
+											bgcolor={'rgba(0, 0, 0, 0.7)'}
+											borderRadius={5}
+											width={'inherit'}
+											height={'inherit'}
+											sx={{
+												pt: {
+													sm: '140px',
+													xs: '100px',
+												},
+											}}
+										>
+											<Typography
+												color={'white'}
+												variant={'h4'}
+											>
+												{item.text1}
+											</Typography>
+											<Typography
+												color={'white'}
+												variant={'h4'}
+												lineHeight={2}
+											>
+												{item.text2}
+											</Typography>
+										</Box>
+										<img
+											alt="img"
+											src={item.imgPath}
+											style={{
+												width: 'inherit',
+												height: 'inherit',
+											}}
+										/>
+									</Box>
+								</Grid>
+							);
+						})}
+					</Box>
 				</Grid>
-				<Grid item xs={12}>
-					<Box display={'flex'} gap={4}>
+				<Grid container>
+					<Box
+						display={'flex'}
+						gap={4}
+						ml="auto"
+						mr="auto"
+						flex={'wrap'}
+					>
 						{data4.map((item, index) => {
 							return (
 								<Box
@@ -430,28 +469,40 @@ const Page: NextPage = () => {
 				</Grid>
 			</Grid>
 
-			<Grid
-				item
-				xs={12}
-				textAlign={'center'}
-				p={20}
+			<Box
+				display={'flex'}
+				gap={4}
+				flex={'wrap'}
+				sx={{
+					p: { sm: 10, xs: 5 },
+				}}
 				bgcolor={'rgb(245, 247, 255)'}
+				width={'100%'}
 			>
-				<Typography variant={'h2'} fontWeight={'700'}>
-					내 사업 현황을 한 눈에 확인할 수 있는
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'700'}
-					color={'#3C52BB'}
-					lineHeight={2}
+				<Box textAlign={'center'} ml="auto" mr="auto">
+					<Typography variant={'h2'} fontWeight={'700'}>
+						내 사업 현황을 한 눈에 확인할 수 있는
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'700'}
+						color={'#3C52BB'}
+						lineHeight={2}
+					>
+						서포티만의 대시보드 솔루션
+					</Typography>
+				</Box>
+			</Box>
+			<Grid container>
+				<Box
+					display={'flex'}
+					gap={4}
+					ml="auto"
+					mr="auto"
+					mt={20}
+					mb={20}
+					flexWrap={'wrap'}
 				>
-					서포티만의 대시보드 솔루션
-				</Typography>
-			</Grid>
-
-			<Grid item xs={12} p={10} mt={10} mb={10}>
-				<Grid container>
 					<Grid item xs={6}>
 						<Box textAlign={'center'}>
 							<Box>
@@ -463,7 +514,10 @@ const Page: NextPage = () => {
 									<img
 										alt="img"
 										src={'/images/main/financeNum0.svg'}
-										style={{ width: '500px', zIndex: 100 }}
+										style={{
+											width: '500px',
+											zIndex: 100,
+										}}
 									/>
 									<Box
 										data-aos="fade-up"
@@ -594,7 +648,7 @@ const Page: NextPage = () => {
 							}}
 						/>
 					</Grid>
-				</Grid>
+				</Box>
 			</Grid>
 
 			{open && (
@@ -622,142 +676,138 @@ const Page: NextPage = () => {
 						mt={5}
 						mb={5}
 					>
-						<Swiper
-							// navigation={true}
-							className="mySwiper"
-							// pagination={{ clickable: true }}
-							modules={[Navigation, Pagination]}
-							slidesPerView={1}
-						>
-							<SwiperSlide>
-								<Box>
-									<img
-										src={'/images/main/financeStep1.svg'}
-										alt="img"
-										style={{ width: 100, height: 50 }}
-									/>
-								</Box>
-							</SwiperSlide>
-							<SwiperSlide>
-								<Box>
-									<img
-										src={'/images/main/financeStep1.svg'}
-										alt="img"
-										style={{ width: 100, height: 50 }}
-									/>
-								</Box>
-							</SwiperSlide>
-							<SwiperSlide>
-								<img
-									src={'/images/main/financeStep1.svg'}
-									alt="img"
-									style={{ width: 100, height: 50 }}
-								/>
-							</SwiperSlide>
-						</Swiper>
-
-						{/* <Grid item xs={6} textAlign={'left'}>
-							<Box>
-								<Typography>STEP 2</Typography>
-							</Box>
-							<Typography variant={'h4'} fontWeight={'700'}>
+						<Box textAlign={'left'}>
+							<Typography
+								variant={'h4'}
+								fontWeight={'700'}
+								mb={5}
+							>
 								한눈에 보는 BurnRate와 Runway
 							</Typography>
 							<Typography>
 								BurnRate와 RunWay 외 달별 지출, 달별 수입 까지
 								한눈에 확인 해보세요.
 							</Typography>
-						</Grid> */}
+						</Box>
 					</Grid>
 				</Grid>
 			)}
 
-			<Grid item xs={12} p={25}>
-				<Box textAlign={'center'}>
-					<Box>
-						<Box
-							data-aos="fade-right"
-							data-aos-delay="100"
-							data-aos-duration="3000"
-						>
-							<Grid container>
-								{data2.map((item, index) => {
-									if (index < 2) {
-										return (
-											<Grid item xs={6}>
-												<Box
-													key={index}
-													boxShadow={
-														'rgb(213, 212, 239) 0px 4px 30px'
-													}
-													p={3}
-													borderRadius={5}
-													width={'280px'}
-													height={'260px'}
-													ml={'auto'}
-													mr={'auto'}
-												>
-													<Typography
-														fontWeight={'600'}
-														variant={'h5'}
-														mb={3}
+			<Grid container>
+				<Box
+					display={'flex'}
+					gap={4}
+					ml="auto"
+					mr="auto"
+					mt={20}
+					mb={20}
+				>
+					<Box textAlign={'center'}>
+						<Box>
+							<Box
+								data-aos="fade-right"
+								data-aos-delay="100"
+								data-aos-duration="3000"
+							>
+								<Grid container>
+									{data2.map((item, index) => {
+										if (index < 2) {
+											return (
+												<Grid item xs={6}>
+													<Box
+														key={index}
+														boxShadow={
+															'rgb(213, 212, 239) 0px 4px 30px'
+														}
+														p={3}
+														borderRadius={5}
+														sx={{
+															width: {
+																sm: '280px',
+																xs: '180px',
+															},
+															height: {
+																sm: '280px',
+																xs: '180px',
+															},
+														}}
+														ml={'auto'}
+														mr={'auto'}
 													>
-														{item.reBoxer}
-													</Typography>
-													<Typography
-														lineHeight={'25px'}
-														variant="subtitle2"
+														<Typography
+															fontWeight={'600'}
+															variant={'h5'}
+															mb={3}
+														>
+															{item.reBoxer}
+														</Typography>
+														<Typography
+															lineHeight={'25px'}
+															variant="subtitle2"
+														>
+															{
+																item.reBoxTypography
+															}
+														</Typography>
+													</Box>
+												</Grid>
+											);
+										}
+									})}
+								</Grid>
+							</Box>
+							<Box
+								data-aos="fade-left"
+								data-aos-delay="100"
+								data-aos-duration="3000"
+							>
+								<Grid container>
+									{data2.map((item, index) => {
+										if (index > 1) {
+											return (
+												<Grid item xs={6} p={4}>
+													<Box
+														key={index}
+														boxShadow={
+															'rgb(213, 212, 239) 0px 4px 30px'
+														}
+														p={3}
+														borderRadius={5}
+														sx={{
+															width: {
+																sm: '280px',
+																xs: '180px',
+															},
+															height: {
+																sm: '280px',
+																xs: '180px',
+															},
+														}}
+														ml={'auto'}
+														mr={'auto'}
 													>
-														{item.reBoxTypography}
-													</Typography>
-												</Box>
-											</Grid>
-										);
-									}
-								})}
-							</Grid>
-						</Box>
-						<Box
-							data-aos="fade-left"
-							data-aos-delay="100"
-							data-aos-duration="3000"
-						>
-							<Grid container>
-								{data2.map((item, index) => {
-									if (index > 1) {
-										return (
-											<Grid item xs={6} p={4}>
-												<Box
-													key={index}
-													boxShadow={
-														'rgb(213, 212, 239) 0px 4px 30px'
-													}
-													p={3}
-													borderRadius={5}
-													width={'280px'}
-													height={'260px'}
-													ml={'auto'}
-													mr={'auto'}
-												>
-													<Typography
-														fontWeight={'600'}
-														variant={'h5'}
-														mb={3}
-													>
-														{item.reBoxer}
-													</Typography>
-													<Typography
-														lineHeight={'25px'}
-														variant="subtitle2"
-													>
-														{item.reBoxTypography}
-													</Typography>
-												</Box>
-											</Grid>
-										);
-									}
-								})}
-							</Grid>
+														<Typography
+															fontWeight={'600'}
+															variant={'h5'}
+															mb={3}
+														>
+															{item.reBoxer}
+														</Typography>
+														<Typography
+															lineHeight={'25px'}
+															variant="subtitle2"
+														>
+															{
+																item.reBoxTypography
+															}
+														</Typography>
+													</Box>
+												</Grid>
+											);
+										}
+									})}
+								</Grid>
+							</Box>
 						</Box>
 					</Box>
 				</Box>

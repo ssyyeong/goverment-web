@@ -7,7 +7,7 @@ import SupportiInput from '../../../../../global/SupportiInput';
 import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrDetail } from '../../../../../../@types/model';
-import { OkrController } from '../../../../../../controller/OkrController';
+import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
 import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
@@ -38,6 +38,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 */
 	const { memberId } = useAppMember();
 	//* Constants
+	const PrevDetailData = props.okrDetailData;
 
 	//* States
 	const [okrMainData, setOkrMainData] = React.useState({
@@ -132,6 +133,25 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	};
 
 	/**
+	 *
+	 * 메인 목표 삭제
+	 */
+	const deleteOkrMain = () => {
+		okrMainController.deleteItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				OKR_MAIN_IDENTIFICATION_CODE:
+					props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
+			},
+			(response: any) => {
+				alert('삭제 성공');
+				props.setModalOpen(false);
+			},
+			(err: any) => {}
+		);
+	};
+
+	/**
 	 * 필수값 미입력 판단 함수
 	 */
 	const checkRequiredValue = (target) => {
@@ -161,6 +181,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			});
 
 			setOkrDetailData([]);
+			// props.setOkrDetailData(PrevDetailData);
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
 
@@ -287,20 +308,36 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										{okrMainData?.TITLE}
 									</Typography>
 								)}
-								{/** 수정 버튼 */}
-								<SupportiButton
-									contents={isEditMode ? '취소' : '수정'}
-									onClick={() => {
-										setIsEditMode(!isEditMode);
-									}}
-									style={{
-										height: '20px',
-										width: '100px',
-									}}
-									color={'primary'}
-									variant="contained"
-									isGradient={true}
-								/>
+								<Box display={'flex'} gap={1}>
+									{/** 삭제 버튼 */}
+									<SupportiButton
+										contents={'삭제'}
+										onClick={() => {
+											memberId && deleteOkrMain();
+										}}
+										style={{
+											height: '20px',
+											width: '100px',
+										}}
+										color={'primary'}
+										variant="contained"
+										isGradient={true}
+									/>
+									{/** 수정 버튼 */}
+									<SupportiButton
+										contents={isEditMode ? '취소' : '수정'}
+										onClick={() => {
+											setIsEditMode(!isEditMode);
+										}}
+										style={{
+											height: '20px',
+											width: '100px',
+										}}
+										color={'primary'}
+										variant="contained"
+										isGradient={true}
+									/>
+								</Box>
 							</Box>
 
 							{/** 날짜  */}
@@ -562,28 +599,30 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						</Box>
 
 						{/** 등록 버튼 */}
-						<SupportiButton
-							contents={'등록하기'}
-							onClick={() => {
-								setIsSend(true);
+						{isEditMode && (
+							<SupportiButton
+								contents={'등록하기'}
+								onClick={() => {
+									setIsSend(true);
 
-								//* Okr 메인 목표 등록
+									//* Okr 메인 목표 등록
 
-								updateOkr('main', okrMainData);
+									memberId && updateOkr('main', okrMainData);
 
-								//* Okr 하위 목표 등록
-								updateDetailOkr();
-							}}
-							style={{
-								height: '20px',
-								width: '200px',
-								marginLeft: 'auto',
-								marginRight: 'auto',
-							}}
-							color={'primary'}
-							variant="contained"
-							isGradient={true}
-						/>
+									//* Okr 하위 목표 등록
+									memberId && updateDetailOkr();
+								}}
+								style={{
+									height: '20px',
+									width: '200px',
+									marginLeft: 'auto',
+									marginRight: 'auto',
+								}}
+								color={'primary'}
+								variant="contained"
+								isGradient={true}
+							/>
+						)}
 					</Box>
 				}
 			/>

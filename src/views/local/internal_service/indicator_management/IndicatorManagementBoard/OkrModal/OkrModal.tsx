@@ -6,7 +6,7 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiInput from '../../../../../global/SupportiInput';
 import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
 import { IOkrDetail } from '../../../../../../@types/model';
-import { OkrController } from '../../../../../../controller/OkrController';
+import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +25,7 @@ interface IOkrModalProps {
 
 const OkrModal = (props: IOkrModalProps) => {
 	//* Controllers
-	const okrController = new OkrController();
+	const okrController = new OkrDetailController();
 
 	//* Modules
 	//* Hooks
@@ -134,6 +134,13 @@ const OkrModal = (props: IOkrModalProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		if (memberId) {
+			setOkrMainData({
+				TITLE: '',
+				START_DATE: new Date(),
+				END_DATE: new Date(),
+				NOTE: '',
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			});
 			setOkrDetailData([
 				{
 					TITLE: '',

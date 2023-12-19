@@ -4,13 +4,13 @@ import { Box, BoxProps } from '@mui/material';
 
 interface ISupportiChipProps {
 	label: string;
-	value: string | number;
+	value: string | number | boolean;
 }
 
 interface ISupportiToggleProps {
 	chipDataList: ISupportiChipProps[];
-	setValue: React.Dispatch<React.SetStateAction<string | number>>;
-	value: string | number;
+	setValue: React.Dispatch<React.SetStateAction<string | number | boolean>>;
+	value: string | number | boolean;
 	chipHeight?: number | string;
 	angled?: boolean;
 	isToggled?: boolean;

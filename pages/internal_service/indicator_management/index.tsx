@@ -11,6 +11,8 @@ import KpiCard from '../../../src/views/local/internal_service/indicator_managem
 import OkrCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/OkrCard/OkrCard';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import { KpiController } from '../../../src/controller/KpiController';
+import { OkrMainController } from '../../../src/controller/OkrMainController';
 
 type TSelectableIndicator = {
 	name: string;
@@ -22,12 +24,12 @@ const Page: NextPage = () => {
 	/**
 	 * OKR 컨트롤러
 	 */
-	const okrController = new DefaultController('OkrMain');
+	const okrController = new OkrMainController();
 
 	/**
 	 * KPI 컨트롤러
 	 */
-	const kpiController = new DefaultController('Kpi');
+	const kpiController = new KpiController();
 	//* Hooks
 	/**
 	 * 유저 정보 가져오는 훅
@@ -57,7 +59,7 @@ const Page: NextPage = () => {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					getAllCallback:
-						okrController.findAllItems.bind(okrController),
+						okrController.getAllOkrMainData.bind(okrController),
 				},
 			},
 		},
@@ -73,7 +75,7 @@ const Page: NextPage = () => {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					getAllCallback:
-						kpiController.findAllItems.bind(kpiController),
+						kpiController.getAllKpiData.bind(kpiController),
 				},
 			},
 		},

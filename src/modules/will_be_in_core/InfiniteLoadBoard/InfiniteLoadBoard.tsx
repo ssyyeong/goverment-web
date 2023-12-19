@@ -185,10 +185,10 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 		callData();
 	}, [
 		props.injectedParams.SORT_DIRECTION,
-		props.injectedParams.PERIOD_START,
-		props.injectedParams.PERIOD_END,
+		// props.injectedParams.PERIOD_START,
+		// props.injectedParams.PERIOD_END,
 		props.injectedParams.CATEGORY,
-		props.injectedParams,
+		props.injectedParams.COMPLETED,
 		props.triggerKey,
 	]);
 

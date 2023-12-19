@@ -142,7 +142,7 @@ const OkrCard = (props: IOkrCardProps) => {
 
 			{/** 하위 목표리스트 */}
 
-			<Box>
+			<Box width="100%">
 				<Box display={'flex'} mb={1}>
 					<Typography fontWeight={600}>하위목표</Typography>
 					{/** 갯수 */}
