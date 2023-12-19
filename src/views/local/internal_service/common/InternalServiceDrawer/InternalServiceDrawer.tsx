@@ -214,7 +214,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<Button
 					sx={{ color: 'black', mt: 2 }}
 					onClick={() => {
-						cookie.removeItemInCookies('ACCESS_TOKEN');
+						cookie.removeItemInCookies('ACCESS_TOKEN',{path:'/'});
 						router.push('/');
 					}}
 				>

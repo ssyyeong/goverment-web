@@ -65,7 +65,7 @@ const Page: NextPage = () => {
 				ACCESS_TOKEN: cookie.getItemInCookies('ACCESS_TOKEN'),
 			},
 			(res) => {
-				cookie.removeItemInCookies('ACCESS_TOKEN');
+				cookie.removeItemInCookies('ACCESS_TOKEN', { path: '/' });
 				router.push('/');
 			},
 			(err) => {

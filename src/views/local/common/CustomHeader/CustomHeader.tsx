@@ -106,7 +106,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '로그아웃',
 			path: '/auth/sign_out',
 			onclick: () => {
-				cookie.removeItemInCookies('ACCESS_TOKEN');
+				cookie.removeItemInCookies('ACCESS_TOKEN', { path: '/' });
 				router.push('/');
 			},
 		},
@@ -296,7 +296,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											}}
 											onClick={() => {
 												cookie.removeItemInCookies(
-													'ACCESS_TOKEN'
+													'ACCESS_TOKEN',
+													{ path: '/' }
 												);
 												router.push('/auth/sign_in');
 											}}

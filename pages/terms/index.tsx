@@ -1,5 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DataUtil from '@qillie-corp/ark-office-project/src/utils/data/DataUtil';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -26,10 +27,12 @@ const Page: NextPage = () => {
 	 * 1. 약관 키값에 따라 선택되는 컨트롤러가 달라져야 한다.
 	 */
 	const termsController = {
-		service: 'ServiceTerm',
-		privacy: 'PrivacyTerm',
-		marketing: 'MarketingTerms',
+		service: new DefaultController('ServiceTerm'),
+		privacy: new DefaultController('PrivacyTerm'),
+		marketing: new DefaultController('MarketingTerm'),
 	};
+
+	const dataUtil = new DataUtil();
 
 	//* States
 	/**
@@ -43,21 +46,42 @@ const Page: NextPage = () => {
 	 */
 
 	useEffect(() => {
-		const termController = new DefaultController(
-			termsController[type as string]
-		);
-		type &&
-			termController[type as string]?.getOneItem(
-				{},
-				(res) => {
-					setTerms(res.data.result.content);
-				},
-				(err) => {}
-			);
+		if (type) {
+			if (type === 'service') {
+				termsController[type as string].getOneItem(
+					{
+						SERVICE_TERM_IDENTIFICATION_CODE: 1,
+					},
+					(res) => {
+						setTerms(res.data.result.CONTENT);
+					}
+				);
+			}
+			if (type === 'privacy') {
+				termsController[type as string].getOneItem(
+					{
+						PRIVACY_TERM_IDENTIFICATION_CODE: 1,
+					},
+					(res) => {
+						setTerms(res.data.result.CONTENT);
+					}
+				);
+			}
+			if (type === 'marketing') {
+				termsController[type as string].getOneItem(
+					{
+						MARKETING_TERMS_IDENTIFICATION_CODE: 1,
+					},
+					(res) => {
+						setTerms(res.data.result.CONTENT);
+					}
+				);
+			}
+		}
 	}, [type]);
 
 	return (
-		<Box>
+		<Box p={{ md: 10, xs: 3 }}>
 			{/* 약관 제목 */}
 			<Typography variant="h5" fontWeight={'600'}>
 				서포티 {termsTitle[type as string]}

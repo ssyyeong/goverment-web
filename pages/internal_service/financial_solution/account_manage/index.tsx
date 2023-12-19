@@ -173,43 +173,42 @@ const Page: NextPage = () => {
 					/>
 
 					{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
-					{calculationResult && (
-						<Box
-							width={'100%'}
-							display={'flex'}
-							justifyContent={'space-between'}
-							alignItems={'center'}
-							mb={2}
-						>
-							{/* 날짜 선택 영역 */}
-							<Box display={'flex'} gap={1} alignItems={'center'}>
-								{selectedPeriod && (
-									<SupportiInput
-										type="select"
-										value={selectedPeriod}
-										setValue={(value) => {
-											setSelectedPeriod(value);
-										}}
-										placeholder="계좌 선택"
-										dataList={selectablePeriodList}
-										width={145}
-									/>
-								)}
-							</Box>
 
-							{/* 검색 영역 */}
-							<SupportiInput
-								type="search"
-								value={keyword}
-								setValue={setKeyword}
-								placeholder={'거래 내역 검색'}
-								btnOnclick={() => {
-									setSearchTriggerKey(keyword);
-								}}
-								width={'300px'}
-							/>
+					<Box
+						width={'100%'}
+						display={'flex'}
+						justifyContent={'space-between'}
+						alignItems={'center'}
+						mb={2}
+					>
+						{/* 날짜 선택 영역 */}
+						<Box display={'flex'} gap={1} alignItems={'center'}>
+							{selectablePeriodList && (
+								<SupportiInput
+									type="select"
+									value={selectedPeriod}
+									setValue={(value) => {
+										setSelectedPeriod(value);
+									}}
+									placeholder="계좌 선택"
+									dataList={selectablePeriodList}
+									width={145}
+								/>
+							)}
 						</Box>
-					)}
+
+						{/* 검색 영역 */}
+						<SupportiInput
+							type="search"
+							value={keyword}
+							setValue={setKeyword}
+							placeholder={'거래 내역 검색'}
+							btnOnclick={() => {
+								setSearchTriggerKey(keyword);
+							}}
+							width={'300px'}
+						/>
+					</Box>
 
 					{/* 실제 계좌 내역 */}
 					{bankAccountList.map((bankAccount) => (
