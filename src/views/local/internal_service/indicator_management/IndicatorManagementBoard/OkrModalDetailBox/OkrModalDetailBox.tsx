@@ -257,18 +257,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								}}
 							/>
 						)}
-						{/* <SupportiInput
-							type="select"
-							value={props.okrDetailData[props.index].TARGET_UNIT}
-							setValue={(value) => {
-								let temp: any = [...props.okrDetailData];
-								temp[props.index].TARGET_UNIT = value;
-
-								props.setOkrDetailData(temp);
-							}}
-							dataList={IndicatorUnit}
-							width={'150px'}
-						/> */}
 
 						<Typography
 							fontWeight={500}
