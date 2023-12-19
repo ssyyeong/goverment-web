@@ -262,9 +262,14 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 									bgcolor: 'white',
 								}}
 							/>
-							<Box>
-								<Typography></Typography>
-							</Box>
+							{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>
+								<Typography >
+									{
+										props.okrDetailData[props.index]
+											.TARGET_UNIT
+									}
+								</Typography>
+							</Box> */}
 						</Box>
 						<Typography
 							fontWeight={500}

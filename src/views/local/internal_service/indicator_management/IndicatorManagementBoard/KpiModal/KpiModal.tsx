@@ -63,7 +63,6 @@ const KpiModal = (props: IKpiModalProps) => {
 			}
 		);
 	};
-	console.log(props.data);
 
 	return (
 		<Box>
@@ -319,7 +318,7 @@ const KpiModal = (props: IKpiModalProps) => {
 										color="error.main"
 										sx={{
 											visibility:
-												kpiData.ASSIGNEE !== ''
+												kpiData.TARGET_UNIT !== ''
 													? 'hidden'
 													: 'block',
 										}}
@@ -335,6 +334,7 @@ const KpiModal = (props: IKpiModalProps) => {
 										</Typography>
 										<SupportiInput
 											type="input"
+											inputType="number"
 											value={kpiData.TARGET_AMOUNT}
 											setValue={(value: number) => {
 												setKpiData({

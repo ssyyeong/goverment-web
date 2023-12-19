@@ -77,17 +77,16 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							}}
 							width={'400px'}
 							placeholder="하위 목표 타이틀을 입력해주세요."
-							readOnly={
-								props.data.TITLE.length >
-								50
-							}
+							readOnly={props.data.TITLE.length > 50}
 						/>
 						<Typography
 							variant="h5"
 							color="error.main"
 							sx={{
 								visibility:
-									props.data.TITLE !== '' ? 'hidden' : 'block',
+									props.data.TITLE !== ''
+										? 'hidden'
+										: 'block',
 							}}
 						>
 							필수값입니다.
@@ -284,6 +283,26 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								},
 							]}
 						/>
+					</Box>
+
+					{/** 목표량 목표분류 */}
+					<Box display={'flex'} mt={1}>
+						<Typography fontWeight={500} ml={'auto'}>
+							{props.data?.ACHIEVED_AMOUNT as string}
+						</Typography>
+						<Typography
+							ml={0.5}
+							mr={0.5}
+							fontWeight={500}
+							color={'secondary.main'}
+						>
+							/
+						</Typography>
+						<Typography fontWeight={500} color={'secondary.main'}>
+							{(props.data?.TARGET_AMOUNT as string) +
+								' ' +
+								(props.data?.TARGET_UNIT as string)}
+						</Typography>
 					</Box>
 				</Box>
 			)}

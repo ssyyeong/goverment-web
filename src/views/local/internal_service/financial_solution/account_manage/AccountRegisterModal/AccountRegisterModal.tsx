@@ -75,7 +75,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	for (const [key, value] of Object.entries(accountList)) {
 		userAccountList.push({
 			label: value.acctNo + ' ' + value.acctNm,
-			value: value.acctNo + '  ' + value.acctHolder,
+			value: value.acctNo + '&' + value.acctHolder + '&' + value.openDt,
 		});
 	}
 
@@ -134,14 +134,26 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						userAccountInfo.ACCOUNT_HOLDER
 					}
 					setValue={(value) => {
-						//* TODO :: 여기서 계좌 예금주 셋팅
-						let acctNum = value.split('  ')[0];
-						let acctHolder = value.split('  ')[1];
+						//* 여기서 계좌 예금주 셋팅
+						let acctNum = value.split('&')[0];
+						let acctHolder = value.split('&')[1];
+						let openDt = value.split('&')[2];
 
+						//* string to date
+						var sYear = openDt.substring(0, 4);
+						var sMonth = openDt.substring(4, 6);
+						var sDate = openDt.substring(6, 8);
+
+						console.log(sYear, sMonth, sDate, openDt);
 						setUserAccountInfo({
 							...userAccountInfo,
 							ACCOUNT_NUMBER: acctNum,
 							ACCOUNT_HOLDER: acctHolder,
+							START_DATE: new Date(
+								Number(sYear),
+								Number(sMonth) - 1,
+								Number(sDate)
+							),
 						});
 					}}
 					placeholder="계좌 선택"

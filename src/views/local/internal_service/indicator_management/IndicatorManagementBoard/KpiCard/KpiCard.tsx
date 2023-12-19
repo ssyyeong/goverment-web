@@ -10,6 +10,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import SupportiInput from '../../../../../global/SupportiInput';
 import KpiModal from '../KpiModal/KpiModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import dayjs from 'dayjs';
 
 interface IKpiCardProps {
 	data: IKpi;
@@ -97,6 +98,22 @@ const KpiCard = (props: IKpiCardProps) => {
 		);
 	};
 
+	//* 마감일 계산하는 함수
+	const calcDeadline = (day) => {
+		const Today = dayjs();
+
+		const diff = Today.diff(day, 'day', true);
+		const days = Math.floor(diff);
+
+		return days > 0
+			? '마감일 지남'
+			: days === 0
+			? '마감일'
+			: days > -7
+			? '마감일 임박'
+			: '';
+	};
+
 	//* Constants
 	// kpi 변경하는 핸들러 버튼들
 	const controllButtons = [
@@ -131,7 +148,11 @@ const KpiCard = (props: IKpiCardProps) => {
 			mb={2}
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 		>
-			<Box display="flex" justifyContent={'space-between'} flexWrap='wrap'>
+			<Box
+				display="flex"
+				justifyContent={'space-between'}
+				flexWrap="wrap"
+			>
 				<Box display="flex" gap={1}>
 					<Box display="flex" flexDirection="column" gap={1}>
 						<Typography variant="h5" fontWeight={'bold'}>
@@ -197,6 +218,13 @@ const KpiCard = (props: IKpiCardProps) => {
 						</Typography>
 					</Box>
 				</Box>
+
+				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
+				<Typography ml={1} mt={'auto'} mb={'auto'} fontWeight={500}>
+					{calcDeadline(
+						(props.data?.END_DATE as string).split('T')[0]
+					)}
+				</Typography>
 
 				<Box display="flex" gap={1}>
 					{/** 담당자 */}
@@ -283,11 +311,7 @@ const KpiCard = (props: IKpiCardProps) => {
 						width={'100%'}
 						placeholder="메모 입력"
 						multiline={true}
-						readOnly={
-							note.length > 500
-								? true
-								: false
-						}
+						readOnly={note.length > 500 ? true : false}
 					/>
 				</Box>
 			)}

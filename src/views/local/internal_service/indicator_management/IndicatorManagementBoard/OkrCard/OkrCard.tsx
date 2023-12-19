@@ -26,7 +26,6 @@ const OkrCard = (props: IOkrCardProps) => {
 	//* Modules
 
 	//* Constants
-	const Today = dayjs();
 
 	//* States
 	/**
@@ -45,16 +44,19 @@ const OkrCard = (props: IOkrCardProps) => {
 	});
 
 	//* Functions
+	//* 마감일 계산하는 함수
 	const calcDeadline = (day) => {
+		const Today = dayjs();
+
 		const diff = Today.diff(day, 'day', true);
 		const days = Math.floor(diff);
 
-		return days > -7
-			? '마감일 임박'
+		return days > 0
+			? '마감일 지남'
 			: days === 0
 			? '마감일'
-			: days > 0
-			? '마감일 지남'
+			: days > -7
+			? '마감일 임박'
 			: '';
 	};
 
