@@ -193,7 +193,8 @@ const Page: NextPage = () => {
 					<SocialLogin
 						clientId={'e06884a5c42a479c4766d55703829af3'}
 						callbackUrl={
-							'http://localhost:3000' + '/auth/redirect_url/kakao'
+							process.env.NEXT_PUBLIC_WEB_HOST +
+							'/auth/redirect_url/kakao'
 						}
 						type={'kakao'}
 						children={
@@ -206,7 +207,8 @@ const Page: NextPage = () => {
 					<SocialLogin
 						clientId={'zNdksk9TIpT9iJZPjBcQ'}
 						callbackUrl={
-							'http://localhost:3000' + '/auth/redirect_url/naver'
+							process.env.NEXT_PUBLIC_WEB_HOST +
+							'/auth/redirect_url/naver'
 						}
 						state={'false'}
 						type={'naver'}
@@ -222,7 +224,7 @@ const Page: NextPage = () => {
 							'723926736636-q43fi38slh2c86gei55dm4qmhe5kha50.apps.googleusercontent.com'
 						}
 						callbackUrl={
-							'http://localhost:3000' +
+							process.env.NEXT_PUBLIC_WEB_HOST +
 							'/auth/redirect_url/google'
 						}
 						type={'google'}

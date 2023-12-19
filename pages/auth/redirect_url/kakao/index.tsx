@@ -21,6 +21,8 @@ const Page: NextPage = () => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
 	const [userData, setUserData] = React.useState<any>({});
+	const [accessToken, setAccessToken] = React.useState<string>('');
+
 	//* Functions
 	//* Hooks
 	useEffect(() => {
@@ -32,8 +34,12 @@ const Page: NextPage = () => {
 				(res) => {
 					if (res.data.result.user.USER_GRADE === 'NOT_GENERATED') {
 						alert('회원가입이 필요합니다.');
+						setAccessToken(
+							res.data.result.signUpResult.accessToken
+						);
 						setUserData(res.data.result.user);
 						setUpdateModal(true);
+
 						return;
 					} else {
 						cookie.setItemInCookies(
@@ -92,6 +98,8 @@ const Page: NextPage = () => {
 						setUpdateModal(false);
 					}}
 					appMemberData={userData}
+					needPhoneUpdate={false}
+					accessToken={accessToken}
 				/>
 			)}
 		</Box>

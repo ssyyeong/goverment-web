@@ -64,17 +64,6 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 */
 	const [access, setAccess] = useState<boolean | undefined>();
 
-	/**
-	 * alert modal
-	 */
-	const [alertModal, setAlertModal] = useState<boolean>(false);
-	/**
-	 * alert modal type
-	 */
-	const [alertModalType, setAlertModalType] = useState<
-		'success' | 'login' | 'subscribe' | 'point' | 'already'
-	>('login');
-
 	//* Cookie
 	const cookie = new CookieManager();
 
@@ -127,9 +116,9 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	/**
 	 * 진입 시 로그인 체크 (setIsSignedIn)
 	 */
-	useEffect(() => {
-		const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
+	const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
 
+	useEffect(() => {
 		if (accessToken) {
 			appMemberController.getOneItem(
 				{
@@ -146,8 +135,6 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 						);
 					} else {
 						setIsSignedIn(false);
-						setAlertModal(true);
-						setAlertModalType('login');
 					}
 				},
 				(err) => {
@@ -157,7 +144,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 		} else {
 			setIsSignedIn(false);
 		}
-	}, []);
+	}, [accessToken]);
 
 	/**
 	 * 진입 시 구독 체크 (setIsSubscribed)
@@ -173,15 +160,13 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 						setIsSubscribed(true);
 					} else {
 						setIsSubscribed(false);
-						setAlertModal(true);
-						setAlertModalType('subscribe');
 					}
 				},
 				(err) => {
 					setIsSubscribed(false);
 				}
 			);
-	}, []);
+	}, [userId]);
 
 	return { access };
 };

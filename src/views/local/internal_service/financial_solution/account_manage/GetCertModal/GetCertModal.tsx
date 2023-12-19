@@ -62,7 +62,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 			inJson.signPri = props.certInfo.path + '\\signPri.key';
 		}
 		inJson.signPw = props.userAccountInfo.CERTIFICATE_PASSWORD;
-
+		props.setLoading(true);
 		props.getCert('execute', JSON.stringify(inJson));
 	};
 
@@ -85,16 +85,20 @@ const GetCertModal = (props: IGetCertModalProps) => {
 				handleClose={() => {
 					props.setModalOpen(false);
 				}}
+				activeHeader
 				title="공용/금융 인증서 등록"
 				style={{
-					width: '70%',
+					width: { sm: '40%', xs: '100%' },
 				}}
 				children={
 					<Box
-						width="80%"
+						width="90%"
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
+						sx={{
+							overflowY: 'auto',
+						}}
 					>
 						{/**불러온 인증서 출력하는 섹션 */}
 						<Box
@@ -166,7 +170,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 							display={'flex'}
 							flexDirection={'column'}
 							gap={1}
-							mb={5}
+							mb={2}
 						>
 							<Typography>인증서 암호입력</Typography>
 							<SupportiInput
@@ -184,7 +188,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 								placeholder="인증서 암호 입력"
 							/>
 							<Typography>
-								안정한 개인정보 관리를 위해 6개월마다 비밀번호를
+								안전한 개인정보 관리를 위해 6개월마다 비밀번호를
 								변경하기 바랍니다.
 							</Typography>
 						</Box>
@@ -192,7 +196,6 @@ const GetCertModal = (props: IGetCertModalProps) => {
 						{/** 등록 버튼 */}
 						<LoadingButton
 							onClick={() => {
-								props.setLoading(true);
 								authCert();
 							}}
 							endIcon={<SaveIcon />}

@@ -33,8 +33,11 @@ const useAppMember = () => {
 	 * 유저 아이디 가져오기
 	 */
 	useEffect(() => {
-		if (accessToken === undefined) return;
-		else {
+		if (accessToken === undefined) {
+			setMemberId(undefined);
+			setMemberName(undefined);
+			setMemberPoint(undefined);
+		} else {
 			appMemberController.getData(
 				{},
 				`${appMemberController.mergedPath}/profile`,

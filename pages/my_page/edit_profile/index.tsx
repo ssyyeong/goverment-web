@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import AppMemberUpdateModal from '../../../src/views/local/auth/appMemberUpdateModal/AppMemeberUpdateModal';
 import ProfileUpdateModal from '../../../src/views/local/auth/profileUpdateModal/ProfileUpdateModal';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -55,6 +56,12 @@ const Page: NextPage = () => {
 		'withdraw' | 'unsubscribe'
 	>('withdraw');
 
+	//* Hooks
+	/**
+	 * 유저 정보 가져오기
+	 */
+	const { memberId } = useAppMember();
+
 	//* Functions
 	/**
 	 * 회원 탈퇴
@@ -62,11 +69,11 @@ const Page: NextPage = () => {
 	const withdraw = () => {
 		appMemberController.deleteItem(
 			{
-				ACCESS_TOKEN: cookie.getItemInCookies('ACCESS_TOKEN'),
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				cookie.removeItemInCookies('ACCESS_TOKEN', { path: '/' });
-				router.push('/');
+				router.push('/auth/sign_in');
 			},
 			(err) => {
 				console.log(err);
@@ -91,11 +98,16 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+	const { memberPoint } = useAppMember();
 	//* Constants
 	/**
 	 * 회원정보
 	 */
 	const memberInfoConfig = [
+		{
+			label: '보유 포인트',
+			value: `${memberPoint} P`,
+		},
 		{
 			label: '이름',
 			value: memberInfo.FULL_NAME,

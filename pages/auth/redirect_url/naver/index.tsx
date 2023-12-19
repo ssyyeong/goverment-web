@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
 import { AppMemberController } from '../../../../src/controller/AppMemberController';
 import { CookieManager } from '@qillie-corp/qillie-utility';
+import AppMemberUpdateModal from '../../../../src/views/local/auth/appMemberUpdateModal/AppMemeberUpdateModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -20,6 +21,7 @@ const Page: NextPage = () => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
 	const [userData, setUserData] = React.useState<any>({});
+	const [accessToken, setAccessToken] = React.useState<string>('');
 	//* Functions
 	//* Hooks
 	useEffect(() => {
@@ -31,8 +33,12 @@ const Page: NextPage = () => {
 				(res) => {
 					if (res.data.result.user.USER_GRADE === 'NOT_GENERATED') {
 						alert('회원가입이 필요합니다.');
+						setAccessToken(
+							res.data.result.signUpResult.accessToken
+						);
 						setUserData(res.data.result.user);
 						setUpdateModal(true);
+
 						return;
 					} else {
 						cookie.setItemInCookies(
@@ -84,6 +90,17 @@ const Page: NextPage = () => {
 			>
 				소셜로그인이 진행중입니다!
 			</Typography>
+			{userData && (
+				<AppMemberUpdateModal
+					open={updateModal}
+					needPhoneUpdate={false}
+					handleClose={() => {
+						setUpdateModal(false);
+					}}
+					appMemberData={userData}
+					accessToken={accessToken}
+				/>
+			)}
 		</Box>
 	);
 };

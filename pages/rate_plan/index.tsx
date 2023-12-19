@@ -32,7 +32,9 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		ratePlanController.findAllItems(
-			{},
+			{
+				TYPE: 'PRODUCT',
+			},
 			(res) => {
 				setRatePlanList(res.data.result.rows);
 			},

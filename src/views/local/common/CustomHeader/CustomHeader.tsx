@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	AppBar,
@@ -107,7 +107,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/auth/sign_out',
 			onclick: () => {
 				cookie.removeItemInCookies('ACCESS_TOKEN', { path: '/' });
-				router.push('/');
+				router.push('/auth/sign_in');
 			},
 		},
 	];
@@ -159,6 +159,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	//* Hooks
 	const { memberName, memberPoint } = useAppMember();
+
+	useEffect(() => {
+		handleCloseMypageMenu();
+		handleCloseNavMenu();
+		handleCloseUserMenu();
+	}, [router]);
+
 	return (
 		!router.asPath.includes('/internal_service') &&
 		!router.asPath.includes('/my_page') && (

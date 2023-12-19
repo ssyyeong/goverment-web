@@ -7,10 +7,13 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
 	//* Modules
 	const qnaController = new DefaultController('QnaBoardQuestion');
+	const router = useRouter();
 	//* Constants
 	//* States
 	const [qnaSheet, setQnaSheet] = React.useState<any>({});
@@ -64,11 +67,20 @@ const Page: NextPage = () => {
 	 */
 	const { memberId } = useAppMember();
 	/**
+	 * 로그인 여부 가져오는 훅
+	 */
+	const { access } = useUserAccess('SIGN_IN');
+	/**
 	 * 질문 리스트 조회
 	 */
 	useEffect(() => {
-		memberId && getQuestion();
-	}, [memberId]);
+		if (access === true) {
+			memberId && getQuestion();
+		} else if (access === false) {
+			alert('로그인 후 이용해주세요.');
+			router.push('/auth/sign_in');
+		}
+	}, [memberId, access]);
 	return (
 		<Box p={{ md: 10, xs: 3 }}>
 			<Typography variant="h5" fontWeight={'bold'}>

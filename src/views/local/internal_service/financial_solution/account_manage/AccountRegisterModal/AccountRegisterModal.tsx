@@ -11,6 +11,8 @@ import GetCertModal from '../GetCertModal/GetCertModal';
 import { bankConfig } from '../../../../../../../configs/data/BankConfig';
 import { BankController } from '../../../../../../controller/BankController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import SaveIcon from '@mui/icons-material/Save';
+import { LoadingButton } from '@mui/lab';
 
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
@@ -230,6 +232,11 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				setLoading(false);
 
 				setAccountList(response.data.result);
+				setUserAccountInfo({
+					...userAccountInfo,
+					ACCOUNT_NUMBER: response.data.result[0].acctNo,
+					ACCOUNT_HOLDER: response.data.result[0].acctHolder,
+				});
 				setGetCertModalOpen(!getCertModalOpen);
 			},
 			(err: any) => {
@@ -313,8 +320,10 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							CERTIFICATE_PASSWORD:
 								userAccountInfo.CERTIFICATE_PASSWORD,
 						});
+						setLoading(false);
 					} else {
 						window.alert(res.data.errMsg);
+						setLoading(false);
 					}
 				}
 			})
@@ -395,7 +404,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				title="계좌 등록"
 				activeHeader={true}
 				style={{
-					width: '70%',
+					width: { sm: '40%', xs: '100%' },
 				}}
 				children={
 					<Box>
@@ -419,7 +428,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						>
 							{/** loginMethod에 상관없이 공통 select box */}
 							<Box display={'flex'} mb={2}>
-								<Typography m={'auto'}>은행</Typography>
+								<Typography m={'auto'} mr={2}>
+									은행
+								</Typography>
 								<SupportiInput
 									type="select"
 									value={userAccountInfo.BANK_CODE}
@@ -440,7 +451,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								IdRegisterForm.map((item, index) => {
 									return (
 										<Box display={'flex'}>
-											<Typography m={'auto'}>
+											<Typography m={'auto'} mr={2}>
 												{item.title}
 											</Typography>
 											{item.component}
@@ -449,6 +460,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								})
 							) : (
 								<SupportiButton
+									fullWidth
 									contents={'공용/금융 인증서 등록'}
 									onClick={() => {
 										getCert('certList', null);
@@ -462,27 +474,34 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							<Divider sx={{ mt: 2, mb: 2 }} />
 
 							{/** 계좌 관련 정보 입력 섹션 */}
-							{AccountForm.map((item, index) => {
-								return (
-									<Box display={'flex'}>
-										<Typography m={'auto'}>
-											{item.title}
-										</Typography>
-										{item.component}
-									</Box>
-								);
-							})}
+							{userAccountList.length !== 0 &&
+								AccountForm.map((item, index) => {
+									return (
+										<Box display={'flex'}>
+											<Typography m={'auto'} mr={1}>
+												{item.title}
+											</Typography>
+											{item.component}
+										</Box>
+									);
+								})}
 						</Box>
-
-						<SupportiButton
-							style={{ color: 'white' }}
-							contents={'등록'}
-							fullWidth
+						<LoadingButton
 							onClick={() => {
 								registerAccount();
 							}}
-							isGradient={true}
-						/>
+							loading={loading}
+							loadingPosition="end"
+							variant="contained"
+							fullWidth
+							sx={{
+								height: '50px',
+								backgroundImage:
+									'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
+							}}
+						>
+							등록
+						</LoadingButton>
 					</Box>
 				}
 			/>

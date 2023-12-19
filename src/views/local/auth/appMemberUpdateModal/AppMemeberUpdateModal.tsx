@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
 import SuppportiModal from '../../../global/SuppportiModal';
@@ -12,12 +12,14 @@ import { AlimTalkController } from '../../../../controller/AlimTalkController';
 import { useRouter } from 'next/router';
 import { IUser } from '../../../../@types/model';
 import axios from 'axios';
+import { CookieManager } from '@qillie-corp/qillie-utility';
 
 interface IAppMemberUpdateModalProps {
 	open: boolean;
 	handleClose: () => void;
 	appMemberData: any;
 	needPhoneUpdate?: boolean;
+	accessToken: string;
 }
 
 const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
@@ -25,6 +27,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	const appMemberController = new AppMemberController();
 	const alimTalkController = new AlimTalkController();
 	const router = useRouter();
+	const cookie = new CookieManager();
 	//* State
 	const [tabs, setTabs] = useState<string>('BUSINESS');
 	const [signupData, setSignupData] = useState<IUser>({} as IUser);
@@ -38,6 +41,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	const [isVerified, setIsVerified] = React.useState<boolean>(false);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
+	const [phoneNumDuplication, setPhoneNumDuplication] =
+		React.useState<boolean>(false);
+	const [signUpdataFinal, setSignUpdataFinal] = React.useState<any>([]);
 	//* Functions
 	/**
 	 * 알림톡 발송
@@ -50,8 +56,11 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			(res) => {
 				setEncrypted(res.data.result);
+				setPhoneNumDuplication(false);
 			},
-			(err) => {}
+			(err) => {
+				setPhoneNumDuplication(true);
+			}
 		);
 	};
 	/**
@@ -126,7 +135,11 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			(res) => {
 				alert('회원 정보가 업데이트 되었습니다.');
-				router.reload();
+				cookie.setItemInCookies('ACCESS_TOKEN', props.accessToken, {
+					path: '/',
+					maxAge: 3600 * 24 * 30,
+				});
+				router.push('/');
 			},
 			(err) => {
 				alert('회원 정보 업데이트에 실패하였습니다.');
@@ -185,6 +198,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					PHONE_NUMBER: e.target.value,
 				});
 			},
+			error: phoneNumDuplication,
+			helperText: phoneNumDuplication
+				? '이미 가입된 전화번호입니다.'
+				: '',
 		},
 		{
 			label: '인증번호',
@@ -212,6 +229,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				setVerifyNumber(e.target.value);
 			},
 		},
+	];
+
+	/**
+	 * 비즈니스 데이터
+	 */
+	const businessDataConfig = [
 		{
 			label: '사업 분류',
 			for: 'BUSINESS',
@@ -269,6 +292,25 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		},
 	];
 
+	useEffect(() => {
+		if (tabs === 'BUSINESS') {
+			if (props.needPhoneUpdate) {
+				setSignUpdataFinal([
+					...signupDataConfig,
+					...businessDataConfig,
+				]);
+			} else {
+				setSignUpdataFinal(businessDataConfig);
+			}
+		} else {
+			if (props.needPhoneUpdate) {
+				setSignUpdataFinal(signupDataConfig);
+			} else {
+				setSignUpdataFinal([]);
+			}
+		}
+	}, [tabs, props.needPhoneUpdate]);
+
 	console.log(props.appMemberData);
 
 	return (
@@ -308,18 +350,14 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				</Box>
 			</Box>
 			<Box mb={3} width={'100%'}>
-				{signupDataConfig.map((item, idx) => {
+				{signUpdataFinal.map((item, idx) => {
 					return (
 						<Box
 							key={idx}
 							alignItems={'center'}
 							width={'100%'}
 							mt={!item.nolabel && 2}
-							display={
-								item.for.includes(tabs) || item.optional
-									? 'block'
-									: 'none'
-							}
+							// display={item.optional ? 'block' : 'none'}
 						>
 							<Typography>
 								{!item.nolabel && item.label}
@@ -328,7 +366,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								type={item.type}
 								value={item.value}
 								onChange={item.onChange}
-								error={item.error}
+								error={item?.error}
 								focused={item.isVerified}
 								disabled={
 									item.isVerified &&
@@ -341,7 +379,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								InputProps={{
 									endAdornment: item.endAdornment,
 								}}
-								helperText={item.helperText}
+								helperText={item?.helperText}
 								sx={{
 									mt: 1,
 								}}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	AppBar,
@@ -49,6 +49,12 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	 * 알러트 모달
 	 */
 	const [alertModal, setAlertModal] = React.useState(false);
+	/**
+	 * 알러트 모달 타입
+	 */
+	const [alertModalType, setAlertModalType] = React.useState<
+		'business' | 'subscribe' | 'login'
+	>('business');
 
 	//* Functions
 	const handleDrawerToggle = () => {
@@ -60,6 +66,26 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	 * 기업 회원인지 확인하는 훅
 	 */
 	const { access } = useUserAccess('BUSINESS_MEMBER');
+	/**
+	 * 구독회원인지 확인하는 훅
+	 */
+	const isSubscribed = useUserAccess('SUBSCRIPTION');
+	/**
+	 * 로그인 회원인지 확인하는 훅
+	 */
+	const isLogin = useUserAccess('SIGN_IN');
+
+	useEffect(() => {
+		if (isLogin.access == false) {
+			setAlertModalType('login');
+			setAlertModal(true);
+			return;
+		}
+		if (isSubscribed.access == false) {
+			setAlertModalType('subscribe');
+			setAlertModal(true);
+		}
+	}, [isSubscribed.access, isLogin.access]);
 
 	const ListItemMap = (page1: any, index: number) => {
 		const [open, setOpen] = React.useState(false);
@@ -69,7 +95,8 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<ListItem key={index}>
 					<ListItemButton
 						onClick={() => {
-							if (page.forBusiness && !access) {
+							if (page.forBusiness && access === false) {
+								setAlertModalType('business');
 								setAlertModal(true);
 								return;
 							}
@@ -119,7 +146,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 									<ListItemButton
 										key={index2}
 										onClick={() => {
-											if (page2.forBusiness && !access) {
+											if (
+												page2.forBusiness &&
+												access === false
+											) {
 												setAlertModal(true);
 												return;
 											}
@@ -214,8 +244,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<Button
 					sx={{ color: 'black', mt: 2 }}
 					onClick={() => {
-						cookie.removeItemInCookies('ACCESS_TOKEN',{path:'/'});
-						router.push('/');
+						cookie.removeItemInCookies('ACCESS_TOKEN', {
+							path: '/',
+						});
+						router.push('/auth/sign_in');
 					}}
 				>
 					로그아웃
@@ -311,7 +343,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 				<SupportiAlertModal
 					open={alertModal}
 					handleClose={() => setAlertModal(false)}
-					type="business"
+					type={alertModalType}
 				/>
 			</Box>
 		</Box>
