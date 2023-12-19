@@ -41,11 +41,11 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		props.appMemberData as IUser
 	);
 	const [passwordConfirm, setPasswordConfirm] = useState('');
-	const [businessData, setBusinessData] = useState<any>({
-		BUSINESS_SECTOR: '',
-		BUSINESS_NUMBER: '',
-		COMPANY_NAME: '',
-	});
+	const [businessData, setBusinessData] = useState<{
+		BUSINESS_SECTOR: string;
+		BUSINESS_NUMBER: any;
+		COMPANY_NAME: string;
+	}>();
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
 	const [isVerified, setIsVerified] = React.useState<boolean>(false);
@@ -243,7 +243,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			label: '사업 분류',
 			for: 'BUSINESS',
 			type: 'select',
-			value: businessData.BUSINESS_SECTOR,
+			value: businessData?.BUSINESS_SECTOR,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -255,7 +255,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			label: '사업자 등록번호',
 			type: 'text',
 			for: 'BUSINESS',
-			value: businessData.BUSINESS_NUMBER,
+			value: businessData?.BUSINESS_NUMBER,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -286,7 +286,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			label: '회사명',
 			type: 'text',
 			for: 'BUSINESS',
-			value: businessData.COMPANY_NAME,
+			value: businessData?.COMPANY_NAME,
 			onChange: (e) => {
 				setBusinessData({
 					...businessData,
@@ -418,7 +418,14 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 										renderInput={(params) => (
 											<TextField
 												{...params}
-												sx={{ mt: 1 }}
+												sx={{
+													mt: 1,
+													'& .MuiAutocomplete-input':
+														{
+															padding:
+																'8px !important',
+														},
+												}}
 											/>
 										)}
 									/>

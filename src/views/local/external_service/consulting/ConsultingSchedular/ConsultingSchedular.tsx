@@ -48,7 +48,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 알럿 모달 타입
 	 */
 	const [alertModalType, setAlertModalType] = React.useState<
-		'success' | 'login' | 'subscribe' | 'point' | 'already'
+		'success' | 'login' | 'subscribe' | 'point' | 'consultingexceed'
 	>('success');
 	/**
 	 * 월별 가능 시간 데이터
@@ -124,6 +124,9 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					answermap,
 					(res) => {
 						// alert('예약이 완료되었습니다.');
+						setSelectedDate(null);
+						setPage(0);
+						setConsultingAnswer([]);
 						setAlertModal(true);
 						setAlertModalType('success');
 						// props.handleClose();
@@ -137,7 +140,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					'동일 고객 예약 금지 횟수를 초과하였습니다.'
 				) {
 					setAlertModal(true);
-					setAlertModalType('already');
+					setAlertModalType('consultingexceed');
 				}
 				if (err.response.data.message === '포인트가 부족합니다.') {
 					setAlertModal(true);
@@ -159,7 +162,6 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 */
 	const { memberId } = useAppMember();
 	useEffect(() => {
-		getMonthSchedule(moment().format('YYYY-MM'));
 		//* 컨설팅 질문에 대한 답변 초기화
 		let question = [];
 		props.consultingData?.ConsultingQuestions?.map((x) => {
@@ -171,6 +173,10 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			});
 		});
 		setConsultingAnswer(question);
+	}, [props.consultingData, props.open]);
+
+	useEffect(() => {
+		getMonthSchedule(moment().format('YYYY-MM'));
 	}, [props.consultingData]);
 
 	return (
@@ -275,7 +281,12 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 											moment(date.toString()).format(
 												'YYYY-MM-DD'
 											)
-									)
+									) &&
+									monthSchedule[
+										moment(date.toString()).format(
+											'YYYY-MM-DD'
+										)
+									].length > 0
 								) {
 									setPage(1);
 								}
@@ -302,7 +313,10 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 										(x) =>
 											x ===
 											moment(date).format('YYYY-MM-DD')
-									)
+									) &&
+									monthSchedule[
+										moment(date).format('YYYY-MM-DD')
+									].length > 0
 								) {
 									return styles.highlight;
 								}
@@ -422,13 +436,29 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			{page === 2 && (
 				<Box width={'100%'}>
 					{/* 예약 데이터 */}
+
 					<Box borderBottom={'0.5px solid grey'} pb={2} mb={2}>
 						<Box
 							display={'flex'}
-							justifyContent={'space-between'}
 							mb={1}
 							alignItems={'center'}
+							gap={1}
 						>
+							<KeyboardBackspaceOutlinedIcon
+								onClick={() => {
+									setPage(1);
+									setSelectedTime(null);
+								}}
+								color="primary"
+								sx={{
+									cursor: 'pointer',
+									borderRadius: '50%',
+									border: '1px solid lightgrey',
+									width: '26px',
+									height: '26px',
+									p: 0.5,
+								}}
+							/>
 							<Typography variant="h5" fontWeight={'700'}>
 								{props.consultingData.PRODUCT_NAME} 예약 일정
 							</Typography>
@@ -456,18 +486,13 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							sx={{ mb: 1 }}
 						>
 							<FmdGoodOutlinedIcon />
-							<Typography ml={1}>위치</Typography>
+							<Typography ml={1}>조율</Typography>
 						</Box>
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
-								{moment(props.consultingData.START_DATE).format(
-									'YYYY-MM-DD'
-								)}{' '}
-								-{' '}
-								{moment(props.consultingData.END_DATE).format(
-									'YYYY-MM-DD'
-								)}
+								{moment(selectedDate).format('YYYY-MM-DD(ddd)')}{' '}
+								{selectedTime.START} - {selectedTime.END}
 							</Typography>
 						</Box>
 					</Box>

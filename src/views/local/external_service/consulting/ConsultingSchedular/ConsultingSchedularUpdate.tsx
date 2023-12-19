@@ -48,7 +48,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	 * 알럿 모달 타입
 	 */
 	const [alertModalType, setAlertModalType] = React.useState<
-		'success' | 'login' | 'subscribe' | 'point' | 'already'
+		'success' | 'login' | 'subscribe' | 'point' | 'consultingexceed'
 	>('success');
 	/**
 	 * 월별 가능 시간 데이터
@@ -137,18 +137,18 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 					err.response.data.message ===
 					'동일 고객 예약 금지 횟수를 초과하였습니다.'
 				) {
+					setAlertModalType('consultingexceed');
 					setAlertModal(true);
-					setAlertModalType('already');
 				}
 				if (err.response.data.message === '포인트가 부족합니다.') {
-					setAlertModal(true);
 					setAlertModalType('point');
+					setAlertModal(true);
 				}
 				if (
 					err.response.data.message === '구독 회원만 이용 가능합니다.'
 				) {
-					setAlertModal(true);
 					setAlertModalType('subscribe');
+					setAlertModal(true);
 				}
 			}
 		);
@@ -192,7 +192,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 			);
 			setConsultingAnswer(answerList);
 		}
-	}, [props.consultingData]);
+	}, [props.consultingData, props.open]);
 
 	useEffect(() => {
 		getMonthSchedule(moment().format('YYYY-MM'));
@@ -321,7 +321,12 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 											moment(date.toString()).format(
 												'YYYY-MM-DD'
 											)
-									)
+									) &&
+									monthSchedule[
+										moment(date.toString()).format(
+											'YYYY-MM-DD'
+										)
+									].length > 0
 								) {
 									setPage(1);
 								}
@@ -348,7 +353,12 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 										(x) =>
 											x ===
 											moment(date).format('YYYY-MM-DD')
-									)
+									) &&
+									monthSchedule[
+										moment(date.toString()).format(
+											'YYYY-MM-DD'
+										)
+									].length > 0
 								) {
 									return styles.highlight;
 								}
@@ -471,10 +481,25 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 					<Box borderBottom={'0.5px solid grey'} pb={2} mb={2}>
 						<Box
 							display={'flex'}
-							justifyContent={'space-between'}
+							gap={1}
 							mb={1}
 							alignItems={'center'}
 						>
+							<KeyboardBackspaceOutlinedIcon
+								onClick={() => {
+									setPage(1);
+									setSelectedTime(null);
+								}}
+								color="primary"
+								sx={{
+									cursor: 'pointer',
+									borderRadius: '50%',
+									border: '1px solid lightgrey',
+									width: '26px',
+									height: '26px',
+									p: 0.5,
+								}}
+							/>
 							<Typography variant="h5" fontWeight={'700'}>
 								{
 									props.consultingData.ConsultingProduct
@@ -506,20 +531,13 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 							sx={{ mb: 1 }}
 						>
 							<FmdGoodOutlinedIcon />
-							<Typography ml={1}>위치</Typography>
+							<Typography ml={1}>조율</Typography>
 						</Box>
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
-								{moment(
-									props.consultingData.ConsultingProduct
-										.START_DATE
-								).format('YYYY-MM-DD')}{' '}
-								-{' '}
-								{moment(
-									props.consultingData.ConsultingProduct
-										.END_DATE
-								).format('YYYY-MM-DD')}
+								{moment(selectedDate).format('YYYY-MM-DD(ddd)')}{' '}
+								{selectedTime.START} - {selectedTime.END}
 							</Typography>
 						</Box>
 					</Box>

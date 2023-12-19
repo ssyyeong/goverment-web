@@ -83,6 +83,11 @@ const mypageMenu: IMenu[] = [
 		path: '/my_page/consulting_reservation_history',
 		icon: '/images/icons/consulting-reservation.png',
 	},
+	{
+		label: '대시보드',
+		path: '/internal_service/indicator_management',
+		icon: '/images/icons/business.svg',
+	},
 ];
 
 export { dashboardMenu, mypageMenu };

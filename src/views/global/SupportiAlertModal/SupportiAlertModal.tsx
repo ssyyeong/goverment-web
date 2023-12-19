@@ -21,7 +21,9 @@ interface ISupportiAlertModalProps {
 		| 'unsubscribe'
 		| 'cancel'
 		| 'business'
-		| 'loginfail';
+		| 'loginfail'
+		| 'consultingexceed'
+		| 'seminarexceed';
 	customHandleClose?: () => void;
 }
 
@@ -29,6 +31,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	const router = useRouter();
 	const [openChargeModal, setOpenChargeModal] =
 		React.useState<boolean>(false);
+	console.log(props.type);
 	const modalConfig = {
 		success: {
 			type: 'success',
@@ -117,6 +120,24 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		loginfail: {
 			type: 'error',
 			title: '입력하신 정보와 일치하는 회원이 없습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		consultingexceed: {
+			type: 'error',
+			title: '동일고객 예약횟수를 초과하였습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		seminarexceed: {
+			type: 'error',
+			title: '제한인원을 초과하였습니다.',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
