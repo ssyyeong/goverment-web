@@ -65,26 +65,10 @@ const OkrCard = (props: IOkrCardProps) => {
 	};
 
 	//* Hooks
-	React.useEffect(() => {
-		okrController
-			.getOneItem({
-				OKR_MAIN_IDENTIFICATION_CODE:
-					props.data['OKR_MAIN_IDENTIFICATION_CODE'],
-			})
-			.then((res) => {
-				console.log(res);
 
-				// setOkrMainData(res);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-	console.log(props.data, props.data.OkrDetails);
 	const materialDataList = okrMainData?.OkrDetails.map((item, index) => {
 		return {
-			percentage: item.ACHIEVED_RATE.toString(),
+			percentage: item.ACHIEVED_RATE?.toString(),
 			color: randomColor[index],
 		};
 	});

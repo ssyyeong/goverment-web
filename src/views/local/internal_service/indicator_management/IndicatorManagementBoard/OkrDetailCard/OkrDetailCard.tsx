@@ -18,7 +18,7 @@ interface IOkrDetailCardProps {
 	okrDetailData?: any;
 	setOkrDetailData?: any;
 	memberId?: number;
-	isSend?: boolean;
+	updateDetailOkr?: any;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -58,7 +58,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			});
 		}
 
-		if (props.isEditMode && props.isSend) {
+		if (props.isEditMode) {
 			props.setOkrDetailData(
 				props.okrDetailData.map((item: IOkrDetail, index: number) => {
 					if (index === props.index) {
@@ -69,7 +69,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				})
 			);
 		}
-	}, [props.isEditMode, props.isSend]);
+	}, [props.isEditMode]);
 
 	return (
 		<Box
@@ -234,7 +234,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 						materialDataList={[
 							{
 								percentage:
-									props.data?.ACHIEVED_RATE.toString(),
+									props.data?.ACHIEVED_RATE?.toString(),
 								color: randomColor[props.index],
 							},
 						]}
@@ -298,7 +298,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							materialDataList={[
 								{
 									percentage:
-										props.data?.ACHIEVED_RATE.toString(),
+										props.data?.ACHIEVED_RATE?.toString(),
 									color: randomColor[props.index],
 								},
 							]}

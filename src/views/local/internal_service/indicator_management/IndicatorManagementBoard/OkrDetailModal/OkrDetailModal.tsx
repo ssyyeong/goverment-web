@@ -87,18 +87,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				(response: any) => {
 					alert('업데이트 성공');
 					setIsEditMode(false);
-					// Toast.fire({
-					//   icon: 'success',
-					//   title: '성공적으로 수정 되었습니다.',
-					// });
 				},
-				(err: any) => {
-					// console.log(err);
-					// Toast.fire({
-					//   icon: 'error',
-					//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
-					// });
-				}
+				(err: any) => {}
 			);
 		} else {
 			okrDetailController.updateItem(
@@ -109,21 +99,36 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 					injectedObj
 				),
 				(response: any) => {
+					alert('하위 업데이트 성공');
+
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
 					setIsEditMode(false);
-					// Toast.fire({
-					//   icon: 'success',
-					//   title: '성공적으로 수정 되었습니다.',
-					// });
 				},
-				(err: any) => {
-					// console.log(err);
-					// Toast.fire({
-					//   icon: 'error',
-					//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
-					// });
-				}
+				(err: any) => {}
 			);
 		}
+	};
+
+	const updateDetailOkr = () => {
+		props.okrDetailData.map((item) => {
+			{
+				item.TITLE == '' ||
+				item.TARGET_AMOUNT == 0 ||
+				item.TARGET_UNIT == ''
+					? alert('필수 값 미입력')
+					: updateOkr('detail', {
+							TITLE: item.TITLE,
+							START_DATE: item.START_DATE,
+							END_DATE: item.END_DATE,
+							TARGET_AMOUNT: item.TARGET_AMOUNT,
+							TARGET_UNIT: item.TARGET_UNIT,
+							NOTE: item.NOTE,
+							ACHIEVED_AMOUNT: item.ACHIEVED_AMOUNT,
+							OKR_DETAIL_IDENTIFICATION_CODE:
+								item.OKR_DETAIL_IDENTIFICATION_CODE,
+					  });
+			}
+		});
 	};
 
 	/**
@@ -537,7 +542,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												index={index}
 												mode="detail"
 												isEditMode={isEditMode}
-												isSend={isSend}
+												updateDetailOkr={
+													updateDetailOkr
+												}
 												children={
 													<AchieveBox data={item} />
 												}
@@ -565,28 +572,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								updateOkr('main', okrMainData);
 
 								//* Okr 하위 목표 등록
-								props.okrDetailData.map((item) => {
-									{
-										item.TITLE == '' ||
-										item.TARGET_AMOUNT == 0 ||
-										item.TARGET_UNIT == ''
-											? alert('필수 값 미입력')
-											: updateOkr('detail', {
-													TITLE: item.TITLE,
-													START_DATE: item.START_DATE,
-													END_DATE: item.END_DATE,
-													TARGET_AMOUNT:
-														item.TARGET_AMOUNT,
-													TARGET_UNIT:
-														item.TARGET_UNIT,
-													NOTE: item.NOTE,
-													ACHIEVED_AMOUNT:
-														item.ACHIEVED_AMOUNT,
-													OKR_DETAIL_IDENTIFICATION_CODE:
-														item.OKR_DETAIL_IDENTIFICATION_CODE,
-											  });
-									}
-								});
+								updateDetailOkr();
 							}}
 							style={{
 								height: '20px',

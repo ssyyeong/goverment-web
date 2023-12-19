@@ -329,7 +329,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
-								updateOkr();
+								memberId && updateOkr();
 							}}
 							style={{
 								height: '25px',
