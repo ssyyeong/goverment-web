@@ -347,10 +347,11 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			activeHeader={true}
 			title="유저 정보 업데이트"
 			muiModalProps={{
-				maxWidth: '60%',
+				width: { sm: '60%', xs: '100%' },
 			}}
 			style={{
 				minWidth: '40%',
+				width: { sm: '60%', xs: '100%' },
 			}}
 		>
 			<Box mb={3} width={'100%'}>

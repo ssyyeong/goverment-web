@@ -176,41 +176,89 @@ const Page: NextPage = () => {
 						},
 					}}
 				/>
+				{/*모바일 테이블 */}
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'none',
+						xs: 'block',
+					}}
+				>
+					{consultingApplicationList.map((item, idx) => {
+						return (
+							<MobileTableRow
+								index={idx}
+								title={item.ConsultingProduct.PRODUCT_NAME}
+								colums={[
+									{
+										label: '금액',
+										value:
+											item.ConsultingProduct.PRICE + '원',
+									},
+									{
+										label: '일정',
+										value: `${moment(
+											item.RESERVATION_DATE
+										).format('YYYY-MM-DD')} ${
+											item.RESERVATION_START_TIME
+										}`,
+									},
+									{
+										label: '변경',
+										value:
+											tab === 'WAITING' &&
+											item.CAN_BE_CANCELED === 'N' ? (
+												<Typography color={'error'}>
+													변경불가
+												</Typography>
+											) : (
+												tab === 'WAITING' && (
+													<Button
+														variant="contained"
+														onClick={() => {
+															setUpdateModalData(
+																item
+															);
+															setUpdateModal(
+																true
+															);
+														}}
+														sx={{
+															fontWeight: '400',
+															fontSize: '12px',
+														}}
+													>
+														변경
+													</Button>
+												)
+											),
+									},
+								]}
+							/>
+						);
+					})}
+				</Box>
 				{/* 테이블 */}
-				<Box width={'100%'} p={2} mt={2}>
-					{matches ? (
-						consultingApplicationList.map((item, idx) => {
-							return (
-								<MobileTableRow
-									index={idx}
-									title={item.DESCRIPTION}
-									colums={[
-										{
-											label: '금액',
-											value: item.AMOUNT,
-										},
-										{
-											label: '결제일',
-											value: `${
-												item.APPROVED_DATE.split('T')[0]
-											} 원`,
-										},
-									]}
-								/>
-							);
-						})
-					) : (
-						<SupportiTable
-							rowData={consultingApplicationList}
-							headerData={
-								tab === 'WAITING'
-									? consultingApplicationHeaderData.concat(
-											cancelConsultingHeaderData
-									  )
-									: consultingApplicationHeaderData
-							}
-						/>
-					)}
+				<Box
+					width={'100%'}
+					p={2}
+					mt={2}
+					display={{
+						sm: 'block',
+						xs: 'none',
+					}}
+				>
+					<SupportiTable
+						rowData={consultingApplicationList}
+						headerData={
+							tab === 'WAITING'
+								? consultingApplicationHeaderData.concat(
+										cancelConsultingHeaderData
+								  )
+								: consultingApplicationHeaderData
+						}
+					/>
 				</Box>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>

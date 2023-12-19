@@ -70,6 +70,24 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/my_page/edit_profile',
 		},
 	];
+	const unLoginMenu = [
+		{
+			label: '로그인',
+			path: '/auth/sign_in',
+		},
+		{
+			label: '세미나',
+			path: '/external_service/seminar',
+		},
+		{
+			label: '컨설팅',
+			path: '/external_service/consulting',
+		},
+		{
+			label: '요금제 안내',
+			path: '/rate_plan',
+		},
+	];
 	/**
 	 * 고객 센터
 	 */
@@ -245,11 +263,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								}}
 								PaperProps={{
 									sx: {
-										width: '110%',
+										width: '100%',
 										boxShadow: '2px 4px 2px #f5f5f5',
 										mt: 1,
 										left: '0 !important',
 										p: 2,
+										maxWidth: '100% !important',
 									},
 								}}
 							>
@@ -274,77 +293,103 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										X
 									</Typography>
 								</Box>
-								<Box
-									bgcolor={'secondary.light'}
-									sx={{
-										borderRadius: 2,
-										p: 2,
-										display: 'flex',
-										flexDirection: 'column',
-										gap: 2,
-										mb: 1,
-									}}
-								>
+								{memberName && (
 									<Box
-										display={'flex'}
-										justifyContent={'space-between'}
-										alignItems={'center'}
-									>
-										<Typography fontWeight={'600'}>
-											{memberName}님 안녕하세요!
-										</Typography>
-										<Box
-											display={'flex'}
-											alignItems={'center'}
-											gap={1}
-											color={'secondary.dark'}
-											sx={{
-												cursor: 'pointer',
-											}}
-											onClick={() => {
-												cookie.removeItemInCookies(
-													'ACCESS_TOKEN',
-													{ path: '/' }
-												);
-												router.push('/auth/sign_in');
-											}}
-										>
-											<Typography
-												fontWeight={'500'}
-												color={'secondary.dark'}
-											>
-												로그아웃
-											</Typography>
-											<LogoutRoundedIcon
-												sx={{
-													fontSize: '1.1rem',
-												}}
-											/>
-										</Box>
-									</Box>
-									<Typography fontWeight={'600'}>
-										보유 포인트 {memberPoint}P
-									</Typography>
-								</Box>
-								{mobileMenu.map((page) => (
-									<MenuItem
-										key={page.label}
-										onClick={() => {
-											router.push(page.path);
-											handleCloseNavMenu();
+										bgcolor={'secondary.light'}
+										sx={{
+											borderRadius: 2,
+											p: 2,
+											display: 'flex',
+											flexDirection: 'column',
+											gap: 2,
+											mb: 1,
 										}}
 									>
-										<Typography
-											textAlign="center"
-											sx={{
-												fontWeight: '500',
-												py: 1,
-											}}
+										<Box
+											display={'flex'}
+											justifyContent={'space-between'}
+											alignItems={'center'}
 										>
-											{page.label}
+											<Typography fontWeight={'600'}>
+												{memberName}님 안녕하세요!
+											</Typography>
+											<Box
+												display={'flex'}
+												alignItems={'center'}
+												gap={1}
+												color={'secondary.dark'}
+												sx={{
+													cursor: 'pointer',
+												}}
+												onClick={() => {
+													cookie.removeItemInCookies(
+														'ACCESS_TOKEN',
+														{ path: '/' }
+													);
+													router.push(
+														'/auth/sign_in'
+													);
+												}}
+											>
+												<Typography
+													fontWeight={'500'}
+													color={'secondary.dark'}
+												>
+													로그아웃
+												</Typography>
+												<LogoutRoundedIcon
+													sx={{
+														fontSize: '1.1rem',
+													}}
+												/>
+											</Box>
+										</Box>
+										<Typography fontWeight={'600'}>
+											보유 포인트 {memberPoint}P
 										</Typography>
-									</MenuItem>
-								))}
+									</Box>
+								)}
+								{memberName
+									? mobileMenu.map((page) => (
+											<MenuItem
+												key={page.label}
+												onClick={() => {
+													router.push(page.path);
+													handleCloseNavMenu();
+												}}
+												sx={{}}
+											>
+												<Typography
+													textAlign="center"
+													sx={{
+														fontWeight: '500',
+														py: 1,
+													}}
+												>
+													{page.label}
+												</Typography>
+											</MenuItem>
+									  ))
+									: unLoginMenu.map((page) => (
+											<MenuItem
+												key={page.label}
+												onClick={() => {
+													router.push(page.path);
+													handleCloseNavMenu();
+												}}
+												sx={{}}
+											>
+												<Typography
+													textAlign="center"
+													sx={{
+														fontWeight: '500',
+														py: 1,
+													}}
+												>
+													{page.label}
+												</Typography>
+											</MenuItem>
+									  ))}
 							</Menu>
 						</Box>
 

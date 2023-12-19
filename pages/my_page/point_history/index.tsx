@@ -9,6 +9,7 @@ import MobileTableRow from '../../../src/views/local/external_service/mobileTabl
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -108,7 +109,14 @@ const Page: NextPage = () => {
 
 	return (
 		<InternalServiceDrawer type="mypage">
-			<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+			<Box
+				width={'100%'}
+				p={{
+					sm: 10,
+					xs: 2,
+				}}
+				bgcolor={'primary.light'}
+			>
 				<Typography variant="h4" fontWeight={'bold'}>
 					포인트 내역
 				</Typography>
@@ -136,45 +144,59 @@ const Page: NextPage = () => {
 						color={status === 'USED' ? 'primary' : 'default'}
 					/>
 				</Box>
-				{/* 테이블 */}
-				<Box width={'100%'} p={2}>
-					{matches ? (
-						pointHistoryList.map((item, idx) => {
-							return (
-								<MobileTableRow
-									index={idx}
-									title={item.DESCRIPTION}
-									colums={[
-										{
-											label: '금액',
-											value: item.AMOUNT,
-										},
-										{
-											label: '포인트타입',
-											value:
-												item.TYPE === 'CHARGED'
-													? '충전'
-													: item.TYPE === 'USED'
-													? '사용'
-													: '환불',
-										},
+				{/*모바일 테이블 */}
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'none',
+						xs: 'block',
+					}}
+				>
+					{pointHistoryList.map((item, idx) => {
+						return (
+							<MobileTableRow
+								index={idx}
+								title={item.DESCRIPTION}
+								colums={[
+									{
+										label: '금액',
+										value: item.AMOUNT,
+									},
+									{
+										label: '포인트타입',
+										value:
+											item.TYPE === 'CHARGED'
+												? '충전'
+												: item.TYPE === 'USED'
+												? '사용'
+												: '환불',
+									},
 
-										{
-											label: '결제일',
-											value: `${
-												item.APPROVED_DATE.split('T')[0]
-											} 원`,
-										},
-									]}
-								/>
-							);
-						})
-					) : (
-						<SupportiTable
-							rowData={pointHistoryList}
-							headerData={pointHistoryHeaderData}
-						/>
-					)}
+									{
+										label: '결제일',
+										value: `${moment(
+											item.CREATED_AT
+										).format('YY-MM-DD')} `,
+									},
+								]}
+							/>
+						);
+					})}
+				</Box>
+				{/* 테이블 */}
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'block',
+						xs: 'none',
+					}}
+				>
+					<SupportiTable
+						rowData={pointHistoryList}
+						headerData={pointHistoryHeaderData}
+					/>
 				</Box>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>

@@ -90,39 +90,62 @@ const Page: NextPage = () => {
 
 	return (
 		<InternalServiceDrawer type="mypage">
-			<Box width={'100%'} p={10} bgcolor={'primary.light'}>
+			<Box
+				width={'100%'}
+				p={{
+					sm: 10,
+					xs: 2,
+				}}
+				bgcolor={'primary.light'}
+			>
 				<Typography variant="h4" fontWeight={'bold'}>
 					결제내역
 				</Typography>
+				{/*모바일 테이블 */}
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'none',
+						xs: 'block',
+					}}
+				>
+					{paymentHistoryList.map((item, idx) => {
+						return (
+							<MobileTableRow
+								index={idx}
+								title={item.DESCRIPTION}
+								colums={[
+									{
+										label: '금액',
+										value: item.AMOUNT,
+									},
+									{
+										label: '결제일',
+										value: `${
+											item.APPROVED_DATE.split('T')[0]
+										} 원`,
+									},
+								]}
+							/>
+						);
+					})}
+				</Box>
 				{/* 테이블 */}
-				<Box width={'100%'} p={2} mt={2}>
-					{matches ? (
-						paymentHistoryList.map((item, idx) => {
-							return (
-								<MobileTableRow
-									index={idx}
-									title={item.DESCRIPTION}
-									colums={[
-										{
-											label: '금액',
-											value: item.AMOUNT,
-										},
-										{
-											label: '결제일',
-											value: `${
-												item.APPROVED_DATE.split('T')[0]
-											} 원`,
-										},
-									]}
-								/>
-							);
-						})
-					) : (
-						<SupportiTable
-							rowData={paymentHistoryList}
-							headerData={paymentHistoryHeaderData}
-						/>
-					)}
+
+				<Box
+					width={'100%'}
+					p={2}
+					mt={2}
+					display={{
+						sm: 'block',
+						xs: 'none',
+					}}
+				>
+					<SupportiTable
+						rowData={paymentHistoryList}
+						headerData={paymentHistoryHeaderData}
+					/>
 				</Box>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>

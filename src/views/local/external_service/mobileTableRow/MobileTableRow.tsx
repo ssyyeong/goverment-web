@@ -7,7 +7,7 @@ interface IMobileTableRowProps {
 	title: string;
 	colums: {
 		label: string;
-		value?: string;
+		value?: any;
 		onCancel?: (id: number) => void;
 	}[];
 }
@@ -46,10 +46,12 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 						<Typography variant="subtitle2">
 							{column.label}
 						</Typography>
-						{column.value && (
+						{typeof column.value == 'string' ? (
 							<Typography variant="subtitle2" fontWeight={'bold'}>
 								{column.value}
 							</Typography>
+						) : (
+							column.value
 						)}
 						{column.onCancel && (
 							<Box

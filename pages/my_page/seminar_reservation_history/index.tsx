@@ -15,6 +15,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import { SeminarApplicationController } from '../../../src/controller/SeminarApplicationController';
+import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -154,7 +155,13 @@ const Page: NextPage = () => {
 
 	return (
 		<InternalServiceDrawer type="mypage">
-			<Box width={'100%'} p={10}>
+			<Box
+				width={'100%'}
+				p={{
+					sm: 10,
+					xs: 2,
+				}}
+			>
 				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
 					내 세미나 예약 내역
 				</Typography>
@@ -182,8 +189,65 @@ const Page: NextPage = () => {
 						},
 					}}
 				/>
+				{/*모바일 테이블 */}
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'none',
+						xs: 'block',
+					}}
+				>
+					{seminarDataList.map((item, idx) => {
+						return (
+							<MobileTableRow
+								index={idx}
+								title={item.SeminarProduct.PRODUCT_NAME}
+								colums={[
+									{
+										label: '금액',
+										value: item.SeminarProduct.PRICE + '원',
+									},
+									{
+										label: '일정',
+										value: moment(
+											item.SeminarProduct.SEMINAR_DATE
+										).format('YYYY-MM-DD'),
+									},
+									{
+										label: '취소',
+										value: tab == 0 && (
+											<Button
+												variant="contained"
+												onClick={() => {
+													setSelectedSeminarId(
+														item.SEMINAR_APPLICATION_IDENTIFICATION_CODE
+													);
+													setCancelModal(true);
+												}}
+												sx={{
+													fontWeight: '400',
+													fontSize: '12px',
+												}}
+											>
+												취소
+											</Button>
+										),
+									},
+								]}
+							/>
+						);
+					})}
+				</Box>
 				{/* 테이블 */}
-				<Box width={'100%'} p={2}>
+				<Box
+					width={'100%'}
+					p={2}
+					display={{
+						sm: 'block',
+						xs: 'none',
+					}}
+				>
 					<SupportiTable
 						rowData={seminarDataList}
 						headerData={
