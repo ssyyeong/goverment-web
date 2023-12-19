@@ -131,6 +131,9 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 				 * 컨설팅 답변 업로드 (res로 들어온 id 값 consultingAnswer에 꽂아넣기)
 				 */
 				updateConsultingAnswer();
+				setSelectedDate(null);
+				setPage(0);
+				setConsultingAnswer([]);
 			},
 			(err) => {
 				if (
@@ -159,9 +162,6 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	const updateConsultingAnswer = () => {
 		consultingAnswer.map((x) => {
 			consultingAnswerController.updateItem(x, (res) => {
-				setSelectedDate(null);
-				setPage(0);
-				setConsultingAnswer([]);
 				setAlertModal(true);
 				setAlertModalType('success');
 			});
@@ -192,7 +192,9 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 			);
 			setConsultingAnswer(answerList);
 		}
-	}, [props.consultingData, props.open]);
+	}, [props.consultingData]);
+
+	console.log(consultingAnswer);
 
 	useEffect(() => {
 		getMonthSchedule(moment().format('YYYY-MM'));
