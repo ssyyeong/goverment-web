@@ -244,9 +244,16 @@ const Page: NextPage = () => {
 				</Grid>
 			</Grid>
 
-			<Grid item xs={12} bgcolor={'#3C52BB'} borderRadius={4} p={10}>
+			<Grid
+				item
+				xs={12}
+				bgcolor={'#3C52BB'}
+				borderRadius={4}
+				p={15}
+				pl={20}
+			>
 				<Grid container>
-					<Grid item xs={6}>
+					<Grid item xs={6} m="auto">
 						<Box
 							textAlign={'left'}
 							display={'flex'}
@@ -284,7 +291,7 @@ const Page: NextPage = () => {
 							</Typography>
 						</Box>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={6} m="auto">
 						<video
 							src={'/videos/시연영상.mp4'}
 							id="vid"
@@ -464,8 +471,8 @@ const Page: NextPage = () => {
 										data-aos-duration="3000"
 										style={{
 											zIndex: -100,
-											marginLeft: 350,
-											marginTop: -400,
+											marginLeft: 290,
+											marginTop: -370,
 										}}
 									>
 										<img
@@ -482,7 +489,7 @@ const Page: NextPage = () => {
 											data-aos-duration="2000"
 											style={{
 												width: '303px',
-												marginLeft: -400,
+												marginLeft: -350,
 												marginTop: -50,
 											}}
 										>
@@ -580,7 +587,7 @@ const Page: NextPage = () => {
 						</Typography>
 						<SupportiButton
 							contents={'재무 솔루션 자세히보기'}
-							onClick={() => setOpen(true)}
+							onClick={() => setOpen(!open)}
 							style={{
 								border: '1px solid #3C52BB',
 								marginTop: 4,
@@ -665,7 +672,7 @@ const Page: NextPage = () => {
 				</Grid>
 			)}
 
-			<Grid item xs={12} p={10}>
+			<Grid item xs={12} p={25}>
 				<Box textAlign={'center'}>
 					<Box>
 						<Box
@@ -677,7 +684,7 @@ const Page: NextPage = () => {
 								{data2.map((item, index) => {
 									if (index < 2) {
 										return (
-											<Grid item xs={6} p={3.5}>
+											<Grid item xs={6}>
 												<Box
 													key={index}
 													boxShadow={
@@ -719,7 +726,7 @@ const Page: NextPage = () => {
 								{data2.map((item, index) => {
 									if (index > 1) {
 										return (
-											<Grid item xs={6} p={3.5}>
+											<Grid item xs={6} p={4}>
 												<Box
 													key={index}
 													boxShadow={

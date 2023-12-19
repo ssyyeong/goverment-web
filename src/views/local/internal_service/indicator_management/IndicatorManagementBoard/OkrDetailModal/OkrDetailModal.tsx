@@ -8,7 +8,6 @@ import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { OkrController } from '../../../../../../controller/OkrController';
-import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
@@ -47,30 +46,21 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		END_DATE: props.okrMainData?.END_DATE,
 		NOTE: props.okrMainData?.NOTE,
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
+		ACHIEVED_RATE: props.okrMainData?.ACHIEVED_RATE,
 	});
 
 	const [okrDetailData, setOkrDetailData] = React.useState([]);
 
-	useEffect(() => {
-		if (memberId) {
-			setOkrDetailData([
-				{
-					TITLE: '',
-					START_DATE: new Date(),
-					END_DATE: new Date(),
-					TARGET_AMOUNT: 0,
-					TARGET_UNIT: '',
-					NOTE: '',
-					ACHIEVED_AMOUNT: 0,
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
-			]);
-		}
-	}, [memberId]);
 	/**
 	 * 수정 모드인지 여부
 	 * **/
 	const [isEditMode, setIsEditMode] = React.useState(false);
+
+	/**
+	 *
+	 * 등록하기 버튼 클릭 여부
+	 */
+	const [isSend, setIsSend] = React.useState(false);
 
 	//* Functions
 	/**
@@ -162,11 +152,29 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				END_DATE: props.okrMainData?.END_DATE,
 				NOTE: props.okrMainData?.NOTE,
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				ACHIEVED_RATE: props.okrMainData?.ACHIEVED_RATE,
 			});
 
 			setOkrDetailData([]);
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
+
+	// useEffect(() => {
+	// 	if (memberId) {
+	// 		setOkrDetailData([
+	// 			{
+	// 				TITLE: '',
+	// 				START_DATE: new Date(),
+	// 				END_DATE: new Date(),
+	// 				TARGET_AMOUNT: 0,
+	// 				TARGET_UNIT: '',
+	// 				NOTE: '',
+	// 				ACHIEVED_AMOUNT: 0,
+	// 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+	// 			},
+	// 		]);
+	// 	}
+	// }, [memberId]);
 
 	console.log(props.okrDetailData);
 
@@ -377,10 +385,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								<Box display="flex" gap={1}>
 									<Typography>현재 달성률</Typography>
 									<Typography color={'primary.main'}>
-										{calculateAchieveRate(
-											props.okrMainData.OkrDetails
-										)}
-										%
+										{props.okrMainData.ACHIEVED_RATE}%
 									</Typography>
 								</Box>
 								{/** 프로그레스바 */}
@@ -532,6 +537,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												index={index}
 												mode="detail"
 												isEditMode={isEditMode}
+												isSend={isSend}
 												children={
 													<AchieveBox data={item} />
 												}
@@ -552,6 +558,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
+								setIsSend(true);
+
 								//* Okr 메인 목표 등록
 
 								updateOkr('main', okrMainData);

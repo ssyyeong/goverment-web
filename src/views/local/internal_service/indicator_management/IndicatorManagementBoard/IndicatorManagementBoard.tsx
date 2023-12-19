@@ -209,6 +209,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 						},
 						...IndicatorCategory,
 					]}
+					placeholder="전체"
 					width={'100px'}
 				/>
 			)}

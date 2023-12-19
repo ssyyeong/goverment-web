@@ -6,7 +6,6 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
-import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -19,6 +18,7 @@ interface IOkrDetailCardProps {
 	okrDetailData?: any;
 	setOkrDetailData?: any;
 	memberId?: number;
+	isSend?: boolean;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -44,6 +44,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 	//* Hooks
 	React.useEffect(() => {
+		//* 수정모드가 아닐 경우 기존 데이터로 리셋
 		if (!props.isEditMode) {
 			setOkrDetailData({
 				TITLE: props.data.TITLE,
@@ -56,7 +57,19 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
 			});
 		}
-	}, [props.isEditMode]);
+
+		if (props.isEditMode && props.isSend) {
+			props.setOkrDetailData(
+				props.okrDetailData.map((item: IOkrDetail, index: number) => {
+					if (index === props.index) {
+						return okrDetailData;
+					} else {
+						return item;
+					}
+				})
+			);
+		}
+	}, [props.isEditMode, props.isSend]);
 
 	return (
 		<Box
@@ -213,16 +226,15 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							color={'primary.main'}
 							fontWeight={600}
 						>
-							{calculateAchieveRate([props.data])}%
+							{props.data.ACHIEVED_RATE}%
 						</Typography>
 					</Box>
 					{/** 프로그레스 바 */}
 					<SupportiProgressBar
 						materialDataList={[
 							{
-								percentage: calculateAchieveRate([
-									props.data,
-								]).toString(),
+								percentage:
+									props.data?.ACHIEVED_RATE.toString(),
 								color: randomColor[props.index],
 							},
 						]}
@@ -230,7 +242,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					{/** 목표량 목표분류 */}
 					<Box display={'flex'}>
 						<Typography fontWeight={500} ml={'auto'}>
-							{props.data?.ACHIEVED_AMOUNT as string}
+							{props.data?.ACHIEVED_RATE}
 						</Typography>
 						<Typography
 							ml={0.5}
@@ -277,7 +289,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								color={'primary.main'}
 								fontWeight={600}
 							>
-								{calculateAchieveRate([props.data])}%
+								{props.data?.ACHIEVED_RATE}%
 							</Typography>
 						</Box>
 
@@ -285,9 +297,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 						<SupportiProgressBar
 							materialDataList={[
 								{
-									percentage: calculateAchieveRate([
-										props.data,
-									]).toString(),
+									percentage:
+										props.data?.ACHIEVED_RATE.toString(),
 									color: randomColor[props.index],
 								},
 							]}
@@ -297,7 +308,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					{/** 목표량 목표분류 */}
 					<Box display={'flex'} mt={1}>
 						<Typography fontWeight={500} ml={'auto'}>
-							{props.data?.ACHIEVED_AMOUNT as string}
+							{props.data?.ACHIEVED_AMOUNT}
 						</Typography>
 						<Typography
 							ml={0.5}

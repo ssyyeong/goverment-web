@@ -5,7 +5,6 @@ import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
 import { OkrDetailModal } from '../OkrDetailModal';
@@ -41,6 +40,7 @@ const OkrCard = (props: IOkrCardProps) => {
 		OKR_MAIN_IDENTIFICATION_CODE:
 			props.data['OKR_MAIN_IDENTIFICATION_CODE'],
 		OkrDetails: props.data.OkrDetails,
+		ACHIEVED_RATE: props.data.ACHIEVED_RATE,
 	});
 
 	const [okrDetailData, setOkrDetailData] = React.useState(
@@ -84,11 +84,7 @@ const OkrCard = (props: IOkrCardProps) => {
 	console.log(props.data, props.data.OkrDetails);
 	const materialDataList = okrMainData?.OkrDetails.map((item, index) => {
 		return {
-			percentage: Math.round(
-				((Number(item.ACHIEVED_AMOUNT) / Number(item.TARGET_AMOUNT)) *
-					100) /
-					okrMainData?.OkrDetails.length
-			).toString(),
+			percentage: item.ACHIEVED_RATE.toString(),
 			color: randomColor[index],
 		};
 	});
@@ -150,7 +146,7 @@ const OkrCard = (props: IOkrCardProps) => {
 				<Box display="flex">
 					<Typography>현재 달성률</Typography>
 					<Typography ml={1} color={'primary.main'} fontWeight={600}>
-						{calculateAchieveRate(okrMainData?.OkrDetails)}%
+						{okrMainData.ACHIEVED_RATE}%
 					</Typography>
 				</Box>
 

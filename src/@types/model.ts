@@ -54,6 +54,7 @@ interface IOkrMain {
 	START_DATE: Date | string;
 	END_DATE: Date | string;
 	NOTE: string;
+	ACHIEVED_RATE: number;
 }
 
 /**
@@ -66,7 +67,8 @@ interface IOkrDetail {
 	NOTE: string;
 	TARGET_AMOUNT: string;
 	TARGET_UNIT: string;
-	ACHIEVED_AMOUNT: string;
+	ACHIEVED_AMOUNT: number;
+	ACHIEVED_RATE: number;
 }
 
 /**
@@ -74,6 +76,14 @@ interface IOkrDetail {
  */
 interface IOkrCombination extends IOkrMain {
 	OkrDetails: IOkrDetail[];
+}
+
+/**
+ *  OKR 달성량
+ */
+interface IOkrAchievement {
+	AMOUNT: number;
+	UNIT: string;
 }
 
 /**
@@ -118,6 +128,7 @@ export type {
 	ITransactionHistory,
 	IOkrMain,
 	IOkrDetail,
+	IOkrAchievement,
 	IKpi,
 	IOkrCombination,
 	IUser,

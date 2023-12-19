@@ -59,6 +59,14 @@ const OkrModal = (props: IOkrModalProps) => {
 
 	useEffect(() => {
 		if (memberId) {
+			setOkrMainData({
+				TITLE: '',
+				START_DATE: new Date(),
+				END_DATE: new Date(),
+				NOTE: '',
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			});
+
 			setOkrDetailData([
 				{
 					TITLE: '',

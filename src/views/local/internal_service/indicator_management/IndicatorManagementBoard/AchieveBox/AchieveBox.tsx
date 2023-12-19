@@ -1,11 +1,8 @@
 import React from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
-import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import OkrModal from '../OkrModal/OkrModal';
-import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 
@@ -19,7 +16,9 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	 * OKR 컨트롤러
 	 */
 	const okrController = new DefaultController('OkrDetail');
-
+	const okrAchievedAmountController = new DefaultController(
+		'OkrAchievedAmountHistory'
+	);
 	//* Modules
 
 	//* Constants
@@ -52,24 +51,23 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				OKR_DETAIL_IDENTIFICATION_CODE:
 					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
 				NOTE: note,
-				ACHIEVED_AMOUNT: achieveAmount,
 			}),
 			(response: any) => {
 				alert('수정 성공');
 				setAchieveAmount(0);
-				// Toast.fire({
-				//   icon: 'success',
-				//   title: '성공적으로 수정 되었습니다.',
-				// });
 			},
-			(err: any) => {
-				// console.log(err);
-				// Toast.fire({
-				//   icon: 'error',
-				//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
-				// });
-			}
+			(err: any) => {}
 		);
+
+		okrAchievedAmountController.updateItem({
+			APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			OKR_ACHIEVED_AMOUNT_HISTORY_IDENTIFICATION_CODE:
+				props.data['OKR_ACHIEVED_AMOUNT_HISTORY_IDENTIFICATION_CODE'],
+			OKR_DETAIL_IDENTIFICATION_CODE:
+				props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
+			AMOUNT: achieveAmount,
+			UNIT: props.data['TARGET_UNIT'],
+		});
 	};
 
 	console.log(props.data, props.data.OkrDetails);
@@ -83,7 +81,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				</Typography>
 				<SupportiInput
 					type="inputwithbtn"
-					inputType='number'
+					inputType="number"
 					value={achieveAmount}
 					setValue={(value) => {
 						setAchieveAmount(value);
