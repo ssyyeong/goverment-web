@@ -32,7 +32,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 	//* Constants
 
-	//* States
+	//* 직접 입력 여부
+	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -211,6 +213,52 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 						</Typography>
 						<SupportiInput
 							type="select"
+							value={
+								isUserMakeUnit
+									? '직접입력'
+									: props.okrDetailData[props.index]
+											.TARGET_UNIT
+							}
+							setValue={(value) => {
+								if (value === '직접입력') {
+									setIsUserMakeUnit(true);
+									let temp: any = [...props.okrDetailData];
+									temp[props.index].TARGET_UNIT = '';
+
+									props.setOkrDetailData(temp);
+								} else {
+									setIsUserMakeUnit(false);
+
+									let temp: any = [...props.okrDetailData];
+									temp[props.index].TARGET_UNIT = value;
+
+									props.setOkrDetailData(temp);
+								}
+							}}
+							dataList={IndicatorUnit}
+							width={'150px'}
+						/>
+						{isUserMakeUnit && (
+							<SupportiInput
+								type="input"
+								value={
+									props.okrDetailData[props.index].TARGET_UNIT
+								}
+								setValue={(value) => {
+									let temp: any = [...props.okrDetailData];
+									temp[props.index].TARGET_UNIT = value;
+
+									props.setOkrDetailData(temp);
+								}}
+								width={'150px'}
+								style={{
+									bgcolor: 'white',
+									marginTop: '5px',
+								}}
+							/>
+						)}
+						{/* <SupportiInput
+							type="select"
 							value={props.okrDetailData[props.index].TARGET_UNIT}
 							setValue={(value) => {
 								let temp: any = [...props.okrDetailData];
@@ -220,7 +268,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 							dataList={IndicatorUnit}
 							width={'150px'}
-						/>
+						/> */}
 
 						<Typography
 							fontWeight={500}
