@@ -37,7 +37,7 @@ interface SupportiInputProps {
 	useIcon?: boolean;
 	additionalProps?: { [key: string]: any };
 	readOnly?: boolean;
-	minDate?: string;
+	minDate?: string | Date;
 	inputType?: string;
 }
 

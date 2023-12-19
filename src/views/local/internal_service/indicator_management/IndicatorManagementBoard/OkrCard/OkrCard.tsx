@@ -5,10 +5,10 @@ import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import OkrModal from '../OkrModal/OkrModal';
 import calculateAchieveRate from '../../../../../../function/calculateAchieveRate';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
+import { OkrDetailModal } from '../OkrDetailModal';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
@@ -42,6 +42,10 @@ const OkrCard = (props: IOkrCardProps) => {
 			props.data['OKR_MAIN_IDENTIFICATION_CODE'],
 		OkrDetails: props.data.OkrDetails,
 	});
+
+	const [okrDetailData, setOkrDetailData] = React.useState(
+		props.data.OkrDetails
+	);
 
 	//* Functions
 	//* 마감일 계산하는 함수
@@ -180,13 +184,13 @@ const OkrCard = (props: IOkrCardProps) => {
 				</Box>
 			</Box>
 			{isMoreModalOpen && (
-				<OkrModal
-					mode={'detail'}
+				<OkrDetailModal
 					modalOpen={isMoreModalOpen}
 					setModalOpen={setIsMoreModalOpen}
 					okrMainData={okrMainData}
 					setOkrMainData={setOkrMainData}
-					okrDetailData={okrMainData?.OkrDetails}
+					okrDetailData={okrDetailData}
+					setOkrDetailData={setOkrDetailData}
 					materialDataList={materialDataList}
 					setTriggerKey={props.setTriggerKey}
 				/>

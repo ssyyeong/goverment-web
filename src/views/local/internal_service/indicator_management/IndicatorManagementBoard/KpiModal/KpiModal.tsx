@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
@@ -45,6 +45,9 @@ const KpiModal = (props: IKpiModalProps) => {
 					STATUS: 'PROCEEDING',
 			  }
 	);
+
+	//* 직접 입력 여부
+	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
 
 	//* Functions
 	/**
@@ -301,16 +304,42 @@ const KpiModal = (props: IKpiModalProps) => {
 									</Typography>
 									<SupportiInput
 										type="select"
-										value={kpiData.TARGET_UNIT}
+										value={
+											isUserMakeUnit
+												? '직접입력'
+												: kpiData.TARGET_UNIT
+										}
 										setValue={(value) => {
-											setKpiData({
-												...kpiData,
-												TARGET_UNIT: value,
-											});
+											if (value === '직접입력') {
+												setIsUserMakeUnit(true);
+												setKpiData({
+													...kpiData,
+													TARGET_UNIT: '',
+												});
+											} else {
+												setIsUserMakeUnit(false);
+												setKpiData({
+													...kpiData,
+													TARGET_UNIT: value,
+												});
+											}
 										}}
 										dataList={IndicatorUnit}
 										width={'150px'}
 									/>
+									{isUserMakeUnit && (
+										<SupportiInput
+											type="input"
+											value={kpiData.TARGET_UNIT}
+											setValue={(value) => {
+												setKpiData({
+													...kpiData,
+													TARGET_UNIT: value,
+												});
+											}}
+											width={'150px'}
+										/>
+									)}
 									<Typography
 										fontWeight={500}
 										variant="body1"
