@@ -151,7 +151,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					maxAge: 3600 * 24 * 30,
 				});
 				alert('회원 정보가 업데이트 되었습니다.');
-
 				router.push('/');
 			},
 			(err) => {

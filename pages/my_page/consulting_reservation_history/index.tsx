@@ -33,7 +33,7 @@ const Page: NextPage = () => {
 	/**
 	 * 탭
 	 */
-	const [tab, setTab] = React.useState<'COMPLETE' | 'WAITING'>('WAITING');
+	const [tab, setTab] = React.useState<'COMPLETED' | 'WAITING'>('WAITING');
 	/**
 	 * 업데이트 모달
 	 */

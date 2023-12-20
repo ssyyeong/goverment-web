@@ -134,6 +134,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 				setSelectedDate(null);
 				setPage(0);
 				setConsultingAnswer([]);
+				props.handleClose();
 			},
 			(err) => {
 				if (
@@ -209,8 +210,6 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 		<SuppportiModal
 			open={props.open}
 			handleClose={() => {
-				setSelectedDate(null);
-				setPage(0);
 				props.handleClose();
 			}}
 			activeHeader={true}
