@@ -99,7 +99,7 @@ const KpiModal = (props: IKpiModalProps) => {
 											TITLE: value,
 										});
 									}}
-									width={'400px'}
+									width={'100%'}
 									placeholder="목표 타이틀을 입력해주세요."
 									readOnly={kpiData.TITLE.length > 50}
 								/>

@@ -124,7 +124,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			flexDirection={'column'}
 			gap={1}
 			width={props.mode === 'detail' ? '100%' : '380px'}
-			minWidth={'380px'}
+			sx={{
+				minWidth: { xs: '300px', sm: '380px' },
+			}}
 		>
 			<Box width="100%">
 				<Box display={'flex'} gap={1} mb={1}>
@@ -152,7 +154,11 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										TITLE: value,
 									});
 								}}
-								width={'280px'}
+								width={'100%'}
+								style={{
+									marginTop: 'auto',
+									marginBottom: 'auto',
+								}}
 								placeholder="하위 목표 타이틀을 입력해주세요."
 								readOnly={okrDetailData.TITLE.length > 50}
 							/>
@@ -212,6 +218,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										style={{
 											height: '20px',
 											width: '60px',
+											marginTop: 'auto',
+											marginBottom: 'auto',
 										}}
 										color={'primary'}
 										variant="contained"
@@ -350,7 +358,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 						)}
 
 						{!isEditMode && (
-							<Box>
+							<Box display="flex" flexDirection="column" gap={1}>
 								{/** 달성률*/}
 								<Box display="flex" mt={'20px'}>
 									<Typography>현재 달성률</Typography>
@@ -429,7 +437,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 											}
 										}}
 										dataList={IndicatorUnit}
-										width={'150px'}
+										style={{
+											width: { xs: '100px', sm: '150px' },
+										}}
 									/>
 									{isUserMakeUnit && (
 										<SupportiInput
@@ -441,10 +451,13 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													TARGET_UNIT: value,
 												});
 											}}
-											width={'150px'}
 											style={{
 												bgcolor: 'white',
 												marginTop: '5px',
+												width: {
+													xs: '100px',
+													sm: '150px',
+												},
 											}}
 										/>
 									)}
@@ -481,9 +494,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													TARGET_AMOUNT: value,
 												});
 											}}
-											width={'150px'}
 											style={{
 												bgcolor: 'white',
+												width: {
+													xs: '100px',
+													sm: '150px',
+												},
 											}}
 										/>
 										{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>
@@ -520,7 +536,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									style={{
 										height: '25px',
 										width: '100px',
-										marginTop: 'auto',
+										marginTop: '30px',
 										marginLeft: 'auto',
 									}}
 									color={'primary'}

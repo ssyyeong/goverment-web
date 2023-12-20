@@ -188,18 +188,20 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				}}
 				title={''}
 				style={{
-					width: '60%',
-					padding: '20px',
+					width: { xs: '100%', sm: '60%' },
+					padding: { xs: '10px', sm: '20px' },
 				}}
 				children={
 					<Box
-						width="80%"
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
 						maxHeight={'80vh'}
 						minHeight={'70vh'}
 						overflow={'auto'}
+						sx={{
+							width: { xs: '100%', sm: '80%' },
+						}}
 					>
 						{/** 상위 목표 작성 */}
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
@@ -218,7 +220,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 													TITLE: value,
 												});
 											}}
-											width={'400px'}
+											width={'100%'}
 											placeholder="상위 목표 타이틀을 입력해주세요."
 										/>
 										<Box
