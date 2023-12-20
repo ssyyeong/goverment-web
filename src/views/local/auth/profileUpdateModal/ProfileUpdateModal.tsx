@@ -410,8 +410,8 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 										options={businessSector}
 										fullWidth
 										onChange={(e, newValue) => {
-											setSignupData({
-												...signupData,
+											setBusinessData({
+												...businessData,
 												BUSINESS_SECTOR: newValue,
 											});
 										}}
