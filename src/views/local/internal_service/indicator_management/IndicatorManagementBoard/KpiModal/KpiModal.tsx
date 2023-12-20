@@ -76,15 +76,17 @@ const KpiModal = (props: IKpiModalProps) => {
 				}}
 				title={props.mode === 'modify' ? '수정하기' : '목표 등록'}
 				style={{
-					width: '70%',
-					padding: '20px',
+					width: { xs: '100%', sm: '60%' },
+					padding: { xs: '10px', sm: '20px' },
 				}}
 				children={
 					<Box
-						width="80%"
 						display={'flex'}
 						flexDirection={'column'}
 						gap={5}
+						sx={{
+							width: { xs: '100%', sm: '80%' },
+						}}
 					>
 						{/** 목표 작성 */}
 						<Box display={'flex'} flexDirection={'column'} gap={2}>

@@ -148,8 +148,13 @@ const KpiCard = (props: IKpiCardProps) => {
 				justifyContent={'space-between'}
 				flexWrap="wrap"
 			>
-				<Box display="flex" gap={1}>
-					<Box display="flex" flexDirection="column" gap={1}>
+				<Box display="flex" gap={1} flexWrap={'wrap'}>
+					<Box
+						display="flex"
+						flexDirection="column"
+						gap={1}
+						minWidth={'160px'}
+					>
 						<Typography variant="h5" fontWeight={'bold'}>
 							{kpiData.TITLE}
 						</Typography>
@@ -179,7 +184,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					</Box>
 
 					{/** 목표량 */}
-					<Box display={'flex'} ml={2}>
+					<Box display={'flex'} minWidth={'75px'}>
 						<Typography mt="auto" mb="auto" fontWeight={500} mr={1}>
 							목표량
 						</Typography>
@@ -211,11 +216,18 @@ const KpiCard = (props: IKpiCardProps) => {
 				</Box>
 
 				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
-				<Typography ml={1} mt={'auto'} mb={'auto'} fontWeight={500}>
+				<Typography
+					ml={1}
+					mt={'auto'}
+					mb={'auto'}
+					pt={'8px'}
+					fontWeight={500}
+					minHeight={'30px'}
+				>
 					{calcDeadline((kpiData?.END_DATE as string).split('T')[0])}
 				</Typography>
 
-				<Box display="flex" gap={1}>
+				<Box display="flex" gap={1} minHeight={'30px'}>
 					{/** 담당자 */}
 					<Typography mt="auto" mb="auto" fontWeight={500}>
 						담당자
@@ -223,7 +235,9 @@ const KpiCard = (props: IKpiCardProps) => {
 					<Typography mt="auto" mb="auto" fontWeight={500}>
 						{kpiData.ASSIGNEE}
 					</Typography>
+				</Box>
 
+				<Box display="flex" gap={1}>
 					{/** 버튼들 */}
 					{kpiData.STATUS === 'PROCEEDING' && (
 						<Box display="flex" mt="auto" mb="auto" gap={0.5}>
