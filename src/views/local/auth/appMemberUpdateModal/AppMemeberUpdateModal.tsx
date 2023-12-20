@@ -138,7 +138,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 						props.appMemberData.APP_MEMBER_IDENTIFICATION_CODE,
 				},
 				UPDATE_OPTION_KEY_LIST: {
-					...signupData,
+					PHONE_NUMBER: signupData,
 					USER_GRADE: tabs,
 				},
 				BUSINESS_SECTOR: businessData.BUSINESS_SECTOR,
@@ -168,7 +168,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 						props.appMemberData.APP_MEMBER_IDENTIFICATION_CODE,
 				},
 				UPDATE_OPTION_KEY_LIST: {
-					...signupData,
+					PHONE_NUMBER: signupData,
 					USER_GRADE: tabs,
 				},
 			},
