@@ -34,7 +34,12 @@ const Page: NextPage = () => {
 	 * 알럿 모달 타입
 	 */
 	const [alertModalType, setAlertModalType] = React.useState<
-		'success' | 'login' | 'subscribe' | 'point' | 'already'
+		| 'success'
+		| 'login'
+		| 'subscribe'
+		| 'point'
+		| 'already'
+		| 'seminarexceed'
 	>('success');
 
 	//* Hooks
@@ -82,6 +87,11 @@ const Page: NextPage = () => {
 				if (err.response.data.message === '포인트가 부족합니다.') {
 					setAlertModal(true);
 					setAlertModalType('point');
+					return;
+				}
+				if (err.response.data.message === '정원이 초과되었습니다.') {
+					setAlertModal(true);
+					setAlertModalType('seminarexceed');
 					return;
 				}
 			}

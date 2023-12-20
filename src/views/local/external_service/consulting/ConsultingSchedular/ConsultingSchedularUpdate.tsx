@@ -294,7 +294,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 								).format('YYYY-MM-DD')}
 							</Typography>
 						</Box>
-						<Box>
+						<Box mt={2}>
 							<Typography color={'primary'}>
 								{props.consultingData.ConsultingProduct
 									.LOCK_DOWN_TIME_UNIT === 'WEEK' && '한주에'}

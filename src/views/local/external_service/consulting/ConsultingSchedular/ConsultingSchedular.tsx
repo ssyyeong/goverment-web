@@ -194,7 +194,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				maxWidth: '60%',
 			}}
 			style={{
-				width: { sm: '60%', xs: '100%' },
+				width: { sm: 'fit-content', xs: '100%' },
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 */}
@@ -252,7 +252,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 								)}
 							</Typography>
 						</Box>
-						<Box>
+						<Box mt={2}>
 							<Typography color={'primary'}>
 								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
 									'WEEK' && '한주에'}
