@@ -27,7 +27,6 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 	//* Constants
 
 	//* States
-
 	//* Functions
 	/**
 	 * 버튼 클릭 시
@@ -47,7 +46,6 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 			alert('데이터가 없습니다.');
 			return;
 		}
-
 		/**
 		 * 헤더 변환
 		 */
@@ -90,12 +88,15 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 		const excelFileName = props.fileName;
 
 		const ws = XLSX.utils.aoa_to_sheet([[`${props.fileName}`], [], header]);
-		convertedDataList.map((data: any) => {
-			XLSX.utils.sheet_add_aoa(ws, convertedDataList, {
-				origin: -1,
-			});
-			ws['!cols'] = [{ wpx: 150 }, { wpx: 150 }];
-			return false;
+		// convertedDataList.map((data: any) => {
+		// 	XLSX.utils.sheet_add_aoa(ws, convertedDataList, {
+		// 		origin: -1,
+		// 	});
+		// 	ws['!cols'] = [{ wpx: 150 }, { wpx: 150 }];
+		// 	return false;
+		// });
+		XLSX.utils.sheet_add_aoa(ws, convertedDataList, {
+			origin: -1,
 		});
 		const wb: any = { Sheets: { data: ws }, SheetNames: ['data'] };
 		const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });

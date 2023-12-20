@@ -74,7 +74,13 @@ const Page: NextPage = () => {
 			>
 				요금제를 알아보세요!
 			</Typography>
-			<Box display={'flex'} alignItems={'center'} gap={2}>
+			<Box
+				display={'flex'}
+				alignItems={'center'}
+				gap={4}
+				flexWrap={'wrap'}
+				justifyContent={'center'}
+			>
 				{ratePlanList.map((ratePlan, id) => {
 					return (
 						<Box

@@ -176,6 +176,12 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 */
 	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 
+	/**
+	 * 전체 데이터 리스트
+	 */
+	const [allTransactionHistoryList, setAllTransactionHistoryList] =
+		React.useState<ITransactionHistory[]>([]);
+
 	//* Functions
 	/**
 	 * 거래내역 제외 함수
@@ -201,6 +207,23 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			}
 		);
 	};
+	/**
+	 * 전체 데이터 리스트 가져오기 (엑셀)
+	 */
+	const getAllTransactionHistoryList = () => {
+		transactionHistoryController.findAllItems(
+			{
+				BANK_ACCOUNT_IDENTIFICATION_CODE:
+					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+			},
+			(res) => {
+				setAllTransactionHistoryList(res.data.result.rows);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
 
 	//* Hooks
 	/**
@@ -213,7 +236,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 입출금 내역 가져오기
 	 */
 	useEffect(() => {
-		props.bankAccount &&
+		props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE &&
 			transactionHistoryController.findAllItems(
 				{
 					BANK_ACCOUNT_IDENTIFICATION_CODE:
@@ -236,7 +259,12 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 					console.log(err);
 				}
 			);
-	}, [props.bankAccount, limit, page, props.selectedPeriod]);
+	}, [
+		props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+		limit,
+		page,
+		props.selectedPeriod,
+	]);
 
 	/**
 	 * 기간
@@ -248,33 +276,40 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 검색
 	 */
 	useEffect(() => {
-		transactionHistoryController.findAllItems(
-			{
-				BANK_ACCOUNT_IDENTIFICATION_CODE:
-					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
-				LIMIT: limit,
-				PAGE: page,
-				KEYWORD: {
-					columnKey: 'TRADER_NAME',
-					keyword: props.keyword,
+		props.keyword &&
+			transactionHistoryController.findAllItems(
+				{
+					BANK_ACCOUNT_IDENTIFICATION_CODE:
+						props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+					LIMIT: limit,
+					PAGE: page,
+					KEYWORD: {
+						columnKey: 'TRADER_NAME',
+						keyword: props.keyword,
+					},
+					PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
+					PERIOD_START: new Date(
+						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
+					),
+					PERIOD_END: new Date(
+						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
+					),
 				},
-				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
-				PERIOD_START: new Date(
-					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
-				),
-				PERIOD_END: new Date(
-					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
-				),
-			},
-			(res) => {
-				setTransactionHistoryList(res.data.result.rows);
-				setTotalDataCount(res.data.result.count);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
+				(res) => {
+					setTransactionHistoryList(res.data.result.rows);
+					setTotalDataCount(res.data.result.count);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
 	}, [props.keyword]);
+	/**
+	 * 전체 데이터 리스트 가져오기 (엑셀)
+	 */
+	useEffect(() => {
+		getAllTransactionHistoryList();
+	}, [props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE]);
 
 	return (
 		<Box
@@ -340,16 +375,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 							bankConfig[props.bankAccount.BANK_CODE].name
 						} 입출금내역`}
 						dataConfig={transactionHistoryExcelHeaderData}
-						dataGetterCallback={
-							transactionHistoryController.findAllItems
-						}
-						dataGetterCallbackArgs={{
-							args: {
-								BANK_ACCOUNT_IDENTIFICATION_CODE:
-									props.bankAccount
-										.BANK_ACCOUNT_IDENTIFICATION_CODE,
-							},
-						}}
+						dataList={allTransactionHistoryList}
 					/>
 				</Box>
 			</Box>

@@ -127,7 +127,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					} else {
 						setStandardDate(res.data.result.BURN_RATE_END_DATE);
 						setAverageMonth(
-							res.data.result.BURN_RATE_END_DATE.diff(
+							moment(res.data.result.BURN_RATE_END_DATE).diff(
 								res.data.result.BURN_RATE_START_DATE,
 								'month'
 							)
@@ -263,36 +263,33 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 								inputProps,
 								InputProps,
 							}) => (
-								console.log(inputProps, InputProps),
-								(
-									<Box
-										sx={{
-											display: 'flex',
-											alignItems: 'center',
-										}}
-										onClick={(e) => {
-											InputProps.endAdornment?.[
-												'props'
-											].children.props.onClick();
-										}}
+								<Box
+									sx={{
+										display: 'flex',
+										alignItems: 'center',
+									}}
+									onClick={(e) => {
+										InputProps.endAdornment?.[
+											'props'
+										].children.props.onClick();
+									}}
+								>
+									<Typography
+										variant="h6"
+										fontWeight={'bold'}
+										color={'white'}
+										ref={inputRef}
 									>
-										<Typography
-											variant="h6"
-											fontWeight={'bold'}
-											color={'white'}
-											ref={inputRef}
-										>
-											{inputProps?.value}
-										</Typography>
-										<KeyboardArrowDownIcon
-											sx={{
-												color: 'white',
-											}}
-										/>
-										{/* <input ref={inputRef} {...inputProps} /> */}
-										{InputProps.endAdornment}
-									</Box>
-								)
+										{inputProps?.value}
+									</Typography>
+									<KeyboardArrowDownIcon
+										sx={{
+											color: 'white',
+										}}
+									/>
+									{/* <input ref={inputRef} {...inputProps} /> */}
+									{InputProps.endAdornment}
+								</Box>
 							)}
 						/>
 					</LocalizationProvider>
