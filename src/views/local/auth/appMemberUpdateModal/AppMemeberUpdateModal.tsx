@@ -55,20 +55,24 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	/**
 	 * 알림톡 발송
 	 */
-	const sendAlimTalk = (signupData) => {
-		if (signupData === undefined) return alert('전화번호를 입력해주세요.');
-		appMemberController.sendAuthCode(
-			{
-				PHONE_NUMBER: signupData,
-			},
-			(res) => {
-				setEncrypted(res.data.result);
-				setPhoneNumDuplication(false);
-			},
-			(err) => {
-				setPhoneNumDuplication(true);
-			}
-		);
+	const sendAlimTalk = () => {
+		if (signupData == undefined) {
+			alert('전화번호를 입력해주세요.');
+			return;
+		} else {
+			appMemberController.sendAuthCode(
+				{
+					PHONE_NUMBER: signupData,
+				},
+				(res) => {
+					setEncrypted(res.data.result);
+					setPhoneNumDuplication(false);
+				},
+				(err) => {
+					setPhoneNumDuplication(true);
+				}
+			);
+		}
 	};
 	/**
 	 * 인증번호 확인
@@ -183,7 +187,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		);
 	};
 
-	console.log(signupData);
 	//* Constants
 	const signupDataConfig = [
 		{
@@ -197,7 +200,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
-					onClick={() => sendAlimTalk(signupData)}
+					onClick={() => {
+						console.log('sendAlimTalk', signupData);
+						sendAlimTalk();
+					}}
 					disabled={isVerified}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
@@ -304,24 +310,23 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		},
 	];
 
-	useEffect(() => {
+	const finalDataConfig = () => {
+		let finalData = [];
 		if (tabs === 'BUSINESS') {
 			if (props.needPhoneUpdate) {
-				setSignUpdataFinal([
-					...signupDataConfig,
-					...businessDataConfig,
-				]);
+				finalData = [...signupDataConfig, ...businessDataConfig];
 			} else {
-				setSignUpdataFinal(businessDataConfig);
+				finalData = businessDataConfig;
 			}
 		} else {
 			if (props.needPhoneUpdate) {
-				setSignUpdataFinal(signupDataConfig);
+				finalData = signupDataConfig;
 			} else {
-				setSignUpdataFinal([]);
+				finalData = [];
 			}
 		}
-	}, [tabs, props.needPhoneUpdate]);
+		return finalData;
+	};
 
 	return (
 		<SuppportiModal
@@ -358,7 +363,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				</Box>
 			</Box>
 			<Box mb={3} width={'100%'}>
-				{signUpdataFinal.map((item, idx) => {
+				{finalDataConfig().map((item, idx) => {
 					return (
 						<Box
 							key={idx}
