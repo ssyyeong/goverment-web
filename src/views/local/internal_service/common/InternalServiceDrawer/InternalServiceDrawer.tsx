@@ -80,7 +80,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 			setAlertModalType('login');
 			setAlertModal(true);
 		}
-		if (isSubscribed.access == false) {
+		if (
+			isSubscribed.access == false &&
+			!router.asPath.includes('my_page')
+		) {
 			setAlertModalType('subscribe');
 			setAlertModal(true);
 		}

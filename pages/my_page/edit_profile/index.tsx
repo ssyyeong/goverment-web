@@ -19,6 +19,9 @@ const Page: NextPage = () => {
 	const userSubscriptionController = new DefaultController(
 		'UserSubscription'
 	);
+	const subscriptionPaymentInfoController = new DefaultController(
+		'SubscriptionPaymentInfo'
+	);
 	const cookie = new CookieManager();
 	const router = useRouter();
 	//* States
@@ -89,7 +92,6 @@ const Page: NextPage = () => {
 				USER_SUBSCRIPTION_IDENTIFICATION_CODE:
 					subscriptionInfo.USER_SUBSCRIPTION_IDENTIFICATION_CODE,
 				CANCELED_YN: 'Y',
-				EXPIRED_YN: 'Y',
 			},
 			(res) => {
 				router.push('/rate_plan');
@@ -111,7 +113,11 @@ const Page: NextPage = () => {
 				ALIMTALK_YN: checked ? 'Y' : 'N',
 			},
 			(res) => {
-				getUserInfo();
+				setMemberInfo(
+					Object.assign({}, memberInfo, {
+						ALIMTALK_YN: checked ? 'Y' : 'N',
+					})
+				);
 			}
 		);
 	};

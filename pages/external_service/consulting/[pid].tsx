@@ -132,9 +132,7 @@ const Page: NextPage = () => {
 						</Typography>
 						<Box display={'flex'} gap={3}>
 							<Typography variant={'body1'}>
-								{moment(consultingData.SEMINAR_DATE).format(
-									'YYYY-MM-DD'
-								)}
+								{consultingData.PRICE} P
 							</Typography>
 						</Box>
 					</Box>

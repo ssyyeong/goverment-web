@@ -100,7 +100,7 @@ const Page: NextPage = () => {
 								variant="h3"
 								fontWeight={'bold'}
 								color={'primary'}
-								sx={{ mb: 2 }}
+								sx={{ mb: 2, wordBreak: 'break-all' }}
 							>
 								{ratePlan.NAME}
 							</Typography>
@@ -146,7 +146,10 @@ const Page: NextPage = () => {
 									gap={2}
 								>
 									<CheckIcon color="primary" />
-									<Typography variant="subtitle2">
+									<Typography
+										variant="subtitle2"
+										// sx={{ wordBreak: 'break-all' }}
+									>
 										{ratePlan.DETAIL}
 									</Typography>
 								</Box>

@@ -211,7 +211,6 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 			handleClose={() => {
 				setSelectedDate(null);
 				setPage(0);
-
 				props.handleClose();
 			}}
 			activeHeader={true}
@@ -220,7 +219,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 				maxWidth: '60%',
 			}}
 			style={{
-				width: { sm: '60%', xs: '100%' },
+				width: { sm: 'fit-content', xs: 'fit-content' },
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 */}
@@ -274,9 +273,14 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 							sx={{ mb: 1 }}
 						>
 							<FmdGoodOutlinedIcon />
-							<Typography ml={1}>위치</Typography>
+							<Typography ml={1}>조율</Typography>
 						</Box>
-						<Box display={'flex'} alignItems={'center'} gap={1}>
+						<Box
+							display={'flex'}
+							alignItems={'center'}
+							gap={1}
+							sx={{ mb: 1 }}
+						>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
 								{moment(
@@ -288,6 +292,20 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 									props.consultingData.ConsultingProduct
 										.END_DATE
 								).format('YYYY-MM-DD')}
+							</Typography>
+						</Box>
+						<Box>
+							<Typography color={'primary'}>
+								{props.consultingData.ConsultingProduct
+									.LOCK_DOWN_TIME_UNIT === 'WEEK' && '한주에'}
+								{props.consultingData.ConsultingProduct
+									.LOCK_DOWN_TIME_UNIT === 'DAY' && '하루에'}
+								{props.consultingData.ConsultingProduct
+									.LOCK_DOWN_TIME_UNIT === 'YEAR' && '일년에'}
+								{props.consultingData.ConsultingProduct
+									.LOCK_DOWN_TIME_UNIT === 'MONTH' &&
+									'한달에 '}
+								{' 최대1회 예약 가능합니다.'}
 							</Typography>
 						</Box>
 					</Box>

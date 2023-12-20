@@ -252,6 +252,19 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 								)}
 							</Typography>
 						</Box>
+						<Box>
+							<Typography color={'primary'}>
+								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+									'WEEK' && '한주에'}
+								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+									'DAY' && '하루에'}
+								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+									'YEAR' && '일년에'}
+								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+									'MONTH' && '한달에 '}
+								{' 최대1회 예약 가능합니다.'}
+							</Typography>
+						</Box>
 					</Box>
 					{/* 달력 */}
 					<Box>

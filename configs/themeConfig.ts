@@ -71,6 +71,7 @@ let themeConfig = createTheme({
 			styleOverrides: {
 				root: {
 					color: '#222',
+					wordBreak: 'break-all',
 				},
 			},
 		},
