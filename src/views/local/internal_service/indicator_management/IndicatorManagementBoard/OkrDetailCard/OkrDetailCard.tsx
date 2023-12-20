@@ -21,6 +21,8 @@ interface IOkrDetailCardProps {
 	setOkrDetailData?: any;
 	memberId?: number;
 	updateDetailOkr?: any;
+	modalOpen?: boolean;
+	setModalOpen?: any;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -44,7 +46,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 		TITLE: props.data.TITLE,
 		START_DATE: props.data.START_DATE,
 		END_DATE: props.data.END_DATE,
-		TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+		TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
 		TARGET_UNIT: props.data.TARGET_UNIT,
 		NOTE: props.data.NOTE,
 		ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
@@ -69,6 +71,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			},
 			(response: any) => {
 				alert('삭제 성공');
+				props.setModalOpen(!props.modalOpen);
 			},
 			(err: any) => {}
 		);
@@ -89,6 +92,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 				// props.setTriggerKey && props.setTriggerKey(uuidv4());
 				setIsEditMode(false);
+				props.setModalOpen(!props.modalOpen);
 			},
 			(err: any) => {}
 		);
@@ -102,25 +106,13 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				TITLE: props.data.TITLE,
 				START_DATE: props.data.START_DATE,
 				END_DATE: props.data.END_DATE,
-				TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+				TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
 				TARGET_UNIT: props.data.TARGET_UNIT,
 				NOTE: props.data.NOTE,
 				ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
 				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
 			});
 		}
-
-		// if (props.isEditMode) {
-		// 	props.setOkrDetailData(
-		// 		props.okrDetailData.map((item: IOkrDetail, index: number) => {
-		// 			if (index === props.index) {
-		// 				return okrDetailData;
-		// 			} else {
-		// 				return item;
-		// 			}
-		// 		})
-		// 	);
-		// }
 	}, [isEditMode]);
 
 	return (
@@ -383,7 +375,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								{/** 목표량 목표분류 */}
 								<Box display={'flex'}>
 									<Typography fontWeight={500} ml={'auto'}>
-										{props.data?.ACHIEVED_RATE}
+										{props.data?.ACHIEVED_AMOUNT}
 									</Typography>
 									<Typography
 										ml={0.5}
@@ -417,30 +409,23 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										value={
 											isUserMakeUnit
 												? '직접입력'
-												: props.okrDetailData[
-														props.index
-												  ].TARGET_UNIT
+												: okrDetailData.TARGET_UNIT
 										}
 										setValue={(value) => {
 											if (value === '직접입력') {
 												setIsUserMakeUnit(true);
-												let temp: any = [
-													...props.okrDetailData,
-												];
-												temp[props.index].TARGET_UNIT =
-													'';
 
-												props.setOkrDetailData(temp);
+												setOkrDetailData({
+													...okrDetailData,
+													TARGET_UNIT: '',
+												});
 											} else {
 												setIsUserMakeUnit(false);
 
-												let temp: any = [
-													...props.okrDetailData,
-												];
-												temp[props.index].TARGET_UNIT =
-													value;
-
-												props.setOkrDetailData(temp);
+												setOkrDetailData({
+													...okrDetailData,
+													TARGET_UNIT: value,
+												});
 											}
 										}}
 										dataList={IndicatorUnit}
@@ -449,18 +434,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									{isUserMakeUnit && (
 										<SupportiInput
 											type="input"
-											value={
-												props.okrDetailData[props.index]
-													.TARGET_UNIT
-											}
+											value={okrDetailData.TARGET_UNIT}
 											setValue={(value) => {
-												let temp: any = [
-													...props.okrDetailData,
-												];
-												temp[props.index].TARGET_UNIT =
-													value;
-
-												props.setOkrDetailData(temp);
+												setOkrDetailData({
+													...okrDetailData,
+													TARGET_UNIT: value,
+												});
 											}}
 											width={'150px'}
 											style={{
@@ -477,8 +456,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										mt={'5px'}
 										sx={{
 											visibility:
-												props.okrDetailData[props.index]
-													.TARGET_UNIT != undefined
+												okrDetailData.TARGET_UNIT !=
+												undefined
 													? 'hidden'
 													: 'block',
 										}}
@@ -495,19 +474,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										<SupportiInput
 											type="input"
 											inputType="number"
-											value={
-												props.okrDetailData[props.index]
-													.TARGET_AMOUNT
-											}
+											value={okrDetailData.TARGET_AMOUNT}
 											setValue={(value: number) => {
-												let temp: any = [
-													...props.okrDetailData,
-												];
-												temp[
-													props.index
-												].TARGET_AMOUNT = value;
-
-												props.setOkrDetailData(temp);
+												setOkrDetailData({
+													...okrDetailData,
+													TARGET_AMOUNT: value,
+												});
 											}}
 											width={'150px'}
 											style={{
@@ -530,10 +502,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										mt={'5px'}
 										sx={{
 											visibility:
-												props.okrDetailData[props.index]
-													.TARGET_AMOUNT !== '' &&
-												props.okrDetailData[props.index]
-													.TARGET_AMOUNT !== 0
+												okrDetailData.TARGET_AMOUNT !==
+												0
 													? 'hidden'
 													: 'block',
 										}}

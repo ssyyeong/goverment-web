@@ -560,13 +560,25 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 													updateDetailOkr
 												}
 												children={
-													<AchieveBox data={item} />
+													<AchieveBox
+														data={item}
+														modalOpen={
+															props.modalOpen
+														}
+														setModalOpen={
+															props.setModalOpen
+														}
+													/>
 												}
 												okrDetailData={
 													props.okrDetailData
 												}
 												setOkrDetailData={
 													props.setOkrDetailData
+												}
+												modalOpen={props.modalOpen}
+												setModalOpen={
+													props.setModalOpen
 												}
 											/>
 										</Box>

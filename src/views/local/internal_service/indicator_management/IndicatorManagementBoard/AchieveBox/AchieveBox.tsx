@@ -8,6 +8,8 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 
 interface IAchieveBoxProps {
 	data: IOkrCombination;
+	modalOpen?: boolean;
+	setModalOpen?: any;
 }
 
 const AchieveBox = (props: IAchieveBoxProps) => {
@@ -54,15 +56,14 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 			}),
 			(response: any) => {
 				alert('수정 성공');
+				props.setModalOpen(!props.modalOpen);
 				setAchieveAmount(0);
 			},
 			(err: any) => {}
 		);
 
-		okrAchievedAmountController.updateItem({
+		okrAchievedAmountController.createItem({
 			APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			OKR_ACHIEVED_AMOUNT_HISTORY_IDENTIFICATION_CODE:
-				props.data['OKR_ACHIEVED_AMOUNT_HISTORY_IDENTIFICATION_CODE'],
 			OKR_DETAIL_IDENTIFICATION_CODE:
 				props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
 			AMOUNT: achieveAmount,
