@@ -114,9 +114,28 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	/**
 	 * 무한 로딩 게시판에 들어갈 injectedParams 를 만들어주는 함수
 	 */
+	const injectedParams = Object.assign(
+		// props.infiniteLoadBoardProps?.injectedParams,
+		/**
+		 * 상태 선택
+		 */
+		// JSON.parse(selectedStatus),
+		/**
+		 * 정렬 선택
+		 */
+		JSON.parse(selectedSort),
+		/**
+		 * KPI 카테고리 선택
+		 */
+		selectedKpiCategory !== null &&
+			props.name === 'KPI' && {
+				CATEGORY: selectedKpiCategory,
+			}
+	);
+	console.log(injectedParams, 'injected');
 	const makeInjectedParams = () => {
 		const injectedParams = Object.assign(
-			props.infiniteLoadBoardProps?.injectedParams,
+			// props.infiniteLoadBoardProps?.injectedParams,
 			/**
 			 * 상태 선택
 			 */
@@ -134,18 +153,13 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				}
 		);
 
-		if (props.additionalFilterConfigList) {
-			props.additionalFilterConfigList.forEach((config) => {
-				injectedParams[config.paramKey] = config.selectedValue;
-			});
-		}
+		// if (props.additionalFilterConfigList) {
+		// 	props.additionalFilterConfigList.forEach((config) => {
+		// 		injectedParams[config.paramKey] = config.selectedValue;
+		// 	});
+		// }
 
-		const newInjectedParams = {
-			FIND_OPTION_KEY_LIST: injectedParams,
-			COMPLETED: selectedStatus,
-		};
-
-		return newInjectedParams;
+		return injectedParams;
 	};
 
 	return (
@@ -217,7 +231,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			{/* 지표 목록 영역 */}
 			<InfiniteLoadBoard
 				{...Object.assign(props.infiniteLoadBoardProps, {
-					injectedParams: makeInjectedParams(),
+					injectedParams: {
+						FIND_OPTION_KEY_LIST: makeInjectedParams(),
+						COMPLETED: selectedStatus,
+					},
 				})}
 				allData={indicatorList}
 				setAllData={setIndicatorList}

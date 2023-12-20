@@ -139,7 +139,7 @@ const KpiCard = (props: IKpiCardProps) => {
 		},
 	];
 
-	console.log(props.data);
+	// console.log(props.data);
 	return (
 		<Box
 			borderRadius={2}

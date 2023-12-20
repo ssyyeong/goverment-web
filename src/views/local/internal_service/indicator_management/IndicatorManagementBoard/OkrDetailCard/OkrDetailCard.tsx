@@ -97,6 +97,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			flexDirection={'column'}
 			gap={1}
 			width={props.mode === 'detail' ? '100%' : '380px'}
+			minWidth={'380px'}
 		>
 			<Box width="100%">
 				<Box display={'flex'} gap={1} mb={1}>

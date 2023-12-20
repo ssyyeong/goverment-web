@@ -525,7 +525,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												START_DATE: new Date(),
 												END_DATE: new Date(),
 												TARGET_AMOUNT: 0,
-												TARGET_UNIT: '',
+												TARGET_UNIT: undefined,
 												NOTE: '',
 												ACHIEVED_AMOUNT: 0,
 												APP_MEMBER_IDENTIFICATION_CODE:

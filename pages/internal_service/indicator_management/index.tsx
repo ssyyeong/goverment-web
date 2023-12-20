@@ -51,7 +51,7 @@ const Page: NextPage = () => {
 						return (
 							<OkrCard
 								data={data}
-								setTriggerKey={setTriggerKey}
+								// setTriggerKey={setTriggerKey}
 							/>
 						);
 					},

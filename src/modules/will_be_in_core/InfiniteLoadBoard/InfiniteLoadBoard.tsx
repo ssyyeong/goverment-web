@@ -107,8 +107,8 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 			let params: { [key: string]: any } =
 				props.injectedParams !== undefined ? props.injectedParams : {};
 
-			params.PAGE = selectedPage - 1;
-			params.LIMIT = props.contentPerPage || 10;
+			params.FIND_OPTION_KEY_LIST.PAGE = selectedPage - 1;
+			params.FIND_OPTION_KEY_LIST.LIMIT = props.contentPerPage || 10;
 
 			/**
 			 * 로딩 시작
@@ -180,14 +180,14 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	/**
 	 * 필터 바뀔때 초기화시키기
 	 */
-	console.log(props.injectedParams);
+	console.log(props.triggerKey, 'trigger');
 	useEffect(() => {
 		callData();
 	}, [
-		props.injectedParams.SORT_DIRECTION,
+		props.injectedParams.FIND_OPTION_KEY_LIST.SORT_DIRECTION,
 		// props.injectedParams.PERIOD_START,
 		// props.injectedParams.PERIOD_END,
-		props.injectedParams.CATEGORY,
+		props.injectedParams.FIND_OPTION_KEY_LIST.CATEGORY,
 		props.injectedParams.COMPLETED,
 		props.triggerKey,
 	]);

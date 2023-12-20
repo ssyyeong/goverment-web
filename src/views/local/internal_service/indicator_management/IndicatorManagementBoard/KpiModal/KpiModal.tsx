@@ -37,9 +37,9 @@ const KpiModal = (props: IKpiModalProps) => {
 					START_DATE: new Date(),
 					END_DATE: new Date(),
 					TARGET_AMOUNT: 0,
-					TARGET_UNIT: '',
+					TARGET_UNIT: undefined,
 					NOTE: '',
-					CATEGORY: '',
+					CATEGORY: undefined,
 					ASSIGNEE: '',
 					RATE: 1,
 					STATUS: 'PROCEEDING',
@@ -347,7 +347,7 @@ const KpiModal = (props: IKpiModalProps) => {
 										color="error.main"
 										sx={{
 											visibility:
-												kpiData.TARGET_UNIT !== ''
+												kpiData.TARGET_UNIT != undefined
 													? 'hidden'
 													: 'block',
 										}}

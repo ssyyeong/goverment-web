@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
@@ -11,7 +11,7 @@ import { OkrDetailModal } from '../OkrDetailModal';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
-	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
+	setTriggerKey?: React.Dispatch<React.SetStateAction<string>>;
 	index?: number;
 }
 
@@ -21,7 +21,7 @@ const OkrCard = (props: IOkrCardProps) => {
 	 * OKR 컨트롤러
 	 */
 	const okrController = new DefaultController('OkrMain');
-
+	console.log(props.data, 'data');
 	//* Modules
 
 	//* Constants
@@ -72,6 +72,21 @@ const OkrCard = (props: IOkrCardProps) => {
 			color: randomColor[index],
 		};
 	});
+
+	//* Hooks
+	useEffect(() => {
+		setOkrMainData({
+			TITLE: props.data.TITLE,
+			START_DATE: props.data.START_DATE,
+			END_DATE: props.data.END_DATE,
+			NOTE: props.data.NOTE,
+			OKR_MAIN_IDENTIFICATION_CODE:
+				props.data['OKR_MAIN_IDENTIFICATION_CODE'],
+			OkrDetails: props.data.OkrDetails,
+			ACHIEVED_RATE: props.data.ACHIEVED_RATE,
+		});
+		setOkrDetailData(props.data.OkrDetails);
+	}, [props.data]);
 
 	return (
 		<Box
@@ -156,7 +171,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					display={'flex'}
 					width="100%"
 					gap={1}
-					sx={{ overflowX: 'scroll' }}
+					sx={{ overflowX: 'auto' }}
 				>
 					{okrMainData?.OkrDetails.map((item, index) => {
 						return <OkrDetailCard data={item} index={index} />;

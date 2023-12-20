@@ -266,7 +266,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							sx={{
 								visibility:
 									props.okrDetailData[props.index]
-										.TARGET_UNIT !== ''
+										.TARGET_UNIT != undefined
 										? 'hidden'
 										: 'block',
 							}}
