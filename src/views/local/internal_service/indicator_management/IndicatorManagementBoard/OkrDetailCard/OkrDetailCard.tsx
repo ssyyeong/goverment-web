@@ -127,6 +127,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			sx={{
 				minWidth: { xs: '300px', sm: '380px' },
 			}}
+			onClick={() => {
+				props.mode === 'detail' && setIsMoreOpen(true);
+			}}
 		>
 			<Box width="100%">
 				<Box display={'flex'} gap={1} mb={1}>
@@ -184,64 +187,43 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							>
 								{props.data.TITLE}
 							</Typography>
-							{props.mode === 'detail' && (
-								<img
-									src="/images/icons/ModifyIcon.svg"
-									alt="arrow-icon"
-									style={{
-										cursor: 'pointer',
-										width: '15px',
-										height: '15px',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-									}}
-									onClick={() => {
-										setIsEditMode(!isEditMode);
-										setIsMoreOpen(true);
-									}}
-								/>
-							)}
 						</Box>
 					)}
 
 					{/** 상세보기일때 화살표 아이콘 */}
 					{props.mode === 'detail' && (
 						<Box ml={'auto'} display={'flex'} gap={'5px'}>
-							{isEditMode && isMoreOpen ? (
+							{isMoreOpen && (
 								<Box display={'flex'} gap={1}>
+									{/** 삭제 버튼 */}
+									<SupportiButton
+										contents={'삭제'}
+										onClick={() => {
+											memberId && deleteOkrDetail();
+										}}
+										style={{
+											height: '20px',
+											width: '60px',
+										}}
+										color={'primary'}
+										variant="contained"
+										isGradient={true}
+									/>
 									{/** 수정 버튼 */}
 									<SupportiButton
-										contents={'취소'}
+										contents={isEditMode ? '취소' : '수정'}
 										onClick={() => {
 											setIsEditMode(!isEditMode);
 										}}
 										style={{
 											height: '20px',
 											width: '60px',
-											marginTop: 'auto',
-											marginBottom: 'auto',
 										}}
 										color={'primary'}
 										variant="contained"
 										isGradient={true}
 									/>
 								</Box>
-							) : (
-								<CancelIcon
-									color={'secondary'}
-									sx={{
-										cursor: 'pointer',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-										visibility:
-											props.okrDetailData.length === 1
-												? 'hidden'
-												: 'block',
-									}}
-									onClick={() => {
-										memberId && deleteOkrDetail();
-									}}
-								/>
 							)}
 
 							{/** 더보기 열고 닫기 */}
@@ -405,7 +387,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							</Box>
 						)}
 
-						{isEditMode ? (
+						{isEditMode && isMoreOpen ? (
 							<Box display={'flex'} gap={2}>
 								{/** 목표분류 */}
 								<Box>

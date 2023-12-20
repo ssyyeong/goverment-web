@@ -178,7 +178,13 @@ const Page: NextPage = () => {
 
 	return (
 		<Grid container width={'100%'}>
-			<Grid item xs={12} p={15}>
+			<Grid
+				item
+				xs={12}
+				sx={{
+					p: { xs: 5, sm: 15 },
+				}}
+			>
 				<Grid container>
 					<Box
 						display="flex"
@@ -238,15 +244,20 @@ const Page: NextPage = () => {
         <img src={mobileMainTitle} style={styles.mimgStyle} /> */}
 						</Box>
 
-						<Box>
+						<Box
+							sx={{
+								width: { xs: '380px', sm: '650px' },
+								height: { xs: '300px', sm: '480px' },
+							}}
+						>
 							<img
 								src="/images/main/mainTitle.png"
 								alt="img"
 								style={{
 									marginTop: 'auto',
 									marginBottom: 'auto',
-									width: '650px',
-									height: '480px',
+									width: 'inherit',
+									height: 'inherit',
 								}}
 							/>
 						</Box>
