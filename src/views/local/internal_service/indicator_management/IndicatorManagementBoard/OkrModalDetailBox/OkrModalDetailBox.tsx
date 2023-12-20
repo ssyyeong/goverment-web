@@ -126,7 +126,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 									props.setOkrDetailData(temp);
 								}}
-								width={'300px'}
+								width={'100%'}
 								placeholder="하위 목표 타이틀을 입력해주세요."
 								readOnly={
 									props.okrDetailData[props.index].TITLE
@@ -241,7 +241,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								}
 							}}
 							dataList={IndicatorUnit}
-							width={'150px'}
+							style={{
+								width: { xs: '100px', sm: '150px' },
+							}}
 						/>
 						{isUserMakeUnit && (
 							<SupportiInput
@@ -255,10 +257,13 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 									props.setOkrDetailData(temp);
 								}}
-								width={'150px'}
 								style={{
 									bgcolor: 'white',
 									marginTop: '5px',
+									width: {
+										xs: '100px',
+										sm: '150px',
+									},
 								}}
 							/>
 						)}
@@ -298,9 +303,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 									props.setOkrDetailData(temp);
 								}}
-								width={'150px'}
 								style={{
 									bgcolor: 'white',
+									width: { xs: '100px', sm: '150px' },
 								}}
 							/>
 							{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>
