@@ -38,7 +38,6 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 */
 	const { memberId } = useAppMember();
 	//* Constants
-	const PrevDetailData = props.okrDetailData;
 
 	//* States
 	const [okrMainData, setOkrMainData] = React.useState({
@@ -57,15 +56,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 * **/
 	const [isEditMode, setIsEditMode] = React.useState(false);
 
-	/**
-	 *
-	 * 등록하기 버튼 클릭 여부
-	 */
-	const [isSend, setIsSend] = React.useState(false);
-
 	//* Functions
 	/**
-	 * 하위 목표 작성 삭제
+	 * 하위 목표 작성 폼 삭제
 	 */
 	const deleteOkrDetail = (index: number) => {
 		const okrDetailDataCopy = [...okrDetailData];
@@ -74,40 +67,22 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	};
 
 	//* okr 업데이트 함수
-	const updateOkr = (target, injectedObj) => {
-		if (target === 'main') {
-			okrMainController.updateItem(
-				Object.assign(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-						OKR_MAIN_IDENTIFICATION_CODE:
-							props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
-					},
-					injectedObj
-				),
-				(response: any) => {
-					alert('업데이트 성공');
-					setIsEditMode(false);
+	const updateOkrMain = (injectedObj) => {
+		okrMainController.updateItem(
+			Object.assign(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					OKR_MAIN_IDENTIFICATION_CODE:
+						props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
 				},
-				(err: any) => {}
-			);
-		} else {
-			okrDetailController.updateItem(
-				Object.assign(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					},
-					injectedObj
-				),
-				(response: any) => {
-					alert('하위 업데이트 성공');
-
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					setIsEditMode(false);
-				},
-				(err: any) => {}
-			);
-		}
+				injectedObj
+			),
+			(response: any) => {
+				alert('업데이트 성공');
+				setIsEditMode(false);
+			},
+			(err: any) => {}
+		);
 	};
 
 	const updateDetailOkr = () => {
@@ -117,7 +92,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				item.TARGET_AMOUNT == 0 ||
 				item.TARGET_UNIT == ''
 					? alert('필수 값 미입력')
-					: updateOkr('detail', {
+					: updateOkrMain({
 							TITLE: item.TITLE,
 							START_DATE: item.START_DATE,
 							END_DATE: item.END_DATE,
@@ -213,7 +188,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				}}
 				title={''}
 				style={{
-					width: '70%',
+					width: '60%',
 					padding: '20px',
 				}}
 				children={
@@ -222,7 +197,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'70vh'}
+						maxHeight={'80vh'}
+						minHeight={'70vh'}
 						overflow={'auto'}
 					>
 						{/** 상위 목표 작성 */}
@@ -317,7 +293,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '100px',
+											width: '60px',
 										}}
 										color={'primary'}
 										variant="contained"
@@ -331,7 +307,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '100px',
+											width: '60px',
 										}}
 										color={'primary'}
 										variant="contained"
@@ -452,7 +428,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 									}}
 									btnContent="등록하기"
 									btnOnclick={() => {
-										updateOkr('main', {
+										updateOkrMain({
 											NOTE: okrMainData.NOTE,
 										});
 									}}
@@ -553,6 +529,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										index={index}
 										okrDetailData={okrDetailData}
 										setOkrDetailData={setOkrDetailData}
+										isModalOpen={props.modalOpen}
+										setIsModalOpen={props.setModalOpen}
 										okrMainId={
 											props.okrMainData
 												?.OKR_MAIN_IDENTIFICATION_CODE
@@ -578,7 +556,6 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												data={item}
 												index={index}
 												mode="detail"
-												isEditMode={isEditMode}
 												updateDetailOkr={
 													updateDetailOkr
 												}
@@ -603,14 +580,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 							<SupportiButton
 								contents={'등록하기'}
 								onClick={() => {
-									setIsSend(true);
-
 									//* Okr 메인 목표 등록
 
-									memberId && updateOkr('main', okrMainData);
-
-									//* Okr 하위 목표 등록
-									memberId && updateDetailOkr();
+									memberId && updateOkrMain(okrMainData);
 								}}
 								style={{
 									height: '20px',

@@ -167,7 +167,7 @@ const OkrModal = (props: IOkrModalProps) => {
 				}}
 				title={'목표 등록'}
 				style={{
-					width: '70%',
+					width: '60%',
 					padding: '20px',
 				}}
 				children={
@@ -176,7 +176,8 @@ const OkrModal = (props: IOkrModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'70vh'}
+						maxHeight={'80vh'}
+						minHeight={'70vh'}
 						overflow={'auto'}
 					>
 						{/** 상위 목표 작성 */}
@@ -312,6 +313,8 @@ const OkrModal = (props: IOkrModalProps) => {
 										index={index}
 										okrDetailData={okrDetailData}
 										setOkrDetailData={setOkrDetailData}
+										isModalOpen={props.modalOpen}
+										setIsModalOpen={props.setModalOpen}
 										okrMainId={
 											props.okrMainData
 												?.OKR_MAIN_IDENTIFICATION_CODE
@@ -362,8 +365,8 @@ const OkrModal = (props: IOkrModalProps) => {
 								}
 							}}
 							style={{
-								height: '20px',
-								width: '200px',
+								height: '40px',
+								width: '150px',
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

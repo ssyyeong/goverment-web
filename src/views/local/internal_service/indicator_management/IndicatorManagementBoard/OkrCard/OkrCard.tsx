@@ -8,10 +8,11 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
 import { OkrDetailModal } from '../OkrDetailModal';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IOkrCardProps {
 	data: IOkrCombination;
-	setTriggerKey?: React.Dispatch<React.SetStateAction<string>>;
+	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 	index?: number;
 }
 
@@ -87,6 +88,15 @@ const OkrCard = (props: IOkrCardProps) => {
 		});
 		setOkrDetailData(props.data.OkrDetails);
 	}, [props.data]);
+
+	/**
+	 * 모달 온오프로 트리거 키 변경
+	 */
+	useEffect(() => {
+		if (!isMoreModalOpen) {
+			props.setTriggerKey(uuidv4());
+		}
+	}, [isMoreModalOpen, props.setTriggerKey]);
 
 	return (
 		<Box

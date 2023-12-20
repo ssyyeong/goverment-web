@@ -216,7 +216,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setValue={(value) =>
 						setSelectedKpiCategory(value as string)
 					}
-					defaultValue={undefined}
 					dataList={[
 						{
 							label: '전체',

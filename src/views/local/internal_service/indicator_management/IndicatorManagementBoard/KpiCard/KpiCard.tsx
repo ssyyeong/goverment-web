@@ -11,9 +11,11 @@ import SupportiInput from '../../../../../global/SupportiInput';
 import KpiModal from '../KpiModal/KpiModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IKpiCardProps {
 	data: IKpi;
+	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const KpiCard = (props: IKpiCardProps) => {
@@ -26,6 +28,7 @@ const KpiCard = (props: IKpiCardProps) => {
 	//* Modules
 
 	//* States
+	const [kpiData, setKpiData] = React.useState<IKpi>(props.data);
 
 	// 메모
 	const [note, setNote] = React.useState<string>('');
@@ -54,18 +57,8 @@ const KpiCard = (props: IKpiCardProps) => {
 			},
 			(response: any) => {
 				alert('삭제 성공');
-				// Toast.fire({
-				//   icon: 'success',
-				//   title: '성공적으로 삭제 되었습니다.',
-				// });
 			},
-			(err: any) => {
-				// console.log(err);
-				// Toast.fire({
-				//   icon: 'error',
-				//   title: '삭제에 실패했습니다. 문의 부탁드립니다.',
-				// });
-			}
+			(err: any) => {}
 		);
 	};
 
@@ -83,18 +76,8 @@ const KpiCard = (props: IKpiCardProps) => {
 			(response: any) => {
 				alert('수정 성공');
 				setIsModifyModalOpen(false);
-				// Toast.fire({
-				//   icon: 'success',
-				//   title: '성공적으로 수정 되었습니다.',
-				// });
 			},
-			(err: any) => {
-				// console.log(err);
-				// Toast.fire({
-				//   icon: 'error',
-				//   title: '수정에 실패했습니다. 문의 부탁드립니다.',
-				// });
-			}
+			(err: any) => {}
 		);
 	};
 
@@ -139,7 +122,19 @@ const KpiCard = (props: IKpiCardProps) => {
 		},
 	];
 
-	// console.log(props.data);
+	React.useEffect(() => {
+		setKpiData(props.data);
+	}, [props.data]);
+
+	/**
+	 * 모달 온오프로 트리거 키 변경
+	 */
+	React.useEffect(() => {
+		if (!isModifyModalOpen) {
+			props.setTriggerKey(uuidv4());
+		}
+	}, [isModifyModalOpen, props.setTriggerKey]);
+
 	return (
 		<Box
 			borderRadius={2}
@@ -156,7 +151,7 @@ const KpiCard = (props: IKpiCardProps) => {
 				<Box display="flex" gap={1}>
 					<Box display="flex" flexDirection="column" gap={1}>
 						<Typography variant="h5" fontWeight={'bold'}>
-							{props.data.TITLE}
+							{kpiData.TITLE}
 						</Typography>
 						{/** 기간 */}
 						<Box display={'flex'}>
@@ -164,11 +159,7 @@ const KpiCard = (props: IKpiCardProps) => {
 								fontWeight={500}
 								color={'secondary.main'}
 							>
-								{
-									(props.data?.START_DATE as string).split(
-										'T'
-									)[0]
-								}
+								{(kpiData?.START_DATE as string).split('T')[0]}
 							</Typography>
 							<Typography
 								ml={0.5}
@@ -182,7 +173,7 @@ const KpiCard = (props: IKpiCardProps) => {
 								fontWeight={500}
 								color={'secondary.main'}
 							>
-								{(props.data?.END_DATE as string).split('T')[0]}
+								{(kpiData?.END_DATE as string).split('T')[0]}
 							</Typography>
 						</Box>
 					</Box>
@@ -193,10 +184,10 @@ const KpiCard = (props: IKpiCardProps) => {
 							목표량
 						</Typography>
 						<Typography mt="auto" mb="auto" fontWeight={500}>
-							{props.data.TARGET_AMOUNT}
+							{kpiData.TARGET_AMOUNT}
 						</Typography>
 						<Typography mt="auto" mb="auto" fontWeight={500}>
-							{props.data.TARGET_UNIT}
+							{kpiData.TARGET_UNIT}
 						</Typography>
 					</Box>
 
@@ -205,7 +196,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					<Box display="flex" gap={1} mt="auto" mb="auto">
 						<Rating
 							name="simple-controlled"
-							value={props.data.RATE}
+							value={kpiData.RATE}
 							size="large"
 						/>
 						<Typography
@@ -214,16 +205,14 @@ const KpiCard = (props: IKpiCardProps) => {
 							mt="auto"
 							mb="auto"
 						>
-							{RatingConfig[props.data.RATE]}
+							{RatingConfig[kpiData.RATE]}
 						</Typography>
 					</Box>
 				</Box>
 
 				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
 				<Typography ml={1} mt={'auto'} mb={'auto'} fontWeight={500}>
-					{calcDeadline(
-						(props.data?.END_DATE as string).split('T')[0]
-					)}
+					{calcDeadline((kpiData?.END_DATE as string).split('T')[0])}
 				</Typography>
 
 				<Box display="flex" gap={1}>
@@ -232,11 +221,11 @@ const KpiCard = (props: IKpiCardProps) => {
 						담당자
 					</Typography>
 					<Typography mt="auto" mb="auto" fontWeight={500}>
-						{props.data.ASSIGNEE}
+						{kpiData.ASSIGNEE}
 					</Typography>
 
 					{/** 버튼들 */}
-					{props.data.STATUS === 'PROCEEDING' && (
+					{kpiData.STATUS === 'PROCEEDING' && (
 						<Box display="flex" mt="auto" mb="auto" gap={0.5}>
 							{controllButtons.map((button) => (
 								<SupportiButton
@@ -255,14 +244,14 @@ const KpiCard = (props: IKpiCardProps) => {
 						<Box display="flex" mt="auto" mb="auto" gap={0.5}>
 							<SupportiButton
 								contents={
-									props.data.STATUS == 'SUCCESS'
+									kpiData.STATUS == 'SUCCESS'
 										? controllButtons[0].label
 										: controllButtons[1].label
 								}
 								variant="contained"
 								style={{
 									bgcolor:
-										props.data.STATUS == 'SUCCESS'
+										kpiData.STATUS == 'SUCCESS'
 											? controllButtons[0].color
 											: controllButtons[1].color,
 									height: '20px',
@@ -300,7 +289,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					{/** 메모 입력 */}
 					<SupportiInput
 						type="inputwithbtn"
-						value={props.data.NOTE !== '' ? props.data.NOTE : note}
+						value={kpiData.NOTE !== '' ? kpiData.NOTE : note}
 						setValue={(value) => {
 							setNote(value);
 						}}
@@ -318,7 +307,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			<KpiModal
 				modalOpen={isModifyModalOpen}
 				setModalOpen={setIsModifyModalOpen}
-				data={props.data}
+				data={kpiData}
 				mode={'modify'}
 				updateKpi={updateKpi}
 			/>

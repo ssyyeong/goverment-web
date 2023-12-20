@@ -22,6 +22,8 @@ interface IOkrModalDetailBoxProps {
 	deleteOkrDetail?: any;
 	updateOkr?: any;
 	okrMainId?: number;
+	isModalOpen: boolean;
+	setIsModalOpen: any;
 }
 
 const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
@@ -32,7 +34,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 	//* Constants
 
-	//* 직접 입력 여부
+	/**
+	 * 직접 입력 여부
+	 *  */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
 
 	//* Hooks
@@ -69,6 +73,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					},
 				]);
 				// 리셋
+				props.setIsModalOpen(false);
 				console.log(res);
 			})
 			.catch((err) => {

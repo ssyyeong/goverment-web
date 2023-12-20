@@ -51,7 +51,7 @@ const Page: NextPage = () => {
 						return (
 							<OkrCard
 								data={data}
-								// setTriggerKey={setTriggerKey}
+								setTriggerKey={setTriggerKey}
 							/>
 						);
 					},
@@ -88,6 +88,7 @@ const Page: NextPage = () => {
 	const [selectedIndicator, setSelectedIndicator] =
 		React.useState<TSelectableIndicator>(selectableIndicatorList[0]);
 
+	console.log(triggerKey, 'triggerKey');
 	//* Functions
 	/**
 	 * 카테고리에 따라

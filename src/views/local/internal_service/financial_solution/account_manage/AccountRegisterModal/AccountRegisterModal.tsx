@@ -121,7 +121,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					placeholder="은행사 PW 입력"
 					width={300}
 					btnContent="조회하기"
-					btnOnclick={() => {}}
+					btnOnclick={() => {
+						getAccountList();
+					}}
 				/>
 			),
 		},
@@ -237,7 +239,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					ACCOUNT_NUMBER: response.data.result[0].acctNo,
 					ACCOUNT_HOLDER: response.data.result[0].acctHolder,
 				});
-				setGetCertModalOpen(!getCertModalOpen);
+				if (loginMethod !== 'SIGN_IN') {
+					setGetCertModalOpen(!getCertModalOpen);
+				}
 			},
 			(err: any) => {
 				console.log(err);
