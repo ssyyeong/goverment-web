@@ -19,7 +19,7 @@ const Page: NextPage = () => {
 	//* Constants
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
-	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
+	const [updateModal, setUpdateModal] = React.useState<boolean>(true);
 	const [userData, setUserData] = React.useState<any>({});
 	const [accessToken, setAccessToken] = React.useState<string>('');
 
@@ -52,9 +52,9 @@ const Page: NextPage = () => {
 				(err) => {
 					console.log(err);
 					alert(err?.response?.data.message);
-					setTimeout(() => {
-						router.push('/auth/sign_in');
-					}, 2000);
+					// setTimeout(() => {
+					// 	router.push('/auth/sign_in');
+					// }, 2000);
 				}
 			);
 		} else {

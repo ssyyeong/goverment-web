@@ -123,6 +123,13 @@ const Page: NextPage = () => {
 		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
 		if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
+		if (
+			!signupData.USER_NAME ||
+			!signupData.FULL_NAME ||
+			!signupData.PASSWORD ||
+			!signupData.PHONE_NUMBER
+		)
+			return alert('모든 정보를 입력해주세요.');
 		appMemberController.register(
 			{
 				...signupData,

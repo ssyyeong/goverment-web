@@ -133,6 +133,7 @@ const Page: NextPage = () => {
 					console.log(err);
 				}
 			);
+		memberId !== undefined && getCalculationResult();
 	}, [accountTriggerKey, memberId]);
 
 	/**

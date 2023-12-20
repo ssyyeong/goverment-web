@@ -33,19 +33,18 @@ interface IAppMemberUpdateModalProps {
 const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	//* Modules
 	const appMemberController = new AppMemberController();
-	const alimTalkController = new AlimTalkController();
 	const router = useRouter();
 	const cookie = new CookieManager();
 	//* State
 	const [tabs, setTabs] = useState<string>('BUSINESS');
-	const [signupData, setSignupData] = useState<IUser>({} as IUser);
+	const [signupData, setSignupData] = useState<any>();
 	const [businessData, setBusinessData] = useState<{
 		BUSINESS_SECTOR: string;
 		BUSINESS_NUMBER: any;
 		COMPANY_NAME: string;
 	}>();
 	const [encrypted, setEncrypted] = React.useState<string>('');
-	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
+	const [verifyNumber, setVerifyNumber] = React.useState<string>();
 	const [isVerified, setIsVerified] = React.useState<boolean>(false);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
@@ -56,11 +55,11 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	/**
 	 * 알림톡 발송
 	 */
-	const sendAlimTalk = () => {
-		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
-		alimTalkController.sendAuthCode(
+	const sendAlimTalk = (signupData) => {
+		if (signupData === undefined) return alert('전화번호를 입력해주세요.');
+		appMemberController.sendAuthCode(
 			{
-				TARGET_PHONE_NUMBER: signupData.PHONE_NUMBER,
+				PHONE_NUMBER: signupData,
 			},
 			(res) => {
 				setEncrypted(res.data.result);
@@ -75,8 +74,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 인증번호 확인
 	 */
 	const verifyAuthCode = () => {
+		if (!encrypted) return alert('인증번호를 받아주세요.');
 		if (!verifyNumber) return alert('인증번호를 입력해주세요.');
-		alimTalkController.checkAuthCode(
+		appMemberController.checkAuthCode(
 			{
 				ENCRYPTED_AUTH_CODE: encrypted,
 				AUTH_CODE: verifyNumber,
@@ -183,6 +183,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		);
 	};
 
+	console.log(signupData);
 	//* Constants
 	const signupDataConfig = [
 		{
@@ -196,7 +197,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
-					onClick={() => sendAlimTalk()}
+					onClick={() => sendAlimTalk(signupData)}
 					disabled={isVerified}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
@@ -204,13 +205,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					</Typography>
 				</Button>
 			),
-			value: signupData.PHONE_NUMBER,
+			value: signupData,
 			isVerified: isVerified,
 			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					PHONE_NUMBER: e.target.value,
-				});
+				setSignupData(e.target.value);
 			},
 			error: phoneNumDuplication,
 			helperText: phoneNumDuplication
@@ -325,8 +323,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		}
 	}, [tabs, props.needPhoneUpdate]);
 
-	console.log(businessData);
-
 	return (
 		<SuppportiModal
 			open={props.open}
@@ -335,11 +331,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			}}
 			activeHeader={true}
 			title="유저 정보 업데이트"
-			muiModalProps={{
-				maxWidth: '60%',
-			}}
 			style={{
 				minWidth: '40%',
+				width: { sm: 'fit-content', xs: '100%' },
 			}}
 		>
 			<Box width={'100%'} display={'flex'} flexDirection={'column'}>
