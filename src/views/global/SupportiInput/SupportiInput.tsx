@@ -24,7 +24,7 @@ interface SupportiInputProps {
 	setValue?: any;
 	defaultValue?: any;
 	dataList?: any;
-	width?: number | string;
+	width?: any;
 	label?: string;
 	multiple?: boolean;
 	placeholder?: string;

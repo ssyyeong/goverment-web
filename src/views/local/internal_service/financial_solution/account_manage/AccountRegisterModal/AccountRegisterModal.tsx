@@ -40,6 +40,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const [accountList, setAccountList] = React.useState([]);
+	const [selectedAccount, setSelectedAccount] = React.useState<any>();
+	const [rawAccountList, setRawAccountList] = React.useState<any>([]);
 	const [certList, setCertList] = React.useState([]);
 	const [certInfo, setCertInfo] = React.useState({
 		path: '',
@@ -101,7 +103,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					}}
 					placeholder="은행사 ID 입력"
 					defaultValue="002"
-					width={300}
+					width={290}
 				/>
 			),
 		},
@@ -119,7 +121,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 					}}
 					defaultValue=""
 					placeholder="은행사 PW 입력"
-					width={300}
+					width={290}
 					btnContent="조회하기"
 					btnOnclick={() => {
 						getAccountList();
@@ -136,27 +138,28 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			component: (
 				<SupportiInput
 					type="select"
-					value={
-						userAccountInfo.ACCOUNT_NUMBER +
-						' ' +
-						userAccountInfo.ACCOUNT_HOLDER
-					}
+					value={selectedAccount}
 					setValue={(value) => {
 						//* 여기서 계좌 예금주 셋팅
 						let acctNum = value.split('&')[0];
 						let acctHolder = value.split('&')[1];
 						let openDt = value.split('&')[2];
 
+						// console.log(sYear, sMonth, sDate, openDt);
+						setSelectedAccount(value);
+						const rawAccount = rawAccountList.filter(
+							(item: any) => item.acctNo === value
+						)[0];
+						console.log(rawAccount, 'rawAccount');
 						//* string to date
-						var sYear = openDt.substring(0, 4);
-						var sMonth = openDt.substring(4, 6);
-						var sDate = openDt.substring(6, 8);
+						var sYear = rawAccount.openDt?.substring(0, 4);
+						var sMonth = rawAccount.openDt?.substring(4, 6);
+						var sDate = rawAccount.openDt?.substring(6, 8);
 
-						console.log(sYear, sMonth, sDate, openDt);
 						setUserAccountInfo({
 							...userAccountInfo,
-							ACCOUNT_NUMBER: acctNum,
-							ACCOUNT_HOLDER: acctHolder,
+							ACCOUNT_NUMBER: rawAccount.acctNo,
+							ACCOUNT_HOLDER: rawAccount.acctNm,
 							START_DATE: new Date(
 								Number(sYear),
 								Number(sMonth) - 1,
@@ -165,13 +168,13 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="계좌 선택"
-					dataList={userAccountList}
-					width={300}
+					dataList={accountList}
+					width={290}
 				/>
 			),
 		},
 		{
-			title: '계좌 비밀번호',
+			title: '비밀번호',
 			component: (
 				<SupportiInput
 					type={'password'}
@@ -183,7 +186,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="선택한 계좌의 비밀번호 4자리 입력"
-					width={300}
+					width={290}
 				/>
 			),
 		},
@@ -200,7 +203,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						});
 					}}
 					placeholder="계좌 별칭 입력"
-					width={300}
+					width={290}
 				/>
 			),
 		},
@@ -232,13 +235,26 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...sendData },
 			(response: any) => {
 				setLoading(false);
-
-				setAccountList(response.data.result);
+				const newList = response.data.result.map((item) => {
+					return {
+						label: `${item.acctNm}(${item.acctNo})`,
+						value: item.acctNo,
+					};
+				});
+				setRawAccountList(response.data.result);
+				setAccountList(newList);
+				setSelectedAccount(newList[0].value);
 				setUserAccountInfo({
 					...userAccountInfo,
 					ACCOUNT_NUMBER: response.data.result[0].acctNo,
-					ACCOUNT_HOLDER: response.data.result[0].acctHolder,
+					ACCOUNT_HOLDER: response.data.result[0].acctNm,
+					START_DATE: new Date(
+						response.data.result[0].openDt.substring(0, 4),
+						response.data.result[0].openDt.substring(4, 6),
+						response.data.result[0].openDt.substring(6, 8)
+					),
 				});
+
 				if (loginMethod !== 'SIGN_IN') {
 					setGetCertModalOpen(!getCertModalOpen);
 				}
@@ -248,6 +264,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			}
 		);
 	};
+
+	console.log(userAccountInfo);
 
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
@@ -408,7 +426,11 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				title="계좌 등록"
 				activeHeader={true}
 				style={{
-					width: { sm: '40%', xs: '100%' },
+					width: { sm: 'fit-content', xs: '100%' },
+					height: { sm: 'fit-content', xs: '100%' },
+					sx: { overflowY: { sm: 'auto', xs: 'scroll' } },
+					overflow: 'auto',
+					borderRadius: { xs: 0, sm: 3 },
 				}}
 				children={
 					<Box>
@@ -425,14 +447,22 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						/>
 
 						<Box
-							p={5}
+							py={4}
 							display={'flex'}
 							gap={1}
 							flexDirection={'column'}
 						>
 							{/** loginMethod에 상관없이 공통 select box */}
-							<Box display={'flex'} mb={2}>
-								<Typography m={'auto'} mr={2}>
+							<Box
+								display={{ sm: 'flex', xs: 'block' }}
+								mb={1}
+								alignItems={{ sm: 'center', xs: 'flex-start' }}
+							>
+								<Typography
+									m={'auto'}
+									mr={2}
+									mb={{ sm: 'auto', xs: 1 }}
+								>
 									은행
 								</Typography>
 								<SupportiInput
@@ -445,7 +475,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 										});
 									}}
 									dataList={bankList}
-									width={300}
+									width={290}
 									iconList={iconObj}
 								/>
 							</Box>
@@ -454,8 +484,17 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							{loginMethod === 'SIGN_IN' ? (
 								IdRegisterForm.map((item, index) => {
 									return (
-										<Box display={'flex'}>
-											<Typography m={'auto'} mr={2}>
+										<Box
+											display={{
+												sm: 'flex',
+												xs: 'block',
+											}}
+										>
+											<Typography
+												m={'auto'}
+												mr={2}
+												mb={{ sm: 'auto', xs: 1 }}
+											>
 												{item.title}
 											</Typography>
 											{item.component}
@@ -478,11 +517,20 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							<Divider sx={{ mt: 2, mb: 2 }} />
 
 							{/** 계좌 관련 정보 입력 섹션 */}
-							{userAccountList.length !== 0 &&
+							{rawAccountList.length !== 0 &&
 								AccountForm.map((item, index) => {
 									return (
-										<Box display={'flex'}>
-											<Typography m={'auto'} mr={1}>
+										<Box
+											display={{
+												sm: 'flex',
+												xs: 'block',
+											}}
+										>
+											<Typography
+												m={'auto'}
+												mr={1}
+												mb={{ sm: 'auto', xs: 1 }}
+											>
 												{item.title}
 											</Typography>
 											{item.component}

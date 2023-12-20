@@ -164,8 +164,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 
 	//* Styles
 	const boxStyle = {
-		width: '338px !important',
-		minWidth: '338px !important',
+		width: '338px',
+		minWidth: '338px',
 		height: '90px',
 		margin: '0 16px 0 0',
 		borderRadius: '10px',
@@ -178,9 +178,9 @@ const MyAccounts = (props: IMyAccountsProps) => {
 		props.bankAccountList && (
 			<>
 				<Box
-					display={'flex'}
+					display={{ sm: 'flex', xs: 'block' }}
 					alignItems={'center'}
-					mb={'40px'}
+					mb={{ sm: 5, xs: 3 }}
 					mt={2}
 					pb={1}
 				>
@@ -190,10 +190,13 @@ const MyAccounts = (props: IMyAccountsProps) => {
 							sx={{
 								...boxStyle,
 								padding: '22px 25px',
-
+								width: { sm: '338px', xs: '90%' },
 								backgroundImage:
 									'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
 							}}
+							mb={{ sm: 0, xs: 2 }}
+							mx={{ sm: 0, xs: 'auto' }}
+							mr={{ sm: 2, xs: 'auto' }}
 						>
 							{/* 날짜 선택 */}
 							<Box
@@ -363,6 +366,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': { display: 'none' },
 						}}
+						pl={{ sm: 0, xs: '5%' }}
 					>
 						{/* 계좌 리스트 */}
 						<Box display={'flex'}>

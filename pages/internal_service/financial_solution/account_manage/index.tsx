@@ -154,7 +154,7 @@ const Page: NextPage = () => {
 			<Box
 				position={'relative'}
 				bgcolor={theme.palette.primary.light}
-				p={{ xs: 2, md: 10 }}
+				p={{ xs: 0, md: 10 }}
 				width={'100%'}
 				sx={{
 					overflowY: 'scroll',
@@ -165,10 +165,20 @@ const Page: NextPage = () => {
 			>
 				{/* 컨텐츠 레이아웃 */}
 				<InternalServiceLayout>
-					<Typography variant="h3" fontWeight={'bold'} sx={{ mb: 2 }}>
+					<Typography
+						variant="h3"
+						fontWeight={'bold'}
+						sx={{ mb: 2 }}
+						px={{ xs: 2, md: 0 }}
+					>
 						등록계좌 내역
 					</Typography>
-					<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+					<Typography
+						color={'secondary.dark'}
+						sx={{ mb: 2 }}
+						px={{ xs: 2, md: 0 }}
+						lineHeight={1.5}
+					>
 						내역 확인을 위해 은행계정(ID/PW)입력 또는 인증서 등록이
 						필요합니다. 계좌 등록은 최대 3개까지 가능합니다.
 					</Typography>
@@ -182,10 +192,10 @@ const Page: NextPage = () => {
 					/>
 
 					{/* 계좌 내역 컨트롤러 영역 (날짜, 거래 내역 검색) */}
-
+					{/* PC */}
 					<Box
 						width={'100%'}
-						display={'flex'}
+						display={{ md: 'flex', xs: 'none' }}
 						justifyContent={'space-between'}
 						alignItems={'center'}
 						mb={2}
@@ -218,7 +228,44 @@ const Page: NextPage = () => {
 							width={'300px'}
 						/>
 					</Box>
-
+					{/* Mobile */}
+					<Box
+						width={'100%'}
+						display={{ md: 'none', xs: 'flex' }}
+						justifyContent={'space-between'}
+						alignItems={'center'}
+						bgcolor={'secondary.light'}
+					>
+						<SupportiInput
+							type="search"
+							value={keyword}
+							setValue={setKeyword}
+							placeholder={'거래 내역 검색'}
+							btnOnclick={() => {
+								setSearchTriggerKey(keyword);
+							}}
+							width={{ sm: '300px', xs: '45%' }}
+							style={{ bgcolor: 'transparent', border: 'none' }}
+						/>
+						<Box display={'flex'} gap={1} alignItems={'center'}>
+							{selectablePeriodList && (
+								<SupportiInput
+									type="select"
+									value={selectedPeriod}
+									setValue={(value) => {
+										setSelectedPeriod(value);
+									}}
+									placeholder="계좌 선택"
+									dataList={selectablePeriodList}
+									width={145}
+									style={{
+										bgcolor: 'transparent',
+										border: 'none',
+									}}
+								/>
+							)}
+						</Box>
+					</Box>
 					{/* 실제 계좌 내역 */}
 					{bankAccountList.map((bankAccount) => (
 						<Box mb={2}>

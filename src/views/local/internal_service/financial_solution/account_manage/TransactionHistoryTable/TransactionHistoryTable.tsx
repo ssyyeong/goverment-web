@@ -22,6 +22,7 @@ import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 import SupportiPagination from '../../../../../global/SupportiPagination';
 import { Thumbnail } from '@qillie-corp/qillie-react-ui';
+import MobileTransactionHistory from '../MobileTransactionHistory/MobileTransactionHistory';
 
 interface ITransactionHistoryTableProps {
 	/**
@@ -314,7 +315,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	return (
 		<Box
 			sx={{
-				p: '20px',
+				p: { sm: '20px', xs: 1 },
 				bgcolor: 'white',
 				borderRadius: '10px',
 				width: '100%',
@@ -337,8 +338,23 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						src={bankConfig[props.bankAccount.BANK_CODE]?.iconPath}
 						width={'30px'}
 						height={'30px'}
+						backgroundSize="contain"
 					/>
-					<Typography variant="h5" fontWeight={'bold'}>
+					<Typography
+						variant={'h5'}
+						fontWeight={'bold'}
+						sx={{
+							display: { sm: 'block', xs: 'none' },
+						}}
+					>
+						{bankConfig[props.bankAccount.BANK_CODE].name}
+					</Typography>
+					<Typography
+						fontWeight={'bold'}
+						sx={{
+							display: { sm: 'none', xs: 'block' },
+						}}
+					>
 						{bankConfig[props.bankAccount.BANK_CODE].name}
 					</Typography>
 				</Box>
@@ -380,13 +396,39 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				</Box>
 			</Box>
 			{/* 제외 파트 변경 시, 부모로부터 받는 preserveKey 변경 (preserveKey 변경 시 재계산 콜백들이 실행됨) */}
-			<Box width={'100%'}>
+			<Box width={'100%'} display={{ sm: 'block', xs: 'none' }}>
 				<SupportiTable
 					rowData={transactionHistoryList}
 					headerData={transactionHistoryHeaderData}
 				/>
 			</Box>
 
+			{/* mobile */}
+			<Box
+				sx={{
+					display: { sm: 'none', xs: 'block' },
+					width: '100%',
+				}}
+			>
+				{transactionHistoryList.map((item, index) => (
+					<MobileTransactionHistory
+						checked={item.EXCEPTED_YN === 'Y' ? true : false}
+						onClick={() => {
+							handleExcept(item.EXCEPTED_YN, index);
+						}}
+						transactionDate={item.TRANSACTION_DATE}
+						traderBank={item.TRADER_BANK_NAME}
+						traderName={item.TRADER_NAME}
+						transactionAmount={
+							item.IN_AMOUNT === 0
+								? item.OUT_AMOUNT
+								: item.IN_AMOUNT
+						}
+						transactionType={item.IN_AMOUNT === 0 ? '출금' : '입금'}
+						balance={item.BALANCE}
+					/>
+				))}
+			</Box>
 			{/* 페이지 네이션 */}
 			<SupportiPagination
 				limit={limit}

@@ -111,9 +111,9 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 	return (
 		<Box
 			sx={{
-				width: 125,
+				width: { sm: 125, xs: 40 },
 				height: 36,
-				p: '10px 15px',
+				p: { sm: '10px 15px', xs: 1 },
 				border: 'solid 1px #b4d5c3',
 				borderRadius: '5px',
 				display: 'flex',
@@ -128,7 +128,9 @@ const ExcelDownloadButton = (props: IExcelDownloadButtonProps) => {
 				sx={{ width: 20, height: 20 }}
 				variant="square"
 			/>
-			<Typography variant="body2">엑셀 다운로드</Typography>
+			<Typography variant="body2" display={{ sm: 'block', xs: 'none' }}>
+				엑셀 다운로드
+			</Typography>
 		</Box>
 	);
 };
