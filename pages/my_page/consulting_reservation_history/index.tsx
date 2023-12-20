@@ -161,7 +161,7 @@ const Page: NextPage = () => {
 						},
 						{
 							label: '일정완료',
-							value: 'COMPLETE',
+							value: 'COMPLETED',
 						},
 					]}
 					angled
