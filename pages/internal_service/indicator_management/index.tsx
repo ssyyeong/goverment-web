@@ -69,7 +69,12 @@ const Page: NextPage = () => {
 				name: 'KPI',
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
-						return <KpiCard data={data} />;
+						return (
+							<KpiCard
+								data={data}
+								setTriggerKey={setTriggerKey}
+							/>
+						);
 					},
 					injectedParams: {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
