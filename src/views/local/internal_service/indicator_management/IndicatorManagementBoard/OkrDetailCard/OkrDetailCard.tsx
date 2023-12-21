@@ -12,6 +12,7 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IOkrDetailCardProps {
 	data: IOkrDetail;
@@ -24,6 +25,7 @@ interface IOkrDetailCardProps {
 	updateDetailOkr?: any;
 	modalOpen?: boolean;
 	setModalOpen?: any;
+	setTriggerKey?: any;
 }
 
 const OkrDetailCard = (props: IOkrDetailCardProps) => {
@@ -103,7 +105,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			(response: any) => {
 				alert('하위 업데이트 성공');
 
-				// props.setTriggerKey && props.setTriggerKey(uuidv4());
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				setIsEditMode(false);
 				props.setModalOpen(!props.modalOpen);
 			},
@@ -181,7 +183,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								readOnly={okrDetailData.TITLE.length > 50}
 							/>
 							<Typography
-								variant="h5"
+								variant="body1"
 								color="error.main"
 								sx={{
 									visibility:

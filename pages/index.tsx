@@ -368,7 +368,7 @@ const Page: NextPage = () => {
 				</Box>
 
 				<Grid container>
-					<Box gap={10} ml="auto" mr="auto">
+					<Box gap={5} ml="auto" mr="auto" display="flex">
 						{data3.map((item, index) => {
 							return (
 								<Box key={index}>
@@ -425,6 +425,65 @@ const Page: NextPage = () => {
 						})}
 					</Box>
 				</Grid>
+
+				<Grid container>
+					<Box gap={5} ml="auto" mr="auto" display="flex">
+						{data3_1.map((item, index) => {
+							return (
+								<Box key={index}>
+									<Box
+										sx={{
+											width: { sm: '350px', xs: '250px' },
+											height: {
+												sm: '330px',
+												xs: '250px',
+											},
+										}}
+										ml={'auto'}
+										mr={'auto'}
+									>
+										<Box
+											position={'absolute'}
+											bgcolor={'rgba(0, 0, 0, 0.7)'}
+											borderRadius={5}
+											width={'inherit'}
+											height={'inherit'}
+											sx={{
+												pt: {
+													sm: '140px',
+													xs: '100px',
+												},
+											}}
+										>
+											<Typography
+												color={'white'}
+												variant={'h4'}
+											>
+												{item.text1}
+											</Typography>
+											<Typography
+												color={'white'}
+												variant={'h4'}
+												lineHeight={2}
+											>
+												{item.text2}
+											</Typography>
+										</Box>
+										<img
+											alt="img"
+											src={item.imgPath}
+											style={{
+												width: 'inherit',
+												height: 'inherit',
+											}}
+										/>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+				</Grid>
+
 				<Grid container>
 					<Box
 						display={'flex'}
@@ -432,6 +491,8 @@ const Page: NextPage = () => {
 						ml="auto"
 						mr="auto"
 						flex={'wrap'}
+						mt={20}
+						mb={20}
 					>
 						{data4.map((item, index) => {
 							return (
@@ -669,12 +730,15 @@ const Page: NextPage = () => {
 					<Grid
 						container
 						borderRadius={4}
-						p={5}
+						p={15}
 						bgcolor={'white'}
 						mt={5}
 						mb={5}
+						ml={'auto'}
+						mr={'auto'}
+						gap={10}
 					>
-						<Box textAlign={'left'}>
+						<Box textAlign={'left'} mt={'auto'} mb={'auto'}>
 							<Typography
 								variant={'h4'}
 								fontWeight={'700'}
@@ -687,6 +751,15 @@ const Page: NextPage = () => {
 								한눈에 확인 해보세요.
 							</Typography>
 						</Box>
+						<img
+							alt="img"
+							src={'/images/main/finance.png'}
+							style={{
+								width: '500px',
+								height: '250px',
+								zIndex: 100,
+							}}
+						/>
 					</Grid>
 				</Grid>
 			)}
