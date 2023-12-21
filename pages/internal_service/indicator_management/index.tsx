@@ -147,6 +147,7 @@ const Page: NextPage = () => {
 								{...selectedIndicator.indicatorManagementBoardProps}
 								name={selectedIndicator.name}
 								triggerKey={triggerKey}
+								setTriggerKey={setTriggerKey}
 							/>
 						</InternalServiceLayout>
 					)}

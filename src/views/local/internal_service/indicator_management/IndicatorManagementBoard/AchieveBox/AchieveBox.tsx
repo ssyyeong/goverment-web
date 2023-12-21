@@ -46,29 +46,31 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	//* Functions
 	console.log(memberId);
 	// okr 하위 목표 달성량 추가
-	const updateOkr = () => {
-		okrController.updateItem(
-			Object.assign({
+	const updateOkr = (target) => {
+		if (target === 'memo') {
+			okrController.updateItem(
+				Object.assign({
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					OKR_DETAIL_IDENTIFICATION_CODE:
+						props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
+					NOTE: note,
+				}),
+				(response: any) => {
+					alert('수정 성공');
+					props.setModalOpen(!props.modalOpen);
+					setAchieveAmount(0);
+				},
+				(err: any) => {}
+			);
+		} else {
+			okrAchievedAmountController.createItem({
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_DETAIL_IDENTIFICATION_CODE:
 					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-				NOTE: note,
-			}),
-			(response: any) => {
-				alert('수정 성공');
-				props.setModalOpen(!props.modalOpen);
-				setAchieveAmount(0);
-			},
-			(err: any) => {}
-		);
-
-		okrAchievedAmountController.createItem({
-			APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			OKR_DETAIL_IDENTIFICATION_CODE:
-				props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-			AMOUNT: achieveAmount,
-			UNIT: props.data['TARGET_UNIT'],
-		});
+				AMOUNT: achieveAmount,
+				UNIT: props.data['TARGET_UNIT'],
+			});
+		}
 	};
 
 	console.log(props.data, props.data.OkrDetails);
@@ -92,7 +94,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 					width={'200px'}
 					btnContent="달성량 추가"
 					btnOnclick={() => {
-						updateOkr();
+						updateOkr('achievedAmount');
 					}}
 					style={{
 						bgcolor: 'white',
@@ -108,7 +110,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				}}
 				btnContent="등록하기"
 				btnOnclick={() => {
-					updateOkr();
+					updateOkr('memo');
 				}}
 				width={'100%'}
 				placeholder="메모 입력"

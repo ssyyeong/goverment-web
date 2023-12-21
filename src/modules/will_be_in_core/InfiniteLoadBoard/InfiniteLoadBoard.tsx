@@ -180,13 +180,11 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	/**
 	 * 필터 바뀔때 초기화시키기
 	 */
-	console.log(props.triggerKey, 'trigger');
+	console.log(props.injectedParams.FIND_OPTION_KEY_LIST, 'trigger');
 	useEffect(() => {
 		callData();
 	}, [
 		props.injectedParams.FIND_OPTION_KEY_LIST.SORT_DIRECTION,
-		// props.injectedParams.PERIOD_START,
-		// props.injectedParams.PERIOD_END,
 		props.injectedParams.FIND_OPTION_KEY_LIST.CATEGORY,
 		props.injectedParams.COMPLETED,
 		props.triggerKey,

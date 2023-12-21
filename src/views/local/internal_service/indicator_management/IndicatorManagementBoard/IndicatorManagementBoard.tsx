@@ -15,6 +15,7 @@ import SupportiToggle from '../../../../global/SupportiToggle';
 import SupportiInput from '../../../../global/SupportiInput';
 import moment from 'moment';
 import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCategoryConfig';
+import { useAppMember } from '../../../../../hooks/useAppMember';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -36,6 +37,7 @@ interface IIndicatorManagementBoardProps {
 	 * 트리거키
 	 */
 	triggerKey?: string;
+	setTriggerKey?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
@@ -114,28 +116,15 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	/**
 	 * 무한 로딩 게시판에 들어갈 injectedParams 를 만들어주는 함수
 	 */
-	const injectedParams = Object.assign(
-		// props.infiniteLoadBoardProps?.injectedParams,
-		/**
-		 * 상태 선택
-		 */
-		// JSON.parse(selectedStatus),
-		/**
-		 * 정렬 선택
-		 */
-		JSON.parse(selectedSort),
-		/**
-		 * KPI 카테고리 선택
-		 */
-		selectedKpiCategory !== null &&
-			props.name === 'KPI' && {
-				CATEGORY: selectedKpiCategory,
-			}
-	);
-	console.log(injectedParams, 'injected');
+
+	const { memberId } = useAppMember();
+	// console.log(props.infiniteLoadBoardProps, 'injected');
 	const makeInjectedParams = () => {
 		const injectedParams = Object.assign(
 			// props.infiniteLoadBoardProps?.injectedParams,
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
 			/**
 			 * 상태 선택
 			 */
@@ -228,27 +217,31 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				/>
 			)}
 			{/* 지표 목록 영역 */}
-			<InfiniteLoadBoard
-				{...Object.assign(props.infiniteLoadBoardProps, {
-					injectedParams: {
-						FIND_OPTION_KEY_LIST: makeInjectedParams(),
-						COMPLETED: selectedStatus,
-					},
-				})}
-				allData={indicatorList}
-				setAllData={setIndicatorList}
-				triggerKey={props.triggerKey}
-			/>
+			{memberId && (
+				<InfiniteLoadBoard
+					{...Object.assign(props.infiniteLoadBoardProps, {
+						injectedParams: {
+							FIND_OPTION_KEY_LIST: makeInjectedParams(),
+							COMPLETED: selectedStatus,
+						},
+					})}
+					allData={indicatorList}
+					setAllData={setIndicatorList}
+					triggerKey={props.triggerKey}
+				/>
+			)}
 			{props.name === 'OKR' && (
 				<OkrModal
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
+					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
 			{props.name === 'KPI' && (
 				<KpiModal
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
+					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
 		</Box>

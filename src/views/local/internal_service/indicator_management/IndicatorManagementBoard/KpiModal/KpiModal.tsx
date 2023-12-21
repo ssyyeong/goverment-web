@@ -11,12 +11,15 @@ import { IKpi } from '../../../../../../../src/@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { v4 as uuidv4 } from 'uuid';
+
 interface IKpiModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	mode?: 'modify' | 'create';
 	data?: any;
 	updateKpi?: (injectedObj) => void;
+	setTriggerKey?: React.Dispatch<any>;
 }
 
 const KpiModal = (props: IKpiModalProps) => {
@@ -58,7 +61,9 @@ const KpiModal = (props: IKpiModalProps) => {
 		kpiController.createItem(
 			{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
 			(response) => {
-				console.log(response);
+				alert('등록 성공');
+
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(false);
 			},
 			(err) => {
@@ -66,6 +71,24 @@ const KpiModal = (props: IKpiModalProps) => {
 			}
 		);
 	};
+
+	//* Hooks
+	React.useEffect(() => {
+		if (memberId) {
+			setKpiData({
+				TITLE: '',
+				START_DATE: new Date(),
+				END_DATE: new Date(),
+				TARGET_AMOUNT: 0,
+				TARGET_UNIT: undefined,
+				NOTE: '',
+				CATEGORY: undefined,
+				ASSIGNEE: '',
+				RATE: 1,
+				STATUS: 'PROCEEDING',
+			});
+		}
+	}, [memberId, props.modalOpen, props.data]);
 
 	return (
 		<Box>
