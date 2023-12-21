@@ -1,4 +1,10 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import {
+	Box,
+	SwipeableDrawer,
+	Typography,
+	styled,
+	useTheme,
+} from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
@@ -69,7 +75,10 @@ const Page: NextPage = () => {
 	 */
 	const [calculationResult, setCalculationResult] =
 		React.useState<IAccountCalculationResultProps>();
-
+	/**
+	 * 바텀 드로워 오픈
+	 */
+	const [openDrawer, setOpenDrawer] = React.useState(false);
 	//* Functions
 	/**
 	 * 계산 결과 조회
@@ -146,6 +155,20 @@ const Page: NextPage = () => {
 	/**
 	 * 계좌 추가 함수 (추가 후, 리스트 변경)
 	 */
+
+	const drawerBleeding = 56;
+	const Puller = styled(Box)(({ theme }) => ({
+		width: 30,
+		height: 6,
+		backgroundColor: 'red',
+		borderRadius: 3,
+		position: 'absolute',
+		top: 8,
+		left: 'calc(50% - 15px)',
+	}));
+	const Root = styled('div')(({ theme }) => ({
+		height: '100%',
+	}));
 
 	const theme = useTheme();
 
@@ -283,6 +306,52 @@ const Page: NextPage = () => {
 						setRecomputeTriggerKey={setRecomputeTriggerKey}
 						calculationResult={calculationResult}
 					/>
+					{/* 번레이트 계산 모바일 */}
+					{/* mobile */}
+					<Box display={{ md: 'none', xs: 'block' }} height={'100%'}>
+						<SwipeableDrawer
+							anchor="bottom"
+							open={openDrawer}
+							onClose={() => setOpenDrawer(false)}
+							onOpen={() => setOpenDrawer(true)}
+							swipeAreaWidth={drawerBleeding}
+							disableSwipeToOpen={false}
+							ModalProps={{
+								keepMounted: true,
+							}}
+						>
+							<Box
+								sx={{
+									position: 'absolute',
+									top: -drawerBleeding,
+									borderTopLeftRadius: 8,
+									borderTopRightRadius: 8,
+									visibility: 'visible',
+									right: 0,
+									left: 0,
+									bgcolor: 'red',
+									height: 100,
+								}}
+							>
+								<Puller />
+								<Typography
+									sx={{ p: 2, color: 'text.secondary' }}
+								>
+									51 results
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									px: 2,
+									pb: 2,
+									height: 50,
+									overflow: 'auto',
+								}}
+							>
+								내용
+							</Box>
+						</SwipeableDrawer>
+					</Box>
 				</InternalServiceLayout>
 			</Box>
 		</InternalServiceDrawer>

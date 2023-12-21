@@ -75,6 +75,7 @@ const Page: NextPage = () => {
 			{
 				LIMIT: 10,
 				PAGE: page,
+				PURCHASE_AVAILABLE_YN: 'Y',
 			},
 			(res) => {
 				setTotalDataCount(res.data.result.count);

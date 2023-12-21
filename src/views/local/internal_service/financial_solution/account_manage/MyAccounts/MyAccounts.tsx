@@ -160,7 +160,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 				setSelectedPeriod(temp[temp.length - 1]);
 			}
 		}
-	}, []);
+	}, [props.calculationResult]);
 
 	//* Styles
 	const boxStyle = {
@@ -387,6 +387,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 										}
 										width={'40px'}
 										height={'40px'}
+										backgroundSize="contain"
 									/>
 									{/* 계좌내용 */}
 									<Box sx={{ width: '70%' }}>

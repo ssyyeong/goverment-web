@@ -21,7 +21,8 @@ const MobileTransactionHistory = (props: IMobileTransactionHistoryProps) => {
 			p={1}
 			display={'flex'}
 			alignItems={'flex-start'}
-			borderBottom={'1px solid #ccc'}
+			pb={2}
+			borderBottom={'1px solid #cccccc6a'}
 		>
 			<Grid item xs={1.5} display={'flex'} alignItems={'baseline'}>
 				<Checkbox

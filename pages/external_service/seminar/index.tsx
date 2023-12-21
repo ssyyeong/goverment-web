@@ -86,6 +86,9 @@ const Page: NextPage = () => {
 				PRICE: tab === 0 ? 0 : undefined,
 				PERIOD_TARGET_KEY: tab === 1 ? 'PRICE' : undefined,
 				PERIOD_START: tab === 1 ? 1 : undefined,
+				SORT_KEY: 'SEMINAR_DATE',
+				SORT_DIRECTION: 'ASC',
+				PURCHASE_AVAILABLE_YN: 'Y',
 			},
 			(res) => {
 				setTotalDataCount(res.data.result.count);

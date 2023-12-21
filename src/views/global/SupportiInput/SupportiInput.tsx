@@ -120,11 +120,14 @@ const SupportiInput = React.forwardRef(
 									<MenuItem
 										key={item.label}
 										value={item.value}
-										sx={{ display: 'flex' }}
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+										}}
 									>
-										{props.iconList && (
+										{item.icon && (
 											<img
-												src={props.iconList[index]}
+												src={item.icon}
 												alt="icon"
 												style={{
 													width: '15px',

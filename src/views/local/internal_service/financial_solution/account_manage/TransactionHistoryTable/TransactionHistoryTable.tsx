@@ -136,12 +136,12 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			label: '제외',
 		},
 		{
-			key: 'IN_AMOUNT',
-			label: '구분',
+			key: 'OUT_AMOUNT',
+			label: '출금',
 		},
 		{
 			key: 'IN_AMOUNT',
-			label: '금액',
+			label: '입금',
 		},
 		{
 			key: 'TRANSACTION_DATE',

@@ -70,13 +70,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 	//* bankConfig key value 형태로 커스텀
 	let bankList = [{}];
 	for (const [key, value] of Object.entries(bankConfig)) {
-		bankList.push({ label: value.name, value: key });
-	}
-
-	//* bank icon 리스트 커스텀
-	let iconObj = [];
-	for (const [key, value] of Object.entries(bankConfig)) {
-		iconObj.push(value.iconPath);
+		bankList.push({ label: value.name, value: key, icon: value.iconPath });
 	}
 
 	let userAccountList = [];
@@ -476,7 +470,6 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 									}}
 									dataList={bankList}
 									width={290}
-									iconList={iconObj}
 								/>
 							</Box>
 

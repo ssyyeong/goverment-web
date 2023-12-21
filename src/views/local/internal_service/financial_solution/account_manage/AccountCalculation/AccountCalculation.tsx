@@ -5,8 +5,10 @@ import {
 	BoxProps,
 	Menu,
 	MenuItem,
+	SwipeableDrawer,
 	TextField,
 	Typography,
+	styled,
 } from '@mui/material';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { BankController } from '../../../../../../controller/BankController';
@@ -17,6 +19,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { Global } from '@emotion/react';
 
 export interface IAccountCalculationResultProps {
 	monthlyIncome: { [key: string]: any };
@@ -54,6 +57,10 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 */
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+	/**
+	 * 바텀 드로워 오픈
+	 */
+	const [openDrawer, setOpenDrawer] = React.useState(false);
 
 	//* Modules
 	const financialRatioConfigController = new DefaultController(
@@ -64,7 +71,10 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	const resultConfig = [
 		{
 			lable: 'RunWay',
-			value: props.calculationResult?.runWay,
+			value:
+				props.calculationResult?.burnRate < 0
+					? '∞'
+					: props.calculationResult?.runWay,
 			extra: true,
 			month: true,
 		},
@@ -91,14 +101,20 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 * 분석 조건 등록 및 수정함수
 	 */
 	const handleSave = () => {
+		console.log(
+			'handle',
+			averageMonth,
+			moment(standardDate)
+				.subtract(averageMonth, 'M')
+				.format('YYYY-MM-DDTHH:mm:ss')
+		);
 		bankController.saveBankAccountCondition(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				BURN_RATE_END_DATE: standardDate,
-				BURN_RATE_START_DATE: moment(standardDate).subtract(
-					averageMonth,
-					'M'
-				),
+				BURN_RATE_START_DATE: moment(standardDate)
+					.subtract(averageMonth, 'M')
+					.format('YYYY-MM-DDTHH:mm:ss'),
 			},
 			(res) => {
 				props.setRecomputeTriggerKey(uuidv4());
@@ -106,6 +122,13 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			(err) => {}
 		);
 	};
+	console.log(
+		'moment',
+		averageMonth,
+		moment(standardDate)
+			.subtract(averageMonth, 'M')
+			.format('YYYY-MM-DDTHH:mm:ss')
+	);
 	//* Hooks
 	/**
 	 * 유저 아이디 정보 가져오는 훅
@@ -127,10 +150,12 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					} else {
 						setStandardDate(res.data.result.BURN_RATE_END_DATE);
 						setAverageMonth(
-							moment(res.data.result.BURN_RATE_END_DATE).diff(
-								res.data.result.BURN_RATE_START_DATE,
-								'month'
-							)
+							moment(res.data.result.BURN_RATE_END_DATE)
+								.add(1, 'd')
+								.diff(
+									res.data.result.BURN_RATE_START_DATE,
+									'month'
+								)
 						);
 					}
 				},
@@ -146,199 +171,224 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	return (
-		<Box
-			sx={{
-				width: { md: `calc(100% - 300px)`, xs: '100%' },
-				backgroundImage: 'linear-gradient(to bottom, #262626, #000)',
-				height: '150px',
-				p: '25px 60px 40px',
-				position: 'fixed',
-				bottom: 0,
-				right: 0,
-				zIndex: 1,
-			}}
-		>
-			<Typography variant="h4" fontWeight={'bold'} color={'white'} pb={2}>
-				분석하기
-			</Typography>
-			<Box display={'flex'} alignItems={'center'}>
-				{/* 평균개월 */}
-				<Box
-					mr={'30px'}
-					display={'flex'}
-					flexDirection={'column'}
-					gap={'10px'}
+		<>
+			{/* PC */}
+			<Box
+				sx={{
+					width: { md: `calc(100% - 300px)`, xs: '100%' },
+					backgroundImage:
+						'linear-gradient(to bottom, #262626, #000)',
+					height: '150px',
+					p: '25px 60px 40px',
+					position: 'fixed',
+					bottom: 0,
+					right: 0,
+					zIndex: 1,
+					display: { md: 'block', xs: 'none' },
+				}}
+			>
+				<Typography
+					variant="h4"
+					fontWeight={'bold'}
+					color={'white'}
+					pb={2}
 				>
-					<Typography variant="body2" color={'#b0b5c2'}>
-						BurnRate 평균개월
-					</Typography>
-					<Box display={'flex'} alignItems={'center'}>
-						<Typography
-							variant="h6"
-							fontWeight={'bold'}
-							color={'white'}
-						>
-							{averageMonth}개월
+					분석하기
+				</Typography>
+				<Box display={'flex'} alignItems={'center'}>
+					{/* 평균개월 */}
+					<Box
+						mr={'30px'}
+						display={'flex'}
+						flexDirection={'column'}
+						gap={'10px'}
+					>
+						<Typography variant="body2" color={'#b0b5c2'}>
+							BurnRate 평균개월
 						</Typography>
-						<KeyboardArrowDownIcon
-							sx={{
-								cursor: 'pointer',
-								color: 'white',
-							}}
-							aria-controls={open ? 'basic-menu' : undefined}
-							aria-haspopup="true"
-							aria-expanded={open ? 'true' : undefined}
-							onClick={(event) => {
-								setAnchorEl(event.currentTarget);
-							}}
-						/>
-						<Menu
-							id="basic-menu"
-							open={open}
-							anchorEl={anchorEl}
-							onClose={() => {
-								setAnchorEl(null);
-							}}
-							MenuListProps={{
-								'aria-labelledby': 'basic-button',
-							}}
-							sx={{
-								'& .MuiPaper-root': {
-									borderRadius: '5px',
-									boxShadow: '0 3px 15px 0 #e1eaff',
-									width: '90px',
-									zIndex: 1,
-								},
-							}}
-						>
-							{[1, 3, 6, 12].map((item, index) => {
-								return (
-									<MenuItem
+						<Box display={'flex'} alignItems={'center'}>
+							<Typography
+								variant="h6"
+								fontWeight={'bold'}
+								color={'white'}
+							>
+								{averageMonth}개월
+							</Typography>
+							<KeyboardArrowDownIcon
+								sx={{
+									cursor: 'pointer',
+									color: 'white',
+								}}
+								aria-controls={open ? 'basic-menu' : undefined}
+								aria-haspopup="true"
+								aria-expanded={open ? 'true' : undefined}
+								onClick={(event) => {
+									setAnchorEl(event.currentTarget);
+								}}
+							/>
+							<Menu
+								id="basic-menu"
+								open={open}
+								anchorEl={anchorEl}
+								onClose={() => {
+									setAnchorEl(null);
+								}}
+								MenuListProps={{
+									'aria-labelledby': 'basic-button',
+								}}
+								sx={{
+									'& .MuiPaper-root': {
+										borderRadius: '5px',
+										boxShadow: '0 3px 15px 0 #e1eaff',
+										width: '90px',
+										zIndex: 1,
+									},
+								}}
+							>
+								{[1, 3, 6, 12].map((item, index) => {
+									return (
+										<MenuItem
+											sx={{
+												borderBottom:
+													'1px solid #e1eaff',
+												pb: '10px',
+												mb: '5px',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+											onClick={() => {
+												setAnchorEl(null);
+												setAverageMonth(item);
+											}}
+										>
+											{item}개월
+										</MenuItem>
+									);
+								})}
+							</Menu>
+						</Box>
+					</Box>
+					{/* 기준일 */}
+					<Box
+						mr={'15px'}
+						display={'flex'}
+						flexDirection={'column'}
+						gap={'10px'}
+					>
+						<Typography variant="body2" color={'#b0b5c2'}>
+							기준일
+						</Typography>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DatePicker
+								onChange={(e) => {
+									setStandardDate(e);
+								}}
+								value={standardDate}
+								inputRef={inputRef}
+								inputFormat="YY-MM-DD"
+								InputProps={{
+									endAdornment: (
+										<Typography color={'white'}>
+											dndn
+										</Typography>
+									),
+								}}
+								renderInput={({
+									inputRef,
+									inputProps,
+									InputProps,
+								}) => (
+									<Box
 										sx={{
-											borderBottom: '1px solid #e1eaff',
-											pb: '10px',
-											mb: '5px',
 											display: 'flex',
-											justifyContent: 'center',
+											alignItems: 'center',
 										}}
-										onClick={() => {
-											setAnchorEl(null);
-											setAverageMonth(item);
+										onClick={(e) => {
+											InputProps.endAdornment?.[
+												'props'
+											].children.props.onClick();
 										}}
 									>
-										{item}개월
-									</MenuItem>
-								);
-							})}
-						</Menu>
+										<Typography
+											variant="h6"
+											fontWeight={'bold'}
+											color={'white'}
+											ref={inputRef}
+										>
+											{inputProps?.value}
+										</Typography>
+										<KeyboardArrowDownIcon
+											sx={{
+												color: 'white',
+											}}
+										/>
+										{/* <input ref={inputRef} {...inputProps} /> */}
+										{InputProps.endAdornment}
+									</Box>
+								)}
+							/>
+						</LocalizationProvider>
 					</Box>
-				</Box>
-				{/* 기준일 */}
-				<Box
-					mr={'15px'}
-					display={'flex'}
-					flexDirection={'column'}
-					gap={'10px'}
-				>
-					<Typography variant="body2" color={'#b0b5c2'}>
-						기준일
-					</Typography>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							onChange={(e) => {
-								setStandardDate(e);
-							}}
-							value={standardDate}
-							inputRef={inputRef}
-							inputFormat="YY-MM-DD"
-							InputProps={{
-								endAdornment: (
-									<Typography color={'white'}>
-										dndn
-									</Typography>
-								),
-							}}
-							renderInput={({
-								inputRef,
-								inputProps,
-								InputProps,
-							}) => (
+					<SupportiButton
+						contents="조회하기"
+						isGradient={true}
+						style={{
+							border: '1px solid white',
+							color: 'white',
+							width: '85px',
+							height: '40px',
+						}}
+						onClick={() => handleSave()}
+					/>
+					<Box
+						border={'0.5px solid white'}
+						mx={4}
+						height={'50px'}
+					></Box>
+					{/* 데이터 노출 */}
+					{props.calculationResult?.burnRate !== null &&
+						props.calculationResult &&
+						resultConfig.map((item, index) => {
+							return (
 								<Box
-									sx={{
-										display: 'flex',
-										alignItems: 'center',
-									}}
-									onClick={(e) => {
-										InputProps.endAdornment?.[
-											'props'
-										].children.props.onClick();
-									}}
+									mx={'20px'}
+									display={'flex'}
+									flexDirection={'column'}
+									gap={'8px'}
 								>
 									<Typography
+										color={'#b0b5c2'}
+										variant="body2"
+									>
+										{item.lable}
+									</Typography>
+									<Typography
+										color={
+											item.extra ? 'info.main' : 'white'
+										}
 										variant="h6"
 										fontWeight={'bold'}
-										color={'white'}
-										ref={inputRef}
 									>
-										{inputProps?.value}
+										{typeof item.value === 'number'
+											? Math.round(
+													item.value
+											  ).toLocaleString()
+											: item.value}
+
+										{item.month ? '개월' : '원'}
 									</Typography>
-									<KeyboardArrowDownIcon
-										sx={{
-											color: 'white',
-										}}
-									/>
-									{/* <input ref={inputRef} {...inputProps} /> */}
-									{InputProps.endAdornment}
 								</Box>
-							)}
-						/>
-					</LocalizationProvider>
+							);
+						})}
+					{/* 조건 등록 전 */}
+					{props.calculationResult?.burnRate === null && (
+						<Typography color={'white'} fontWeight={'bold'}>
+							좌측에서 조건선택 후 조회하기를 눌러주세요!
+						</Typography>
+					)}
 				</Box>
-				<SupportiButton
-					contents="조회하기"
-					isGradient={true}
-					style={{
-						border: '1px solid white',
-						color: 'white',
-						width: '85px',
-						height: '40px',
-					}}
-					onClick={() => handleSave()}
-				/>
-				<Box border={'0.5px solid white'} mx={4} height={'50px'}></Box>
-				{/* 데이터 노출 */}
-				{props.calculationResult?.burnRate !== null &&
-					props.calculationResult &&
-					resultConfig.map((item, index) => {
-						return (
-							<Box
-								mx={'20px'}
-								display={'flex'}
-								flexDirection={'column'}
-								gap={'8px'}
-							>
-								<Typography color={'#b0b5c2'} variant="body2">
-									{item.lable}
-								</Typography>
-								<Typography
-									color={item.extra ? 'info.main' : 'white'}
-									variant="h6"
-									fontWeight={'bold'}
-								>
-									{Math.round(item.value).toLocaleString()}{' '}
-									{item.month ? '개월' : '원'}
-								</Typography>
-							</Box>
-						);
-					})}
-				{/* 조건 등록 전 */}
-				{props.calculationResult?.burnRate === null && (
-					<Typography color={'white'} fontWeight={'bold'}>
-						좌측에서 조건선택 후 조회하기를 눌러주세요!
-					</Typography>
-				)}
 			</Box>
-		</Box>
+		</>
 	);
 };
 
