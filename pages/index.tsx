@@ -343,11 +343,13 @@ const Page: NextPage = () => {
 				item
 				xs={12}
 				textAlign={'center'}
-				p={10}
 				mt={10}
 				display={'flex'}
 				flexDirection={'column'}
-				gap={10}
+				sx={{
+					gap: { sm: 10, xs: 5 },
+					p: { sm: 10, xs: 5 },
+				}}
 			>
 				<Box>
 					<Typography
@@ -367,122 +369,128 @@ const Page: NextPage = () => {
 					</Typography>
 				</Box>
 
-				<Grid container>
-					<Box gap={5} ml="auto" mr="auto" display="flex">
-						{data3.map((item, index) => {
-							return (
-								<Box key={index}>
+				<Box
+					ml="auto"
+					mr="auto"
+					display="flex"
+					sx={{ gap: { sm: 5, xs: 2 } }}
+				>
+					{data3.map((item, index) => {
+						return (
+							<Box key={index}>
+								<Box
+									sx={{
+										width: { sm: '350px', xs: '150px' },
+										height: {
+											sm: '330px',
+											xs: '150px',
+										},
+									}}
+									mt={5}
+									ml={'auto'}
+									mr={'auto'}
+								>
 									<Box
+										position={'absolute'}
+										bgcolor={'rgba(0, 0, 0, 0.7)'}
+										borderRadius={5}
+										width={'inherit'}
+										height={'inherit'}
 										sx={{
-											width: { sm: '350px', xs: '150px' },
-											height: {
-												sm: '330px',
-												xs: '150px',
+											pt: {
+												sm: '140px',
+												xs: '50px',
 											},
 										}}
-										mt={5}
-										ml={'auto'}
-										mr={'auto'}
 									>
-										<Box
-											position={'absolute'}
-											bgcolor={'rgba(0, 0, 0, 0.7)'}
-											borderRadius={5}
-											width={'inherit'}
-											height={'inherit'}
-											sx={{
-												pt: {
-													sm: '140px',
-													xs: '50px',
-												},
-											}}
+										<Typography
+											color={'white'}
+											variant={'h4'}
 										>
-											<Typography
-												color={'white'}
-												variant={'h4'}
-											>
-												{item.text1}
-											</Typography>
-											<Typography
-												color={'white'}
-												variant={'h4'}
-												lineHeight={2}
-											>
-												{item.text2}
-											</Typography>
-										</Box>
-										<img
-											alt="img"
-											src={item.imgPath}
-											style={{
-												width: 'inherit',
-												height: 'inherit',
-											}}
-										/>
+											{item.text1}
+										</Typography>
+										<Typography
+											color={'white'}
+											variant={'h4'}
+											lineHeight={2}
+										>
+											{item.text2}
+										</Typography>
 									</Box>
+									<img
+										alt="img"
+										src={item.imgPath}
+										style={{
+											width: 'inherit',
+											height: 'inherit',
+										}}
+									/>
 								</Box>
-							);
-						})}
-					</Box>
-				</Grid>
+							</Box>
+						);
+					})}
+				</Box>
 
-				<Grid container>
-					<Box gap={5} ml="auto" mr="auto" display="flex">
-						{data3_1.map((item, index) => {
-							return (
-								<Box key={index}>
+				<Box
+					ml="auto"
+					mr="auto"
+					display="flex"
+					sx={{ gap: { sm: 5, xs: 2 } }}
+				>
+					{data3_1.map((item, index) => {
+						return (
+							<Box key={index}>
+								<Box
+									sx={{
+										width: { sm: '350px', xs: '150px' },
+										height: {
+											sm: '330px',
+											xs: '150px',
+										},
+									}}
+									ml={'auto'}
+									mr={'auto'}
+								>
 									<Box
+										position={'absolute'}
+										bgcolor={'rgba(0, 0, 0, 0.7)'}
+										borderRadius={5}
+										width={'inherit'}
+										height={'inherit'}
 										sx={{
-											width: { sm: '350px', xs: '150px' },
-											height: {
-												sm: '330px',
-												xs: '150px',
+											pt: {
+												sm: '140px',
+												xs: '50px',
 											},
 										}}
-										ml={'auto'}
-										mr={'auto'}
 									>
-										<Box
-											position={'absolute'}
-											bgcolor={'rgba(0, 0, 0, 0.7)'}
-											borderRadius={5}
-											width={'inherit'}
-											height={'inherit'}
-											sx={{
-												pt: {
-													sm: '140px',
-													xs: '50px',
-												},
-											}}
+										<Typography
+											color={'white'}
+											variant={'h4'}
 										>
-											<Typography
-												color={'white'}
-												variant={'h4'}
-											>
-												{item.text1}
-											</Typography>
-											<Typography
-												color={'white'}
-												variant={'h4'}
-												lineHeight={2}
-											>
-												{item.text2}
-											</Typography>
-										</Box>
-										<img
-											alt="img"
-											src={item.imgPath}
-											style={{
-												width: 'inherit',
-												height: 'inherit',
-											}}
-										/>
+											{item.text1}
+										</Typography>
+										<Typography
+											color={'white'}
+											variant={'h4'}
+											lineHeight={2}
+										>
+											{item.text2}
+										</Typography>
 									</Box>
+									<img
+										alt="img"
+										src={item.imgPath}
+										style={{
+											width: 'inherit',
+											height: 'inherit',
+										}}
+									/>
 								</Box>
-							);
-						})}
-					</Box>
-				</Grid>
+							</Box>
+						);
+					})}
+				</Box>
 
 				<Grid container>
 					<Box ml="auto" mr="auto" mt={20} mb={20}>
