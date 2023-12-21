@@ -146,46 +146,71 @@ const KpiCard = (props: IKpiCardProps) => {
 			mb={2}
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 		>
+			<Box display="flex" justifyContent={'space-between'}>
+				<Typography variant="h5" fontWeight={'bold'}>
+					{kpiData.TITLE}
+				</Typography>
+
+				{/** 아이콘, 누르면 메모 나옴 */}
+				<Box
+					onClick={() => setIsMore(!isMore)}
+					style={{
+						cursor: 'pointer',
+						marginTop: 'auto',
+						marginBottom: 'auto',
+					}}
+				>
+					{isMore && <ArrowDropUpIcon />}
+					{!isMore && <ArrowDropDownIcon />}
+				</Box>
+			</Box>
 			<Box
 				display="flex"
 				justifyContent={'space-between'}
 				flexWrap="wrap"
 			>
-				<Box display="flex" gap={1} flexWrap={'wrap'}>
-					<Box
-						display="flex"
-						flexDirection="column"
-						gap={1}
-						minWidth={'160px'}
-					>
-						<Typography variant="h5" fontWeight={'bold'}>
-							{kpiData.TITLE}
+				<Box display="flex" gap={1}>
+					{/** 기간 */}
+					<Box display={'flex'}>
+						<Typography fontWeight={500} color={'secondary.main'}>
+							{(kpiData?.START_DATE as string).split('T')[0]}
 						</Typography>
-						{/** 기간 */}
-						<Box display={'flex'}>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{(kpiData?.START_DATE as string).split('T')[0]}
-							</Typography>
-							<Typography
-								ml={0.5}
-								mr={0.5}
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								~
-							</Typography>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{(kpiData?.END_DATE as string).split('T')[0]}
-							</Typography>
-						</Box>
+						<Typography
+							ml={0.5}
+							mr={0.5}
+							fontWeight={500}
+							color={'secondary.main'}
+						>
+							~
+						</Typography>
+						<Typography fontWeight={500} color={'secondary.main'}>
+							{(kpiData?.END_DATE as string).split('T')[0]}
+						</Typography>
 					</Box>
 
+					{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
+					<Typography fontWeight={500} minHeight={'30px'}>
+						{calcDeadline(
+							(kpiData?.END_DATE as string).split('T')[0]
+						)}
+					</Typography>
+				</Box>
+				<Box display="flex" gap={1} minHeight={'30px'}>
+					{/** 담당자 */}
+					<Typography mt="auto" mb="auto" fontWeight={500}>
+						담당자
+					</Typography>
+					<Typography mt="auto" mb="auto" fontWeight={500}>
+						{kpiData.ASSIGNEE}
+					</Typography>
+				</Box>
+			</Box>
+			<Box
+				display={'flex'}
+				justifyContent={'space-between'}
+				flexWrap="wrap"
+			>
+				<Box>
 					{/** 목표량 */}
 					<Box display={'flex'} minWidth={'75px'}>
 						<Typography mt="auto" mb="auto" fontWeight={500} mr={1}>
@@ -216,28 +241,6 @@ const KpiCard = (props: IKpiCardProps) => {
 							{RatingConfig[kpiData.RATE]}
 						</Typography>
 					</Box>
-				</Box>
-
-				{/** 마감 상태 (마감일 임박, 마감일 지남, 마감일) */}
-				<Typography
-					ml={1}
-					mt={'auto'}
-					mb={'auto'}
-					pt={'8px'}
-					fontWeight={500}
-					minHeight={'30px'}
-				>
-					{calcDeadline((kpiData?.END_DATE as string).split('T')[0])}
-				</Typography>
-
-				<Box display="flex" gap={1} minHeight={'30px'}>
-					{/** 담당자 */}
-					<Typography mt="auto" mb="auto" fontWeight={500}>
-						담당자
-					</Typography>
-					<Typography mt="auto" mb="auto" fontWeight={500}>
-						{kpiData.ASSIGNEE}
-					</Typography>
 				</Box>
 
 				<Box display="flex" gap={1}>
@@ -286,19 +289,6 @@ const KpiCard = (props: IKpiCardProps) => {
 							/>
 						</Box>
 					)}
-
-					{/** 아이콘, 누르면 메모 나옴 */}
-					<Box
-						onClick={() => setIsMore(!isMore)}
-						style={{
-							cursor: 'pointer',
-							marginTop: 'auto',
-							marginBottom: 'auto',
-						}}
-					>
-						{isMore && <ArrowDropUpIcon />}
-						{!isMore && <ArrowDropDownIcon />}
-					</Box>
 				</Box>
 			</Box>
 			{isMore && (
