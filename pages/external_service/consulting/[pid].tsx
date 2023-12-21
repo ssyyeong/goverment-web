@@ -103,7 +103,7 @@ const Page: NextPage = () => {
 				(err) => {}
 			);
 		}
-	}, []);
+	}, [reservationScheduleModal, pid]);
 
 	return (
 		<Box
