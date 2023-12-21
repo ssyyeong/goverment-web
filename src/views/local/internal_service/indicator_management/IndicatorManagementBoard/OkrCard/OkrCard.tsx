@@ -155,7 +155,10 @@ const OkrCard = (props: IOkrCardProps) => {
 				<Box display="flex">
 					<Typography>현재 달성률</Typography>
 					<Typography ml={1} color={'primary.main'} fontWeight={600}>
-						{okrMainData.ACHIEVED_RATE}%
+						{okrMainData.ACHIEVED_RATE
+							? okrMainData.ACHIEVED_RATE
+							: 0}
+						%
 					</Typography>
 				</Box>
 

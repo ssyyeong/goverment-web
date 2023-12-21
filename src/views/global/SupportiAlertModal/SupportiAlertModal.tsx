@@ -23,7 +23,9 @@ interface ISupportiAlertModalProps {
 		| 'business'
 		| 'loginfail'
 		| 'consultingexceed'
-		| 'seminarexceed';
+		| 'seminarexceed'
+		| 'indicatorModify'
+		| 'indicatorDelete';
 	customHandleClose?: () => void;
 }
 
@@ -143,6 +145,24 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.handleClose();
 			},
 			cancelButtonAvailable: false,
+		},
+		indicatorModify: {
+			type: 'error',
+			title: '해당 하위목표의 히스토리가 사라집니다! 수정하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		indicatorDelete: {
+			type: 'error',
+			title: '해당 하위목표의 히스토리가 사라집니다! 삭제하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: true,
 		},
 	};
 

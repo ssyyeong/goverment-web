@@ -405,7 +405,10 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								<Box display="flex" gap={1}>
 									<Typography>현재 달성률</Typography>
 									<Typography color={'primary.main'}>
-										{props.okrMainData.ACHIEVED_RATE}%
+										{props.okrMainData.ACHIEVED_RATE
+											? props.okrMainData.ACHIEVED_RATE
+											: 0}
+										%
 									</Typography>
 								</Box>
 								{/** 프로그레스바 */}

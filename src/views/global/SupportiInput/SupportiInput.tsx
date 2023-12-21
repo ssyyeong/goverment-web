@@ -108,11 +108,7 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						defaultValue={
-							props.defaultValue
-								? props.defaultValue
-								: props.dataList[0].value
-						}
+						defaultValue={props.defaultValue}
 						placeholder={
 							props.placeholder ? props.placeholder : '선택'
 						}

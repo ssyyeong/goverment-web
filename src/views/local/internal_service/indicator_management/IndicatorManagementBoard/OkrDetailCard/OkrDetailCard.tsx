@@ -11,6 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IOkrDetailCardProps {
 	data: IOkrDetail;
@@ -31,6 +32,18 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 	//* States
 	const [isMoreOpen, setIsMoreOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 삭제 시 알럿 모달
+	 */
+	const [alertModalOpen, setAlertModalOpen] = React.useState(false);
+
+		/**
+	 *
+	 * 수정 시 알럿 모달
+	 */
+		const [modifyAlertModal, setModifyAlertModal] = React.useState(false);
 
 	/**
 	 * 직접 입력 여부
@@ -199,7 +212,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									<SupportiButton
 										contents={'삭제'}
 										onClick={() => {
-											memberId && deleteOkrDetail();
+											setAlertModalOpen(true);
 										}}
 										style={{
 											height: '20px',
@@ -349,7 +362,10 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										color={'primary.main'}
 										fontWeight={600}
 									>
-										{props.data.ACHIEVED_RATE}%
+										{props.data.ACHIEVED_RATE
+											? props.data.ACHIEVED_RATE
+											: 0}
+										%
 									</Typography>
 								</Box>
 								{/** 프로그레스 바 */}
@@ -512,8 +528,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								<SupportiButton
 									contents={'등록하기'}
 									onClick={() => {
-										memberId &&
-											updateOkrDetail(okrDetailData);
+										setModifyAlertModal(true);
+									
 									}}
 									style={{
 										height: '25px',
@@ -569,7 +585,10 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									color={'primary.main'}
 									fontWeight={600}
 								>
-									{props.data?.ACHIEVED_RATE}%
+									{props.data?.ACHIEVED_RATE
+										? props.data?.ACHIEVED_RATE
+										: 0}
+									%
 								</Typography>
 							</Box>
 
@@ -610,6 +629,20 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					</Box>
 				)}
 			</Box>
+			<SupportiAlertModal
+				type="indicatorDelete"
+				open={alertModalOpen}
+				handleClose={() => setAlertModalOpen(false)}
+				customHandleClose={() => memberId && deleteOkrDetail()}
+			/>
+	<SupportiAlertModal
+				type="indicatorModify"
+				open={modifyAlertModal}
+				handleClose={() => setModifyAlertModal(false)}
+				customHandleClose={() => memberId &&
+					updateOkrDetail(okrDetailData)}
+			/>
+
 		</Box>
 	);
 };
