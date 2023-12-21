@@ -39,11 +39,11 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	 */
 	const [alertModalOpen, setAlertModalOpen] = React.useState(false);
 
-		/**
+	/**
 	 *
 	 * 수정 시 알럿 모달
 	 */
-		const [modifyAlertModal, setModifyAlertModal] = React.useState(false);
+	const [modifyAlertModal, setModifyAlertModal] = React.useState(false);
 
 	/**
 	 * 직접 입력 여부
@@ -141,7 +141,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				minWidth: { xs: '300px', sm: '380px' },
 			}}
 			onClick={() => {
-				props.mode === 'detail' && setIsMoreOpen(true);
+				if (props.mode === 'detail') {
+					if (!isEditMode && !isMoreOpen) setIsMoreOpen(!isMoreOpen);
+				}
 			}}
 		>
 			<Box width="100%">
@@ -529,7 +531,6 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									contents={'등록하기'}
 									onClick={() => {
 										setModifyAlertModal(true);
-									
 									}}
 									style={{
 										height: '25px',
@@ -635,14 +636,14 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				handleClose={() => setAlertModalOpen(false)}
 				customHandleClose={() => memberId && deleteOkrDetail()}
 			/>
-	<SupportiAlertModal
+			<SupportiAlertModal
 				type="indicatorModify"
 				open={modifyAlertModal}
 				handleClose={() => setModifyAlertModal(false)}
-				customHandleClose={() => memberId &&
-					updateOkrDetail(okrDetailData)}
+				customHandleClose={() =>
+					memberId && updateOkrDetail(okrDetailData)
+				}
 			/>
-
 		</Box>
 	);
 };

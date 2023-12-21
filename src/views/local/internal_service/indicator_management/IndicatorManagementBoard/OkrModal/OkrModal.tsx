@@ -154,7 +154,7 @@ const OkrModal = (props: IOkrModalProps) => {
 				},
 			]);
 		}
-	}, [memberId, props.modalOpen]);
+	}, [memberId, props.modalOpen, props.okrMainData, props.okrDetailData]);
 
 	console.log(props.okrDetailData);
 

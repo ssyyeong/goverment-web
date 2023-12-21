@@ -152,6 +152,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: true,
 		},
@@ -161,6 +162,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: true,
 		},

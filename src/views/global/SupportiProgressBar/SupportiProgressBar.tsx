@@ -45,17 +45,19 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 				);
 			})}
 
-			{props.totalPercentage && props.totalPercentage < 100 && (
-				<Box
-					sx={{
-						width: `${100 - props.totalPercentage}%`,
-						height: '100%',
-						bgcolor: '#f1f2f5',
-						borderTopRightRadius: '5px',
-						borderBottomRightRadius: '5px',
-					}}
-				/>
-			)}
+			{props.totalPercentage != undefined &&
+				props.totalPercentage !== 0 &&
+				props.totalPercentage < 100 && (
+					<Box
+						sx={{
+							width: `${100 - props.totalPercentage}%`,
+							height: '100%',
+							bgcolor: '#f1f2f5',
+							borderTopRightRadius: '5px',
+							borderBottomRightRadius: '5px',
+						}}
+					/>
+				)}
 		</Box>
 	);
 };
