@@ -155,7 +155,7 @@ const KpiModal = (props: IKpiModalProps) => {
 								>
 									<Typography
 										color={
-											kpiData.TITLE.length < 50
+											kpiData.TITLE.length < 20
 												? 'secondary.main'
 												: 'warning.main'
 										}
@@ -164,7 +164,7 @@ const KpiModal = (props: IKpiModalProps) => {
 									</Typography>
 									<Typography
 										color={
-											kpiData.TITLE.length < 50
+											kpiData.TITLE.length < 20
 												? 'secondary.main'
 												: 'warning.main'
 										}
@@ -173,12 +173,12 @@ const KpiModal = (props: IKpiModalProps) => {
 									</Typography>
 									<Typography
 										color={
-											kpiData.TITLE.length < 50
+											kpiData.TITLE.length < 20
 												? 'secondary.main'
 												: 'warning.main'
 										}
 									>
-										50
+										20
 									</Typography>
 								</Box>
 							</Box>

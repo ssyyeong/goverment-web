@@ -130,7 +130,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								placeholder="하위 목표 타이틀을 입력해주세요."
 								readOnly={
 									props.okrDetailData[props.index].TITLE
-										.length > 50
+										.length > 20
 								}
 							/>
 						</Box>

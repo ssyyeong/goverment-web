@@ -197,7 +197,7 @@ const OkrModal = (props: IOkrModalProps) => {
 									}}
 									width={'100%'}
 									placeholder="상위 목표 타이틀을 입력해주세요."
-									readOnly={okrMainData.TITLE.length > 50}
+									readOnly={okrMainData.TITLE.length > 20}
 								/>
 								<Box
 									display="flex"
@@ -225,7 +225,7 @@ const OkrModal = (props: IOkrModalProps) => {
 									>
 										<Typography
 											color={
-												okrMainData.TITLE.length < 50
+												okrMainData.TITLE.length < 20
 													? 'secondary.main'
 													: 'warning.main'
 											}
@@ -234,7 +234,7 @@ const OkrModal = (props: IOkrModalProps) => {
 										</Typography>
 										<Typography
 											color={
-												okrMainData.TITLE.length < 50
+												okrMainData.TITLE.length < 20
 													? 'secondary.main'
 													: 'warning.main'
 											}
@@ -243,12 +243,12 @@ const OkrModal = (props: IOkrModalProps) => {
 										</Typography>
 										<Typography
 											color={
-												okrMainData.TITLE.length < 50
+												okrMainData.TITLE.length < 20
 													? 'secondary.main'
 													: 'warning.main'
 											}
 										>
-											50
+											20
 										</Typography>
 									</Box>
 								</Box>

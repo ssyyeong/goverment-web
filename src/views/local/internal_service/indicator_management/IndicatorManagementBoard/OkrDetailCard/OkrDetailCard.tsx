@@ -138,6 +138,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			display="flex"
 			flexDirection={'column'}
 			gap={1}
+			pb={isMoreOpen && 0}
 			width={props.mode === 'detail' ? '100%' : '380px'}
 			sx={{
 				minWidth: { xs: '300px', sm: '380px' },
@@ -180,7 +181,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									marginBottom: 'auto',
 								}}
 								placeholder="하위 목표 타이틀을 입력해주세요."
-								readOnly={okrDetailData.TITLE.length > 50}
+								readOnly={okrDetailData.TITLE.length > 20}
 							/>
 							<Typography
 								variant="body1"

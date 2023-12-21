@@ -374,10 +374,10 @@ const Page: NextPage = () => {
 								<Box key={index}>
 									<Box
 										sx={{
-											width: { sm: '350px', xs: '250px' },
+											width: { sm: '350px', xs: '150px' },
 											height: {
 												sm: '330px',
-												xs: '250px',
+												xs: '150px',
 											},
 										}}
 										mt={5}
@@ -393,7 +393,7 @@ const Page: NextPage = () => {
 											sx={{
 												pt: {
 													sm: '140px',
-													xs: '100px',
+													xs: '50px',
 												},
 											}}
 										>
@@ -433,10 +433,10 @@ const Page: NextPage = () => {
 								<Box key={index}>
 									<Box
 										sx={{
-											width: { sm: '350px', xs: '250px' },
+											width: { sm: '350px', xs: '150px' },
 											height: {
 												sm: '330px',
-												xs: '250px',
+												xs: '150px',
 											},
 										}}
 										ml={'auto'}
@@ -451,7 +451,7 @@ const Page: NextPage = () => {
 											sx={{
 												pt: {
 													sm: '140px',
-													xs: '100px',
+													xs: '50px',
 												},
 											}}
 										>
@@ -485,61 +485,55 @@ const Page: NextPage = () => {
 				</Grid>
 
 				<Grid container>
-					<Box
-						display={'flex'}
-						gap={4}
-						ml="auto"
-						mr="auto"
-						flex={'wrap'}
-						mt={20}
-						mb={20}
-					>
-						{data4.map((item, index) => {
-							return (
-								<Box
-									p={3}
-									borderRadius={4}
-									width={'300px'}
-									boxShadow={
-										'rgb(213, 212, 239) 0px 4px 30px'
-									}
-								>
-									<Typography
-										color={'#BAC7FB'}
-										fontWeight={'500'}
+					<Box ml="auto" mr="auto" mt={20} mb={20}>
+						<Box display={'flex'} flexWrap={'wrap'} gap={4}>
+							{data4.map((item, index) => {
+								return (
+									<Box
+										p={3}
+										borderRadius={4}
+										width={'300px'}
+										boxShadow={
+											'rgb(213, 212, 239) 0px 4px 30px'
+										}
 									>
-										PROBLEM
-									</Typography>
-									<Box mt={2} mb={2}>
 										<Typography
-											variant={'h5'}
+											color={'#BAC7FB'}
 											fontWeight={'500'}
 										>
-											{item.text1}
+											PROBLEM
 										</Typography>
-										<Box
-											display={'flex'}
-											justifyContent={'center'}
-										>
+										<Box mt={2} mb={2}>
 											<Typography
 												variant={'h5'}
 												fontWeight={'500'}
 											>
-												{item.text2}
+												{item.text1}
 											</Typography>
-											<Typography
-												variant={'h5'}
-												fontWeight={'600'}
-												color={'#3C52BB'}
-												pl={0.5}
+											<Box
+												display={'flex'}
+												justifyContent={'center'}
 											>
-												{item.target}
-											</Typography>
+												<Typography
+													variant={'h5'}
+													fontWeight={'500'}
+												>
+													{item.text2}
+												</Typography>
+												<Typography
+													variant={'h5'}
+													fontWeight={'600'}
+													color={'#3C52BB'}
+													pl={0.5}
+												>
+													{item.target}
+												</Typography>
+											</Box>
 										</Box>
 									</Box>
-								</Box>
-							);
-						})}
+								);
+							})}
+						</Box>
 					</Box>
 				</Grid>
 			</Grid>
@@ -569,145 +563,149 @@ const Page: NextPage = () => {
 				</Box>
 			</Box>
 			<Grid container p={30}>
-				<Grid item xs={6}>
-					<Box textAlign={'center'}>
-						<Box
-							data-aos="fade-up"
-							data-aos-delay="100"
-							data-aos-duration="3000"
-						>
-							<img
-								alt="img"
-								src={'/images/main/financeNum0.svg'}
-								style={{
-									width: '350px',
-									zIndex: 100,
-								}}
-							/>
+				<Box display="flex" flexWrap={'wrap'}>
+					<Grid item xs={6}>
+						<Box textAlign={'center'}>
 							<Box
 								data-aos="fade-up"
 								data-aos-delay="100"
 								data-aos-duration="3000"
-								style={{
-									zIndex: -100,
-									marginLeft: 290,
-									marginTop: -350,
-								}}
 							>
 								<img
 									alt="img"
-									src={'/images/main/financeNum2.svg'}
+									src={'/images/main/financeNum0.svg'}
 									style={{
 										width: '350px',
 										zIndex: 100,
 									}}
 								/>
 								<Box
-									data-aos="fade-right"
+									data-aos="fade-up"
 									data-aos-delay="100"
-									data-aos-duration="2000"
+									data-aos-duration="3000"
 									style={{
-										width: '303px',
-										marginLeft: -350,
-										marginTop: -50,
+										zIndex: -100,
+										marginLeft: 290,
+										marginTop: -350,
 									}}
 								>
 									<img
 										alt="img"
-										src={'/images/main/financeNum1.svg'}
+										src={'/images/main/financeNum2.svg'}
 										style={{
 											width: '350px',
 											zIndex: 100,
 										}}
 									/>
 									<Box
-										data-aos="fade-up"
+										data-aos="fade-right"
 										data-aos-delay="100"
 										data-aos-duration="2000"
 										style={{
-											marginLeft: '40px',
-											marginTop: '20px',
+											width: '303px',
+											marginLeft: -350,
+											marginTop: -50,
 										}}
 									>
 										<img
 											alt="img"
-											src={'/images/main/financeNum3.svg'}
+											src={'/images/main/financeNum1.svg'}
 											style={{
-												width: '500px',
+												width: '350px',
 												zIndex: 100,
 											}}
 										/>
+										<Box
+											data-aos="fade-up"
+											data-aos-delay="100"
+											data-aos-duration="2000"
+											style={{
+												marginLeft: '40px',
+												marginTop: '20px',
+											}}
+										>
+											<img
+												alt="img"
+												src={
+													'/images/main/financeNum3.svg'
+												}
+												style={{
+													width: '500px',
+													zIndex: 100,
+												}}
+											/>
+										</Box>
 									</Box>
 								</Box>
 							</Box>
-						</Box>
-						<Box
-							data-aos="fade-up"
-							data-aos-delay="100"
-							data-aos-duration="3000"
-							style={{
-								width: 0,
-								marginLeft: -300,
-								marginTop: 100,
-							}}
-						>
 							<Box
 								data-aos="fade-up"
 								data-aos-delay="100"
 								data-aos-duration="3000"
 								style={{
-									width: 200,
-									zIndex: -100,
-									marginLeft: 130,
-									marginTop: -300,
+									width: 0,
+									marginLeft: -300,
+									marginTop: 100,
 								}}
 							>
 								<Box
-									data-aos="fade-right"
+									data-aos="fade-up"
 									data-aos-delay="100"
-									data-aos-duration="2000"
+									data-aos-duration="3000"
 									style={{
 										width: 200,
-										marginLeft: -190,
-										marginTop: -170,
+										zIndex: -100,
+										marginLeft: 130,
+										marginTop: -300,
 									}}
 								>
 									<Box
-										data-aos="fade-up"
+										data-aos="fade-right"
 										data-aos-delay="100"
 										data-aos-duration="2000"
 										style={{
 											width: 200,
-											marginLeft: 25,
-											marginTop: -100,
+											marginLeft: -190,
+											marginTop: -170,
 										}}
-									></Box>
+									>
+										<Box
+											data-aos="fade-up"
+											data-aos-delay="100"
+											data-aos-duration="2000"
+											style={{
+												width: 200,
+												marginLeft: 25,
+												marginTop: -100,
+											}}
+										></Box>
+									</Box>
 								</Box>
 							</Box>
 						</Box>
-					</Box>
-				</Grid>
+					</Grid>
 
-				<Grid item xs={6} p={5} pr={0} pt={0}>
-					<Typography variant={'h1'} lineHeight={3}>
-						재무 솔루션
-					</Typography>
-					<Typography variant={'subtitle1'} lineHeight={2}>
-						지표를 바탕으로 효과적인 전략을 수립하고 데이터를
-					</Typography>
-					<Typography variant={'subtitle1'} lineHeight={2}>
-						가시적으로 확인하여 회사의 재무 상황을 한눈에
-						파악해보세요.
-					</Typography>
-					<SupportiButton
-						contents={'재무 솔루션 자세히보기'}
-						onClick={() => setOpen(!open)}
-						style={{
-							border: '1px solid #3C52BB',
-							marginTop: 4,
-						}}
-					/>
-				</Grid>
+					<Grid item xs={6} p={5} pr={0} pt={0}>
+						<Typography variant={'h1'} lineHeight={3}>
+							재무 솔루션
+						</Typography>
+						<Typography variant={'subtitle1'} lineHeight={2}>
+							지표를 바탕으로 효과적인 전략을 수립하고 데이터를
+						</Typography>
+						<Typography variant={'subtitle1'} lineHeight={2}>
+							가시적으로 확인하여 회사의 재무 상황을 한눈에
+							파악해보세요.
+						</Typography>
+						<SupportiButton
+							contents={'재무 솔루션 자세히보기'}
+							onClick={() => setOpen(!open)}
+							style={{
+								border: '1px solid #3C52BB',
+								marginTop: 4,
+							}}
+						/>
+					</Grid>
+				</Box>
 			</Grid>
 
 			{open && (
@@ -715,7 +713,9 @@ const Page: NextPage = () => {
 					item
 					xs={12}
 					textAlign={'center'}
-					p={10}
+					sx={{
+						p: { sm: 15, xs: 5 },
+					}}
 					bgcolor={'#3C52BB'}
 					mt={10}
 					mb={10}
@@ -730,7 +730,9 @@ const Page: NextPage = () => {
 					<Grid
 						container
 						borderRadius={4}
-						p={15}
+						sx={{
+							p: { sm: 15, xs: 5 },
+						}}
 						bgcolor={'white'}
 						mt={5}
 						mb={5}

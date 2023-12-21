@@ -249,7 +249,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												<Typography
 													color={
 														okrMainData.TITLE
-															.length < 50
+															.length < 20
 															? 'secondary.main'
 															: 'warning.main'
 													}
@@ -259,7 +259,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												<Typography
 													color={
 														okrMainData.TITLE
-															.length < 50
+															.length < 20
 															? 'secondary.main'
 															: 'warning.main'
 													}
@@ -269,12 +269,12 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												<Typography
 													color={
 														okrMainData.TITLE
-															.length < 50
+															.length < 20
 															? 'secondary.main'
 															: 'warning.main'
 													}
 												>
-													50
+													20
 												</Typography>
 											</Box>
 										</Box>
@@ -287,7 +287,11 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										{okrMainData?.TITLE}
 									</Typography>
 								)}
-								<Box display={'flex'} gap={1}>
+								<Box
+									display={'flex'}
+									gap={1}
+									alignItems={'center'}
+								>
 									{/** 삭제 버튼 */}
 									<SupportiButton
 										contents={'삭제'}
@@ -592,7 +596,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												setModalOpen={
 													props.setModalOpen
 												}
-												setTriggerKey={props.setTriggerKey}
+												setTriggerKey={
+													props.setTriggerKey
+												}
 											/>
 										</Box>
 									);
