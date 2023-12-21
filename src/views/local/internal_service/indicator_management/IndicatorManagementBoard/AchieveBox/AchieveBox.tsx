@@ -63,13 +63,21 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				(err: any) => {}
 			);
 		} else {
-			okrAchievedAmountController.createItem({
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				OKR_DETAIL_IDENTIFICATION_CODE:
-					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-				AMOUNT: achieveAmount,
-				UNIT: props.data['TARGET_UNIT'],
-			});
+			okrAchievedAmountController.createItem(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					OKR_DETAIL_IDENTIFICATION_CODE:
+						props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
+					AMOUNT: achieveAmount,
+					UNIT: props.data['TARGET_UNIT'],
+				},
+				(response: any) => {
+					alert('추가 성공');
+					props.setModalOpen(!props.modalOpen);
+					setAchieveAmount(0);
+				},
+				(err: any) => {}
+			);
 		}
 	};
 
