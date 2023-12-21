@@ -46,39 +46,48 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	const { memberId } = useAppMember();
 	//* Functions
 	const updateOkr = () => {
-		okrController
-			.createItem({
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-				TITLE: props.data.TITLE,
-				START_DATE: props.data.START_DATE,
-				END_DATE: props.data.END_DATE,
-				TARGET_UNIT: props.data.TARGET_UNIT,
-				TARGET_AMOUNT: props.data.TARGET_AMOUNT,
-				ACHIEVED_AMOUNT: 0,
-			})
-			.then((res) => {
-				alert('생성');
-				props.setOkrDetailData([
-					...props.okrDetailData,
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-						OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-						TITLE: props.data.TITLE,
-						START_DATE: props.data.START_DATE,
-						END_DATE: props.data.END_DATE,
-						TARGET_UNIT: props.data.TARGET_UNIT,
-						TARGET_AMOUNT: props.data.TARGET_AMOUNT,
-						ACHIEVED_AMOUNT: 0,
-					},
-				]);
-				// 리셋
-				props.setIsModalOpen(false);
-				console.log(res);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (
+			props.data.TITLE === '' ||
+			props.data.TARGET_UNIT == undefined ||
+			props.data.TARGET_AMOUNT === 0
+		) {
+			alert('필수값을 입력해주세요.');
+			return;
+		} else {
+			okrController
+				.createItem({
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+					TITLE: props.data.TITLE,
+					START_DATE: props.data.START_DATE,
+					END_DATE: props.data.END_DATE,
+					TARGET_UNIT: props.data.TARGET_UNIT,
+					TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+					ACHIEVED_AMOUNT: 0,
+				})
+				.then((res) => {
+					alert('생성');
+					props.setOkrDetailData([
+						...props.okrDetailData,
+						{
+							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+							TITLE: props.data.TITLE,
+							START_DATE: props.data.START_DATE,
+							END_DATE: props.data.END_DATE,
+							TARGET_UNIT: props.data.TARGET_UNIT,
+							TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+							ACHIEVED_AMOUNT: 0,
+						},
+					]);
+					// 리셋
+					props.setIsModalOpen(false);
+					console.log(res);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	return (

@@ -58,18 +58,28 @@ const KpiModal = (props: IKpiModalProps) => {
 	 * 목표 등록하는 api 호출 처리
 	 */
 	const createKpi = () => {
-		kpiController.createItem(
-			{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
-			(response) => {
-				alert('등록 성공');
+		if (
+			kpiData.TITLE === '' ||
+			kpiData.CATEGORY == undefined ||
+			kpiData.ASSIGNEE === '' ||
+			kpiData.TARGET_UNIT == undefined ||
+			kpiData.TARGET_AMOUNT === 0
+		) {
+			alert('필수 입력값을 입력해주세요.');
+		} else {
+			kpiController.createItem(
+				{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
+				(response) => {
+					alert('등록 성공');
 
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
-				props.setModalOpen(false);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.setModalOpen(false);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+		}
 	};
 
 	//* Hooks
