@@ -75,10 +75,17 @@ const Page: NextPage = () => {
 	 */
 	const [calculationResult, setCalculationResult] =
 		React.useState<IAccountCalculationResultProps>();
+
 	/**
 	 * 바텀 드로워 오픈
 	 */
 	const [openDrawer, setOpenDrawer] = React.useState(false);
+
+	/**
+	 * 로딩
+	 */
+	const [loading, setLoading] = React.useState<boolean>(false);
+
 	//* Functions
 	/**
 	 * 계산 결과 조회
@@ -129,7 +136,8 @@ const Page: NextPage = () => {
 	 * 내 계좌 가져오는 훅
 	 */
 	useEffect(() => {
-		memberId !== undefined &&
+		if (memberId !== undefined) {
+			setLoading(true);
 			bankAccountController.findAllItems(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -142,6 +150,8 @@ const Page: NextPage = () => {
 					console.log(err);
 				}
 			);
+		}
+
 		memberId !== undefined && getCalculationResult();
 	}, [accountTriggerKey, memberId]);
 
@@ -173,7 +183,7 @@ const Page: NextPage = () => {
 	const theme = useTheme();
 
 	return (
-		<InternalServiceDrawer type={'dashboard'}>
+		<InternalServiceDrawer type={'dashboard'} loading={loading}>
 			<Box
 				position={'relative'}
 				bgcolor={theme.palette.primary.light}
@@ -244,11 +254,14 @@ const Page: NextPage = () => {
 							type="search"
 							value={keyword}
 							setValue={setKeyword}
-							placeholder={'거래 내역 검색'}
+							placeholder={'거래자명 검색'}
 							btnOnclick={() => {
 								setSearchTriggerKey(keyword);
 							}}
 							width={'300px'}
+							eraseValue={() => {
+								setSearchTriggerKey(undefined);
+							}}
 						/>
 					</Box>
 					{/* Mobile */}
@@ -263,7 +276,7 @@ const Page: NextPage = () => {
 							type="search"
 							value={keyword}
 							setValue={setKeyword}
-							placeholder={'거래 내역 검색'}
+							placeholder={'거래자명검색'}
 							btnOnclick={() => {
 								setSearchTriggerKey(keyword);
 							}}
@@ -297,6 +310,7 @@ const Page: NextPage = () => {
 								bankAccount={bankAccount}
 								selectedPeriod={selectedPeriod}
 								keyword={searchTriggerKey}
+								setLoading={setLoading}
 							/>
 						</Box>
 					))}

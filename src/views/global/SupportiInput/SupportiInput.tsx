@@ -39,6 +39,7 @@ interface SupportiInputProps {
 	readOnly?: boolean;
 	minDate?: string | Date;
 	inputType?: string;
+	eraseValue?: () => void;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -157,7 +158,22 @@ const SupportiInput = React.forwardRef(
 						}}
 						endAdornment={
 							<InputAdornment position="end">
+								{(props.value == '' || props.value) && (
+									<Typography
+										mr={1}
+										onClick={() => {
+											props.setValue('');
+											props.eraseValue &&
+												props.eraseValue();
+										}}
+									>
+										X
+									</Typography>
+								)}
 								<SearchIcon
+									sx={{
+										cursor: 'pointer',
+									}}
 									fontSize="small"
 									onClick={() => {
 										props.btnOnclick && props.btnOnclick();

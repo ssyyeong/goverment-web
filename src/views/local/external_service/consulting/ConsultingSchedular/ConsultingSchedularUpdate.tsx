@@ -131,10 +131,11 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 				 * 컨설팅 답변 업로드 (res로 들어온 id 값 consultingAnswer에 꽂아넣기)
 				 */
 				updateConsultingAnswer();
+
+				props.handleClose();
 				setSelectedDate(null);
 				setPage(0);
 				setConsultingAnswer([]);
-				props.handleClose();
 			},
 			(err) => {
 				if (
@@ -162,10 +163,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	 */
 	const updateConsultingAnswer = () => {
 		consultingAnswer.map((x) => {
-			consultingAnswerController.updateItem(x, (res) => {
-				setAlertModal(true);
-				setAlertModalType('success');
-			});
+			consultingAnswerController.updateItem(x, (res) => {});
 		});
 	};
 	//* Hooks
@@ -188,6 +186,8 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 								.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
 						ANSWER_CONTENT: x.ANSWER_CONTENT,
 						FILE_LIST: x.FILE_LIST,
+						CONSULTING_ANSWER_IDENTIFICATION_CODE:
+							x.CONSULTING_ANSWER_IDENTIFICATION_CODE,
 					};
 				}
 			);
@@ -198,13 +198,16 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	console.log(consultingAnswer);
 
 	useEffect(() => {
-		getMonthSchedule(moment().format('YYYY-MM'));
+		if (props.open) {
+			getMonthSchedule(moment().format('YYYY-MM'));
+		}
+
 		return () => {
 			setSelectedDate(null);
 			setPage(0);
 			setConsultingAnswer([]);
 		};
-	}, []);
+	}, [props.open]);
 
 	return (
 		<SuppportiModal
@@ -219,6 +222,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 			}}
 			style={{
 				width: { sm: 'fit-content', xs: 'fit-content' },
+				maxHeight: '90%',
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 */}
@@ -437,6 +441,11 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 						gap={1}
 						mt={2}
 						width={'100%'}
+						height={'100%'}
+						maxHeight={'400px'}
+						sx={{
+							overflowY: 'scroll',
+						}}
 					>
 						{monthSchedule[selectedDate].map((time) => {
 							return (

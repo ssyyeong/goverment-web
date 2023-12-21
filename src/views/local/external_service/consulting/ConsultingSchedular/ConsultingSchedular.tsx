@@ -195,6 +195,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			}}
 			style={{
 				width: { sm: 'fit-content', xs: '100%' },
+				maxHeight: { sm: '90%', xs: '100%' },
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 */}
@@ -381,70 +382,77 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						{moment(selectedDate).format('MM월 DD일 ddd요일')}
 					</Typography>
 					<Box
-						display={'flex'}
-						alignItems={'center'}
-						justifyContent={'center'}
-						flexDirection={'column'}
-						flexWrap={'wrap'}
-						gap={1}
+						maxHeight={'400px'}
+						sx={{
+							overflowY: 'auto',
+						}}
 						mt={2}
 						width={'100%'}
 					>
-						{monthSchedule[selectedDate].map((time) => {
-							return (
-								<Box
-									onClick={() => {
-										setSelectedTime(time);
-										// setPage(2);
-									}}
-									sx={{
-										cursor: 'pointer',
-										borderRadius: '10px',
-										py: 2,
-										pl: 3,
-										pr: 2,
-										bgcolor:
-											selectedTime === time
-												? 'primary.main'
-												: 'rgba(248, 248, 248, 1)',
-										width: '100%',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'space-between',
-										maxHeight: '50px',
-									}}
-								>
-									<Typography
+						<Box
+							display={'flex'}
+							alignItems={'center'}
+							justifyContent={'center'}
+							flexDirection={'column'}
+							gap={1}
+							width={'100%'}
+						>
+							{monthSchedule[selectedDate]?.map((time) => {
+								return (
+									<Box
+										onClick={() => {
+											setSelectedTime(time);
+											// setPage(2);
+										}}
 										sx={{
-											color:
-												selectedTime === time &&
-												'white',
+											cursor: 'pointer',
+											borderRadius: '10px',
+											py: 2,
+											pl: 3,
+											pr: 2,
+											bgcolor:
+												selectedTime === time
+													? 'primary.main'
+													: 'rgba(248, 248, 248, 1)',
+											width: '100%',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+											maxHeight: '50px',
 										}}
 									>
-										{time.START} - {time.END}
-									</Typography>
-									{selectedTime === time && (
 										<Typography
 											sx={{
-												bgcolor: 'white',
-												color: 'primary.main',
-												fontWeight: '400',
-												borderRadius: 7,
-												px: '10px',
-												py: '7px',
+												color:
+													selectedTime === time &&
+													'white',
 											}}
-											onClick={() => {
-												setSelectedTime(time);
-												setPage(2);
-											}}
-											fontWeight={'600'}
 										>
-											선택
+											{time.START} - {time.END}
 										</Typography>
-									)}
-								</Box>
-							);
-						})}
+										{selectedTime === time && (
+											<Typography
+												sx={{
+													bgcolor: 'white',
+													color: 'primary.main',
+													fontWeight: '400',
+													borderRadius: 7,
+													px: '10px',
+													py: '7px',
+												}}
+												onClick={() => {
+													setSelectedTime(time);
+													setPage(2);
+												}}
+												fontWeight={'600'}
+											>
+												선택
+											</Typography>
+										)}
+									</Box>
+								);
+							})}
+						</Box>
 					</Box>
 				</Box>
 			)}

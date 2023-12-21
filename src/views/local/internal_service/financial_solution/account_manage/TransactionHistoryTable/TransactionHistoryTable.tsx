@@ -49,6 +49,10 @@ interface ITransactionHistoryTableProps {
 	 * 키워드
 	 */
 	keyword: string;
+	/**
+	 * 로딩
+	 */
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
@@ -76,6 +80,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			format: (value) => {
 				return value === 'Y' ? true : false;
 			},
+			align: 'center',
 		},
 		{
 			label: '구분',
@@ -89,6 +94,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			customFormat: (value, key) => {
 				return key === 'IN_AMOUNT' ? 'blue' : 'red';
 			},
+			align: 'center',
 		},
 		{
 			label: '금액',
@@ -101,6 +107,10 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			customKeyFormat: (value) => {
 				return value !== 0 ? 'OUT_AMOUNT' : 'IN_AMOUNT';
 			},
+			customFormat: (value, key) => {
+				return key === 'IN_AMOUNT' ? 'blue' : 'red';
+			},
+			align: 'center',
 		},
 		{
 			label: '거래일자',
@@ -108,18 +118,25 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			format: (value) => {
 				return moment(value).format('YY.MM.DD');
 			},
+			align: 'center',
 		},
 		{
 			label: '거래점명',
 			value: 'TRADER_BANK_NAME',
+			align: 'center',
 		},
 		{
-			label: '거래내용',
+			label: '거래내역',
 			value: 'TRANSACTION_DESCRIPTION',
+			align: 'center',
+			format: (value) => {
+				return value ? value : '-';
+			},
 		},
 		{
 			label: '거래자명',
 			value: 'TRADER_NAME',
+			align: 'center',
 		},
 		{
 			label: '잔액',
@@ -127,6 +144,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			format: (value) => {
 				return value.toLocaleString();
 			},
+			align: 'center',
 		},
 	];
 	//* 엑셀 다운로드 헤더
@@ -237,24 +255,36 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 입출금 내역 가져오기
 	 */
 	useEffect(() => {
+		console.log(props.keyword);
+		const injectedParameter = Object.assign(
+			{
+				BANK_ACCOUNT_IDENTIFICATION_CODE:
+					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+				LIMIT: limit,
+				PAGE: page,
+				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
+				PERIOD_START: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
+				),
+				PERIOD_END: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
+				),
+			},
+			props.keyword && {
+				KEYWORD: {
+					columnKey: 'TRADER_NAME',
+					keyword: props.keyword,
+				},
+			}
+		);
+
 		props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE &&
 			transactionHistoryController.findAllItems(
-				{
-					BANK_ACCOUNT_IDENTIFICATION_CODE:
-						props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
-					LIMIT: limit,
-					PAGE: page,
-					PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
-					PERIOD_START: new Date(
-						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
-					),
-					PERIOD_END: new Date(
-						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
-					),
-				},
+				{ ...injectedParameter },
 				(res) => {
 					setTransactionHistoryList(res.data.result.rows);
 					setTotalDataCount(res.data.result.count);
+					props.setLoading(false);
 				},
 				(err) => {
 					console.log(err);
@@ -265,6 +295,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 		limit,
 		page,
 		props.selectedPeriod,
+		props.keyword,
 	]);
 
 	/**
@@ -272,39 +303,8 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 */
 	useEffect(() => {
 		setPage(0);
-	}, [props.selectedPeriod]);
-	/**
-	 * 검색
-	 */
-	useEffect(() => {
-		props.keyword &&
-			transactionHistoryController.findAllItems(
-				{
-					BANK_ACCOUNT_IDENTIFICATION_CODE:
-						props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
-					LIMIT: limit,
-					PAGE: page,
-					KEYWORD: {
-						columnKey: 'TRADER_NAME',
-						keyword: props.keyword,
-					},
-					PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
-					PERIOD_START: new Date(
-						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
-					),
-					PERIOD_END: new Date(
-						`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
-					),
-				},
-				(res) => {
-					setTransactionHistoryList(res.data.result.rows);
-					setTotalDataCount(res.data.result.count);
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, [props.keyword]);
+	}, [props.selectedPeriod, props.keyword]);
+
 	/**
 	 * 전체 데이터 리스트 가져오기 (엑셀)
 	 */

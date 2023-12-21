@@ -9,6 +9,7 @@ interface IConsultingQnaProps {
 	consultingAnswer: {
 		CONSULTING_QUESTION_IDENTIFICATION_CODE: string | number;
 		CONSULTING_APPLICATION_IDENTIFICATION_CODE?: number;
+		CONSULTING_ANSWER_IDENTIFICATION_CODE?: number;
 		ANSWER_CONTENT: string;
 		FILE_LIST: string;
 	}[];

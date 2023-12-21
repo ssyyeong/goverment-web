@@ -30,10 +30,15 @@ import {
 import { CookieManager } from '@qillie-corp/qillie-utility';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
+import SupportiLoading from '../../../../global/SupportiLoading/SupportiLoading';
 
 interface IInternalServiceDrawerProps {
 	children: React.ReactNode;
 	type: 'dashboard' | 'mypage';
+	/**
+	 * 로딩 여부
+	 */
+	loading?: boolean;
 }
 
 const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
@@ -55,6 +60,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	const [alertModalType, setAlertModalType] = React.useState<
 		'business' | 'subscribe' | 'login'
 	>('business');
+	/**
+	 * 로딩 모달
+	 */
+	const [loadingModal, setLoadingModal] = React.useState(false);
 
 	//* Functions
 	const handleDrawerToggle = () => {
@@ -348,6 +357,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					type={alertModalType}
 				/>
 			</Box>
+			<SupportiLoading open={props.loading} />
 		</Box>
 	);
 };
