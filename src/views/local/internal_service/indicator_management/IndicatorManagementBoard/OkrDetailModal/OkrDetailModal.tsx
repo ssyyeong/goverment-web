@@ -592,6 +592,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												setModalOpen={
 													props.setModalOpen
 												}
+												setTriggerKey={props.setTriggerKey}
 											/>
 										</Box>
 									);
