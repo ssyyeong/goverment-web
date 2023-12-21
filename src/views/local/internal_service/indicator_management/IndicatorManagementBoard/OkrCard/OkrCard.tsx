@@ -163,7 +163,10 @@ const OkrCard = (props: IOkrCardProps) => {
 				</Box>
 
 				{/** 프로그레스 바 */}
-				<SupportiProgressBar materialDataList={materialDataList} />
+				<SupportiProgressBar
+					materialDataList={materialDataList}
+					totalPercentage={okrMainData?.ACHIEVED_RATE}
+				/>
 			</Box>
 
 			<Divider sx={{ my: 2 }} />

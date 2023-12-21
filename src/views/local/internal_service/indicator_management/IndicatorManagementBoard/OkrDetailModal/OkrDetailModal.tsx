@@ -414,6 +414,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								{/** 프로그레스바 */}
 								<SupportiProgressBar
 									materialDataList={props.materialDataList}
+									totalPercentage={
+										props.okrMainData.ACHIEVED_RATE
+									}
 								/>
 
 								{/** 메모 입력 */}
