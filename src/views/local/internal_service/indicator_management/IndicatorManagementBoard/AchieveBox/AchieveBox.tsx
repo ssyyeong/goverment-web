@@ -5,11 +5,13 @@ import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IAchieveBoxProps {
 	data: IOkrCombination;
 	modalOpen?: boolean;
 	setModalOpen?: any;
+	setTriggerKey?: any;
 }
 
 const AchieveBox = (props: IAchieveBoxProps) => {
@@ -57,6 +59,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				}),
 				(response: any) => {
 					alert('수정 성공');
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
 					props.setModalOpen(!props.modalOpen);
 					setAchieveAmount(0);
 				},
@@ -73,6 +76,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				},
 				(response: any) => {
 					alert('추가 성공');
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
 					props.setModalOpen(!props.modalOpen);
 					setAchieveAmount(0);
 				},

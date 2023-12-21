@@ -79,6 +79,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			),
 			(response: any) => {
 				alert('업데이트 성공');
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				setIsEditMode(false);
 			},
 			(err: any) => {}
@@ -575,6 +576,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 														}
 														setModalOpen={
 															props.setModalOpen
+														}
+														setTriggerKey={
+															props.setTriggerKey
 														}
 													/>
 												}
