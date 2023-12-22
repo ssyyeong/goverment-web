@@ -231,6 +231,7 @@ const KpiCard = (props: IKpiCardProps) => {
 							name="simple-controlled"
 							value={kpiData.RATE}
 							size="large"
+							readOnly
 						/>
 						<Typography
 							color="primary.main"

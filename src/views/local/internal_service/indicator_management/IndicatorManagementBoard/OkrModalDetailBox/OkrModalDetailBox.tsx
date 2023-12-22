@@ -55,42 +55,47 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 			alert('필수값을 입력해주세요.');
 			return;
 		} else {
-			okrController
-				.createItem({
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-					TITLE: props.data.TITLE,
-					START_DATE: props.data.START_DATE,
-					END_DATE: props.data.END_DATE,
-					TARGET_UNIT: props.data.TARGET_UNIT,
-					TARGET_AMOUNT: props.data.TARGET_AMOUNT,
-					ACHIEVED_AMOUNT: 0,
-				})
-				.then((res) => {
-					alert('생성');
+			if (props.data.TITLE.length >= 20) {
+				alert('20자 이하로 입력해주세요.');
+				return;
+			} else {
+				okrController
+					.createItem({
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+						TITLE: props.data.TITLE,
+						START_DATE: props.data.START_DATE,
+						END_DATE: props.data.END_DATE,
+						TARGET_UNIT: props.data.TARGET_UNIT,
+						TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+						ACHIEVED_AMOUNT: 0,
+					})
+					.then((res) => {
+						alert('생성');
 
-					// 리셋
-					props.setOkrDetailData([
-						...props.okrDetailData,
-						{
-							APP_MEMBER_IDENTIFICATION_CODE: memberId,
-							OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-							TITLE: props.data.TITLE,
-							START_DATE: props.data.START_DATE,
-							END_DATE: props.data.END_DATE,
-							TARGET_UNIT: props.data.TARGET_UNIT,
-							TARGET_AMOUNT: props.data.TARGET_AMOUNT,
-							ACHIEVED_AMOUNT: 0,
-						},
-					]);
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setIsModalOpen(false);
+						// 리셋
+						props.setOkrDetailData([
+							...props.okrDetailData,
+							{
+								APP_MEMBER_IDENTIFICATION_CODE: memberId,
+								OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+								TITLE: props.data.TITLE,
+								START_DATE: props.data.START_DATE,
+								END_DATE: props.data.END_DATE,
+								TARGET_UNIT: props.data.TARGET_UNIT,
+								TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+								ACHIEVED_AMOUNT: 0,
+							},
+						]);
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						props.setIsModalOpen(false);
 
-					console.log(res);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+						console.log(res);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
 		}
 	};
 

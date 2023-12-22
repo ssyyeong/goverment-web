@@ -70,9 +70,12 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	const updateOkrMain = (injectedObj) => {
 		if (okrMainData.TITLE === '') {
 			alert('필수값을 입력해주세요.');
-			return;
 		} else {
-			okrMainController.updateItem(
+			if(okrMainData.TITLE.length >= 20) {
+				alert('20자 이하로 입력해주세요.')
+				return;
+			}else {
+							okrMainController.updateItem(
 				Object.assign(
 					{
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -89,6 +92,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				},
 				(err: any) => {}
 			);
+			}
+
 		}
 	};
 
