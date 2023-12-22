@@ -84,7 +84,9 @@ const Page: NextPage = () => {
 					//* 비즈니스 히스토리 정보 저장
 					if (
 						copiedBusinessHistory?.NUM_OF_EMPLOYEES !==
-						businessHistory?.NUM_OF_EMPLOYEES
+							businessHistory?.NUM_OF_EMPLOYEES ||
+						copiedBusinessHistory?.INVEST_ROUND !==
+							businessHistory?.INVEST_ROUND
 					) {
 						businessHistoryController.createItem(
 							{
@@ -108,6 +110,7 @@ const Page: NextPage = () => {
 								setCopiedBusinessHistory({
 									...newBusinessHistory,
 								});
+								router.push('/internal_service/business_info');
 							},
 							(err) => {
 								alert(
@@ -117,8 +120,8 @@ const Page: NextPage = () => {
 						);
 					} else {
 						alert('비즈니스 개요를 저장했습니다.');
+						router.push('/internal_service/business_info');
 					}
-					router.push('/internal_service/business_info');
 				},
 				(err) => {
 					alert('비즈니스 개요 저장에 실패했습니다.');
