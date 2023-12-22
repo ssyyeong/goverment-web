@@ -91,6 +91,7 @@ const Page: NextPage = () => {
 	 * 계산 결과 조회
 	 */
 	const getCalculationResult = () => {
+		setLoading(true);
 		memberId &&
 			bankController.getFinancialRatio(
 				{
@@ -115,7 +116,7 @@ const Page: NextPage = () => {
 						setSelectablePeriodList(temp);
 						setSelectedPeriod(temp[temp.length - 1].value);
 					}
-
+					setLoading(false);
 					setCalculationResult(res.data.result);
 				},
 				(err) => {}
@@ -143,6 +144,9 @@ const Page: NextPage = () => {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
 				(res) => {
+					if (res.data.result.rows.length === 0) {
+						setLoading(false);
+					}
 					setBankAccountList(res.data.result.rows);
 					console.log(res.data.result);
 				},
