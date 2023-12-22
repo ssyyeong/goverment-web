@@ -76,7 +76,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			),
 			(response: any) => {
 				alert('수정 성공');
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
+				// props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 				setIsModifyModalOpen(false);
 			},
@@ -132,11 +132,11 @@ const KpiCard = (props: IKpiCardProps) => {
 	/**
 	 * 모달 온오프로 트리거 키 변경
 	 */
-	React.useEffect(() => {
-		if (!isModifyModalOpen) {
-			props.setTriggerKey(uuidv4());
-		}
-	}, [isModifyModalOpen, props.setTriggerKey]);
+	// React.useEffect(() => {
+	// 	if (!isModifyModalOpen) {
+	// 		props.setTriggerKey(uuidv4());
+	// 	}
+	// }, [isModifyModalOpen, props.setTriggerKey]);
 
 	return (
 		<Box

@@ -75,8 +75,7 @@ const OkrCard = (props: IOkrCardProps) => {
 							100 / okrMainData?.OkrDetails.length
 					  ).toString()
 					: Math.floor(
-							(100 - item.ACHIEVED_RATE) /
-								okrMainData?.OkrDetails.length
+							item.ACHIEVED_RATE / okrMainData?.OkrDetails.length
 					  ).toString(),
 			color: randomColor[index],
 		};
@@ -100,11 +99,11 @@ const OkrCard = (props: IOkrCardProps) => {
 	/**
 	 * 모달 온오프로 트리거 키 변경
 	 */
-	// useEffect(() => {
-	// 	if (!isMoreModalOpen) {
-	// 		props.setTriggerKey(uuidv4());
-	// 	}
-	// }, [isMoreModalOpen, props.setTriggerKey]);
+	useEffect(() => {
+		if (!isMoreModalOpen) {
+			// props.setTriggerKey(uuidv4());
+		}
+	}, [isMoreModalOpen, props.setTriggerKey]);
 
 	return (
 		<Box
