@@ -70,8 +70,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					alert('생성');
 
 					// 리셋
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setIsModalOpen(false);
 					props.setOkrDetailData([
 						...props.okrDetailData,
 						{
@@ -85,6 +83,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							ACHIEVED_AMOUNT: 0,
 						},
 					]);
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.setIsModalOpen(false);
+
 					console.log(res);
 				})
 				.catch((err) => {
@@ -94,9 +95,9 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	};
 
 	//* Hooks
-	React.useEffect(() => {
-		props.setTriggerKey && props.setTriggerKey(uuidv4());
-	}, [props.data]);
+	// React.useEffect(() => {
+	// 	props.setTriggerKey && props.setTriggerKey(uuidv4());
+	// }, [props.data]);
 
 	return (
 		<Box
