@@ -232,7 +232,12 @@ const Page: NextPage = () => {
 						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
 							재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
 							있습니다.
+							<br />
+							* 한 번에 하나의 년도만 편집가능합니다.
+							<br />* 작성 후 저장하기 버튼을 클릭하지 않고 이전
+							또는 다음 버튼 클릭 시 작성하신 데이터가 사라집니다.
 						</Typography>
+
 						<Grid container alignItems={'center'}>
 							{/* 데이터 편집 및 추출 */}
 							<Grid item xs={6} md={3}>
@@ -243,7 +248,11 @@ const Page: NextPage = () => {
 											contents="저장하기"
 											isGradient={true}
 											onClick={saveFinancialStatement}
-											style={{ color: 'white' }}
+											style={{
+												color: 'white',
+												py: 1.3,
+												mb: 1,
+											}}
 										/>
 									</Box>
 								</Box>
@@ -255,6 +264,7 @@ const Page: NextPage = () => {
 									display={'flex'}
 									justifyContent={'center'}
 									alignItems={'center'}
+									mb={1}
 								>
 									{/* 이전 페이지 */}
 									<Box>
@@ -268,8 +278,8 @@ const Page: NextPage = () => {
 									</Box>
 
 									{/* 현재 연도 */}
-									<Box mx={1.5}>
-										<Typography variant={'h6'}>
+									<Box>
+										<Typography variant={'body1'}>
 											{targetDate.format('YYYY.MM.DD')}
 										</Typography>
 									</Box>

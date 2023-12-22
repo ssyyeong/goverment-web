@@ -276,7 +276,8 @@ const Page: NextPage = () => {
 													<Box bgcolor={'white'}>
 														{businessMapping.label ==
 															'업종' ||
-														'투자 라운드' ? (
+														businessMapping.label ==
+															'투자라운드' ? (
 															<Autocomplete
 																options={
 																	businessMapping.label ==
