@@ -223,15 +223,15 @@ const KpiCard = (props: IKpiCardProps) => {
 						)}
 					</Typography>
 				</Box>
-				<Box display="flex" gap={1} minHeight={'30px'}>
-					{/** 담당자 */}
-					<Typography mt="auto" mb="auto" fontWeight={500}>
-						담당자
-					</Typography>
-					<Typography mt="auto" mb="auto" fontWeight={500}>
-						{kpiData.ASSIGNEE}
-					</Typography>
-				</Box>
+			</Box>
+			<Box display="flex" gap={1} minHeight={'30px'}>
+				{/** 담당자 */}
+				<Typography mt="auto" mb="auto" fontWeight={500}>
+					담당자
+				</Typography>
+				<Typography mt="auto" mb="auto" fontWeight={500}>
+					{kpiData.ASSIGNEE}
+				</Typography>
 			</Box>
 			<Box
 				display={'flex'}
@@ -272,7 +272,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					</Box>
 				</Box>
 
-				<Box display="flex" gap={1}>
+				<Box display="flex" gap={1} mt={1}>
 					{/** 버튼들 */}
 					{kpiData.STATUS === 'PROCEEDING' && (
 						<Box display="flex" mt="auto" mb="auto" gap={0.5}>

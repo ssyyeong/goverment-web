@@ -109,7 +109,10 @@ const Page: NextPage = () => {
 	return (
 		memberId && (
 			<InternalServiceDrawer type="dashboard">
-				<Box bgcolor={'primary.light'} p={5}>
+				<Box
+					bgcolor={'primary.light'}
+					sx={{ p: { sm: 5, xs: '15px' } }}
+				>
 					{/* 컨텐츠 레이아웃 */}
 					{userAccess === true && (
 						<InternalServiceLayout>

@@ -13,6 +13,8 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import { v4 as uuidv4 } from 'uuid';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IOkrDetailCardProps {
 	data: IOkrDetail;
@@ -232,7 +234,13 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							{isMoreOpen && (
 								<Box display={'flex'} gap={'4px'}>
 									{/** 삭제 버튼 */}
-									<SupportiButton
+									<DeleteIcon
+										onClick={() => {
+											setAlertModalOpen(true);
+										}}
+										color={'secondary'}
+									/>
+									{/* <SupportiButton
 										contents={'삭제'}
 										onClick={() => {
 											setAlertModalOpen(true);
@@ -244,9 +252,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										color={'primary'}
 										variant="contained"
 										isGradient={true}
-									/>
+									/> */}
 									{/** 수정 버튼 */}
-									<SupportiButton
+									{/* <SupportiButton
 										contents={isEditMode ? '취소' : '수정'}
 										onClick={() => {
 											setIsEditMode(!isEditMode);
@@ -258,6 +266,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										color={'primary'}
 										variant="contained"
 										isGradient={true}
+									/> */}
+									<ModeEditOutlineIcon
+										onClick={() => {
+											setIsEditMode(!isEditMode);
+										}}
+										color={'secondary'}
 									/>
 								</Box>
 							)}

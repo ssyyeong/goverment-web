@@ -14,6 +14,8 @@ import DefaultController from '@qillie-corp/ark-office-project/src/controller/de
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
 interface IOkrDetailModalProps {
 	modalOpen: boolean;
@@ -71,29 +73,30 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		if (okrMainData.TITLE === '') {
 			alert('필수값을 입력해주세요.');
 		} else {
-			if(okrMainData.TITLE.length >= 20) {
-				alert('20자 이하로 입력해주세요.')
+			if (okrMainData.TITLE.length >= 20) {
+				alert('20자 이하로 입력해주세요.');
 				return;
-			}else {
-							okrMainController.updateItem(
-				Object.assign(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-						OKR_MAIN_IDENTIFICATION_CODE:
-							props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
+			} else {
+				okrMainController.updateItem(
+					Object.assign(
+						{
+							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							OKR_MAIN_IDENTIFICATION_CODE:
+								props.okrMainData[
+									'OKR_MAIN_IDENTIFICATION_CODE'
+								],
+						},
+						injectedObj
+					),
+					(response: any) => {
+						alert('업데이트 성공');
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						props.setModalOpen(false);
+						setIsEditMode(false);
 					},
-					injectedObj
-				),
-				(response: any) => {
-					alert('업데이트 성공');
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setModalOpen(false);
-					setIsEditMode(false);
-				},
-				(err: any) => {}
-			);
+					(err: any) => {}
+				);
 			}
-
 		}
 	};
 
@@ -306,7 +309,13 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 									alignItems={'center'}
 								>
 									{/** 삭제 버튼 */}
-									<SupportiButton
+									<DeleteIcon
+										onClick={() => {
+											memberId && deleteOkrMain();
+										}}
+										color={'secondary'}
+									/>
+									{/* <SupportiButton
 										contents={'삭제'}
 										onClick={() => {
 											memberId && deleteOkrMain();
@@ -318,9 +327,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										color={'primary'}
 										variant="contained"
 										isGradient={true}
-									/>
+									/> */}
 									{/** 수정 버튼 */}
-									<SupportiButton
+									<ModeEditOutlineIcon
+										onClick={() => {
+											setIsEditMode(!isEditMode);
+										}}
+										color={'secondary'}
+									/>
+									{/* <SupportiButton
 										contents={isEditMode ? '취소' : '수정'}
 										onClick={() => {
 											setIsEditMode(!isEditMode);
@@ -332,7 +347,16 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										color={'primary'}
 										variant="contained"
 										isGradient={true}
-									/>
+									/> */}
+									<Typography
+										fontWeight={700}
+										sx={{ ml: 1, cursor: 'pointer' }}
+										onClick={() =>
+											props.setModalOpen(false)
+										}
+									>
+										X
+									</Typography>
 								</Box>
 							</Box>
 

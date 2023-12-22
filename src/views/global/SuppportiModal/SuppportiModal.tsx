@@ -114,7 +114,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 
 					{/* 내용 */}
 					<Box
-						p={'30px'}
+						sx={{ p: { sm: '30px', xs: '20px' } }}
 						display={'flex'}
 						flexDirection={'column'}
 						justifyContent={'center'}
