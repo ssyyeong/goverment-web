@@ -1,5 +1,9 @@
 const IndicatorCategory = [
 	{
+		label: '전체',
+		value: undefined,
+	},
+	{
 		label: '재무',
 		value: '재무',
 	},

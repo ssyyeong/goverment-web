@@ -66,16 +66,23 @@ const KpiCard = (props: IKpiCardProps) => {
 	// kpi 업데이트 함수
 	const updateKpi = (injectedObj) => {
 		if (
-			injectedObj.TITLE === '' ||
-			injectedObj.CATEGORY == undefined ||
-			injectedObj.ASSIGNEE === '' ||
-			injectedObj.TARGET_UNIT == undefined ||
-			injectedObj.TARGET_AMOUNT === 0
+			(injectedObj.TITLE != undefined && injectedObj.TITLE === '') ||
+			(injectedObj.CATEGORY != undefined &&
+				injectedObj.CATEGORY == undefined) ||
+			(injectedObj.ASSIGNEE != undefined &&
+				injectedObj.ASSIGNEE === '') ||
+			(injectedObj.TARGET_UNIT != undefined &&
+				injectedObj.TARGET_UNIT == undefined) ||
+			(injectedObj.TARGET_AMOUNT != undefined &&
+				injectedObj.TARGET_AMOUNT === 0)
 		) {
 			console.log(kpiData);
 			alert('필수 입력값을 입력해주세요.');
 		} else {
-			if (injectedObj.TITLE.length >= 20) {
+			if (
+				injectedObj.TITLE != undefined &&
+				injectedObj.TITLE.length >= 20
+			) {
 				//* 20글자 넘으면 20글자 내까지만 자르기
 				alert('타이틀은 20자내로 입력해주세요.');
 

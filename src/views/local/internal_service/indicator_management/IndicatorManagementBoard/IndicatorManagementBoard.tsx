@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
@@ -78,6 +78,63 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 		},
 	];
 
+	/**
+	 * 선택 가능한 KPI 카테고리
+	 */
+	const selectableKpiCategoryList: {
+		value: string | undefined;
+		label: string;
+	}[] = [
+		{
+			label: '전체',
+			value: undefined,
+		},
+		{
+			label: '재무',
+			value: '재무',
+		},
+		{
+			label: '고객 서비스',
+			value: '고객 서비스',
+		},
+		{
+			label: '운영',
+			value: '운영',
+		},
+		{
+			label: '마케팅',
+			value: '마케팅',
+		},
+		{
+			label: '인력관리',
+			value: '인력관리',
+		},
+		{
+			label: '기술 및 혁신',
+			value: '기술 및 혁신',
+		},
+		{
+			label: '지속 가능성',
+			value: '지속 가능성',
+		},
+		{
+			label: '소셜미디어',
+			value: '소셜미디어',
+		},
+		{
+			label: '효율성',
+			value: '효율성',
+		},
+		{
+			label: '품질',
+			value: '품질',
+		},
+		{
+			label: '프로젝트',
+			value: '프로젝트',
+		},
+	];
+
 	//* States
 	/**
 	 * 지표 (OKR / KPI) 데이터 리스트
@@ -99,12 +156,14 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	const [selectedStatus, setSelectedStatus] = React.useState<boolean>(
 		selectableStatusList[0].value
 	);
+
 	/**
 	 * KPI 카테고리 선택
 	 */
+
 	const [selectedKpiCategory, setSelectedKpiCategory] = React.useState<
 		string | undefined
-	>(undefined);
+	>(selectableKpiCategoryList[0].value);
 
 	/**
 	 *  지표 등록하는 모달 오픈 여부
@@ -202,17 +261,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				<SupportiInput
 					type="select"
 					value={selectedKpiCategory}
-					setValue={(value) =>
-						setSelectedKpiCategory(value as string)
-					}
-					dataList={[
-						{
-							label: '전체',
-							value: undefined,
-						},
-						...IndicatorCategory,
-					]}
-					placeholder="전체"
+					setValue={(value: any) => setSelectedKpiCategory(value)}
+					dataList={selectableKpiCategoryList}
 					width={'100px'}
 				/>
 			)}
