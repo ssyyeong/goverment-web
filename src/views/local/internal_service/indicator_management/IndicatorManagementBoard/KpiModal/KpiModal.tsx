@@ -95,21 +95,25 @@ const KpiModal = (props: IKpiModalProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		if (memberId) {
-			setKpiData({
-				TITLE: '',
-				START_DATE: new Date(),
-				END_DATE: new Date(),
-				TARGET_AMOUNT: 0,
-				TARGET_UNIT: undefined,
-				NOTE: '',
-				CATEGORY: undefined,
-				ASSIGNEE: '',
-				RATE: 1,
-				STATUS: 'PROCEEDING',
-			});
+			if (props.mode === 'modify') {
+				setKpiData(props.data);
+			} else {
+				setKpiData({
+					TITLE: '',
+					START_DATE: new Date(),
+					END_DATE: new Date(),
+					TARGET_AMOUNT: 0,
+					TARGET_UNIT: undefined,
+					NOTE: '',
+					CATEGORY: undefined,
+					ASSIGNEE: '',
+					RATE: 1,
+					STATUS: 'PROCEEDING',
+				});
+			}
 		}
 	}, [memberId, props.modalOpen, props.data]);
-
+	console.log(kpiData);
 	return (
 		<Box>
 			<SuppportiModal

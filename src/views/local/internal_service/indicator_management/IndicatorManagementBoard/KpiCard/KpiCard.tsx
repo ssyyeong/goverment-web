@@ -65,23 +65,44 @@ const KpiCard = (props: IKpiCardProps) => {
 
 	// kpi 업데이트 함수
 	const updateKpi = (injectedObj) => {
-		kpiController.updateItem(
-			Object.assign(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					KPI_IDENTIFICATION_CODE:
-						props.data['KPI_IDENTIFICATION_CODE'],
-				},
-				injectedObj
-			),
-			(response: any) => {
-				alert('수정 성공');
-				// props.setTriggerKey && props.setTriggerKey(uuidv4());
+		if (
+			injectedObj.TITLE === '' ||
+			injectedObj.CATEGORY == undefined ||
+			injectedObj.ASSIGNEE === '' ||
+			injectedObj.TARGET_UNIT == undefined ||
+			injectedObj.TARGET_AMOUNT === 0
+		) {
+			console.log(kpiData);
+			alert('필수 입력값을 입력해주세요.');
+		} else {
+			if (injectedObj.TITLE.length >= 20) {
+				//* 20글자 넘으면 20글자 내까지만 자르기
+				alert('타이틀은 20자내로 입력해주세요.');
 
-				setIsModifyModalOpen(false);
-			},
-			(err: any) => {}
-		);
+				// setKpiData({
+				// 	...kpiData,
+				// 	TITLE: kpiData.TITLE.slice(0, 20),
+				// });
+			} else {
+				kpiController.updateItem(
+					Object.assign(
+						{
+							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							KPI_IDENTIFICATION_CODE:
+								props.data['KPI_IDENTIFICATION_CODE'],
+						},
+						injectedObj
+					),
+					(response: any) => {
+						alert('수정 성공');
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+
+						setIsModifyModalOpen(false);
+					},
+					(err: any) => {}
+				);
+			}
+		}
 	};
 
 	//* 마감일 계산하는 함수
