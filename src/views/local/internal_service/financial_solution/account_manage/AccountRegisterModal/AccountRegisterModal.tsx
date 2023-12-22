@@ -536,6 +536,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 								registerAccount();
 							}}
 							loading={loading}
+							disabled={loading}
 							loadingPosition="end"
 							variant="contained"
 							fullWidth

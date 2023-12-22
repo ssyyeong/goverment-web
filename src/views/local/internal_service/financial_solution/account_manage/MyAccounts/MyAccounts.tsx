@@ -85,6 +85,9 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	 * 계좌 수정 모달에 들어갈 계좌 정보
 	 */
 	const [accountNickname, setAccountNickname] = React.useState<string>('');
+	const [selectedAccount, setSelectedAccount] = React.useState<number>(0);
+
+	console.log(accountNickname);
 
 	/**
 	 * 계좌별 내역 리스트 (날짜, 거래 내역 키워드로 백엔드 필터링)
@@ -111,10 +114,10 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	/**
 	 * 계좌 수정 함수 (수정 후, 리스트 변경)
 	 */
-	const updateBankAccount = (bankAccountId: number) => {
+	const updateBankAccount = () => {
 		bankAccountController.updateItem(
 			{
-				BANK_ACCOUNT_IDENTIFICATION_CODE: bankAccountId,
+				BANK_ACCOUNT_IDENTIFICATION_CODE: selectedAccount,
 				ACCOUNT_NICKNAME: accountNickname,
 			},
 			(res) => {
@@ -420,13 +423,17 @@ const MyAccounts = (props: IMyAccountsProps) => {
 											sx={{
 												display: 'flex',
 												alignItems: 'center',
-												gap: 3,
+												gap: 2,
 												mt: '5px',
 											}}
 										>
 											<Typography
-												variant="subtitle2"
+												// variant="subtitle2"
 												color={'secondary.main'}
+												sx={{
+													width: '85px',
+												}}
+												noWrap
 											>
 												{bankAccount.ACCOUNT_HOLDER}
 											</Typography>
@@ -437,8 +444,12 @@ const MyAccounts = (props: IMyAccountsProps) => {
 												|
 											</Typography>
 											<Typography
-												variant="subtitle2"
+												// variant="subtitle2"
 												color={'secondary.main'}
+												sx={{
+													width: '76px',
+												}}
+												noWrap
 											>
 												{bankAccount.ACCOUNT_NICKNAME}
 											</Typography>
@@ -458,6 +469,12 @@ const MyAccounts = (props: IMyAccountsProps) => {
 											cursor: 'pointer',
 										}}
 										onClick={(event) => {
+											setAccountNickname(
+												bankAccount.ACCOUNT_NICKNAME
+											);
+											setSelectedAccount(
+												bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
+											);
 											setAnchorEl(event.currentTarget);
 										}}
 										color="secondary"
@@ -491,9 +508,6 @@ const MyAccounts = (props: IMyAccountsProps) => {
 												justifyContent: 'center',
 											}}
 											onClick={() => {
-												setAccountNickname(
-													bankAccount.ACCOUNT_NICKNAME
-												);
 												setAccountModifyModalOpen(true);
 											}}
 										>
@@ -513,60 +527,6 @@ const MyAccounts = (props: IMyAccountsProps) => {
 											삭제하기
 										</MenuItem>
 									</Menu>
-
-									{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
-									{accountModifyModalOpen && (
-										<SuppportiModal
-											open={accountModifyModalOpen}
-											handleClose={() => {
-												setAccountModifyModalOpen(
-													false
-												);
-											}}
-											title="계좌 수정"
-											activeHeader={true}
-											children={
-												<Box>
-													<Box mb={3}>
-														<Typography
-															m={'auto'}
-															sx={{ mb: 2 }}
-														>
-															계좌 별칭
-														</Typography>
-														<SupportiInput
-															type={'input'}
-															value={
-																accountNickname
-															}
-															setValue={(
-																value
-															) => {
-																setAccountNickname(
-																	value
-																);
-															}}
-															placeholder="계좌 별칭 입력"
-															width={300}
-														/>
-													</Box>
-													<SupportiButton
-														style={{
-															color: 'white',
-														}}
-														fullWidth
-														isGradient={true}
-														contents={'수정하기'}
-														onClick={() => {
-															updateBankAccount(
-																bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
-															);
-														}}
-													/>
-												</Box>
-											}
-										/>
-									)}
 								</Box>
 							))}
 						</Box>
@@ -620,6 +580,46 @@ const MyAccounts = (props: IMyAccountsProps) => {
 							setAccountRegisterModalOpen
 						}
 						setAccountTriggerKey={props.setAccountTriggerKey}
+					/>
+				)}
+				{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
+				{accountModifyModalOpen && (
+					<SuppportiModal
+						open={accountModifyModalOpen}
+						handleClose={() => {
+							setAccountModifyModalOpen(false);
+						}}
+						title="계좌 수정"
+						activeHeader={true}
+						children={
+							<Box>
+								<Box mb={3}>
+									<Typography m={'auto'} sx={{ mb: 2 }}>
+										계좌 별칭
+									</Typography>
+									<SupportiInput
+										type={'input'}
+										value={accountNickname}
+										setValue={(value) => {
+											setAccountNickname(value);
+										}}
+										placeholder="계좌 별칭 입력"
+										width={300}
+									/>
+								</Box>
+								<SupportiButton
+									style={{
+										color: 'white',
+									}}
+									fullWidth
+									isGradient={true}
+									contents={'수정하기'}
+									onClick={() => {
+										updateBankAccount();
+									}}
+								/>
+							</Box>
+						}
 					/>
 				)}
 			</>

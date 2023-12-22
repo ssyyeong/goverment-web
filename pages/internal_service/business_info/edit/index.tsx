@@ -214,7 +214,7 @@ const Page: NextPage = () => {
 					display: 'flex',
 					flexDirection: 'column',
 					width: '100%',
-					p: 10,
+					p: { xs: 2, md: 10 },
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}

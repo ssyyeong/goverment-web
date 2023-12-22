@@ -178,8 +178,9 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					width: { md: `calc(100% - 300px)`, xs: '100%' },
 					backgroundImage:
 						'linear-gradient(to bottom, #262626, #000)',
-					height: '150px',
-					p: '25px 60px 40px',
+					// height: '150px',
+					px: 5,
+					py: 3,
 					position: 'fixed',
 					bottom: 0,
 					right: 0,
@@ -202,6 +203,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={'10px'}
+						minWidth={'fit-content'}
 					>
 						<Typography variant="body2" color={'#b0b5c2'}>
 							BurnRate 평균개월
@@ -274,6 +276,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={'10px'}
+						minWidth={'fit-content'}
 					>
 						<Typography variant="body2" color={'#b0b5c2'}>
 							기준일
@@ -337,6 +340,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 							color: 'white',
 							width: '85px',
 							height: '40px',
+							minWidth: '85px',
 						}}
 						onClick={() => handleSave()}
 					/>
@@ -346,40 +350,45 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						height={'50px'}
 					></Box>
 					{/* 데이터 노출 */}
-					{props.calculationResult?.burnRate !== null &&
-						props.calculationResult &&
-						resultConfig.map((item, index) => {
-							return (
-								<Box
-									mx={'20px'}
-									display={'flex'}
-									flexDirection={'column'}
-									gap={'8px'}
-								>
-									<Typography
-										color={'#b0b5c2'}
-										variant="body2"
+					<Box display={'flex'} flexWrap={'wrap'}>
+						{props.calculationResult?.burnRate !== null &&
+							props.calculationResult &&
+							resultConfig.map((item, index) => {
+								return (
+									<Box
+										mx={'20px'}
+										display={'flex'}
+										flexDirection={'column'}
+										gap={'8px'}
+										mb={1}
 									>
-										{item.lable}
-									</Typography>
-									<Typography
-										color={
-											item.extra ? 'info.main' : 'white'
-										}
-										variant="h6"
-										fontWeight={'bold'}
-									>
-										{typeof item.value === 'number'
-											? Math.round(
-													item.value
-											  ).toLocaleString()
-											: item.value}
+										<Typography
+											color={'#b0b5c2'}
+											variant="body2"
+										>
+											{item.lable}
+										</Typography>
+										<Typography
+											color={
+												item.extra
+													? 'info.main'
+													: 'white'
+											}
+											variant="h6"
+											fontWeight={'bold'}
+										>
+											{typeof item.value === 'number'
+												? Math.round(
+														item.value
+												  ).toLocaleString()
+												: item.value}
 
-										{item.month ? '개월' : '원'}
-									</Typography>
-								</Box>
-							);
-						})}
+											{item.month ? '개월' : '원'}
+										</Typography>
+									</Box>
+								);
+							})}
+					</Box>
 					{/* 조건 등록 전 */}
 					{props.calculationResult?.burnRate === null && (
 						<Typography color={'white'} fontWeight={'bold'}>

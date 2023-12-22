@@ -217,7 +217,7 @@ const Page: NextPage = () => {
 					display: 'flex',
 					alignItems: 'space-between',
 					flexDirection: 'column',
-					p: 10,
+					p: { sm: 10, xs: 2 },
 				}}
 			>
 				{access === true && (
