@@ -75,8 +75,7 @@ const OkrCard = (props: IOkrCardProps) => {
 							100 / okrMainData?.OkrDetails.length
 					  ).toString()
 					: Math.floor(
-							(100 - item.ACHIEVED_RATE) /
-								okrMainData?.OkrDetails.length
+							item.ACHIEVED_RATE / okrMainData?.OkrDetails.length
 					  ).toString(),
 			color: randomColor[index],
 		};
