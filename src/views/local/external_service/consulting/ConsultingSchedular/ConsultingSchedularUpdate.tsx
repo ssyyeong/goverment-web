@@ -12,7 +12,7 @@ import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
 import styles from './Calendar.module.css';
 import './Calendar.module.css';
-
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SupportiButton from '../../../../global/SupportiButton';
 import { ImageController } from '../../../../../controller/ImageController';
 import ConsultingQna from '../ConsultingQna/ConsultingQna';
@@ -222,6 +222,7 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 			}}
 			style={{
 				width: { sm: 'fit-content', xs: 'fit-content' },
+				maxWidth: { sm: '400px', xs: '100%' },
 				maxHeight: '90%',
 			}}
 		>
@@ -236,7 +237,11 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 							mb={1}
 							alignItems={'center'}
 						>
-							<Typography variant="h5" fontWeight={'700'}>
+							<Typography
+								variant="h5"
+								fontWeight={'700'}
+								sx={{ maxWidth: '80%' }}
+							>
 								{
 									props.consultingData.ConsultingProduct
 										.PRODUCT_NAME

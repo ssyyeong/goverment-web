@@ -115,10 +115,12 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 					}}
 				>
 					{props.qnaData.QUESTION_CONTENT}
+					{/* 필수 여부 표시 */}
 					<Typography color={'red'}>
 						{props.qnaData.REQUIRED_YN === 'Y' && '*'}
 					</Typography>
 				</Typography>
+				{/* 파일없음 체크박스 */}
 				{props.qnaData.QUESTION_TYPE === 'FILE' && (
 					<SupportiInput
 						type="checkbox"
@@ -131,6 +133,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 					/>
 				)}
 			</Box>
+			{/* 질문 타입에 따른 뷰어 수정 */}
 			<Box mt={1}>
 				{props.qnaData.QUESTION_TYPE === 'TEXT' ? (
 					<SupportiInput
@@ -150,7 +153,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 							setValue={(value) => {
 								setFileAnswer(value);
 							}}
-							width={'300px'}
+							width={'100%'}
 						/>
 					)
 				)}

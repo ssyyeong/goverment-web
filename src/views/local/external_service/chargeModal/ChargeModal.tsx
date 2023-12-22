@@ -6,6 +6,7 @@ import SupportiButton from '../../../global/SupportiButton';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import SupportiInput from '../../../global/SupportiInput';
+import { useRouter } from 'next/router';
 
 interface IChargeModalProps {
 	open: boolean;
@@ -16,6 +17,9 @@ const ChargeModal = (props: IChargeModalProps) => {
 	const [point, setPoint] = useState<number>();
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
 	const orderId = uuidv4();
+
+	const router = useRouter();
+	console.log(router);
 	// 토스페이
 	const tossPay = () => {
 		if (point <= 0) {
@@ -29,7 +33,10 @@ const ChargeModal = (props: IChargeModalProps) => {
 				orderId: orderId, // 주문 id
 				orderName: `서포티 단건결제 : ${point}포인트 충전`, // 결제 이름
 				customerName: `서포티`, // 판매자, 판매처 이름
-				successUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/success`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+				successUrl:
+					process.env.NEXT_PUBLIC_WEB_HOST +
+					`/toss/success` +
+					`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
 				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
 				validHours: 24, // 유효시간
 				cashReceipt: {

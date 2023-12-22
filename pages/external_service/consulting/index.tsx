@@ -133,7 +133,7 @@ const Page: NextPage = () => {
 								},
 								{
 									label: '금액',
-									value: `${item.PRICE.toLocaleString()} 원`,
+									value: `${item.PRICE.toLocaleString()} P`,
 								},
 							]}
 						/>

@@ -16,6 +16,7 @@ import SupportiButton from '../src/views/global/SupportiButton';
 import { NextPage } from 'next';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useAppMember } from '../src/hooks/useAppMember';
 
 // import SupportiToggle from '../src/Boxs/global/SupportiToggle';
 // import SuppportiModal from '../src/Boxs/global/SuppportiModal';
@@ -28,7 +29,7 @@ type Props = {};
 
 const Page: NextPage = () => {
 	const router = useRouter();
-	const memberId = 1;
+	const { memberId } = useAppMember();
 	// SwiperCore.use([Navigation, Scrollbar]);
 
 	useEffect(() => {}, []);
@@ -218,7 +219,9 @@ const Page: NextPage = () => {
 								<SupportiButton
 									contents="내 대시보드 보러가기"
 									onClick={() => {
-										// router.push.push('/auth/sign_in');
+										router.push(
+											'/internal_service/financial_solution/account_manage'
+										);
 									}}
 									variant="contained"
 									style={{
@@ -230,11 +233,7 @@ const Page: NextPage = () => {
 								<SupportiButton
 									contents="무료로 시작하기"
 									onClick={() => {
-										if (!memberId) {
-											router.push('/login');
-										} else {
-											router.push('/dashboard/finance');
-										}
+										router.push('/auth/sign_in');
 									}}
 									variant="contained"
 									style={{
@@ -935,9 +934,11 @@ const Page: NextPage = () => {
 						contents="무료로 시작하기"
 						onClick={() => {
 							if (!memberId) {
-								router.push('/login');
+								router.push('/auth/sign_in');
 							} else {
-								router.push('/dashboard/finance');
+								router.push(
+									'/internal_service/financial_solution/account_manage'
+								);
 							}
 						}}
 						variant="contained"

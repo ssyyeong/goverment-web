@@ -51,7 +51,7 @@ const Page: NextPage = () => {
 		label: '금액',
 		value: 'PRICE',
 		format: (value) => {
-			return value == 0 ? '무료' : `${value.toLocaleString()} 원`;
+			return value == 0 ? '무료' : `${value.toLocaleString()} P`;
 		},
 	};
 
@@ -183,7 +183,7 @@ const Page: NextPage = () => {
 									value:
 										data.PRICE == 0
 											? '무료'
-											: `${data.PRICE.toLocaleString()} 원`,
+											: `${data.PRICE.toLocaleString()} P`,
 								},
 							]}
 						/>

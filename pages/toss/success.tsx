@@ -22,6 +22,7 @@ const Page: NextPage = () => {
 	 * 로딩 상태
 	 */
 	const [loading, setLoading] = React.useState<boolean>(false);
+	const { route } = router.query;
 	//* Functions
 	/**
 	 * 포인트 충전 내역 생성
@@ -61,7 +62,7 @@ const Page: NextPage = () => {
 				console.log('결제 내역 생성 성공');
 				console.log('결제 성공');
 				setLoading(false);
-				router.back();
+				router.push(route as string);
 			},
 			(err) => {
 				alert('결제 내역 생성 실패');

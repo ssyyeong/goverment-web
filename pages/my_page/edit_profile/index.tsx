@@ -246,7 +246,9 @@ const Page: NextPage = () => {
 				onClick: () => {
 					router.push('/rate_plan');
 				},
-				condition: !subscriptionInfo,
+				condition:
+					!subscriptionInfo ||
+					subscriptionInfo.TYPE == 'WELCOME_EVENT',
 			},
 			additionalButton: [
 				{

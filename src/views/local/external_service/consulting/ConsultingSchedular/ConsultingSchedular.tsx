@@ -12,7 +12,7 @@ import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
 import styles from './Calendar.module.css';
 import './Calendar.module.css';
-
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SupportiButton from '../../../../global/SupportiButton';
 import { ImageController } from '../../../../../controller/ImageController';
 import ConsultingQna from '../ConsultingQna/ConsultingQna';
@@ -94,6 +94,10 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			(err) => {}
 		);
 	};
+	/**
+	 * 컨설팅 신청 전 필수 질문 답변 체크
+	 */
+
 	/**
 	 * 컨설팅 신청하기
 	 */
@@ -195,6 +199,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			}}
 			style={{
 				width: { sm: 'fit-content', xs: '100%' },
+				maxWidth: { sm: '400px', xs: '100%' },
 				maxHeight: { sm: '90%', xs: '100%' },
 			}}
 		>
@@ -211,9 +216,6 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						>
 							<Typography variant="h5" fontWeight={'700'}>
 								{props.consultingData.PRODUCT_NAME} 예약 일정
-							</Typography>
-							<Typography>
-								{props.consultingData.PRICE} 원
 							</Typography>
 						</Box>
 
@@ -238,8 +240,10 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							gap={1}
 							sx={{ mb: 1 }}
 						>
-							<FmdGoodOutlinedIcon />
-							<Typography ml={1}>위치</Typography>
+							<PaidOutlinedIcon />
+							<Typography ml={1}>
+								{props.consultingData.PRICE} P
+							</Typography>
 						</Box>
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
