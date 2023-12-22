@@ -197,7 +197,6 @@ const OkrModal = (props: IOkrModalProps) => {
 									}}
 									width={'100%'}
 									placeholder="상위 목표 타이틀을 입력해주세요."
-									readOnly={okrMainData.TITLE.length > 20}
 								/>
 								<Box
 									display="flex"
@@ -322,6 +321,7 @@ const OkrModal = (props: IOkrModalProps) => {
 												?.OKR_MAIN_IDENTIFICATION_CODE
 										}
 										deleteOkrDetail={deleteOkrDetail}
+										setTriggerKey={props.setTriggerKey}
 									/>
 								);
 							})}

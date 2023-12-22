@@ -69,7 +69,15 @@ const OkrCard = (props: IOkrCardProps) => {
 
 	const materialDataList = okrMainData?.OkrDetails.map((item, index) => {
 		return {
-			percentage: item.ACHIEVED_RATE?.toString(),
+			percentage:
+				item.ACHIEVED_RATE > 100
+					? Math.floor(
+							100 / okrMainData?.OkrDetails.length
+					  ).toString()
+					: Math.floor(
+							(100 - item.ACHIEVED_RATE) /
+								okrMainData?.OkrDetails.length
+					  ).toString(),
 			color: randomColor[index],
 		};
 	});

@@ -57,7 +57,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			},
 			(response: any) => {
 				alert('삭제 성공');
-				props.setTriggerKey(uuidv4());
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 			},
 			(err: any) => {}
 		);
@@ -76,7 +76,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			),
 			(response: any) => {
 				alert('수정 성공');
-				props.setTriggerKey(uuidv4());
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 				setIsModifyModalOpen(false);
 			},

@@ -86,6 +86,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			},
 			(response: any) => {
 				alert('삭제 성공');
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(!props.modalOpen);
 			},
 			(err: any) => {}
@@ -93,24 +94,35 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	};
 
 	const updateOkrDetail = (injectedObj) => {
-		okrDetailController.updateItem(
-			Object.assign(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					OKR_DETAIL_IDENTIFICATION_CODE:
-						props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-				},
-				injectedObj
-			),
-			(response: any) => {
-				alert('하위 업데이트 성공');
+		if (
+			okrDetailData.TITLE === '' ||
+			okrDetailData.TARGET_UNIT == undefined ||
+			okrDetailData.TARGET_UNIT == '' ||
+			okrDetailData.TARGET_AMOUNT === 0 ||
+			okrDetailData.TARGET_AMOUNT === undefined
+		) {
+			alert('필수값을 입력해주세요.');
+			return;
+		} else {
+			okrDetailController.updateItem(
+				Object.assign(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						OKR_DETAIL_IDENTIFICATION_CODE:
+							props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
+					},
+					injectedObj
+				),
+				(response: any) => {
+					alert('하위 업데이트 성공');
 
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
-				setIsEditMode(false);
-				props.setModalOpen(!props.modalOpen);
-			},
-			(err: any) => {}
-		);
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					setIsEditMode(false);
+					props.setModalOpen(!props.modalOpen);
+				},
+				(err: any) => {}
+			);
+		}
 	};
 
 	//* Hooks
@@ -181,7 +193,6 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									marginBottom: 'auto',
 								}}
 								placeholder="하위 목표 타이틀을 입력해주세요."
-								readOnly={okrDetailData.TITLE.length > 20}
 							/>
 							<Typography
 								variant="body1"
