@@ -232,7 +232,12 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					{props.mode === 'detail' && (
 						<Box ml={'auto'} display={'flex'} gap={'5px'}>
 							{isMoreOpen && (
-								<Box display={'flex'} gap={'4px'}>
+								<Box
+									display={'flex'}
+									gap={'4px'}
+									mt="auto"
+									mb="auto"
+								>
 									{/** 삭제 버튼 */}
 									<DeleteIcon
 										onClick={() => {
