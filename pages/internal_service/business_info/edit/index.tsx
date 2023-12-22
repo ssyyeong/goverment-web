@@ -12,7 +12,7 @@ import { InternalServiceLayout } from '../../../../src/views/layout/InternalServ
 import { IBusiness, IBusinessHistory } from '../../../../src/@types/model';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import {
 	businessConfig,
 	businessSector,
@@ -345,9 +345,16 @@ const Page: NextPage = () => {
 																type={
 																	businessMapping.type
 																}
-																minDate={
-																	new Date()
-																}
+																minDate={moment(
+																	now()
+																)
+																	.subtract(
+																		'10',
+																		'y'
+																	)
+																	.format(
+																		'YYYY-MM-DD'
+																	)}
 																value={
 																	businessMapping.isFromBusinessHistory ==
 																	true
