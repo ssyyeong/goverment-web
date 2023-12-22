@@ -297,7 +297,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								)}
 								<Box
 									display={'flex'}
-									gap={1}
+									gap={'4px'}
 									alignItems={'center'}
 								>
 									{/** 삭제 버튼 */}
@@ -308,7 +308,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '60px',
+											width: '40px',
 										}}
 										color={'primary'}
 										variant="contained"
@@ -322,7 +322,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '60px',
+											width: '40px',
 										}}
 										color={'primary'}
 										variant="contained"

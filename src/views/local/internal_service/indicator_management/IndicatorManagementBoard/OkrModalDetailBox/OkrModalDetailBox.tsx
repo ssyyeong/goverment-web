@@ -96,7 +96,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		props.setTriggerKey && props.setTriggerKey(uuidv4());
-	}, [props.data, props.isModalOpen]);
+	}, [props.data]);
 
 	return (
 		<Box

@@ -223,7 +223,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					{props.mode === 'detail' && (
 						<Box ml={'auto'} display={'flex'} gap={'5px'}>
 							{isMoreOpen && (
-								<Box display={'flex'} gap={1}>
+								<Box display={'flex'} gap={'4px'}>
 									{/** 삭제 버튼 */}
 									<SupportiButton
 										contents={'삭제'}
@@ -232,7 +232,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '60px',
+											width: '30px',
 										}}
 										color={'primary'}
 										variant="contained"
@@ -246,7 +246,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										}}
 										style={{
 											height: '20px',
-											width: '60px',
+											width: '30px',
 										}}
 										color={'primary'}
 										variant="contained"
