@@ -12,6 +12,11 @@ interface ISupportiProgressBarProps {
 
 const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 	console.log(props.totalPercentage);
+
+	// const translatePercentage = (percentage: string) => {
+	// 	return Math.floor(Number(percentage) / props.materialDataList.length);
+	// };
+
 	return (
 		<Box
 			sx={{
@@ -29,6 +34,7 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 					<Box
 						key={idx}
 						sx={{
+							// width: `${translatePercentage(item.percentage)}%`,
 							width: `${item.percentage}%`,
 							height: '100%',
 							bgcolor: item.color,

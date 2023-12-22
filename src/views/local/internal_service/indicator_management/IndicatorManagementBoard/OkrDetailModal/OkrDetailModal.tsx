@@ -68,22 +68,28 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 
 	//* okr 업데이트 함수
 	const updateOkrMain = (injectedObj) => {
-		okrMainController.updateItem(
-			Object.assign(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					OKR_MAIN_IDENTIFICATION_CODE:
-						props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
+		if (okrMainData.TITLE === '') {
+			alert('필수값을 입력해주세요.');
+			return;
+		} else {
+			okrMainController.updateItem(
+				Object.assign(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						OKR_MAIN_IDENTIFICATION_CODE:
+							props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
+					},
+					injectedObj
+				),
+				(response: any) => {
+					alert('업데이트 성공');
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.setModalOpen(false);
+					setIsEditMode(false);
 				},
-				injectedObj
-			),
-			(response: any) => {
-				alert('업데이트 성공');
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
-				setIsEditMode(false);
-			},
-			(err: any) => {}
-		);
+				(err: any) => {}
+			);
+		}
 	};
 
 	const updateDetailOkr = () => {
@@ -91,7 +97,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			{
 				item.TITLE == '' ||
 				item.TARGET_AMOUNT == 0 ||
-				item.TARGET_UNIT == ''
+				item.TARGET_UNIT == '' ||
+				item.TARGET_UNIT == undefined
 					? alert('필수 값 미입력')
 					: updateOkrMain({
 							TITLE: item.TITLE,
@@ -121,6 +128,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			},
 			(response: any) => {
 				alert('삭제 성공');
+				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(false);
 			},
 			(err: any) => {}
@@ -428,11 +436,11 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								<SupportiInput
 									type="inputwithbtn"
 									value={okrMainData.NOTE}
-									readOnly={
-										okrMainData.NOTE.length > 500
-											? true
-											: false
-									}
+									// readOnly={
+									// 	okrMainData.NOTE.length > 500
+									// 		? true
+									// 		: false
+									// }
 									setValue={(value) => {
 										setOkrMainData({
 											...okrMainData,
@@ -549,6 +557,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												?.OKR_MAIN_IDENTIFICATION_CODE
 										}
 										deleteOkrDetail={deleteOkrDetail}
+										setTriggerKey={props.setTriggerKey}
 									/>
 								);
 							})}

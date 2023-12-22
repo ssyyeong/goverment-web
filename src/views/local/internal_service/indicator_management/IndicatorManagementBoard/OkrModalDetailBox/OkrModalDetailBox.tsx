@@ -7,11 +7,10 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
-import { previewData } from 'next/dist/client/components/headers';
-import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IOkrModalDetailBoxProps {
 	mode: string;
@@ -24,6 +23,7 @@ interface IOkrModalDetailBoxProps {
 	okrMainId?: number;
 	isModalOpen: boolean;
 	setIsModalOpen: any;
+	setTriggerKey?: React.Dispatch<any>;
 }
 
 const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
@@ -49,6 +49,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 		if (
 			props.data.TITLE === '' ||
 			props.data.TARGET_UNIT == undefined ||
+			props.data.TARGET_UNIT == '' ||
 			props.data.TARGET_AMOUNT === 0
 		) {
 			alert('필수값을 입력해주세요.');
@@ -67,6 +68,10 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 				})
 				.then((res) => {
 					alert('생성');
+
+					// 리셋
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.setIsModalOpen(false);
 					props.setOkrDetailData([
 						...props.okrDetailData,
 						{
@@ -80,8 +85,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							ACHIEVED_AMOUNT: 0,
 						},
 					]);
-					// 리셋
-					props.setIsModalOpen(false);
 					console.log(res);
 				})
 				.catch((err) => {
@@ -89,6 +92,11 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 				});
 		}
 	};
+
+	//* Hooks
+	React.useEffect(() => {
+		props.setTriggerKey && props.setTriggerKey(uuidv4());
+	}, [props.data, props.isModalOpen]);
 
 	return (
 		<Box
@@ -137,10 +145,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								}}
 								width={'100%'}
 								placeholder="하위 목표 타이틀을 입력해주세요."
-								readOnly={
-									props.okrDetailData[props.index].TITLE
-										.length > 20
-								}
 							/>
 						</Box>
 

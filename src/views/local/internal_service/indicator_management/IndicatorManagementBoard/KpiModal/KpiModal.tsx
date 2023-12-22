@@ -136,7 +136,6 @@ const KpiModal = (props: IKpiModalProps) => {
 									}}
 									width={'100%'}
 									placeholder="목표 타이틀을 입력해주세요."
-									readOnly={kpiData.TITLE.length > 50}
 								/>
 							</Box>
 							<Box
