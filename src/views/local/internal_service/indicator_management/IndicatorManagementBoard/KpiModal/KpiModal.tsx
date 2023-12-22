@@ -67,18 +67,28 @@ const KpiModal = (props: IKpiModalProps) => {
 		) {
 			alert('필수 입력값을 입력해주세요.');
 		} else {
-			kpiController.createItem(
-				{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
-				(response) => {
-					alert('등록 성공');
+			if (kpiData.TITLE.length >= 20) {
+				//* 20글자 넘으면 20글자 내까지만 자르기
+				alert('타이틀은 20자내로 입력해주세요.');
 
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setModalOpen(false);
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
+				// setKpiData({
+				// 	...kpiData,
+				// 	TITLE: kpiData.TITLE.slice(0, 20),
+				// });
+			} else {
+				kpiController.createItem(
+					{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
+					(response) => {
+						alert('등록 성공');
+
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						props.setModalOpen(false);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
+			}
 		}
 	};
 

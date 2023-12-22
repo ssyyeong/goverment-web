@@ -102,26 +102,33 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			okrDetailData.TARGET_AMOUNT === undefined
 		) {
 			alert('필수값을 입력해주세요.');
-			return;
 		} else {
-			okrDetailController.updateItem(
-				Object.assign(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-						OKR_DETAIL_IDENTIFICATION_CODE:
-							props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-					},
-					injectedObj
-				),
-				(response: any) => {
-					alert('하위 업데이트 성공');
+			if (okrDetailData.TITLE.length >= 20) {
+				alert('타이틀은 20자내로 입력해주세요.');
+				// setOkrDetailData({
+				// 	...okrDetailData,
+				// 	TITLE: okrDetailData.TITLE.substring(0, 20),
+				// });
+			} else {
+				okrDetailController.updateItem(
+					Object.assign(
+						{
+							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							OKR_DETAIL_IDENTIFICATION_CODE:
+								props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
+						},
+						injectedObj
+					),
+					(response: any) => {
+						alert('하위 업데이트 성공');
 
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					setIsEditMode(false);
-					props.setModalOpen(!props.modalOpen);
-				},
-				(err: any) => {}
-			);
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						setIsEditMode(false);
+						props.setModalOpen(!props.modalOpen);
+					},
+					(err: any) => {}
+				);
+			}
 		}
 	};
 
