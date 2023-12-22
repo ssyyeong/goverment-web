@@ -1,4 +1,11 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+	Autocomplete,
+	Box,
+	Button,
+	Grid,
+	TextField,
+	Typography,
+} from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
@@ -6,7 +13,11 @@ import { IBusiness, IBusinessHistory } from '../../../../src/@types/model';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
-import { businessConfig } from '../../../../configs/data/BusinessConfig';
+import {
+	businessConfig,
+	businessSector,
+	investSector,
+} from '../../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
 import build from 'next/dist/build';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
@@ -107,6 +118,7 @@ const Page: NextPage = () => {
 					} else {
 						alert('비즈니스 개요를 저장했습니다.');
 					}
+					router.push('/internal_service/business_info');
 				},
 				(err) => {
 					alert('비즈니스 개요 저장에 실패했습니다.');
@@ -262,61 +274,130 @@ const Page: NextPage = () => {
 												{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
 												<Grid item xs={6} md={3}>
 													<Box bgcolor={'white'}>
-														<SupportiInput
-															width={'100%'}
-															type={
-																businessMapping.type
-															}
-															value={
-																businessMapping.isFromBusinessHistory ==
-																true
-																	? copiedBusinessHistory[
-																			businessMapping
-																				.key
-																	  ]
-																	: business[
-																			businessMapping
-																				.key
-																	  ]
-															}
-															setValue={(
-																value
-															) => {
-																if (
+														{businessMapping.label ==
+															'업종' ||
+														'투자 라운드' ? (
+															<Autocomplete
+																options={
+																	businessMapping.label ==
+																	'업종'
+																		? businessSector
+																		: investSector
+																}
+																fullWidth
+																onChange={(
+																	e,
+																	newValue
+																) => {
+																	if (
+																		businessMapping.isFromBusinessHistory ==
+																		true
+																	) {
+																		// 비즈니스 로그에서 가져온 데이터일 경우
+																		setCopiedBusinessHistory(
+																			{
+																				...copiedBusinessHistory,
+																				[businessMapping.key]:
+																					newValue,
+																			}
+																		);
+																	} else {
+																		// 비즈니스 개요에서 가져온 데이터일 경우
+																		setBusiness(
+																			{
+																				...business,
+																				[businessMapping.key]:
+																					newValue,
+																			}
+																		);
+																	}
+																}}
+																value={
 																	businessMapping.isFromBusinessHistory ==
 																	true
-																) {
-																	// 비즈니스 로그에서 가져온 데이터일 경우
-																	setCopiedBusinessHistory(
-																		{
-																			...copiedBusinessHistory,
-																			[businessMapping.key]:
-																				value,
-																		}
-																	);
-																} else {
-																	// 비즈니스 개요에서 가져온 데이터일 경우
-																	setBusiness(
-																		{
-																			...business,
-																			[businessMapping.key]:
-																				value,
-																		}
-																	);
+																		? copiedBusinessHistory[
+																				businessMapping
+																					.key
+																		  ]
+																		: business[
+																				businessMapping
+																					.key
+																		  ]
 																}
-															}}
-															additionalProps={Object.assign(
-																{
-																	sx: {
-																		width: '100%',
+																renderInput={(
+																	params
+																) => (
+																	<TextField
+																		{...params}
+																		sx={{
+																			'& .MuiAutocomplete-input':
+																				{
+																					height: '3px',
+																				},
+																		}}
+																	/>
+																)}
+															/>
+														) : (
+															<SupportiInput
+																width={'100%'}
+																type={
+																	businessMapping.type
+																}
+																minDate={
+																	new Date()
+																}
+																value={
+																	businessMapping.isFromBusinessHistory ==
+																	true
+																		? copiedBusinessHistory[
+																				businessMapping
+																					.key
+																		  ]
+																		: business[
+																				businessMapping
+																					.key
+																		  ]
+																}
+																setValue={(
+																	value
+																) => {
+																	if (
+																		businessMapping.isFromBusinessHistory ==
+																		true
+																	) {
+																		// 비즈니스 로그에서 가져온 데이터일 경우
+																		setCopiedBusinessHistory(
+																			{
+																				...copiedBusinessHistory,
+																				[businessMapping.key]:
+																					value,
+																			}
+																		);
+																	} else {
+																		// 비즈니스 개요에서 가져온 데이터일 경우
+																		setBusiness(
+																			{
+																				...business,
+																				[businessMapping.key]:
+																					value,
+																			}
+																		);
+																	}
+																}}
+																additionalProps={Object.assign(
+																	{
+																		sx: {
+																			width: '100%',
+																		},
 																	},
-																},
-																businessMapping.additionalProps !==
-																	undefined
-																	? businessMapping.additionalProps
-																	: {}
-															)}
-														/>
+																	businessMapping.additionalProps !==
+																		undefined
+																		? businessMapping.additionalProps
+																		: {}
+																)}
+															/>
+														)}
 													</Box>
 												</Grid>
 											</Grid>

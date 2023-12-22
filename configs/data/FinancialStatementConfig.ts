@@ -51,7 +51,7 @@ const financialStatementConfig: {
 	{
 		key: 'CAPITAL_STOCK',
 		label: '자본금',
-		isHighlighted: true
+		isHighlighted: true,
 	},
 	{
 		key: 'CASH_FLOW_FROM_OPERATING',

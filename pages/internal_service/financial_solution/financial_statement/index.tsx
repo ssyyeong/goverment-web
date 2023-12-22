@@ -46,6 +46,11 @@ const Page: NextPage = () => {
 	>([]);
 
 	/**
+	 * 페이지 번호
+	 */
+	const [page, setPage] = React.useState<number>(0);
+
+	/**
 	 * 대상 일자
 	 */
 	const [targetDate, setTargetDate] = React.useState<moment.Moment>(
@@ -62,9 +67,11 @@ const Page: NextPage = () => {
 
 		if (direction === 'previous') {
 			changedTargetDate.subtract(1, 'years');
+			setPage(page - 1);
 		} else {
 			if (changedTargetDate.year() !== moment().year()) {
 				changedTargetDate.add(1, 'years');
+				setPage(page + 1);
 			}
 		}
 
@@ -116,6 +123,7 @@ const Page: NextPage = () => {
 					PERIOD_TARGET_KEY: 'STANDARD_YEAR',
 					PERIOD_END: targetDate,
 					LIMIT: 3,
+					PAGE: page,
 					SORT_KEY: 'STANDARD_YEAR',
 					SORT_DIRECTION: 'DESC',
 				},
@@ -127,7 +135,7 @@ const Page: NextPage = () => {
 				}
 			);
 		}
-	}, [access, targetDate, business]);
+	}, [access, targetDate, page, business]);
 
 	return (
 		<InternalServiceDrawer type="dashboard">

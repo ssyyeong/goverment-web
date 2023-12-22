@@ -67,6 +67,7 @@ const Page: NextPage = () => {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
 				(res) => {
+					console.log(res);
 					if (res.data.result !== null) {
 						//* 기업형태 정보 변경
 						let businessType = '';
@@ -85,13 +86,17 @@ const Page: NextPage = () => {
 						res.data.result.CORPORATE_TYPE = businessType;
 
 						//* 날짜 정보 변경
-						res.data.result.ESTABLISHMENT_DATE = moment(
-							res.data.result.ESTABLISHMENT_DATE
-						).format('YYYY-MM-DD');
+						res.data.result.ESTABLISHMENT_DATE =
+							res.data.result.ESTABLISHMENT_DATE != null &&
+							moment(res.data.result.ESTABLISHMENT_DATE).format(
+								'YYYY-MM-DD'
+							);
 
-						res.data.result.LISTING_DATE = moment(
-							res.data.result.LISTING_DATE
-						).format('YYYY-MM-DD');
+						res.data.result.LISTING_DATE =
+							res.data.result.LISTING_DATE &&
+							moment(res.data.result.LISTING_DATE).format(
+								'YYYY-MM-DD'
+							);
 
 						setBusiness(res.data.result);
 					}
@@ -216,12 +221,15 @@ const Page: NextPage = () => {
 													<Box
 														border={0.5}
 														borderColor={'#bebebe'}
+														height={'100%'}
 													>
 														<Typography
 															variant={'h6'}
 															pt={1}
 															pb={1}
 															pl={1}
+															noWrap={true}
+															overflow={'hidden'}
 														>
 															{businessMapping.isFromBusinessHistory ==
 															true

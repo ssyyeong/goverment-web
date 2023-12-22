@@ -96,7 +96,7 @@ const Page: NextPage = () => {
 	const saveFinancialStatement = () => {
 		if (memberId !== undefined) {
 			if (
-				defaultFinancialStatement[
+				financialStatement[
 					'FINANCIAL_STATEMENT_IDENTIFICATION_CODE'
 				] === undefined
 			) {
@@ -109,18 +109,22 @@ const Page: NextPage = () => {
 						STANDARD_YEAR: targetDate,
 					},
 					(res) => {
-						//* 생성한 재무제표에 아이디 부여
+						//* 생성한 재무제표에 아이디 부여'
+						console.log(res.data.result);
 						setFinancialStatement({
 							...financialStatement,
 							FINANCIAL_STATEMENT_IDENTIFICATION_CODE:
 								res.data.result
 									.FINANCIAL_STATEMENT_IDENTIFICATION_CODE,
 						});
-
 						alert('재무제표를 생성했습니다.');
+						router.push(
+							'/internal_service/financial_solution/financial_statement'
+						);
 					},
 					(err) => {
 						alert('재무제표 생성에 실패했습니다.');
+						console.log(err);
 					}
 				);
 			} else {
@@ -131,6 +135,9 @@ const Page: NextPage = () => {
 					},
 					(res) => {
 						alert('재무제표를 수정했습니다.');
+						router.push(
+							'/internal_service/financial_solution/financial_statement'
+						);
 					},
 					(err) => {
 						alert('재무제표 수정에 실패했습니다.');

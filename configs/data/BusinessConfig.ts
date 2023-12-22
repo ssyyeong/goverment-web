@@ -62,8 +62,28 @@ const businessConfig: {
 		key: 'COMPANY_ADDRESS',
 		label: '주소',
 	},
+	{
+		key: 'INVEST_ROUND',
+		label: '투자라운드',
+		isFromBusinessHistory: true,
+	},
 ];
 
+const investSector: string[] = [
+	'bootstrapped',
+	'seed',
+	'pre-A',
+	'pre-B',
+	'series A',
+	'series B',
+	'series C',
+	'series D',
+	'series E',
+	'series F',
+	'pre-IPO',
+	'IPO',
+	'M&A',
+];
 /**
  * 한국 표준 산업 분류
  */
@@ -895,4 +915,4 @@ const businessSector: string[] = [
 	'[99001] 주한 외국 공관',
 ];
 
-export { businessConfig, businessSector };
+export { businessConfig, businessSector, investSector };
