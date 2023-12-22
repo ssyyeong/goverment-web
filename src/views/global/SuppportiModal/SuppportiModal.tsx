@@ -102,8 +102,12 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 									<Typography
 										sx={{ cursor: 'pointer' }}
 										onClick={props.handleClose}
-										fontWeight={'300'}
-										color={'white'}
+										fontWeight={'400'}
+										color={
+											props.title != ''
+												? 'black'
+												: 'white'
+										}
 									>
 										X
 									</Typography>
