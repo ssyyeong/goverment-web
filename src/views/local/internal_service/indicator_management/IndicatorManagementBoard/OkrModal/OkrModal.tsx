@@ -166,20 +166,21 @@ const OkrModal = (props: IOkrModalProps) => {
 					props.setModalOpen(false);
 				}}
 				title={'목표 등록'}
+				activeHeader={true}
 				style={{
 					width: { xs: '100%', sm: '60%' },
-					padding: { xs: '10px', sm: '20px' },
 				}}
 				children={
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'80vh'}
-						minHeight={'70vh'}
+						maxHeight={'100%'}
+						minHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', sm: '80%' },
+							width: { xs: '100%', sm: '90%' },
+							pt: 2,
 						}}
 					>
 						{/** 상위 목표 작성 */}
@@ -367,8 +368,8 @@ const OkrModal = (props: IOkrModalProps) => {
 								}
 							}}
 							style={{
-								height: '40px',
-								width: '150px',
+								height: '50px',
+								width: { xs: '100%', sm: '260px' },
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

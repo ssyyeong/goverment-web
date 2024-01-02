@@ -213,18 +213,31 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	return (
 		<Box display="flex" flexDirection="column" gap={1}>
 			{/* 새로운 목표 등록 영역 */}
-			<Box>
+			<Box sx={{ pl: { xs: '15px', sm: '0' }, pr: { xs: '15px', sm: '0' } }}>
 				<SupportiButton
 					contents={`+ ${props.name} 목표 등록`}
 					startIcon={<FlagIcon />}
 					onClick={() => setIndicatorRegisterModal(true)}
 					isGradient={true}
-					style={{ height: 20, color: 'white', marginTop: '10px' }}
+					style={{
+						height: { sm: 20, xs: 40 },
+						color: 'white',
+						bgcolor: 'common.black',
+						marginTop: '10px',
+						width: { xs: '100%', sm: '172px' },
+					}}
 				/>
 			</Box>
 
 			{/* 컨트롤러 영역 */}
-			<Box display={'flex'} justifyContent={'space-between'}>
+			<Box
+				display={'flex'}
+				justifyContent={'space-between'}
+				sx={{
+					pl: { xs: '15px', sm: '0' },
+					pr: { xs: '15px', sm: '0' },
+				}}
+			>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
 					chipDataList={selectableStatusList}
@@ -258,6 +271,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			))}
 			{/* KPI 카테고리 셀렉터 */}
 			{props.name === 'KPI' && (
+				// <SupportiButton
+
+				// />
 				<SupportiInput
 					type="select"
 					value={selectedKpiCategory}

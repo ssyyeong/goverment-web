@@ -109,10 +109,7 @@ const Page: NextPage = () => {
 	return (
 		memberId && (
 			<InternalServiceDrawer type="dashboard">
-				<Box
-					bgcolor={'primary.light'}
-					sx={{ p: { sm: 5, xs: '15px' } }}
-				>
+				<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
 					{/* 컨텐츠 레이아웃 */}
 					{userAccess === true && (
 						<InternalServiceLayout
@@ -123,7 +120,7 @@ const Page: NextPage = () => {
 							mobileImage="/images/main/indicatorHeadMobile.webp"
 						>
 							{/* 지표 (OKR / KPI) 선택 영역 */}
-							<Box>
+							<Box sx={{ pl: { xs: '15px', sm: '0' } }}>
 								{selectableIndicatorList.map(
 									(selectableIndicator) => (
 										<SupportiButton

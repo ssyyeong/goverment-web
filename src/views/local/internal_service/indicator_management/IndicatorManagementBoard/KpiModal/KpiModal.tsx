@@ -124,8 +124,8 @@ const KpiModal = (props: IKpiModalProps) => {
 				title={props.mode === 'modify' ? '수정하기' : '목표 등록'}
 				style={{
 					width: { xs: '100%', sm: '60%' },
-					padding: { xs: '10px', sm: '20px' },
 				}}
+				activeHeader={true}
 				children={
 					<Box
 						display={'flex'}
@@ -136,7 +136,7 @@ const KpiModal = (props: IKpiModalProps) => {
 						}}
 					>
 						{/** 목표 작성 */}
-						<Box display={'flex'} flexDirection={'column'} gap={2}>
+						<Box display={'flex'} flexDirection={'column'} gap={3}>
 							<Box>
 								<SupportiInput
 									type="input"
@@ -151,58 +151,59 @@ const KpiModal = (props: IKpiModalProps) => {
 									width={'100%'}
 									placeholder="목표 타이틀을 입력해주세요."
 								/>
-							</Box>
-							<Box
-								display="flex"
-								justifyContent={'space-between'}
-							>
-								<Typography
-									fontWeight={500}
-									variant="body1"
-									color="error.main"
-									sx={{
-										visibility:
-											kpiData.TITLE !== ''
-												? 'hidden'
-												: 'block',
-									}}
-								>
-									필수 값 입니다.
-								</Typography>
-
 								<Box
 									display="flex"
-									ml={'auto'}
-									my={1}
-									gap={0.5}
+									justifyContent={'space-between'}
 								>
 									<Typography
-										color={
-											kpiData.TITLE.length < 20
-												? 'secondary.main'
-												: 'warning.main'
-										}
+										fontWeight={500}
+										variant="body1"
+										color="error.main"
+										my={1}
+										sx={{
+											visibility:
+												kpiData.TITLE !== ''
+													? 'hidden'
+													: 'block',
+										}}
 									>
-										{kpiData.TITLE.length}
+										필수 값 입니다.
 									</Typography>
-									<Typography
-										color={
-											kpiData.TITLE.length < 20
-												? 'secondary.main'
-												: 'warning.main'
-										}
+
+									<Box
+										display="flex"
+										ml={'auto'}
+										my={1}
+										gap={0.5}
 									>
-										/
-									</Typography>
-									<Typography
-										color={
-											kpiData.TITLE.length < 20
-												? 'secondary.main'
-												: 'warning.main'
-										}
-									>
-										20
-									</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											{kpiData.TITLE.length}
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											/
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											20
+										</Typography>
+									</Box>
 								</Box>
 							</Box>
 
@@ -249,7 +250,7 @@ const KpiModal = (props: IKpiModalProps) => {
 							</Box>
 
 							{/** 중요도 */}
-							<Box>
+							<Box mb={2} mt={1}>
 								<Typography fontWeight={500} mb={1}>
 									중요도
 								</Typography>
@@ -277,7 +278,7 @@ const KpiModal = (props: IKpiModalProps) => {
 								</Box>
 							</Box>
 
-							<Box display={'flex'} gap={2}>
+							<Box display={'flex'} gap={2} flexWrap="wrap">
 								{/** 카테고리 */}
 								<Box>
 									<Typography fontWeight={500} mb={1}>
@@ -341,10 +342,7 @@ const KpiModal = (props: IKpiModalProps) => {
 										필수 값 입니다.
 									</Typography>
 								</Box>
-							</Box>
 
-							{/** 목표분류 목표량 등록 */}
-							<Box display={'flex'} gap={2}>
 								{/** 목표분류 */}
 								<Box>
 									<Typography fontWeight={500} mb={1}>
@@ -403,6 +401,8 @@ const KpiModal = (props: IKpiModalProps) => {
 										필수 값 입니다.
 									</Typography>
 								</Box>
+
+								{/** 목표분류 목표량 등록 */}
 								{/** 목표량 */}
 								<Box display={'flex'}>
 									<Box>
@@ -437,6 +437,9 @@ const KpiModal = (props: IKpiModalProps) => {
 										</Typography>
 									</Box>
 								</Box>
+							</Box>
+
+							<Box display={'flex'} gap={2} mt={25}>
 								{props.mode === 'create' && (
 									<SupportiButton
 										contents={'등록하기'}
@@ -474,8 +477,8 @@ const KpiModal = (props: IKpiModalProps) => {
 									: createKpi();
 							}}
 							style={{
-								height: '30px',
-								width: '200px',
+								height: '50px',
+								width: { xs: '100%', sm: '260px' },
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

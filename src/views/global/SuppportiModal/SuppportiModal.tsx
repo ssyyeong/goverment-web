@@ -104,9 +104,10 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 										onClick={props.handleClose}
 										fontWeight={'400'}
 										color={
-											props.title != ''
-												? 'black'
-												: 'white'
+											props.activeHeader ||
+											props.title == ''
+												? 'white'
+												: 'black'
 										}
 									>
 										X
