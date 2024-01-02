@@ -14,7 +14,6 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material';
-
 import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/router';
 import { useAppMember } from '../../../../hooks/useAppMember';
@@ -53,6 +52,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 * 모바일 메뉴
 	 */
 	const mobileMenu = [
+		{
+			label: '파트너스',
+			path: '/partners',
+		},
 		{
 			label: '대시보드',
 			path: '/internal_service/financial_solution/account_manage',
