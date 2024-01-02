@@ -11,7 +11,7 @@ import { useAppMember } from '../../../../src/hooks/useAppMember';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import MyAccounts from '../../../../src/views/local/internal_service/financial_solution/account_manage/MyAccounts/MyAccounts';
 import { IBankAccount } from '../../../../src/@types/model';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { IAccountCalculationResultProps } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation/AccountCalculation';
 import { BankController } from '../../../../src/controller/BankController';
 import { TransactionHistoryTable } from '../../../../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
@@ -53,8 +53,9 @@ const Page: NextPage = () => {
 	/**
 	 * 선택 연/월 셀렉트 데이터
 	 */
-	const [selectablePeriodList, setSelectablePeriodList] =
-		React.useState<any>();
+	const [selectablePeriodList, setSelectablePeriodList] = React.useState<any>(
+		[]
+	);
 	/**
 	 * 계산 조건 선택한 연/월
 	 */
@@ -86,6 +87,11 @@ const Page: NextPage = () => {
 	 */
 	const [loading, setLoading] = React.useState<boolean>(false);
 
+	/**
+	 * 첫 로딩
+	 */
+	const [firstLoading, setFirstLoading] = React.useState<boolean>(true);
+
 	//* Functions
 	/**
 	 * 계산 결과 조회
@@ -116,6 +122,7 @@ const Page: NextPage = () => {
 						setSelectablePeriodList(temp);
 						setSelectedPeriod(temp[temp.length - 1].value);
 					}
+					// !firstLoading && setLoading(false);
 					setLoading(false);
 					setCalculationResult(res.data.result);
 				},
@@ -137,6 +144,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		if (memberId !== undefined) {
+			// setFirstLoading(false);
 			setLoading(true);
 			bankAccountController.findAllItems(
 				{
@@ -145,6 +153,8 @@ const Page: NextPage = () => {
 				(res) => {
 					if (res.data.result.rows.length === 0) {
 						setLoading(false);
+					} else {
+						// setLoading(false);
 					}
 					setBankAccountList(res.data.result.rows);
 					console.log(res.data.result);
@@ -162,7 +172,10 @@ const Page: NextPage = () => {
 	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
 	 */
 	useEffect(() => {
-		memberId !== undefined && getCalculationResult();
+		if (memberId !== undefined) {
+			// setLoading(true);
+			getCalculationResult();
+		}
 	}, [recomputeTriggerKey, memberId]);
 
 	/**

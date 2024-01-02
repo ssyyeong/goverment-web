@@ -13,7 +13,7 @@ import {
 	ITransactionHistory,
 } from '../../../../../../@types/model';
 import { bankConfig } from '../../../../../../../configs/data/BankConfig';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { usePagination } from '../../../../../../hooks/usePagination';
 import ExcelDownloadButton from '../../../../common/ExcelButton/ExcelButton';
 import SupportiTable from '../../../../../global/SupportiTable';
@@ -21,7 +21,7 @@ import { TableHeaderProps } from '../../../../../global/SupportiTable/SupportiTa
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 import SupportiPagination from '../../../../../global/SupportiPagination';
-import { Thumbnail } from '@qillie-corp/qillie-react-ui';
+import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import MobileTransactionHistory from '../MobileTransactionHistory/MobileTransactionHistory';
 
 interface ITransactionHistoryTableProps {
@@ -255,7 +255,8 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 입출금 내역 가져오기
 	 */
 	useEffect(() => {
-		console.log(props.keyword);
+		// console.log(props.keyword);
+		props.setLoading(true);
 		const injectedParameter = Object.assign(
 			{
 				BANK_ACCOUNT_IDENTIFICATION_CODE:
