@@ -1,5 +1,5 @@
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import { useEffect, useState } from 'react';
 import { PointHistoryController } from '../../controller/PointHistoryController';
 

@@ -8,7 +8,7 @@ import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CancelIcon from '@mui/icons-material/Cancel';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';

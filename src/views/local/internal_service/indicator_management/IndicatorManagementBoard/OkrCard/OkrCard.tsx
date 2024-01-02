@@ -4,7 +4,7 @@ import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { OkrDetailCard } from '../OkrDetailCard';
 import { IOkrCombination } from '../../../../../../@types/model';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
 import { OkrDetailModal } from '../OkrDetailModal';

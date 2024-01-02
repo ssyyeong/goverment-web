@@ -27,7 +27,7 @@ import {
 	dashboardMenu,
 	mypageMenu,
 } from '../../../../../../configs/menu/menuConfig';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
 import SupportiLoading from '../../../../global/SupportiLoading/SupportiLoading';

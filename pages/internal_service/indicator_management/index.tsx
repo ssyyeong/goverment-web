@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
 import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';

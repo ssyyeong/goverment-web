@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Avatar, Box, BoxProps, Typography } from '@mui/material';
-import { Thumbnail } from '@qillie-corp/qillie-react-ui';
+import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 interface IExcelDownloadButtonProps {

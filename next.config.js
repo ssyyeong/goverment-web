@@ -66,8 +66,8 @@ const nextConfig = {
 	},
 };
 const withTM = require('next-transpile-modules')([
-	'@qillie-corp/qillie-react-ui',
-	'@qillie-corp/qillie-utility',
+	'@leanoncompany/supporti-react-ui',
+	'@leanoncompany/supporti-utility',
 	'@mui/material',
 ]); // pass the modules you would like to see transpiled
 

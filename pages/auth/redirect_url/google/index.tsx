@@ -6,7 +6,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
 import { AppMemberController } from '../../../../src/controller/AppMemberController';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import AppMemberUpdateModal from '../../../../src/views/local/auth/appMemberUpdateModal/AppMemeberUpdateModal';
 
 const Page: NextPage = () => {

@@ -1,4 +1,4 @@
-import { ControllerABC } from '@qillie-corp/ark-office-project/src/controller/base/ControllerABC';
+import { ControllerABC } from '@leanoncompany/supporti-ark-office-project/src/controller/base/ControllerABC';
 
 export class PointHistoryController extends ControllerABC {
 	//* 클래스 멤버

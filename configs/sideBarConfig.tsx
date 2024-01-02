@@ -1,5 +1,5 @@
 import React from 'react';
-import { ISideBar } from '@qillie-corp/ark-office-project/src/@types/layout/sideBar/sideBar';
+import { ISideBar } from '@leanoncompany/supporti-ark-office-project/src/@types/layout/sideBar/sideBar';
 // 회원.
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 // 약관

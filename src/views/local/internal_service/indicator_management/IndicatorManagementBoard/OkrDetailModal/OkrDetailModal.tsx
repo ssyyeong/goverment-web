@@ -10,7 +10,7 @@ import { IOkrDetail } from '../../../../../../@types/model';
 import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
 import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';

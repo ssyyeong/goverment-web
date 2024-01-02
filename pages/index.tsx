@@ -8,8 +8,8 @@ import {
 	useTheme,
 } from '@mui/material';
 import React from 'react';
-import SignIn from '@qillie-corp/ark-office-project/src/layout/auth/SignIn';
-import SideBar from '@qillie-corp/ark-office-project/src/layout/SideBar/index';
+import SignIn from '@leanoncompany/supporti-ark-office-project/src/layout/auth/SignIn';
+import SideBar from '@leanoncompany/supporti-ark-office-project/src/layout/SideBar/index';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import SupportiButton from '../src/views/global/SupportiButton';

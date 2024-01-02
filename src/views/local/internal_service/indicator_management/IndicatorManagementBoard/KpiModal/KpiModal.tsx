@@ -8,7 +8,7 @@ import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitCo
 import { IndicatorCategory } from '../../../../../../../configs/data/IndicatorCategoryConfig';
 import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
 import { IKpi } from '../../../../../../../src/@types/model';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { v4 as uuidv4 } from 'uuid';

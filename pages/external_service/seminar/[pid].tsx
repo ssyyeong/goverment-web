@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';

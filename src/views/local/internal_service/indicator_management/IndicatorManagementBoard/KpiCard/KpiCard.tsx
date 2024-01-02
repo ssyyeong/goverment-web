@@ -6,7 +6,7 @@ import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { IKpi } from '../../../../../../@types/model';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
 import KpiModal from '../KpiModal/KpiModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';

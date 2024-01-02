@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
 import { IOkrCombination } from '../../../../../../@types/model';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';

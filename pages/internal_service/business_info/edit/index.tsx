@@ -11,7 +11,7 @@ import React from 'react';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import { IBusiness, IBusinessHistory } from '../../../../src/@types/model';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import moment, { now } from 'moment';
 import {
 	businessConfig,

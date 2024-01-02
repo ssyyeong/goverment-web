@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
-import DataUtil from '@qillie-corp/ark-office-project/src/utils/data/DataUtil';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import DataUtil from '@leanoncompany/supporti-ark-office-project/src/utils/data/DataUtil';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';

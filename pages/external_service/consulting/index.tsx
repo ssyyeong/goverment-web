@@ -15,7 +15,7 @@ import SupportiTable, {
 } from '../../../src/views/global/SupportiTable/SupportiTable';
 import moment from 'moment';
 import { usePagination } from '../../../src/hooks/usePagination';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';

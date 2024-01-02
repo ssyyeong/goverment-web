@@ -7,7 +7,7 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';

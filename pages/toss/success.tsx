@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAppMember } from '../../src/hooks/useAppMember';

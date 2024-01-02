@@ -7,7 +7,7 @@ import {
 	IFinancialStatement,
 } from '../../../../../src/@types/model';
 import { useAppMember } from '../../../../../src/hooks/useAppMember';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
 import { financialStatementConfig } from '../../../../../configs/data/FinancialStatementConfig';
 import { useRouter } from 'next/router';

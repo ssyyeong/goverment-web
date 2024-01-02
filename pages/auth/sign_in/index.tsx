@@ -11,12 +11,12 @@ import {
 	Typography,
 } from '@mui/material';
 import SocialLogin from '../../../src/modules/SocialLogin';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { useRouter } from 'next/router';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {

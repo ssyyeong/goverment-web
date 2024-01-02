@@ -19,7 +19,7 @@ import { AlimTalkController } from '../../../../controller/AlimTalkController';
 import { useRouter } from 'next/router';
 import { IUser } from '../../../../@types/model';
 import axios from 'axios';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import { businessSector } from '../../../../../configs/data/BusinessConfig';
 
 interface IAppMemberUpdateModalProps {

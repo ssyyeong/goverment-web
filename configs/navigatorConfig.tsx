@@ -1,5 +1,5 @@
 //* Import interfaces
-import { INavigatorProps } from '@qillie-corp/ark-office-project/src/@types/ui/global/navigator';
+import { INavigatorProps } from '@leanoncompany/supporti-ark-office-project/src/@types/ui/global/navigator';
 
 const navigatorConfig: INavigatorProps = {
 	logoPath: '/images/logo/Suppor-T1.png',

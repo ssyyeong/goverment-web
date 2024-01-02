@@ -10,7 +10,7 @@ import {
 	Typography,
 	styled,
 } from '@mui/material';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { BankController } from '../../../../../../controller/BankController';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';

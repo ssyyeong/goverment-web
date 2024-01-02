@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';

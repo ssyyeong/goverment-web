@@ -10,7 +10,7 @@ import SupportiTable, {
 } from '../../../src/views/global/SupportiTable/SupportiTable';
 import moment from 'moment';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';

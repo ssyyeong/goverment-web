@@ -10,9 +10,9 @@ import { themeConfig } from '../configs/themeConfig';
 
 import navigatorConfig from '../configs/navigatorConfig';
 import footerConfig from '../configs/footerConfig';
-import { default as Entry } from '@qillie-corp/ark-office-project/src/base/Entry/index';
-import { default as createEmotionCache } from '@qillie-corp/ark-office-project/src/base/Utils/createEmotionCache';
-// import { createEmotionCache } from '@qillie-corp/ark-office-project';
+import { default as Entry } from '@leanoncompany/supporti-ark-office-project/src/base/Entry/index';
+import { default as createEmotionCache } from '@leanoncompany/supporti-ark-office-project/src/base/Utils/createEmotionCache';
+// import { createEmotionCache } from '@leanoncompany/supporti-ark-office-project';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -24,7 +24,7 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 
 import sideBarConfig from '../configs/sideBarConfig';
-import Memory from '@qillie-corp/ark-office-project/src/utils/data/Memory';
+import Memory from '@leanoncompany/supporti-ark-office-project/src/utils/data/Memory';
 import dotenv from 'dotenv';
 import CustomHeader from '../src/views/local/common/CustomHeader/CustomHeader';
 import CustomFooter from '../src/views/local/common/CustomFooter/CustomFooter';

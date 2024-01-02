@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/router';
 import { useAppMember } from '../../../../hooks/useAppMember';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { CookieManager } from '@qillie-corp/qillie-utility';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 

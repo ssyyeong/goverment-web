@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 
 import { Box, BoxProps, Typography } from '@mui/material';
-import DefaultController from '@qillie-corp/ark-office-project/src/controller/default/DefaultController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
 
 const Page: NextPage = () => {
