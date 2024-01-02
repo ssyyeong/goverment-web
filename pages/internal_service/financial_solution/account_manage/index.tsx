@@ -122,7 +122,6 @@ const Page: NextPage = () => {
 				(err) => {}
 			);
 	};
-	console.log(selectedPeriod);
 	/**
 	 * 계산결과 조회 after first try
 	 */
@@ -201,7 +200,12 @@ const Page: NextPage = () => {
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout>
+				<InternalServiceLayout
+					title="RunWay/BurnRate"
+					subTitle="우리 회사의 법인계좌의 거래내역과 잔액을 조회하고 BurnRate와 RunWay등의 정보를 한눈에 조회할 수 있어요"
+					image="/images/main/accountHead.webp"
+					mobileImage="/images/main/accountHeadMobile.webp"
+				>
 					<Typography
 						variant="h3"
 						fontWeight={'bold'}

@@ -115,7 +115,13 @@ const Page: NextPage = () => {
 				>
 					{/* 컨텐츠 레이아웃 */}
 					{userAccess === true && (
-						<InternalServiceLayout>
+						<InternalServiceLayout
+							title="성과 관리"
+							subTitle="우리 회사의 지표를 설정하고 목표 달성률, 
+							달성에 대한 정도를 시각화해서 보실 수 있어요"
+							image="/images/main/indicatorHead.webp"
+							mobileImage="/images/main/indicatorHeadMobile.webp"
+						>
 							{/* 지표 (OKR / KPI) 선택 영역 */}
 							<Box>
 								{selectableIndicatorList.map(
