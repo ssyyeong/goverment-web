@@ -227,7 +227,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								justifyContent={'space-between'}
 							>
 								{isEditMode ? (
-									<Box>
+									<Box width={'85%'}>
 										<SupportiInput
 											type="input"
 											value={okrMainData.TITLE}
@@ -261,6 +261,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												display="flex"
 												ml={'auto'}
 												gap={0.5}
+												mt={1}
 											>
 												<Typography
 													color={

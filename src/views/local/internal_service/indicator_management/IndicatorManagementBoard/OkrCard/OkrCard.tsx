@@ -66,7 +66,10 @@ const OkrCard = (props: IOkrCardProps) => {
 	};
 
 	//* Hooks
-
+	/**
+	 *
+	 * 프로그레스 바 달성률 데이터 셋팅
+	 */
 	const materialDataList = okrMainData?.OkrDetails.map((item, index) => {
 		return {
 			percentage:
@@ -82,6 +85,11 @@ const OkrCard = (props: IOkrCardProps) => {
 	});
 
 	//* Hooks
+
+	/**
+	 *
+	 * 초기 데이터 셋팅
+	 */
 	useEffect(() => {
 		setOkrMainData({
 			TITLE: props.data.TITLE,

@@ -117,8 +117,8 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 		>
 			<Box display={'flex'} flexDirection={'column'} gap={2}>
 				<Box display={'flex'} justifyContent={'space-between'}>
-					<Box>
-						<Box display={'flex'}>
+					<Box width={'90%'}>
+						<Box display={'flex'} width={'100%'}>
 							{/** 컬러 칩 */}
 							<Box
 								sx={{

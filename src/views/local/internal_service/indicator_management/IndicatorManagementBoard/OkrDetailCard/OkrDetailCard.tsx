@@ -186,7 +186,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 					{/** 타이틀 */}
 					{isEditMode ? (
-						<Box>
+						<Box width={'80%'}>
 							<SupportiInput
 								type="input"
 								value={okrDetailData.TITLE}

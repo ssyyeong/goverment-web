@@ -33,6 +33,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 */
 	const pages = [
 		{
+			label: '파트너스',
+			path: '/partners',
+		},
+		{
 			label: '세미나',
 			path: '/external_service/seminar',
 		},

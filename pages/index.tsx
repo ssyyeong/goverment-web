@@ -730,11 +730,9 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 			</Box>
-			<Box>
+			<Box width="100%">
 				{open ? (
 					<Grid
-						item
-						xs={12}
 						textAlign={'center'}
 						sx={{
 							p: { sm: 15, xs: 5 },
@@ -751,7 +749,6 @@ const Page: NextPage = () => {
 							재무 솔루션 서비스 이용안내
 						</Typography>
 						<Grid
-							container
 							borderRadius={4}
 							sx={{
 								p: { sm: 15, xs: 5 },
@@ -762,6 +759,9 @@ const Page: NextPage = () => {
 							ml={'auto'}
 							mr={'auto'}
 							gap={10}
+							display={'flex'}
+							flexWrap={'wrap'}
+							justifyContent={'space-around'}
 						>
 							<Box textAlign={'left'} mt={'auto'} mb={'auto'}>
 								<Typography

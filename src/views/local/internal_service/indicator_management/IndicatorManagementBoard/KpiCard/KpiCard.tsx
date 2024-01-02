@@ -148,7 +148,7 @@ const KpiCard = (props: IKpiCardProps) => {
 		},
 		{
 			label: '수정',
-			color: 'primary.light',
+			color: 'secondary.light',
 			onclick: () => setIsModifyModalOpen(true),
 		},
 	];
