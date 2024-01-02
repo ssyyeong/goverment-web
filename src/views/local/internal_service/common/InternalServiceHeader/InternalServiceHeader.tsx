@@ -25,7 +25,7 @@ const InternalServiceHeader = (props: IInternalServiceHeaderProps) => {
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
-				height: '180px',
+				height: props.image ? '180px' : 0,
 				mb: 4,
 			}}
 			borderRadius={{ xs: 0, md: 2 }}

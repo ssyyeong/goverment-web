@@ -345,7 +345,8 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					flexGrow: 1,
 					bgcolor: 'primary.light',
 					width: { md: `calc(100% - ${drawerWidth}px)` },
-					height: '100vh',
+					height: '100%',
+					minHeight: '100vh',
 					overflowY: 'auto',
 					pt: { md: 0, xs: 8 },
 				}}

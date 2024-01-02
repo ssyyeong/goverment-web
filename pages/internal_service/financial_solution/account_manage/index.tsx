@@ -18,6 +18,7 @@ import { TransactionHistoryTable } from '../../../../src/views/local/internal_se
 import SupportiInput from '../../../../src/views/global/SupportiInput';
 import { AccountCalculation } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -156,9 +157,10 @@ const Page: NextPage = () => {
 						setLoading(false);
 					} else {
 						// setLoading(false);
+						setBankAccountList(res.data.result.rows);
+						getCalculationResult();
 					}
-					setBankAccountList(res.data.result.rows);
-					getCalculationResult();
+
 					console.log(res.data.result);
 				},
 				(err) => {
@@ -180,24 +182,6 @@ const Page: NextPage = () => {
 		}
 	}, [recomputeTriggerKey, memberId]);
 
-	/**
-	 * 계좌 추가 함수 (추가 후, 리스트 변경)
-	 */
-
-	const drawerBleeding = 56;
-	const Puller = styled(Box)(({ theme }) => ({
-		width: 30,
-		height: 6,
-		backgroundColor: 'red',
-		borderRadius: 3,
-		position: 'absolute',
-		top: 8,
-		left: 'calc(50% - 15px)',
-	}));
-	const Root = styled('div')(({ theme }) => ({
-		height: '100%',
-	}));
-
 	const theme = useTheme();
 
 	return (
@@ -211,7 +195,7 @@ const Page: NextPage = () => {
 					overflowY: 'scroll',
 					'-ms-overflow-style': 'none',
 					'&::-webkit-scrollbar': { display: 'none' },
-					mb: 20,
+					mb: { xs: 5, md: 20 },
 				}}
 			>
 				{/* 컨텐츠 레이아웃 */}
@@ -297,17 +281,22 @@ const Page: NextPage = () => {
 						alignItems={'center'}
 						bgcolor={'secondary.light'}
 					>
-						<SupportiInput
-							type="search"
-							value={keyword}
-							setValue={setKeyword}
-							placeholder={'거래자명검색'}
-							btnOnclick={() => {
-								setSearchTriggerKey(keyword);
-							}}
-							width={{ sm: '300px', xs: '45%' }}
-							style={{ bgcolor: 'transparent', border: 'none' }}
-						/>
+						{selectablePeriodList && (
+							<SupportiInput
+								type="search"
+								value={keyword}
+								setValue={setKeyword}
+								placeholder={'거래자명검색'}
+								btnOnclick={() => {
+									setSearchTriggerKey(keyword);
+								}}
+								width={{ sm: '300px', xs: '45%' }}
+								style={{
+									bgcolor: 'transparent',
+									border: 'none',
+								}}
+							/>
+						)}
 						<Box display={'flex'} gap={1} alignItems={'center'}>
 							{selectablePeriodList && (
 								<SupportiInput
@@ -344,59 +333,138 @@ const Page: NextPage = () => {
 						))}
 
 					{/* 번레이트 계산 */}
-					<AccountCalculation
-						setRecomputeTriggerKey={setRecomputeTriggerKey}
-						calculationResult={calculationResult}
-						setLoading={setLoading}
-					/>
+					{/* PC */}
+					<Box display={{ md: 'flex', xs: 'none' }}>
+						<AccountCalculation
+							setRecomputeTriggerKey={setRecomputeTriggerKey}
+							calculationResult={calculationResult}
+							setLoading={setLoading}
+							accountNull={selectablePeriodList}
+						/>
+					</Box>
 					{/* 번레이트 계산 모바일 */}
 					{/* mobile */}
-					<Box display={{ md: 'none', xs: 'block' }} height={'100%'}>
-						<SwipeableDrawer
-							anchor="bottom"
-							open={openDrawer}
-							onClose={() => setOpenDrawer(false)}
-							onOpen={() => setOpenDrawer(true)}
-							swipeAreaWidth={drawerBleeding}
-							disableSwipeToOpen={false}
-							ModalProps={{
-								keepMounted: true,
-							}}
-						>
-							<Box
+					<Box display={{ md: 'none', xs: 'flex' }}>
+						{openDrawer && (
+							<SwipeableDrawer
+								anchor="bottom"
+								open={openDrawer}
+								onClose={() => setOpenDrawer(false)}
+								onOpen={() => setOpenDrawer(true)}
+								swipeAreaWidth={50}
+								disableSwipeToOpen={false}
+								ModalProps={{
+									keepMounted: true,
+								}}
+								PaperProps={{
+									sx: {
+										borderTopLeftRadius: 15,
+										borderTopRightRadius: 15,
+										bgcolor: 'transparent',
+									},
+								}}
 								sx={{
-									position: 'absolute',
-									top: -drawerBleeding,
-									borderTopLeftRadius: 8,
-									borderTopRightRadius: 8,
-									visibility: 'visible',
-									right: 0,
-									left: 0,
-									bgcolor: 'red',
-									height: 100,
+									'& .MuiModal-backdrop': {
+										bgcolor: 'transparent',
+									},
 								}}
 							>
-								<Puller />
-								<Typography
-									sx={{ p: 2, color: 'text.secondary' }}
+								<Box
+									sx={{
+										bottom: 0,
+										borderTopLeftRadius: 15,
+										borderTopRightRadius: 15,
+										visibility: 'visible',
+										right: 0,
+										left: 0,
+										bgcolor: 'transparent',
+										backgroundImage: `linear-gradient(to bottom, #26262695, #00000083)`,
+										backdropFilter: 'blur(10px)',
+										'-webkit-backdrop-filter': 'blur(10px)',
+										height: '50px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+										px: 2,
+									}}
 								>
-									51 results
-								</Typography>
-							</Box>
-							<Box
-								sx={{
-									px: 2,
-									pb: 2,
-									height: 50,
-									overflow: 'auto',
-								}}
-							>
-								내용
-							</Box>
-						</SwipeableDrawer>
+									<Box></Box>
+									<Typography
+										sx={{ p: 2, color: 'white' }}
+										fontWeight={'bold'}
+										variant="subtitle1"
+										textAlign={'center'}
+									>
+										분석하기
+									</Typography>
+									<KeyboardDoubleArrowUpIcon
+										sx={{ color: 'white' }}
+									/>
+								</Box>
+								<Box
+									sx={{
+										px: 2,
+										pb: 2,
+										height: '100%',
+										overflow: 'auto',
+										backgroundImage: `linear-gradient(to bottom, #26262695, #00000083)`,
+										backdropFilter: 'blur(10px)',
+										'-webkit-backdrop-filter': 'blur(10px)',
+									}}
+								>
+									<AccountCalculation
+										setRecomputeTriggerKey={
+											setRecomputeTriggerKey
+										}
+										calculationResult={calculationResult}
+										setLoading={setLoading}
+										accountNull={selectablePeriodList}
+									/>
+								</Box>
+							</SwipeableDrawer>
+						)}
 					</Box>
 				</InternalServiceLayout>
 			</Box>
+			{!openDrawer && (
+				<Box
+					sx={{
+						position: 'fixed',
+						bottom: 0,
+						borderTopLeftRadius: 15,
+						borderTopRightRadius: 15,
+						visibility: 'visible',
+						right: 0,
+						left: 0,
+						// bgcolor: 'red',
+						backgroundImage: `linear-gradient(to bottom, #26262695, #00000083)`,
+						backdropFilter: 'blur(10px)',
+						'-webkit-backdrop-filter': 'blur(10px)',
+						height: '50px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						px: 2,
+					}}
+					display={{ md: 'none', xs: 'flex' }}
+				>
+					<Box></Box>
+					<Typography
+						sx={{ p: 2, color: 'white' }}
+						fontWeight={'bold'}
+						variant="subtitle1"
+						textAlign={'center'}
+					>
+						분석하기
+					</Typography>
+					<KeyboardDoubleArrowUpIcon
+						sx={{ color: 'white' }}
+						onClick={() => {
+							setOpenDrawer(true);
+						}}
+					/>
+				</Box>
+			)}
 		</InternalServiceDrawer>
 	);
 };
