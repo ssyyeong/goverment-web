@@ -53,9 +53,8 @@ const Page: NextPage = () => {
 	/**
 	 * 선택 연/월 셀렉트 데이터
 	 */
-	const [selectablePeriodList, setSelectablePeriodList] = React.useState<any>(
-		[]
-	);
+	const [selectablePeriodList, setSelectablePeriodList] =
+		React.useState<any>();
 	/**
 	 * 계산 조건 선택한 연/월
 	 */
@@ -119,11 +118,13 @@ const Page: NextPage = () => {
 								}월`,
 							});
 						}
-						setSelectablePeriodList(temp);
-						setSelectedPeriod(temp[temp.length - 1].value);
+						if (temp.length > 0) {
+							setSelectablePeriodList(temp);
+							setSelectedPeriod(temp[temp.length - 1].value);
+						}
 					}
-					// !firstLoading && setLoading(false);
-					setLoading(false);
+
+					!firstLoading && setLoading(false);
 					setCalculationResult(res.data.result);
 				},
 				(err) => {}
@@ -144,7 +145,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		if (memberId !== undefined) {
-			// setFirstLoading(false);
+			setFirstLoading(false);
 			setLoading(true);
 			bankAccountController.findAllItems(
 				{
@@ -157,6 +158,7 @@ const Page: NextPage = () => {
 						// setLoading(false);
 					}
 					setBankAccountList(res.data.result.rows);
+					getCalculationResult();
 					console.log(res.data.result);
 				},
 				(err) => {
@@ -165,15 +167,15 @@ const Page: NextPage = () => {
 			);
 		}
 
-		memberId !== undefined && getCalculationResult();
+		// memberId !== undefined &&
 	}, [accountTriggerKey, memberId]);
 
 	/**
 	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
 	 */
 	useEffect(() => {
-		if (memberId !== undefined) {
-			// setLoading(true);
+		if (memberId !== undefined && firstLoading === false) {
+			setLoading(true);
 			getCalculationResult();
 		}
 	}, [recomputeTriggerKey, memberId]);
@@ -271,19 +273,21 @@ const Page: NextPage = () => {
 						</Box>
 
 						{/* 검색 영역 */}
-						<SupportiInput
-							type="search"
-							value={keyword}
-							setValue={setKeyword}
-							placeholder={'거래자명 검색'}
-							btnOnclick={() => {
-								setSearchTriggerKey(keyword);
-							}}
-							width={'300px'}
-							eraseValue={() => {
-								setSearchTriggerKey(undefined);
-							}}
-						/>
+						{selectablePeriodList && (
+							<SupportiInput
+								type="search"
+								value={keyword}
+								setValue={setKeyword}
+								placeholder={'거래자명 검색'}
+								btnOnclick={() => {
+									setSearchTriggerKey(keyword);
+								}}
+								width={'300px'}
+								eraseValue={() => {
+									setSearchTriggerKey(undefined);
+								}}
+							/>
+						)}
 					</Box>
 					{/* Mobile */}
 					<Box
@@ -324,22 +328,26 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 					{/* 실제 계좌 내역 */}
-					{bankAccountList.map((bankAccount) => (
-						<Box mb={2}>
-							<TransactionHistoryTable
-								setRecomputeTriggerKey={setRecomputeTriggerKey}
-								bankAccount={bankAccount}
-								selectedPeriod={selectedPeriod}
-								keyword={searchTriggerKey}
-								setLoading={setLoading}
-							/>
-						</Box>
-					))}
+					{selectablePeriodList &&
+						bankAccountList.map((bankAccount) => (
+							<Box mb={2}>
+								<TransactionHistoryTable
+									setRecomputeTriggerKey={
+										setRecomputeTriggerKey
+									}
+									bankAccount={bankAccount}
+									selectedPeriod={selectedPeriod}
+									keyword={searchTriggerKey}
+									setLoading={setLoading}
+								/>
+							</Box>
+						))}
 
 					{/* 번레이트 계산 */}
 					<AccountCalculation
 						setRecomputeTriggerKey={setRecomputeTriggerKey}
 						calculationResult={calculationResult}
+						setLoading={setLoading}
 					/>
 					{/* 번레이트 계산 모바일 */}
 					{/* mobile */}

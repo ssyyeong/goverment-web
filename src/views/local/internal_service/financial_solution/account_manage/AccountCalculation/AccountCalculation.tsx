@@ -40,6 +40,10 @@ interface IAccountCalculationProps {
 	 * 계산 결과
 	 */
 	calculationResult: IAccountCalculationResultProps;
+	/**
+	 * 로딩
+	 */
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AccountCalculation = (props: IAccountCalculationProps) => {
@@ -101,13 +105,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 * 분석 조건 등록 및 수정함수
 	 */
 	const handleSave = () => {
-		console.log(
-			'handle',
-			averageMonth,
-			moment(standardDate)
-				.subtract(averageMonth, 'M')
-				.format('YYYY-MM-DDTHH:mm:ss')
-		);
+		props.setLoading(true);
 		bankController.saveBankAccountCondition(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
