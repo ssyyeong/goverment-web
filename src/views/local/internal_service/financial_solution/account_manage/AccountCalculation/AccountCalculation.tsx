@@ -389,7 +389,8 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 							})}
 					</Box>
 					{/* 조건 등록 전 */}
-					{props.calculationResult?.burnRate === null && (
+					{(!props.accountNull ||
+						props.calculationResult?.burnRate === null) && (
 						<Typography color={'white'} fontWeight={'bold'}>
 							좌측에서 조건선택 후 조회하기를 눌러주세요!
 						</Typography>
@@ -592,7 +593,8 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						})}
 				</Box>
 				{/* 조건 등록 전 */}
-				{props.calculationResult?.burnRate === null && (
+				{(!props.accountNull ||
+					props.calculationResult?.burnRate === null) && (
 					<Typography color={'white'} fontWeight={'bold'}>
 						좌측에서 조건선택 후 조회하기를 눌러주세요!
 					</Typography>
