@@ -222,7 +222,12 @@ const Page: NextPage = () => {
 				}}
 			>
 				{access === true && (
-					<InternalServiceLayout>
+					<InternalServiceLayout
+						title="재무 정보"
+						subTitle="재무제표 등록을 통해 재무정보를 관리할 수 있습니다."
+						image="/images/main/business.png"
+						mobileImage="/images/main/businessMoblie.png"
+					>
 						<Typography
 							variant="h3"
 							fontWeight={'bold'}
@@ -270,39 +275,32 @@ const Page: NextPage = () => {
 									justifyContent={'center'}
 									alignItems={'center'}
 									mb={1}
+									gap={1}
 								>
 									{/* 이전 페이지 */}
-									<Box>
-										<Button
-											onClick={() => {
-												changeTargetDate('previous');
-											}}
-										>
-											<ArrowBackIosNewIcon fontSize="small" />
-										</Button>
-									</Box>
-
+									<ArrowBackIosNewIcon
+										fontSize="small"
+										onClick={() => {
+											changeTargetDate('previous');
+										}}
+										color="primary"
+									/>
 									{/* 현재 연도 */}
-									<Box>
-										<Typography
-											variant={'h6'}
-											fontWeight={'500'}
-											color={'primary'}
-										>
-											{targetDate.format('YYYY년')}
-										</Typography>
-									</Box>
-
+									<Typography
+										variant={'h6'}
+										fontWeight={'500'}
+										color={'primary'}
+									>
+										{targetDate.format('YYYY년')}
+									</Typography>
 									{/* 다음 페이지 */}
-									<Box>
-										<Button
-											onClick={() => {
-												changeTargetDate('next');
-											}}
-										>
-											<ArrowForwardIosIcon fontSize="small" />
-										</Button>
-									</Box>
+									<ArrowForwardIosIcon
+										fontSize="small"
+										onClick={() => {
+											changeTargetDate('next');
+										}}
+										color="primary"
+									/>
 								</Box>
 							</Grid>
 						</Grid>

@@ -8,6 +8,7 @@ import {
 	MenuItem,
 	OutlinedInput,
 	Select,
+	SxProps,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -32,7 +33,7 @@ interface SupportiInputProps {
 	btnContent?: string;
 	btnOnclick?: () => void;
 	iconList?: string[];
-	style?: any;
+	style?: SxProps;
 	multiline?: boolean;
 	useIcon?: boolean;
 	additionalProps?: { [key: string]: any };
