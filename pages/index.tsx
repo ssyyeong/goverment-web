@@ -379,10 +379,10 @@ const Page: NextPage = () => {
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { sm: '350px', xs: '200px' },
+										width: { sm: '350px', xs: '180px' },
 										height: {
 											sm: '330px',
-											xs: '200px',
+											xs: '180px',
 										},
 									}}
 									mt={5}
@@ -397,7 +397,7 @@ const Page: NextPage = () => {
 										sx={{
 											pt: {
 												sm: '140px',
-												xs: '70px',
+												xs: '60px',
 											},
 											borderRadius: {
 												sm: 5,
@@ -444,10 +444,10 @@ const Page: NextPage = () => {
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { sm: '350px', xs: '200px' },
+										width: { sm: '350px', xs: '180px' },
 										height: {
 											sm: '330px',
-											xs: '200px',
+											xs: '180px',
 										},
 									}}
 									ml={'auto'}
@@ -461,7 +461,7 @@ const Page: NextPage = () => {
 										sx={{
 											pt: {
 												sm: '140px',
-												xs: '70px',
+												xs: '60px',
 											},
 											borderRadius: {
 												sm: 5,
@@ -922,7 +922,8 @@ const Page: NextPage = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					gap={2}
-					p={15}
+					sx={{ p: { sm: 15, xs: 5 } }}
+					justifyContent={'center'}
 				>
 					<Typography color={'white'} variant="h4" fontWeight={'500'}>
 						여러분의 사업을 편리하게 관리하세요
@@ -960,159 +961,3 @@ const Page: NextPage = () => {
 };
 
 export default Page;
-{
-	/* <SupportiInput
-				type="inputwithbtn"
-				value={Typography}
-				setValue={setTypography}
-				defaultValue=""
-				width={200}
-				btnContent="전송하기"
-				btnOnclick={() => {}}
-			/>
-			<SupportiButton
-				contents="다음"
-				onClick={() => {
-					// router.push.push('/auth/sign_in');
-					setOpen(true);
-				}}
-				fullWidth
-				variant="contained"
-				disabledGutters
-				style={{
-					backgroundimg:
-						'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
-					border: 'solid 1px #fff',
-					p: 3,
-				}}
-			/>
-			<SupportiButton
-				contents="다음"
-				onClick={() => {
-					// router.push.push('/auth/sign_in');
-				}}
-				// fullWidth
-				style={{
-					TypographyDecoration: 'underline',
-					fontWeight: 300,
-				}}
-			/>
-			<SupportiButton
-				contents="다음"
-				onClick={() => {
-					// router.push.push('/auth/sign_in');
-				}}
-				fullWidth
-				variant="outlined"
-				style={{}}
-			/>
-			<SupportiButton
-				contents="다시받기"
-				onClick={() => {
-					// router.push.push('/auth/sign_in');
-				}}
-				// fullWidth
-				disabledGutters
-				variant="contained"
-				color="secondary"
-				style={{
-					color: 'white',
-					height: '20px',
-					width: '69px',
-				}}
-			/>{' '}
-			asdasd
-			<Box width={'100%'}>
-				<SupportiToggle
-					chipDataList={[
-						{
-							label: '전체',
-							value: 0,
-						},
-						{
-							label: '전체',
-							value: 1,
-						},
-						{
-							label: '전체',
-							value: 2,
-						},
-					]}
-					value={tab}
-					setValue={setTab}
-					chipHeight={30}
-					style={{
-						chipStyle: {},
-					}}
-				/>
-			</Box>
-			{/* <SupportiTable
-				headerData={[
-					{
-						label: '이름',
-						value: 'name',
-						align: 'left',
-						checkbox: true,
-						checkBoxOnClick: (value, idx) => {
-							data[idx].name = '김만수';
-						},
-						format: (value) => {
-							return value === '김만수' ? true : false;
-						},
-					},
-					{
-						label: '나이',
-						value: 'age',
-						align: 'left',
-						color: 'red',
-						customFormat: (value) => {
-							return value > 22 ? 'red' : 'blue';
-						},
-					},
-				]}
-				rowData={data}
-			/> */
-}
-{
-	/* <SupportiProgressBar
-				materialDataList={[
-					{
-						percentage: '15',
-						color: 'red',
-					},
-					// {
-					// 	percentage: '30',
-					// 	color: 'blue',
-					// },
-					// {
-					// 	percentage: '40',
-					// 	color: 'green',
-					// },
-				]}
-			/>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					width: '100%',
-				}}
-			>
-				<LinearProgress
-					value={30}
-					variant="buffer"
-					sx={{ width: '100%', height: 20 }}
-				/>
-			</Box>
-			<TransactionHistoryTable
-				setRecomputeTriggerKey={() => {}}
-				bankAccount={{
-					BANK_ACCOUNT_IDENTIFICATION_CODE: 1,
-					BANK_CODE: '002',
-				}}
-				selectedPeriod={{
-					year: 2021,
-					month: 10,
-				}}
-				keyword={''}
-			/> */
-}
