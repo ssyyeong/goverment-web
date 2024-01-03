@@ -372,17 +372,17 @@ const Page: NextPage = () => {
 					ml="auto"
 					mr="auto"
 					display="flex"
-					sx={{ gap: { md: 5, xs: 2 } }}
+					sx={{ gap: { md: 5, xs: 1 } }}
 				>
 					{data3.map((item, index) => {
 						return (
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { md: '350px', xs: '160px' },
+										width: { md: '350px', xs: '180px' },
 										height: {
 											md: '330px',
-											xs: '150px',
+											xs: '170px',
 										},
 									}}
 									mt={5}
@@ -397,7 +397,7 @@ const Page: NextPage = () => {
 										sx={{
 											pt: {
 												md: '140px',
-												xs: '40px',
+												xs: '50px',
 											},
 											borderRadius: {
 												md: 5,
@@ -437,17 +437,17 @@ const Page: NextPage = () => {
 					ml="auto"
 					mr="auto"
 					display="flex"
-					sx={{ gap: { md: 5, xs: 2 } }}
+					sx={{ gap: { md: 5, xs: 1 } }}
 				>
 					{data3_1.map((item, index) => {
 						return (
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { md: '350px', xs: '160px' },
+										width: { md: '350px', xs: '180px' },
 										height: {
 											md: '330px',
-											xs: '150px',
+											xs: '160px',
 										},
 									}}
 									ml={'auto'}
@@ -461,7 +461,7 @@ const Page: NextPage = () => {
 										sx={{
 											pt: {
 												md: '140px',
-												xs: '40px',
+												xs: '50px',
 											},
 											borderRadius: {
 												md: 5,

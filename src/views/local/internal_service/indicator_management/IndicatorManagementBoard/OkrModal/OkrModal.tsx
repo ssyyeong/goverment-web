@@ -180,8 +180,7 @@ const OkrModal = (props: IOkrModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'100%'}
-						minHeight={'60vh'}
+						maxHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
 							width: { xs: '100%', md: '90%' },

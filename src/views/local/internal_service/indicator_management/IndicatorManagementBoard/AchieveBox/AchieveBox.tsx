@@ -126,6 +126,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				}}
 				width={'100%'}
 				placeholder="메모 입력"
+				multiline={true}
 				style={{
 					bgcolor: 'white',
 				}}

@@ -163,14 +163,14 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 		<Box
 			borderRadius={2}
 			bgcolor={'secondary.light'}
-			p={2}
 			display="flex"
 			flexDirection={'column'}
 			gap={1}
 			pb={isMoreOpen && 0}
-			width={props.mode === 'detail' ? '100%' : '380px'}
+			width={props.mode === 'detail' ? '95%' : '380px'}
 			sx={{
 				minWidth: { xs: '300px', md: '380px' },
+				p: { xs: 1.5, md: 2 },
 			}}
 			onClick={() => {
 				if (props.mode === 'detail') {
@@ -495,7 +495,10 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							)}
 
 							{isEditMode && isMoreOpen ? (
-								<Box display={'flex'} gap={2}>
+								<Box
+									display={'flex'}
+									sx={{ gap: { xs: 1, md: 2 } }}
+								>
 									{/** 목표분류 */}
 									<Box>
 										<Typography fontWeight={500} mb={1}>

@@ -113,7 +113,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 	return (
 		<Box
-			p={3}
+			sx={{ p: { xs: 1.5, md: 3 } }}
 			bgcolor={'secondary.light'}
 			borderRadius={2}
 			display={'flex'}
