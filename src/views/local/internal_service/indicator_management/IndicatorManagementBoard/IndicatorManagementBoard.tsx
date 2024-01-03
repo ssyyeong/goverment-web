@@ -224,16 +224,21 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			}}
 		>
 			{/* 새로운 목표 등록 영역 */}
-			<Box>
+			<Box
+				sx={{
+					pl: { xs: '15px', sm: '0' },
+					pr: { xs: '15px', sm: '0' },
+				}}
+			>
 				<SupportiButton
 					contents={`+ ${props.name} 목표 등록`}
-					startIcon={<FlagIcon />}
+					startIcon={<img src="/images/icons/flag.svg" />}
 					onClick={() => setIndicatorRegisterModal(true)}
 					isGradient={true}
 					style={{
-						height: { sm: 20, xs: 40 },
+						height: { sm: '40px', xs: 40 },
 						color: 'white',
-						bgcolor: 'common.black',
+						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
 						marginTop: '10px',
 						width: { xs: '100%', sm: '172px' },
 					}}

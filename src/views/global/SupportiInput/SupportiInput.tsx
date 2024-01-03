@@ -313,7 +313,7 @@ const SupportiInput = React.forwardRef(
 									sx={{
 										height: '30px',
 										width: '70px',
-										bgcolor: 'secondary.main',
+										bgcolor: 'common.black',
 										color: 'white',
 										marginTop: props.multiline ? 'auto' : 0,
 									}}

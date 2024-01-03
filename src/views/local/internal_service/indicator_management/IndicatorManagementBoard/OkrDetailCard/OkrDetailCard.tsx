@@ -170,82 +170,81 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				}
 			}}
 		>
-			<Box width="100%">
-				<Box display={'flex'} gap={1} mb={1}>
-					{/** 컬러 칩 */}
-					<Box
-						sx={{
-							borderRadius: '50%',
-							bgcolor: randomColor[props.index],
-							width: '10px',
-							height: '10px',
-						}}
-						mt={'auto'}
-						mb={'auto'}
-					/>
-
-					{/** 타이틀 */}
-					{isEditMode ? (
-						<Box width={'80%'}>
-							<SupportiInput
-								type="input"
-								value={okrDetailData.TITLE}
-								setValue={(value: string) => {
-									setOkrDetailData({
-										...okrDetailData,
-										TITLE: value,
-									});
-								}}
-								width={'100%'}
-								style={{
-									marginTop: 'auto',
-									marginBottom: 'auto',
-								}}
-								placeholder="하위 목표 타이틀을 입력해주세요."
-							/>
-							<Typography
-								variant="body1"
-								color="error.main"
-								sx={{
-									visibility:
-										okrDetailData.TITLE !== ''
-											? 'hidden'
-											: 'block',
-								}}
-							>
-								필수값입니다.
-							</Typography>
-						</Box>
-					) : (
-						<Box display={'flex'} gap={1}>
-							<Typography
-								fontWeight={500}
-								mt={'auto'}
-								mb={'auto'}
-							>
-								{props.data.TITLE}
-							</Typography>
-						</Box>
-					)}
-
-					{/** 상세보기일때 화살표 아이콘 */}
-					{props.mode === 'detail' && (
-						<Box ml={'auto'} display={'flex'} gap={'5px'}>
-							{isMoreOpen && (
-								<Box
-									display={'flex'}
-									gap={'4px'}
-									mt="auto"
-									mb="auto"
+			<Box width="100%" display={'flex'} gap={1}>
+				{/** 컬러 칩 */}
+				<Box
+					sx={{
+						borderRadius: '50%',
+						bgcolor: randomColor[props.index],
+						width: '10px',
+						height: '10px',
+						mt: '2px',
+					}}
+				/>
+				<Box width="100%">
+					<Box mb={1} display="flex">
+						{/** 타이틀 */}
+						{isEditMode ? (
+							<Box width={'80%'}>
+								<SupportiInput
+									type="input"
+									value={okrDetailData.TITLE}
+									setValue={(value: string) => {
+										setOkrDetailData({
+											...okrDetailData,
+											TITLE: value,
+										});
+									}}
+									width={'100%'}
+									style={{
+										marginTop: 'auto',
+										marginBottom: 'auto',
+									}}
+									placeholder="하위 목표 타이틀을 입력해주세요."
+								/>
+								<Typography
+									variant="body1"
+									color="error.main"
+									sx={{
+										visibility:
+											okrDetailData.TITLE !== ''
+												? 'hidden'
+												: 'block',
+									}}
 								>
-									{/** 삭제 버튼 */}
-									<DeleteIcon
-										onClick={() => {
-											setAlertModalOpen(true);
-										}}
-										color={'secondary'}
-									/>
-									{/* <SupportiButton
+									필수값입니다.
+								</Typography>
+							</Box>
+						) : (
+							<Box display={'flex'} gap={1}>
+								<Typography
+									fontWeight={500}
+									mt={'auto'}
+									mb={'auto'}
+								>
+									{props.data.TITLE}
+								</Typography>
+							</Box>
+						)}
+
+						{/** 상세보기일때 화살표 아이콘 */}
+						{props.mode === 'detail' && (
+							<Box ml={'auto'} display={'flex'} gap={'5px'}>
+								{isMoreOpen && (
+									<Box
+										display={'flex'}
+										gap={'4px'}
+										mt="auto"
+										mb="auto"
+									>
+										{/** 삭제 버튼 */}
+										<DeleteIcon
+											onClick={() => {
+												setAlertModalOpen(true);
+											}}
+											color={'secondary'}
+										/>
+										{/* <SupportiButton
 										contents={'삭제'}
 										onClick={() => {
 											setAlertModalOpen(true);
@@ -258,8 +257,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										variant="contained"
 										isGradient={true}
 									/> */}
-									{/** 수정 버튼 */}
-									{/* <SupportiButton
+										{/** 수정 버튼 */}
+										{/* <SupportiButton
 										contents={isEditMode ? '취소' : '수정'}
 										onClick={() => {
 											setIsEditMode(!isEditMode);
@@ -272,96 +271,344 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										variant="contained"
 										isGradient={true}
 									/> */}
-									<ModeEditOutlineIcon
-										onClick={() => {
-											setIsEditMode(!isEditMode);
+										<ModeEditOutlineIcon
+											onClick={() => {
+												setIsEditMode(!isEditMode);
+											}}
+											color={'secondary'}
+										/>
+									</Box>
+								)}
+
+								{/** 더보기 열고 닫기 */}
+								{isMoreOpen ? (
+									<img
+										src="/images/icons/TopArrow.svg"
+										alt="arrow-icon"
+										style={{
+											cursor: 'pointer',
+											width: '20px',
+											height: '20px',
+											marginTop: 'auto',
+											marginBottom: 'auto',
 										}}
-										color={'secondary'}
+										onClick={() =>
+											setIsMoreOpen(!isMoreOpen)
+										}
 									/>
+								) : (
+									<img
+										src="/images/icons/MoreArrow.svg"
+										alt="arrow-icon"
+										style={{
+											cursor: 'pointer',
+											width: '20px',
+											height: '20px',
+											marginTop: 'auto',
+											marginBottom: 'auto',
+										}}
+										onClick={() =>
+											setIsMoreOpen(!isMoreOpen)
+										}
+									/>
+								)}
+							</Box>
+						)}
+					</Box>
+					{props.mode === 'detail' && isMoreOpen ? (
+						<Box display="flex" flexDirection="column" gap={1}>
+							{/**기간 */}
+							{isEditMode ? (
+								<Box display={'flex'}>
+									<CalendarTodayIcon
+										sx={{
+											width: '15px',
+											height: '15px',
+											marginTop: 'auto',
+											marginBottom: 'auto',
+											marginRight: '5px',
+										}}
+									/>
+									<SupportiInput
+										type="datepicker"
+										defaultValue={okrDetailData.START_DATE}
+										value={okrDetailData.START_DATE}
+										setValue={(value) => {
+											setOkrDetailData({
+												...okrDetailData,
+												START_DATE: value
+													.toDate()
+													.toISOString(),
+											});
+										}}
+										width={'110px'}
+										useIcon={false}
+										style={{ height: '20px' }}
+									/>
+									<SupportiInput
+										type="datepicker"
+										defaultValue={okrDetailData?.END_DATE}
+										value={okrDetailData?.END_DATE}
+										minDate={
+											okrDetailData?.START_DATE as string
+										}
+										setValue={(value) => {
+											setOkrDetailData({
+												...okrDetailData,
+												END_DATE: value
+													.toDate()
+													.toISOString(),
+											});
+										}}
+										width={'110px'}
+										useIcon={false}
+									/>
+								</Box>
+							) : (
+								<Box display={'flex'}>
+									<Typography
+										fontWeight={500}
+										color={'secondary.main'}
+									>
+										{
+											(
+												props.data?.START_DATE as string
+											).split('T')[0]
+										}
+									</Typography>
+									<Typography
+										ml={0.5}
+										mr={0.5}
+										fontWeight={500}
+										color={'secondary.main'}
+									>
+										~
+									</Typography>
+									<Typography
+										fontWeight={500}
+										color={'secondary.main'}
+									>
+										{
+											(
+												props.data?.END_DATE as string
+											).split('T')[0]
+										}
+									</Typography>
 								</Box>
 							)}
 
-							{/** 더보기 열고 닫기 */}
-							{isMoreOpen ? (
-								<img
-									src="/images/icons/TopArrow.svg"
-									alt="arrow-icon"
-									style={{
-										cursor: 'pointer',
-										width: '20px',
-										height: '20px',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-									}}
-									onClick={() => setIsMoreOpen(!isMoreOpen)}
-								/>
+							{!isEditMode && (
+								<Box
+									display="flex"
+									flexDirection="column"
+									gap={1}
+								>
+									{/** 달성률*/}
+									<Box display="flex" mt={'20px'}>
+										<Typography>현재 달성률</Typography>
+										<Typography
+											ml={1}
+											color={'primary.main'}
+											fontWeight={600}
+										>
+											{props.data.ACHIEVED_RATE
+												? props.data.ACHIEVED_RATE
+												: 0}
+											%
+										</Typography>
+									</Box>
+									{/** 프로그레스 바 */}
+									<SupportiProgressBar
+										materialDataList={[
+											{
+												percentage:
+													props.data?.ACHIEVED_RATE?.toString(),
+												color: randomColor[props.index],
+											},
+										]}
+									/>
+									{/** 목표량 목표분류 */}
+									<Box display={'flex'}>
+										<Typography
+											fontWeight={500}
+											ml={'auto'}
+										>
+											{props.data?.ACHIEVED_AMOUNT}
+										</Typography>
+										<Typography
+											ml={0.5}
+											mr={0.5}
+											fontWeight={500}
+											color={'secondary.main'}
+										>
+											/
+										</Typography>
+										<Typography
+											fontWeight={500}
+											color={'secondary.main'}
+										>
+											{(props.data
+												?.TARGET_AMOUNT as string) +
+												' ' +
+												(props.data
+													?.TARGET_UNIT as string)}
+										</Typography>
+									</Box>
+								</Box>
+							)}
+
+							{isEditMode && isMoreOpen ? (
+								<Box display={'flex'} gap={2}>
+									{/** 목표분류 */}
+									<Box>
+										<Typography fontWeight={500} mb={1}>
+											목표분류
+										</Typography>
+										<SupportiInput
+											type="select"
+											value={
+												isUserMakeUnit
+													? '직접입력'
+													: okrDetailData.TARGET_UNIT
+											}
+											setValue={(value) => {
+												if (value === '직접입력') {
+													setIsUserMakeUnit(true);
+
+													setOkrDetailData({
+														...okrDetailData,
+														TARGET_UNIT: '',
+													});
+												} else {
+													setIsUserMakeUnit(false);
+
+													setOkrDetailData({
+														...okrDetailData,
+														TARGET_UNIT: value,
+													});
+												}
+											}}
+											dataList={IndicatorUnit}
+											style={{
+												width: {
+													xs: '100px',
+													sm: '150px',
+												},
+											}}
+										/>
+										{isUserMakeUnit && (
+											<SupportiInput
+												type="input"
+												value={
+													okrDetailData.TARGET_UNIT
+												}
+												setValue={(value) => {
+													setOkrDetailData({
+														...okrDetailData,
+														TARGET_UNIT: value,
+													});
+												}}
+												style={{
+													bgcolor: 'white',
+													marginTop: '5px',
+													width: {
+														xs: '100px',
+														sm: '150px',
+													},
+												}}
+											/>
+										)}
+
+										<Typography
+											fontWeight={500}
+											variant="body1"
+											color="error.main"
+											mt={'5px'}
+											sx={{
+												visibility:
+													okrDetailData.TARGET_UNIT !=
+													undefined
+														? 'hidden'
+														: 'block',
+											}}
+										>
+											필수 값 입니다.
+										</Typography>
+									</Box>
+									{/** 목표량 */}
+									<Box>
+										<Typography fontWeight={500} mb={1}>
+											목표량
+										</Typography>
+										<Box display={'flex'}>
+											<SupportiInput
+												type="input"
+												inputType="number"
+												value={
+													okrDetailData.TARGET_AMOUNT
+												}
+												setValue={(value: number) => {
+													setOkrDetailData({
+														...okrDetailData,
+														TARGET_AMOUNT: value,
+													});
+												}}
+												style={{
+													bgcolor: 'white',
+													width: {
+														xs: '100px',
+														sm: '150px',
+													},
+												}}
+											/>
+											{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>
+							<Typography >
+								{
+									props.okrDetailData[props.index]
+										.TARGET_UNIT
+								}
+							</Typography>
+						</Box> */}
+										</Box>
+										<Typography
+											fontWeight={500}
+											variant="body1"
+											color="error.main"
+											mt={'5px'}
+											sx={{
+												visibility:
+													okrDetailData.TARGET_AMOUNT !==
+													0
+														? 'hidden'
+														: 'block',
+											}}
+										>
+											필수 값 입니다.
+										</Typography>
+									</Box>
+									<SupportiButton
+										contents={'등록하기'}
+										onClick={() => {
+											setModifyAlertModal(true);
+										}}
+										style={{
+											height: '25px',
+											width: '100px',
+											marginTop: '30px',
+											marginLeft: 'auto',
+										}}
+										color={'primary'}
+										variant="contained"
+										isGradient={true}
+									/>
+								</Box>
 							) : (
-								<img
-									src="/images/icons/MoreArrow.svg"
-									alt="arrow-icon"
-									style={{
-										cursor: 'pointer',
-										width: '20px',
-										height: '20px',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-									}}
-									onClick={() => setIsMoreOpen(!isMoreOpen)}
-								/>
+								props.children
 							)}
 						</Box>
-					)}
-				</Box>
-				{props.mode === 'detail' && isMoreOpen ? (
-					<Box display="flex" flexDirection="column" gap={1}>
-						{/**기간 */}
-						{isEditMode ? (
-							<Box display={'flex'}>
-								<CalendarTodayIcon
-									sx={{
-										width: '15px',
-										height: '15px',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-										marginRight: '5px',
-									}}
-								/>
-								<SupportiInput
-									type="datepicker"
-									defaultValue={okrDetailData.START_DATE}
-									value={okrDetailData.START_DATE}
-									setValue={(value) => {
-										setOkrDetailData({
-											...okrDetailData,
-											START_DATE: value
-												.toDate()
-												.toISOString(),
-										});
-									}}
-									width={'110px'}
-									useIcon={false}
-									style={{ height: '20px' }}
-								/>
-								<SupportiInput
-									type="datepicker"
-									defaultValue={okrDetailData?.END_DATE}
-									value={okrDetailData?.END_DATE}
-									minDate={
-										okrDetailData?.START_DATE as string
-									}
-									setValue={(value) => {
-										setOkrDetailData({
-											...okrDetailData,
-											END_DATE: value
-												.toDate()
-												.toISOString(),
-										});
-									}}
-									width={'110px'}
-									useIcon={false}
-								/>
-							</Box>
-						) : (
+					) : props.mode === 'detail' && !isMoreOpen ? null : (
+						<Box>
+							{/** 기간 */}
 							<Box display={'flex'}>
 								<Typography
 									fontWeight={500}
@@ -392,11 +639,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									}
 								</Typography>
 							</Box>
-						)}
 
-						{!isEditMode && (
+							{/** 달성률*/}
 							<Box display="flex" flexDirection="column" gap={1}>
-								{/** 달성률*/}
 								<Box display="flex" mt={'20px'}>
 									<Typography>현재 달성률</Typography>
 									<Typography
@@ -404,12 +649,13 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										color={'primary.main'}
 										fontWeight={600}
 									>
-										{props.data.ACHIEVED_RATE
-											? props.data.ACHIEVED_RATE
+										{props.data?.ACHIEVED_RATE
+											? props.data?.ACHIEVED_RATE
 											: 0}
 										%
 									</Typography>
 								</Box>
+
 								{/** 프로그레스 바 */}
 								<SupportiProgressBar
 									materialDataList={[
@@ -420,255 +666,33 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										},
 									]}
 								/>
-								{/** 목표량 목표분류 */}
-								<Box display={'flex'}>
-									<Typography fontWeight={500} ml={'auto'}>
-										{props.data?.ACHIEVED_AMOUNT}
-									</Typography>
-									<Typography
-										ml={0.5}
-										mr={0.5}
-										fontWeight={500}
-										color={'secondary.main'}
-									>
-										/
-									</Typography>
-									<Typography
-										fontWeight={500}
-										color={'secondary.main'}
-									>
-										{(props.data?.TARGET_AMOUNT as string) +
-											' ' +
-											(props.data?.TARGET_UNIT as string)}
-									</Typography>
-								</Box>
 							</Box>
-						)}
 
-						{isEditMode && isMoreOpen ? (
-							<Box display={'flex'} gap={2}>
-								{/** 목표분류 */}
-								<Box>
-									<Typography fontWeight={500} mb={1}>
-										목표분류
-									</Typography>
-									<SupportiInput
-										type="select"
-										value={
-											isUserMakeUnit
-												? '직접입력'
-												: okrDetailData.TARGET_UNIT
-										}
-										setValue={(value) => {
-											if (value === '직접입력') {
-												setIsUserMakeUnit(true);
-
-												setOkrDetailData({
-													...okrDetailData,
-													TARGET_UNIT: '',
-												});
-											} else {
-												setIsUserMakeUnit(false);
-
-												setOkrDetailData({
-													...okrDetailData,
-													TARGET_UNIT: value,
-												});
-											}
-										}}
-										dataList={IndicatorUnit}
-										style={{
-											width: { xs: '100px', sm: '150px' },
-										}}
-									/>
-									{isUserMakeUnit && (
-										<SupportiInput
-											type="input"
-											value={okrDetailData.TARGET_UNIT}
-											setValue={(value) => {
-												setOkrDetailData({
-													...okrDetailData,
-													TARGET_UNIT: value,
-												});
-											}}
-											style={{
-												bgcolor: 'white',
-												marginTop: '5px',
-												width: {
-													xs: '100px',
-													sm: '150px',
-												},
-											}}
-										/>
-									)}
-
-									<Typography
-										fontWeight={500}
-										variant="body1"
-										color="error.main"
-										mt={'5px'}
-										sx={{
-											visibility:
-												okrDetailData.TARGET_UNIT !=
-												undefined
-													? 'hidden'
-													: 'block',
-										}}
-									>
-										필수 값 입니다.
-									</Typography>
-								</Box>
-								{/** 목표량 */}
-								<Box>
-									<Typography fontWeight={500} mb={1}>
-										목표량
-									</Typography>
-									<Box display={'flex'}>
-										<SupportiInput
-											type="input"
-											inputType="number"
-											value={okrDetailData.TARGET_AMOUNT}
-											setValue={(value: number) => {
-												setOkrDetailData({
-													...okrDetailData,
-													TARGET_AMOUNT: value,
-												});
-											}}
-											style={{
-												bgcolor: 'white',
-												width: {
-													xs: '100px',
-													sm: '150px',
-												},
-											}}
-										/>
-										{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>
-							<Typography >
-								{
-									props.okrDetailData[props.index]
-										.TARGET_UNIT
-								}
-							</Typography>
-						</Box> */}
-									</Box>
-									<Typography
-										fontWeight={500}
-										variant="body1"
-										color="error.main"
-										mt={'5px'}
-										sx={{
-											visibility:
-												okrDetailData.TARGET_AMOUNT !==
-												0
-													? 'hidden'
-													: 'block',
-										}}
-									>
-										필수 값 입니다.
-									</Typography>
-								</Box>
-								<SupportiButton
-									contents={'등록하기'}
-									onClick={() => {
-										setModifyAlertModal(true);
-									}}
-									style={{
-										height: '25px',
-										width: '100px',
-										marginTop: '30px',
-										marginLeft: 'auto',
-									}}
-									color={'primary'}
-									variant="contained"
-									isGradient={true}
-								/>
-							</Box>
-						) : (
-							props.children
-						)}
-					</Box>
-				) : props.mode === 'detail' && !isMoreOpen ? null : (
-					<Box>
-						{/** 기간 */}
-						<Box display={'flex'}>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{
-									(props.data?.START_DATE as string).split(
-										'T'
-									)[0]
-								}
-							</Typography>
-							<Typography
-								ml={0.5}
-								mr={0.5}
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								~
-							</Typography>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{(props.data?.END_DATE as string).split('T')[0]}
-							</Typography>
-						</Box>
-
-						{/** 달성률*/}
-						<Box display="flex" flexDirection="column" gap={1}>
-							<Box display="flex" mt={'20px'}>
-								<Typography>현재 달성률</Typography>
+							{/** 목표량 목표분류 */}
+							<Box display={'flex'} mt={1}>
+								<Typography fontWeight={500} ml={'auto'}>
+									{props.data?.ACHIEVED_AMOUNT}
+								</Typography>
 								<Typography
-									ml={1}
-									color={'primary.main'}
-									fontWeight={600}
+									ml={0.5}
+									mr={0.5}
+									fontWeight={500}
+									color={'secondary.main'}
 								>
-									{props.data?.ACHIEVED_RATE
-										? props.data?.ACHIEVED_RATE
-										: 0}
-									%
+									/
+								</Typography>
+								<Typography
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									{(props.data?.TARGET_AMOUNT as string) +
+										' ' +
+										(props.data?.TARGET_UNIT as string)}
 								</Typography>
 							</Box>
-
-							{/** 프로그레스 바 */}
-							<SupportiProgressBar
-								materialDataList={[
-									{
-										percentage:
-											props.data?.ACHIEVED_RATE?.toString(),
-										color: randomColor[props.index],
-									},
-								]}
-							/>
 						</Box>
-
-						{/** 목표량 목표분류 */}
-						<Box display={'flex'} mt={1}>
-							<Typography fontWeight={500} ml={'auto'}>
-								{props.data?.ACHIEVED_AMOUNT}
-							</Typography>
-							<Typography
-								ml={0.5}
-								mr={0.5}
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								/
-							</Typography>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{(props.data?.TARGET_AMOUNT as string) +
-									' ' +
-									(props.data?.TARGET_UNIT as string)}
-							</Typography>
-						</Box>
-					</Box>
-				)}
+					)}
+				</Box>
 			</Box>
 			<SupportiAlertModal
 				type="indicatorDelete"

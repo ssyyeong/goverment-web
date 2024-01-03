@@ -131,11 +131,22 @@ const Page: NextPage = () => {
 												);
 											}}
 											style={{
-												border: '1px solid',
+												border: 'solid 1px #d1d4db',
 												borderRadius: 10,
 												height: 3,
 												marginRight: 1,
+												color:
+													selectableIndicator.name ===
+													selectedIndicator.name
+														? 'common.white'
+														: 'common.black',
+												backgroundColor:
+													selectableIndicator.name ===
+													selectedIndicator.name
+														? 'common.black'
+														: 'common.white',
 											}}
+											variant="contained"
 											color={
 												selectableIndicator.name ===
 												selectedIndicator.name

@@ -25,7 +25,8 @@ interface ISupportiAlertModalProps {
 		| 'consultingexceed'
 		| 'seminarexceed'
 		| 'indicatorModify'
-		| 'indicatorDelete';
+		| 'indicatorDelete'
+		| 'indicatorWarning';
 	customHandleClose?: () => void;
 }
 
@@ -166,6 +167,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			},
 			cancelButtonAvailable: true,
 		},
+		indicatorWarning: {
+			type: 'error',
+			title: '남은 하위 목표 기입 필요',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
 	};
 
 	return (
@@ -207,6 +218,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				<Typography variant={'h4'} fontWeight={'bold'} my={1}>
 					{modalConfig[props.type].title}
 				</Typography>
+				{props.type === 'indicatorWarning' && (
+					<Typography
+						variant={'h5'}
+						fontWeight={500}
+						my={1}
+						color="secondary.light"
+					>
+						메인 목표에 맞게 남은 하위 목표를 기입하세요.
+					</Typography>
+				)}
 				<Box
 					display={'flex'}
 					alignItems={'center'}

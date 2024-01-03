@@ -19,6 +19,7 @@ interface ISupportiButtonProps {
 	variant?: 'text' | 'outlined' | 'contained' | undefined;
 	disabledGutters?: boolean;
 	isGradient?: boolean;
+	gradientColor?: string;
 	style?: SxProps;
 	startIcon?: any;
 	endIcon?: any;
@@ -37,7 +38,7 @@ const SupportiButton = (props: ISupportiButtonProps) => {
 				borderRadius: '5px',
 				padding: props.disabledGutters ? '0px' : '17px 16px',
 				backgroundImage: props.isGradient
-					? 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)'
+					? `linear-gradient(99deg, #5583e4 9%, #4955e3 89%)`
 					: undefined,
 				...props.style,
 			}}
