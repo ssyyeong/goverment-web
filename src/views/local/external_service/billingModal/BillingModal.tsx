@@ -60,6 +60,8 @@ const BillingModal = (props: IBillingModalProps) => {
 			}}
 			style={{
 				minWidth: '40%',
+				// maxWidth: '60%',
+				width: { xs: '90%', md: '40%' },
 			}}
 		>
 			<Box

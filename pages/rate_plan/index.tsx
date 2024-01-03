@@ -52,7 +52,7 @@ const Page: NextPage = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '100%',
-				p: 10,
+				p: { sm: 10, xs: 2 },
 				bgcolor: 'primary.light',
 			}}
 		>
@@ -80,6 +80,7 @@ const Page: NextPage = () => {
 				gap={4}
 				flexWrap={'wrap'}
 				justifyContent={'center'}
+				width={'100%'}
 			>
 				{ratePlanList.map((ratePlan, id) => {
 					return (
