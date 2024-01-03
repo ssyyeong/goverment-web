@@ -6,7 +6,7 @@ interface IMaterialProps {
 	color: string;
 }
 interface ISupportiProgressBarProps {
-	materialDataList: IProgressBarMaterialProps[];
+	materialDataList: IMaterialProps[];
 	totalPercentage?: number;
 }
 

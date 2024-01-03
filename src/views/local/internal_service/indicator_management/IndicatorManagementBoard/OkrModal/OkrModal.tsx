@@ -10,6 +10,7 @@ import { OkrDetailController } from '../../../../../../controller/OkrDetailContr
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IOkrModalProps {
 	modalOpen: boolean;
@@ -57,6 +58,55 @@ const OkrModal = (props: IOkrModalProps) => {
 		},
 	]);
 
+	/**
+	 *
+	 * 하위목표 미기재 알럿창 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	//* Functions
+	/**
+	 * 하위 목표 작성 삭제
+	 */
+	const deleteOkrDetail = (index: number) => {
+		const okrDetailDataCopy = [...okrDetailData];
+		okrDetailDataCopy.splice(index, 1);
+		setOkrDetailData(okrDetailDataCopy);
+	};
+
+	/**
+	 *
+	 * 목표 등록하는 api 호출 처리
+	 */
+	const createOkr = () => {
+		if (
+			okrDetailData['TITLE'] === '' ||
+			okrDetailData['TARGET_UNIT'] == undefined ||
+			okrDetailData['TARGET_UNIT'] == '' ||
+			okrDetailData['TARGET_AMOUNT'] === 0
+		) {
+			setIsAlertOpen(true);
+			return;
+		} else {
+			okrController.createItem(
+				{
+					OKR_MAIN: okrMainData,
+					OKR_DETAIL: okrDetailData,
+				},
+				(response) => {
+					alert('등록 성공');
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+
+					props.setModalOpen(false);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+		}
+	};
+
+	//* Hooks
 	useEffect(() => {
 		if (memberId) {
 			setOkrMainData({
@@ -82,56 +132,6 @@ const OkrModal = (props: IOkrModalProps) => {
 		}
 	}, [memberId]);
 
-	//* Functions
-	/**
-	 * 하위 목표 작성 삭제
-	 */
-	const deleteOkrDetail = (index: number) => {
-		const okrDetailDataCopy = [...okrDetailData];
-		okrDetailDataCopy.splice(index, 1);
-		setOkrDetailData(okrDetailDataCopy);
-	};
-
-	/**
-	 *
-	 * 목표 등록하는 api 호출 처리
-	 */
-	const createOkr = () => {
-		okrController.createItem(
-			{
-				OKR_MAIN: okrMainData,
-				OKR_DETAIL: okrDetailData,
-			},
-			(response) => {
-				alert('등록 성공');
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
-
-				props.setModalOpen(false);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	};
-
-	/**
-	 * 필수값 미입력 판단 함수
-	 */
-	const checkRequiredValue = (target) => {
-		if (target == '') {
-			return false;
-		}
-
-		// okrDetailData.map((item) => {
-		// 	return item.TITLE == '' ||
-		// 		item.TARGET_AMOUNT == 0 ||
-		// 		item.TARGET_UNIT == ''
-		// 		? false
-		// 		: true;
-		// });
-	};
-
-	//* Hooks
 	React.useEffect(() => {
 		if (memberId) {
 			setOkrMainData({
@@ -361,7 +361,7 @@ const OkrModal = (props: IOkrModalProps) => {
 							contents={'등록하기'}
 							onClick={() => {
 								//* Okr 메인 목표 등록
-								if (checkRequiredValue) {
+								if (okrMainData.TITLE !== '') {
 									createOkr();
 								} else {
 									alert('필수 값 미입력');
@@ -379,6 +379,11 @@ const OkrModal = (props: IOkrModalProps) => {
 						/>
 					</Box>
 				}
+			/>
+			<SupportiAlertModal
+				open={isAlertOpen}
+				handleClose={() => setIsAlertOpen(false)}
+				type={'indicatorWarning'}
 			/>
 		</Box>
 	);

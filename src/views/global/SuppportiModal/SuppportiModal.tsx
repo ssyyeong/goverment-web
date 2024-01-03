@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, BoxProps, Grid, Modal, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 export interface ISuppportiModalProps {
 	/**
@@ -107,9 +108,7 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 											onClick={props.handleClose}
 										/>
 									) : (
-										<img
-											src="/images/icons/blackX.svg"
-											alt="cancel"
+										<CloseIcon
 											style={{ cursor: 'pointer' }}
 											onClick={props.handleClose}
 										/>

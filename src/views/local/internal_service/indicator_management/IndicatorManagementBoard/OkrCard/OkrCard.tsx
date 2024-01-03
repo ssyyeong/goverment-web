@@ -7,7 +7,7 @@ import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
-import { OkrDetailModal } from '../OkrDetailModal';
+import { OkrMoreModal } from '../OkrMoreModal';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IOkrCardProps {
@@ -210,7 +210,7 @@ const OkrCard = (props: IOkrCardProps) => {
 				</Box>
 			</Box>
 			{isMoreModalOpen && (
-				<OkrDetailModal
+				<OkrMoreModal
 					modalOpen={isMoreModalOpen}
 					setModalOpen={setIsMoreModalOpen}
 					okrMainData={okrMainData}

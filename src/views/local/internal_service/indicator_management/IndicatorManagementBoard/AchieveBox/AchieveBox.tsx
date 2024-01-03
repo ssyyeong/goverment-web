@@ -60,7 +60,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				(response: any) => {
 					alert('수정 성공');
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setModalOpen(!props.modalOpen);
+
 					setAchieveAmount(0);
 				},
 				(err: any) => {}
@@ -77,7 +77,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 				(response: any) => {
 					alert('추가 성공');
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					props.setModalOpen(!props.modalOpen);
+
 					setAchieveAmount(0);
 				},
 				(err: any) => {}
@@ -116,7 +116,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 			{/** 메모 입력 */}
 			<SupportiInput
 				type="inputwithbtn"
-				value={props.data.NOTE !== '' ? props.data.NOTE : note}
+				value={note}
 				setValue={(value) => {
 					setNote(value);
 				}}
