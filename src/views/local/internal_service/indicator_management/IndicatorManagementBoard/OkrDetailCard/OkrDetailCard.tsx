@@ -377,7 +377,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								>
 									{/** 달성률*/}
 									<Box display="flex" mt={'20px'}>
-										<Typography>현재 달성률</Typography>
+										<Typography fontWeight={600}>
+											현재 달성률
+										</Typography>
 										<Typography
 											ml={1}
 											color={'primary.main'}
@@ -615,7 +617,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							{/** 달성률*/}
 							<Box display="flex" flexDirection="column" gap={1}>
 								<Box display="flex" mt={'20px'}>
-									<Typography>현재 달성률</Typography>
+									<Typography fontWeight={600}>
+										현재 달성률
+									</Typography>
 									<Typography
 										ml={1}
 										color={'primary.main'}

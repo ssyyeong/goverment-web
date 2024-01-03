@@ -79,15 +79,22 @@ const OkrModal = (props: IOkrModalProps) => {
 	 * 목표 등록하는 api 호출 처리
 	 */
 	const createOkr = () => {
-		if (
-			okrDetailData['TITLE'] === '' ||
-			okrDetailData['TARGET_UNIT'] == undefined ||
-			okrDetailData['TARGET_UNIT'] == '' ||
-			okrDetailData['TARGET_AMOUNT'] === 0
-		) {
-			setIsAlertOpen(true);
-			return;
-		} else {
+		okrDetailData.map((item) => {
+			if (
+				item.TITLE === '' ||
+				item.TARGET_UNIT === undefined ||
+				item.TARGET_UNIT === '' ||
+				item.TARGET_AMOUNT === 0
+			) {
+				setIsAlertOpen(true);
+				return;
+			} else {
+				setIsAlertOpen(false);
+			}
+		});
+
+		if (isAlertOpen) return;
+		else {
 			okrController.createItem(
 				{
 					OKR_MAIN: okrMainData,
@@ -96,7 +103,7 @@ const OkrModal = (props: IOkrModalProps) => {
 				(response) => {
 					alert('등록 성공');
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
-
+					return;
 					props.setModalOpen(false);
 				},
 				(err) => {
