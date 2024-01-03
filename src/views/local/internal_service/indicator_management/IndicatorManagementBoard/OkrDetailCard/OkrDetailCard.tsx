@@ -71,6 +71,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	});
 
 	//* Constants
+	const defaultTargetUnit = props.data.TARGET_UNIT;
 
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -134,18 +135,28 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		//* 수정모드가 아닐 경우 기존 데이터로 리셋
-		if (!isEditMode) {
-			setOkrDetailData({
-				TITLE: props.data.TITLE,
-				START_DATE: props.data.START_DATE,
-				END_DATE: props.data.END_DATE,
-				TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
-				TARGET_UNIT: props.data.TARGET_UNIT,
-				NOTE: props.data.NOTE,
-				ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
-				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
-			});
-		}
+		// if (!isEditMode) {
+		// 	setOkrDetailData({
+		// 		TITLE: props.data.TITLE,
+		// 		START_DATE: props.data.START_DATE,
+		// 		END_DATE: props.data.END_DATE,
+		// 		TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
+		// 		TARGET_UNIT: props.data.TARGET_UNIT,
+		// 		NOTE: props.data.NOTE,
+		// 		ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+		// 		APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+		// 	});
+		// }
+		setOkrDetailData({
+			TITLE: props.data.TITLE,
+			START_DATE: props.data.START_DATE,
+			END_DATE: props.data.END_DATE,
+			TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
+			TARGET_UNIT: props.data.TARGET_UNIT,
+			NOTE: props.data.NOTE,
+			ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+			APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+		});
 	}, [isEditMode]);
 
 	return (
@@ -615,7 +626,17 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									<SupportiButton
 										contents={'등록하기'}
 										onClick={() => {
-											setModifyAlertModal(true);
+											if (
+												defaultTargetUnit !==
+												okrDetailData.TARGET_UNIT
+											)
+												setModifyAlertModal(true);
+											else {
+												memberId &&
+													updateOkrDetail(
+														okrDetailData
+													);
+											}
 										}}
 										style={{
 											height: '25px',
