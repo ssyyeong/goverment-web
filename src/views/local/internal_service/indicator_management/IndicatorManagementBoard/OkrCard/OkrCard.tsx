@@ -18,11 +18,7 @@ interface IOkrCardProps {
 
 const OkrCard = (props: IOkrCardProps) => {
 	//* Controllers
-	/**
-	 * OKR 컨트롤러
-	 */
-	const okrController = new DefaultController('OkrMain');
-	console.log(props.data, 'data');
+
 	//* Modules
 
 	//* Constants

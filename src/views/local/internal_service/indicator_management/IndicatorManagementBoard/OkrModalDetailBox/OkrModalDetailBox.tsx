@@ -34,6 +34,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	//* Modules
 
 	//* Constants
+	// const DetailTitle =
 
 	//* States
 	/**
@@ -110,6 +111,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	// React.useEffect(() => {
 	// 	props.setTriggerKey && props.setTriggerKey(uuidv4());
 	// }, [props.data]);
+	console.log(props.data.TITLE, props.okrDetailData);
 
 	return (
 		<Box

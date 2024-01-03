@@ -287,6 +287,58 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							</Box>
 						)}
 					</Box>
+					{props.mode === 'detail' && !isMoreOpen && (
+						<Box display="flex" flexDirection="column" gap={1}>
+							{/** 달성률*/}
+							<Box display="flex" mt={'20px'}>
+								<Typography fontWeight={600}>
+									현재 달성률
+								</Typography>
+								<Typography
+									ml={1}
+									color={'primary.main'}
+									fontWeight={600}
+								>
+									{props.data.ACHIEVED_RATE
+										? props.data.ACHIEVED_RATE
+										: 0}
+									%
+								</Typography>
+							</Box>
+							{/** 프로그레스 바 */}
+							<SupportiProgressBar
+								materialDataList={[
+									{
+										percentage:
+											props.data?.ACHIEVED_RATE?.toString(),
+										color: randomColor[props.index],
+									},
+								]}
+							/>
+							{/** 목표량 목표분류 */}
+							<Box display={'flex'}>
+								<Typography fontWeight={500} ml={'auto'}>
+									{props.data?.ACHIEVED_AMOUNT}
+								</Typography>
+								<Typography
+									ml={0.5}
+									mr={0.5}
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									/
+								</Typography>
+								<Typography
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									{(props.data?.TARGET_AMOUNT as string) +
+										' ' +
+										(props.data?.TARGET_UNIT as string)}
+								</Typography>
+							</Box>
+						</Box>
+					)}
 					{props.mode === 'detail' && isMoreOpen ? (
 						<Box display="flex" flexDirection="column" gap={1}>
 							{/**기간 */}
