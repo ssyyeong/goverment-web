@@ -123,7 +123,7 @@ const KpiModal = (props: IKpiModalProps) => {
 				}}
 				title={props.mode === 'modify' ? '수정하기' : '목표 등록'}
 				style={{
-					width: { xs: '100%', sm: '60%' },
+					width: { xs: '100%', md: '60%' },
 				}}
 				activeHeader={true}
 				children={
@@ -132,7 +132,7 @@ const KpiModal = (props: IKpiModalProps) => {
 						flexDirection={'column'}
 						gap={5}
 						sx={{
-							width: { xs: '100%', sm: '80%' },
+							width: { xs: '100%', md: '80%' },
 						}}
 					>
 						{/** 목표 작성 */}
@@ -478,7 +478,7 @@ const KpiModal = (props: IKpiModalProps) => {
 							}}
 							style={{
 								height: '50px',
-								width: { xs: '100%', sm: '260px' },
+								width: { xs: '100%', md: '260px' },
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

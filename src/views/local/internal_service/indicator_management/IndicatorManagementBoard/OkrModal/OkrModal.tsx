@@ -79,15 +79,20 @@ const OkrModal = (props: IOkrModalProps) => {
 	 * 목표 등록하는 api 호출 처리
 	 */
 	const createOkr = () => {
-		if (
-			okrDetailData['TITLE'] === '' ||
-			okrDetailData['TARGET_UNIT'] == undefined ||
-			okrDetailData['TARGET_UNIT'] == '' ||
-			okrDetailData['TARGET_AMOUNT'] === 0
-		) {
-			setIsAlertOpen(true);
-			return;
-		} else {
+		okrDetailData.map((item) => {
+			if (
+				item.TITLE === '' ||
+				item.TARGET_UNIT === undefined ||
+				item.TARGET_UNIT === '' ||
+				item.TARGET_AMOUNT === 0
+			) {
+				setIsAlertOpen(true);
+				return;
+			}
+		});
+
+		if (isAlertOpen) return;
+		else {
 			okrController.createItem(
 				{
 					OKR_MAIN: okrMainData,
@@ -96,8 +101,8 @@ const OkrModal = (props: IOkrModalProps) => {
 				(response) => {
 					alert('등록 성공');
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
-
 					props.setModalOpen(false);
+					return;
 				},
 				(err) => {
 					console.log(err);
@@ -168,18 +173,17 @@ const OkrModal = (props: IOkrModalProps) => {
 				title={'목표 등록'}
 				activeHeader={true}
 				style={{
-					width: { xs: '100%', sm: '60%' },
+					width: { xs: '100%', md: '60%' },
 				}}
 				children={
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'100%'}
-						minHeight={'60vh'}
+						maxHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', sm: '90%' },
+							width: { xs: '100%', md: '90%' },
 							pt: 2,
 						}}
 					>
@@ -369,7 +373,7 @@ const OkrModal = (props: IOkrModalProps) => {
 							}}
 							style={{
 								height: '50px',
-								width: { xs: '100%', sm: '260px' },
+								width: { xs: '100%', md: '260px' },
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

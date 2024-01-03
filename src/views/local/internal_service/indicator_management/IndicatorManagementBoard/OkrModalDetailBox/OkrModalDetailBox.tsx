@@ -113,7 +113,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 	return (
 		<Box
-			p={3}
+			sx={{ p: { xs: 1.5, md: 3 } }}
 			bgcolor={'secondary.light'}
 			borderRadius={2}
 			display={'flex'}
@@ -267,7 +267,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 							dataList={IndicatorUnit}
 							style={{
-								width: { xs: '100px', sm: '150px' },
+								width: { xs: '100px', md: '150px' },
 							}}
 						/>
 						{isUserMakeUnit && (
@@ -287,7 +287,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 									marginTop: '5px',
 									width: {
 										xs: '100px',
-										sm: '150px',
+										md: '150px',
 									},
 								}}
 							/>
@@ -330,7 +330,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								}}
 								style={{
 									bgcolor: 'white',
-									width: { xs: '100px', sm: '150px' },
+									width: { xs: '100px', md: '150px' },
 								}}
 							/>
 							{/* <Box mt={'auto'} mb={'auto'} ml={'5px'}>

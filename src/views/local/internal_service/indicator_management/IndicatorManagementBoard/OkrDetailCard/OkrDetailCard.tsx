@@ -71,6 +71,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	});
 
 	//* Constants
+	const defaultTargetUnit = props.data.TARGET_UNIT;
 
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -134,32 +135,42 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		//* 수정모드가 아닐 경우 기존 데이터로 리셋
-		if (!isEditMode) {
-			setOkrDetailData({
-				TITLE: props.data.TITLE,
-				START_DATE: props.data.START_DATE,
-				END_DATE: props.data.END_DATE,
-				TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
-				TARGET_UNIT: props.data.TARGET_UNIT,
-				NOTE: props.data.NOTE,
-				ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
-				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
-			});
-		}
+		// if (!isEditMode) {
+		// 	setOkrDetailData({
+		// 		TITLE: props.data.TITLE,
+		// 		START_DATE: props.data.START_DATE,
+		// 		END_DATE: props.data.END_DATE,
+		// 		TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
+		// 		TARGET_UNIT: props.data.TARGET_UNIT,
+		// 		NOTE: props.data.NOTE,
+		// 		ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+		// 		APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+		// 	});
+		// }
+		setOkrDetailData({
+			TITLE: props.data.TITLE,
+			START_DATE: props.data.START_DATE,
+			END_DATE: props.data.END_DATE,
+			TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
+			TARGET_UNIT: props.data.TARGET_UNIT,
+			NOTE: props.data.NOTE,
+			ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
+			APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+		});
 	}, [isEditMode]);
 
 	return (
 		<Box
 			borderRadius={2}
 			bgcolor={'secondary.light'}
-			p={2}
 			display="flex"
 			flexDirection={'column'}
 			gap={1}
 			pb={isMoreOpen && 0}
-			width={props.mode === 'detail' ? '100%' : '380px'}
+			width={props.mode === 'detail' ? '95%' : '380px'}
 			sx={{
-				minWidth: { xs: '300px', sm: '380px' },
+				minWidth: { xs: '300px', md: '380px' },
+				p: { xs: 1.5, md: 2 },
 			}}
 			onClick={() => {
 				if (props.mode === 'detail') {
@@ -287,6 +298,58 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							</Box>
 						)}
 					</Box>
+					{props.mode === 'detail' && !isMoreOpen && (
+						<Box display="flex" flexDirection="column" gap={1}>
+							{/** 달성률*/}
+							<Box display="flex" mt={'20px'}>
+								<Typography fontWeight={600}>
+									현재 달성률
+								</Typography>
+								<Typography
+									ml={1}
+									color={'primary.main'}
+									fontWeight={600}
+								>
+									{props.data.ACHIEVED_RATE
+										? props.data.ACHIEVED_RATE
+										: 0}
+									%
+								</Typography>
+							</Box>
+							{/** 프로그레스 바 */}
+							<SupportiProgressBar
+								materialDataList={[
+									{
+										percentage:
+											props.data?.ACHIEVED_RATE?.toString(),
+										color: randomColor[props.index],
+									},
+								]}
+							/>
+							{/** 목표량 목표분류 */}
+							<Box display={'flex'}>
+								<Typography fontWeight={500} ml={'auto'}>
+									{props.data?.ACHIEVED_AMOUNT}
+								</Typography>
+								<Typography
+									ml={0.5}
+									mr={0.5}
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									/
+								</Typography>
+								<Typography
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									{(props.data?.TARGET_AMOUNT as string) +
+										' ' +
+										(props.data?.TARGET_UNIT as string)}
+								</Typography>
+							</Box>
+						</Box>
+					)}
 					{props.mode === 'detail' && isMoreOpen ? (
 						<Box display="flex" flexDirection="column" gap={1}>
 							{/**기간 */}
@@ -377,7 +440,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 								>
 									{/** 달성률*/}
 									<Box display="flex" mt={'20px'}>
-										<Typography>현재 달성률</Typography>
+										<Typography fontWeight={600}>
+											현재 달성률
+										</Typography>
 										<Typography
 											ml={1}
 											color={'primary.main'}
@@ -430,7 +495,10 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							)}
 
 							{isEditMode && isMoreOpen ? (
-								<Box display={'flex'} gap={2}>
+								<Box
+									display={'flex'}
+									sx={{ gap: { xs: 1, md: 2 } }}
+								>
 									{/** 목표분류 */}
 									<Box>
 										<Typography fontWeight={500} mb={1}>
@@ -464,7 +532,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 											style={{
 												width: {
 													xs: '100px',
-													sm: '150px',
+													md: '150px',
 												},
 											}}
 										/>
@@ -485,7 +553,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													marginTop: '5px',
 													width: {
 														xs: '100px',
-														sm: '150px',
+														md: '150px',
 													},
 												}}
 											/>
@@ -529,7 +597,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													bgcolor: 'white',
 													width: {
 														xs: '100px',
-														sm: '150px',
+														md: '150px',
 													},
 												}}
 											/>
@@ -561,7 +629,17 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 									<SupportiButton
 										contents={'등록하기'}
 										onClick={() => {
-											setModifyAlertModal(true);
+											if (
+												defaultTargetUnit !==
+												okrDetailData.TARGET_UNIT
+											)
+												setModifyAlertModal(true);
+											else {
+												memberId &&
+													updateOkrDetail(
+														okrDetailData
+													);
+											}
 										}}
 										style={{
 											height: '25px',
@@ -615,7 +693,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 							{/** 달성률*/}
 							<Box display="flex" flexDirection="column" gap={1}>
 								<Box display="flex" mt={'20px'}>
-									<Typography>현재 달성률</Typography>
+									<Typography fontWeight={600}>
+										현재 달성률
+									</Typography>
 									<Typography
 										ml={1}
 										color={'primary.main'}

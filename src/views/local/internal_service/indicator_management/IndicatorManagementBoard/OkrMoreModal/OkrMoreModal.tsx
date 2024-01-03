@@ -138,6 +138,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			(response: any) => {
 				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
+				props.setModalOpen(false);
 			},
 			(err: any) => {}
 		);
@@ -188,8 +189,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				}}
 				title={''}
 				style={{
-					width: { xs: '100%', sm: '60%' },
-					padding: { xs: '10px', sm: '20px' },
+					width: { xs: '100%', md: '60%' },
+					padding: { xs: '10px', md: '20px' },
 				}}
 				children={
 					<Box
@@ -200,7 +201,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						minHeight={'70vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', sm: '80%' },
+							width: { xs: '100%', md: '80%' },
 						}}
 					>
 						{/** 상위 목표 작성 */}
@@ -405,7 +406,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 
 							<Box display="flex" gap={2} flexDirection="column">
 								<Box display="flex" gap={1}>
-									<Typography>현재 달성률</Typography>
+									<Typography fontWeight={600}>
+										현재 달성률
+									</Typography>
 									<Typography color={'primary.main'}>
 										{props.okrMainData.ACHIEVED_RATE
 											? props.okrMainData.ACHIEVED_RATE
