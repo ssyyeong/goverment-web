@@ -92,7 +92,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 					(response: any) => {
 						alert('업데이트 성공');
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
-						props.setModalOpen(false);
+
 						setIsEditMode(false);
 					},
 					(err: any) => {}
@@ -138,27 +138,9 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			(response: any) => {
 				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
-				props.setModalOpen(false);
 			},
 			(err: any) => {}
 		);
-	};
-
-	/**
-	 * 필수값 미입력 판단 함수
-	 */
-	const checkRequiredValue = (target) => {
-		if (target == '') {
-			return false;
-		}
-
-		// okrDetailData.map((item) => {
-		// 	return item.TITLE == '' ||
-		// 		item.TARGET_AMOUNT == 0 ||
-		// 		item.TARGET_UNIT == ''
-		// 		? false
-		// 		: true;
-		// });
 	};
 
 	//* Hooks
@@ -317,19 +299,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										color={'secondary'}
 									/>
-									{/* <SupportiButton
-										contents={'삭제'}
-										onClick={() => {
-											memberId && deleteOkrMain();
-										}}
-										style={{
-											height: '20px',
-											width: '40px',
-										}}
-										color={'primary'}
-										variant="contained"
-										isGradient={true}
-									/> */}
+
 									{/** 수정 버튼 */}
 									<ModeEditOutlineIcon
 										onClick={() => {
@@ -337,19 +307,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}}
 										color={'secondary'}
 									/>
-									{/* <SupportiButton
-										contents={isEditMode ? '취소' : '수정'}
-										onClick={() => {
-											setIsEditMode(!isEditMode);
-										}}
-										style={{
-											height: '20px',
-											width: '40px',
-										}}
-										color={'primary'}
-										variant="contained"
-										isGradient={true}
-									/> */}
+
 									<CloseIcon
 										style={{
 											marginLeft: 1,

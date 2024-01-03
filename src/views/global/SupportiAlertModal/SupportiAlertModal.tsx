@@ -220,10 +220,10 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				</Typography>
 				{props.type === 'indicatorWarning' && (
 					<Typography
-						variant={'h5'}
+						variant={'subtitle1'}
 						fontWeight={500}
 						my={1}
-						color="secondary.light"
+						color="secondary.dark"
 					>
 						메인 목표에 맞게 남은 하위 목표를 기입하세요.
 					</Typography>

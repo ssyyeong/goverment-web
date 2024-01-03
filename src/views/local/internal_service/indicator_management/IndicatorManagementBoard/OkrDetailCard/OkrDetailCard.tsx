@@ -84,12 +84,10 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_DETAIL_IDENTIFICATION_CODE:
 					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
-				// OKR_MAIN_IDENTIFICATION_CODE:
 			},
 			(response: any) => {
 				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
-				props.setModalOpen(!props.modalOpen);
 			},
 			(err: any) => {}
 		);
@@ -126,7 +124,6 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 						setIsEditMode(false);
-						props.setModalOpen(!props.modalOpen);
 					},
 					(err: any) => {}
 				);
@@ -244,33 +241,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 											}}
 											color={'secondary'}
 										/>
-										{/* <SupportiButton
-										contents={'삭제'}
-										onClick={() => {
-											setAlertModalOpen(true);
-										}}
-										style={{
-											height: '20px',
-											width: '30px',
-										}}
-										color={'primary'}
-										variant="contained"
-										isGradient={true}
-									/> */}
+
 										{/** 수정 버튼 */}
-										{/* <SupportiButton
-										contents={isEditMode ? '취소' : '수정'}
-										onClick={() => {
-											setIsEditMode(!isEditMode);
-										}}
-										style={{
-											height: '20px',
-											width: '30px',
-										}}
-										color={'primary'}
-										variant="contained"
-										isGradient={true}
-									/> */}
 										<ModeEditOutlineIcon
 											onClick={() => {
 												setIsEditMode(!isEditMode);

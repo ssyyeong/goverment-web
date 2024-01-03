@@ -11,6 +11,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IOkrModalDetailBoxProps {
 	mode: string;
@@ -34,10 +35,16 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 
 	//* Constants
 
+	//* States
 	/**
 	 * 직접 입력 여부
 	 *  */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
+	/**
+	 *
+	 * 하위목표 미기재 알럿창 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
 
 	//* Hooks
 	/**
@@ -52,7 +59,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 			props.data.TARGET_UNIT == '' ||
 			props.data.TARGET_AMOUNT === 0
 		) {
-			alert('필수값을 입력해주세요.');
+			setIsAlertOpen(true);
 			return;
 		} else {
 			if (props.data.TITLE.length >= 20) {
@@ -88,7 +95,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							},
 						]);
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
-						props.setIsModalOpen(false);
+						// props.setIsModalOpen(false);
 
 						console.log(res);
 					})
@@ -154,7 +161,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							/>
 						</Box>
 
-						<Typography
+						{/* <Typography
 							fontWeight={500}
 							variant="body1"
 							color="error.main"
@@ -167,7 +174,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 						>
 							필수 값 입니다.
-						</Typography>
+						</Typography> */}
 					</Box>
 					{/** x 아이콘 */}
 					<CancelIcon
@@ -286,7 +293,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							/>
 						)}
 
-						<Typography
+						{/* <Typography
 							fontWeight={500}
 							variant="body1"
 							color="error.main"
@@ -300,7 +307,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 						>
 							필수 값 입니다.
-						</Typography>
+						</Typography> */}
 					</Box>
 					{/** 목표량 */}
 					<Box>
@@ -335,7 +342,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 								</Typography>
 							</Box> */}
 						</Box>
-						<Typography
+						{/* <Typography
 							fontWeight={500}
 							variant="body1"
 							color="error.main"
@@ -351,7 +358,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							}}
 						>
 							필수 값 입니다.
-						</Typography>
+						</Typography> */}
 					</Box>
 					{props.mode === 'detail' && (
 						<SupportiButton
@@ -372,6 +379,11 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 					)}
 				</Box>
 			</Box>
+			<SupportiAlertModal
+				open={isAlertOpen}
+				handleClose={() => setIsAlertOpen(false)}
+				type={'indicatorWarning'}
+			/>
 		</Box>
 	);
 };
