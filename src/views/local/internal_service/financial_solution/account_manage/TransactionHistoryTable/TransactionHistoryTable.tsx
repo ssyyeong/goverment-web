@@ -341,23 +341,45 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						height={'30px'}
 						backgroundSize="contain"
 					/>
-					<Typography
-						variant={'h5'}
-						fontWeight={'bold'}
-						sx={{
-							display: { sm: 'block', xs: 'none' },
-						}}
+					<Box
+						display={{ sm: 'flex', xs: 'block' }}
+						gap={2}
+						alignItems={'center'}
 					>
-						{bankConfig[props.bankAccount.BANK_CODE].name}
-					</Typography>
-					<Typography
-						fontWeight={'bold'}
-						sx={{
-							display: { sm: 'none', xs: 'block' },
-						}}
-					>
-						{bankConfig[props.bankAccount.BANK_CODE].name}
-					</Typography>
+						<Typography
+							variant={'h5'}
+							fontWeight={'bold'}
+							sx={{
+								display: { sm: 'block', xs: 'none' },
+							}}
+						>
+							{bankConfig[props.bankAccount.BANK_CODE].name}
+						</Typography>
+
+						<Typography
+							fontWeight={'bold'}
+							sx={{
+								display: { sm: 'none', xs: 'block' },
+							}}
+						>
+							{bankConfig[props.bankAccount.BANK_CODE].name}
+						</Typography>
+						<Box display={'flex'} gap={2}>
+							<Typography
+								variant="subtitle2"
+								color={'secondary.main'}
+								display={{ sm: 'flex', xs: 'none' }}
+							>
+								|
+							</Typography>
+							<Typography
+								// variant="subtitle2"
+								color={'secondary.main'}
+							>
+								{props.bankAccount.ACCOUNT_NUMBER}
+							</Typography>
+						</Box>
+					</Box>
 				</Box>
 				{/* 리미트, 엑셀다운로드 */}
 				<Box display={'flex'} alignItems={'center'} gap={'10px'}>

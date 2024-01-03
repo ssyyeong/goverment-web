@@ -14,6 +14,8 @@ import { IAccountCalculationResultProps } from '../AccountCalculation/AccountCal
 import AccountRegisterModal from '../AccountRegisterModal/AccountRegisterModal';
 import SupportiButton from '../../../../../global/SupportiButton';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import useAlert from '../../../../../../hooks/useAlert/useAlert';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 interface IMyAccountsProps {
 	/**
 	 * 재계산 트리거 키 변경 함수
@@ -64,7 +66,6 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	/**
 	 * 메뉴 오픈 여부
 	 */
-
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const [dateAnchorEl, setDateAnchorEl] = React.useState(null);
@@ -88,26 +89,27 @@ const MyAccounts = (props: IMyAccountsProps) => {
 	const [accountNickname, setAccountNickname] = React.useState<string>('');
 	const [selectedAccount, setSelectedAccount] = React.useState<number>(0);
 
-	console.log(accountNickname);
-
 	/**
-	 * 계좌별 내역 리스트 (날짜, 거래 내역 키워드로 백엔드 필터링)
+	 * 계좌 리스트
 	 */
+	const [bankAccountList, setBankAccountList] = React.useState<
+		IBankAccount[]
+	>([]);
+
+	const alert = useAlert({});
+
 	//* Functions
-	/**
-	 * 계좌 추가 함수 (추가 후, 리스트 변경)
-	 */
-
 	/**
 	 * 계좌 삭제 함수 (삭제 후, 리스트 변경)
 	 */
 	const deleteBankAccount = (bankAccountId: number) => {
 		bankAccountController.deleteItem(
 			{
-				BANK_ACCOUNT_IDENTIFICATION_CODE: bankAccountId,
+				BANK_ACCOUNT_IDENTIFICATION_CODE: selectedAccount,
 			},
 			(res) => {
 				props.setAccountTriggerKey(uuidv4());
+				setAnchorEl(null);
 			},
 			(err) => {}
 		);
@@ -122,18 +124,32 @@ const MyAccounts = (props: IMyAccountsProps) => {
 				ACCOUNT_NICKNAME: accountNickname,
 			},
 			(res) => {
-				props.setRecomputeTriggerKey(uuidv4());
+				// 데이터 변경
+				setBankAccountList(
+					bankAccountList.map((bankAccount) => {
+						if (
+							bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE ===
+							selectedAccount
+						) {
+							return {
+								...bankAccount,
+								ACCOUNT_NICKNAME: accountNickname,
+							};
+						} else {
+							return bankAccount;
+						}
+					})
+				);
+				alert.setOpen(true);
+				alert.setType('successModifyAxios');
+				setAnchorEl(null);
+				setAccountModifyModalOpen(false);
 			},
 			(err) => {}
 		);
 	};
 
-	console.log(props.calculationResult);
 	//* Hooks
-	/**
-	 * 선택한 날짜 변경 시, 재계산 트리거 키 변경 시 수입 및 지출 재계산하는 api 호출 훅
-	 */
-
 	/**
 	 * 들어온 수입 수출 데이터를 날짜키값을 가져와서 셋해주는 훅
 	 */
@@ -166,6 +182,13 @@ const MyAccounts = (props: IMyAccountsProps) => {
 		}
 	}, [props.calculationResult]);
 
+	/**
+	 * props 로 들어오는 계좌 리스트 설정
+	 */
+	useEffect(() => {
+		setBankAccountList(props.bankAccountList);
+	}, [props.bankAccountList]);
+
 	//* Styles
 	const boxStyle = {
 		width: '338px',
@@ -178,206 +201,249 @@ const MyAccounts = (props: IMyAccountsProps) => {
 		alignItems: 'center',
 	};
 
-	const scrollRef = React.useRef<HTMLDivElement>(null);
-
-	/**
-	 * 끝으로 스크롤 이동
-	 */
-	const scrollToBottom = () => {
-		console.log(scrollRef);
-		scrollRef.current.scrollIntoView({
-			behavior: 'smooth',
-			block: 'end',
-			inline: 'end',
-		});
-	};
-
 	return (
 		props.bankAccountList && (
 			<>
 				<Box
-					display={{ sm: 'flex', xs: 'block' }}
 					alignItems={'center'}
-					mb={{ sm: 5, xs: 3 }}
+					mb={{ md: 5, xs: 3 }}
 					mt={2}
 					pb={1}
 					position={'relative'}
 				>
-					{/* 연도 선택 및 수입 / 지출 */}
-					{props.bankAccountList.length !== 0 && (
-						<Box
-							sx={{
-								...boxStyle,
-								padding: '22px 25px',
-								width: { sm: '338px', xs: '90%' },
-								backgroundImage:
-									'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
-							}}
-							mb={{ sm: 0, xs: 2 }}
-							mx={{ sm: 0, xs: 'auto' }}
-							mr={{ sm: 2, xs: 'auto' }}
-						>
-							{/* 날짜 선택 */}
+					<Box display={{ md: 'flex', xs: 'block' }} mb={2}>
+						{/* 연도 선택 및 수입 / 지출 */}
+						{bankAccountList.length !== 0 && (
 							<Box
 								sx={{
-									display: 'flex',
-									gap: '19px',
-									alignItems: 'center',
-									cursor: 'pointer',
+									...boxStyle,
+									padding: '22px 25px',
+									width: { md: '338px', xs: '90%' },
+									backgroundImage:
+										'linear-gradient(110deg, #5583e4 11%, #4955e3 88%)',
 								}}
-								onClick={(event) => {
-									setDateAnchorEl(event.currentTarget);
-								}}
-								id="basic-button2"
-								aria-controls={
-									dateopen ? 'basic-menu2' : undefined
-								}
-								aria-haspopup="true"
-								aria-expanded={dateopen ? 'true' : undefined}
+								mb={{ md: 0, xs: 2 }}
+								mx={{ md: 0, xs: 'auto' }}
+								mr={{ md: 2, xs: 'auto' }}
 							>
+								{/* 날짜 선택 */}
 								<Box
 									sx={{
 										display: 'flex',
-										flexDirection: 'column',
-										justifyContent: 'center',
+										gap: '19px',
 										alignItems: 'center',
+										cursor: 'pointer',
+									}}
+									onClick={(event) => {
+										setDateAnchorEl(event.currentTarget);
+									}}
+									id="basic-button2"
+									aria-controls={
+										dateopen ? 'basic-menu2' : undefined
+									}
+									aria-haspopup="true"
+									aria-expanded={
+										dateopen ? 'true' : undefined
+									}
+								>
+									<Box
+										sx={{
+											display: 'flex',
+											flexDirection: 'column',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
+										<Typography
+											color={'white'}
+											variant="subtitle1"
+										>
+											{selectedPeriod?.year}년
+										</Typography>
+										<Typography
+											color={'white'}
+											variant="h3"
+											sx={{
+												display: 'flex',
+												alignItems: 'baseline',
+												gap: '3px',
+											}}
+										>
+											{selectedPeriod?.month}
+											<Typography
+												color={'white'}
+												variant="subtitle1"
+											>
+												월
+											</Typography>
+										</Typography>
+									</Box>
+									<KeyboardArrowDownIcon
+										sx={{
+											color: 'white',
+										}}
+									/>
+								</Box>
+								{/* 날짜 메뉴 */}
+								<Menu
+									id="basic-menu2"
+									open={dateopen}
+									anchorEl={dateAnchorEl}
+									onClose={() => {
+										setDateAnchorEl(null);
+									}}
+									MenuListProps={{
+										'aria-labelledby': 'basic-button2',
+									}}
+									sx={{
+										'& .MuiPaper-root': {
+											borderRadius: '5px',
+											boxShadow: '0 3px 15px 0 #e1eaff',
+										},
+									}}
+									PaperProps={{
+										style: {
+											maxHeight: 48 * 4.5,
+											width: '14ch',
+										},
 									}}
 								>
-									<Typography
-										color={'white'}
-										variant="subtitle1"
-									>
-										{selectedPeriod?.year}년
-									</Typography>
-									<Typography
-										color={'white'}
-										variant="h3"
-										sx={{
-											display: 'flex',
-											alignItems: 'baseline',
-											gap: '3px',
-										}}
-									>
-										{selectedPeriod?.month}
-										<Typography
-											color={'white'}
-											variant="subtitle1"
+									{selectablePeriod.map((period) => (
+										<MenuItem
+											onClick={() => {
+												setSelectedPeriod(period);
+												setDateAnchorEl(null);
+											}}
+											sx={{
+												display: 'flex',
+												justifyContent: 'center',
+												p: 1,
+											}}
 										>
-											월
-										</Typography>
-									</Typography>
-								</Box>
-								<KeyboardArrowDownIcon
-									sx={{
-										color: 'white',
-									}}
-								/>
+											{period.year}년 {period.month}월
+										</MenuItem>
+									))}
+								</Menu>
+								{/* 수입 지출 */}
+								{props.calculationResult && (
+									<Box sx={{ ml: 3 }}>
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: '15px',
+											}}
+										>
+											<Typography
+												variant="subtitle1"
+												color={'info.main'}
+												fontWeight={'500'}
+											>
+												수입
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												color={'white'}
+												fontWeight={'500'}
+											>
+												{props.calculationResult?.monthlyIncome[
+													`${selectedPeriod?.year}-${selectedPeriod?.month}`
+												]?.toLocaleString()
+													? props.calculationResult?.monthlyIncome[
+															`${selectedPeriod?.year}-${selectedPeriod?.month}`
+													  ]?.toLocaleString()
+													: 0}{' '}
+												원
+											</Typography>
+										</Box>
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: '15px',
+											}}
+										>
+											<Typography
+												variant="subtitle1"
+												color={'info.main'}
+												fontWeight={'500'}
+											>
+												지출
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												color={'white'}
+												fontWeight={'500'}
+											>
+												{props.calculationResult?.monthlySpending[
+													`${selectedPeriod?.year}-${selectedPeriod?.month}`
+												]?.toLocaleString()
+													? props.calculationResult?.monthlySpending[
+															`${selectedPeriod?.year}-${selectedPeriod?.month}`
+													  ]?.toLocaleString()
+													: 0}{' '}
+												원
+											</Typography>
+										</Box>
+									</Box>
+								)}
 							</Box>
-							{/* 날짜 메뉴 */}
-							<Menu
-								id="basic-menu2"
-								open={dateopen}
-								anchorEl={dateAnchorEl}
-								onClose={() => {
-									setDateAnchorEl(null);
-								}}
-								MenuListProps={{
-									'aria-labelledby': 'basic-button2',
-								}}
-								sx={{
-									'& .MuiPaper-root': {
-										borderRadius: '5px',
-										boxShadow: '0 3px 15px 0 #e1eaff',
-									},
-								}}
-								PaperProps={{
-									style: {
-										maxHeight: 48 * 4.5,
-										width: '14ch',
-									},
-								}}
-							>
-								{selectablePeriod.map((period) => (
-									<MenuItem
-										onClick={() => {
-											setSelectedPeriod(period);
-											setDateAnchorEl(null);
-										}}
-										sx={{
-											display: 'flex',
-											justifyContent: 'center',
-											p: 1,
-										}}
-									>
-										{period.year}년 {period.month}월
-									</MenuItem>
-								))}
-							</Menu>
-							{/* 수입 지출 */}
-							{props.calculationResult && (
-								<Box sx={{ ml: 3 }}>
-									<Box
-										sx={{
-											display: 'flex',
-											alignItems: 'center',
-											gap: '15px',
-										}}
-									>
-										<Typography
-											variant="subtitle1"
-											color={'info.main'}
-											fontWeight={'500'}
-										>
-											수입
-										</Typography>
-										<Typography
-											variant="subtitle1"
-											color={'white'}
-											fontWeight={'500'}
-										>
-											{props.calculationResult?.monthlyIncome[
-												`${selectedPeriod?.year}-${selectedPeriod?.month}`
-											]?.toLocaleString()
-												? props.calculationResult?.monthlyIncome[
-														`${selectedPeriod?.year}-${selectedPeriod?.month}`
-												  ]?.toLocaleString()
-												: 0}{' '}
-											원
-										</Typography>
-									</Box>
-									<Box
-										sx={{
-											display: 'flex',
-											alignItems: 'center',
-											gap: '15px',
-										}}
-									>
-										<Typography
-											variant="subtitle1"
-											color={'info.main'}
-											fontWeight={'500'}
-										>
-											지출
-										</Typography>
-										<Typography
-											variant="subtitle1"
-											color={'white'}
-											fontWeight={'500'}
-										>
-											{props.calculationResult?.monthlySpending[
-												`${selectedPeriod?.year}-${selectedPeriod?.month}`
-											]?.toLocaleString()
-												? props.calculationResult?.monthlySpending[
-														`${selectedPeriod?.year}-${selectedPeriod?.month}`
-												  ]?.toLocaleString()
-												: 0}{' '}
-											원
-										</Typography>
-									</Box>
-								</Box>
-							)}
+						)}
+
+						{/* 계좌 등록 */}
+						<Box
+							onClick={() =>
+								props.bankAccountList.length >= 3
+									? window.alert(
+											'최대 3개까지 등록 가능합니다.'
+									  )
+									: setAccountRegisterModalOpen(true)
+							}
+							sx={{
+								...boxStyle,
+								padding: '26px 10px 26px 21px',
+								border:
+									props.bankAccountList.length >= 3
+										? 'solid 1px #d2d2d2'
+										: 'solid 1px #305ddc',
+								cursor: 'pointer',
+								bgcolor: 'white',
+								width: { md: '338px', xs: '90%' },
+							}}
+							mb={{ md: 0, xs: 2 }}
+							mx={{ md: 0, xs: 'auto' }}
+							mr={{ md: 2, xs: 'auto' }}
+						>
+							<Thumbnail
+								src={'/images/main/bank.png'}
+								width={'30px'}
+								height={'30px'}
+							/>
+							<Box ml={2}>
+								<Typography
+									color={
+										props.bankAccountList.length >= 3
+											? 'secondary'
+											: 'primary'
+									}
+									variant="subtitle1"
+									fontWeight={'600'}
+									sx={{
+										mb: '3px',
+									}}
+								>
+									+ 계좌 등록하기 (최대 3개)
+								</Typography>
+								<Typography
+									color={'secondary'}
+									variant="body1"
+									fontWeight={'500'}
+								>
+									등록 시, 은행계정 또는 인증서 등록 필요
+								</Typography>
+							</Box>
 						</Box>
-					)}
+					</Box>
 
 					<Box
 						display={'flex'}
@@ -386,21 +452,11 @@ const MyAccounts = (props: IMyAccountsProps) => {
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': { display: 'none' },
 						}}
-						pl={{ sm: 0, xs: '5%' }}
+						pl={{ md: 0, xs: '5%' }}
 					>
-						{/* 끝으로 */}
-						{/* <Box
-							onClick={() => scrollToBottom()}
-							color={'secondary.main'}
-							position={'absolute'}
-							right={0}
-							top={'-30px'}
-						>
-							<ArrowForwardIosIcon />
-						</Box> */}
 						{/* 계좌 리스트 */}
 						<Box display={'flex'}>
-							{props.bankAccountList.map((bankAccount) => (
+							{bankAccountList.map((bankAccount) => (
 								<Box
 									sx={{
 										...boxStyle,
@@ -458,28 +514,36 @@ const MyAccounts = (props: IMyAccountsProps) => {
 												// variant="subtitle2"
 												color={'secondary.main'}
 												sx={{
-													width: '85px',
+													width: bankAccount.ACCOUNT_NICKNAME
+														? '85px'
+														: '200px',
 												}}
 												noWrap
 											>
 												{bankAccount.ACCOUNT_HOLDER}
 											</Typography>
-											<Typography
-												variant="subtitle2"
-												color={'secondary.main'}
-											>
-												|
-											</Typography>
-											<Typography
-												// variant="subtitle2"
-												color={'secondary.main'}
-												sx={{
-													width: '76px',
-												}}
-												noWrap
-											>
-												{bankAccount.ACCOUNT_NICKNAME}
-											</Typography>
+											{bankAccount.ACCOUNT_NICKNAME && (
+												<Typography
+													variant="subtitle2"
+													color={'secondary.main'}
+												>
+													|
+												</Typography>
+											)}
+											{bankAccount.ACCOUNT_NICKNAME && (
+												<Typography
+													// variant="subtitle2"
+													color={'secondary.main'}
+													sx={{
+														width: '76px',
+													}}
+													noWrap
+												>
+													{
+														bankAccount.ACCOUNT_NICKNAME
+													}
+												</Typography>
+											)}
 										</Box>
 									</Box>
 									{/* 메뉴 */}
@@ -556,51 +620,47 @@ const MyAccounts = (props: IMyAccountsProps) => {
 									</Menu>
 								</Box>
 							))}
-						</Box>
-						{/* 계좌 등록 */}
-						{props.bankAccountList.length >= 3 ? null : (
-							<Box
-								onClick={() =>
-									setAccountRegisterModalOpen(true)
-								}
-								sx={{
-									...boxStyle,
-									padding: '26px 10px 26px 21px',
-									border: 'solid 1px #305ddc',
-									cursor: 'pointer',
-									bgcolor: 'white',
-								}}
-							>
-								<Thumbnail
-									src={'/images/main/bank.png'}
-									width={'30px'}
-									height={'30px'}
-								/>
-								<Box ml={2}>
-									<Typography
-										color={'primary'}
-										variant="subtitle1"
-										fontWeight={'600'}
+							{/* 계좌 3개 이하일때 빈칸 3-해당길이까지 생성*/}
+							{props.bankAccountList.length < 3 &&
+								[
+									...Array(3 - props.bankAccountList.length),
+								].map(() => (
+									<Box
 										sx={{
-											mb: '3px',
+											...boxStyle,
+											padding: '26px 15px 26px 25px',
+											bgcolor: 'white',
 										}}
 									>
-										+ 계좌 등록하기 (최대 3개)
-									</Typography>
-									<Typography
-										color={'secondary'}
-										variant="body1"
-										fontWeight={'500'}
-									>
-										등록 시, 은행계정 또는 인증서 등록 필요
-									</Typography>
-								</Box>
-							</Box>
-						)}
-						{/* 끝부분 */}
-
-						<Box width={'5px'} height={'100%'} ref={scrollRef}>
-							<Typography></Typography>
+										{/* 은행 아이콘 */}
+										<Thumbnail
+											src={'/images/icons/money.png'}
+											width={'30px'}
+											height={'30px'}
+										/>
+										<Box ml={2}>
+											<Typography
+												color={'secondary'}
+												variant="subtitle1"
+												fontWeight={'600'}
+												sx={{
+													mb: '3px',
+												}}
+											>
+												비어있는 계좌 슬롯입니다.
+											</Typography>
+											<Typography
+												color={'secondary'}
+												variant="body1"
+												fontWeight={'500'}
+											>
+												원하시는 법인계좌를
+												등록해주세요!
+											</Typography>
+										</Box>
+										{/* 메뉴 */}
+									</Box>
+								))}
 						</Box>
 					</Box>
 				</Box>
@@ -654,6 +714,12 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						}
 					/>
 				)}
+				{/* 알림창 */}
+				<SupportiAlertModal
+					open={alert.open}
+					handleClose={() => alert.setOpen(false)}
+					type={alert.type}
+				/>
 			</>
 		)
 	);

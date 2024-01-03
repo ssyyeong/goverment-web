@@ -26,7 +26,11 @@ interface ISupportiAlertModalProps {
 		| 'seminarexceed'
 		| 'indicatorModify'
 		| 'indicatorDelete'
-		| 'indicatorWarning';
+		| 'indicatorWarning'
+		| 'successModifyAxios'
+		| 'successCreateAxios'
+		| 'successDeleteAxios'
+		| 'failAxios';
 	customHandleClose?: () => void;
 }
 
@@ -177,6 +181,46 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			},
 			cancelButtonAvailable: false,
 		},
+		successModifyAxios: {
+			type: 'success',
+			title: '성공적으로 수정되었습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		successCreateAxios: {
+			type: 'success',
+			title: '성공적으로 생성되었습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		successDeleteAxios: {
+			type: 'success',
+			title: '성공적으로 삭제되었습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		failAxios: {
+			type: 'error',
+			title: '오류가 발생했습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
 	};
 
 	return (
@@ -185,6 +229,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			handleClose={() => {
 				props.handleClose();
 			}}
+			title=""
 		>
 			<Box
 				display={'flex'}
@@ -202,13 +247,13 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 					justifyContent={'center'}
 					mb={'16px'}
 				>
-					{modalConfig[props.type].type === 'success' && (
+					{modalConfig[props.type]?.type === 'success' && (
 						<img
 							src={'/images/icons/icon_success.svg'}
 							alt={'success'}
 						/>
 					)}
-					{modalConfig[props.type].type === 'error' && (
+					{modalConfig[props.type]?.type === 'error' && (
 						<img
 							src={'/images/icons/icon_error.svg'}
 							alt={'error'}
@@ -216,7 +261,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 					)}
 				</Box>
 				<Typography variant={'h4'} fontWeight={'bold'} my={1}>
-					{modalConfig[props.type].title}
+					{modalConfig[props.type]?.title}
 				</Typography>
 				{props.type === 'indicatorWarning' && (
 					<Typography
@@ -234,7 +279,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 					width={'100%'}
 					gap={2}
 				>
-					{modalConfig[props.type].cancelButtonAvailable && (
+					{modalConfig[props.type]?.cancelButtonAvailable && (
 						<SupportiButton
 							contents={'취소'}
 							// fullWidth
@@ -251,16 +296,17 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 						/>
 					)}
 					<SupportiButton
-						contents={modalConfig[props.type].content}
+						contents={modalConfig[props.type]?.content}
 						isGradient={true}
 						style={{
 							color: '#fff',
 							mt: 3,
-							width: modalConfig[props.type].cancelButtonAvailable
+							width: modalConfig[props.type]
+								?.cancelButtonAvailable
 								? '50%'
 								: '100%',
 						}}
-						onClick={() => modalConfig[props.type].onclick()}
+						onClick={() => modalConfig[props.type]?.onclick()}
 					/>
 				</Box>
 			</Box>
