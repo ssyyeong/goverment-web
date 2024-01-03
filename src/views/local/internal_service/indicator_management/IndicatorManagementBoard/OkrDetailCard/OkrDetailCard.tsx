@@ -176,7 +176,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 					sx={{
 						borderRadius: '50%',
 						bgcolor: randomColor[props.index],
-						width: '10px',
+						width: '11px',
 						height: '10px',
 						mt: '2px',
 					}}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, LinearProgress, Typography } from '@mui/material';
 
-interface IProgressBarMaterialProps {
+interface IMaterialProps {
 	percentage: string;
 	color: string;
 }
@@ -38,8 +38,6 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 							width: `${item.percentage}%`,
 							height: '100%',
 							bgcolor: item.color,
-							borderTopLeftRadius: '5px',
-							borderBottomLeftRadius: '5px',
 							':first-child': {
 								borderTopLeftRadius: '5px',
 								borderBottomLeftRadius: '5px',

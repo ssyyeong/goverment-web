@@ -12,6 +12,7 @@ import { OkrDetailCard } from '../OkrDetailCard';
 import AchieveBox from '../AchieveBox/AchieveBox';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CloseIcon from '@mui/icons-material/Close';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -349,15 +350,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										variant="contained"
 										isGradient={true}
 									/> */}
-									<Typography
-										fontWeight={700}
-										sx={{ ml: 1, cursor: 'pointer' }}
+									<CloseIcon
+										style={{
+											marginLeft: 1,
+											cursor: 'pointer',
+										}}
 										onClick={() =>
 											props.setModalOpen(false)
 										}
-									>
-										X
-									</Typography>
+									/>
 								</Box>
 							</Box>
 
@@ -602,7 +603,6 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 											flexDirection={'column'}
 											gap={2}
 											mb={2}
-											pl={1}
 										>
 											<OkrDetailCard
 												data={item}

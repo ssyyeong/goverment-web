@@ -98,21 +98,22 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 								</Typography>
 							</Grid>
 							<Grid item xs={1} justifyContent={'end'}>
-								{props.handleClose && (
-									<Typography
-										sx={{ cursor: 'pointer' }}
-										onClick={props.handleClose}
-										fontWeight={'400'}
-										color={
-											props.activeHeader ||
-											props.title == ''
-												? 'white'
-												: 'black'
-										}
-									>
-										X
-									</Typography>
-								)}
+								{props.handleClose &&
+									(props.activeHeader || props.title == '' ? (
+										<img
+											src="/images/icons/whiteX.svg"
+											alt="cancel"
+											style={{ cursor: 'pointer' }}
+											onClick={props.handleClose}
+										/>
+									) : (
+										<img
+											src="/images/icons/blackX.svg"
+											alt="cancel"
+											style={{ cursor: 'pointer' }}
+											onClick={props.handleClose}
+										/>
+									))}
 							</Grid>
 						</Grid>
 					</Box>
