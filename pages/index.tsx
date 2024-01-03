@@ -609,101 +609,55 @@ const Page: NextPage = () => {
 									data-aos-duration="3000"
 									style={{
 										zIndex: -100,
-										marginLeft: 320,
-										marginTop: -330,
+										marginLeft: 200,
+										marginTop: -310,
 									}}
 								>
 									<img
 										alt="img"
 										src={'/images/main/financeNum2.svg'}
 										style={{
-											width: '300px',
+											width: '250px',
 											zIndex: 100,
 										}}
 									/>
-									<Box
-										data-aos="fade-right"
-										data-aos-delay="100"
-										data-aos-duration="2000"
-										style={{
-											width: '300px',
-											marginLeft: -330,
-											marginTop: -40,
-										}}
-									>
-										<img
-											alt="img"
-											src={'/images/main/financeNum1.svg'}
-											style={{
-												width: '260px',
-												zIndex: 100,
-											}}
-										/>
-										<Box
-											data-aos="fade-up"
-											data-aos-delay="100"
-											data-aos-duration="2000"
-											style={{
-												marginLeft: '100px',
-												marginTop: '20px',
-											}}
-										>
-											<img
-												alt="img"
-												src={
-													'/images/main/financeNum3.svg'
-												}
-												style={{
-													width: '300px',
-													zIndex: 100,
-												}}
-											/>
-										</Box>
-									</Box>
 								</Box>
-							</Box>
-							<Box
-								data-aos="fade-up"
-								data-aos-delay="100"
-								data-aos-duration="3000"
-								style={{
-									width: 0,
-									marginLeft: -300,
-									marginTop: 100,
-								}}
-							>
+								<Box
+									data-aos="fade-right"
+									data-aos-delay="100"
+									data-aos-duration="2000"
+									style={{
+										width: '290px',
+										marginLeft: -40,
+										marginTop: -40,
+									}}
+								>
+									<img
+										alt="img"
+										src={'/images/main/financeNum1.svg'}
+										style={{
+											width: '250px',
+											zIndex: 100,
+										}}
+									/>
+								</Box>
 								<Box
 									data-aos="fade-up"
 									data-aos-delay="100"
-									data-aos-duration="3000"
+									data-aos-duration="2000"
 									style={{
-										width: 200,
-										zIndex: -100,
-										marginLeft: 130,
-										marginTop: -300,
+										marginLeft: '80px',
+										marginTop: '10px',
 									}}
 								>
-									<Box
-										data-aos="fade-right"
-										data-aos-delay="100"
-										data-aos-duration="2000"
+									<img
+										alt="img"
+										src={'/images/main/financeNum3.svg'}
 										style={{
-											width: 200,
-											marginLeft: -190,
-											marginTop: -170,
+											width: '250px',
+											zIndex: 100,
 										}}
-									>
-										<Box
-											data-aos="fade-up"
-											data-aos-delay="100"
-											data-aos-duration="2000"
-											style={{
-												width: 200,
-												marginLeft: 25,
-												marginTop: -100,
-											}}
-										></Box>
-									</Box>
+									/>
 								</Box>
 							</Box>
 						</Box>
