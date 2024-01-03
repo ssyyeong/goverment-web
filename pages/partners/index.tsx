@@ -132,7 +132,7 @@ const Page: NextPage = () => {
 			sx={{
 				width: '100%',
 				height: '100%',
-				p: { xs: 3, sm: 10 },
+				p: { xs: 0.5, sm: 10 },
 				bgcolor: '#F1F3FB',
 				alignItems: 'center',
 			}}
@@ -143,7 +143,16 @@ const Page: NextPage = () => {
 				</Typography>
 			</Box>
 			<Box sx={{ height: '100%', width: '100%', mt: '20px' }}>
-				<Box ml="auto" mr="auto">
+				<Box
+					sx={{
+						width: {
+							md: '100%',
+							xs: '330px',
+						},
+					}}
+					ml="auto"
+					mr="auto"
+				>
 					{CardConfig.map((v, idx) => {
 						return (
 							<Box
@@ -155,6 +164,8 @@ const Page: NextPage = () => {
 											? 'scroll'
 											: 'hidden',
 								}}
+								ml={'auto'}
+								mr={'auto'}
 							>
 								<Typography
 									fontWeight={600}
@@ -181,14 +192,14 @@ const Page: NextPage = () => {
 													sx={{
 														width: {
 															sm: '400px',
-															xs: '320px',
+															xs: '330px',
 														},
 														minHeight: '214px',
 														borderRadius: '16px',
 														bgcolor: '#FFFFFF',
 														justifyContent:
 															'center',
-														p: 4,
+														p: { md: 3.5, xs: 3 },
 													}}
 												>
 													<Box

@@ -186,7 +186,7 @@ const Page: NextPage = () => {
 				item
 				xs={12}
 				sx={{
-					p: { xs: 5, sm: 15 },
+					p: { xs: 5, md: 15 },
 				}}
 			>
 				<Grid container>
@@ -248,8 +248,8 @@ const Page: NextPage = () => {
 
 						<Box
 							sx={{
-								width: { xs: '380px', sm: '650px' },
-								height: { xs: '300px', sm: '480px' },
+								width: { xs: '380px', md: '650px' },
+								height: { xs: '300px', md: '480px' },
 							}}
 						>
 							<img
@@ -273,7 +273,7 @@ const Page: NextPage = () => {
 				bgcolor={'#3C52BB'}
 				borderRadius={4}
 				sx={{
-					p: { sm: 15, xs: 5 },
+					p: { md: 15, xs: 5 },
 				}}
 				p={15}
 			>
@@ -292,7 +292,7 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 								gap={0.5}
 								p={5}
-								sx={{ width: { sm: '350px', xs: '350px' } }}
+								sx={{ width: { md: '350px', xs: '350px' } }}
 							>
 								<Typography
 									color={'white'}
@@ -346,8 +346,8 @@ const Page: NextPage = () => {
 				ml="auto"
 				mr="auto"
 				sx={{
-					gap: { sm: 10, xs: 5 },
-					p: { sm: 10, xs: 0 },
+					gap: { md: 10, xs: 5 },
+					p: { md: 10, xs: 0 },
 				}}
 			>
 				<Box justifyContent={'center'}>
@@ -372,17 +372,17 @@ const Page: NextPage = () => {
 					ml="auto"
 					mr="auto"
 					display="flex"
-					sx={{ gap: { sm: 5, xs: 2 } }}
+					sx={{ gap: { md: 5, xs: 2 } }}
 				>
 					{data3.map((item, index) => {
 						return (
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { sm: '350px', xs: '180px' },
+										width: { md: '350px', xs: '160px' },
 										height: {
-											sm: '330px',
-											xs: '180px',
+											md: '330px',
+											xs: '150px',
 										},
 									}}
 									mt={5}
@@ -396,24 +396,24 @@ const Page: NextPage = () => {
 										height={'inherit'}
 										sx={{
 											pt: {
-												sm: '140px',
-												xs: '60px',
+												md: '140px',
+												xs: '40px',
 											},
 											borderRadius: {
-												sm: 5,
+												md: 5,
 												xs: 3,
 											},
 										}}
 									>
 										<Typography
 											color={'white'}
-											variant={'h4'}
+											variant={'h5'}
 										>
 											{item.text1}
 										</Typography>
 										<Typography
 											color={'white'}
-											variant={'h4'}
+											variant={'h5'}
 											lineHeight={2}
 										>
 											{item.text2}
@@ -437,17 +437,17 @@ const Page: NextPage = () => {
 					ml="auto"
 					mr="auto"
 					display="flex"
-					sx={{ gap: { sm: 5, xs: 2 } }}
+					sx={{ gap: { md: 5, xs: 2 } }}
 				>
 					{data3_1.map((item, index) => {
 						return (
 							<Box key={index}>
 								<Box
 									sx={{
-										width: { sm: '350px', xs: '180px' },
+										width: { md: '350px', xs: '160px' },
 										height: {
-											sm: '330px',
-											xs: '180px',
+											md: '330px',
+											xs: '150px',
 										},
 									}}
 									ml={'auto'}
@@ -460,24 +460,24 @@ const Page: NextPage = () => {
 										height={'inherit'}
 										sx={{
 											pt: {
-												sm: '140px',
-												xs: '60px',
+												md: '140px',
+												xs: '40px',
 											},
 											borderRadius: {
-												sm: 5,
+												md: 5,
 												xs: 3,
 											},
 										}}
 									>
 										<Typography
 											color={'white'}
-											variant={'h4'}
+											variant={'h5'}
 										>
 											{item.text1}
 										</Typography>
 										<Typography
 											color={'white'}
-											variant={'h4'}
+											variant={'h5'}
 											lineHeight={2}
 										>
 											{item.text2}
@@ -561,7 +561,7 @@ const Page: NextPage = () => {
 				gap={4}
 				flex={'wrap'}
 				sx={{
-					p: { sm: 15, xs: 5 },
+					p: { md: 15, xs: 5 },
 				}}
 				bgcolor={'rgb(245, 247, 255)'}
 				width={'100%'}
@@ -586,7 +586,7 @@ const Page: NextPage = () => {
 					<Box
 						height={'450px'}
 						mt={5}
-						sx={{ width: { sm: '600px', xs: '450px' } }}
+						sx={{ width: { md: '600px', xs: '450px' } }}
 						width="600px"
 					>
 						<Box textAlign={'center'}>
@@ -627,7 +627,7 @@ const Page: NextPage = () => {
 										data-aos-duration="2000"
 										style={{
 											width: '300px',
-											marginLeft: -300,
+											marginLeft: -330,
 											marginTop: -40,
 										}}
 									>
@@ -708,7 +708,7 @@ const Page: NextPage = () => {
 							</Box>
 						</Box>
 					</Box>
-					<Box p={5}>
+					<Box p={4}>
 						<Typography variant={'h1'} lineHeight={3}>
 							재무 솔루션
 						</Typography>
@@ -735,7 +735,7 @@ const Page: NextPage = () => {
 					<Grid
 						textAlign={'center'}
 						sx={{
-							p: { sm: 15, xs: 5 },
+							p: { md: 15, xs: 5 },
 						}}
 						bgcolor={'#3C52BB'}
 						mt={10}
@@ -751,7 +751,7 @@ const Page: NextPage = () => {
 						<Grid
 							borderRadius={4}
 							sx={{
-								p: { sm: 15, xs: 5 },
+								p: { md: 15, xs: 5 },
 							}}
 							bgcolor={'white'}
 							mt={5}
@@ -823,11 +823,11 @@ const Page: NextPage = () => {
 												borderRadius={5}
 												sx={{
 													width: {
-														sm: '280px',
+														md: '280px',
 														xs: '270px',
 													},
 													height: {
-														sm: '280px',
+														md: '280px',
 														xs: '270px',
 													},
 												}}
@@ -878,11 +878,11 @@ const Page: NextPage = () => {
 												p={3}
 												sx={{
 													width: {
-														sm: '280px',
+														md: '280px',
 														xs: '270px',
 													},
 													height: {
-														sm: '280px',
+														md: '280px',
 														xs: '270px',
 													},
 												}}
@@ -922,7 +922,7 @@ const Page: NextPage = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					gap={2}
-					sx={{ p: { sm: 15, xs: 5 } }}
+					sx={{ p: { md: 15, xs: 5 } }}
 					justifyContent={'center'}
 				>
 					<Typography color={'white'} variant="h4" fontWeight={'500'}>
