@@ -87,7 +87,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	}[] = [
 		{
 			label: '전체',
-			value: undefined,
+			value: '전체',
 		},
 		{
 			label: '재무',
@@ -197,7 +197,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			 */
 			selectedKpiCategory !== null &&
 				props.name === 'KPI' && {
-					CATEGORY: selectedKpiCategory,
+					CATEGORY:
+						selectedKpiCategory === '전체'
+							? undefined
+							: selectedKpiCategory,
 				}
 		);
 
@@ -211,9 +214,17 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	};
 
 	return (
-		<Box display="flex" flexDirection="column" gap={1}>
+		<Box
+			display="flex"
+			flexDirection="column"
+			gap={1}
+			sx={{
+				pl: { xs: '15px', sm: '0' },
+				pr: { xs: '15px', sm: '0' },
+			}}
+		>
 			{/* 새로운 목표 등록 영역 */}
-			<Box sx={{ pl: { xs: '15px', sm: '0' }, pr: { xs: '15px', sm: '0' } }}>
+			<Box>
 				<SupportiButton
 					contents={`+ ${props.name} 목표 등록`}
 					startIcon={<FlagIcon />}
@@ -230,14 +241,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			</Box>
 
 			{/* 컨트롤러 영역 */}
-			<Box
-				display={'flex'}
-				justifyContent={'space-between'}
-				sx={{
-					pl: { xs: '15px', sm: '0' },
-					pr: { xs: '15px', sm: '0' },
-				}}
-			>
+			<Box display={'flex'} justifyContent={'space-between'}>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
 					chipDataList={selectableStatusList}
