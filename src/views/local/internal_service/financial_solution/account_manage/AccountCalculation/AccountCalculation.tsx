@@ -288,6 +288,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 								value={standardDate}
 								inputRef={inputRef}
 								inputFormat="YY-MM-DD"
+								maxDate={new Date()}
 								InputProps={{
 									endAdornment: (
 										<Typography color={'white'}>
@@ -494,6 +495,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 								onChange={(e) => {
 									setStandardDate(e);
 								}}
+								maxDate={new Date()}
 								InputAdornmentProps={{}}
 								value={standardDate}
 								inputRef={inputRef}

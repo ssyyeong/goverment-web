@@ -14,7 +14,8 @@ import { useRouter } from 'next/router';
 import SupportiButton from '../../../../../src/views/global/SupportiButton';
 import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 /**
  * 재무제표 편집 페이지
  */
@@ -67,7 +68,7 @@ const Page: NextPage = () => {
 	 * 대상 일자
 	 */
 	const [targetDate, setTargetDate] = React.useState<moment.Moment>(
-		moment().endOf('years')
+		moment().subtract(1, 'y').endOf('years')
 	);
 
 	//* Functions
@@ -81,7 +82,7 @@ const Page: NextPage = () => {
 		if (direction === 'previous') {
 			changedTargetDate.subtract(1, 'years');
 		} else {
-			if (changedTargetDate.year() !== moment().year()) {
+			if (changedTargetDate.year() !== moment().subtract(1, 'y').year()) {
 				changedTargetDate.add(1, 'years');
 			}
 		}
@@ -229,7 +230,11 @@ const Page: NextPage = () => {
 						>
 							재무제표
 						</Typography>
-						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+						<Typography
+							color={'secondary.dark'}
+							sx={{ mb: 2 }}
+							lineHeight={1.5}
+						>
 							재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
 							있습니다.
 							<br />
@@ -273,14 +278,18 @@ const Page: NextPage = () => {
 												changeTargetDate('previous');
 											}}
 										>
-											이전
+											<ArrowBackIosNewIcon fontSize="small" />
 										</Button>
 									</Box>
 
 									{/* 현재 연도 */}
 									<Box>
-										<Typography variant={'body1'}>
-											{targetDate.format('YYYY.MM.DD')}
+										<Typography
+											variant={'h6'}
+											fontWeight={'500'}
+											color={'primary'}
+										>
+											{targetDate.format('YYYY년')}
 										</Typography>
 									</Box>
 
@@ -291,7 +300,7 @@ const Page: NextPage = () => {
 												changeTargetDate('next');
 											}}
 										>
-											다음
+											<ArrowForwardIosIcon fontSize="small" />
 										</Button>
 									</Box>
 								</Box>
@@ -305,13 +314,18 @@ const Page: NextPage = () => {
 								<Grid item xs={6} md={3}>
 									<Box
 										border={0.5}
-										borderColor={'#bebebe'}
-										sx={{ backgroundColor: '#305ddc' }}
+										borderColor={'rgba(185, 197, 255, 1)'}
+										sx={{
+											backgroundColor: '#305ddc',
+											borderTopLeftRadius: 10,
+											py: 1,
+											px: 4,
+										}}
 									>
 										<Typography
 											textAlign={'center'}
-											variant={'body1'}
-											fontWeight={'700'}
+											variant={'h6'}
+											fontWeight={'500'}
 											color={'white'}
 											pt={1}
 											pb={1}
@@ -325,13 +339,18 @@ const Page: NextPage = () => {
 								<Grid item xs={6} md={3}>
 									<Box
 										border={0.5}
-										borderColor={'#bebebe'}
-										sx={{ backgroundColor: '#305ddc' }}
+										borderColor={'rgba(185, 197, 255, 1)'}
+										sx={{
+											backgroundColor: '#305ddc',
+											borderTopRightRadius: 10,
+										}}
+										py={1}
+										px={4}
 									>
 										<Typography
 											textAlign={'center'}
-											variant={'body1'}
-											fontWeight={'700'}
+											variant={'h6'}
+											fontWeight={'500'}
 											color={'white'}
 											pt={1}
 											pb={1}
@@ -355,11 +374,11 @@ const Page: NextPage = () => {
 														<Box
 															sx={{
 																backgroundColor:
-																	'#d2d2d2',
+																	'rgba(241, 243, 251, 1)',
 															}}
 															border={0.5}
 															borderColor={
-																'#bebebe'
+																'rgba(185, 197, 255, 1)'
 															}
 															pl={
 																financialStatementMapping.isHighlighted
@@ -375,13 +394,16 @@ const Page: NextPage = () => {
 														>
 															<Typography
 																variant={
-																	'body1'
+																	'subtitle2'
 																}
 																fontWeight={
 																	financialStatementMapping.isHighlighted
 																		? '700'
-																		: '400'
-																} // 값 설정해야함* 값 설정한 뒤 해당 주석 지울 것
+																		: '500'
+																}
+																color={
+																	'rgba(60, 82, 187, 1)'
+																}
 															>
 																{
 																	financialStatementMapping.label
@@ -395,7 +417,7 @@ const Page: NextPage = () => {
 														<Box
 															border={0.5}
 															borderColor={
-																'#bebebe'
+																'rgba(185, 197, 255, 1)'
 															}
 															bgcolor={'white'}
 														>

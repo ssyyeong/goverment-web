@@ -38,6 +38,7 @@ interface SupportiInputProps {
 	additionalProps?: { [key: string]: any };
 	readOnly?: boolean;
 	minDate?: string | Date;
+	maxDate?: string | Date;
 	inputType?: string;
 	eraseValue?: () => void;
 }
@@ -194,6 +195,7 @@ const SupportiInput = React.forwardRef(
 								props.value != null ? dayjs(props.value) : null
 							}
 							minDate={dayjs(props.minDate)}
+							maxDate={dayjs(props.maxDate)}
 							renderInput={(params) => (
 								<TextField
 									{...params}
