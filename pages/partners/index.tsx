@@ -143,280 +143,303 @@ const Page: NextPage = () => {
 				</Typography>
 			</Box>
 			<Box sx={{ height: '100%', width: '100%', mt: '20px' }}>
-				{CardConfig.map((v, idx) => {
-					return (
-						<Box
-							style={{
-								paddingBottom: 42,
-								paddingTop: 30,
-								overflowX:
-									v.Companies.length > 3
-										? 'scroll'
-										: 'hidden',
-							}}
-						>
-							<Typography
-								fontWeight={600}
-								variant="h3"
-								style={{
-									color: '#3C52BB',
-									lineHeight: '130%',
-									marginBottom: 30,
-								}}
-							>
-								{v.Title}
-							</Typography>
+				<Box ml="auto" mr="auto">
+					{CardConfig.map((v, idx) => {
+						return (
 							<Box
-								sx={{
-									display: 'flex',
-									gap: 3,
-									flexWrap: { xs: 'wrap', sm: 'nowrap' },
+								style={{
+									paddingBottom: 42,
+									paddingTop: 30,
+									overflowX:
+										v.Companies.length > 3
+											? 'scroll'
+											: 'hidden',
 								}}
 							>
-								{v.Companies.map((item, index) => {
-									return (
-										<Box>
-											<Box
-												sx={{
-													width: {
-														sm: '400px',
-														xs: '320px',
-													},
-													minHeight: '214px',
-													borderRadius: '16px',
-													bgcolor: '#FFFFFF',
-													justifyContent: 'center',
-													p: 4,
-												}}
-											>
+								<Typography
+									fontWeight={600}
+									variant="h3"
+									style={{
+										color: '#3C52BB',
+										lineHeight: '130%',
+										marginBottom: 30,
+									}}
+								>
+									{v.Title}
+								</Typography>
+								<Box
+									sx={{
+										display: 'flex',
+										gap: 3,
+										flexWrap: { xs: 'wrap', sm: 'nowrap' },
+									}}
+								>
+									{v.Companies.map((item, index) => {
+										return (
+											<Box>
 												<Box
-													style={{
-														display: 'flex',
+													sx={{
+														width: {
+															sm: '400px',
+															xs: '320px',
+														},
+														minHeight: '214px',
+														borderRadius: '16px',
+														bgcolor: '#FFFFFF',
+														justifyContent:
+															'center',
+														p: 4,
 													}}
 												>
 													<Box
 														style={{
-															marginRight: 24,
+															display: 'flex',
 														}}
 													>
-														{item.logoPath ? (
-															<img
-																src={
-																	item.logoPath
-																}
-																style={{
-																	width: 104,
-																	height: 104,
-																	borderRadius: 10,
-																}}
-															/>
-														) : item.name[0] ===
-														  '법무사 오균홍 사무소' ? (
-															<Box
-																sx={{
-																	width: '110px',
-																	height: '110px',
-																	borderRadius:
-																		'10px',
-																	backgroundColor:
-																		'#F1F3FB',
-																	justifyContent:
-																		'center',
-																	alignItems:
-																		'center',
-																	textAlign:
-																		'center',
-																	padding:
-																		'15%',
-																}}
-															>
-																{item.name[0]
-																	.split(' ')
-																	.map(
-																		(
-																			v,
-																			idx
-																		) => {
-																			return (
-																				<Typography
-																					fontWeight={
-																						600
-																					}
-																					variant={
-																						'h5'
-																					}
-																					style={{
-																						color: '#3C52BB',
-																						flexShrink: 1,
-																					}}
-																				>
-																					{
-																						v
-																					}
-																				</Typography>
-																			);
+														<Box
+															style={{
+																marginRight: 24,
+															}}
+														>
+															{item.logoPath ? (
+																<img
+																	src={
+																		item.logoPath
+																	}
+																	style={{
+																		width: 104,
+																		height: 104,
+																		borderRadius: 10,
+																	}}
+																/>
+															) : item.name[0] ===
+															  '법무사 오균홍 사무소' ? (
+																<Box
+																	sx={{
+																		width: '110px',
+																		height: '110px',
+																		borderRadius:
+																			'10px',
+																		backgroundColor:
+																			'#F1F3FB',
+																		justifyContent:
+																			'center',
+																		alignItems:
+																			'center',
+																		textAlign:
+																			'center',
+																		padding:
+																			'15%',
+																	}}
+																>
+																	{item.name[0]
+																		.split(
+																			' '
+																		)
+																		.map(
+																			(
+																				v,
+																				idx
+																			) => {
+																				return (
+																					<Typography
+																						fontWeight={
+																							600
+																						}
+																						variant={
+																							'h5'
+																						}
+																						style={{
+																							color: '#3C52BB',
+																							flexShrink: 1,
+																						}}
+																					>
+																						{
+																							v
+																						}
+																					</Typography>
+																				);
+																			}
+																		)}
+																</Box>
+															) : (
+																<Box
+																	sx={{
+																		width: '110px',
+																		height: '110px',
+																		borderRadius:
+																			'10px',
+																		backgroundColor:
+																			'#F1F3FB',
+																		justifyContent:
+																			'center',
+																		alignItems:
+																			'center',
+																		textAlign:
+																			'center',
+																		paddingTop:
+																			'40%',
+																	}}
+																>
+																	<Typography
+																		fontWeight={
+																			600
 																		}
-																	)}
-															</Box>
-														) : (
-															<Box
-																sx={{
-																	width: '110px',
-																	height: '110px',
-																	borderRadius:
-																		'10px',
-																	backgroundColor:
-																		'#F1F3FB',
-																	justifyContent:
-																		'center',
-																	alignItems:
-																		'center',
-																	textAlign:
-																		'center',
-																	paddingTop:
-																		'40%',
-																}}
-															>
+																		variant={
+																			'h5'
+																		}
+																		style={{
+																			color: '#3C52BB',
+																			flexShrink: 1,
+																		}}
+																	>
+																		{
+																			item.name
+																		}
+																	</Typography>
+																</Box>
+															)}
+														</Box>
+														<Box
+															style={{
+																display: 'flex',
+																flexDirection:
+																	'column',
+																justifyContent:
+																	'center',
+															}}
+														>
+															{item.accent && (
 																<Typography
 																	fontWeight={
-																		600
+																		500
 																	}
 																	variant={
 																		'h5'
 																	}
 																	style={{
 																		color: '#3C52BB',
-																		flexShrink: 1,
+																		marginBottom: 12,
 																	}}
 																>
-																	{item.name}
+																	{
+																		item.accent
+																	}
 																</Typography>
-															</Box>
-														)}
-													</Box>
-													<Box
-														style={{
-															display: 'flex',
-															flexDirection:
-																'column',
-															justifyContent:
-																'center',
-														}}
-													>
-														{item.accent && (
-															<Typography
-																fontWeight={500}
-																variant={'h5'}
+															)}
+															<Box
 																style={{
-																	color: '#3C52BB',
-																	marginBottom: 12,
+																	flexWrap:
+																		'wrap',
+																	display:
+																		'flex',
 																}}
 															>
-																{item.accent}
-															</Typography>
-														)}
-														<Box
-															style={{
-																flexWrap:
-																	'wrap',
-																display: 'flex',
-															}}
-														>
-															{item.name.map(
-																(v, idx) => {
-																	return (
-																		<Typography
-																			fontWeight={
-																				600
-																			}
-																			variant={
-																				'h3'
-																			}
-																			style={{
-																				color: '#000',
-																				lineHeight:
-																					'130%',
-																			}}
-																		>
-																			{v}
-																		</Typography>
-																	);
-																}
-															)}
+																{item.name.map(
+																	(
+																		v,
+																		idx
+																	) => {
+																		return (
+																			<Typography
+																				fontWeight={
+																					600
+																				}
+																				variant={
+																					'h3'
+																				}
+																				style={{
+																					color: '#000',
+																					lineHeight:
+																						'130%',
+																				}}
+																			>
+																				{
+																					v
+																				}
+																			</Typography>
+																		);
+																	}
+																)}
+															</Box>
 														</Box>
 													</Box>
-												</Box>
-												{item.content && (
-													<Typography
-														marginTop={3}
-														fontWeight={500}
-														variant={'subtitle1'}
-														style={{
-															color: '#757575',
+													{item.content && (
+														<Typography
+															marginTop={3}
+															fontWeight={500}
+															variant={
+																'subtitle1'
+															}
+															style={{
+																color: '#757575',
 
-															// lineHeight: '50px',
+																// lineHeight: '50px',
+															}}
+														>
+															{item.content}
+														</Typography>
+													)}
+												</Box>
+												{item.add && (
+													<Box
+														sx={{
+															display: 'flex',
+															flexDirection:
+																'row',
+															gap: '10px',
+															p: 1,
+															backgroundColor:
+																'#3C52BB',
+															borderRadius: 999,
+															marginTop: '16px',
 														}}
 													>
-														{item.content}
-													</Typography>
+														<Typography
+															fontWeight={500}
+															variant={'body1'}
+															style={{
+																backgroundColor:
+																	'rgba(255, 255, 255, 0.25)',
+																borderRadius: 999,
+																color: '#FFF',
+															}}
+															sx={{
+																p: {
+																	xs: 0.5,
+																	sm: 1,
+																},
+																lineHeight: {
+																	xs: '25px',
+																	sm: '10px',
+																},
+															}}
+														>
+															혜택
+														</Typography>
+														<Typography
+															fontWeight={500}
+															variant={'body1'}
+															style={{
+																color: '#FFF',
+																marginTop:
+																	'auto',
+																marginBottom:
+																	'auto',
+															}}
+														>
+															{item.add}
+														</Typography>
+													</Box>
 												)}
 											</Box>
-											{item.add && (
-												<Box
-													sx={{
-														display: 'flex',
-														flexDirection: 'row',
-														gap: '10px',
-														p: 1,
-														backgroundColor:
-															'#3C52BB',
-														borderRadius: 999,
-														marginTop: '16px',
-													}}
-												>
-													<Typography
-														fontWeight={500}
-														variant={'body1'}
-														style={{
-															backgroundColor:
-																'rgba(255, 255, 255, 0.25)',
-															borderRadius: 999,
-															color: '#FFF',
-														}}
-														sx={{
-															p: {
-																xs: 0.5,
-																sm: 1,
-															},
-															lineHeight: {
-																xs: '25px',
-																sm: '10px',
-															},
-														}}
-													>
-														혜택
-													</Typography>
-													<Typography
-														fontWeight={500}
-														variant={'body1'}
-														style={{
-															color: '#FFF',
-															marginTop: 'auto',
-															marginBottom:
-																'auto',
-														}}
-													>
-														{item.add}
-													</Typography>
-												</Box>
-											)}
-										</Box>
-									);
-								})}
+										);
+									})}
+								</Box>
 							</Box>
-						</Box>
-					);
-				})}
+						);
+					})}
+				</Box>
 			</Box>
 		</Box>
 	);

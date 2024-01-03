@@ -88,8 +88,6 @@ const OkrModal = (props: IOkrModalProps) => {
 			) {
 				setIsAlertOpen(true);
 				return;
-			} else {
-				setIsAlertOpen(false);
 			}
 		});
 
