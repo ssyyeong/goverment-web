@@ -138,6 +138,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			(response: any) => {
 				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
+				props.setModalOpen(false);
 			},
 			(err: any) => {}
 		);

@@ -101,8 +101,8 @@ const OkrModal = (props: IOkrModalProps) => {
 				(response) => {
 					alert('등록 성공');
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
-					return;
 					props.setModalOpen(false);
+					return;
 				},
 				(err) => {
 					console.log(err);
