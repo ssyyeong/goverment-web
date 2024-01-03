@@ -240,8 +240,7 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							value={
 								isUserMakeUnit
 									? '직접입력'
-									: props.okrDetailData[props.index]
-											.TARGET_UNIT
+									: props.data.TARGET_UNIT
 							}
 							setValue={(value) => {
 								if (value === '직접입력') {

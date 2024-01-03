@@ -113,7 +113,7 @@ const KpiModal = (props: IKpiModalProps) => {
 			}
 		}
 	}, [memberId, props.modalOpen, props.data]);
-	console.log(kpiData);
+
 	return (
 		<Box>
 			<SuppportiModal

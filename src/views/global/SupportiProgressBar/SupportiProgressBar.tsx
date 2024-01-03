@@ -38,7 +38,9 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 							width: `${item.percentage}%`,
 							height: '100%',
 							bgcolor: item.color,
-							':nth-child(1)': {
+							borderTopLeftRadius: '5px',
+							borderBottomLeftRadius: '5px',
+							':first-child': {
 								borderTopLeftRadius: '5px',
 								borderBottomLeftRadius: '5px',
 							},

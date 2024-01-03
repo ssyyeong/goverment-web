@@ -34,7 +34,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	const router = useRouter();
 	const [openChargeModal, setOpenChargeModal] =
 		React.useState<boolean>(false);
-	console.log(props.type);
+
 	const modalConfig = {
 		success: {
 			type: 'success',
