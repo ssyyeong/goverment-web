@@ -219,15 +219,15 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			flexDirection="column"
 			gap={1}
 			sx={{
-				pl: { xs: '15px', sm: '0' },
-				pr: { xs: '15px', sm: '0' },
+				pl: { xs: '15px', md: '0' },
+				pr: { xs: '15px', md: '0' },
 			}}
 		>
 			{/* 새로운 목표 등록 영역 */}
 			<Box
 				sx={{
-					pl: { xs: '15px', sm: '0' },
-					pr: { xs: '15px', sm: '0' },
+					pl: { xs: '15px', md: '0' },
+					pr: { xs: '15px', md: '0' },
 				}}
 			>
 				<SupportiButton
@@ -236,11 +236,11 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					onClick={() => setIndicatorRegisterModal(true)}
 					isGradient={true}
 					style={{
-						height: { sm: '40px', xs: 40 },
+						height: { xs: '40px', md: 40 },
 						color: 'white',
 						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
 						marginTop: '10px',
-						width: { xs: '100%', sm: '172px' },
+						width: { xs: '100%', md: '172px' },
 					}}
 				/>
 			</Box>

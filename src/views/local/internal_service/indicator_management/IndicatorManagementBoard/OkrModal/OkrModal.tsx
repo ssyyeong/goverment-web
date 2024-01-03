@@ -168,7 +168,7 @@ const OkrModal = (props: IOkrModalProps) => {
 				title={'목표 등록'}
 				activeHeader={true}
 				style={{
-					width: { xs: '100%', sm: '60%' },
+					width: { xs: '100%', md: '60%' },
 				}}
 				children={
 					<Box
@@ -179,7 +179,7 @@ const OkrModal = (props: IOkrModalProps) => {
 						minHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', sm: '90%' },
+							width: { xs: '100%', md: '90%' },
 							pt: 2,
 						}}
 					>
@@ -369,7 +369,7 @@ const OkrModal = (props: IOkrModalProps) => {
 							}}
 							style={{
 								height: '50px',
-								width: { xs: '100%', sm: '260px' },
+								width: { xs: '100%', md: '260px' },
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}

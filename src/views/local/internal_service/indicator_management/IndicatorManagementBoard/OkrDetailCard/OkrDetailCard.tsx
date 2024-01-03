@@ -159,7 +159,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			pb={isMoreOpen && 0}
 			width={props.mode === 'detail' ? '100%' : '380px'}
 			sx={{
-				minWidth: { xs: '300px', sm: '380px' },
+				minWidth: { xs: '300px', md: '380px' },
 			}}
 			onClick={() => {
 				if (props.mode === 'detail') {
@@ -464,7 +464,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 											style={{
 												width: {
 													xs: '100px',
-													sm: '150px',
+													md: '150px',
 												},
 											}}
 										/>
@@ -485,7 +485,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													marginTop: '5px',
 													width: {
 														xs: '100px',
-														sm: '150px',
+														md: '150px',
 													},
 												}}
 											/>
@@ -529,7 +529,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 													bgcolor: 'white',
 													width: {
 														xs: '100px',
-														sm: '150px',
+														md: '150px',
 													},
 												}}
 											/>

@@ -382,16 +382,28 @@ const Page: NextPage = () => {
 																'rgba(255, 255, 255, 0.25)',
 															borderRadius: 999,
 															color: '#FFF',
-															padding: '7px 10px',
+														}}
+														sx={{
+															p: {
+																xs: 0.5,
+																sm: 1,
+															},
+															lineHeight: {
+																xs: '25px',
+																sm: '10px',
+															},
 														}}
 													>
 														혜택
-													</Typography>{' '}
+													</Typography>
 													<Typography
 														fontWeight={500}
-														variant={'subtitle1'}
+														variant={'body1'}
 														style={{
 															color: '#FFF',
+															marginTop: 'auto',
+															marginBottom:
+																'auto',
 														}}
 													>
 														{item.add}
@@ -409,65 +421,5 @@ const Page: NextPage = () => {
 		</Box>
 	);
 };
-// const useStyle = () => {
-//   const { width, height } = useWindowDimensions();
-//   const PC = width > 1024;
-//   const mobile = width < 501;
-//   const styles = StyleSheet.create({
-//     wrap: {
-//       width: '100%',
-//       height: '100%',
-//       paddingLeft: PC && 70,
-//       paddingRight: PC && 100,
-//       paddingTop: PC && 60,
-//       paddingBottom: PC && 100,
-//       backgroundColor: mobile ? '#ffffff' : '#F1F3FB',
-//       alignItems: mobile && 'center',
-//       borderTopLeftRadius: PC && 50,
-//       TypographyAlign: mobile && 'center',
-//     },
-//     title: {
-//       fontFamily: 'Pretendard',
-//       fontWeight: 700,
-//       fontSize: mobile ? 27 : 36,
-//       marginBottom: PC ? 15 : 20,
-//     },
-//     subTitle: {
-//       color: "#3C52BB",
-//       fontSize: 24,
-//       fontWeight: 600,
-//       lineHeight: '130%'
-//     },
-//     underWrap: {
-//       height: '100%',
-//       width: '80%',
-//       // border: '0.5px solid #D9D9D9',
-//       marginTop: 20,
-
-//     },
-//     card: {
-//       width: 432,
-//       minHeight: 214,
-//       borderRadius: 16,
-//       backgroundColor: '#ffffff',
-//       padding: 32,
-//       justifyContent: 'center',
-//       gap: 20
-//     },
-//     companyName: {
-//       fontWeight: 600,
-//       fontSize: 23,
-//       lineHeight: '130%',
-//       color: "#000",
-//     },
-//     content: {
-//       color: "#757575",
-//       lineHeight: 30,
-//       fontSize: 16,
-//       fontWeight: 500
-//     }
-//   });
-//   return { styles };
-// };
 
 export default Page;

@@ -188,8 +188,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				}}
 				title={''}
 				style={{
-					width: { xs: '100%', sm: '60%' },
-					padding: { xs: '10px', sm: '20px' },
+					width: { xs: '100%', md: '60%' },
+					padding: { xs: '10px', md: '20px' },
 				}}
 				children={
 					<Box
@@ -200,7 +200,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						minHeight={'70vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', sm: '80%' },
+							width: { xs: '100%', md: '80%' },
 						}}
 					>
 						{/** 상위 목표 작성 */}
