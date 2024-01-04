@@ -32,14 +32,15 @@ interface IOkrDetailModalProps {
 const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	//* Controllers
 	const okrMainController = new DefaultController('OkrMain');
-	const okrDetailController = new DefaultController('OkrDetail');
 
 	//* Modules
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
 	//* Constants
 
 	//* States
@@ -69,7 +70,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		setOkrDetailData(okrDetailDataCopy);
 	};
 
-	//* okr 업데이트 함수
+	/**
+	 *  okr 업데이트 함수
+	 *
+	 * */
+
+	/**
+	 *
+	 * 메인 목표 수정
+	 */
 	const updateOkrMain = (injectedObj) => {
 		if (okrMainData.TITLE === '') {
 			alert('필수값을 입력해주세요.');
@@ -101,6 +110,10 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		}
 	};
 
+	/**
+	 *
+	 * 하위 목표 수정
+	 */
 	const updateDetailOkr = () => {
 		props.okrDetailData.map((item) => {
 			{
@@ -161,24 +174,10 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
 
-	// useEffect(() => {
-	// 	if (memberId) {
-	// 		setOkrDetailData([
-	// 			{
-	// 				TITLE: '',
-	// 				START_DATE: new Date(),
-	// 				END_DATE: new Date(),
-	// 				TARGET_AMOUNT: 0,
-	// 				TARGET_UNIT: '',
-	// 				NOTE: '',
-	// 				ACHIEVED_AMOUNT: 0,
-	// 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-	// 			},
-	// 		]);
-	// 	}
-	// }, [memberId]);
-
-	console.log(props.okrDetailData);
+	React.useEffect(() => {
+		setIsEditMode(false);
+		setOkrDetailData([]);
+	}, [props.okrDetailData]);
 
 	return (
 		<Box>

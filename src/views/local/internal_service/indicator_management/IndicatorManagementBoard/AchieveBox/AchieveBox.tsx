@@ -46,7 +46,7 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	 */
 	const { memberId } = useAppMember();
 	//* Functions
-	console.log(memberId);
+
 	// okr 하위 목표 달성량 추가
 	const updateOkr = (target) => {
 		if (target === 'memo') {
@@ -84,8 +84,6 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 			);
 		}
 	};
-
-	console.log(props.data, props.data.OkrDetails);
 
 	return (
 		<Box display={'flex'} flexDirection={'column'} gap={2}>

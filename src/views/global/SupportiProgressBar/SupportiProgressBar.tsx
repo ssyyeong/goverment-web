@@ -27,28 +27,30 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 			}}
 		>
 			{/* 스택 프로그래스바 */}
-			{props.materialDataList?.map((item, idx) => {
-				return (
-					<Box
-						key={idx}
-						sx={{
-							// width: `${translatePercentage(item.percentage)}%`,
-							width: `${item.percentage}%`,
-							height: '100%',
-							bgcolor: item.color,
+			{props.materialDataList
+				?.filter((item) => item.percentage !== '0')
+				.map((item, idx) => {
+					return (
+						<Box
+							key={idx}
+							sx={{
+								// width: `${translatePercentage(item.percentage)}%`,
+								width: `${item.percentage}%`,
+								height: '100%',
+								bgcolor: item.color,
 
-							':first-child': {
-								borderTopLeftRadius: '5px',
-								borderBottomLeftRadius: '5px',
-							},
-							':last-child': {
-								borderTopRightRadius: '5px',
-								borderBottomRightRadius: '5px',
-							},
-						}}
-					/>
-				);
-			})}
+								':first-child': {
+									borderTopLeftRadius: '5px',
+									borderBottomLeftRadius: '5px',
+								},
+								':last-child': {
+									borderTopRightRadius: '5px',
+									borderBottomRightRadius: '5px',
+								},
+							}}
+						/>
+					);
+				})}
 
 			{props.totalPercentage != undefined &&
 				props.totalPercentage !== 0 &&

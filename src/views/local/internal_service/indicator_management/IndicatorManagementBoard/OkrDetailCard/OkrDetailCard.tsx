@@ -79,6 +79,11 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	const { memberId } = useAppMember();
 
 	//* Functions
+
+	/**
+	 *
+	 * 하위 목표 삭제
+	 */
 	const deleteOkrDetail = () => {
 		okrDetailController.deleteItem(
 			{
@@ -94,6 +99,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 		);
 	};
 
+	/**
+	 * 하위 목표 수정
+	 */
 	const updateOkrDetail = (injectedObj) => {
 		if (
 			okrDetailData.TITLE === '' ||
@@ -158,6 +166,15 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
 		});
 	}, [isEditMode]);
+
+	React.useEffect(() => {
+		setAlertModalOpen(false);
+		setIsEditMode(false);
+		// setIsMoreOpen(false);
+		// if (props.index === 0) {
+		// 	setIsMoreOpen(true);
+		// } else setIsMoreOpen(false);
+	}, [props.okrDetailData]);
 
 	return (
 		<Box
