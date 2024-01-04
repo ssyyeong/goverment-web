@@ -157,15 +157,6 @@ const KpiCard = (props: IKpiCardProps) => {
 		setKpiData(props.data);
 	}, [props.data]);
 
-	/**
-	 * 모달 온오프로 트리거 키 변경
-	 */
-	// React.useEffect(() => {
-	// 	if (!isModifyModalOpen) {
-	// 		props.setTriggerKey(uuidv4());
-	// 	}
-	// }, [isModifyModalOpen, props.setTriggerKey]);
-
 	return (
 		<Box
 			borderRadius={2}

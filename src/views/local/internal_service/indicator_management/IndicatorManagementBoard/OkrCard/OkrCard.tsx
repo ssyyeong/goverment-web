@@ -100,15 +100,6 @@ const OkrCard = (props: IOkrCardProps) => {
 		setOkrDetailData(props.data.OkrDetails);
 	}, [props.data]);
 
-	/**
-	 * 모달 온오프로 트리거 키 변경
-	 */
-	useEffect(() => {
-		if (!isMoreModalOpen) {
-			// props.setTriggerKey(uuidv4());
-		}
-	}, [isMoreModalOpen, props.setTriggerKey]);
-
 	return (
 		<Box
 			borderRadius={2}

@@ -41,7 +41,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	 *
 	 * 삭제 시 알럿 모달
 	 */
-	const [alertModalOpen, setAlertModalOpen] = React.useState(false);
+	const [deleteAlertModal, setDeleteAlertModal] = React.useState(false);
 
 	/**
 	 *
@@ -72,6 +72,9 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 
 	//* Constants
 	const defaultTargetUnit = props.data.TARGET_UNIT;
+	const defaultTargetAmount = props.data.TARGET_AMOUNT;
+	const defaultStartDate = props.data.START_DATE;
+	const defaultEndDate = props.data.END_DATE;
 
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -85,7 +88,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	 * 하위 목표 삭제
 	 */
 	const deleteOkrDetail = () => {
-		okrDetailController.deleteItem(
+		okrDetailController?.deleteItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_DETAIL_IDENTIFICATION_CODE:
@@ -103,6 +106,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	 * 하위 목표 수정
 	 */
 	const updateOkrDetail = (injectedObj) => {
+		console.log(okrDetailData);
 		if (
 			okrDetailData.TITLE === '' ||
 			okrDetailData.TARGET_UNIT == undefined ||
@@ -168,7 +172,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	}, [isEditMode]);
 
 	React.useEffect(() => {
-		setAlertModalOpen(false);
+		setDeleteAlertModal(false);
 		setIsEditMode(false);
 		// setIsMoreOpen(false);
 		// if (props.index === 0) {
@@ -265,7 +269,7 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										{/** 삭제 버튼 */}
 										<DeleteIcon
 											onClick={() => {
-												setAlertModalOpen(true);
+												setDeleteAlertModal(true);
 											}}
 											color={'secondary'}
 										/>
@@ -648,14 +652,20 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 										onClick={() => {
 											if (
 												defaultTargetUnit !==
-												okrDetailData.TARGET_UNIT
+													okrDetailData.TARGET_UNIT ||
+												Number(defaultTargetAmount) !==
+													okrDetailData.TARGET_AMOUNT ||
+												defaultStartDate !==
+													okrDetailData.START_DATE ||
+												defaultEndDate !==
+													okrDetailData.END_DATE
 											)
 												setModifyAlertModal(true);
 											else {
 												memberId &&
-													updateOkrDetail(
-														okrDetailData
-													);
+													updateOkrDetail({
+														TITLE: okrDetailData.TITLE,
+													});
 											}
 										}}
 										style={{
@@ -765,8 +775,8 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 			</Box>
 			<SupportiAlertModal
 				type="indicatorDelete"
-				open={alertModalOpen}
-				handleClose={() => setAlertModalOpen(false)}
+				open={deleteAlertModal}
+				handleClose={() => setDeleteAlertModal(false)}
 				customHandleClose={() => memberId && deleteOkrDetail()}
 			/>
 			<SupportiAlertModal

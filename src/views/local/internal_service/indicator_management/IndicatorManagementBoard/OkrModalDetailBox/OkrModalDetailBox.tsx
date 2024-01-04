@@ -53,11 +53,12 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	const { memberId } = useAppMember();
 	//* Functions
 	const updateOkr = () => {
+		console.log(props.data);
+
 		if (
 			props.data.TITLE === '' ||
 			props.data.TARGET_UNIT == undefined ||
-			props.data.TARGET_UNIT == '' ||
-			props.data.TARGET_AMOUNT === 0
+			props.data.TARGET_UNIT == ''
 		) {
 			setIsAlertOpen(true);
 			return;
@@ -95,7 +96,6 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 							},
 						]);
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
-						// props.setIsModalOpen(false);
 
 						console.log(res);
 					})

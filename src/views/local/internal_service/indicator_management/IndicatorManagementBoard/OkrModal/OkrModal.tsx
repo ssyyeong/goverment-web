@@ -83,8 +83,7 @@ const OkrModal = (props: IOkrModalProps) => {
 			if (
 				item.TITLE === '' ||
 				item.TARGET_UNIT === undefined ||
-				item.TARGET_UNIT === '' ||
-				item.TARGET_AMOUNT === 0
+				item.TARGET_UNIT === ''
 			) {
 				setIsAlertOpen(true);
 				return;
@@ -100,8 +99,9 @@ const OkrModal = (props: IOkrModalProps) => {
 				},
 				(response) => {
 					alert('등록 성공');
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
 					props.setModalOpen(false);
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+
 					return;
 				},
 				(err) => {
