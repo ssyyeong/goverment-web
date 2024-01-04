@@ -117,7 +117,9 @@ const Page: NextPage = () => {
 			isVerified: isVerified,
 			error: isVerified === 'NOT_OK',
 			helperText:
-				isVerified === 'NOT_OK' ? '인증번호가 일치하지 않습니다.' : '',
+				isVerified === 'NOT_OK'
+					? '인증번호가 일치하지 않습니다.'
+					: '인증되었습니다.',
 			value: verifyNumber,
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);

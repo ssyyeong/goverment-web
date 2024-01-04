@@ -25,6 +25,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { businessSector } from '../../../configs/data/BusinessConfig';
+import CheckIcon from '@mui/icons-material/Check';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -265,6 +266,9 @@ const Page: NextPage = () => {
 					</Typography>
 				</Button>
 			),
+			helperText: !isVerified
+				? '인증번호가 일치하지 않습니다.'
+				: '인증되었습니다.',
 			value: verifyNumber,
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
