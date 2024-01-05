@@ -23,9 +23,7 @@ import MobileTableRow from '../../../src/views/local/external_service/mobileTabl
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const theme = useTheme();
-	const matches = false; //useMediaQuery(theme.breakpoints.down('md')
-	console.log(matches);
+
 	//* Constants
 	const consultingHeaderData: TableHeaderProps[] = [
 		{

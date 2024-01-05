@@ -97,11 +97,37 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 컨설팅 신청 전 필수 질문 답변 체크
 	 */
+	const checkConsultingAnswer = () => {
+		let check = true;
+		consultingAnswer?.forEach((x, index) => {
+			// 질문의 내용을 가져온다
+			const indexQuestion =
+				props.consultingData?.ConsultingQuestions.filter(
+					(y) =>
+						y.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
+						x.CONSULTING_QUESTION_IDENTIFICATION_CODE
+				);
+			// 답변이 없는 질문이 있을 때
+			if (
+				indexQuestion[0].REQUIRED_YN == 'Y' && // 필수 질문이고
+				indexQuestion[0].QUESTION_TYPE == 'TEXT' && // 텍스트 타입이고
+				x.ANSWER_CONTENT == '' // 답변이 없을 때
+			) {
+				check = false;
+			}
+		});
+		return check;
+	};
 
 	/**
 	 * 컨설팅 신청하기
 	 */
 	const applyConsulting = () => {
+		// 필수 질문 답변 체크
+		if (!checkConsultingAnswer()) {
+			alert('필수 질문에 답변해주세요.');
+			return;
+		}
 		consultingApplicationController.createItem(
 			{
 				CONSULTING_PRODUCT_IDENTIFICATION_CODE:
@@ -203,7 +229,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				maxHeight: { sm: '90%', xs: '100%' },
 			}}
 		>
-			{/* 컨설팅 설명 및 캘린더 */}
+			{/* 컨설팅 설명 및 캘린더 / 페이지 0*/}
 			{page === 0 && (
 				<Box width={'100%'}>
 					{/* 예약 데이터 */}
@@ -346,7 +372,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					</Box>
 				</Box>
 			)}
-			{/* 컨설팅 시간 선택 */}
+			{/* 컨설팅 시간 선택 / 페이지 1*/}
 			{page === 1 && (
 				<Box
 					width={'100%'}
@@ -460,7 +486,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					</Box>
 				</Box>
 			)}
-			{/* 컨설팅 질문 및 답변 */}
+			{/* 컨설팅 질문 및 답변 / 페이지 2*/}
 			{page === 2 && (
 				<Box width={'100%'}>
 					{/* 예약 데이터 */}
