@@ -90,7 +90,7 @@ const financialStatementConfig: {
 		label: '차입금 의존도',
 	},
 	{
-		key: 'DEBT_TO_REVENUE_RATIO',
+		key: 'BORROWINGS_TO_REVENUE_RATIO',
 		label: '차입금/매출액 비율',
 	},
 	{
@@ -106,7 +106,7 @@ const financialStatementConfig: {
 		label: '부채상환계수',
 	},
 	{
-		key: 'TOTAL_ASSETS_TURNOVER',
+		key: 'TOTAL_ASSET_TURNOVER',
 		label: '총 자본 회전율',
 	},
 	{
