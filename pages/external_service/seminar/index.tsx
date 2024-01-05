@@ -73,7 +73,8 @@ const Page: NextPage = () => {
 	/**
 	 * 페이징 관련
 	 */
-	const { page, limit, handlePageChange, setLimit } = usePagination();
+	const { page, limit, handlePageChange, setLimit, setPage } =
+		usePagination();
 	/**
 	 * 세미나 리스트 가져오기
 	 */
@@ -97,6 +98,13 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, [tab, page]);
+
+	/**
+	 * 탭 변경시 페이지 초기화
+	 */
+	useEffect(() => {
+		setPage(0);
+	}, [tab]);
 
 	return (
 		<Box

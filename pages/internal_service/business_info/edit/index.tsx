@@ -421,6 +421,9 @@ const Page: NextPage = () => {
 																	type={
 																		businessMapping.type
 																	}
+																	maxDate={
+																		new Date()
+																	}
 																	minDate={moment(
 																		now()
 																	)
