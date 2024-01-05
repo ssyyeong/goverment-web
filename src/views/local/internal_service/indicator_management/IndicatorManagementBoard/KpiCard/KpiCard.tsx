@@ -8,7 +8,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { IKpi } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
-import KpiModal from '../KpiModal/KpiModal';
+import KpiCreateModal from '../KpiCreateModal/KpiCreateModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -331,7 +331,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					/>
 				</Box>
 			)}
-			<KpiModal
+			<KpiCreateModal
 				modalOpen={isModifyModalOpen}
 				setModalOpen={setIsModifyModalOpen}
 				data={kpiData}

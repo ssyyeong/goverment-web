@@ -4,7 +4,7 @@ import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiInput from '../../../../../global/SupportiInput';
-import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
+import UnderGoalWriteForm from '../UnderGoalWriteForm/UnderGoalWriteForm';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -12,7 +12,7 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
-interface IOkrModalProps {
+interface IOkrCreateModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 
@@ -24,7 +24,7 @@ interface IOkrModalProps {
 	setTriggerKey?: React.Dispatch<any>;
 }
 
-const OkrModal = (props: IOkrModalProps) => {
+const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	//* Controllers
 	const okrController = new OkrDetailController();
 
@@ -312,7 +312,7 @@ const OkrModal = (props: IOkrModalProps) => {
 							{/** 작성 컴포넌트 */}
 							{okrDetailData?.map((okr, index) => {
 								return (
-									<OkrModalDetailBox
+									<UnderGoalWriteForm
 										key={index}
 										mode="create"
 										data={okr}
@@ -393,4 +393,4 @@ const OkrModal = (props: IOkrModalProps) => {
 	);
 };
 
-export default OkrModal;
+export default OkrCreateModal;

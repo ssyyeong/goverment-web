@@ -7,13 +7,12 @@ import { IKpi, IOkrCombination } from '../../../../../@types/model';
 import { IInfiniteLoadBoardProps } from '../../../../../modules/will_be_in_core/InfiniteLoadBoard/InfiniteLoadBoard';
 import { TRenderItemCallback } from '../../../../../@types/callbacks';
 
-import FlagIcon from '@mui/icons-material/Flag';
 import SupportiButton from '../../../../global/SupportiButton';
-import OkrModal from './OkrModal/OkrModal';
-import KpiModal from './KpiModal/KpiModal';
+import OkrCreateModal from './OkrCreateModal/OkrCreateModal';
+import KpiCreateModal from './KpiCreateModal/KpiCreateModal';
 import SupportiToggle from '../../../../global/SupportiToggle';
 import SupportiInput from '../../../../global/SupportiInput';
-import moment from 'moment';
+
 import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCategoryConfig';
 import { useAppMember } from '../../../../../hooks/useAppMember';
 interface IIndicatorManagementBoardProps {
@@ -303,17 +302,18 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					allData={indicatorList}
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
+					contentPerPage={3}
 				/>
 			)}
 			{props.name === 'OKR' && (
-				<OkrModal
+				<OkrCreateModal
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
 					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
 			{props.name === 'KPI' && (
-				<KpiModal
+				<KpiCreateModal
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
 					setTriggerKey={props.setTriggerKey}

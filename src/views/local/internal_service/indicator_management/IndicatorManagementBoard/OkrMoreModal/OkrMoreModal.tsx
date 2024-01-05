@@ -4,12 +4,12 @@ import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SuppportiModal from '../../../../../global/SuppportiModal';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiInput from '../../../../../global/SupportiInput';
-import OkrModalDetailBox from '../OkrModalDetailBox/OkrModalDetailBox';
+import UnderGoalWriteForm from '../UnderGoalWriteForm/UnderGoalWriteForm';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrDetail } from '../../../../../../@types/model';
 import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
-import { OkrDetailCard } from '../OkrDetailCard';
-import AchieveBox from '../AchieveBox/AchieveBox';
+
+import UnderGoalAchieveBox from '../UnderGoalAchieveBox/UnderGoalAchieveBox';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,6 +17,7 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import UnderGoalCard from '../UnderGoalCard';
 
 interface IOkrDetailModalProps {
 	modalOpen: boolean;
@@ -534,7 +535,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 							{/** 작성 컴포넌트 */}
 							{okrDetailData?.map((okr, index) => {
 								return (
-									<OkrModalDetailBox
+									<UnderGoalWriteForm
 										key={index}
 										mode={'detail'}
 										data={okr}
@@ -564,7 +565,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 											gap={2}
 											mb={2}
 										>
-											<OkrDetailCard
+											<UnderGoalCard
 												data={item}
 												index={index}
 												mode="detail"
@@ -572,7 +573,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 													updateDetailOkr
 												}
 												children={
-													<AchieveBox
+													<UnderGoalAchieveBox
 														data={item}
 														modalOpen={
 															props.modalOpen

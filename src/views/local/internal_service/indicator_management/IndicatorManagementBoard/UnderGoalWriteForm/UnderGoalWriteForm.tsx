@@ -13,7 +13,7 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
-interface IOkrModalDetailBoxProps {
+interface IUnderGoalWriteFormProps {
 	mode: string;
 	data: any;
 	index: number;
@@ -27,7 +27,7 @@ interface IOkrModalDetailBoxProps {
 	setTriggerKey?: React.Dispatch<any>;
 }
 
-const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
+const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	//* Controllers
 	const okrController = new DefaultController('OkrDetail');
 
@@ -388,4 +388,4 @@ const OkrModalDetailBox = (props: IOkrModalDetailBoxProps) => {
 	);
 };
 
-export default OkrModalDetailBox;
+export default UnderGoalWriteForm;

@@ -37,7 +37,7 @@ const Page: NextPage = () => {
 			{
 				TYPE: 'PRODUCT',
 				SORT_KEY: 'ORDER',
-				SORT: 'ASC',
+				SORT_DIRECTION: 'ASC',
 			},
 			(res) => {
 				setRatePlanList(res.data.result.rows);

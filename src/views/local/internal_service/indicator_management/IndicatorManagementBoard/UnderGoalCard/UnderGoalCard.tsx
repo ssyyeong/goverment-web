@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface IOkrDetailCardProps {
+interface IUnderGoalCardProps {
 	data: IOkrDetail;
 	index: number;
 	mode?: string;
@@ -30,7 +30,7 @@ interface IOkrDetailCardProps {
 	setTriggerKey?: any;
 }
 
-const OkrDetailCard = (props: IOkrDetailCardProps) => {
+const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	//* Modules
 	const okrDetailController = new DefaultController('OkrDetail');
 
@@ -791,4 +791,4 @@ const OkrDetailCard = (props: IOkrDetailCardProps) => {
 	);
 };
 
-export default OkrDetailCard;
+export default UnderGoalCard;

@@ -7,13 +7,13 @@ import SupportiButton from '../../../../../global/SupportiButton';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import { IndicatorCategory } from '../../../../../../../configs/data/IndicatorCategoryConfig';
 import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
-import { IKpi } from '../../../../../../../src/@types/model';
+import { IKpi } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { v4 as uuidv4 } from 'uuid';
 
-interface IKpiModalProps {
+interface IKpiCreateModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	mode?: 'modify' | 'create';
@@ -22,7 +22,7 @@ interface IKpiModalProps {
 	setTriggerKey?: React.Dispatch<any>;
 }
 
-const KpiModal = (props: IKpiModalProps) => {
+const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Controllers
 	const kpiController = new DefaultController('Kpi');
 
@@ -493,4 +493,4 @@ const KpiModal = (props: IKpiModalProps) => {
 	);
 };
 
-export default KpiModal;
+export default KpiCreateModal;

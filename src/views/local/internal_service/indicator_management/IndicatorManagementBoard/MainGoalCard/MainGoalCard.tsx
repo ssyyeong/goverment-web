@@ -2,21 +2,22 @@ import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
-import { OkrDetailCard } from '../OkrDetailCard';
+
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import dayjs from 'dayjs';
 import { OkrMoreModal } from '../OkrMoreModal';
 import { v4 as uuidv4 } from 'uuid';
+import UnderGoalCard from '../UnderGoalCard';
 
-interface IOkrCardProps {
+interface IMainGoalCardProps {
 	data: IOkrCombination;
 	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 	index?: number;
 }
 
-const OkrCard = (props: IOkrCardProps) => {
+const MainGoalCard = (props: IMainGoalCardProps) => {
 	//* Controllers
 
 	//* Modules
@@ -192,7 +193,7 @@ const OkrCard = (props: IOkrCardProps) => {
 					sx={{ overflowX: 'auto' }}
 				>
 					{okrMainData?.OkrDetails.map((item, index) => {
-						return <OkrDetailCard data={item} index={index} />;
+						return <UnderGoalCard data={item} index={index} />;
 					})}
 				</Box>
 			</Box>
@@ -212,4 +213,4 @@ const OkrCard = (props: IOkrCardProps) => {
 	);
 };
 
-export default OkrCard;
+export default MainGoalCard;

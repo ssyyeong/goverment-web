@@ -7,14 +7,14 @@ import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 
-interface IAchieveBoxProps {
+interface IUnderGoalAchieveBoxProps {
 	data: IOkrCombination;
 	modalOpen?: boolean;
 	setModalOpen?: any;
 	setTriggerKey?: any;
 }
 
-const AchieveBox = (props: IAchieveBoxProps) => {
+const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	//* Controllers
 	/**
 	 * OKR 컨트롤러
@@ -133,4 +133,4 @@ const AchieveBox = (props: IAchieveBoxProps) => {
 	);
 };
 
-export default AchieveBox;
+export default UnderGoalAchieveBox;
