@@ -23,14 +23,14 @@ const CustomFooter = (props: ICustomFooterProps) => {
 	const BrandInfoList: { [key: string]: any }[] = [
 		{ subject: '법인명', content: '(주)린온 컴퍼니' },
 		{ subject: '대표', content: '김영진' },
+		{ subject: '사업자등록번호', content: '563-87-01952' },
+		{ subject: '대표전화', content: '010-5676-4066' },
+		{ subject: '이메일', content: 'leanoncompany@gmail.com' },
 		{
 			subject: '주소',
 			content:
 				'경기도 안양시 동안구 시민대로327번길 11-41, 3층 3호(관양동)',
 		},
-		{ subject: '사업자등록번호', content: '563-87-01952' },
-		{ subject: '대표전화', content: '010-5676-4066' },
-		{ subject: '이메일', content: 'leanoncompany@gmail.com' },
 	];
 
 	/**
@@ -75,8 +75,14 @@ const CustomFooter = (props: ICustomFooterProps) => {
 								alignItems={'center'}
 								// margin={{ xs: 1, ml: 5 }}
 								ml={{ md: 5, xs: 1 }}
-								gap={4}
+								sx={{
+									gap: {
+										xs: 1,
+										md: 4,
+									},
+								}}
 								mb={3}
+								flexWrap={'wrap'}
 								// justifyContent={'space-evenly'}
 							>
 								{MenuList.map((data, index) => (
@@ -105,9 +111,11 @@ const CustomFooter = (props: ICustomFooterProps) => {
 										<Typography variant="body2">
 											{item.content}
 										</Typography>
+										{index !== BrandInfoList.length-1 && (
 										<Typography mr={1} ml={1}>
-											|
-										</Typography>
+										|
+									</Typography>
+										)}
 									</Box>
 								))}
 							</Box>
