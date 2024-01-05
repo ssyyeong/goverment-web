@@ -177,7 +177,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 
 	React.useEffect(() => {
 		setIsEditMode(false);
-		setOkrDetailData([]);
+		// setOkrDetailData([]);
 	}, [props.okrDetailData]);
 
 	return (

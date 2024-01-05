@@ -46,6 +46,12 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	 */
 	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
 
+	/**
+	 *
+	 * 하위목표 등록한 인덱스
+	 */
+	const [index, setIndex] = React.useState(undefined);
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -79,21 +85,21 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						ACHIEVED_AMOUNT: 0,
 					})
 					.then((res) => {
-						alert('생성');
+						alert('생성 완료');
 
 						// 리셋
 						props.setOkrDetailData([
-							...props.okrDetailData,
-							{
-								APP_MEMBER_IDENTIFICATION_CODE: memberId,
-								OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
-								TITLE: props.data.TITLE,
-								START_DATE: props.data.START_DATE,
-								END_DATE: props.data.END_DATE,
-								TARGET_UNIT: props.data.TARGET_UNIT,
-								TARGET_AMOUNT: props.data.TARGET_AMOUNT,
-								ACHIEVED_AMOUNT: 0,
-							},
+							...props.okrDetailData.splice(index, 1),
+							// {
+							// 	APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							// 	OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+							// 	TITLE: props.data.TITLE,
+							// 	START_DATE: props.data.START_DATE,
+							// 	END_DATE: props.data.END_DATE,
+							// 	TARGET_UNIT: props.data.TARGET_UNIT,
+							// 	TARGET_AMOUNT: props.data.TARGET_AMOUNT,
+							// 	ACHIEVED_AMOUNT: 0,
+							// },
 						]);
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 
@@ -364,6 +370,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
+								setIndex(props.index);
 								memberId && updateOkr();
 							}}
 							style={{
