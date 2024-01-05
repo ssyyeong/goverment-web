@@ -296,7 +296,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			helperText:
 				isBusinessNumOk === 'NOT_OK'
 					? '사업자 등록번호가 올바르지 않습니다.'
-					: '',
+					: '인증되었습니다.',
 		},
 		{
 			label: '회사명',
