@@ -288,7 +288,7 @@ const OkrModal = (props: IOkrModalProps) => {
 									<SupportiInput
 										type="datepicker"
 										defaultValue={new Date()}
-										value={okrMainData.END_DATE}
+										value={okrMainData?.END_DATE}
 										minDate={okrMainData?.START_DATE}
 										setValue={(value) => {
 											setOkrMainData({
