@@ -36,6 +36,8 @@ const Page: NextPage = () => {
 		ratePlanController.findAllItems(
 			{
 				TYPE: 'PRODUCT',
+				SORT_KEY: 'ORDER',
+				SORT: 'ASC',
 			},
 			(res) => {
 				setRatePlanList(res.data.result.rows);
