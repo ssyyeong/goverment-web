@@ -524,7 +524,7 @@ const Page: NextPage = () => {
 																	{financialStatement[
 																		financialStatementMapping
 																			.key
-																	].toLocaleString()}
+																	]?.toLocaleString()}
 																</Typography>
 															</Box>
 														</Grid>
