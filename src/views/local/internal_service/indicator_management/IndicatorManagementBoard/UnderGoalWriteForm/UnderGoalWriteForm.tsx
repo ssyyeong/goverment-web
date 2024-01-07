@@ -34,6 +34,11 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	//* Modules
 
 	//* Constants
+	/**
+	 *
+	 * 기본 데이터
+	 */
+	const defaultData = [...props.okrDetailData];
 
 	//* States
 	/**
@@ -57,6 +62,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
+	console.log(props.okrDetailData, defaultData);
+
 	//* Functions
 	const updateOkr = () => {
 		console.log(props.data);
@@ -87,9 +95,12 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 					.then((res) => {
 						alert('생성 완료');
 
+						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						console.log(props.okrDetailData);
+
 						// 리셋
 						props.setOkrDetailData([
-							...props.okrDetailData.splice(index, 1),
+							// ...defaultData.splice(index, 1),
 							// {
 							// 	APP_MEMBER_IDENTIFICATION_CODE: memberId,
 							// 	OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
@@ -101,8 +112,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							// 	ACHIEVED_AMOUNT: 0,
 							// },
 						]);
-						props.setTriggerKey && props.setTriggerKey(uuidv4());
-
 						console.log(res);
 					})
 					.catch((err) => {

@@ -15,6 +15,8 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import { v4 as uuidv4 } from 'uuid';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 interface IUnderGoalCardProps {
 	data: IOkrDetail;
@@ -286,9 +288,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 
 								{/** 더보기 열고 닫기 */}
 								{isMoreOpen ? (
-									<img
-										src="/images/icons/TopArrow.svg"
-										alt="arrow-icon"
+									<ArrowDropUpIcon
 										style={{
 											cursor: 'pointer',
 											width: '20px',
@@ -301,9 +301,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 										}
 									/>
 								) : (
-									<img
-										src="/images/icons/MoreArrow.svg"
-										alt="arrow-icon"
+									<ArrowDropDownIcon
 										style={{
 											cursor: 'pointer',
 											width: '20px',

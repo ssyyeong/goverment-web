@@ -507,20 +507,22 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								<SupportiButton
 									contents={'하위 목표 추가 +'}
 									onClick={() => {
-										setOkrDetailData([
-											...okrDetailData,
-											{
-												TITLE: '',
-												START_DATE: new Date(),
-												END_DATE: new Date(),
-												TARGET_AMOUNT: 0,
-												TARGET_UNIT: undefined,
-												NOTE: '',
-												ACHIEVED_AMOUNT: 0,
-												APP_MEMBER_IDENTIFICATION_CODE:
-													memberId,
-											},
-										]);
+										if (okrDetailData.length === 0) {
+											setOkrDetailData([
+												...okrDetailData,
+												{
+													TITLE: '',
+													START_DATE: new Date(),
+													END_DATE: new Date(),
+													TARGET_AMOUNT: 0,
+													TARGET_UNIT: undefined,
+													NOTE: '',
+													ACHIEVED_AMOUNT: 0,
+													APP_MEMBER_IDENTIFICATION_CODE:
+														memberId,
+												},
+											]);
+										}
 									}}
 									style={{
 										height: 5,
