@@ -96,7 +96,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						alert('생성 완료');
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
-						console.log(props.okrDetailData);
 
 						// 리셋
 						props.setOkrDetailData([

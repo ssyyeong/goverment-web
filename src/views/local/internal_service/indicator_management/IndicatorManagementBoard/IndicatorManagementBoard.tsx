@@ -302,7 +302,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					allData={indicatorList}
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
-					contentPerPage={5}
 				/>
 			)}
 			{props.name === 'OKR' && (

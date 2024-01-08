@@ -90,7 +90,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	 * 하위 목표 삭제
 	 */
 	const deleteOkrDetail = () => {
-		okrDetailController?.deleteItem(
+		okrDetailController.deleteItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_DETAIL_IDENTIFICATION_CODE:
