@@ -37,6 +37,12 @@ interface IIndicatorManagementBoardProps {
 	 */
 	triggerKey?: string;
 	setTriggerKey?: React.Dispatch<React.SetStateAction<string>>;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
@@ -302,6 +308,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					allData={indicatorList}
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
+					name={props.name}
+					loading={props.loading}
+					setLoading={props.setLoading}
 				/>
 			)}
 			{props.name === 'OKR' && (

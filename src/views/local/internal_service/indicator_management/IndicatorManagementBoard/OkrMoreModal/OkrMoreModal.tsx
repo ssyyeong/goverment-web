@@ -180,6 +180,17 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 		// setOkrDetailData([]);
 	}, [props.okrDetailData]);
 
+	React.useEffect(() => {
+		setOkrMainData({
+			TITLE: props.okrMainData?.TITLE,
+			START_DATE: props.okrMainData?.START_DATE,
+			END_DATE: props.okrMainData?.END_DATE,
+			NOTE: props.okrMainData?.NOTE,
+			APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			ACHIEVED_RATE: props.okrMainData?.ACHIEVED_RATE,
+		});
+	}, [props.okrMainData]);
+
 	return (
 		<Box>
 			<SuppportiModal

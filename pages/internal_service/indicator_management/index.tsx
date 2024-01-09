@@ -1,8 +1,7 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
 import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
@@ -30,13 +29,26 @@ const Page: NextPage = () => {
 	 * KPI 컨트롤러
 	 */
 	const kpiController = new KpiController();
+
 	//* Hooks
 	/**
 	 * 유저 정보 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
 	//* States
+
+	/**
+	 * 재계산 트리거 키
+	 */
 	const [triggerKey, setTriggerKey] = React.useState<string>();
+
+	/**
+	 *
+	 * 로딩 상태
+	 */
+	const [loading, setLoading] = React.useState<boolean>(false);
+
 	//* Constants
 	/**
 	 * 선택 가능한 지표 목록
@@ -93,7 +105,6 @@ const Page: NextPage = () => {
 	const [selectedIndicator, setSelectedIndicator] =
 		React.useState<TSelectableIndicator>(selectableIndicatorList[0]);
 
-	console.log(triggerKey, 'triggerKey');
 	//* Functions
 	/**
 	 * 카테고리에 따라
@@ -108,7 +119,7 @@ const Page: NextPage = () => {
 
 	return (
 		memberId && (
-			<InternalServiceDrawer type="dashboard">
+			<InternalServiceDrawer type="dashboard" loading={loading}>
 				<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
 					{/* 컨텐츠 레이아웃 */}
 					{userAccess === true && (
@@ -165,6 +176,8 @@ const Page: NextPage = () => {
 								name={selectedIndicator.name}
 								triggerKey={triggerKey}
 								setTriggerKey={setTriggerKey}
+								loading={loading}
+								setLoading={setLoading}
 							/>
 						</InternalServiceLayout>
 					)}

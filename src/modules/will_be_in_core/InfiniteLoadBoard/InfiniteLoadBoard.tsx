@@ -47,6 +47,13 @@ interface IInfiniteLoadBoardProps {
 	 * 트리거 키
 	 */
 	triggerKey?: string;
+	name?: string;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -94,6 +101,7 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	 * 최대 페이지 계산 함수
 	 */
 	const countMaxPage = (count: number, selectedContentPerPage: number) => {
+		console.log(count, selectedContentPerPage);
 		return count < selectedContentPerPage
 			? 1
 			: Math.ceil(count / selectedContentPerPage);
@@ -107,13 +115,17 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 			let params: { [key: string]: any } =
 				props.injectedParams !== undefined ? props.injectedParams : {};
 
-			params.FIND_OPTION_KEY_LIST.PAGE = selectedPage - 1;
-			params.FIND_OPTION_KEY_LIST.LIMIT = props.contentPerPage || 10;
+			if (props.name && props.name === 'OKR') {
+				params.PAGE = selectedPage - 1;
+				params.LIMIT = props.contentPerPage || 10;
+			} else {
+				params.FIND_OPTION_KEY_LIST.PAGE = selectedPage - 1;
+				params.FIND_OPTION_KEY_LIST.LIMIT = props.contentPerPage || 10;
+			}
 
 			/**
 			 * 로딩 시작
 			 */
-			setLoading(true);
 
 			/**
 			 * 데이터 부르기
@@ -122,10 +134,18 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 				params,
 				(response: any) => {
 					let clonedAllData: any = [];
-
+					let clonedAlreadyLoadedData: any =
+						props.allData !== undefined ? props.allData : allData;
 					// eslint-disable-next-line array-callback-return
 					response.data.result.rows.map((el: any, index: any) => {
-						clonedAllData.push(el);
+						if (selectedPage === 1) {
+							clonedAllData.push(el);
+						} else {
+							if (clonedAlreadyLoadedData.length !== 0) {
+								clonedAlreadyLoadedData.push(el);
+								clonedAllData = clonedAlreadyLoadedData;
+							}
+						}
 					});
 					if (
 						props.setAllData !== undefined &&
@@ -139,31 +159,28 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 					/**
 					 * 최대 페이지 계산
 					 */
-					if (maxPage === undefined) {
-						const calculatedMaxPage = countMaxPage(
-							response.data.result.count,
-							props.contentPerPage || 10
-						);
 
-						setMaxPage(calculatedMaxPage);
+					const calculatedMaxPage = countMaxPage(
+						response.data.result.count,
+						props.contentPerPage || 10
+					);
+
+					setMaxPage(calculatedMaxPage);
+
+					if (selectedPage < calculatedMaxPage) {
+						setSelectedPage(selectedPage + 1);
 					} else {
-						if (selectedPage < maxPage) {
-							setSelectedPage(selectedPage + 1);
-						} else {
-							setHasNextPage(false);
-						}
+						setHasNextPage(false);
 					}
 
 					/**
 					 * 로딩 종료
 					 */
-					setLoading(false);
 				},
 				(err: any) => {
 					/**
 					 * 로딩 종료
 					 */
-					setLoading(false);
 
 					/**
 					 * 에러 트리거
@@ -180,9 +197,23 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	/**
 	 * 필터 바뀔때 초기화시키기
 	 */
-	console.log(props.injectedParams.FIND_OPTION_KEY_LIST, 'trigger');
 	useEffect(() => {
-		callData();
+		if (selectedPage === 1) {
+			callData();
+		}
+	}, [selectedPage]);
+
+	/**
+	 * 페이지 초기화
+	 */
+	useEffect(() => {
+		setHasNextPage(true);
+		setMaxPage(undefined);
+		if (selectedPage === 1) {
+			callData();
+		} else {
+			setSelectedPage(1);
+		}
 	}, [
 		props.injectedParams.FIND_OPTION_KEY_LIST.SORT_DIRECTION,
 		props.injectedParams.FIND_OPTION_KEY_LIST.CATEGORY,
@@ -203,6 +234,9 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 		disabled: !!error,
 		rootMargin: props.rootMargin || '0px 0px 400px 0px',
 	});
+
+	console.log(maxPage, 'maxPage', selectedPage);
+	console.log(props.allData, 'allData');
 
 	return (
 		<Box {...props.boxProps}>
