@@ -143,7 +143,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						setAlertType('failAxios');
 						setIsAlertOpen(true);
 
-
 						console.log(err);
 					});
 			}
@@ -429,7 +428,10 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 			</Box>
 			<SupportiAlertModal
 				open={isAlertOpen}
-				handleClose={() => setIsAlertOpen(false)}
+				handleClose={() => {
+					props.setLoading(false);
+					setIsAlertOpen(false);
+				}}
 				type={alertType}
 			/>
 		</Box>

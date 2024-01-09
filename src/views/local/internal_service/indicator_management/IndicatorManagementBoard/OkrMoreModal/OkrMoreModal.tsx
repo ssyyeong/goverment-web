@@ -125,7 +125,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 					(response: any) => {
 						props.setLoading(false);
 						setAlertType('successModifyAxios');
-				setIsAlertOpen(true);
+						setIsAlertOpen(true);
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 						setIsEditMode(false);
@@ -688,7 +688,10 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			/>
 			<SupportiAlertModal
 				open={isAlertOpen}
-				handleClose={() => setIsAlertOpen(false)}
+				handleClose={() => {
+					props.setLoading(false);
+					setIsAlertOpen(false);
+				}}
 				type={alertType}
 			/>
 		</Box>

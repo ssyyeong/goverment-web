@@ -121,7 +121,12 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				setIsAlertOpen(true);
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
 			},
-			(err: any) => {}
+			(err: any) => {
+				props.setLoading(false);
+
+				setAlertType('failAxios');
+				setIsAlertOpen(true);
+			}
 		);
 	};
 
@@ -831,7 +836,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 			/>
 			<SupportiAlertModal
 				open={isAlertOpen}
-				handleClose={() => setIsAlertOpen(false)}
+				handleClose={() => {
+					props.setLoading(false);
+					setIsAlertOpen(false)}}
 				type={alertType}
 			/>
 		</Box>

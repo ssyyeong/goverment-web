@@ -416,7 +416,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			/>
 			<SupportiAlertModal
 				open={isAlertOpen}
-				handleClose={() => setIsAlertOpen(false)}
+				handleClose={() => {
+					props.setLoading(false);
+					setIsAlertOpen(false);
+				}}
 				type={alertType}
 			/>
 		</Box>

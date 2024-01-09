@@ -14,7 +14,7 @@
 		"@mui/lab": "^5.0.0-alpha.155",
 		"@mui/material": "^5.11.4",
 		"@mui/x-date-pickers": "^5.0.15",
-		"@leanoncompany/supporti-ark-office-project": "^0.0.3",
+		"@leanoncompany/supporti-ark-office-project": "^0.0.2",
 		"@leanoncompany/supporti-react-ui": "^0.0.1",
 		"@leanoncompany/supporti-utility": "^0.0.1",
 		"@tosspayments/payment-sdk": "^1.7.0",
