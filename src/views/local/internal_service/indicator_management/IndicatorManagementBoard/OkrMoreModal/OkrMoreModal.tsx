@@ -140,6 +140,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			{
 				item.TITLE == '' ||
 				item.TARGET_AMOUNT == 0 ||
+				item.TARGET_AMOUNT === undefined ||
 				item.TARGET_UNIT == '' ||
 				item.TARGET_UNIT == undefined
 					? setIsAlertOpen(true)
@@ -237,6 +238,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						overflow={'auto'}
 						sx={{
 							width: { xs: '100%', md: '80%' },
+							'-ms-overflow-style': 'none',
+							'&::-webkit-scrollbar': { display: 'none' },
 						}}
 					>
 						{/** 상위 목표 작성 */}
@@ -570,7 +573,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 													TITLE: '',
 													START_DATE: new Date(),
 													END_DATE: new Date(),
-													TARGET_AMOUNT: 0,
+													TARGET_AMOUNT: undefined,
 													TARGET_UNIT: undefined,
 													NOTE: '',
 													ACHIEVED_AMOUNT: 0,

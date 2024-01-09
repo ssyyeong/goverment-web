@@ -56,7 +56,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			TITLE: '',
 			START_DATE: new Date(),
 			END_DATE: new Date(),
-			TARGET_AMOUNT: 0,
+			TARGET_AMOUNT: undefined,
 			TARGET_UNIT: undefined,
 			NOTE: '',
 			ACHIEVED_AMOUNT: 0,
@@ -90,7 +90,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				item.TITLE === '' ||
 				item.TARGET_UNIT === undefined ||
 				item.TARGET_UNIT === '' ||
-				item.TARGET_AMOUNT === 0
+				item.TARGET_AMOUNT === 0 ||
+				item.TARGET_AMOUNT === undefined
 			) {
 				props.setLoading(false);
 
@@ -140,7 +141,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 					TITLE: '',
 					START_DATE: new Date(),
 					END_DATE: new Date(),
-					TARGET_AMOUNT: 0,
+					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
 					ACHIEVED_AMOUNT: 0,
@@ -164,7 +165,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 					TITLE: '',
 					START_DATE: new Date(),
 					END_DATE: new Date(),
-					TARGET_AMOUNT: 0,
+					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
 					ACHIEVED_AMOUNT: 0,
@@ -197,6 +198,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 						overflow={'auto'}
 						sx={{
 							width: { xs: '100%', md: '90%' },
+							'-ms-overflow-style': 'none',
+							'&::-webkit-scrollbar': { display: 'none' },
 							pt: 2,
 						}}
 					>
@@ -356,7 +359,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 											TITLE: '',
 											START_DATE: new Date(),
 											END_DATE: new Date(),
-											TARGET_AMOUNT: 0,
+											TARGET_AMOUNT: undefined,
 											TARGET_UNIT: undefined,
 											NOTE: '',
 											ACHIEVED_AMOUNT: 0,

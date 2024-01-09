@@ -99,7 +99,6 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setValue={(value) => {
 						setAchieveAmount(value);
 					}}
-					defaultValue={'0'}
 					placeholder="달성량 입력"
 					width={'200px'}
 					btnContent="달성량 추가"

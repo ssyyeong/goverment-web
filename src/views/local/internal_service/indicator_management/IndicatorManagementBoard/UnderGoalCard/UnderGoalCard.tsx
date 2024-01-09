@@ -623,6 +623,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											<SupportiInput
 												type="input"
 												inputType="number"
+												placeholder='목표량 입력'
 												value={
 													okrDetailData.TARGET_AMOUNT
 												}
@@ -657,7 +658,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											sx={{
 												visibility:
 													okrDetailData.TARGET_AMOUNT !==
-													0
+													0 || okrDetailData.TARGET_AMOUNT !== undefined
 														? 'hidden'
 														: 'block',
 											}}
