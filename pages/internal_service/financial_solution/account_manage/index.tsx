@@ -318,8 +318,8 @@ const Page: NextPage = () => {
 					</Box>
 					{/* 실제 계좌 내역 */}
 					{selectablePeriodList &&
-						bankAccountList.map((bankAccount) => (
-							<Box mb={2}>
+						bankAccountList.map((bankAccount, idx) => (
+							<Box mb={2} key={idx}>
 								<TransactionHistoryTable
 									setRecomputeTriggerKey={
 										setRecomputeTriggerKey

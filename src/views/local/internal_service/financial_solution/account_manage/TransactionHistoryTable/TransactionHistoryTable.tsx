@@ -434,22 +434,27 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				}}
 			>
 				{transactionHistoryList.map((item, index) => (
-					<MobileTransactionHistory
-						checked={item.EXCEPTED_YN === 'Y' ? true : false}
-						onClick={() => {
-							handleExcept(item.EXCEPTED_YN, index);
-						}}
-						transactionDate={item.TRANSACTION_DATE}
-						traderBank={item.TRADER_BANK_NAME}
-						traderName={item.TRADER_NAME}
-						transactionAmount={
-							item.IN_AMOUNT === 0
-								? item.OUT_AMOUNT
-								: item.IN_AMOUNT
-						}
-						transactionType={item.IN_AMOUNT === 0 ? '출금' : '입금'}
-						balance={item.BALANCE}
-					/>
+					<Box key={index}>
+						<MobileTransactionHistory
+							checked={item.EXCEPTED_YN === 'Y' ? true : false}
+							onClick={() => {
+								handleExcept(item.EXCEPTED_YN, index);
+							}}
+							transactionDate={item.TRANSACTION_DATE}
+							traderBank={item.TRADER_BANK_NAME}
+							traderName={item.TRADER_NAME}
+							transactionAmount={
+								item.IN_AMOUNT === 0
+									? item.OUT_AMOUNT
+									: item.IN_AMOUNT
+							}
+							transactionType={
+								item.IN_AMOUNT === 0 ? '출금' : '입금'
+							}
+							balance={item.BALANCE}
+							key={index}
+						/>
+					</Box>
 				))}
 			</Box>
 			{/* 페이지 네이션 */}

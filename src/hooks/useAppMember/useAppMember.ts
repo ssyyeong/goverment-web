@@ -1,6 +1,6 @@
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { CookieManager } from '@leanoncompany/supporti-utility';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PointHistoryController } from '../../controller/PointHistoryController';
 
 /**
@@ -25,9 +25,11 @@ const useAppMember = () => {
 	const [memberPoint, setMemberPoint] = useState<string | undefined>(
 		undefined
 	);
+
 	//* Cookie
 	const cookie = new CookieManager();
 	const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오기
@@ -38,6 +40,7 @@ const useAppMember = () => {
 			setMemberName(undefined);
 			setMemberPoint(undefined);
 		} else {
+			if (memberId !== undefined) return;
 			appMemberController.getData(
 				{},
 				`${appMemberController.mergedPath}/profile`,
@@ -47,6 +50,7 @@ const useAppMember = () => {
 							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 						);
 						setMemberName(res.data.result.FULL_NAME);
+						if (memberPoint !== undefined) return;
 						pointHistoryController.getPointSum(
 							{
 								APP_MEMBER_IDENTIFICATION_CODE:
