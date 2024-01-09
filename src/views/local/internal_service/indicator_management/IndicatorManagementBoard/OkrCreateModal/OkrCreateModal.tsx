@@ -66,9 +66,15 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 
 	/**
 	 *
-	 * 하위목표 미기재 알럿창 오픈 여부
+	 * 알럿창 오픈 여부
 	 */
 	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 알럿창 타입
+	 */
+	const [alertType, setAlertType] = React.useState(undefined);
 
 	//* Functions
 	/**
@@ -94,7 +100,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				item.TARGET_AMOUNT === undefined
 			) {
 				props.setLoading(false);
-
+				setAlertType('indicatorWarning');
 				setIsAlertOpen(true);
 				return;
 			}
@@ -110,7 +116,9 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				(response) => {
 					props.setLoading(false);
 					props.setModalOpen(false);
-					alert('등록 성공');
+
+					setAlertType('successCreateAxios');
+					setIsAlertOpen(true);
 
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
@@ -118,6 +126,9 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				},
 				(err) => {
 					props.setLoading(false);
+
+					setAlertType('failAxios');
+					setIsAlertOpen(true);
 
 					console.log(err);
 				}
@@ -406,7 +417,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => setIsAlertOpen(false)}
-				type={'indicatorWarning'}
+				type={alertType}
 			/>
 		</Box>
 	);

@@ -80,9 +80,15 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 
 	/**
 	 *
-	 * 하위목표 미기재 알럿창 오픈 여부
+	 * 알럿창 오픈 여부
 	 */
 	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 알럿창 타입
+	 */
+	const [alertType, setAlertType] = React.useState(undefined);
 
 	//* Constants
 	const defaultTargetUnit = props.data.TARGET_UNIT;
@@ -109,7 +115,10 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 					props.data['OKR_DETAIL_IDENTIFICATION_CODE'],
 			},
 			(response: any) => {
-				alert('삭제 성공');
+				props.setLoading(false);
+
+				setAlertType('successDeleteAxios');
+				setIsAlertOpen(true);
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
 			},
 			(err: any) => {}
@@ -130,6 +139,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 		) {
 			props.setLoading(false);
 
+			setAlertType('indicatorWarning');
 			setIsAlertOpen(true);
 		} else {
 			if (okrDetailData.TITLE.length >= 20) {
@@ -153,13 +163,17 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 					(response: any) => {
 						props.setLoading(false);
 
-						alert('하위 업데이트 성공');
+						setAlertType('successModifyAxios');
+						setIsAlertOpen(true);
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 						setIsEditMode(false);
 					},
 					(err: any) => {
 						props.setLoading(false);
+
+						setAlertType('failAxios');
+						setIsAlertOpen(true);
 					}
 				);
 			}
@@ -623,7 +637,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											<SupportiInput
 												type="input"
 												inputType="number"
-												placeholder='목표량 입력'
+												placeholder="목표량 입력"
 												value={
 													okrDetailData.TARGET_AMOUNT
 												}
@@ -658,7 +672,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											sx={{
 												visibility:
 													okrDetailData.TARGET_AMOUNT !==
-													0 || okrDetailData.TARGET_AMOUNT !== undefined
+														0 ||
+													okrDetailData.TARGET_AMOUNT !==
+														undefined
 														? 'hidden'
 														: 'block',
 											}}
@@ -797,20 +813,26 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				type="indicatorDelete"
 				open={deleteAlertModal}
 				handleClose={() => setDeleteAlertModal(false)}
-				customHandleClose={() => memberId && deleteOkrDetail()}
+				customHandleClose={() => {
+					props.setLoading(true);
+
+					memberId && deleteOkrDetail();
+				}}
 			/>
 			<SupportiAlertModal
 				type="indicatorModify"
 				open={modifyAlertModal}
 				handleClose={() => setModifyAlertModal(false)}
 				customHandleClose={() => {
+					props.setLoading(true);
+
 					memberId && updateOkrDetail(okrDetailData);
 				}}
 			/>
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => setIsAlertOpen(false)}
-				type={'indicatorWarning'}
+				type={alertType}
 			/>
 		</Box>
 	);

@@ -70,9 +70,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 
 	/**
 	 *
-	 * 하위목표 미기재 알럿창 오픈 여부
+	 * 알럿창 오픈 여부
 	 */
 	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 알럿창 타입
+	 */
+	const [alertType, setAlertType] = React.useState(undefined);
 
 	//* Functions
 	/**
@@ -118,7 +124,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 					),
 					(response: any) => {
 						props.setLoading(false);
-						alert('업데이트 성공');
+						setAlertType('successModifyAxios');
+				setIsAlertOpen(true);
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 						setIsEditMode(false);
@@ -137,24 +144,27 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 */
 	const updateDetailOkr = () => {
 		props.okrDetailData.map((item) => {
-			{
+			if (
 				item.TITLE == '' ||
 				item.TARGET_AMOUNT == 0 ||
 				item.TARGET_AMOUNT === undefined ||
 				item.TARGET_UNIT == '' ||
 				item.TARGET_UNIT == undefined
-					? setIsAlertOpen(true)
-					: updateOkrMain({
-							TITLE: item.TITLE,
-							START_DATE: item.START_DATE,
-							END_DATE: item.END_DATE,
-							TARGET_AMOUNT: item.TARGET_AMOUNT,
-							TARGET_UNIT: item.TARGET_UNIT,
-							NOTE: item.NOTE,
-							ACHIEVED_AMOUNT: item.ACHIEVED_AMOUNT,
-							OKR_DETAIL_IDENTIFICATION_CODE:
-								item.OKR_DETAIL_IDENTIFICATION_CODE,
-					  });
+			) {
+				setAlertType('indicatorWarning');
+				setIsAlertOpen(true);
+			} else {
+				updateOkrMain({
+					TITLE: item.TITLE,
+					START_DATE: item.START_DATE,
+					END_DATE: item.END_DATE,
+					TARGET_AMOUNT: item.TARGET_AMOUNT,
+					TARGET_UNIT: item.TARGET_UNIT,
+					NOTE: item.NOTE,
+					ACHIEVED_AMOUNT: item.ACHIEVED_AMOUNT,
+					OKR_DETAIL_IDENTIFICATION_CODE:
+						item.OKR_DETAIL_IDENTIFICATION_CODE,
+				});
 			}
 		});
 	};
@@ -172,13 +182,16 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			},
 			(response: any) => {
 				props.setLoading(false);
+				setAlertType('successDeleteAxios');
+				setIsAlertOpen(true);
 
-				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(false);
 			},
 			(err: any) => {
 				props.setLoading(false);
+				setAlertType('failAxios');
+				setIsAlertOpen(true);
 			}
 		);
 	};
@@ -676,7 +689,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => setIsAlertOpen(false)}
-				type={'indicatorWarning'}
+				type={alertType}
 			/>
 		</Box>
 	);

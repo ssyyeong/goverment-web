@@ -46,15 +46,23 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	const defaultData = [...props.okrDetailData];
 
 	//* States
+
 	/**
 	 * 직접 입력 여부
 	 *  */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
+
 	/**
 	 *
-	 * 하위목표 미기재 알럿창 오픈 여부
+	 * 알럿창 오픈 여부
 	 */
 	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 알럿창 타입
+	 */
+	const [alertType, setAlertType] = React.useState(undefined);
 
 	/**
 	 *
@@ -84,6 +92,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 		) {
 			props.setLoading(false);
 
+			setAlertType('indicatorWarning');
 			setIsAlertOpen(true);
 			return;
 		} else {
@@ -106,7 +115,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 					})
 					.then((res) => {
 						props.setLoading(false);
-						alert('생성 완료');
+
+						setAlertType('successCreateAxios');
+						setIsAlertOpen(true);
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 
@@ -128,6 +139,10 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 					})
 					.catch((err) => {
 						props.setLoading(false);
+
+						setAlertType('failAxios');
+						setIsAlertOpen(true);
+
 
 						console.log(err);
 					});
@@ -415,7 +430,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => setIsAlertOpen(false)}
-				type={'indicatorWarning'}
+				type={alertType}
 			/>
 		</Box>
 	);
