@@ -262,6 +262,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 						outerBoxStyle: {
 							width: '150px',
 							height: '36px',
+							marginTop: "auto",
+							marginBottom: "auto"
 						},
 						chipStyle: {
 							height: '30px',
@@ -309,8 +311,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
 					name={props.name}
-					loading={props.loading}
-					setLoading={props.setLoading}
 				/>
 			)}
 			{props.name === 'OKR' && (
@@ -318,6 +318,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
 					setTriggerKey={props.setTriggerKey}
+					loading={props.loading}
+					setLoading={props.setLoading}
 				/>
 			)}
 			{props.name === 'KPI' && (

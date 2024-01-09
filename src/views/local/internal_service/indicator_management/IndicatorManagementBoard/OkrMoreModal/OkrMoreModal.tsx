@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import UnderGoalCard from '../UnderGoalCard';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IOkrDetailModalProps {
 	modalOpen: boolean;
@@ -28,6 +29,12 @@ interface IOkrDetailModalProps {
 	setOkrDetailData?: any;
 	materialDataList?: any;
 	setTriggerKey?: React.Dispatch<any>;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const OkrDetailModal = (props: IOkrDetailModalProps) => {
@@ -61,6 +68,12 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 * **/
 	const [isEditMode, setIsEditMode] = React.useState(false);
 
+	/**
+	 *
+	 * 하위목표 미기재 알럿창 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
 	//* Functions
 	/**
 	 * 하위 목표 작성 폼 삭제
@@ -82,9 +95,13 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 */
 	const updateOkrMain = (injectedObj) => {
 		if (okrMainData.TITLE === '') {
+			props.setLoading(false);
+
 			alert('필수값을 입력해주세요.');
 		} else {
 			if (okrMainData.TITLE.length >= 20) {
+				props.setLoading(false);
+
 				alert('20자 이하로 입력해주세요.');
 				return;
 			} else {
@@ -100,12 +117,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 						injectedObj
 					),
 					(response: any) => {
+						props.setLoading(false);
 						alert('업데이트 성공');
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 						setIsEditMode(false);
 					},
-					(err: any) => {}
+					(err: any) => {
+						props.setLoading(false);
+					}
 				);
 			}
 		}
@@ -122,7 +142,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				item.TARGET_AMOUNT == 0 ||
 				item.TARGET_UNIT == '' ||
 				item.TARGET_UNIT == undefined
-					? alert('필수 값 미입력')
+					? setIsAlertOpen(true)
 					: updateOkrMain({
 							TITLE: item.TITLE,
 							START_DATE: item.START_DATE,
@@ -150,11 +170,15 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 					props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
 			},
 			(response: any) => {
+				props.setLoading(false);
+
 				alert('삭제 성공');
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(false);
 			},
-			(err: any) => {}
+			(err: any) => {
+				props.setLoading(false);
+			}
 		);
 	};
 
@@ -307,6 +331,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 									{/** 삭제 버튼 */}
 									<DeleteIcon
 										onClick={() => {
+											props.setLoading(true);
+
 											memberId && deleteOkrMain();
 										}}
 										color={'secondary'}
@@ -491,7 +517,26 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 								</Box>
 							</Box>
 						</Box>
-
+						{/** 등록 버튼 */}
+						{isEditMode && (
+							<SupportiButton
+								contents={'등록하기'}
+								onClick={() => {
+									//* Okr 메인 목표 등록
+									props.setLoading(true);
+									memberId && updateOkrMain(okrMainData);
+								}}
+								style={{
+									height: '40px',
+									width: '150px',
+									marginLeft: 'auto',
+									marginRight: 'auto',
+								}}
+								color={'primary'}
+								variant="contained"
+								isGradient={true}
+							/>
+						)}
 						<Divider sx={{ my: 2 }} />
 
 						{/** 하위 목표 작성 */}
@@ -612,35 +657,21 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 												setTriggerKey={
 													props.setTriggerKey
 												}
+												loading={props.loading}
+												setLoading={props.setLoading}
 											/>
 										</Box>
 									);
 								})}
 							</Box>
 						</Box>
-
-						{/** 등록 버튼 */}
-						{isEditMode && (
-							<SupportiButton
-								contents={'등록하기'}
-								onClick={() => {
-									//* Okr 메인 목표 등록
-
-									memberId && updateOkrMain(okrMainData);
-								}}
-								style={{
-									height: '20px',
-									width: '200px',
-									marginLeft: 'auto',
-									marginRight: 'auto',
-								}}
-								color={'primary'}
-								variant="contained"
-								isGradient={true}
-							/>
-						)}
 					</Box>
 				}
+			/>
+			<SupportiAlertModal
+				open={isAlertOpen}
+				handleClose={() => setIsAlertOpen(false)}
+				type={'indicatorWarning'}
 			/>
 		</Box>
 	);

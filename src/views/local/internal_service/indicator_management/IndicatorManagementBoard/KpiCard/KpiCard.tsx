@@ -74,7 +74,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			(injectedObj.TARGET_UNIT != undefined &&
 				injectedObj.TARGET_UNIT == undefined) ||
 			(injectedObj.TARGET_AMOUNT != undefined &&
-				injectedObj.TARGET_AMOUNT === 0)
+				injectedObj.TARGET_AMOUNT == 0)
 		) {
 			console.log(kpiData);
 			alert('필수 입력값을 입력해주세요.');

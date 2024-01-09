@@ -48,12 +48,6 @@ interface IInfiniteLoadBoardProps {
 	 */
 	triggerKey?: string;
 	name?: string;
-
-	/**
-	 * 로딩 상태
-	 */
-	loading?: boolean;
-	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**

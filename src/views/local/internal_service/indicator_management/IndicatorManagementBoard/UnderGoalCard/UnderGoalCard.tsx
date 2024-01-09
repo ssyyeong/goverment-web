@@ -30,6 +30,12 @@ interface IUnderGoalCardProps {
 	modalOpen?: boolean;
 	setModalOpen?: any;
 	setTriggerKey?: any;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UnderGoalCard = (props: IUnderGoalCardProps) => {
@@ -72,6 +78,12 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 		APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
 	});
 
+	/**
+	 *
+	 * 하위목표 미기재 알럿창 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
 	//* Constants
 	const defaultTargetUnit = props.data.TARGET_UNIT;
 	const defaultTargetAmount = props.data.TARGET_AMOUNT;
@@ -113,12 +125,16 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 			okrDetailData.TITLE === '' ||
 			okrDetailData.TARGET_UNIT == undefined ||
 			okrDetailData.TARGET_UNIT == '' ||
-			okrDetailData.TARGET_AMOUNT === 0 ||
+			okrDetailData.TARGET_AMOUNT == 0 ||
 			okrDetailData.TARGET_AMOUNT === undefined
 		) {
-			alert('필수값을 입력해주세요.');
+			props.setLoading(false);
+
+			setIsAlertOpen(true);
 		} else {
 			if (okrDetailData.TITLE.length >= 20) {
+				props.setLoading(false);
+
 				alert('타이틀은 20자내로 입력해주세요.');
 				// setOkrDetailData({
 				// 	...okrDetailData,
@@ -135,12 +151,16 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 						injectedObj
 					),
 					(response: any) => {
+						props.setLoading(false);
+
 						alert('하위 업데이트 성공');
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 						setIsEditMode(false);
 					},
-					(err: any) => {}
+					(err: any) => {
+						props.setLoading(false);
+					}
 				);
 			}
 		}
@@ -660,6 +680,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											)
 												setModifyAlertModal(true);
 											else {
+												props.setLoading(true);
 												memberId &&
 													updateOkrDetail({
 														TITLE: okrDetailData.TITLE,
@@ -781,9 +802,14 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				type="indicatorModify"
 				open={modifyAlertModal}
 				handleClose={() => setModifyAlertModal(false)}
-				customHandleClose={() =>
-					memberId && updateOkrDetail(okrDetailData)
-				}
+				customHandleClose={() => {
+					memberId && updateOkrDetail(okrDetailData);
+				}}
+			/>
+			<SupportiAlertModal
+				open={isAlertOpen}
+				handleClose={() => setIsAlertOpen(false)}
+				type={'indicatorWarning'}
 			/>
 		</Box>
 	);

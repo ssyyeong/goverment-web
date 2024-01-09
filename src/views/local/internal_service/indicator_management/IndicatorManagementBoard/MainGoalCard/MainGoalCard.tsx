@@ -15,6 +15,12 @@ interface IMainGoalCardProps {
 	data: IOkrCombination;
 	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 	index?: number;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MainGoalCard = (props: IMainGoalCardProps) => {
@@ -207,6 +213,8 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 					setOkrDetailData={setOkrDetailData}
 					materialDataList={materialDataList}
 					setTriggerKey={props.setTriggerKey}
+					loading={props.loading}
+					setLoading={props.setLoading}
 				/>
 			)}
 		</Box>

@@ -22,6 +22,12 @@ interface IOkrCreateModalProps {
 	setOkrDetailData?: any;
 	materialDataList?: any;
 	setTriggerKey?: React.Dispatch<any>;
+
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const OkrCreateModal = (props: IOkrCreateModalProps) => {
@@ -83,8 +89,11 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			if (
 				item.TITLE === '' ||
 				item.TARGET_UNIT === undefined ||
-				item.TARGET_UNIT === ''
+				item.TARGET_UNIT === '' ||
+				item.TARGET_AMOUNT === 0
 			) {
+				props.setLoading(false);
+
 				setIsAlertOpen(true);
 				return;
 			}
@@ -98,13 +107,17 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 					OKR_DETAIL: okrDetailData,
 				},
 				(response) => {
-					alert('등록 성공');
+					props.setLoading(false);
 					props.setModalOpen(false);
+					alert('등록 성공');
+
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 					return;
 				},
 				(err) => {
+					props.setLoading(false);
+
 					console.log(err);
 				}
 			);
@@ -366,6 +379,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 							onClick={() => {
 								//* Okr 메인 목표 등록
 								if (okrMainData.TITLE !== '') {
+									props.setLoading(true);
 									createOkr();
 								} else {
 									alert('필수 값 미입력');

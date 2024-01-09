@@ -264,14 +264,24 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 					{modalConfig[props.type]?.title}
 				</Typography>
 				{props.type === 'indicatorWarning' && (
-					<Typography
-						variant={'subtitle1'}
-						fontWeight={500}
-						my={1}
-						color="secondary.dark"
-					>
-						메인 목표에 맞게 남은 하위 목표를 기입하세요.
-					</Typography>
+					<Box textAlign={'center'}>
+						<Typography
+							variant={'subtitle1'}
+							fontWeight={500}
+							my={1}
+							color="secondary.dark"
+						>
+							메인 목표에 맞게 남은 하위 목표를 기입하세요.
+						</Typography>
+						<Typography
+							variant={'body1'}
+							fontWeight={500}
+							my={1}
+							color="secondary.dark"
+						>
+							* 목표량은 0이 될 수 없습니다.
+						</Typography>
+					</Box>
 				)}
 				<Box
 					display={'flex'}

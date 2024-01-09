@@ -25,6 +25,11 @@ interface IUnderGoalWriteFormProps {
 	isModalOpen: boolean;
 	setIsModalOpen: any;
 	setTriggerKey?: React.Dispatch<any>;
+	/**
+	 * 로딩 상태
+	 */
+	loading?: boolean;
+	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
@@ -72,12 +77,18 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 		if (
 			props.data.TITLE === '' ||
 			props.data.TARGET_UNIT == undefined ||
-			props.data.TARGET_UNIT == ''
+			props.data.TARGET_UNIT == '' ||
+			props.data.TARGET_AMOUNT === 0 ||
+			props.data.TARGET_AMOUNT === '0'
 		) {
+			props.setLoading(false);
+
 			setIsAlertOpen(true);
 			return;
 		} else {
 			if (props.data.TITLE.length >= 20) {
+				props.setLoading(false);
+
 				alert('20자 이하로 입력해주세요.');
 				return;
 			} else {
@@ -93,6 +104,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						ACHIEVED_AMOUNT: 0,
 					})
 					.then((res) => {
+						props.setLoading(false);
 						alert('생성 완료');
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
@@ -114,6 +126,8 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						console.log(res);
 					})
 					.catch((err) => {
+						props.setLoading(false);
+
 						console.log(err);
 					});
 			}
@@ -378,6 +392,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
+								props.setLoading(true);
 								setIndex(props.index);
 								memberId && updateOkr();
 							}}

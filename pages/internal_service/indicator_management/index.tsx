@@ -64,6 +64,8 @@ const Page: NextPage = () => {
 							<MainGoalCard
 								data={data}
 								setTriggerKey={setTriggerKey}
+								loading={loading}
+								setLoading={setLoading}
 							/>
 						);
 					},
