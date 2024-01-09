@@ -608,6 +608,8 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 										}
 										deleteOkrDetail={deleteOkrDetail}
 										setTriggerKey={props.setTriggerKey}
+										loading={props.loading}
+										setLoading={props.setLoading}
 									/>
 								);
 							})}

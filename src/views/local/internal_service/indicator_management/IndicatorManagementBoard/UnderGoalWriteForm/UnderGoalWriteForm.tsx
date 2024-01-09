@@ -392,8 +392,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						<SupportiButton
 							contents={'등록하기'}
 							onClick={() => {
-								props.setLoading(true);
 								setIndex(props.index);
+								props.setLoading(true);
+
 								memberId && updateOkr();
 							}}
 							style={{
