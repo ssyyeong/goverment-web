@@ -80,8 +80,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 
 	//* Functions
 	const updateOkr = () => {
-		console.log(props.data);
-
 		if (
 			props.data.TITLE === '' ||
 			props.data.TARGET_UNIT == undefined ||
@@ -90,8 +88,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 			props.data.TARGET_AMOUNT === '0' ||
 			props.data.TARGET_AMOUNT === undefined
 		) {
-			props.setLoading(false);
-
 			setAlertType('indicatorWarning');
 			setIsAlertOpen(true);
 			return;
@@ -150,9 +146,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	};
 
 	//* Hooks
-	// React.useEffect(() => {
-	// 	props.setTriggerKey && props.setTriggerKey(uuidv4());
-	// }, [props.data]);
 
 	return (
 		<Box

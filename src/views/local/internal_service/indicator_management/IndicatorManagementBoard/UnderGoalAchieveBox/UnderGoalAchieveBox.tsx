@@ -33,7 +33,7 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	 *
 	 * 달성량
 	 */
-	const [achieveAmount, setAchieveAmount] = React.useState(0);
+	const [achieveAmount, setAchieveAmount] = React.useState(undefined);
 
 	/**
 	 * 메모
@@ -76,7 +76,7 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setIsAlertOpen(true);
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
-					setAchieveAmount(0);
+					setAchieveAmount(undefined);
 				},
 				(err: any) => {
 					setAlertType('failAxios');
@@ -97,7 +97,7 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setIsAlertOpen(true);
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
-					setAchieveAmount(0);
+					setAchieveAmount(undefined);
 				},
 				(err: any) => {}
 			);
@@ -122,7 +122,9 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					width={'200px'}
 					btnContent="달성량 추가"
 					btnOnclick={() => {
-						updateOkr('achievedAmount');
+						if(achieveAmount === undefined || achieveAmount === null || achieveAmount === '' || achieveAmount === 0) {
+							alert("달성량을 정확히 입력해주세요.")
+						}else updateOkr('achievedAmount');
 					}}
 					style={{
 						bgcolor: 'white',

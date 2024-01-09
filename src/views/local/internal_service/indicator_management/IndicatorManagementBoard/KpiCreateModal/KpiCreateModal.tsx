@@ -39,7 +39,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 					TITLE: '',
 					START_DATE: new Date(),
 					END_DATE: new Date(),
-					TARGET_AMOUNT: 0,
+					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
 					CATEGORY: undefined,
@@ -102,7 +102,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 					TITLE: '',
 					START_DATE: new Date(),
 					END_DATE: new Date(),
-					TARGET_AMOUNT: 0,
+					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
 					CATEGORY: undefined,
@@ -412,6 +412,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										<SupportiInput
 											type="input"
 											inputType="number"
+											placeholder='목표량 입력'
 											value={kpiData.TARGET_AMOUNT}
 											setValue={(value: number) => {
 												setKpiData({
@@ -428,7 +429,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 											color="error.main"
 											sx={{
 												visibility:
-													kpiData.TARGET_AMOUNT !== 0
+													kpiData.TARGET_AMOUNT !== 0 || kpiData.TARGET_AMOUNT !== undefined
 														? 'hidden'
 														: 'block',
 											}}
