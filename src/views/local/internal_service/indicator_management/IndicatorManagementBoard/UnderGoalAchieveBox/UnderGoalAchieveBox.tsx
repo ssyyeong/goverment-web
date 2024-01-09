@@ -6,6 +6,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalAchieveBoxProps {
 	data: IOkrCombination;
@@ -40,6 +41,19 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	const [note, setNote] = React.useState(
 		props.data.NOTE !== '' ? props.data.NOTE : ''
 	);
+
+	/**
+	 *
+	 * 알럿창 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+	/**
+	 *
+	 * 알럿창 타입
+	 */
+	const [alertType, setAlertType] = React.useState(undefined);
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -58,12 +72,16 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					NOTE: note,
 				}),
 				(response: any) => {
-					alert('수정 성공');
+					setAlertType('successModifyAxios');
+					setIsAlertOpen(true);
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 					setAchieveAmount(0);
 				},
-				(err: any) => {}
+				(err: any) => {
+					setAlertType('failAxios');
+					setIsAlertOpen(true);
+				}
 			);
 		} else {
 			okrAchievedAmountController.createItem(
@@ -75,7 +93,8 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					UNIT: props.data['TARGET_UNIT'],
 				},
 				(response: any) => {
-					alert('추가 성공');
+					setAlertType('successCreateAxios');
+					setIsAlertOpen(true);
 					props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 					setAchieveAmount(0);
@@ -127,6 +146,13 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 				style={{
 					bgcolor: 'white',
 				}}
+			/>
+			<SupportiAlertModal
+				open={isAlertOpen}
+				handleClose={() => {
+					setIsAlertOpen(false);
+				}}
+				type={alertType}
 			/>
 		</Box>
 	);
