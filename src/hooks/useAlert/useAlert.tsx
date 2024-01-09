@@ -25,6 +25,7 @@ const useAlert = (props: IuseAlertProps) => {
 		| 'withdraw'
 		| 'unsubscribe'
 		| 'cancel'
+		| 'delete'
 		| 'business'
 		| 'loginfail'
 		| 'consultingexceed'

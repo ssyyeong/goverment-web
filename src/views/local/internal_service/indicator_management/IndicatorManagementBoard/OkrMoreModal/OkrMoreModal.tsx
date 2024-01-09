@@ -20,7 +20,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import UnderGoalCard from '../UnderGoalCard';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
-interface IOkrDetailModalProps {
+interface IOkrMoreModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	okrMainData?: any;
@@ -37,7 +37,7 @@ interface IOkrDetailModalProps {
 	setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const OkrDetailModal = (props: IOkrDetailModalProps) => {
+const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	//* Controllers
 	const okrMainController = new DefaultController('OkrMain');
 
@@ -79,6 +79,11 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 	 * 알럿창 타입
 	 */
 	const [alertType, setAlertType] = React.useState(undefined);
+
+	/**
+	 * 삭제 여부 확인하는 모달
+	 */
+	const [isDeleteAlertOpen, setIsDeleteAlertOpen] = React.useState(false);
 
 	//* Functions
 	/**
@@ -182,11 +187,12 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 			},
 			(response: any) => {
 				props.setLoading(false);
-				setAlertType('successDeleteAxios');
-				setIsAlertOpen(true);
 
 				props.setTriggerKey && props.setTriggerKey(uuidv4());
 				props.setModalOpen(false);
+
+				setAlertType('successDeleteAxios');
+				setIsAlertOpen(true);
 			},
 			(err: any) => {
 				props.setLoading(false);
@@ -347,9 +353,7 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 									{/** 삭제 버튼 */}
 									<DeleteIcon
 										onClick={() => {
-											props.setLoading(true);
-
-											memberId && deleteOkrMain();
+											setIsDeleteAlertOpen(true);
 										}}
 										color={'secondary'}
 									/>
@@ -694,8 +698,19 @@ const OkrDetailModal = (props: IOkrDetailModalProps) => {
 				}}
 				type={alertType}
 			/>
+			<SupportiAlertModal
+				open={isDeleteAlertOpen}
+				handleClose={()=> 		setIsDeleteAlertOpen(false)}
+				customHandleClose={() => {
+					props.setLoading(true);
+					memberId && deleteOkrMain();
+
+					setIsDeleteAlertOpen(false);
+				}}
+				type={'delete'}
+			/>
 		</Box>
 	);
 };
 
-export default OkrDetailModal;
+export default OkrMoreModal;

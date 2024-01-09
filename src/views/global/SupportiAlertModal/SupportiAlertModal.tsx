@@ -20,6 +20,7 @@ interface ISupportiAlertModalProps {
 		| 'withdraw'
 		| 'unsubscribe'
 		| 'cancel'
+		| 'delete'
 		| 'business'
 		| 'loginfail'
 		| 'consultingexceed'
@@ -108,6 +109,15 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		cancel: {
 			type: 'error',
 			title: '정말 취소하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		delete: {
+			type: 'error',
+			title: '정말 삭제하시겠습니까?',
 			content: '확인',
 			onclick: () => {
 				props.customHandleClose && props.customHandleClose();
