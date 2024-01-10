@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import UnderGoalCard from '../UnderGoalCard';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { randomColor } from '../../../../../../../configs/randomColorConfig';
 
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
@@ -28,7 +29,6 @@ interface IOkrMoreModalProps {
 	setOkrMainData?: any;
 	okrDetailData?: any;
 	setOkrDetailData?: any;
-	materialDataList?: any;
 	setTriggerKey?: React.Dispatch<any>;
 
 	/**
@@ -210,6 +210,22 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 			}
 		);
 	};
+
+	/**
+	 *
+	 * 프로그레스 바 달성률 데이터 셋팅
+	 */
+	const materialDataList = okrDetails.map((item, index) => {
+		return {
+			percentage:
+				item.ACHIEVED_RATE > 100
+					? Math.round(100 / okrDetails.length).toString()
+					: Math.round(
+							item.ACHIEVED_RATE / okrDetails.length
+					  ).toString(),
+			color: randomColor[index],
+		};
+	});
 
 	//* Hooks
 	React.useEffect(() => {
@@ -483,10 +499,8 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								</Box>
 								{/** 프로그레스바 */}
 								<SupportiProgressBar
-									materialDataList={props.materialDataList}
-									totalPercentage={
-										okrMainData.ACHIEVED_RATE
-									}
+									materialDataList={materialDataList}
+									totalPercentage={okrMainData.ACHIEVED_RATE}
 								/>
 
 								{/** 메모 입력 */}

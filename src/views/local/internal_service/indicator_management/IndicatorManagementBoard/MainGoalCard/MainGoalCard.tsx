@@ -248,7 +248,6 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 					setOkrMainData={setOkrMainData}
 					okrDetailData={okrDetailData}
 					setOkrDetailData={setOkrDetailData}
-					materialDataList={materialDataList}
 					setTriggerKey={props.setTriggerKey}
 					loading={props.loading}
 					setLoading={props.setLoading}
