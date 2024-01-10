@@ -10,9 +10,7 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalAchieveBoxProps {
 	data: IOkrCombination;
-	modalOpen?: boolean;
-	setModalOpen?: any;
-	setTriggerKey?: any;
+	getOkrMain: any;
 }
 
 const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
@@ -74,8 +72,8 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 				(response: any) => {
 					setAlertType('successModifyAxios');
 					setIsAlertOpen(true);
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
-
+					// props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.getOkrMain();
 					setAchieveAmount(undefined);
 				},
 				(err: any) => {
@@ -95,7 +93,8 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 				(response: any) => {
 					setAlertType('successCreateAxios');
 					setIsAlertOpen(true);
-					props.setTriggerKey && props.setTriggerKey(uuidv4());
+					props.getOkrMain();
+					// props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 					setAchieveAmount(undefined);
 				},
@@ -122,9 +121,14 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					width={'200px'}
 					btnContent="달성량 추가"
 					btnOnclick={() => {
-						if(achieveAmount === undefined || achieveAmount === null || achieveAmount === '' || achieveAmount === 0) {
-							alert("달성량을 정확히 입력해주세요.")
-						}else updateOkr('achievedAmount');
+						if (
+							achieveAmount === undefined ||
+							achieveAmount === null ||
+							achieveAmount === '' ||
+							achieveAmount === 0
+						) {
+							alert('달성량을 정확히 입력해주세요.');
+						} else updateOkr('achievedAmount');
 					}}
 					style={{
 						bgcolor: 'white',

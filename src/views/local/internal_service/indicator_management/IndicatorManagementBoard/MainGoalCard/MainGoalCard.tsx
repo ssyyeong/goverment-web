@@ -107,6 +107,16 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 		setOkrDetailData(props.data.OkrDetails);
 	}, [props.data]);
 
+	/**
+	 *
+	 * 모달 닫힐때 트리거 키 변경해서 화면과 싱크 맞추기 위함
+	 */
+	useEffect(() => {
+		if (!isMoreModalOpen) {
+			props.setTriggerKey && props.setTriggerKey(uuidv4());
+		}
+	}, [isMoreModalOpen]);
+
 	return (
 		<Box
 			borderRadius={2}
@@ -205,6 +215,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 			</Box>
 			{isMoreModalOpen && (
 				<OkrMoreModal
+					okrMainId={props.data['OKR_MAIN_IDENTIFICATION_CODE']}
 					modalOpen={isMoreModalOpen}
 					setModalOpen={setIsMoreModalOpen}
 					okrMainData={okrMainData}

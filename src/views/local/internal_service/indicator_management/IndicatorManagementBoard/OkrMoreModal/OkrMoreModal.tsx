@@ -23,6 +23,7 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
+	okrMainId: string;
 	okrMainData?: any;
 	setOkrMainData?: any;
 	okrDetailData?: any;
@@ -61,7 +62,17 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 		ACHIEVED_RATE: props.okrMainData?.ACHIEVED_RATE,
 	});
 
+	/**
+	 *
+	 * 작성하는 폼
+	 */
 	const [okrDetailData, setOkrDetailData] = React.useState([]);
+
+	/**
+	 *
+	 * 기존 하위
+	 */
+	const [okrDetails, setOkrDetails] = React.useState(props.okrDetailData);
 
 	/**
 	 * 수정 모드인지 여부
@@ -96,9 +107,34 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	};
 
 	/**
-	 *  okr 업데이트 함수
-	 *
-	 * */
+	 * 
+	 * 메인 목표 하나 받아오기
+	 */
+	const getOkrMain = () => {
+		okrMainController.getOneItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
+			},
+			(response: any) => {
+				console.log(response);
+				setOkrMainData({
+					TITLE: response.data.result.TITLE,
+					START_DATE: response.data.result.START_DATE,
+					END_DATE: response.data.result.END_DATE,
+					NOTE: response.data.result.NOTE,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					ACHIEVED_RATE: response.data.result.ACHIEVED_RATE,
+				});
+
+				setOkrDetails(response.data.result.OkrDetails);
+			},
+			(err: any) => {
+				setAlertType('failAxios');
+				setIsAlertOpen(true);
+			}
+		);
+	}
 
 	/**
 	 *
@@ -141,37 +177,6 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				);
 			}
 		}
-	};
-
-	/**
-	 *
-	 * 하위 목표 수정
-	 */
-	const updateDetailOkr = () => {
-		props.okrDetailData.map((item) => {
-			if (
-				item.TITLE == '' ||
-				item.TARGET_AMOUNT == 0 ||
-				item.TARGET_AMOUNT === undefined ||
-				item.TARGET_UNIT == '' ||
-				item.TARGET_UNIT == undefined
-			) {
-				setAlertType('indicatorWarning');
-				setIsAlertOpen(true);
-			} else {
-				updateOkrMain({
-					TITLE: item.TITLE,
-					START_DATE: item.START_DATE,
-					END_DATE: item.END_DATE,
-					TARGET_AMOUNT: item.TARGET_AMOUNT,
-					TARGET_UNIT: item.TARGET_UNIT,
-					NOTE: item.NOTE,
-					ACHIEVED_AMOUNT: item.ACHIEVED_AMOUNT,
-					OKR_DETAIL_IDENTIFICATION_CODE:
-						item.OKR_DETAIL_IDENTIFICATION_CODE,
-				});
-			}
-		});
 	};
 
 	/**
@@ -219,21 +224,15 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
 
-	React.useEffect(() => {
-		setIsEditMode(false);
-		// setOkrDetailData([]);
-	}, [props.okrDetailData]);
 
 	React.useEffect(() => {
-		setOkrMainData({
-			TITLE: props.okrMainData?.TITLE,
-			START_DATE: props.okrMainData?.START_DATE,
-			END_DATE: props.okrMainData?.END_DATE,
-			NOTE: props.okrMainData?.NOTE,
-			APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			ACHIEVED_RATE: props.okrMainData?.ACHIEVED_RATE,
-		});
-	}, [props.okrMainData]);
+		setIsEditMode(false);
+	}, [okrDetails]);
+
+
+	React.useEffect(() => {
+		getOkrMain();
+	}, []);
 
 	return (
 		<Box>
@@ -575,7 +574,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										ml={1}
 										fontWeight={600}
 									>
-										{props.okrDetailData.length}
+										{okrDetails.length}
 									</Typography>
 								</Box>
 
@@ -635,7 +634,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 							})}
 
 							<Box>
-								{props.okrDetailData.map((item, index) => {
+								{okrDetails?.map((item, index) => {
 									return (
 										<Box
 											bgcolor={'secondary.light'}
@@ -649,36 +648,13 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 												data={item}
 												index={index}
 												mode="detail"
-												updateDetailOkr={
-													updateDetailOkr
-												}
 												children={
 													<UnderGoalAchieveBox
 														data={item}
-														modalOpen={
-															props.modalOpen
-														}
-														setModalOpen={
-															props.setModalOpen
-														}
-														setTriggerKey={
-															props.setTriggerKey
-														}
+												getOkrMain={getOkrMain}
 													/>
 												}
-												okrDetailData={
-													props.okrDetailData
-												}
-												setOkrDetailData={
-													props.setOkrDetailData
-												}
-												modalOpen={props.modalOpen}
-												setModalOpen={
-													props.setModalOpen
-												}
-												setTriggerKey={
-													props.setTriggerKey
-												}
+												getOkrMain={getOkrMain}
 												loading={props.loading}
 												setLoading={props.setLoading}
 											/>
@@ -700,7 +676,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 			/>
 			<SupportiAlertModal
 				open={isDeleteAlertOpen}
-				handleClose={()=> 		setIsDeleteAlertOpen(false)}
+				handleClose={() => setIsDeleteAlertOpen(false)}
 				customHandleClose={() => {
 					props.setLoading(true);
 					memberId && deleteOkrMain();

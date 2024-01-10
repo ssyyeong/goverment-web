@@ -23,14 +23,8 @@ interface IUnderGoalCardProps {
 	index: number;
 	mode?: string;
 	children?: React.ReactNode;
-	okrDetailData?: any;
-	setOkrDetailData?: any;
 	memberId?: number;
-	updateDetailOkr?: any;
-	modalOpen?: boolean;
-	setModalOpen?: any;
-	setTriggerKey?: any;
-
+	getOkrMain?: any;
 	/**
 	 * 로딩 상태
 	 */
@@ -119,7 +113,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 
 				setAlertType('successDeleteAxios');
 				setIsAlertOpen(true);
-				props.setTriggerKey && props.setTriggerKey(uuidv4());
+
+				props.getOkrMain();
+				setIsMoreOpen(false);
 			},
 			(err: any) => {
 				props.setLoading(false);
@@ -171,7 +167,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 						setAlertType('successModifyAxios');
 						setIsAlertOpen(true);
 
-						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						props.getOkrMain();
+
 						setIsEditMode(false);
 					},
 					(err: any) => {
@@ -215,11 +212,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	React.useEffect(() => {
 		setDeleteAlertModal(false);
 		setIsEditMode(false);
-		// setIsMoreOpen(false);
-		// if (props.index === 0) {
-		// 	setIsMoreOpen(true);
-		// } else setIsMoreOpen(false);
-	}, [props.okrDetailData]);
+	}, [props.data]);
 
 	return (
 		<Box
@@ -368,8 +361,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 									color={'primary.main'}
 									fontWeight={600}
 								>
-									{props.data.ACHIEVED_RATE
-										? props.data.ACHIEVED_RATE
+									{props.data?.ACHIEVED_RATE
+										? props.data?.ACHIEVED_RATE
 										: 0}
 									%
 								</Typography>
@@ -838,7 +831,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				open={isAlertOpen}
 				handleClose={() => {
 					props.setLoading(false);
-					setIsAlertOpen(false)}}
+					setIsAlertOpen(false);
+				}}
 				type={alertType}
 			/>
 		</Box>
