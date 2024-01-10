@@ -110,6 +110,8 @@ const MyAccounts = (props: IMyAccountsProps) => {
 			(res) => {
 				props.setAccountTriggerKey(uuidv4());
 				setAnchorEl(null);
+				alert.setOpen(true);
+				alert.setType('successDeleteAxios');
 			},
 			(err) => {}
 		);

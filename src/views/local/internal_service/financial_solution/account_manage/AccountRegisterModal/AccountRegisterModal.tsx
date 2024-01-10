@@ -255,6 +255,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			},
 			(err: any) => {
 				console.log(err);
+				alert(err.response.data.message);
+				setLoading(false);
 			}
 		);
 	};
@@ -279,18 +281,15 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			},
 			(err: any) => {
 				console.log(err);
-				alert(
-					'데이터의 양이 많아 즉시 등록에 실패하였습니다. 새로고침시 등록됩니다.'
-				);
+				if (err.response.data?.message?.includes('HYPHEN')) {
+					alert(err.response.data.message);
+				} else {
+					alert(
+						'데이터의 양이 많아 즉시 등록에 실패하였습니다. 새로고침시 등록됩니다.'
+					);
+				}
 			}
 		);
-		// if (hyphenData.accountNickname === "") {
-		//   window.alert("계좌 별칭을 입력해주세요.")
-		// } else {
-		//   await api.post('/bank-account', hyphenData)
-		//     .then((res) => { getAccountList() })
-		//     .catch((e) => { })
-		// }
 	};
 
 	//* 불필요한 스트링 제거하기 위함

@@ -154,14 +154,14 @@ const Page: NextPage = () => {
 				},
 				(res) => {
 					if (res.data.result.rows.length === 0) {
+						setBankAccountList(res.data.result.rows);
+						getCalculationResult();
 						setLoading(false);
 					} else {
 						// setLoading(false);
 						setBankAccountList(res.data.result.rows);
 						getCalculationResult();
 					}
-
-					console.log(res.data.result);
 				},
 				(err) => {
 					console.log(err);
