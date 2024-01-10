@@ -43,6 +43,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	//* Constants
 
 	//* States
+
+	/**
+	 * Okr 메인 목표 데이터
+	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: '',
 		START_DATE: new Date(),
@@ -51,6 +55,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
 
+	/**
+	 *
+	 * Okr 하위 목표 데이터
+	 */
 	const [okrDetailData, setOkrDetailData] = React.useState([
 		{
 			TITLE: '',
@@ -113,7 +121,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 					OKR_MAIN: okrMainData,
 					OKR_DETAIL: okrDetailData,
 				},
-				(response) => {
+				(res) => {
 					props.setLoading(false);
 					props.setModalOpen(false);
 
@@ -129,8 +137,6 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 
 					setAlertType('failAxios');
 					setIsAlertOpen(true);
-
-					console.log(err);
 				}
 			);
 		}
@@ -186,8 +192,6 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		}
 	}, [memberId, props.modalOpen, props.okrMainData, props.okrDetailData]);
 
-	console.log(props.okrDetailData);
-
 	return (
 		<Box>
 			<SuppportiModal
@@ -214,9 +218,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 							pt: 2,
 						}}
 					>
-						{/** 상위 목표 작성 */}
+						{/** 상위 목표 작성 영역*/}
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
 							<Box width={'100%'}>
+								{/** 상위 목표 작성하는 인풋 */}
 								<SupportiInput
 									type="input"
 									multiline={true}
@@ -234,6 +239,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									display="flex"
 									justifyContent="space-between"
 								>
+									{/** 필수 입력값 알림 */}
 									<Typography
 										fontWeight={500}
 										variant="body1"
@@ -248,6 +254,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									>
 										필수 값 입니다.
 									</Typography>
+
+									{/** 목표 제목 글자수와 글자수 제한 */}
 									<Box
 										display="flex"
 										ml={'auto'}
@@ -331,7 +339,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								</Box>
 							</Box>
 						</Box>
-
+						
+						{/** 구분선 */}
 						<Divider sx={{ my: 2 }} />
 
 						{/** 하위 목표 작성 */}

@@ -52,7 +52,10 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 	);
 
 	//* Functions
-	//* 마감일 계산하는 함수
+	/**
+	 *
+	 * 마감일 계산하는 함수
+	 */
 	const calcDeadline = (day) => {
 		const Today = dayjs();
 
@@ -188,31 +191,33 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 				/>
 			</Box>
 
+			{/** 구분선 */}
 			<Divider sx={{ my: 2 }} />
 
-			{/** 하위 목표리스트 */}
-
+			{/** 하위 목표리스트 영역 */}
 			<Box width="100%">
 				<Box display={'flex'} mb={1}>
 					<Typography fontWeight={600}>하위목표</Typography>
-					{/** 갯수 */}
+					{/** 하위목표 갯수 */}
 					<Typography color="primary.main" ml={1} fontWeight={600}>
 						{okrMainData?.OkrDetails.length}
 					</Typography>
 				</Box>
 
-				{/** 하위 리스트들 카드로 출력 */}
 				<Box
 					display={'flex'}
 					width="100%"
 					gap={1}
 					sx={{ overflowX: 'auto' }}
 				>
+					{/** 하위 리스트들 카드로 출력 */}
 					{okrMainData?.OkrDetails.map((item, index) => {
 						return <UnderGoalCard data={item} index={index} />;
 					})}
 				</Box>
 			</Box>
+
+			{/** 상세보기 모달 */}
 			{isMoreModalOpen && (
 				<OkrMoreModal
 					okrMainId={props.data['OKR_MAIN_IDENTIFICATION_CODE']}

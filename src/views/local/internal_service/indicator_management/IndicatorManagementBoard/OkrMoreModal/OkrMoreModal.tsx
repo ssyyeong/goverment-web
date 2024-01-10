@@ -64,13 +64,13 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 
 	/**
 	 *
-	 * 작성하는 폼
+	 * 작성하는 하위목표 폼 데이터
 	 */
 	const [okrDetailData, setOkrDetailData] = React.useState([]);
 
 	/**
 	 *
-	 * 기존 하위
+	 * 기존 하위 목표 데이터들
 	 */
 	const [okrDetails, setOkrDetails] = React.useState(props.okrDetailData);
 
@@ -116,18 +116,17 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				OKR_MAIN_IDENTIFICATION_CODE: props.okrMainId,
 			},
-			(response: any) => {
-				console.log(response);
+			(res: any) => {
 				setOkrMainData({
-					TITLE: response.data.result.TITLE,
-					START_DATE: response.data.result.START_DATE,
-					END_DATE: response.data.result.END_DATE,
-					NOTE: response.data.result.NOTE,
+					TITLE: res.data.result.TITLE,
+					START_DATE: res.data.result.START_DATE,
+					END_DATE: res.data.result.END_DATE,
+					NOTE: res.data.result.NOTE,
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					ACHIEVED_RATE: response.data.result.ACHIEVED_RATE,
+					ACHIEVED_RATE: res.data.result.ACHIEVED_RATE,
 				});
 
-				setOkrDetails(response.data.result.OkrDetails);
+				setOkrDetails(res.data.result.OkrDetails);
 			},
 			(err: any) => {
 				setAlertType('failAxios');

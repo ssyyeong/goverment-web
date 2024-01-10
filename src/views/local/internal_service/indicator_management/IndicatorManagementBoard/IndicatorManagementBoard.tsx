@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box, BoxProps, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { InfiniteLoadBoard } from '../../../../../modules/will_be_in_core/InfiniteLoadBoard';
 import { IKpi, IOkrCombination } from '../../../../../@types/model';
@@ -182,7 +182,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 	 */
 
 	const { memberId } = useAppMember();
-	// console.log(props.infiniteLoadBoardProps, 'injected');
+
 	const makeInjectedParams = () => {
 		const injectedParams = Object.assign(
 			// props.infiniteLoadBoardProps?.injectedParams,
@@ -262,8 +262,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 						outerBoxStyle: {
 							width: '150px',
 							height: '36px',
-							marginTop: "auto",
-							marginBottom: "auto"
+							marginTop: 'auto',
+							marginBottom: 'auto',
 						},
 						chipStyle: {
 							height: '30px',
@@ -285,11 +285,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			{props.additionalFilterConfigList?.map((config, index) => (
 				<Box></Box>
 			))}
+
 			{/* KPI 카테고리 셀렉터 */}
 			{props.name === 'KPI' && (
-				// <SupportiButton
-
-				// />
 				<SupportiInput
 					type="select"
 					value={selectedKpiCategory}
@@ -298,6 +296,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					width={'100px'}
 				/>
 			)}
+
 			{/* 지표 목록 영역 */}
 			{memberId && (
 				<InfiniteLoadBoard
@@ -313,6 +312,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					name={props.name}
 				/>
 			)}
+
 			{props.name === 'OKR' && (
 				<OkrCreateModal
 					modalOpen={indicatorRegisterModal}

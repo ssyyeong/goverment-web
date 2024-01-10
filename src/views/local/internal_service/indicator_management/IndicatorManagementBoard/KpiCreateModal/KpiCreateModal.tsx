@@ -29,8 +29,13 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Modules
 
 	//* Constants
+
 	//* Hooks
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
 	const { memberId } = useAppMember();
+
 	//* States
 	const [kpiData, setKpiData] = React.useState<IKpi>(
 		props.data
@@ -49,13 +54,16 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 			  }
 	);
 
-	//* 직접 입력 여부
+	/**
+	 *
+	 * 목표분류 직접입력 여부
+	 */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
 
 	//* Functions
 	/**
 	 *
-	 * 목표 등록하는 api 호출 처리
+	 * KPI 목표 등록
 	 */
 	const createKpi = () => {
 		if (
@@ -135,7 +143,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							width: { xs: '100%', md: '80%' },
 						}}
 					>
-						{/** 목표 작성 */}
+						{/** 목표 작성 영역 */}
 						<Box display={'flex'} flexDirection={'column'} gap={3}>
 							<Box>
 								<SupportiInput
@@ -155,6 +163,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									display="flex"
 									justifyContent={'space-between'}
 								>
+									{/** 필수값 알림 영역*/}
 									<Typography
 										fontWeight={500}
 										variant="body1"
@@ -170,6 +179,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										필수 값 입니다.
 									</Typography>
 
+									{/** 목표 제목 글자수와 글자수 제한 영역 */}
 									<Box
 										display="flex"
 										ml={'auto'}
@@ -343,6 +353,8 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									</Typography>
 								</Box>
 
+								{/** 목표분류 목표량 등록 영역 */}
+
 								{/** 목표분류 */}
 								<Box>
 									<Typography fontWeight={500} mb={1}>
@@ -373,6 +385,8 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										dataList={IndicatorUnit}
 										width={'150px'}
 									/>
+
+									{/** 목표분류 직접입력시 입력창 */}
 									{isUserMakeUnit && (
 										<SupportiInput
 											type="input"
@@ -402,7 +416,6 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									</Typography>
 								</Box>
 
-								{/** 목표분류 목표량 등록 */}
 								{/** 목표량 */}
 								<Box display={'flex'}>
 									<Box>
@@ -412,7 +425,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										<SupportiInput
 											type="input"
 											inputType="number"
-											placeholder='목표량 입력'
+											placeholder="목표량 입력"
 											value={kpiData.TARGET_AMOUNT}
 											setValue={(value: number) => {
 												setKpiData({
@@ -429,7 +442,10 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 											color="error.main"
 											sx={{
 												visibility:
-													kpiData.TARGET_AMOUNT !== 0 || kpiData.TARGET_AMOUNT !== undefined
+													kpiData.TARGET_AMOUNT !==
+														0 ||
+													kpiData.TARGET_AMOUNT !==
+														undefined
 														? 'hidden'
 														: 'block',
 											}}
@@ -439,27 +455,9 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									</Box>
 								</Box>
 							</Box>
-
-							<Box display={'flex'} gap={2} mt={25}>
-								{props.mode === 'create' && (
-									<SupportiButton
-										contents={'등록하기'}
-										onClick={() => {
-											createKpi();
-										}}
-										style={{
-											height: '20px',
-											width: '100px',
-										}}
-										color={'primary'}
-										variant="contained"
-										isGradient={true}
-									/>
-								)}
-							</Box>
 						</Box>
 
-						{/** 등록 버튼 */}
+						{/** 수정시 등록 버튼 */}
 						<SupportiButton
 							contents={
 								props.mode === 'modify'

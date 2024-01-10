@@ -77,8 +77,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	 */
 	const { memberId } = useAppMember();
 
-	console.log(props.okrDetailData, defaultData);
-
 	//* Functions
 	const updateOkr = () => {
 		if (

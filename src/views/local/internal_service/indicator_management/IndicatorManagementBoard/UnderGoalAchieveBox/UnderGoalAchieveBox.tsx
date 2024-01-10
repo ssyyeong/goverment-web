@@ -72,7 +72,7 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 				(response: any) => {
 					setAlertType('successModifyAxios');
 					setIsAlertOpen(true);
-					// props.setTriggerKey && props.setTriggerKey(uuidv4());
+
 					props.getOkrMain();
 					setAchieveAmount(undefined);
 				},
@@ -94,7 +94,6 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setAlertType('successCreateAxios');
 					setIsAlertOpen(true);
 					props.getOkrMain();
-					// props.setTriggerKey && props.setTriggerKey(uuidv4());
 
 					setAchieveAmount(undefined);
 				},

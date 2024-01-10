@@ -180,7 +180,6 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 					 * 에러 트리거
 					 */
 					setError(err);
-					// alert('실패');
 				}
 			);
 		} else {
@@ -228,9 +227,6 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 		disabled: !!error,
 		rootMargin: props.rootMargin || '0px 0px 400px 0px',
 	});
-
-	console.log(maxPage, 'maxPage', selectedPage);
-	console.log(props.allData, 'allData');
 
 	return (
 		<Box {...props.boxProps}>
