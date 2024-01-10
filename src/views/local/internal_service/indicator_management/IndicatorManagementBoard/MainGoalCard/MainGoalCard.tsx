@@ -36,6 +36,9 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 	 */
 	const [isMoreModalOpen, setIsMoreModalOpen] = React.useState(false);
 
+	/**
+	 * OKR 메인 데이터
+	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: props.data.TITLE,
 		START_DATE: props.data.START_DATE,
@@ -47,10 +50,17 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 		ACHIEVED_RATE: props.data.ACHIEVED_RATE,
 	});
 
+	/**
+	 * OKR 하위목표 데이터
+	 */
 	const [okrDetailData, setOkrDetailData] = React.useState(
 		props.data.OkrDetails
 	);
 
+	/**
+	 *
+	 * 첫 렌더링 여부
+	 */
 	const [firstRender, setFirstRender] = React.useState(false);
 
 	//* Functions
@@ -122,6 +132,10 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 		}
 	}, [isMoreModalOpen]);
 
+	/**
+	 *
+	 * 첫 렌더링 여부 판단 함수
+	 */
 	useEffect(() => {
 		setFirstRender(true);
 	}, []);
@@ -138,6 +152,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 			mb={2}
 		>
 			<Box display={'flex'} justifyContent={'space-between'}>
+				{/** 메인 타이틀 */}
 				<Typography variant="h3" fontWeight={'bold'}>
 					{okrMainData.TITLE}
 				</Typography>

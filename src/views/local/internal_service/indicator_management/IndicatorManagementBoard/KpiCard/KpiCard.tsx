@@ -37,18 +37,26 @@ const KpiCard = (props: IKpiCardProps) => {
 	const [isModifyModalOpen, setIsModifyModalOpen] = React.useState(false);
 
 	/**
-	 *s
+	 *
 	 * 더보기 아이콘 클릭 여부
 	 */
 	const [isMore, setIsMore] = React.useState(false);
+
+
+	
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
-	//* Functions
 
-	//* kpi 삭제하는 함수
+
+
+	//* Functions
+	/**
+	 *
+	 * kpi 삭제하는 함수
+	 */
 	const deleteKpi = () => {
 		kpiController.deleteItem(
 			{
@@ -76,20 +84,14 @@ const KpiCard = (props: IKpiCardProps) => {
 			(injectedObj.TARGET_AMOUNT != undefined &&
 				injectedObj.TARGET_AMOUNT == 0)
 		) {
-			console.log(kpiData);
 			alert('필수 입력값을 입력해주세요.');
 		} else {
+			/** 타이틀이 20자 이상일 경우 처리 */
 			if (
 				injectedObj.TITLE != undefined &&
 				injectedObj.TITLE.length >= 20
 			) {
-				//* 20글자 넘으면 20글자 내까지만 자르기
 				alert('타이틀은 20자내로 입력해주세요.');
-
-				// setKpiData({
-				// 	...kpiData,
-				// 	TITLE: kpiData.TITLE.slice(0, 20),
-				// });
 			} else {
 				kpiController.updateItem(
 					Object.assign(
@@ -112,7 +114,10 @@ const KpiCard = (props: IKpiCardProps) => {
 		}
 	};
 
-	//* 마감일 계산하는 함수
+	/**
+	 *
+	 * 마감일 계산하는 함수
+	 */
 	const calcDeadline = (day) => {
 		const Today = dayjs();
 
@@ -166,6 +171,7 @@ const KpiCard = (props: IKpiCardProps) => {
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 		>
 			<Box display="flex" justifyContent={'space-between'}>
+				{/** KPI 목표 제목 */}
 				<Typography variant="h5" fontWeight={'bold'}>
 					{kpiData.TITLE}
 				</Typography>

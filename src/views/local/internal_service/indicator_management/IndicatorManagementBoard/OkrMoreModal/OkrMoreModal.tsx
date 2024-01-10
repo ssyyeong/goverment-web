@@ -53,6 +53,9 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	//* Constants
 
 	//* States
+	/**
+	 * OKR 메인 데이터
+	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: props.okrMainData?.TITLE,
 		START_DATE: props.okrMainData?.START_DATE,
@@ -221,10 +224,12 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 			});
 
 			setOkrDetailData([]);
-			// props.setOkrDetailData(PrevDetailData);
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
 
+	/**
+	 * 데이터 변경 되었을시 수정모드 해제
+	 */
 	React.useEffect(() => {
 		setIsEditMode(false);
 	}, [okrDetails]);
@@ -265,6 +270,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								display={'flex'}
 								justifyContent={'space-between'}
 							>
+								{/** 수정모드일 시 입력 폼 */}
 								{isEditMode ? (
 									<Box width={'85%'}>
 										<SupportiInput
@@ -296,6 +302,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 												필수값입니다.
 											</Typography>
 
+											{/** 메인 목표 타이틀 글자수와 글자수 제한 영역 */}
 											<Box
 												display="flex"
 												ml={'auto'}
@@ -363,7 +370,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										}}
 										color={'secondary'}
 									/>
-
+									{/** 닫기 버튼 */}
 									<CloseIcon
 										style={{
 											marginLeft: 1,
@@ -380,6 +387,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 							<Box display={'flex'}>
 								{!isEditMode ? (
 									<Box display={'flex'}>
+										{/** 수정모드 아닐 시 시작 기간 ~ 끝 기간 */}
 										<Typography
 											fontWeight={500}
 											color={'secondary.main'}
@@ -411,6 +419,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									</Box>
 								) : (
 									<Box display={'flex'}>
+										{/** 수정모드일 시 데이트피커 */}
 										<CalendarTodayIcon
 											sx={{
 												width: '15px',
@@ -459,6 +468,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								)}
 							</Box>
 
+							{/** 달성률 영역 */}
 							<Box display="flex" gap={2} flexDirection="column">
 								<Box display="flex" gap={1}>
 									<Typography fontWeight={600}>
@@ -483,11 +493,6 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								<SupportiInput
 									type="inputwithbtn"
 									value={okrMainData.NOTE}
-									// readOnly={
-									// 	okrMainData.NOTE.length > 500
-									// 		? true
-									// 		: false
-									// }
 									setValue={(value) => {
 										setOkrMainData({
 											...okrMainData,
@@ -504,6 +509,8 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									multiline={true}
 									placeholder="메모 입력"
 								/>
+
+								{/** 메모 글자수와 글자수 제한 영역 */}
 								<Box display="flex" ml={'auto'} gap={0.5}>
 									<Typography
 										color={
@@ -555,6 +562,8 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								isGradient={true}
 							/>
 						)}
+
+						{/** 구분선 */}
 						<Divider sx={{ my: 2 }} />
 
 						{/** 하위 목표 작성 */}
@@ -633,6 +642,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								);
 							})}
 
+							{/** 하위 목표 리스트 영역 */}
 							<Box>
 								{okrDetails?.map((item, index) => {
 									return (
@@ -666,6 +676,8 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 					</Box>
 				}
 			/>
+
+			{/** 알럿 */}
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => {

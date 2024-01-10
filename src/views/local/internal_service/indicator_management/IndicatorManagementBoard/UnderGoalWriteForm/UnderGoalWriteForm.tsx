@@ -10,7 +10,6 @@ import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalWriteFormProps {
@@ -78,6 +77,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	const { memberId } = useAppMember();
 
 	//* Functions
+	/**
+	 * 하위 목표 추가 등록
+	 */
 	const updateOkr = () => {
 		if (
 			props.data.TITLE === '' ||
@@ -91,7 +93,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 			setIsAlertOpen(true);
 			return;
 		} else {
-			if (props.data.TITLE.length >= 20) {
+			if (props.data.TITLE.length > 20) {
 				props.setLoading(false);
 
 				alert('20자 이하로 입력해주세요.');
@@ -130,15 +132,12 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							// 	ACHIEVED_AMOUNT: 0,
 							// },
 						]);
-						console.log(res);
 					})
 					.catch((err) => {
 						props.setLoading(false);
 
 						setAlertType('failAxios');
 						setIsAlertOpen(true);
-
-						console.log(err);
 					});
 			}
 		}
@@ -305,6 +304,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 								width: { xs: '100px', md: '150px' },
 							}}
 						/>
+						{/** 목표분류 유저 직접 입력 선택 시  */}
 						{isUserMakeUnit && (
 							<SupportiInput
 								type="input"
@@ -396,6 +396,8 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							필수 값 입니다.
 						</Typography> */}
 					</Box>
+
+					{/** 상세보기 모달에서 등록하기 버튼 */}
 					{props.mode === 'detail' && (
 						<SupportiButton
 							contents={'등록하기'}

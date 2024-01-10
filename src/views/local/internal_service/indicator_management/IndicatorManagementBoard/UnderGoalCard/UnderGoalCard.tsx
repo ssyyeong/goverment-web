@@ -1,18 +1,18 @@
 import React from 'react';
+import { Box, Typography } from '@mui/material';
 
-import { Box, BoxProps, Rating, Typography } from '@mui/material';
 import SupportiInput from '../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+
 import { IOkrDetail } from '../../../../../../@types/model';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
-import { v4 as uuidv4 } from 'uuid';
+
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -85,6 +85,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	const [alertType, setAlertType] = React.useState(undefined);
 
 	//* Constants
+	/**
+	 * 제목만 변경 시 히스토리 삭제 방지를 위한 기본데이터 상수들
+	 */
 	const defaultTargetUnit = props.data.TARGET_UNIT;
 	const defaultTargetAmount = props.data.TARGET_AMOUNT;
 	const defaultStartDate = props.data.START_DATE;
@@ -130,7 +133,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	 * 하위 목표 수정
 	 */
 	const updateOkrDetail = (injectedObj) => {
-		console.log(okrDetailData);
 		if (
 			okrDetailData.TITLE === '' ||
 			okrDetailData.TARGET_UNIT == undefined ||
@@ -143,7 +145,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 			setAlertType('indicatorWarning');
 			setIsAlertOpen(true);
 		} else {
-			if (okrDetailData.TITLE.length >= 20) {
+			if (okrDetailData.TITLE.length > 20) {
 				props.setLoading(false);
 
 				alert('타이틀은 20자내로 입력해주세요.');
@@ -349,6 +351,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 							</Box>
 						)}
 					</Box>
+
+					{/** 상세보기 모달에서 사용될 시 더보기 클릭 전 */}
 					{props.mode === 'detail' && !isMoreOpen && (
 						<Box display="flex" flexDirection="column" gap={1}>
 							{/** 달성률*/}
@@ -401,9 +405,11 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 							</Box>
 						</Box>
 					)}
+
+					{/** 상세보기 모달에서 사용될 시 더보기 클릭 후 */}
 					{props.mode === 'detail' && isMoreOpen ? (
 						<Box display="flex" flexDirection="column" gap={1}>
-							{/**기간 */}
+							{/** 수정모드일 시 데이트피커, 수정모드 해제 시 시작 ~ 끝 기간 */}
 							{isEditMode ? (
 								<Box display={'flex'}>
 									<CalendarTodayIcon
@@ -483,6 +489,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 								</Box>
 							)}
 
+							{/** 수정모드 아닐 경우 */}
 							{!isEditMode && (
 								<Box
 									display="flex"
@@ -587,6 +594,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 												},
 											}}
 										/>
+										{/** 유저가 목표 분류 직접 입력 선택 시 */}
 										{isUserMakeUnit && (
 											<SupportiInput
 												type="input"
@@ -680,6 +688,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											필수 값 입니다.
 										</Typography>
 									</Box>
+
+									{/** 등록 버튼  */}
 									<SupportiButton
 										contents={'등록하기'}
 										onClick={() => {
@@ -807,6 +817,8 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 					)}
 				</Box>
 			</Box>
+
+			{/** 알럿들 */}
 			<SupportiAlertModal
 				type="indicatorDelete"
 				open={deleteAlertModal}

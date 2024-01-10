@@ -76,7 +76,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 			alert('필수 입력값을 입력해주세요.');
 		} else {
 			if (kpiData.TITLE.length > 20) {
-				//* 20글자 넘으면 20글자 내까지만 자르기
+				/** 타이틀이 20자 이상일 경우 처리 */
 				alert('타이틀은 20자내로 입력해주세요.');
 
 				// setKpiData({

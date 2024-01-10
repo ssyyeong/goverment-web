@@ -5,7 +5,6 @@ import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalAchieveBoxProps {
@@ -19,6 +18,10 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	 * OKR 컨트롤러
 	 */
 	const okrController = new DefaultController('OkrDetail');
+	/**
+	 *
+	 * OKR 달성량 컨트롤러
+	 */
 	const okrAchievedAmountController = new DefaultController(
 		'OkrAchievedAmountHistory'
 	);
@@ -57,11 +60,15 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
 	//* Functions
 
-	// okr 하위 목표 달성량 추가
+	// okr 하위 목표 메모, 달성량 추가
 	const updateOkr = (target) => {
 		if (target === 'memo') {
+			/**
+			 * 메모 추가
+			 */
 			okrController.updateItem(
 				Object.assign({
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -82,6 +89,9 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 				}
 			);
 		} else {
+			/**
+			 * 달성량 추가
+			 */
 			okrAchievedAmountController.createItem(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -101,8 +111,6 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 			);
 		}
 	};
-
-	console.log(achieveAmount);
 
 	return (
 		<Box display={'flex'} flexDirection={'column'} gap={2}>
@@ -154,6 +162,8 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					bgcolor: 'white',
 				}}
 			/>
+
+			{/**알럿 */}
 			<SupportiAlertModal
 				open={isAlertOpen}
 				handleClose={() => {
