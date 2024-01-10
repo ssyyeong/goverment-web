@@ -475,8 +475,8 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										현재 달성률
 									</Typography>
 									<Typography color={'primary.main'}>
-										{props.okrMainData.ACHIEVED_RATE
-											? props.okrMainData.ACHIEVED_RATE
+										{okrMainData.ACHIEVED_RATE
+											? okrMainData.ACHIEVED_RATE
 											: 0}
 										%
 									</Typography>
@@ -485,7 +485,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								<SupportiProgressBar
 									materialDataList={props.materialDataList}
 									totalPercentage={
-										props.okrMainData.ACHIEVED_RATE
+										okrMainData.ACHIEVED_RATE
 									}
 								/>
 
