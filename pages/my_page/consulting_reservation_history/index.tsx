@@ -48,7 +48,7 @@ const Page: NextPage = () => {
 			label: 'NO',
 			value: '',
 			format: (value, key, idx) => {
-				return idx + 1;
+				return page * 10 + (idx + 1);
 			},
 			align: 'left',
 		},
@@ -86,14 +86,16 @@ const Page: NextPage = () => {
 		label: '변경',
 		value: 'CONSULTING_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
+
 		customView: (value) => {
-			console.log(value);
 			const selectedData = consultingApplicationList.find(
 				(item) =>
 					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
 			);
-			return selectedData.CAN_BE_CANCELED === 'N' ? (
+			return selectedData?.CAN_BE_CANCELED === 'N' ? (
 				<Typography>변경불가</Typography>
+			) : selectedData?.CANCELED_YN === 'Y' ? (
+				<Typography>취소됨</Typography>
 			) : (
 				<Button
 					variant="contained"
@@ -263,7 +265,7 @@ const Page: NextPage = () => {
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>
 					<SupportiPagination
-						limit={limit}
+						limit={10}
 						setLimit={setLimit}
 						page={page}
 						handlePageChange={handlePageChange}

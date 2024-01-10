@@ -31,7 +31,7 @@ const Page: NextPage = () => {
 			label: 'NO',
 			value: '',
 			format: (value, key, idx) => {
-				return idx + 1;
+				return page * 10 + (idx + 1);
 			},
 			align: 'left',
 		},

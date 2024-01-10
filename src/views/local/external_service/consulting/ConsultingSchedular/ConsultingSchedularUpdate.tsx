@@ -98,11 +98,12 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	 * 컨설팅 신청 취소하기
 	 */
 	const cancelApplyConsulting = () => {
-		consultingApplicationController.deleteItem(
+		consultingApplicationController.updateItem(
 			{
 				CONSULTING_APPLICATION_IDENTIFICATION_CODE:
 					props.consultingData
 						.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
+				CANCELED_YN: 'Y',
 			},
 			(res) => {
 				alert('예약이 취소되었습니다.');
