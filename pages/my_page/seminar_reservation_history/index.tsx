@@ -65,8 +65,13 @@ const Page: NextPage = () => {
 		label: '취소',
 		value: 'SEMINAR_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
+		customValue: (value) => {
+			return value.CANCELED_YN === 'N'
+				? value.SEMINAR_APPLICATION_IDENTIFICATION_CODE
+				: '취소됨';
+		},
 		customView: (value) => {
-			return (
+			return value !== '취소됨' ? (
 				<Button
 					variant="contained"
 					onClick={() => {
@@ -80,6 +85,8 @@ const Page: NextPage = () => {
 				>
 					취소
 				</Button>
+			) : (
+				<Typography>취소됨</Typography>
 			);
 		},
 	};
@@ -109,9 +116,10 @@ const Page: NextPage = () => {
 	 * 세미나 취소하기
 	 */
 	const cancelSeminar = (id) => {
-		seminarApplicationController.deleteItem(
+		seminarApplicationController.updateItem(
 			{
 				SEMINAR_APPLICATION_IDENTIFICATION_CODE: id,
+				CANCELED_YN: 'Y',
 			},
 			(res) => {
 				// alert('취소되었습니다.');
@@ -216,23 +224,43 @@ const Page: NextPage = () => {
 									},
 									{
 										label: '취소',
-										value: tab == 0 && (
-											<Button
-												variant="contained"
-												onClick={() => {
-													setSelectedSeminarId(
-														item.SEMINAR_APPLICATION_IDENTIFICATION_CODE
-													);
-													setCancelModal(true);
-												}}
-												sx={{
-													fontWeight: '400',
-													fontSize: '12px',
-												}}
-											>
-												취소
-											</Button>
-										),
+										value:
+											item.CANCELED_YN === 'N' ? (
+												tab == 0 ? (
+													<Button
+														variant="contained"
+														onClick={() => {
+															setSelectedSeminarId(
+																item.SEMINAR_APPLICATION_IDENTIFICATION_CODE
+															);
+															setCancelModal(
+																true
+															);
+														}}
+														sx={{
+															fontWeight: '400',
+															fontSize: '12px',
+														}}
+													>
+														취소
+													</Button>
+												) : (
+													<Typography>
+														완료됨
+													</Typography>
+												)
+											) : (
+												<Button
+													variant="contained"
+													disabled
+													sx={{
+														fontWeight: '400',
+														fontSize: '12px',
+													}}
+												>
+													취소됨
+												</Button>
+											),
 									},
 								]}
 							/>
