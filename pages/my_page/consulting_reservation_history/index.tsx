@@ -33,7 +33,9 @@ const Page: NextPage = () => {
 	/**
 	 * 탭
 	 */
-	const [tab, setTab] = React.useState<'COMPLETED' | 'WAITING'>('WAITING');
+	const [tab, setTab] = React.useState<'COMPLETED' | 'WAITING' | 'CANCELED'>(
+		'WAITING'
+	);
 	/**
 	 * 업데이트 모달
 	 */
@@ -92,10 +94,10 @@ const Page: NextPage = () => {
 				(item) =>
 					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
 			);
-			return selectedData?.CAN_BE_CANCELED === 'N' ? (
-				<Typography>변경불가</Typography>
-			) : selectedData?.CANCELED_YN === 'Y' ? (
+			return selectedData?.CANCELED_YN === 'Y' ? (
 				<Typography>취소됨</Typography>
+			) : selectedData?.CAN_BE_CANCELED === 'N' ? (
+				<Typography>변경불가</Typography>
 			) : (
 				<Button
 					variant="contained"
@@ -129,7 +131,8 @@ const Page: NextPage = () => {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					LIMIT: 10,
 					PAGE: page,
-					STATUS: tab,
+					STATUS: tab === 'CANCELED' ? undefined : tab,
+					CANCELED_YN: tab === 'CANCELED' ? 'Y' : 'N',
 				},
 				(res) => {
 					setConsultingApplicationList(res.data.result.rows);
@@ -164,6 +167,10 @@ const Page: NextPage = () => {
 						{
 							label: '일정완료',
 							value: 'COMPLETED',
+						},
+						{
+							label: '취소',
+							value: 'CANCELED',
 						},
 					]}
 					angled
@@ -209,13 +216,15 @@ const Page: NextPage = () => {
 									{
 										label: '변경',
 										value:
-											tab === 'WAITING' &&
-											item.CAN_BE_CANCELED === 'N' ? (
+											tab !== 'COMPLETED' &&
+											item.CANCELED_YN === 'Y' ? (
+												<Typography>취소됨</Typography>
+											) : item.CAN_BE_CANCELED === 'N' ? (
 												<Typography color={'error'}>
 													변경불가
 												</Typography>
 											) : (
-												tab === 'WAITING' && (
+												tab !== 'COMPLETED' && (
 													<Button
 														variant="contained"
 														onClick={() => {
@@ -254,7 +263,7 @@ const Page: NextPage = () => {
 					<SupportiTable
 						rowData={consultingApplicationList}
 						headerData={
-							tab === 'WAITING'
+							tab !== 'COMPLETED'
 								? consultingApplicationHeaderData.concat(
 										cancelConsultingHeaderData
 								  )

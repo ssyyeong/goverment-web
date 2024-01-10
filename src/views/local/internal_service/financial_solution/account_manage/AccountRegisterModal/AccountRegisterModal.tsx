@@ -259,7 +259,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		);
 	};
 
-	console.log(userAccountInfo);
+	// console.log(userAccountInfo);
 
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
@@ -279,6 +279,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 			},
 			(err: any) => {
 				console.log(err);
+				alert(
+					'데이터의 양이 많아 즉시 등록에 실패하였습니다. 새로고침시 등록됩니다.'
+				);
 			}
 		);
 		// if (hyphenData.accountNickname === "") {
@@ -336,7 +339,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							CERTIFICATE_PASSWORD:
 								userAccountInfo.CERTIFICATE_PASSWORD,
 						});
-						setLoading(false);
+						// setLoading(false);
 					} else {
 						window.alert(res.data.errMsg);
 						setLoading(false);

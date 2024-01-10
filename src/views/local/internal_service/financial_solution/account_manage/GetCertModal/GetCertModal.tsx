@@ -22,6 +22,7 @@ interface IGetCertModalProps {
 
 const GetCertModal = (props: IGetCertModalProps) => {
 	const [isSelected, setIsSelected] = useState('');
+	// const [loading, setLoading] = useState(false);
 
 	//* 초과 문자 처리하는 함수
 	//* TODO 따로 훅으로 빼기

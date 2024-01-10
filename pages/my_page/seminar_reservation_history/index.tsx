@@ -150,8 +150,9 @@ const Page: NextPage = () => {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 						LIMIT: 10,
 						PAGE: page,
+						CANCELED_YN: tab === 2 ? 'Y' : 'N',
 					},
-					COMPLETED: tab === 0 ? false : true,
+					COMPLETED: tab === 2 ? undefined : tab === 0 ? false : true,
 				},
 				(res) => {
 					setTotalDataCount(res.data.result.count);
@@ -183,6 +184,10 @@ const Page: NextPage = () => {
 						{
 							label: '진행완료 세미나',
 							value: 1,
+						},
+						{
+							label: '취소',
+							value: 2,
 						},
 					]}
 					angled
