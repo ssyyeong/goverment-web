@@ -164,9 +164,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 					),
 					(response: any) => {
 						props.setLoading(false);
+
 						setAlertType('successModifyAxios');
 						setIsAlertOpen(true);
-						props.setTriggerKey && props.setTriggerKey(uuidv4());
+
+						getOkrMain();
 
 						setIsEditMode(false);
 					},

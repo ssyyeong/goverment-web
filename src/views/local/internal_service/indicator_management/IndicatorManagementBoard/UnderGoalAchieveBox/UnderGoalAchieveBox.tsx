@@ -74,7 +74,7 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setIsAlertOpen(true);
 
 					props.getOkrMain();
-					setAchieveAmount(undefined);
+					setAchieveAmount('');
 				},
 				(err: any) => {
 					setAlertType('failAxios');
@@ -95,12 +95,14 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setIsAlertOpen(true);
 					props.getOkrMain();
 
-					setAchieveAmount(undefined);
+					setAchieveAmount('');
 				},
 				(err: any) => {}
 			);
 		}
 	};
+
+	console.log(achieveAmount);
 
 	return (
 		<Box display={'flex'} flexDirection={'column'} gap={2}>
