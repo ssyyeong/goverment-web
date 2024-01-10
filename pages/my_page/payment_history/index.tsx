@@ -9,6 +9,7 @@ import MobileTableRow from '../../../src/views/local/external_service/mobileTabl
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -104,7 +105,7 @@ const Page: NextPage = () => {
 				{/*모바일 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
+					py={2}
 					display={{
 						sm: 'none',
 						xs: 'block',
@@ -130,6 +131,7 @@ const Page: NextPage = () => {
 							/>
 						);
 					})}
+					{paymentHistoryList.length === 0 && <Nodata />}
 				</Box>
 				{/* 테이블 */}
 

@@ -10,6 +10,7 @@ import { TableHeaderProps } from '../../../src/views/global/SupportiTable/Suppor
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import moment from 'moment';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -147,7 +148,7 @@ const Page: NextPage = () => {
 				{/*모바일 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
+					py={2}
 					display={{
 						sm: 'none',
 						xs: 'block',
@@ -183,6 +184,7 @@ const Page: NextPage = () => {
 							/>
 						);
 					})}
+					{pointHistoryList.length === 0 && <Nodata />}
 				</Box>
 				{/* 테이블 */}
 				<Box

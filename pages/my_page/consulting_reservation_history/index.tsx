@@ -12,6 +12,7 @@ import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import ConsultingSchedularUpdate from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedularUpdate';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -266,6 +267,7 @@ const Page: NextPage = () => {
 							/>
 						);
 					})}
+					{consultingApplicationList.length === 0 && <Nodata />}
 				</Box>
 				{/* 테이블 */}
 				<Box

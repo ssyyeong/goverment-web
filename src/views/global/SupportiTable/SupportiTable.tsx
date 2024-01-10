@@ -14,6 +14,7 @@ import {
 	useTheme,
 	Checkbox,
 } from '@mui/material';
+import Nodata from '../NoData/NoData';
 export interface TableHeaderProps {
 	label: string;
 	value: string;
@@ -170,6 +171,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 						})}
 					</TableBody>
 				</Table>
+				{props.rowData.length === 0 && <Nodata />}
 			</TableContainer>
 		)
 	);

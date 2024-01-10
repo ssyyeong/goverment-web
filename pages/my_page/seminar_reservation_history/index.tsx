@@ -16,6 +16,7 @@ import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import { SeminarApplicationController } from '../../../src/controller/SeminarApplicationController';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -288,6 +289,7 @@ const Page: NextPage = () => {
 							/>
 						);
 					})}
+					{seminarDataList.length === 0 && <Nodata />}
 				</Box>
 				{/* 테이블 */}
 				<Box
