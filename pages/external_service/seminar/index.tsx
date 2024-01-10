@@ -13,6 +13,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -119,7 +120,14 @@ const Page: NextPage = () => {
 				예약 가능 세미나
 			</Typography>
 			{/* 탭 */}
-			<Box p={2}>
+			<Box
+				// px={2}
+				pt={4}
+				width={{
+					sm: '50%',
+					xs: '100%',
+				}}
+			>
 				<SupportiToggle
 					chipDataList={[
 						{
@@ -131,24 +139,32 @@ const Page: NextPage = () => {
 							value: 1,
 						},
 					]}
+					angled
+					disablePadding
 					value={tab}
 					setValue={setTab}
 					chipHeight={40}
-					selectedChipColor="white"
+					selectedChipColor="primary.main"
+					unselectedChipColor="secondary.dark"
 					style={{
 						chipStyle: {
 							// height: '40px',
-							bgcolor: 'rgba(85, 131, 228, 1)',
+							bgcolor: '#ffffff',
+							borderRadius: 0,
 						},
 						outerBoxStyle: {
-							mt: 2,
+							bgcolor: 'secondary.light',
+							p: 0,
+						},
+						chipMapStyle: {
+							fontWeight: 'bold',
 						},
 					}}
 				/>
 			</Box>
 
 			{/* 테이블 */}
-			<Box width={'100%'} p={2} display={{ xs: 'none', sm: 'block' }}>
+			<Box width={'100%'} display={{ xs: 'none', sm: 'block' }}>
 				<SupportiTable
 					rowData={seminarDataList}
 					headerData={
@@ -197,6 +213,7 @@ const Page: NextPage = () => {
 						/>
 					);
 				})}
+				{seminarDataList.length === 0 && <Nodata />}
 			</Box>
 			{/* 페이지 네이션 */}
 			<Box width={'100%'} p={2}>

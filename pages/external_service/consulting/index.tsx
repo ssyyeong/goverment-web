@@ -19,6 +19,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -137,6 +138,7 @@ const Page: NextPage = () => {
 						/>
 					);
 				})}
+				{consultingDataList.length === 0 && <Nodata />}
 			</Box>
 			{/* 페이지 네이션 */}
 			<Box width={'100%'} p={2}>

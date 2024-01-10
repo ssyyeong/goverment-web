@@ -15,6 +15,7 @@ import SupportiInput from '../../../../global/SupportiInput';
 
 import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCategoryConfig';
 import { useAppMember } from '../../../../../hooks/useAppMember';
+import Nodata from '../../../../global/NoData/NoData';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -312,6 +313,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					name={props.name}
 				/>
 			)}
+
+			{/* 데이터 없을 때 */}
+			{indicatorList.length === 0 && <Nodata />}
 
 			{props.name === 'OKR' && (
 				<OkrCreateModal
