@@ -175,37 +175,54 @@ const Page: NextPage = () => {
 					내 세미나 예약 내역
 				</Typography>
 				{/* 탭 */}
-				<SupportiToggle
-					chipDataList={[
-						{
-							label: '진행전 세미나',
-							value: 0,
-						},
-						{
-							label: '진행완료 세미나',
-							value: 1,
-						},
-						{
-							label: '취소',
-							value: 2,
-						},
-					]}
-					angled
-					value={tab}
-					setValue={setTab}
-					chipHeight={40}
-					selectedChipColor="white"
-					style={{
-						chipStyle: {
-							// height: '40px',
-							bgcolor: 'rgba(85, 131, 228, 1)',
-						},
+				<Box
+					width={{
+						sm: '50%',
+						xs: '100%',
 					}}
-				/>
+				>
+					<SupportiToggle
+						chipDataList={[
+							{
+								label: '진행전 세미나',
+								value: 0,
+							},
+							{
+								label: '진행완료 세미나',
+								value: 1,
+							},
+							{
+								label: '취소',
+								value: 2,
+							},
+						]}
+						disablePadding
+						angled
+						value={tab}
+						setValue={setTab}
+						chipHeight={40}
+						selectedChipColor="primary.main"
+						unselectedChipColor="secondary.dark"
+						style={{
+							chipStyle: {
+								// height: '40px',
+								bgcolor: '#ffffff',
+								borderRadius: 0,
+							},
+							outerBoxStyle: {
+								bgcolor: 'secondary.light',
+								p: 0,
+							},
+							chipMapStyle: {
+								fontWeight: 'bold',
+							},
+						}}
+					/>
+				</Box>
 				{/*모바일 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
+					py={2}
 					display={{
 						sm: 'none',
 						xs: 'block',
@@ -275,7 +292,6 @@ const Page: NextPage = () => {
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
 					display={{
 						sm: 'block',
 						xs: 'none',

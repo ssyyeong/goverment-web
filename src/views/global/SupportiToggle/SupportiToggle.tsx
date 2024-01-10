@@ -14,10 +14,13 @@ interface ISupportiToggleProps {
 	chipHeight?: number | string;
 	angled?: boolean;
 	isToggled?: boolean;
+	disablePadding?: boolean;
 	selectedChipColor?: string;
+	unselectedChipColor?: string;
 	style?: {
 		outerBoxStyle?: BoxProps;
 		chipStyle?: BoxProps;
+		chipMapStyle?: BoxProps;
 	};
 }
 
@@ -46,7 +49,11 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 				{/* 이동 선택 칩 */}
 				<Box
 					bgcolor={'#ffffff'}
-					width={`${99 / props.chipDataList.length}%`}
+					width={`${
+						props.disablePadding
+							? 100 / props.chipDataList.length
+							: 99 / props.chipDataList.length
+					}%`}
 					borderRadius={props.angled ? 1 : 5}
 					sx={{
 						cursor: 'pointer',
@@ -68,7 +75,9 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 							key={index}
 							color={
 								props.value !== data.value
-									? '#b0b5c2'
+									? props.unselectedChipColor
+										? props.unselectedChipColor
+										: '#b0b5c2'
 									: props.selectedChipColor
 									? props.selectedChipColor
 									: ''
@@ -86,6 +95,7 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 									? props.chipHeight
 									: 40,
 							}}
+							{...props.style?.chipMapStyle}
 							textAlign={'center'}
 							width={`${100 / props.chipDataList.length}%`}
 						>

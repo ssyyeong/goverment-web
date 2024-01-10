@@ -158,37 +158,54 @@ const Page: NextPage = () => {
 					내 컨설팅 예약 내역
 				</Typography>
 				{/* 탭 */}
-				<SupportiToggle
-					chipDataList={[
-						{
-							label: '진행전',
-							value: 'WAITING',
-						},
-						{
-							label: '일정완료',
-							value: 'COMPLETED',
-						},
-						{
-							label: '취소',
-							value: 'CANCELED',
-						},
-					]}
-					angled
-					value={tab}
-					setValue={setTab}
-					chipHeight={40}
-					selectedChipColor="white"
-					style={{
-						chipStyle: {
-							// height: '40px',
-							bgcolor: 'rgba(85, 131, 228, 1)',
-						},
+				<Box
+					width={{
+						sm: '50%',
+						xs: '100%',
 					}}
-				/>
+				>
+					<SupportiToggle
+						chipDataList={[
+							{
+								label: '진행전 컨설팅',
+								value: 'WAITING',
+							},
+							{
+								label: '일정완료 컨설팅',
+								value: 'COMPLETED',
+							},
+							{
+								label: '취소',
+								value: 'CANCELED',
+							},
+						]}
+						angled
+						disablePadding
+						value={tab}
+						setValue={setTab}
+						chipHeight={40}
+						selectedChipColor="primary.main"
+						unselectedChipColor="secondary.dark"
+						style={{
+							chipStyle: {
+								// height: '40px',
+								bgcolor: '#ffffff',
+								borderRadius: 0,
+							},
+							outerBoxStyle: {
+								bgcolor: 'secondary.light',
+								p: 0,
+							},
+							chipMapStyle: {
+								fontWeight: 'bold',
+							},
+						}}
+					/>
+				</Box>
 				{/*모바일 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
+					py={2}
 					display={{
 						sm: 'none',
 						xs: 'block',
@@ -253,8 +270,8 @@ const Page: NextPage = () => {
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
-					mt={2}
+					// p={2}
+					// mt={2}
 					display={{
 						sm: 'block',
 						xs: 'none',
