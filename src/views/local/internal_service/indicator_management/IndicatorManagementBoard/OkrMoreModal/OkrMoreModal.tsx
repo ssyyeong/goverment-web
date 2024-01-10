@@ -107,7 +107,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	};
 
 	/**
-	 * 
+	 *
 	 * 메인 목표 하나 받아오기
 	 */
 	const getOkrMain = () => {
@@ -134,7 +134,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				setIsAlertOpen(true);
 			}
 		);
-	}
+	};
 
 	/**
 	 *
@@ -224,11 +224,9 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 		}
 	}, [isEditMode, memberId, props.modalOpen]);
 
-
 	React.useEffect(() => {
 		setIsEditMode(false);
 	}, [okrDetails]);
-
 
 	React.useEffect(() => {
 		getOkrMain();
@@ -629,6 +627,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										setTriggerKey={props.setTriggerKey}
 										loading={props.loading}
 										setLoading={props.setLoading}
+										getOkrMain={getOkrMain}
 									/>
 								);
 							})}
@@ -651,7 +650,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 												children={
 													<UnderGoalAchieveBox
 														data={item}
-												getOkrMain={getOkrMain}
+														getOkrMain={getOkrMain}
 													/>
 												}
 												getOkrMain={getOkrMain}

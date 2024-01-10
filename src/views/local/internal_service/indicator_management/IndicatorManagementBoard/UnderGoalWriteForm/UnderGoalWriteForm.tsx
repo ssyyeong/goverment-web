@@ -25,6 +25,7 @@ interface IUnderGoalWriteFormProps {
 	isModalOpen: boolean;
 	setIsModalOpen: any;
 	setTriggerKey?: React.Dispatch<any>;
+	getOkrMain?: any;
 	/**
 	 * 로딩 상태
 	 */
@@ -115,7 +116,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						setAlertType('successCreateAxios');
 						setIsAlertOpen(true);
 
-						props.setTriggerKey && props.setTriggerKey(uuidv4());
+						props.getOkrMain();
 
 						// 리셋
 						props.setOkrDetailData([
