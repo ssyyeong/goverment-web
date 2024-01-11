@@ -5,6 +5,17 @@ import React from 'react';
 const Page: NextPage = () => {
 	const CardConfig = [
 		{
+			Title: '비즈니스 프로세스 · 소프트웨어',
+			Companies: [
+				{
+					logoPath: '/images/logo/partners/CY.png',
+					name: ['씨와이'],
+					content: 'SaaS · ERP · Cloud',
+					add: 'AWS 크레딧 5,000$ 혜택 제공',
+				},
+			],
+		},
+		{
 			Title: '세무 · 회계',
 			Companies: [
 				{
@@ -55,6 +66,12 @@ const Page: NextPage = () => {
 		{
 			Title: '개발',
 			Companies: [
+				{
+					logoPath: '/images/logo/partners/CY.png',
+					name: ['CY'],
+					content: '스타트업 · 공공 전문 외주 개발',
+					add: 'AWS 크레딧 5,000$ 혜택 제공',
+				},
 				{
 					logoPath: '/images/logo/partners/메타소프트.png',
 					name: ['메타소프트'],
