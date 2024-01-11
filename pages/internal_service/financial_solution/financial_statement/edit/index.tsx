@@ -284,6 +284,9 @@ const Page: NextPage = () => {
 											changeTargetDate('previous');
 										}}
 										color="primary"
+										sx={{
+											cursor: 'pointer',
+										}}
 									/>
 									{/* 현재 연도 */}
 									<Typography
@@ -300,6 +303,9 @@ const Page: NextPage = () => {
 											changeTargetDate('next');
 										}}
 										color="primary"
+										sx={{
+											cursor: 'pointer',
+										}}
 									/>
 								</Box>
 							</Grid>

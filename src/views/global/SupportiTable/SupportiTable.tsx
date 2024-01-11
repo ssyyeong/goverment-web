@@ -106,6 +106,11 @@ const SupportiTable = (props: ISupportiTableProps) => {
 											? () => props.onClick(row)
 											: () => {}
 									}
+									sx={{
+										cursor: props.onClick
+											? 'pointer'
+											: 'default',
+									}}
 								>
 									{props.headerData.map((column) => {
 										const key = column.customKeyFormat

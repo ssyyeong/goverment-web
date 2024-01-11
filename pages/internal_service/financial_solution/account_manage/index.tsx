@@ -339,7 +339,7 @@ const Page: NextPage = () => {
 							setRecomputeTriggerKey={setRecomputeTriggerKey}
 							calculationResult={calculationResult}
 							setLoading={setLoading}
-							accountNull={selectablePeriodList}
+							accountNull={bankAccountList.length === 0}
 						/>
 					</Box>
 					{/* 번레이트 계산 모바일 */}
@@ -418,7 +418,9 @@ const Page: NextPage = () => {
 										}
 										calculationResult={calculationResult}
 										setLoading={setLoading}
-										accountNull={selectablePeriodList}
+										accountNull={
+											bankAccountList.length === 0
+										}
 									/>
 								</Box>
 							</SwipeableDrawer>

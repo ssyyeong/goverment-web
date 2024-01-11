@@ -26,6 +26,9 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 			width={'100%'}
 			mb={1}
 			onClick={props.onClick}
+			sx={{
+				cursor: props.onClick ? 'pointer' : 'default',
+			}}
 		>
 			<Typography variant="h5" fontWeight={'600'}>
 				{props.title}

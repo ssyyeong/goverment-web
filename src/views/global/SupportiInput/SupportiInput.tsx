@@ -18,6 +18,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { ImageController } from '../../../controller/ImageController';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface SupportiInputProps {
 	type: string;
@@ -168,8 +169,15 @@ const SupportiInput = React.forwardRef(
 											props.eraseValue &&
 												props.eraseValue();
 										}}
+										sx={{
+											cursor: 'pointer',
+										}}
 									>
-										X
+										<CloseIcon
+											sx={{
+												fontSize: '0.9rem',
+											}}
+										/>
 									</Typography>
 								)}
 								<SearchIcon

@@ -202,6 +202,9 @@ const Page: NextPage = () => {
 													);
 												}}
 												color="primary"
+												sx={{
+													cursor: 'pointer',
+												}}
 											/>
 										</Box>
 										<Typography
@@ -227,6 +230,9 @@ const Page: NextPage = () => {
 															? 'next'
 															: 'mobilenext'
 													);
+												}}
+												sx={{
+													cursor: 'pointer',
 												}}
 												color="primary"
 											/>

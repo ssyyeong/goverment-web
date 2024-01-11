@@ -43,6 +43,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						justifyContent: 'space-between',
 						width: '100%',
 						alignItems: 'center',
+						cursor: 'pointer',
 					}}
 					onClick={() => setOpen(!open)}
 				>

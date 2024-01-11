@@ -109,7 +109,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 * 분석 조건 등록 및 수정함수
 	 */
 	const handleSave = () => {
-		if (!props.accountNull) {
+		if (props.accountNull) {
 			alert('계좌 등록 후 이용해주세요');
 			return;
 		}
@@ -128,6 +128,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			(err) => {}
 		);
 	};
+
 	//* Hooks
 	/**
 	 * 유저 아이디 정보 가져오는 훅
@@ -350,50 +351,57 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						height={'50px'}
 					></Box>
 					{/* 데이터 노출 */}
-					<Box display={'flex'} flexWrap={'wrap'}>
-						{props.calculationResult?.burnRate !== null &&
-							props.calculationResult &&
-							resultConfig.map((item, index) => {
-								return (
-									<Box
-										mx={'20px'}
-										display={'flex'}
-										flexDirection={'column'}
-										gap={'8px'}
-										mb={1}
-									>
-										<Typography
-											color={'#b0b5c2'}
-											variant="body2"
+					{!props.accountNull && (
+						<Box display={'flex'} flexWrap={'wrap'}>
+							{props.calculationResult?.burnRate !== null &&
+								props.calculationResult &&
+								resultConfig.map((item, index) => {
+									return (
+										<Box
+											mx={'20px'}
+											display={'flex'}
+											flexDirection={'column'}
+											gap={'8px'}
+											mb={1}
 										>
-											{item.lable}
-										</Typography>
-										<Typography
-											color={
-												item.extra
-													? 'info.main'
-													: 'white'
-											}
-											variant="h6"
-											fontWeight={'bold'}
-										>
-											{typeof item.value === 'number'
-												? Math.round(
-														item.value
-												  ).toLocaleString()
-												: item.value}
+											<Typography
+												color={'#b0b5c2'}
+												variant="body2"
+											>
+												{item.lable}
+											</Typography>
+											<Typography
+												color={
+													item.extra
+														? 'info.main'
+														: 'white'
+												}
+												variant="h6"
+												fontWeight={'bold'}
+											>
+												{typeof item.value === 'number'
+													? Math.round(
+															item.value
+													  ).toLocaleString()
+													: item.value}
 
-											{item.month ? '개월' : '원'}
-										</Typography>
-									</Box>
-								);
-							})}
-					</Box>
+												{item.month ? '개월' : '원'}
+											</Typography>
+										</Box>
+									);
+								})}
+						</Box>
+					)}
 					{/* 조건 등록 전 */}
-					{(!props.accountNull ||
-						props.calculationResult?.burnRate === null) && (
+					{props.calculationResult?.burnRate === null && (
 						<Typography color={'white'} fontWeight={'bold'}>
 							좌측에서 조건선택 후 조회하기를 눌러주세요!
+						</Typography>
+					)}
+					{/* 계좌 없을때 */}
+					{props.accountNull && (
+						<Typography color={'white'} fontWeight={'bold'}>
+							계좌 등록 후 이용해주세요!
 						</Typography>
 					)}
 				</Box>
@@ -557,48 +565,57 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					/>
 				</Box>
 				{/* 데이터 노출 */}
-				<Box display={'flex'} flexWrap={'wrap'} mt={2}>
-					{props.calculationResult?.burnRate !== null &&
-						props.calculationResult &&
-						resultConfig.map((item, index) => {
-							return (
-								<Box
-									mr={3}
-									display={'flex'}
-									flexDirection={'column'}
-									gap={'8px'}
-									mb={2}
-								>
-									<Typography
-										color={'#b0b5c2'}
-										variant="body2"
+				{!props.accountNull && (
+					<Box display={'flex'} flexWrap={'wrap'} mt={2}>
+						{props.calculationResult?.burnRate !== null &&
+							props.calculationResult &&
+							resultConfig.map((item, index) => {
+								return (
+									<Box
+										mr={3}
+										display={'flex'}
+										flexDirection={'column'}
+										gap={'8px'}
+										mb={2}
 									>
-										{item.lable}
-									</Typography>
-									<Typography
-										color={
-											item.extra ? 'info.main' : 'white'
-										}
-										variant="h6"
-										fontWeight={'bold'}
-									>
-										{typeof item.value === 'number'
-											? Math.round(
-													item.value
-											  ).toLocaleString()
-											: item.value}
+										<Typography
+											color={'#b0b5c2'}
+											variant="body2"
+										>
+											{item.lable}
+										</Typography>
+										<Typography
+											color={
+												item.extra
+													? 'info.main'
+													: 'white'
+											}
+											variant="h6"
+											fontWeight={'bold'}
+										>
+											{typeof item.value === 'number'
+												? Math.round(
+														item.value
+												  ).toLocaleString()
+												: item.value}
 
-										{item.month ? '개월' : '원'}
-									</Typography>
-								</Box>
-							);
-						})}
-				</Box>
+											{item.month ? '개월' : '원'}
+										</Typography>
+									</Box>
+								);
+							})}
+					</Box>
+				)}
 				{/* 조건 등록 전 */}
-				{(!props.accountNull ||
-					props.calculationResult?.burnRate === null) && (
-					<Typography color={'white'} fontWeight={'bold'}>
-						좌측에서 조건선택 후 조회하기를 눌러주세요!
+				{props.calculationResult?.burnRate === null && (
+					<Typography color={'white'} fontWeight={'bold'} mt={2}>
+						위에서 조건선택 후 조회하기를 눌러주세요!
+					</Typography>
+				)}
+				{/* 계좌 없을때 */}
+				{props.accountNull && (
+					<Typography color={'white'} fontWeight={'bold'} mt={2}>
+						계좌 등록 후 이용해주세요!
 					</Typography>
 				)}
 			</Box>

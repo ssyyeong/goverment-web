@@ -91,6 +91,7 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 								display: 'flex',
 								justifyContent: 'center',
 								alignItems: 'center',
+								cursor: 'pointer',
 								height: props.chipHeight
 									? props.chipHeight
 									: 40,
