@@ -418,6 +418,14 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 												});
 											}}
 											width={'150px'}
+											style={{
+												bgcolor: 'white',
+												marginTop: '5px',
+												width: {
+													xs: '100px',
+													md: '150px',
+												},
+											}}
 										/>
 									)}
 									<Typography

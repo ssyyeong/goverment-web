@@ -30,7 +30,6 @@ type Props = {};
 const Page: NextPage = () => {
 	const router = useRouter();
 	const { memberId } = useAppMember();
-	// SwiperCore.use([Navigation, Scrollbar]);
 
 	useEffect(() => {}, []);
 

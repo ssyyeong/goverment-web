@@ -84,7 +84,6 @@ const Page: NextPage = () => {
 			memberId && getQuestion();
 		} else if (access === false) {
 			setAlertModal(true);
-			router.push('/auth/sign_in');
 		}
 	}, [memberId, access]);
 	return (
@@ -176,6 +175,7 @@ const Page: NextPage = () => {
 				open={alertModal}
 				handleClose={() => {
 					setAlertModal(false);
+					router.push('/auth/sign_in');
 				}}
 				type="login"
 			/>

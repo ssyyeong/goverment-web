@@ -14,10 +14,6 @@ import { default as Entry } from '@leanoncompany/supporti-ark-office-project/src
 import { default as createEmotionCache } from '../src/createEmotionCache';
 // import { createEmotionCache } from '@leanoncompany/supporti-ark-office-project';
 
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'react-time-picker/dist/TimePicker.css';

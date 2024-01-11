@@ -68,8 +68,8 @@ const Page: NextPage = () => {
 	 */
 	const applySeminar = () => {
 		if (!access) {
-			setAlertModal(true);
 			setAlertModalType('login');
+			setAlertModal(true);
 			return;
 		}
 		appMemberController.getData(
