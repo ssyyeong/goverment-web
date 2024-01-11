@@ -25,6 +25,7 @@ interface IUnderGoalWriteFormProps {
 	setIsModalOpen: any;
 	setTriggerKey?: React.Dispatch<any>;
 	getOkrMain?: any;
+	maxDate?: any;
 	/**
 	 * 로딩 상태
 	 */
@@ -182,7 +183,11 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 
 							<SupportiInput
 								type="input"
-								multiline={true}
+								additionalProps={{
+									multiline: true,
+									placeholder:
+										'하위 목표 타이틀을 입력해주세요.',
+								}}
 								value={props.data.TITLE}
 								setValue={(value: string) => {
 									let temp: any = [...props.okrDetailData];
@@ -191,7 +196,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 									props.setOkrDetailData(temp);
 								}}
 								width={'100%'}
-								placeholder="하위 목표 타이틀을 입력해주세요."
 							/>
 						</Box>
 
@@ -252,6 +256,18 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						width={'110px'}
 						useIcon={false}
 					/>
+					<Typography
+						ml={0.5}
+						mr={0.5}
+						fontWeight={500}
+						color={'secondary.main'}
+						sx={{
+							marginTop: 'auto',
+							marginBottom: 'auto',
+						}}
+					>
+						~
+					</Typography>
 					<SupportiInput
 						type="datepicker"
 						value={props.okrDetailData[props.index].END_DATE}
@@ -264,6 +280,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							props.setOkrDetailData(temp);
 						}}
 						minDate={props.okrDetailData[props.index].START_DATE}
+						maxDate={props.maxDate}
 						width={'110px'}
 						useIcon={false}
 					/>
@@ -353,7 +370,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							<SupportiInput
 								type="input"
 								inputType="number"
-								placeholder="목표량 입력"
+								additionalProps={{
+									placeholder: '목표량 입력',
+								}}
 								value={
 									props.okrDetailData[props.index]
 										.TARGET_AMOUNT

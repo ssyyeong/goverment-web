@@ -25,6 +25,7 @@ interface IUnderGoalCardProps {
 	children?: React.ReactNode;
 	memberId?: number;
 	getOkrMain?: any;
+	maxDate?: string;
 	/**
 	 * 로딩 상태
 	 */
@@ -38,7 +39,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 
 	//* States
 	const [isMoreOpen, setIsMoreOpen] = React.useState(false);
-
 	/**
 	 *
 	 * 삭제 시 알럿 모달
@@ -265,7 +265,10 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 										marginTop: 'auto',
 										marginBottom: 'auto',
 									}}
-									placeholder="하위 목표 타이틀을 입력해주세요."
+									additionalProps={{
+										placeholder:
+											'하위 목표 타이틀을 입력해주세요.',
+									}}
 								/>
 								<Typography
 									variant="body1"
@@ -423,7 +426,10 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 									/>
 									<SupportiInput
 										type="datepicker"
-										defaultValue={okrDetailData.START_DATE}
+										additionalProps={{
+											defaultValue:
+												okrDetailData.START_DATE,
+										}}
 										value={okrDetailData.START_DATE}
 										setValue={(value) => {
 											setOkrDetailData({
@@ -437,13 +443,29 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 										useIcon={false}
 										style={{ height: '20px' }}
 									/>
+									<Typography
+										ml={0.5}
+										mr={0.5}
+										fontWeight={500}
+										color={'secondary.main'}
+										sx={{
+											marginTop: 'auto',
+											marginBottom: 'auto',
+										}}
+									>
+										~
+									</Typography>
 									<SupportiInput
 										type="datepicker"
-										defaultValue={okrDetailData?.END_DATE}
+										additionalProps={{
+											defaultValue:
+												okrDetailData.END_DATE,
+										}}
 										value={okrDetailData?.END_DATE}
 										minDate={
 											okrDetailData?.START_DATE as string
 										}
+										maxDate={props.maxDate}
 										setValue={(value) => {
 											setOkrDetailData({
 												...okrDetailData,
@@ -643,7 +665,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											<SupportiInput
 												type="input"
 												inputType="number"
-												placeholder="목표량 입력"
+												additionalProps={{
+													placeholder: '목표량 입력',
+												}}
 												value={
 													okrDetailData.TARGET_AMOUNT
 												}

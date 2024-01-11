@@ -233,7 +233,13 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 				>
 					{/** 하위 리스트들 카드로 출력 */}
 					{okrMainData?.OkrDetails.map((item, index) => {
-						return <UnderGoalCard data={item} index={index} />;
+						return (
+							<UnderGoalCard
+								data={item}
+								index={index}
+								maxDate={okrMainData.END_DATE as string}
+							/>
+						);
 					})}
 				</Box>
 			</Box>

@@ -69,7 +69,9 @@ const ChargeModal = (props: IChargeModalProps) => {
 				setValue={setPoint}
 				width={'100%'}
 				style={{ mb: 2 }}
-				placeholder="포인트를 입력해주세요!"
+				additionalProps={{
+					placeholder: '포인트를 입력해주세요!',
+				}}
 			/>
 			<SupportiButton
 				contents={'포인트 충전'}

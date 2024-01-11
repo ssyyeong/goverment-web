@@ -299,7 +299,10 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 												});
 											}}
 											width={'100%'}
-											placeholder="상위 목표 타이틀을 입력해주세요."
+											additionalProps={{
+												placeholder:
+													'상위 목표 타이틀을 입력해주세요.',
+											}}
 										/>
 										<Box
 											display="flex"
@@ -447,7 +450,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										/>
 										<SupportiInput
 											type="datepicker"
-											readOnly={isEditMode ? false : true}
+											additionalProps={{
+												readOnly: isEditMode
+													? false
+													: true,
+											}}
 											value={okrMainData?.START_DATE}
 											setValue={(value) => {
 												setOkrMainData({
@@ -461,10 +468,26 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 											useIcon={false}
 											style={{ height: '20px' }}
 										/>
+										<Typography
+											ml={0.5}
+											mr={0.5}
+											fontWeight={500}
+											color={'secondary.main'}
+											sx={{
+												marginTop: 'auto',
+												marginBottom: 'auto',
+											}}
+										>
+											~
+										</Typography>
 										<SupportiInput
 											type="datepicker"
-											defaultValue={new Date()}
-											readOnly={isEditMode ? false : true}
+											additionalProps={{
+												defaultValue: new Date(),
+												readOnly: isEditMode
+													? false
+													: true,
+											}}
 											value={okrMainData.END_DATE}
 											minDate={
 												okrMainData?.START_DATE as string
@@ -514,14 +537,16 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										});
 									}}
 									btnContent="등록하기"
-									btnOnclick={() => {
+									btnOnClick={() => {
 										updateOkrMain({
 											NOTE: okrMainData.NOTE,
 										});
 									}}
+									additionalProps={{
+										placeholder: '메모 입력',
+										multiline: true,
+									}}
 									width={'100%'}
-									multiline={true}
-									placeholder="메모 입력"
 								/>
 
 								{/** 메모 글자수와 글자수 제한 영역 */}
@@ -647,6 +672,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 											props.okrMainData
 												?.OKR_MAIN_IDENTIFICATION_CODE
 										}
+										maxDate={okrMainData?.END_DATE}
 										deleteOkrDetail={deleteOkrDetail}
 										setTriggerKey={props.setTriggerKey}
 										loading={props.loading}
@@ -678,6 +704,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 														getOkrMain={getOkrMain}
 													/>
 												}
+												maxDate={okrMainData?.END_DATE}
 												getOkrMain={getOkrMain}
 												loading={props.loading}
 												setLoading={props.setLoading}

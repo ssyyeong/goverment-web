@@ -186,7 +186,9 @@ const GetCertModal = (props: IGetCertModalProps) => {
 								}}
 								type={'password'}
 								width={'100%'}
-								placeholder="인증서 암호 입력"
+								additionalProps={{
+									placeholder: '인증서 암호 입력',
+								}}
 							/>
 							<Typography>
 								안전한 개인정보 관리를 위해 6개월마다 비밀번호를

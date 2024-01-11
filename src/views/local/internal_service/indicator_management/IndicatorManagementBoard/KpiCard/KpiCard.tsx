@@ -42,15 +42,11 @@ const KpiCard = (props: IKpiCardProps) => {
 	 */
 	const [isMore, setIsMore] = React.useState(false);
 
-
-	
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
-
-
 
 	//* Functions
 	/**
@@ -327,13 +323,15 @@ const KpiCard = (props: IKpiCardProps) => {
 							setNote(value);
 						}}
 						btnContent="등록하기"
-						btnOnclick={() => {
+						btnOnClick={() => {
 							updateKpi({ NOTE: note });
 						}}
 						width={'100%'}
-						placeholder="메모 입력"
-						multiline={true}
-						readOnly={note.length > 500 ? true : false}
+						additionalProps={{
+							placeholder: '메모 입력',
+							multiline: true,
+							readOnly: note.length > 500 ? true : false,
+						}}
 					/>
 				</Box>
 			)}

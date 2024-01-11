@@ -697,7 +697,9 @@ const MyAccounts = (props: IMyAccountsProps) => {
 										setValue={(value) => {
 											setAccountNickname(value);
 										}}
-										placeholder="계좌 별칭 입력"
+										additionalProps={{
+											placeholder: '계좌 별칭 입력',
+										}}
 										width={300}
 									/>
 								</Box>

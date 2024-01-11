@@ -142,7 +142,9 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 						setValue={(value) => {
 							setTextAnswer(value);
 						}}
-						placeholder="답변을 입력해주세요"
+						additionalProps={{
+							placeholder: '답변을 입력해주세요!',
+						}}
 						width={'100%'}
 					/>
 				) : (

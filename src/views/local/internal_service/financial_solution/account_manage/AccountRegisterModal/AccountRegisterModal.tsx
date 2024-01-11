@@ -95,8 +95,10 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							LOGIN_USER_ID: value,
 						});
 					}}
-					placeholder="은행사 ID 입력"
-					defaultValue="002"
+					additionalProps={{
+						placeholder: '은행사 ID 입력',
+						defaultValue: '002',
+					}}
 					width={290}
 				/>
 			),
@@ -113,11 +115,13 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							LOGIN_USER_PASSWORD: value,
 						});
 					}}
-					defaultValue=""
-					placeholder="은행사 PW 입력"
+					additionalProps={{
+						placeholder: '은행사 PW 입력',
+						defaultValue: '',
+					}}
 					width={290}
 					btnContent="조회하기"
-					btnOnclick={() => {
+					btnOnClick={() => {
 						getAccountList();
 					}}
 				/>
@@ -161,7 +165,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							),
 						});
 					}}
-					placeholder="계좌 선택"
+					additionalProps={{
+						placeholder: '계좌 선택',
+					}}
 					dataList={accountList}
 					width={290}
 				/>
@@ -179,7 +185,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							ACCOUNT_PASSWORD: value,
 						});
 					}}
-					placeholder="선택한 계좌의 비밀번호 4자리 입력"
+					additionalProps={{
+						placeholder: '선택한 계좌의 비밀번호 4자리 입력',
+					}}
 					width={290}
 				/>
 			),
@@ -196,7 +204,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 							ACCOUNT_NICKNAME: value,
 						});
 					}}
-					placeholder="계좌 별칭 입력"
+					additionalProps={{
+						placeholder: '계좌 별칭 입력',
+					}}
 					width={290}
 				/>
 			),

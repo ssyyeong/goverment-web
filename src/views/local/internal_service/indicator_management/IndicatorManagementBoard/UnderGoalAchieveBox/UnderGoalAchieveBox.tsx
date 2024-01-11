@@ -126,10 +126,12 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setValue={(value) => {
 						setAchieveAmount(value);
 					}}
-					placeholder="달성량 입력"
+					additionalProps={{
+						placeholder: '달성량 입력',
+					}}
 					width={'200px'}
 					btnContent="달성량 추가"
-					btnOnclick={() => {
+					btnOnClick={() => {
 						if (
 							achieveAmount === undefined ||
 							achieveAmount === null ||
@@ -152,12 +154,14 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					setNote(value);
 				}}
 				btnContent="등록하기"
-				btnOnclick={() => {
+				btnOnClick={() => {
 					updateOkr('memo');
 				}}
 				width={'100%'}
-				placeholder="메모 입력"
-				multiline={true}
+				additionalProps={{
+					placeholder: '메모 입력',
+					multiline: true,
+				}}
 				style={{
 					bgcolor: 'white',
 				}}

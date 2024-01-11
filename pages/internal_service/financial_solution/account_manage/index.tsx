@@ -249,7 +249,9 @@ const Page: NextPage = () => {
 									setValue={(value) => {
 										setSelectedPeriod(value);
 									}}
-									placeholder="계좌 선택"
+									additionalProps={{
+										placeholder: '계좌 선택',
+									}}
 									dataList={selectablePeriodList}
 									width={145}
 								/>
@@ -262,8 +264,10 @@ const Page: NextPage = () => {
 								type="search"
 								value={keyword}
 								setValue={setKeyword}
-								placeholder={'거래자명 검색'}
-								btnOnclick={() => {
+								additionalProps={{
+									placeholder: '거래자명 검색',
+								}}
+								btnOnClick={() => {
 									setSearchTriggerKey(keyword);
 								}}
 								width={'300px'}
@@ -286,8 +290,10 @@ const Page: NextPage = () => {
 								type="search"
 								value={keyword}
 								setValue={setKeyword}
-								placeholder={'거래자명검색'}
-								btnOnclick={() => {
+								additionalProps={{
+									placeholder: '거래자명검색',
+								}}
+								btnOnClick={() => {
 									setSearchTriggerKey(keyword);
 								}}
 								width={{ sm: '300px', xs: '45%' }}
@@ -305,7 +311,9 @@ const Page: NextPage = () => {
 									setValue={(value) => {
 										setSelectedPeriod(value);
 									}}
-									placeholder="계좌 선택"
+									additionalProps={{
+										placeholder: '계좌 선택',
+									}}
 									dataList={selectablePeriodList}
 									width={145}
 									style={{

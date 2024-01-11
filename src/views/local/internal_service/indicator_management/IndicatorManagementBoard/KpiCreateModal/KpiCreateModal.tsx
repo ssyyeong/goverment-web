@@ -148,7 +148,11 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							<Box>
 								<SupportiInput
 									type="input"
-									multiline={true}
+									additionalProps={{
+										placeholder:
+											'목표 타이틀을 입력해주세요.',
+										multiline: true,
+									}}
 									value={kpiData.TITLE}
 									setValue={(value: string) => {
 										setKpiData({
@@ -157,7 +161,6 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										});
 									}}
 									width={'100%'}
-									placeholder="목표 타이틀을 입력해주세요."
 								/>
 								<Box
 									display="flex"
@@ -242,6 +245,18 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									width={'130px'}
 									useIcon={false}
 								/>
+								<Typography
+									ml={0.5}
+									mr={0.5}
+									fontWeight={500}
+									color={'secondary.main'}
+									sx={{
+										marginTop: 'auto',
+										marginBottom: 'auto',
+									}}
+								>
+									~
+								</Typography>
 								<SupportiInput
 									type="datepicker"
 									value={kpiData.END_DATE}
@@ -425,7 +440,9 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										<SupportiInput
 											type="input"
 											inputType="number"
-											placeholder="목표량 입력"
+											additionalProps={{
+												placeholder: '목표량 입력',
+											}}
 											value={kpiData.TARGET_AMOUNT}
 											setValue={(value: number) => {
 												setKpiData({

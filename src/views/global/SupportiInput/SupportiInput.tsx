@@ -24,23 +24,18 @@ interface SupportiInputProps {
 	type: string;
 	value: any;
 	setValue?: any;
-	defaultValue?: any;
 	dataList?: any;
 	width?: any;
 	label?: string;
-	multiple?: boolean;
-	placeholder?: string;
+	minDate?: any;
+	maxDate?: any;
 	children?: React.ReactNode;
 	btnContent?: string;
-	btnOnclick?: () => void;
+	btnOnClick?: () => void;
 	iconList?: string[];
 	style?: SxProps;
-	multiline?: boolean;
 	useIcon?: boolean;
 	additionalProps?: { [key: string]: any };
-	readOnly?: boolean;
-	minDate?: string | Date;
-	maxDate?: string | Date;
 	inputType?: string;
 	eraseValue?: () => void;
 }
@@ -69,7 +64,7 @@ const SupportiInput = React.forwardRef(
 			const fileList = event.target.files;
 			const files = fileList ? Array.from(fileList) : [];
 
-			if (props.multiple) {
+			if (props.additionalProps.multiple) {
 				props.setValue?.(files);
 
 				if (files.length === 0) {
@@ -95,7 +90,7 @@ const SupportiInput = React.forwardRef(
 				props.value === null ||
 				(Array.isArray(props.value) && props.value.length === 0)
 			) {
-				return props.placeholder || '';
+				return props.additionalProps.placeholder || '';
 			}
 
 			return '';
@@ -112,11 +107,7 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						defaultValue={props.defaultValue}
-						placeholder={
-							props.placeholder ? props.placeholder : '선택'
-						}
-						readOnly={props.readOnly}
+						{...props.additionalProps}
 					>
 						{props.dataList &&
 							props.dataList?.map((item, index) => {
@@ -150,13 +141,13 @@ const SupportiInput = React.forwardRef(
 						sx={{ width: '100%', bgcolor: 'white', ...props.style }}
 						id="outlined-adornment-weight"
 						value={props.value}
-						placeholder={props.placeholder ? props.placeholder : ''}
+						{...props.additionalProps}
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
-								props.btnOnclick && props.btnOnclick();
+								props.btnOnClick && props.btnOnClick();
 							}
 						}}
 						endAdornment={
@@ -186,7 +177,7 @@ const SupportiInput = React.forwardRef(
 									}}
 									fontSize="small"
 									onClick={() => {
-										props.btnOnclick && props.btnOnclick();
+										props.btnOnClick && props.btnOnClick();
 									}}
 								/>
 							</InputAdornment>
@@ -203,7 +194,10 @@ const SupportiInput = React.forwardRef(
 							value={
 								props.value != null ? dayjs(props.value) : null
 							}
+							{...props.additionalProps}
 							minDate={dayjs(props.minDate)}
+							maxDate={dayjs(props.maxDate)}
+							{...props.additionalProps}
 							renderInput={(params) => (
 								<TextField
 									{...params}
@@ -234,6 +228,7 @@ const SupportiInput = React.forwardRef(
 									display: 'flex',
 								}}
 								labelPlacement="end"
+								{...props.additionalProps}
 								label={props.label ? props.label : ''}
 							/>
 						) : (
@@ -245,9 +240,7 @@ const SupportiInput = React.forwardRef(
 				) : props.type === 'fileinput' ? (
 					<Box>
 						<TextField
-							placeholder={
-								props.placeholder ? props.placeholder : ''
-							}
+							{...props.additionalProps}
 							ref={ref}
 							type="file"
 							onChange={fileChange}
@@ -291,7 +284,7 @@ const SupportiInput = React.forwardRef(
 								),
 
 								inputProps: {
-									multiple: props.multiple,
+									multiple: props.additionalProps.multiple,
 									ref: inputRef,
 									text: getTheInputText(),
 								},
@@ -310,13 +303,11 @@ const SupportiInput = React.forwardRef(
 						id="outlined-adornment-weight"
 						sx={{ width: '100%', ...props.style }}
 						value={props.value}
-						readOnly={props.readOnly}
 						type={props.inputType}
-						placeholder={props.placeholder ? props.placeholder : ''}
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						multiline={props.multiline ? props.multiline : false}
+						{...props.additionalProps}
 						endAdornment={
 							<InputAdornment position="end">
 								<Button
@@ -325,9 +316,12 @@ const SupportiInput = React.forwardRef(
 										width: '70px',
 										bgcolor: 'common.black',
 										color: 'white',
-										marginTop: props.multiline ? 'auto' : 0,
+										marginTop: props.additionalProps
+											.multiline
+											? 'auto'
+											: 0,
 									}}
-									onClick={props.btnOnclick}
+									onClick={props.btnOnClick}
 								>
 									{props.btnContent}
 								</Button>
@@ -343,13 +337,12 @@ const SupportiInput = React.forwardRef(
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						readOnly={props.readOnly}
 						endAdornment={
 							<InputAdornment position="end">
 								{props.children ? props.children : <></>}
 							</InputAdornment>
 						}
-						placeholder={props.placeholder ? props.placeholder : ''}
+						{...props.additionalProps}
 					/>
 				) : props.type === 'chip' ? (
 					<Box display={'flex'}>
@@ -374,12 +367,9 @@ const SupportiInput = React.forwardRef(
 					<OutlinedInput
 						sx={{ width: '100%', ...props.style }}
 						value={props.value}
-						readOnly={props.readOnly}
 						onChange={(e) => {
 							props.setValue(e.target.value);
 						}}
-						placeholder={props.placeholder ? props.placeholder : ''}
-						multiline={props.multiple}
 						{...props.additionalProps}
 						type={props.inputType}
 					/>

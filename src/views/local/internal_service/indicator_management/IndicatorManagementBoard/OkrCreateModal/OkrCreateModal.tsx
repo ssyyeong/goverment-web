@@ -224,7 +224,11 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								{/** 상위 목표 작성하는 인풋 */}
 								<SupportiInput
 									type="input"
-									multiline={true}
+									additionalProps={{
+										placeholder:
+											'상위 목표 타이틀을 입력해주세요.',
+										multiline: true,
+									}}
 									value={okrMainData.TITLE}
 									setValue={(value: string) => {
 										setOkrMainData({
@@ -233,7 +237,6 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										});
 									}}
 									width={'100%'}
-									placeholder="상위 목표 타이틀을 입력해주세요."
 								/>
 								<Box
 									display="flex"
@@ -320,9 +323,23 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										useIcon={false}
 										style={{ height: '20px' }}
 									/>
+									<Typography
+										ml={0.5}
+										mr={0.5}
+										fontWeight={500}
+										color={'secondary.main'}
+										sx={{
+											marginTop: 'auto',
+											marginBottom: 'auto',
+										}}
+									>
+										~
+									</Typography>
 									<SupportiInput
 										type="datepicker"
-										defaultValue={new Date()}
+										additionalProps={{
+											defaultValue: new Date(),
+										}}
 										value={okrMainData?.END_DATE}
 										minDate={okrMainData?.START_DATE}
 										setValue={(value) => {
@@ -339,20 +356,21 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								</Box>
 							</Box>
 						</Box>
-						
+
 						{/** 구분선 */}
 						<Divider sx={{ my: 2 }} />
 
 						{/** 하위 목표 작성 */}
 						<Box>
 							{/** 작성 컴포넌트 */}
-							{okrDetailData?.map((okr, index) => {
+							{okrDetailData?.map((item, index) => {
 								return (
 									<UnderGoalWriteForm
 										key={index}
 										mode="create"
-										data={okr}
+										data={item}
 										index={index}
+										maxDate={okrMainData?.END_DATE}
 										okrDetailData={okrDetailData}
 										setOkrDetailData={setOkrDetailData}
 										isModalOpen={props.modalOpen}
