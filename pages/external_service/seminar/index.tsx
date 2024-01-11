@@ -143,7 +143,7 @@ const Page: NextPage = () => {
 					disablePadding
 					value={tab}
 					setValue={setTab}
-					chipHeight={40}
+					chipHeight={50}
 					selectedChipColor="primary.main"
 					unselectedChipColor="secondary.dark"
 					style={{

@@ -192,8 +192,16 @@ const SupportiInput = React.forwardRef(
 								props.setValue(newValue);
 							}}
 							value={dayjs(props.value)}
-							minDate={dayjs(props.minDate)}
-							maxDate={dayjs(props.maxDate)}
+							minDate={
+								props.minDate !== undefined
+									? dayjs(props.minDate)
+									: undefined
+							}
+							maxDate={
+								props.maxDate !== undefined
+									? dayjs(props.maxDate)
+									: undefined
+							}
 							// {...props.additionalProps}
 							renderInput={(params) => (
 								<TextField

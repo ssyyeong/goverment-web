@@ -37,7 +37,7 @@ const Page: NextPage = () => {
 	const [passwordConfirm, setPasswordConfirm] = useState('');
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
-	const [isVerified, setIsVerified] = React.useState<boolean>(false);
+	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
 	const [tabs, setTabs] = React.useState<string>('BUSINESS');
 	const [activeStep, setActiveStep] = React.useState<number>(0);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
@@ -78,10 +78,12 @@ const Page: NextPage = () => {
 			(res) => {
 				if (res.data.result) {
 					// 인증번호 일치
-					setIsVerified(true);
+					setIsVerified('OK');
 				}
 			},
-			(err) => {}
+			(err) => {
+				setIsVerified('NOT_OK');
+			}
 		);
 	};
 	/**
@@ -226,7 +228,7 @@ const Page: NextPage = () => {
 						backgroundColor: '#d1d1d1',
 					}}
 					onClick={() => sendAlimTalk()}
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
 						인증번호 받기
@@ -255,7 +257,7 @@ const Page: NextPage = () => {
 			endAdornment: (
 				<Button
 					variant="contained"
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
@@ -266,10 +268,12 @@ const Page: NextPage = () => {
 					</Typography>
 				</Button>
 			),
-			helperText: !isVerified
-				? '인증번호가 일치하지 않습니다.'
-				: '인증되었습니다.',
+			helperText:
+				isVerified === 'NOT_OK'
+					? '인증번호가 일치하지 않습니다.'
+					: isVerified === 'OK' && '인증되었습니다.',
 			value: verifyNumber,
+			error: isVerified === 'NOT_OK',
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
 			},
@@ -344,7 +348,7 @@ const Page: NextPage = () => {
 		setPasswordConfirm('');
 		setEncrypted('');
 		setVerifyNumber('');
-		setIsVerified(false);
+		setIsVerified('NOT_YET');
 		setIsBusinessNumOk('NOT_YET');
 	}, [tabs]);
 
@@ -455,13 +459,15 @@ const Page: NextPage = () => {
 											value={item.value}
 											onChange={item.onChange}
 											error={item.error}
-											focused={item.isVerified}
+											focused={
+												item.isVerified === 'NOT_OK'
+											}
 											disabled={
-												item.isVerified &&
+												item.isVerified == 'OK' &&
 												item.value === verifyNumber
 											}
 											color={
-												item.isVerified
+												item.isVerified === 'OK'
 													? 'primary'
 													: 'secondary'
 											}

@@ -41,7 +41,7 @@ const Page: NextPage = () => {
 			format: (value, key, idx) => {
 				return page * 10 + (idx + 1);
 			},
-			align: 'left',
+			align: 'center',
 		},
 		{
 			label: '포인트타입',
@@ -53,6 +53,7 @@ const Page: NextPage = () => {
 					? '사용'
 					: '환불';
 			},
+			align: 'center',
 		},
 		{
 			label: '포인트내용',

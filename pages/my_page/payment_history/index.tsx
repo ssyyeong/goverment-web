@@ -34,7 +34,7 @@ const Page: NextPage = () => {
 			format: (value, key, idx) => {
 				return page * 10 + (idx + 1);
 			},
-			align: 'left',
+			align: 'center',
 		},
 		{
 			label: '결제내용',

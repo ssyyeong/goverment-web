@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import '../public/fonts/style.css';
-
+import CssBaseline from '@mui/material/CssBaseline';
 //* Import configs
 import { EmotionCache } from '@emotion/react';
 import { themeConfig } from '../configs/themeConfig';
@@ -11,7 +11,7 @@ import { themeConfig } from '../configs/themeConfig';
 import navigatorConfig from '../configs/navigatorConfig';
 import footerConfig from '../configs/footerConfig';
 import { default as Entry } from '@leanoncompany/supporti-ark-office-project/src/base/Entry/index';
-import { default as createEmotionCache } from '@leanoncompany/supporti-ark-office-project/src/base/Utils/createEmotionCache';
+import { default as createEmotionCache } from '../src/createEmotionCache';
 // import { createEmotionCache } from '@leanoncompany/supporti-ark-office-project';
 
 import 'swiper/css';
@@ -51,6 +51,7 @@ function App({
 	return (
 		<React.Fragment>
 			{/* Head */}
+			{/* <CssBaseline /> */}
 			<Entry
 				disableBreadCrumb={true}
 				memory={memory}
