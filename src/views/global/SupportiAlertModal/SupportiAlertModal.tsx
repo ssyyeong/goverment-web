@@ -31,7 +31,8 @@ interface ISupportiAlertModalProps {
 		| 'successModifyAxios'
 		| 'successCreateAxios'
 		| 'successDeleteAxios'
-		| 'failAxios';
+		| 'failAxios'
+		| 'seminarApply';
 	customHandleClose?: () => void;
 }
 
@@ -230,6 +231,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: false,
+		},
+		seminarApply: {
+			type: 'success',
+			title: '이 세미나를 신청하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
 		},
 	};
 

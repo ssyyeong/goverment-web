@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
 	Autocomplete,
@@ -36,7 +36,9 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	const appMemberController = new AppMemberController();
 
 	//* State
-
+	const [rawSignupData, setRawSignupData] = useState<IUser>(
+		props.appMemberData as IUser
+	);
 	const [signupData, setSignupData] = useState<IUser>(
 		props.appMemberData as IUser
 	);
@@ -48,7 +50,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	}>();
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
-	const [isVerified, setIsVerified] = React.useState<boolean>(false);
+	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
 	const [phoneNumDuplication, setPhoneNumDuplication] =
@@ -85,10 +87,12 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			(res) => {
 				if (res.data.result) {
 					// 인증번호 일치
-					setIsVerified(true);
+					setIsVerified('OK');
 				}
 			},
-			(err) => {}
+			(err) => {
+				setIsVerified('NOT_OK');
+			}
 		);
 	};
 	/**
@@ -125,9 +129,57 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	};
 
 	/**
-	 * 회원 정보 업데이트
+	 * 타입에 따른 유효성 체크
+	 */
+	const checkValidation = () => {
+		let isOk = true;
+		if (props.businessUpdate) {
+			if (
+				!businessData.BUSINESS_SECTOR &&
+				!businessData.BUSINESS_NUMBER &&
+				!businessData.COMPANY_NAME
+			) {
+				alert('모든 정보를 입력해주세요.');
+				return (isOk = false);
+			}
+			if (isBusinessNumOk !== 'OK') {
+				alert('사업자 등록번호를 확인해주세요.');
+				return (isOk = false);
+			}
+		}
+		if (props.infoUpdate) {
+			if (signupData.PHONE_NUMBER == '') {
+				alert('전화번호를 입력해주세요.');
+				return (isOk = false);
+			}
+			if (signupData.PHONE_NUMBER !== rawSignupData.PHONE_NUMBER) {
+				if (isVerified !== 'OK') {
+					alert('인증번호를 확인해주세요.');
+					return (isOk = false);
+				}
+			}
+		}
+		if (props.passwordUpdate) {
+			if (
+				signupData.PASSWORD == '' ||
+				!signupData.PASSWORD ||
+				!passwordRegex.test(signupData.PASSWORD) ||
+				signupData.PASSWORD !== passwordConfirm ||
+				passwordConfirm == ''
+			) {
+				alert('모든 정보를 입력해주세요.');
+				return (isOk = false);
+			}
+		}
+
+		return isOk;
+	};
+
+	/**
+	 * 사업자 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
+		if (!checkValidation()) return;
 		appMemberController.updateMemberInfo(
 			{
 				FIND_OPTION_KEY_LIST: {
@@ -152,7 +204,11 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		);
 	};
 
+	/**
+	 * 일반 회원 정보 업데이트
+	 */
 	const updateAppMemberForGeneral = () => {
+		if (!checkValidation()) return;
 		appMemberController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE:
@@ -172,17 +228,6 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	//* Constants
 	const signupDataConfig = [
 		{
-			label: '이름',
-			type: 'text',
-			value: signupData.FULL_NAME,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					FULL_NAME: e.target.value,
-				});
-			},
-		},
-		{
 			label: '전화번호',
 			type: 'phone',
 			endAdornment: (
@@ -192,7 +237,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 						backgroundColor: '#d1d1d1',
 					}}
 					onClick={() => sendAlimTalk()}
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
 						인증 받기
@@ -215,12 +260,13 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		{
 			label: '인증번호',
 			type: 'text',
+			for: ['BUSINESS', 'GENERAL'],
 			nolabel: true,
 			isVerified: isVerified,
 			endAdornment: (
 				<Button
 					variant="contained"
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
@@ -231,10 +277,12 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 					</Typography>
 				</Button>
 			),
-			helperText: !isVerified
-				? '인증번호가 일치하지 않습니다.'
-				: '인증되었습니다.',
+			helperText:
+				isVerified === 'NOT_OK'
+					? '인증번호가 일치하지 않습니다.'
+					: isVerified === 'OK' && '인증되었습니다.',
 			value: verifyNumber,
+			error: isVerified === 'NOT_OK',
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
 			},
@@ -341,7 +389,17 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		},
 	];
 
-	console.log(props.appMemberData);
+	// console.log(props.appMemberData);
+
+	/**
+	 * 데이터 세팅
+	 */
+	useEffect(() => {
+		if (props.appMemberData) {
+			setSignupData(props.appMemberData);
+			setRawSignupData(props.appMemberData);
+		}
+	}, [props.appMemberData]);
 
 	return (
 		<SuppportiModal
@@ -352,11 +410,11 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			activeHeader={true}
 			title="유저 정보 업데이트"
 			muiModalProps={{
-				width: { sm: '60%', xs: '100%' },
+				width: { sm: '40%', xs: '100%' },
 			}}
 			style={{
 				minWidth: '40%',
-				width: { sm: '60%', xs: '100%' },
+				width: { sm: '40%', xs: '100%' },
 			}}
 		>
 			<Box mb={3} width={'100%'}>
@@ -377,13 +435,13 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 									value={item.value}
 									onChange={item.onChange}
 									error={item.error}
-									focused={item.isVerified}
+									focused={item.isVerified === 'NOT_OK'}
 									disabled={
-										item.isVerified &&
+										item.isVerified == 'OK' &&
 										item.value === verifyNumber
 									}
 									color={
-										item.isVerified
+										item.isVerified === 'OK'
 											? 'primary'
 											: 'secondary'
 									}

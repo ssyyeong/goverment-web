@@ -1,4 +1,4 @@
-import { Box, Container, Switch, Typography } from '@mui/material';
+import { Box, Container, Switch, TextField, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
@@ -8,10 +8,10 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
-import AppMemberUpdateModal from '../../../src/views/local/auth/appMemberUpdateModal/AppMemeberUpdateModal';
 import ProfileUpdateModal from '../../../src/views/local/auth/profileUpdateModal/ProfileUpdateModal';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -33,6 +33,10 @@ const Page: NextPage = () => {
 	 * 구독 정보
 	 */
 	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
+	/**
+	 * 정보 수정 모달
+	 */
+	const [modal, setModal] = React.useState<boolean>(false);
 	/**
 	 * 회원 정보 수정 모달
 	 */
@@ -58,6 +62,11 @@ const Page: NextPage = () => {
 	const [alertModalType, setAlertModalType] = React.useState<
 		'withdraw' | 'unsubscribe'
 	>('withdraw');
+
+	/**
+	 * 유저정보 업데이트
+	 */
+	const [updateUserName, setUpdateUserName] = React.useState<boolean>(false);
 
 	//* Hooks
 	/**
@@ -105,19 +114,29 @@ const Page: NextPage = () => {
 	/**
 	 * 업데이트
 	 */
-	const updateUserInfo = (checked) => {
+	const updateUserInfo = (checked?: boolean) => {
+		const config =
+			checked !== undefined
+				? { ALIMTALK_YN: checked ? 'Y' : 'N' }
+				: {
+						FULL_NAME: memberInfo.FULL_NAME,
+				  };
+
 		appMemberController.updateItem(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE:
-					memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
-				ALIMTALK_YN: checked ? 'Y' : 'N',
-			},
+			Object.assign(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE:
+						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
+				},
+				config
+			),
 			(res) => {
 				setMemberInfo(
 					Object.assign({}, memberInfo, {
 						ALIMTALK_YN: checked ? 'Y' : 'N',
 					})
 				);
+				setUpdateUserName(false);
 			}
 		);
 	};
@@ -211,6 +230,7 @@ const Page: NextPage = () => {
 				label: '사업자 회원으로 변경',
 				onClick: () => {
 					setEditBusinessProfileModal(true);
+					setModal(true);
 				},
 				condition: memberInfo.USER_GRADE === 'GENERAL',
 			},
@@ -223,15 +243,17 @@ const Page: NextPage = () => {
 					},
 				},
 				{
-					label: '내 정보 수정하기',
+					label: '전화번호 수정하기',
 					onClick: () => {
 						setEditProfileModal(true);
+						setModal(true);
 					},
 				},
 				{
 					label: '비밀번호 변경하기',
 					onClick: () => {
 						setEditPasswordModal(true);
+						setModal(true);
 					},
 					condition: memberInfo.SNS_TYPE !== null,
 				},
@@ -325,7 +347,7 @@ const Page: NextPage = () => {
 								my={2}
 								mt={5}
 							>
-								{data.data.map((memberInfo, idx) => {
+								{data.data.map((info, idx) => {
 									return (
 										<Box
 											display={'flex'}
@@ -338,17 +360,66 @@ const Page: NextPage = () => {
 												fontWeight={'500'}
 												color={'secondary.dark'}
 											>
-												{memberInfo.label}
+												{info.label}
 											</Typography>
+
 											<Typography
 												variant="subtitle1"
 												fontWeight={'500'}
+												sx={{
+													alignItems: 'center',
+													display: 'flex',
+													position: 'relative',
+												}}
 											>
-												{memberInfo.value}
+												{info.label === '이름' &&
+													updateUserName && (
+														<TextField
+															value={
+																memberInfo.FULL_NAME
+															}
+															onChange={(e) => {
+																setMemberInfo({
+																	...memberInfo,
+																	FULL_NAME:
+																		e.target
+																			.value,
+																});
+															}}
+															variant="standard"
+															sx={{
+																textAlign:
+																	'right !important',
+															}}
+														/>
+													)}
+												{info.label === '이름' &&
+												updateUserName
+													? null
+													: info.value}
+												{info.label === '이름' && (
+													<CreateOutlinedIcon
+														sx={{
+															cursor: 'pointer',
+															position:
+																'absolute',
+															right: -25,
+															color: 'gray',
+														}}
+														onClick={() => {
+															!updateUserName
+																? setUpdateUserName(
+																		true
+																  )
+																: updateUserInfo();
+														}}
+														fontSize="small"
+													/>
+												)}
 											</Typography>
-											{memberInfo.type === 'switch' && (
+											{info.type === 'switch' && (
 												<Switch
-													checked={memberInfo.value}
+													checked={info.value}
 													onChange={(e) => {
 														updateUserInfo(
 															e.target.checked
@@ -395,24 +466,21 @@ const Page: NextPage = () => {
 						alertModalType === 'withdraw' ? withdraw : unsubscribe
 					}
 				/>
-				<ProfileUpdateModal
-					open={editProfileModal}
-					handleClose={() => setEditProfileModal(false)}
-					appMemberData={memberInfo}
-					infoUpdate={true}
-				/>
-				<ProfileUpdateModal
-					open={editBusinessProfileModal}
-					handleClose={() => setEditBusinessProfileModal(false)}
-					appMemberData={memberInfo}
-					businessUpdate={true}
-				/>
-				<ProfileUpdateModal
-					open={editPasswordModal}
-					handleClose={() => setEditPasswordModal(false)}
-					appMemberData={memberInfo}
-					passwordUpdate={true}
-				/>
+				{memberInfo && (
+					<ProfileUpdateModal
+						open={modal}
+						handleClose={() => {
+							setModal(false);
+							setEditProfileModal(false);
+							setEditBusinessProfileModal(false);
+							setEditPasswordModal(false);
+						}}
+						appMemberData={memberInfo}
+						infoUpdate={editProfileModal}
+						businessUpdate={editBusinessProfileModal}
+						passwordUpdate={editPasswordModal}
+					/>
+				)}
 			</Container>
 		</InternalServiceDrawer>
 	);

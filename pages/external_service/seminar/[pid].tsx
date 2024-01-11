@@ -41,6 +41,7 @@ const Page: NextPage = () => {
 		| 'point'
 		| 'already'
 		| 'seminarexceed'
+		| 'seminarApply'
 	>('success');
 
 	//* Hooks
@@ -50,6 +51,18 @@ const Page: NextPage = () => {
 	 */
 	const { memberId } = useAppMember();
 	//* Functions
+	/**
+	 * 세미나 신청 버튼 클릭시
+	 */
+	const handleApplySeminar = () => {
+		if (!access) {
+			setAlertModal(true);
+			setAlertModalType('login');
+			return;
+		}
+		setAlertModal(true);
+		setAlertModalType('seminarApply');
+	};
 	/**
 	 * 세미나 신청하기
 	 */
@@ -201,7 +214,7 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents={'신청하기'}
 						isGradient={true}
-						onClick={() => applySeminar()}
+						onClick={() => handleApplySeminar()}
 						style={{
 							color: 'white',
 							width: '200px',
@@ -214,6 +227,11 @@ const Page: NextPage = () => {
 				type={alertModalType}
 				open={alertModal}
 				handleClose={() => setAlertModal(false)}
+				customHandleClose={
+					alertModalType == 'seminarApply'
+						? () => applySeminar()
+						: undefined
+				}
 			/>
 		</Box>
 	);
