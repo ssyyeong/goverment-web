@@ -12,6 +12,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { v4 as uuidv4 } from 'uuid';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface IKpiCreateModalProps {
 	modalOpen: boolean;
@@ -60,6 +61,11 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	 */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
 
+	/**
+	 * 알럿
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+
 	//* Functions
 	/**
 	 *
@@ -87,7 +93,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 				kpiController.createItem(
 					{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
 					(response) => {
-						alert('등록 성공');
+						setAlertModal(true);
 
 						props.setTriggerKey && props.setTriggerKey(uuidv4());
 						props.setModalOpen(false);
@@ -151,7 +157,6 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									additionalProps={{
 										placeholder:
 											'목표 타이틀을 입력해주세요.',
-										multiline: true,
 									}}
 									value={kpiData.TITLE}
 									setValue={(value: string) => {
@@ -504,6 +509,13 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 						/>
 					</Box>
 				}
+			/>
+			<SupportiAlertModal
+				open={alertModal}
+				handleClose={() => {
+					setAlertModal(false);
+				}}
+				type="success"
 			/>
 		</Box>
 	);

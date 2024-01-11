@@ -176,10 +176,7 @@ const Page: NextPage = () => {
 								style={{
 									paddingBottom: 42,
 									paddingTop: 30,
-									overflowX:
-										v.Companies.length > 3
-											? 'scroll'
-											: 'hidden',
+									overflowX: 'auto',
 								}}
 								ml={'auto'}
 								mr={'auto'}

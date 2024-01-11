@@ -184,7 +184,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 							<SupportiInput
 								type="input"
 								additionalProps={{
-									multiline: true,
 									placeholder:
 										'하위 목표 타이틀을 입력해주세요.',
 								}}

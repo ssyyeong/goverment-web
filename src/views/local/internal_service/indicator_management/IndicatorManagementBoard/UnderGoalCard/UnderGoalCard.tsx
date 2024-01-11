@@ -243,7 +243,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 						bgcolor: randomColor[props.index],
 						width: '11px',
 						height: '10px',
-						mt: '2px',
+						mt: '5px',
 					}}
 				/>
 				<Box width="100%">
@@ -285,11 +285,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 							</Box>
 						) : (
 							<Box display={'flex'} gap={1}>
-								<Typography
-									fontWeight={500}
-									mt={'auto'}
-									mb={'auto'}
-								>
+								<Typography fontWeight={500} mt={'4px'}>
 									{props.data.TITLE}
 								</Typography>
 							</Box>
@@ -304,6 +300,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 										gap={'4px'}
 										mt="auto"
 										mb="auto"
+										pb={'14px'}
 									>
 										{/** 삭제 버튼 */}
 										<DeleteIcon
@@ -330,8 +327,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											cursor: 'pointer',
 											width: '20px',
 											height: '20px',
-											marginTop: 'auto',
-											marginBottom: 'auto',
+											marginTop: isEditMode && '14px',
 										}}
 										onClick={() =>
 											setIsMoreOpen(!isMoreOpen)
@@ -343,8 +339,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											cursor: 'pointer',
 											width: '20px',
 											height: '20px',
-											marginTop: 'auto',
-											marginBottom: 'auto',
+											marginTop: isEditMode && '14px',
 										}}
 										onClick={() =>
 											setIsMoreOpen(!isMoreOpen)

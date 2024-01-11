@@ -11,6 +11,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import dayjs from 'dayjs';
 
 interface IOkrCreateModalProps {
 	modalOpen: boolean;
@@ -49,8 +50,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: '',
-		START_DATE: new Date(),
-		END_DATE: new Date(),
+		START_DATE: dayjs(),
+		END_DATE: dayjs(),
 		NOTE: '',
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
@@ -62,8 +63,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	const [okrDetailData, setOkrDetailData] = React.useState([
 		{
 			TITLE: '',
-			START_DATE: new Date(),
-			END_DATE: new Date(),
+			START_DATE: dayjs(),
+			END_DATE: dayjs(),
 			TARGET_AMOUNT: undefined,
 			TARGET_UNIT: undefined,
 			NOTE: '',
@@ -147,8 +148,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		if (memberId) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: new Date(),
-				END_DATE: new Date(),
+				START_DATE: dayjs(),
+				END_DATE: dayjs(),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
@@ -156,8 +157,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			setOkrDetailData([
 				{
 					TITLE: '',
-					START_DATE: new Date(),
-					END_DATE: new Date(),
+					START_DATE: dayjs(),
+					END_DATE: dayjs(),
 					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
@@ -169,19 +170,19 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	}, [memberId]);
 
 	React.useEffect(() => {
-		if (memberId) {
+		if (memberId && !props.modalOpen) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: new Date(),
-				END_DATE: new Date(),
+				START_DATE: dayjs(),
+				END_DATE: dayjs(),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
 			setOkrDetailData([
 				{
 					TITLE: '',
-					START_DATE: new Date(),
-					END_DATE: new Date(),
+					START_DATE: dayjs(),
+					END_DATE: dayjs(),
 					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
@@ -190,7 +191,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				},
 			]);
 		}
-	}, [memberId, props.modalOpen, props.okrMainData, props.okrDetailData]);
+	}, [memberId, props.modalOpen, props.okrMainData]);
 
 	return (
 		<Box>
@@ -227,7 +228,6 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									additionalProps={{
 										placeholder:
 											'상위 목표 타이틀을 입력해주세요.',
-										multiline: true,
 									}}
 									value={okrMainData.TITLE}
 									setValue={(value: string) => {
@@ -310,7 +310,11 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									/>
 									<SupportiInput
 										type="datepicker"
-										value={okrMainData?.START_DATE}
+										additionalProps={{
+											defaultValue:
+												okrMainData.START_DATE,
+										}}
+										value={okrMainData.START_DATE}
 										setValue={(value) => {
 											setOkrMainData({
 												...okrMainData,
@@ -338,10 +342,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									<SupportiInput
 										type="datepicker"
 										additionalProps={{
-											defaultValue: new Date(),
+											defaultValue: okrMainData.END_DATE,
 										}}
-										value={okrMainData?.END_DATE}
-										minDate={okrMainData?.START_DATE}
+										value={okrMainData.END_DATE}
+										minDate={okrMainData.START_DATE}
 										setValue={(value) => {
 											setOkrMainData({
 												...okrMainData,
@@ -395,8 +399,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										...okrDetailData,
 										{
 											TITLE: '',
-											START_DATE: new Date(),
-											END_DATE: new Date(),
+											START_DATE: dayjs(),
+											END_DATE: dayjs(),
 											TARGET_AMOUNT: undefined,
 											TARGET_UNIT: undefined,
 											NOTE: '',

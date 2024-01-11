@@ -373,6 +373,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									display={'flex'}
 									gap={'4px'}
 									alignItems={'center'}
+									pb={'22px'}
 								>
 									{/** 삭제 버튼 */}
 									<DeleteIcon
