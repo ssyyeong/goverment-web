@@ -49,7 +49,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 					TARGET_UNIT: undefined,
 					NOTE: '',
 					CATEGORY: undefined,
-					ASSIGNEE: '',
+					ASSIGNEE: undefined,
 					RATE: 1,
 					STATUS: 'PROCEEDING',
 			  }
@@ -75,7 +75,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 		if (
 			kpiData.TITLE === '' ||
 			kpiData.CATEGORY == undefined ||
-			kpiData.ASSIGNEE === '' ||
+			kpiData.ASSIGNEE === undefined ||
 			kpiData.TARGET_UNIT == undefined ||
 			kpiData.TARGET_AMOUNT === 0
 		) {
@@ -145,8 +145,13 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={5}
+						maxHeight={'60vh'}
+						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', md: '80%' },
+							width: { xs: '100%', md: '90%' },
+							'-ms-overflow-style': 'none',
+							'&::-webkit-scrollbar': { display: 'none' },
+							pt: 2,
 						}}
 					>
 						{/** 목표 작성 영역 */}
@@ -172,7 +177,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									justifyContent={'space-between'}
 								>
 									{/** 필수값 알림 영역*/}
-									<Typography
+									{/* <Typography
 										fontWeight={500}
 										variant="body1"
 										color="error.main"
@@ -185,7 +190,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										}}
 									>
 										필수 값 입니다.
-									</Typography>
+									</Typography> */}
 
 									{/** 목표 제목 글자수와 글자수 제한 영역 */}
 									<Box
@@ -326,7 +331,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										dataList={IndicatorCategory}
 										width={'150px'}
 									/>
-									<Typography
+									{/* <Typography
 										fontWeight={500}
 										mt={'5px'}
 										variant="body1"
@@ -339,7 +344,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										}}
 									>
 										필수 값 입니다.
-									</Typography>
+									</Typography> */}
 								</Box>
 								{/** 담당자 */}
 								<Box>
@@ -349,6 +354,9 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									<SupportiInput
 										type="input"
 										value={kpiData.ASSIGNEE}
+										additionalProps={{
+											placeholder: '담당자 입력',
+										}}
 										setValue={(value) => {
 											setKpiData({
 												...kpiData,
@@ -357,7 +365,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										}}
 										width={'150px'}
 									/>
-									<Typography
+									{/* <Typography
 										fontWeight={500}
 										variant="body1"
 										mt={'5px'}
@@ -370,123 +378,124 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										}}
 									>
 										필수 값 입니다.
-									</Typography>
+									</Typography> */}
 								</Box>
 
 								{/** 목표분류 목표량 등록 영역 */}
-
-								{/** 목표분류 */}
-								<Box>
-									<Typography fontWeight={500} mb={1}>
-										목표분류
-									</Typography>
-									<SupportiInput
-										type="select"
-										value={
-											isUserMakeUnit
-												? '직접입력'
-												: kpiData.TARGET_UNIT
-										}
-										setValue={(value) => {
-											if (value === '직접입력') {
-												setIsUserMakeUnit(true);
-												setKpiData({
-													...kpiData,
-													TARGET_UNIT: '',
-												});
-											} else {
-												setIsUserMakeUnit(false);
-												setKpiData({
-													...kpiData,
-													TARGET_UNIT: value,
-												});
-											}
-										}}
-										dataList={IndicatorUnit}
-										width={'150px'}
-									/>
-
-									{/** 목표분류 직접입력시 입력창 */}
-									{isUserMakeUnit && (
-										<SupportiInput
-											type="input"
-											value={kpiData.TARGET_UNIT}
-											setValue={(value) => {
-												setKpiData({
-													...kpiData,
-													TARGET_UNIT: value,
-												});
-											}}
-											width={'150px'}
-											style={{
-												bgcolor: 'white',
-												marginTop: '5px',
-												width: {
-													xs: '100px',
-													md: '150px',
-												},
-											}}
-										/>
-									)}
-									<Typography
-										fontWeight={500}
-										variant="body1"
-										mt={'5px'}
-										color="error.main"
-										sx={{
-											visibility:
-												kpiData.TARGET_UNIT != undefined
-													? 'hidden'
-													: 'block',
-										}}
-									>
-										필수 값 입니다.
-									</Typography>
-								</Box>
-
-								{/** 목표량 */}
-								<Box display={'flex'}>
+								<Box display="flex" gap={2}>
+									{/** 목표분류 */}
 									<Box>
 										<Typography fontWeight={500} mb={1}>
-											목표량
+											목표분류
 										</Typography>
 										<SupportiInput
-											type="input"
-											inputType="number"
-											additionalProps={{
-												placeholder: '목표량 입력',
+											type="select"
+											value={
+												isUserMakeUnit
+													? '직접입력'
+													: kpiData.TARGET_UNIT
+											}
+											setValue={(value) => {
+												if (value === '직접입력') {
+													setIsUserMakeUnit(true);
+													setKpiData({
+														...kpiData,
+														TARGET_UNIT: '',
+													});
+												} else {
+													setIsUserMakeUnit(false);
+													setKpiData({
+														...kpiData,
+														TARGET_UNIT: value,
+													});
+												}
 											}}
-											value={kpiData.TARGET_AMOUNT}
-											setValue={(value: number) => {
-												setKpiData({
-													...kpiData,
-													TARGET_AMOUNT: value,
-												});
-											}}
+											dataList={IndicatorUnit}
 											width={'150px'}
 										/>
-										<Typography
+
+										{/** 목표분류 직접입력시 입력창 */}
+										{isUserMakeUnit && (
+											<SupportiInput
+												type="input"
+												value={kpiData.TARGET_UNIT}
+												setValue={(value) => {
+													setKpiData({
+														...kpiData,
+														TARGET_UNIT: value,
+													});
+												}}
+												width={'150px'}
+												style={{
+													bgcolor: 'white',
+													marginTop: '5px',
+													width: {
+														xs: '100px',
+														md: '150px',
+													},
+												}}
+											/>
+										)}
+										{/* <Typography
 											fontWeight={500}
 											variant="body1"
 											mt={'5px'}
 											color="error.main"
 											sx={{
 												visibility:
-													kpiData.TARGET_AMOUNT !==
-														0 ||
-													kpiData.TARGET_AMOUNT !==
-														undefined
+													kpiData.TARGET_UNIT !=
+													undefined
 														? 'hidden'
 														: 'block',
 											}}
 										>
 											필수 값 입니다.
-										</Typography>
+										</Typography> */}
+									</Box>
+
+									{/** 목표량 */}
+									<Box display={'flex'}>
+										<Box>
+											<Typography fontWeight={500} mb={1}>
+												목표량
+											</Typography>
+											<SupportiInput
+												type="input"
+												inputType="number"
+												additionalProps={{
+													placeholder: '목표량 입력',
+												}}
+												value={kpiData.TARGET_AMOUNT}
+												setValue={(value: number) => {
+													setKpiData({
+														...kpiData,
+														TARGET_AMOUNT: value,
+													});
+												}}
+												width={'150px'}
+											/>
+											{/* <Typography
+												fontWeight={500}
+												variant="body1"
+												mt={'5px'}
+												color="error.main"
+												sx={{
+													visibility:
+														kpiData.TARGET_AMOUNT !==
+															0 ||
+														kpiData.TARGET_AMOUNT !==
+															undefined
+															? 'hidden'
+															: 'block',
+												}}
+											>
+												필수 값 입니다.
+											</Typography> */}
+										</Box>
 									</Box>
 								</Box>
 							</Box>
 						</Box>
-
 						{/** 수정시 등록 버튼 */}
 						<SupportiButton
 							contents={

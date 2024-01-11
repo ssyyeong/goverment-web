@@ -8,6 +8,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { IKpi } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../../../global/SupportiInput';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import KpiCreateModal from '../KpiCreateModal/KpiCreateModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import dayjs from 'dayjs';
@@ -41,6 +42,11 @@ const KpiCard = (props: IKpiCardProps) => {
 	 * 더보기 아이콘 클릭 여부
 	 */
 	const [isMore, setIsMore] = React.useState(false);
+
+	/**
+	 * 삭제 여부 확인하는 모달
+	 */
+	const [isDeleteAlertOpen, setIsDeleteAlertOpen] = React.useState(false);
 
 	//* Hooks
 	/**
@@ -85,27 +91,32 @@ const KpiCard = (props: IKpiCardProps) => {
 			/** 타이틀이 20자 이상일 경우 처리 */
 			if (
 				injectedObj.TITLE != undefined &&
-				injectedObj.TITLE.length >= 20
+				injectedObj.TITLE.length > 20
 			) {
 				alert('타이틀은 20자내로 입력해주세요.');
 			} else {
-				kpiController.updateItem(
-					Object.assign(
-						{
-							APP_MEMBER_IDENTIFICATION_CODE: memberId,
-							KPI_IDENTIFICATION_CODE:
-								props.data['KPI_IDENTIFICATION_CODE'],
-						},
-						injectedObj
-					),
-					(response: any) => {
-						alert('수정 성공');
-						props.setTriggerKey && props.setTriggerKey(uuidv4());
+				if (injectedObj.NOTE.length > 500) {
+					alert('메모는 500자내로 입력해주세요.');
+				} else {
+					kpiController.updateItem(
+						Object.assign(
+							{
+								APP_MEMBER_IDENTIFICATION_CODE: memberId,
+								KPI_IDENTIFICATION_CODE:
+									props.data['KPI_IDENTIFICATION_CODE'],
+							},
+							injectedObj
+						),
+						(response: any) => {
+							alert('수정 성공');
+							props.setTriggerKey &&
+								props.setTriggerKey(uuidv4());
 
-						setIsModifyModalOpen(false);
-					},
-					(err: any) => {}
-				);
+							setIsModifyModalOpen(false);
+						},
+						(err: any) => {}
+					);
+				}
 			}
 		}
 	};
@@ -145,7 +156,7 @@ const KpiCard = (props: IKpiCardProps) => {
 		{
 			label: '삭제',
 			color: 'secondary.dark',
-			onclick: () => deleteKpi(),
+			onclick: () => setIsDeleteAlertOpen(true),
 		},
 		{
 			label: '수정',
@@ -322,7 +333,9 @@ const KpiCard = (props: IKpiCardProps) => {
 						setValue={(value) => {
 							setNote(value);
 						}}
-						btnContent="등록하기"
+						btnContent={
+							kpiData.NOTE !== '' ? '수정하기' : '등록하기'
+						}
 						btnOnClick={() => {
 							updateKpi({ NOTE: note });
 						}}
@@ -330,7 +343,7 @@ const KpiCard = (props: IKpiCardProps) => {
 						additionalProps={{
 							placeholder: '메모 입력',
 							multiline: true,
-							readOnly: note.length > 500 ? true : false,
+							// readOnly: note.length > 500 ? true : false,
 						}}
 					/>
 				</Box>
@@ -341,6 +354,16 @@ const KpiCard = (props: IKpiCardProps) => {
 				data={kpiData}
 				mode={'modify'}
 				updateKpi={updateKpi}
+			/>
+			<SupportiAlertModal
+				open={isDeleteAlertOpen}
+				handleClose={() => setIsDeleteAlertOpen(false)}
+				customHandleClose={() => {
+					memberId && deleteKpi();
+
+					setIsDeleteAlertOpen(false);
+				}}
+				type={'delete'}
 			/>
 		</Box>
 	);
