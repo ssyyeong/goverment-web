@@ -20,11 +20,10 @@ import {
 	DatePicker,
 	LocalizationProvider,
 	DesktopDatePicker,
-	MobileDatePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+
 export interface IAccountCalculationResultProps {
 	monthlyIncome: { [key: string]: any };
 	monthlySpending: { [key: string]: any };
@@ -49,7 +48,7 @@ interface IAccountCalculationProps {
 	 */
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 	/**
-	 * 로딩
+	 * 계좌 등록 여부
 	 */
 	accountNull: boolean;
 }
@@ -76,6 +75,9 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	);
 	const bankController = new BankController();
 	//* Constants
+	/**
+	 * 결과 데이터
+	 */
 	const resultConfig = [
 		{
 			lable: 'RunWay',
@@ -135,7 +137,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	 */
 	const { memberId } = useAppMember();
 	/**
-	 * 분석 조건 가져오는 함수
+	 * 분석 조건 가져오는 훅
 	 */
 	useEffect(() => {
 		memberId &&
@@ -228,6 +230,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 									setAnchorEl(event.currentTarget);
 								}}
 							/>
+							{/* 개월수 셀렉터 */}
 							<Menu
 								id="basic-menu"
 								open={open}
@@ -281,6 +284,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						<Typography variant="body2" color={'#b0b5c2'}>
 							기준일
 						</Typography>
+						{/* 기준일 뷰 */}
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DatePicker
 								onChange={(e) => {

@@ -30,9 +30,11 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 				cursor: props.onClick ? 'pointer' : 'default',
 			}}
 		>
+			{/* 제목 */}
 			<Typography variant="h5" fontWeight={'600'}>
 				{props.title}
 			</Typography>
+			{/* 데이터 나열 */}
 			<Box
 				pt={2}
 				borderTop={'1px solid #E0E0E0'}
@@ -58,6 +60,7 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 						) : (
 							column.value
 						)}
+						{/* 취소 버튼 대응 */}
 						{column.onCancel && (
 							<Box
 								onClick={() => {

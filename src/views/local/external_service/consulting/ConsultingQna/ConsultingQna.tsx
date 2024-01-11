@@ -32,7 +32,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 
 	//* Hooks
 	/**
-	 * 텍스트 답변
+	 * 답변 데이터 등록
 	 */
 	React.useEffect(() => {
 		props.setConsultingAnswer((prev: any) => {
@@ -42,6 +42,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 					item.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
 					props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE
 			);
+			//	답변이 없을 경우
 			if (idx === -1) {
 				temp.push({
 					CONSULTING_QUESTION_IDENTIFICATION_CODE:
@@ -50,6 +51,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 					FILE_LIST: [],
 				});
 			} else {
+				//	답변이 있을 경우
 				temp[idx] = {
 					...temp[idx],
 					ANSWER_CONTENT: textAnswer,
@@ -59,7 +61,7 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 		});
 	}, [textAnswer]);
 	/**
-	 * 파일 답변
+	 * 파일 답변등록
 	 */
 	React.useEffect(() => {
 		props.setConsultingAnswer((prev: any) => {

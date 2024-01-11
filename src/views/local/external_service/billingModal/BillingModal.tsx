@@ -15,11 +15,16 @@ interface IBillingModalProps {
 }
 
 const BillingModal = (props: IBillingModalProps) => {
+	//* Constants
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY_BILLING;
 	const orderId =
 		uuidv4() +
 		`RatePlanId${props.ratePlanInfo?.SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE}`;
-	// 토스페이
+	//* Functions
+
+	/**
+	 * 토스 결제 실행
+	 */
 	const tossPay = () => {
 		loadTossPayments(clientKey).then((tossPayments) => {
 			// 카드 결제 메서드 실행
@@ -39,8 +44,6 @@ const BillingModal = (props: IBillingModalProps) => {
 						alert('결제를 취소하셨습니다!');
 					} else if (error.code === 'INVALID_CARD_COMPANY') {
 						// 유효하지 않은 카드 코드에 대한 에러 처리
-						// setAlertData("유효하지 않은 카드입니다!");
-						// setAlertModal(!alertModal);
 						alert('유효하지 않은 카드입니다!');
 					}
 				});
@@ -64,6 +67,7 @@ const BillingModal = (props: IBillingModalProps) => {
 				width: { xs: '90%', md: '40%' },
 			}}
 		>
+			{/* 요금제 정보 */}
 			<Box
 				width={'100%'}
 				display={'flex'}

@@ -60,12 +60,11 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	const [alertModalType, setAlertModalType] = React.useState<
 		'business' | 'subscribe' | 'login'
 	>('business');
-	/**
-	 * 로딩 모달
-	 */
-	const [loadingModal, setLoadingModal] = React.useState(false);
 
 	//* Functions
+	/**
+	 * 모바일 메뉴 오픈
+	 */
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
@@ -84,6 +83,9 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 	 */
 	const isLogin = useUserAccess('SIGN_IN');
 
+	/**
+	 * 로그인, 구독회원 확인
+	 */
 	useEffect(() => {
 		if (isLogin.access == false) {
 			setAlertModalType('login');
@@ -98,19 +100,30 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 		}
 	}, [isSubscribed.access, isLogin.access]);
 
+	//* Components
+	/**
+	 * 메뉴 아이템
+	 */
 	const ListItemMap = (page1: any, index: number) => {
+		//* States
+		/**
+		 * 서브메뉴 오픈 여부
+		 */
 		const [open, setOpen] = React.useState(false);
+		//* Constant
 		const page = page1.page;
 		return (
 			<>
 				<ListItem key={index}>
 					<ListItemButton
 						onClick={() => {
+							// 기업회원을 위한 페이지고, 기업회원이 아닐 경우
 							if (page.forBusiness && access === false) {
 								setAlertModalType('business');
 								setAlertModal(true);
 								return;
 							}
+							// 서브메뉴가 있을 경우 컨트롤, 없을 경우 페이지 이동
 							if (page.submenu) {
 								setOpen(!open);
 							} else {
@@ -136,6 +149,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 								},
 							}}
 						/>
+						{/* 서브메뉴 버튼 */}
 						{page.submenu ? (
 							open || router.asPath.includes(page.path) ? (
 								<ExpandLess />
@@ -145,6 +159,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						) : null}
 					</ListItemButton>
 				</ListItem>
+				{/* 서브 메뉴 */}
 				{page.submenu && (
 					<Collapse
 						in={open || router.asPath.includes(page.path)}
@@ -212,6 +227,9 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 		);
 	};
 
+	/**
+	 * 메뉴
+	 */
 	const drawer = (
 		<Box
 			mt={3}
@@ -266,6 +284,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 			</Box>
 		</Box>
 	);
+	//* Constant
 	const drawerWidth = 300;
 	return (
 		<Box sx={{ display: 'flex' }}>
@@ -302,6 +321,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					</IconButton>
 				</Toolbar>
 			</AppBar>
+			{/* 사이드바 */}
 			<Box
 				component="nav"
 				sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
@@ -339,6 +359,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					{drawer}
 				</Drawer>
 			</Box>
+			{/* 메인 */}
 			<Box
 				component="main"
 				sx={{
@@ -358,6 +379,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 					type={alertModalType}
 				/>
 			</Box>
+			{/* 로딩 */}
 			<SupportiLoading open={props.loading} />
 		</Box>
 	);

@@ -26,6 +26,7 @@ interface IConsultingSchedularProps {
 	consultingData: any;
 }
 
+// 컨설팅 변경 및 취소 모달
 const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	//* States
 	/**
@@ -72,8 +73,14 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 	 */
 	const [page, setPage] = React.useState<number>(0);
 	//* Controller
+	/**
+	 * 컨설팅 신청 컨트롤러
+	 */
 	const consultingApplicationController =
 		new ConsultingApplicationController();
+	/**
+	 * 컨설팅 답변 컨트롤러
+	 */
 	const consultingAnswerController = new ConsultingAnswerController();
 
 	//* Functions
@@ -196,8 +203,8 @@ const ConsultingSchedularUpdate = (props: IConsultingSchedularProps) => {
 		}
 	}, [props.consultingData]);
 
-	console.log(consultingAnswer);
-
+	// 컨설팅 신청 모달 열릴 때마다 실행
+	// 1. 해당 월의 일정을 가져온다
 	useEffect(() => {
 		if (props.open) {
 			getMonthSchedule(moment().format('YYYY-MM'));

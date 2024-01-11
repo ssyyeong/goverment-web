@@ -72,13 +72,19 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 */
 	const [page, setPage] = React.useState<number>(0);
 	//* Controller
+	/**
+	 * 컨설팅 신청 컨트롤러
+	 */
 	const consultingApplicationController =
 		new ConsultingApplicationController();
+	/**
+	 * 컨설팅 답변 컨트롤러
+	 */
 	const consultingAnswerController = new ConsultingAnswerController();
 
 	//* Functions
 	/**
-	 * 매 월 일정을 가져온다
+	 * 매 월 일정을 가져오기
 	 */
 	const getMonthSchedule = (month) => {
 		consultingApplicationController.getAvailableTime(
@@ -153,18 +159,17 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				consultingAnswerController.uploadConsultingAnswer(
 					answermap,
 					(res) => {
-						// alert('예약이 완료되었습니다.');
 						setSelectedDate(null);
 						setPage(0);
 						setConsultingAnswer([]);
 						setAlertModal(true);
 						setAlertModalType('success');
-						// props.handleClose();
 					},
 					(err) => {}
 				);
 			},
 			(err) => {
+				// 에러 핸들링
 				if (
 					err.response.data.message ===
 					'동일 고객 예약 금지 횟수를 초과하였습니다.'
@@ -185,12 +190,12 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			}
 		);
 	};
-	console.log(consultingAnswer);
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
 	useEffect(() => {
 		//* 컨설팅 질문에 대한 답변 초기화
 		let question = [];
@@ -205,6 +210,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 		setConsultingAnswer(question);
 	}, [props.consultingData, props.open]);
 
+	// 초기 월별 일정 가져오기
 	useEffect(() => {
 		getMonthSchedule(moment().format('YYYY-MM'));
 	}, [props.consultingData]);

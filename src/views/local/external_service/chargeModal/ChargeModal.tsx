@@ -14,16 +14,24 @@ interface IChargeModalProps {
 }
 
 const ChargeModal = (props: IChargeModalProps) => {
+	//* States
+	/**
+	 * 충전할 포인트
+	 */
 	const [point, setPoint] = useState<number>();
+	//* Constants
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
 	const orderId = uuidv4();
 
+	//* Modules
 	const router = useRouter();
-	console.log(router);
-	// 토스페이
+	//* Functions
+	/**
+	 * 토스 결제 실행
+	 */
 	const tossPay = () => {
-		if (point <= 0) {
-			alert('0포인트 이상 충전해주세요!');
+		if (point <= 300) {
+			alert('300포인트 이상 충전해주세요!');
 			return;
 		}
 		loadTossPayments(clientKey).then((tossPayments) => {

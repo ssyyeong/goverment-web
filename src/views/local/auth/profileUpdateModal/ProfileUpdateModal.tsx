@@ -31,6 +31,7 @@ interface IProfileUpdateModalProps {
 	passwordUpdate?: boolean;
 }
 
+//* 마이페이지 프로필 업데이트 모달
 const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	//* Modules
 	const appMemberController = new AppMemberController();

@@ -10,14 +10,9 @@ import {
 } from '@mui/material';
 import SuppportiModal from '../../../global/SuppportiModal';
 import SupportiButton from '../../../global/SupportiButton';
-import { loadTossPayments } from '@tosspayments/payment-sdk';
-
-import moment from 'moment';
 import SupportiToggle from '../../../global/SupportiToggle';
 import { AppMemberController } from '../../../../controller/AppMemberController';
-import { AlimTalkController } from '../../../../controller/AlimTalkController';
 import { useRouter } from 'next/router';
-import { IUser } from '../../../../@types/model';
 import axios from 'axios';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import { businessSector } from '../../../../../configs/data/BusinessConfig';
@@ -30,22 +25,42 @@ interface IAppMemberUpdateModalProps {
 	accessToken: string;
 }
 
+//* 소셜로그인 추가정보 입력용 모달
+
 const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	//* Modules
 	const appMemberController = new AppMemberController();
 	const router = useRouter();
 	const cookie = new CookieManager();
 	//* State
+	/**
+	 * 탭
+	 */
 	const [tabs, setTabs] = useState<string>('BUSINESS');
+	/**
+	 * 회원가입 정보
+	 */
 	const [signupData, setSignupData] = useState<any>();
+	/**
+	 * 사업가 정보
+	 */
 	const [businessData, setBusinessData] = useState<{
 		BUSINESS_SECTOR: string;
 		BUSINESS_NUMBER: any;
 		COMPANY_NAME: string;
 	}>();
+	/**
+	 * 인증번호 암호화
+	 */
 	const [encrypted, setEncrypted] = React.useState<string>('');
+	/**
+	 * 인증번호
+	 */
 	const [verifyNumber, setVerifyNumber] = React.useState<string>();
-	const [isVerified, setIsVerified] = React.useState<boolean>(false);
+	/**
+	 * 인증 여부
+	 */
+	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
 	const [phoneNumDuplication, setPhoneNumDuplication] =
@@ -78,7 +93,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 인증번호 확인
 	 */
 	const verifyAuthCode = () => {
-		if (!encrypted) return alert('인증번호를 받아주세요.');
 		if (!verifyNumber) return alert('인증번호를 입력해주세요.');
 		appMemberController.checkAuthCode(
 			{
@@ -87,11 +101,13 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			(res) => {
 				if (res.data.result) {
-					// 인증번호 일치]
-					setIsVerified(true);
+					// 인증번호 일치
+					setIsVerified('OK');
 				}
 			},
-			(err) => {}
+			(err) => {
+				setIsVerified('NOT_OK');
+			}
 		);
 	};
 	/**
@@ -203,7 +219,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 						console.log('sendAlimTalk', signupData);
 						sendAlimTalk();
 					}}
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
 						인증 받기
@@ -224,13 +240,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '인증번호',
 			type: 'text',
 			for: ['BUSINESS', 'GENERAL'],
-			optional: props.needPhoneUpdate,
 			nolabel: true,
 			isVerified: isVerified,
 			endAdornment: (
 				<Button
 					variant="contained"
-					disabled={isVerified}
+					disabled={isVerified === 'OK'}
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
@@ -241,10 +256,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					</Typography>
 				</Button>
 			),
-			helperText: !isVerified
-				? '인증번호가 일치하지 않습니다.'
-				: '인증되었습니다.',
+			helperText:
+				isVerified === 'NOT_OK'
+					? '인증번호가 일치하지 않습니다.'
+					: isVerified === 'OK' && '인증되었습니다.',
 			value: verifyNumber,
+			error: isVerified === 'NOT_OK',
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
 			},
@@ -296,7 +313,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			helperText:
 				isBusinessNumOk === 'NOT_OK'
 					? '사업자 등록번호가 올바르지 않습니다.'
-					:	isBusinessNumOk === 'OK'? '인증되었습니다.'
+					: isBusinessNumOk === 'OK'
+					? '인증되었습니다.'
 					: '',
 		},
 		{
@@ -407,13 +425,13 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 									value={item.value}
 									onChange={item.onChange}
 									error={item?.error}
-									focused={item.isVerified}
+									focused={item.isVerified === 'NOT_OK'}
 									disabled={
-										item.isVerified &&
+										item.isVerified == 'OK' &&
 										item.value === verifyNumber
 									}
 									color={
-										item.isVerified
+										item.isVerified === 'OK'
 											? 'primary'
 											: 'secondary'
 									}
@@ -437,7 +455,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				isGradient={true}
 				fullWidth={true}
 				onClick={() => {
-					if (props.needPhoneUpdate && !isVerified)
+					if (props.needPhoneUpdate && isVerified !== 'OK')
 						return alert('전화번호 인증을 해주세요.');
 					if (tabs === 'BUSINESS') {
 						if (isBusinessNumOk === 'NOT_OK') {
