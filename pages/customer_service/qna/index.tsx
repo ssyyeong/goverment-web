@@ -9,6 +9,7 @@ import SupportiInput from '../../../src/views/global/SupportiInput';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useRouter } from 'next/router';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -21,6 +22,11 @@ const Page: NextPage = () => {
 	 * 질문 리스트
 	 */
 	const [qusetionList, setQuestionList] = React.useState([]);
+
+	/**
+	 * 알럿
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Functions
 	/**
@@ -77,7 +83,7 @@ const Page: NextPage = () => {
 		if (access === true) {
 			memberId && getQuestion();
 		} else if (access === false) {
-			alert('로그인 후 이용해주세요.');
+			setAlertModal(true);
 			router.push('/auth/sign_in');
 		}
 	}, [memberId, access]);
@@ -166,6 +172,13 @@ const Page: NextPage = () => {
 					);
 				})}
 			</Box>
+			<SupportiAlertModal
+				open={alertModal}
+				handleClose={() => {
+					setAlertModal(false);
+				}}
+				type="login"
+			/>
 		</Box>
 	);
 };
