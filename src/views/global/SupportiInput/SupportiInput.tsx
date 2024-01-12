@@ -64,7 +64,10 @@ const SupportiInput = React.forwardRef(
 			const fileList = event.target.files;
 			const files = fileList ? Array.from(fileList) : [];
 
-			if (props.additionalProps.multiple) {
+			if (
+				props.additionalProps !== undefined &&
+				props.additionalProps.multiple
+			) {
 				props.setValue?.(files);
 
 				if (files.length === 0) {
@@ -90,7 +93,11 @@ const SupportiInput = React.forwardRef(
 				props.value === null ||
 				(Array.isArray(props.value) && props.value.length === 0)
 			) {
-				return props.additionalProps.placeholder || '';
+				return (
+					(props.additionalProps !== undefined &&
+						props.additionalProps.placeholder) ||
+					''
+				);
 			}
 
 			return '';
@@ -289,7 +296,9 @@ const SupportiInput = React.forwardRef(
 								),
 
 								inputProps: {
-									multiple: props.additionalProps.multiple,
+									multiple:
+										props.additionalProps !== undefined &&
+										props.additionalProps.multiple,
 									ref: inputRef,
 									text: getTheInputText(),
 								},
@@ -321,10 +330,12 @@ const SupportiInput = React.forwardRef(
 										width: '70px',
 										bgcolor: 'common.black',
 										color: 'white',
-										marginTop: props.additionalProps
-											.multiline
-											? 'auto'
-											: 0,
+										marginTop:
+											props.additionalProps !==
+												undefined &&
+											props.additionalProps.multiline
+												? 'auto'
+												: 0,
 									}}
 									onClick={props.btnOnClick}
 								>
