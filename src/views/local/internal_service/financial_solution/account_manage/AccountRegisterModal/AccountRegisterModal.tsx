@@ -173,25 +173,25 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				/>
 			),
 		},
-		{
-			title: '비밀번호',
-			component: (
-				<SupportiInput
-					type={'password'}
-					value={userAccountInfo.ACCOUNT_PASSWORD}
-					setValue={(value) => {
-						setUserAccountInfo({
-							...userAccountInfo,
-							ACCOUNT_PASSWORD: value,
-						});
-					}}
-					additionalProps={{
-						placeholder: '선택한 계좌의 비밀번호 4자리 입력',
-					}}
-					width={290}
-				/>
-			),
-		},
+		// {
+		// 	title: '비밀번호',
+		// 	component: (
+		// 		<SupportiInput
+		// 			type={'password'}
+		// 			value={userAccountInfo.ACCOUNT_PASSWORD}
+		// 			setValue={(value) => {
+		// 				setUserAccountInfo({
+		// 					...userAccountInfo,
+		// 					ACCOUNT_PASSWORD: value,
+		// 				});
+		// 			}}
+		// 			additionalProps={{
+		// 				placeholder: '선택한 계좌의 비밀번호 4자리 입력',
+		// 			}}
+		// 			width={290}
+		// 		/>
+		// 	),
+		// },
 		{
 			title: '계좌 별칭',
 			component: (
