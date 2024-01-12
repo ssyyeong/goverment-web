@@ -10,7 +10,7 @@ import { financialStatementConfig } from '../../../../configs/data/FinancialStat
 import { useRouter } from 'next/router';
 import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import useWindowWidth from '../../../../src/hooks/useWindowWidth/useWindowWidth';

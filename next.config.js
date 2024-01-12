@@ -31,6 +31,11 @@ const nextConfig = {
 			},
 		});
 
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: ['@svgr/webpack'],
+		});
+
 		// 서버에서는 경로를 그대로 사용해야 하므로, 브라우저와 구분합니다.
 		config.module.rules.push({
 			test: /\.(js|jsx|ts|tsx)$/,

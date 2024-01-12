@@ -9,7 +9,7 @@ import moment from 'moment';
 import { businessConfig } from '../../../configs/data/BusinessConfig';
 import { useRouter } from 'next/router';
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import useUserAccess from '../../../src/hooks/useUserAccess/useUserAccess';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 

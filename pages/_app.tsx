@@ -24,6 +24,7 @@ import Memory from '@leanoncompany/supporti-ark-office-project/src/utils/data/Me
 import dotenv from 'dotenv';
 import CustomHeader from '../src/views/local/common/CustomHeader/CustomHeader';
 import CustomFooter from '../src/views/local/common/CustomFooter/CustomFooter';
+import dynamic from 'next/dynamic';
 
 //* .env 지정
 dotenv.config({ path: '.env' });
@@ -44,6 +45,19 @@ function App({
 	pageProps,
 	router,
 }: AppProps & { emotionCache: EmotionCache }) {
+	const CustomHeaderNoSSR = dynamic(
+		() => import('../src/views/local/common/CustomHeader/CustomHeader'),
+		{
+			ssr: false,
+		}
+	);
+	const CustomFooterNoSSR = dynamic(
+		() => import('../src/views/local/common/CustomFooter/CustomFooter'),
+		{
+			ssr: false,
+		}
+	);
+
 	return (
 		<React.Fragment>
 			{/* Head */}
@@ -51,7 +65,7 @@ function App({
 			<Entry
 				disableBreadCrumb={true}
 				memory={memory}
-				customHeader={<CustomHeader />}
+				customHeader={<CustomHeaderNoSSR />}
 				configs={{
 					sidebar: {
 						...sideBarConfig,
@@ -80,7 +94,7 @@ function App({
 				containerPaddingX={'0'}
 				containerMaxWidth={'3000px !important'}
 				router={router}
-				anotherFooter={<CustomFooter />}
+				anotherFooter={<CustomFooterNoSSR />}
 			/>
 		</React.Fragment>
 	);

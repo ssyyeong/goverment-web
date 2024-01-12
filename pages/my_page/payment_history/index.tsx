@@ -8,7 +8,7 @@ import SupportiTable from '../../../src/views/global/SupportiTable';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import { TableHeaderProps } from '../../../src/views/global/SupportiTable/SupportiTable';
 import { useAppMember } from '../../../src/hooks/useAppMember';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {

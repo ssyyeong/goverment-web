@@ -15,6 +15,7 @@ import {
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
+	SvgIcon,
 	Toolbar,
 	Typography,
 } from '@mui/material';
@@ -31,6 +32,7 @@ import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
 import SupportiLoading from '../../../../global/SupportiLoading/SupportiLoading';
+import Image from 'next/image';
 
 interface IInternalServiceDrawerProps {
 	children: React.ReactNode;
@@ -152,9 +154,25 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						{/* 서브메뉴 버튼 */}
 						{page.submenu ? (
 							open || router.asPath.includes(page.path) ? (
-								<ExpandLess />
+								<SvgIcon
+									sx={{
+										height: 20,
+										width: 20,
+									}}
+								>
+									<ExpandLess
+										sx={{
+											fontSize: '1.5rem',
+										}}
+									/>
+								</SvgIcon>
 							) : (
-								<ExpandMore />
+								<ExpandMore
+									sx={{
+										height: 20,
+										width: 20,
+									}}
+								/>
 							)
 						) : null}
 					</ListItemButton>
@@ -247,7 +265,13 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						cursor: 'pointer',
 					}}
 				>
-					<img src="/images/logo/Suppor-TFulllogo.svg" />
+					<Image
+						src="/images/logo/Suppor-TFulllogo.svg"
+						alt="logo"
+						width={150}
+						height={50}
+						loading="lazy"
+					/>
 				</Toolbar>
 				<List>
 					{props.type === 'dashboard' &&

@@ -10,7 +10,7 @@ import { TableHeaderProps } from '../../../src/views/global/SupportiTable/Suppor
 import moment from 'moment';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import { useAppMember } from '../../../src/hooks/useAppMember';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import ConsultingSchedularUpdate from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedularUpdate';
 import Nodata from '../../../src/views/global/NoData/NoData';
 

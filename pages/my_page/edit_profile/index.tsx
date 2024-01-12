@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import ProfileUpdateModal from '../../../src/views/local/auth/profileUpdateModal/ProfileUpdateModal';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
@@ -131,12 +131,13 @@ const Page: NextPage = () => {
 				config
 			),
 			(res) => {
-				setMemberInfo(
-					Object.assign({}, memberInfo, {
-						ALIMTALK_YN: checked ? 'Y' : 'N',
-					})
-				);
-				setUpdateUserName(false);
+				checked !== undefined
+					? setMemberInfo(
+							Object.assign({}, memberInfo, {
+								ALIMTALK_YN: checked ? 'Y' : 'N',
+							})
+					  )
+					: setUpdateUserName(false);
 			}
 		);
 	};

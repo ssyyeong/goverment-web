@@ -17,6 +17,7 @@
 		"@mui/lab": "^5.0.0-alpha.155",
 		"@mui/material": "^5.11.4",
 		"@mui/x-date-pickers": "^5.0.15",
+		"@svgr/webpack": "^8.1.0",
 		"@tosspayments/payment-sdk": "^1.7.0",
 		"aos": "^2.3.4",
 		"axios": "^1.2.3",

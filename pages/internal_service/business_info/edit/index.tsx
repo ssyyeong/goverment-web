@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import build from 'next/dist/build';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';

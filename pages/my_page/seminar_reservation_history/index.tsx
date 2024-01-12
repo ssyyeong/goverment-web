@@ -13,7 +13,7 @@ import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { SeminarApplicationController } from '../../../src/controller/SeminarApplicationController';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import Nodata from '../../../src/views/global/NoData/NoData';

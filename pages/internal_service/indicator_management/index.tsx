@@ -8,7 +8,7 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import KpiCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
 import MainGoalCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/MainGoalCard/MainGoalCard';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import { KpiController } from '../../../src/controller/KpiController';
 import { OkrMainController } from '../../../src/controller/OkrMainController';

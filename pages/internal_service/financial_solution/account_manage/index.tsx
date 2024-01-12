@@ -17,7 +17,7 @@ import { BankController } from '../../../../src/controller/BankController';
 import { TransactionHistoryTable } from '../../../../src/views/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
 import { AccountCalculation } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation';
-import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 const Page: NextPage = () => {

@@ -12,7 +12,7 @@ import moment from 'moment';
 import { financialStatementConfig } from '../../../../../configs/data/FinancialStatementConfig';
 import { useRouter } from 'next/router';
 import SupportiButton from '../../../../../src/views/global/SupportiButton';
-import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer/InternalServiceDrawer';
+import InternalServiceDrawer from '../../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
