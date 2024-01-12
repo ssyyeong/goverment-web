@@ -16,10 +16,8 @@ import MobileTableRow from '../../../src/views/local/external_service/mobileTabl
 import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
-	//* Modules
-	const router = useRouter();
 	//* Constants
-	const seminarHeaderData: TableHeaderProps[] = [
+	const generalSeminarHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
 			value: '',
@@ -55,7 +53,6 @@ const Page: NextPage = () => {
 			return value == 0 ? '무료' : `${value.toLocaleString()} P`;
 		},
 	};
-
 	//* States
 	/**
 	 * 탭 데이터
@@ -69,6 +66,15 @@ const Page: NextPage = () => {
 	 * 세미나 데이터 총 개수
 	 */
 	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
+	/**
+	 * 세미나 테이블 헤더 데이터
+	 */
+	const [seminarHeaderData, setSeminarHeaderData] = React.useState<
+		TableHeaderProps[]
+	>(generalSeminarHeaderData);
+	//* Modules
+	const router = useRouter();
+
 	//* Functions
 	//* Hooks
 	/**
@@ -95,6 +101,15 @@ const Page: NextPage = () => {
 			(res) => {
 				setTotalDataCount(res.data.result.count);
 				setSeminarDataList(res.data.result.rows);
+
+				if (tab === 0) {
+					setSeminarHeaderData(generalSeminarHeaderData);
+				} else {
+					setSeminarHeaderData([
+						...generalSeminarHeaderData,
+						chargedSeminarHeaderData,
+					]);
+				}
 			},
 			(err) => {}
 		);
@@ -167,11 +182,7 @@ const Page: NextPage = () => {
 			<Box width={'100%'} display={{ xs: 'none', sm: 'block' }}>
 				<SupportiTable
 					rowData={seminarDataList}
-					headerData={
-						tab === 0
-							? seminarHeaderData
-							: [...seminarHeaderData, chargedSeminarHeaderData]
-					}
+					headerData={seminarHeaderData}
 					onClick={(data) => {
 						router.push(
 							`/external_service/seminar/${data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`

@@ -22,7 +22,7 @@ const Page: NextPage = () => {
 	//* Modules
 	const seminarApplicationController = new SeminarApplicationController();
 	//* Constants
-	const seminarHeaderData: TableHeaderProps[] = [
+	const seminarGenralHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
 			value: '',
@@ -112,6 +112,12 @@ const Page: NextPage = () => {
 	 * 선택된 세미나 아이디
 	 */
 	const [selectedSeminarId, setSelectedSeminarId] = React.useState(0);
+	/**
+	 * 세미나 테이블 헤더 데이터
+	 */
+	const [seminarHeaderData, setSeminarHeaderData] = React.useState<
+		TableHeaderProps[]
+	>(seminarGenralHeaderData);
 	//* Functions
 	/**
 	 * 세미나 취소하기
@@ -158,6 +164,14 @@ const Page: NextPage = () => {
 				(res) => {
 					setTotalDataCount(res.data.result.count);
 					setSeminarDataList(res.data.result.rows);
+					if (tab === 0) {
+						setSeminarHeaderData(seminarGenralHeaderData);
+					} else {
+						setSeminarHeaderData([
+							...seminarGenralHeaderData,
+							cancelSeminarHeaderData,
+						]);
+					}
 				},
 				(err) => {}
 			);
@@ -301,14 +315,7 @@ const Page: NextPage = () => {
 				>
 					<SupportiTable
 						rowData={seminarDataList}
-						headerData={
-							tab === 1
-								? seminarHeaderData
-								: [
-										...seminarHeaderData,
-										cancelSeminarHeaderData,
-								  ]
-						}
+						headerData={seminarHeaderData}
 					/>
 				</Box>
 				{/* 페이지 네이션 */}

@@ -452,12 +452,21 @@ const MyAccounts = (props: IMyAccountsProps) => {
 						sx={{
 							overflowX: 'auto',
 							'-ms-overflow-style': 'none',
-							'&::-webkit-scrollbar': { display: 'none' },
+							'&::-webkit-scrollbar': {
+								height: '5px !important',
+								backgroundColor: 'white !important',
+								padding: '0.5px',
+								borderRadius: '20px',
+							},
+							'&::-webkit-scrollbar-thumb': {
+								backgroundColor: '#305edccc',
+								borderRadius: '20px',
+							},
 						}}
 						pl={{ md: 0, xs: '5%' }}
 					>
 						{/* 계좌 리스트 */}
-						<Box display={'flex'}>
+						<Box display={'flex'} pb={1}>
 							{bankAccountList.map((bankAccount) => (
 								<Box
 									sx={{

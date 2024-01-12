@@ -19,34 +19,8 @@ const Page: NextPage = () => {
 	const consultingApplicationController = new DefaultController(
 		'ConsultingApplication'
 	);
-	const matches = false; //useMediaQuery(theme.breakpoints.down('md')
-	//*
-	//* States
-	/**
-	 * 결제 정보 리스트
-	 */
-	const [consultingApplicationList, setConsultingApplicationList] =
-		React.useState([]);
-	/**
-	 * 총 데이터 크기
-	 */
-	const [totalDataSize, setTotalDataSize] = React.useState<number>(0);
-	/**
-	 * 탭
-	 */
-	const [tab, setTab] = React.useState<'COMPLETED' | 'WAITING' | 'CANCELED'>(
-		'WAITING'
-	);
-	/**
-	 * 업데이트 모달
-	 */
-	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
-	/**
-	 * 업데이트 모달 데이터
-	 */
-	const [updateModalData, setUpdateModalData] = React.useState<any>();
 	//* Constants
-	const consultingApplicationHeaderData: TableHeaderProps[] = [
+	const consultingApplicationGeneralHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
 			value: '',
@@ -116,6 +90,40 @@ const Page: NextPage = () => {
 			);
 		},
 	};
+	//* States
+	/**
+	 * 결제 정보 리스트
+	 */
+	const [consultingApplicationList, setConsultingApplicationList] =
+		React.useState([]);
+	/**
+	 * 총 데이터 크기
+	 */
+	const [totalDataSize, setTotalDataSize] = React.useState<number>(0);
+	/**
+	 * 탭
+	 */
+	const [tab, setTab] = React.useState<'COMPLETED' | 'WAITING' | 'CANCELED'>(
+		'WAITING'
+	);
+	/**
+	 * 업데이트 모달
+	 */
+	const [updateModal, setUpdateModal] = React.useState<boolean>(false);
+	/**
+	 * 업데이트 모달 데이터
+	 */
+	const [updateModalData, setUpdateModalData] = React.useState<any>();
+	/**
+	 * 헤더 데이터
+	 */
+	const [
+		consultingApplicationHeaderData,
+		setConsultingApplicationHeaderData,
+	] = React.useState<TableHeaderProps[]>(
+		consultingApplicationGeneralHeaderData
+	);
+
 	//* Hooks
 	/**
 	 * 페이지네이션
@@ -138,6 +146,17 @@ const Page: NextPage = () => {
 				(res) => {
 					setConsultingApplicationList(res.data.result.rows);
 					setTotalDataSize(res.data.result.count);
+					if (tab === 'CANCELED') {
+						setConsultingApplicationHeaderData(
+							consultingApplicationGeneralHeaderData
+						);
+					} else {
+						setConsultingApplicationHeaderData(
+							consultingApplicationGeneralHeaderData.concat(
+								cancelConsultingHeaderData
+							)
+						);
+					}
 				},
 				(err) => {
 					console.log(err);
@@ -281,13 +300,7 @@ const Page: NextPage = () => {
 				>
 					<SupportiTable
 						rowData={consultingApplicationList}
-						headerData={
-							tab !== 'COMPLETED'
-								? consultingApplicationHeaderData.concat(
-										cancelConsultingHeaderData
-								  )
-								: consultingApplicationHeaderData
-						}
+						headerData={consultingApplicationHeaderData}
 					/>
 				</Box>
 				{/* 페이지 네이션 */}
