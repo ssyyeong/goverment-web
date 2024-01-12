@@ -6,7 +6,7 @@ import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
 import { IOkrCombination } from '../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import { OkrMoreModal } from '../OkrMoreModal';
 import { v4 as uuidv4 } from 'uuid';
 import UnderGoalCard from '../UnderGoalCard';
@@ -69,7 +69,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 	 * 마감일 계산하는 함수
 	 */
 	const calcDeadline = (day) => {
-		const Today = dayjs();
+		const Today = moment();
 
 		const diff = Today.diff(day, 'day', true);
 		const days = Math.floor(diff);

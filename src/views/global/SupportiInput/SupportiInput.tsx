@@ -16,7 +16,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import moment from 'moment';
 import { ImageController } from '../../../controller/ImageController';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -195,18 +195,18 @@ const SupportiInput = React.forwardRef(
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
 						<MobileDatePicker
 							inputFormat="YYYY-MM-DD"
-							onChange={(newValue: Dayjs | null) => {
+							onChange={(newValue) => {
 								props.setValue(newValue);
 							}}
-							value={dayjs(props.value)}
+							value={moment(props.value)}
 							minDate={
 								props.minDate !== undefined
-									? dayjs(props.minDate)
+									? moment(props.minDate)
 									: undefined
 							}
 							maxDate={
 								props.maxDate !== undefined
-									? dayjs(props.maxDate)
+									? moment(props.maxDate)
 									: undefined
 							}
 							// {...props.additionalProps}

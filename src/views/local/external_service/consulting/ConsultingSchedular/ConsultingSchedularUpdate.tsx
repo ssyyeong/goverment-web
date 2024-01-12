@@ -12,7 +12,6 @@ import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
 import styles from './Calendar.module.css';
 import './Calendar.module.css';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SupportiButton from '../../../../global/SupportiButton';
 import { ImageController } from '../../../../../controller/ImageController';
 import ConsultingQna from '../ConsultingQna/ConsultingQna';

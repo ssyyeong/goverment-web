@@ -172,25 +172,25 @@ const Page: NextPage = () => {
 				</Box>
 				{/* 소셜로그인 */}
 				<Box display={'flex'} justifyContent={'space-between'}>
-					<Typography
+					<Box
 						sx={{
-							textDecoration: 'line-through',
-							color: 'white',
-							textDecorationColor: '#8793ac',
+							width: '95px',
+							height: '1px',
+							backgroundColor: 'black',
+							mt: 'auto',
+							mb: 'auto',
 						}}
-					>
-						asdasdawdasda
-					</Typography>
+					/>
 					<Typography>10초만에 시작하기</Typography>
-					<Typography
+					<Box
 						sx={{
-							textDecoration: 'line-through',
-							color: 'white',
-							textDecorationColor: '#8793ac',
+							width: '95px',
+							height: '1px',
+							backgroundColor: 'black',
+							mt: 'auto',
+							mb: 'auto',
 						}}
-					>
-						asdasdawdasda
-					</Typography>
+					/>
 				</Box>
 				<Box
 					display={'flex'}

@@ -25,7 +25,6 @@ const Page: NextPage = () => {
 	const [page, setPage] = React.useState<number>(0);
 	const [passwordConfirm, setPasswordConfirm] = React.useState<string>('');
 	const [password, setPassword] = React.useState<string>('');
-	const [userId, setUserId] = React.useState<number>();
 	const [userNotExist, setUserNotExist] = React.useState<boolean>(false);
 	//*Functions
 

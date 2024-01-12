@@ -11,7 +11,7 @@ import SupportiInput from '../../../../../global/SupportiInput';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import KpiCreateModal from '../KpiCreateModal/KpiCreateModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IKpiCardProps {
@@ -126,7 +126,7 @@ const KpiCard = (props: IKpiCardProps) => {
 	 * 마감일 계산하는 함수
 	 */
 	const calcDeadline = (day) => {
-		const Today = dayjs();
+		const Today = moment();
 
 		const diff = Today.diff(day, 'day', true);
 		const days = Math.floor(diff);
@@ -178,10 +178,29 @@ const KpiCard = (props: IKpiCardProps) => {
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 		>
 			<Box display="flex" justifyContent={'space-between'}>
-				{/** KPI 목표 제목 */}
-				<Typography variant="h5" fontWeight={'bold'}>
-					{kpiData.TITLE}
-				</Typography>
+				<Box display="flex" gap={2}>
+					{/** KPI 목표 제목 */}
+					<Typography variant="h5" fontWeight={'bold'}>
+						{kpiData.TITLE}
+					</Typography>
+					{props.data.STATUS !== 'PROCEEDING' && (
+						<Typography
+							color={
+								kpiData.STATUS == 'SUCCESS'
+									? controllButtons[0].color
+									: controllButtons[1].color
+							}
+							fontWeight={'bold'}
+							mt={'auto'}
+							mb={'auto'}
+							variant="subtitle1"
+						>
+							{kpiData.STATUS == 'SUCCESS'
+								? controllButtons[0].label
+								: controllButtons[1].label}
+						</Typography>
+					)}
+				</Box>
 
 				{/** 아이콘, 누르면 메모 나옴 */}
 				<Box
@@ -295,22 +314,6 @@ const KpiCard = (props: IKpiCardProps) => {
 					)}
 					{props.data.STATUS !== 'PROCEEDING' && (
 						<Box display="flex" mt="auto" mb="auto" gap={0.5}>
-							<SupportiButton
-								contents={
-									kpiData.STATUS == 'SUCCESS'
-										? controllButtons[0].label
-										: controllButtons[1].label
-								}
-								variant="contained"
-								style={{
-									bgcolor:
-										kpiData.STATUS == 'SUCCESS'
-											? controllButtons[0].color
-											: controllButtons[1].color,
-									height: '20px',
-								}}
-								onClick={() => {}}
-							/>
 							<SupportiButton
 								contents={controllButtons[2].label}
 								variant="contained"

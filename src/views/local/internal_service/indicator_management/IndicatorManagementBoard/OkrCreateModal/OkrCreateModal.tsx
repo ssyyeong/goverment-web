@@ -11,7 +11,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 interface IOkrCreateModalProps {
 	modalOpen: boolean;
@@ -50,8 +50,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: '',
-		START_DATE: dayjs(),
-		END_DATE: dayjs(),
+		START_DATE: moment(),
+		END_DATE: moment(),
 		NOTE: '',
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
@@ -63,8 +63,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	const [okrDetailData, setOkrDetailData] = React.useState([
 		{
 			TITLE: '',
-			START_DATE: dayjs(),
-			END_DATE: dayjs(),
+			START_DATE: moment(),
+			END_DATE: moment(),
 			TARGET_AMOUNT: undefined,
 			TARGET_UNIT: undefined,
 			NOTE: '',
@@ -148,8 +148,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		if (memberId) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: dayjs(),
-				END_DATE: dayjs(),
+				START_DATE: moment(),
+				END_DATE: moment(),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
@@ -157,8 +157,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			setOkrDetailData([
 				{
 					TITLE: '',
-					START_DATE: dayjs(),
-					END_DATE: dayjs(),
+					START_DATE: moment(),
+					END_DATE: moment(),
 					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
@@ -173,16 +173,16 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		if (memberId && !props.modalOpen) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: dayjs(),
-				END_DATE: dayjs(),
+				START_DATE: moment(),
+				END_DATE: moment(),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
 			setOkrDetailData([
 				{
 					TITLE: '',
-					START_DATE: dayjs(),
-					END_DATE: dayjs(),
+					START_DATE: moment(),
+					END_DATE: moment(),
 					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
@@ -399,8 +399,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										...okrDetailData,
 										{
 											TITLE: '',
-											START_DATE: dayjs(),
-											END_DATE: dayjs(),
+											START_DATE: moment(),
+											END_DATE: moment(),
 											TARGET_AMOUNT: undefined,
 											TARGET_UNIT: undefined,
 											NOTE: '',
