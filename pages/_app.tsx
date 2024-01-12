@@ -22,8 +22,6 @@ import 'react-clock/dist/Clock.css';
 import sideBarConfig from '../configs/sideBarConfig';
 import Memory from '@leanoncompany/supporti-ark-office-project/src/utils/data/Memory';
 import dotenv from 'dotenv';
-import CustomHeader from '../src/views/local/common/CustomHeader/CustomHeader';
-import CustomFooter from '../src/views/local/common/CustomFooter/CustomFooter';
 import dynamic from 'next/dynamic';
 
 //* .env 지정
@@ -45,6 +43,7 @@ function App({
 	pageProps,
 	router,
 }: AppProps & { emotionCache: EmotionCache }) {
+	//* Mui ssr 설정
 	const CustomHeaderNoSSR = dynamic(
 		() => import('../src/views/local/common/CustomHeader/CustomHeader'),
 		{

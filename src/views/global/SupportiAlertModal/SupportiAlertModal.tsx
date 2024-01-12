@@ -9,8 +9,17 @@ import { useRouter } from 'next/router';
 import ChargeModal from '../../local/external_service/chargeModal/ChargeModal';
 
 interface ISupportiAlertModalProps {
+	/**
+	 * 모달 오픈 여부
+	 */
 	open: boolean;
+	/**
+	 * 모달 닫기 핸들러
+	 */
 	handleClose: () => void;
+	/**
+	 * 모달 타입
+	 */
 	type:
 		| 'success'
 		| 'login'
@@ -33,15 +42,52 @@ interface ISupportiAlertModalProps {
 		| 'successDeleteAxios'
 		| 'failAxios'
 		| 'seminarApply';
+	/**
+	 * 커스텀 핸들러
+	 */
 	customHandleClose?: () => void;
 }
 
+interface IModalConfig {
+	[key: string]: {
+		/**
+		 * 아이콘 타입
+		 */
+		type: 'success' | 'error';
+		/**
+		 * 본문 내용
+		 */
+		title: string;
+		/**
+		 * 버튼 텍스트
+		 */
+		content: string;
+		/**
+		 * 버튼 클릭 핸들러
+		 */
+		onclick: () => void;
+		/**
+		 * 취소 버튼 여부
+		 */
+		cancelButtonAvailable: boolean;
+	};
+}
+
 const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
+	//* Modules
 	const router = useRouter();
+	//* States
+	/**
+	 * 충전 모달 오픈 여부
+	 */
 	const [openChargeModal, setOpenChargeModal] =
 		React.useState<boolean>(false);
 
-	const modalConfig = {
+	//* Constants
+	/**
+	 * 모달 설정
+	 */
+	const modalConfig: IModalConfig = {
 		success: {
 			type: 'success',
 			title: '신청완료 되었습니다.',
@@ -261,6 +307,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				height={'100%'}
 				minWidth={'250px'}
 			>
+				{/* 아이콘 */}
 				<Box
 					width={'100%'}
 					display={'flex'}
@@ -281,6 +328,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 						/>
 					)}
 				</Box>
+				{/* 본문 내용 */}
 				<Typography variant={'h4'} fontWeight={'bold'} my={1}>
 					{modalConfig[props.type]?.title}
 				</Typography>
@@ -304,6 +352,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 						</Typography>
 					</Box>
 				)}
+				{/* 버튼 */}
 				<Box
 					display={'flex'}
 					alignItems={'center'}
@@ -341,6 +390,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 					/>
 				</Box>
 			</Box>
+			{/* 충전 모달 */}
 			<ChargeModal
 				open={openChargeModal}
 				handleClose={() => setOpenChargeModal(false)}

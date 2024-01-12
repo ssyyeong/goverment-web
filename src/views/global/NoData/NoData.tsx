@@ -4,6 +4,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 
 interface INodataProps {}
 
+//* 데이터 없음 컴포넌트
 const Nodata = (props: INodataProps) => {
 	return (
 		<Box

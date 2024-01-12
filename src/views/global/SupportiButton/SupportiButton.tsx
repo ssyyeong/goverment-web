@@ -3,9 +3,21 @@ import React from 'react';
 import { Button, SxProps } from '@mui/material';
 
 interface ISupportiButtonProps {
+	/**
+	 * 버튼 내용
+	 */
 	contents: any;
+	/**
+	 * 버튼 클릭 핸들러
+	 */
 	onClick: (config?: any) => void;
+	/**
+	 * 버튼 비활성화 여부
+	 */
 	disabled?: boolean;
+	/**
+	 * 버튼 컬러
+	 */
 	color?:
 		| 'inherit'
 		| 'primary'
@@ -15,13 +27,33 @@ interface ISupportiButtonProps {
 		| 'info'
 		| 'warning'
 		| undefined;
+	/**
+	 * 버튼 전체 너비
+	 */
 	fullWidth?: boolean;
+	/**
+	 * 버튼 타입
+	 */
 	variant?: 'text' | 'outlined' | 'contained' | undefined;
+	/**
+	 * 버튼 내부 padding 제거 여부
+	 */
 	disabledGutters?: boolean;
+	/**
+	 * 그라데이션 여부
+	 */
 	isGradient?: boolean;
-	gradientColor?: string;
+	/**
+	 * 버튼 스타일
+	 */
 	style?: SxProps;
+	/**
+	 * 버튼 앞쪽 아이콘
+	 */
 	startIcon?: any;
+	/**
+	 * 버튼 뒷쪽 아이콘
+	 */
 	endIcon?: any;
 }
 

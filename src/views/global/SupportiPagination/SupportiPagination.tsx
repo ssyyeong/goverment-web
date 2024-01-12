@@ -12,12 +12,33 @@ import {
 import calculateTotalPages from '../../../hooks/usePagination/useCalculate';
 
 interface ISupportiPaginationProps {
+	/**
+	 * 총 데이터 개수
+	 */
 	count: number;
+	/**
+	 * 현재 페이지
+	 */
 	page: number;
+	/**
+	 * 페이지 변경 핸들러
+	 */
 	handlePageChange: (value: number) => void;
+	/**
+	 * 페이지당 데이터 개수
+	 */
 	limit: number;
+	/**
+	 * 페이지당 데이터 개수 변경 핸들러
+	 */
 	setLimit: React.Dispatch<React.SetStateAction<number>>;
+	/**
+	 * 우측 추가 버튼
+	 */
 	endAdornment?: React.ReactNode;
+	/**
+	 * limit 셀렉터 사용 여부
+	 */
 	useLimit?: boolean;
 }
 

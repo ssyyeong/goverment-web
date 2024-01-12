@@ -3,19 +3,48 @@ import React, { useState } from 'react';
 import { Box, BoxProps } from '@mui/material';
 
 interface ISupportiChipProps {
+	/**
+	 * 칩 라벨
+	 */
 	label: string;
+	/**
+	 * 칩 값
+	 */
 	value: string | number | boolean;
 }
 
 interface ISupportiToggleProps {
+	/**
+	 * 칩 데이터 리스트
+	 */
 	chipDataList: ISupportiChipProps[];
+	/**
+	 * 칩 값 변경 핸들러
+	 */
 	setValue: React.Dispatch<React.SetStateAction<string | number | boolean>>;
+	/**
+	 * 칩 값
+	 */
 	value: string | number | boolean;
+	/**
+	 * 칩 높이
+	 */
 	chipHeight?: number | string;
+	/**
+	 * 각짐 여부
+	 */
 	angled?: boolean;
-	isToggled?: boolean;
+	/**
+	 * 패딩 여부
+	 */
 	disablePadding?: boolean;
+	/**
+	 * 선택된 칩 색상
+	 */
 	selectedChipColor?: string;
+	/**
+	 * 선택되지 않은 칩 색상
+	 */
 	unselectedChipColor?: string;
 	style?: {
 		outerBoxStyle?: BoxProps;
@@ -26,6 +55,7 @@ interface ISupportiToggleProps {
 
 const SupportiToggle = (props: ISupportiToggleProps) => {
 	//* State
+	// 선택된 칩 인덱스
 	const [selectedChipIndex, setSelectedChipIndex] = useState<number>(
 		props.chipDataList.findIndex((data) => props.value === data.value)
 	);

@@ -18,7 +18,6 @@ import { AppMemberController } from '../../../src/controller/AppMemberController
 
 const Page: NextPage = () => {
 	//* Modules
-	const alimTalkController = new AlimTalkController();
 	const appMemberController = new AppMemberController();
 	const router = useRouter();
 	//* States
@@ -119,7 +118,7 @@ const Page: NextPage = () => {
 			helperText:
 				isVerified === 'NOT_OK'
 					? '인증번호가 일치하지 않습니다.'
-					: '인증되었습니다.',
+					: isVerified === 'OK' && '인증되었습니다.',
 			value: verifyNumber,
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
