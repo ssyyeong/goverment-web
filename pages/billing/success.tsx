@@ -70,35 +70,35 @@ const Page: NextPage = () => {
 						CUSTOMER_KEY: customerKey,
 					},
 					(res) => {
-						subscriptionProductController.getOneItemByKey(
-							{
-								SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE:
-									customerKey
-										.toString()
-										.split('RatePlanId')[1],
-							},
-							(res) => {
-								// result의 타입이 BLACK이면 추가 생성
-								if (res.data.result.TYPE === 'BLACK') {
-									subscriptionAccessibilityController.createItem(
-										{
-											APP_MEMBER_IDENTIFICATION_CODE:
-												memberId,
-											TYPE: 'BLACK',
-										},
-										(res) => {
-											console.log(res);
-										},
-										(err) => {
-											console.log(err);
-										}
-									);
-								}
-							},
-							(err) => {
-								console.log(err);
-							}
-						);
+						// subscriptionProductController.getOneItemByKey(
+						// 	{
+						// 		SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE:
+						// 			customerKey
+						// 				.toString()
+						// 				.split('RatePlanId')[1],
+						// 	},
+						// 	(res) => {
+						// 		// result의 타입이 BLACK이면 추가 생성
+						// 		if (res.data.result.TYPE === 'BLACK') {
+						// 			subscriptionAccessibilityController.createItem(
+						// 				{
+						// 					APP_MEMBER_IDENTIFICATION_CODE:
+						// 						memberId,
+						// 					TYPE: 'BLACK',
+						// 				},
+						// 				(res) => {
+						// 					console.log(res);
+						// 				},
+						// 				(err) => {
+						// 					console.log(err);
+						// 				}
+						// 			);
+						// 		}
+						// 	},
+						// 	(err) => {
+						// 		console.log(err);
+						// 	}
+						// );
 						console.log(res);
 						setLoading(false);
 						router.push('/');

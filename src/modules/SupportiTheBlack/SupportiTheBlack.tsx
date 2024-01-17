@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/system';
 import SuppportiModal from '../../views/global/SuppportiModal';
 import { Button, TextField, Typography } from '@mui/material';
@@ -24,11 +24,6 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 
 	//* States
 	/**
-	 * 추천인 확인 모달 오픈 여부
-	 */
-	const [open, setOpen] = React.useState<boolean>(false);
-
-	/**
 	 * 추천인 데이터
 	 */
 	const [recommenderData, setRecommenderData] = React.useState({
@@ -43,7 +38,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 
 	//* Functions
 	/**
-	 * 신청 권한 유무 판단 함수
+	 * 신청 권한에 대한 유무 판단 함수
 	 */
 	const checkPermission = () => {
 		let result = undefined;
@@ -143,21 +138,27 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	 * 추천인 확인 모달
 	 */
 	const SupportiBlackPayModal = (props: ISupportiBlackPayModalProps) => {
-		console.log(props);
 		return (
 			<SuppportiModal
 				open={props.open}
 				handleClose={() => {
 					props.handleClose();
+					setRecommenderData({
+						PHONE_NUMBER: '',
+					});
+					setIsVerified('NOT_YET');
 				}}
 				activeHeader={false}
 				title="추천인 확인"
 				muiModalProps={{
 					width: { sm: '40%', xs: '100%' },
+					minHeight: { sm: '30%', xs: '100%' },
 				}}
 				style={{
 					minWidth: '40%',
 					width: { sm: '40%', xs: '100%' },
+					minHeight: { sm: '30%', xs: '100%' },
+					paddingTop: '30px',
 				}}
 			>
 				<Box mb={3} width={'100%'} mt={3}>
@@ -197,8 +198,10 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 					})}
 
 					{isVerified === 'OK' && (
-						<Box>
-							<Typography ml={'auto'} mr='auto'>신청 가이드</Typography>
+						<Box p={4}>
+							<Typography ml={'auto'} mr="auto">
+								신청 가이드
+							</Typography>
 							<Box>
 								<Typography>1. 구글 폼 링크 이동</Typography>
 								<Typography>링크 :</Typography>

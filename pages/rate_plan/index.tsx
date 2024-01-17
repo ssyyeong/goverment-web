@@ -145,7 +145,12 @@ const Page: NextPage = () => {
 								borderTop={'0.5px solid lightgrey'}
 								width={'100%'}
 								py={3}
-								minHeight={300}
+								sx={{
+									maxHeight: 300,
+									overflowY: 'auto',
+									'-ms-overflow-style': 'none',
+									'&::-webkit-scrollbar': { display: 'none' },
+								}}
 							>
 								<Box
 									display={'flex'}
