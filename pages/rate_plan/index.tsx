@@ -16,7 +16,7 @@ const Page: NextPage = () => {
 	const { memberId } = useAppMember();
 
 	/**
-	 * 서포티 블랙 신청 권한 판단
+	 * 서포티 블랙 모듈
 	 */
 	const supportiTheBlack = SupportiTheBlack({ memberId });
 
@@ -26,6 +26,9 @@ const Page: NextPage = () => {
 	const [payModalData, setPayModalData] = React.useState<any>({});
 	const [recommenderModal, setRecommenderModal] =
 		React.useState<boolean>(false);
+	const [permission, setPermission] = React.useState<boolean | undefined>(
+		undefined
+	);
 
 	/**
 	 * 알럿 모달
@@ -54,6 +57,9 @@ const Page: NextPage = () => {
 			},
 			(err) => {}
 		);
+
+	supportiTheBlack.checkPermission(setPermission);
+		console.log(permission);
 	}, []);
 
 	return (
@@ -198,7 +204,8 @@ const Page: NextPage = () => {
 							)}
 
 							{ratePlan.TYPE === 'BLACK' &&
-								supportiTheBlack.checkPermission() && (
+								permission !== undefined &&
+								permission && (
 									<SupportiButton
 										variant="contained"
 										fullWidth
@@ -217,7 +224,8 @@ const Page: NextPage = () => {
 								)}
 
 							{ratePlan.TYPE === 'BLACK' &&
-								!supportiTheBlack.checkPermission() && (
+								permission !== undefined &&
+								!permission && (
 									<SupportiButton
 										variant="contained"
 										fullWidth

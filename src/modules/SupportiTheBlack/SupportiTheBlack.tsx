@@ -40,8 +40,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	/**
 	 * 신청 권한에 대한 유무 판단 함수
 	 */
-	const checkPermission = () => {
-		let result = undefined;
+	const checkPermission = (setPermission) => {
 		subscriptionAccessibilityController.getOneItemByKey(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
@@ -54,20 +53,18 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 							.SUBSCRIPTION_ACCESSIBILITY_IDENTIFICATION_CODE !==
 						undefined
 					) {
-						result = true;
+						setPermission(true);
 					} else {
-						result = false;
+						setPermission(false);
 					}
 				} else {
-					result = false;
+					setPermission(false);
 				}
 			},
 			(err) => {
-				result = false;
+				setPermission(false);
 			}
 		);
-
-		return result;
 	};
 
 	/**
