@@ -252,4 +252,18 @@ export class AppMemberController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	//* 추천인 확인
+	public checkSpecialSubscription(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.getData(
+			args,
+			`${this.mergedPath}/check_special_subscription`,
+			successCallback,
+			failCallback
+		);
+	}
 }

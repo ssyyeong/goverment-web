@@ -9,11 +9,19 @@ import axios from 'axios';
 import { PaymentInfoController } from '../../src/controller/PaymentInfoController';
 import { LoadingButton } from '@mui/lab';
 import { useAppMember } from '../../src/hooks/useAppMember';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	const paymentInfoController = new PaymentInfoController();
+	const subscriptionProductController = new DefaultController(
+		'SubscriptionProduct'
+	);
+	const subscriptionAccessibilityController = new DefaultController(
+		'SubscriptionAccessibility'
+	);
+
 	//* Constants
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_LIVE_SECRET_KEY_BILLING;
 	const client = btoa(clientKey);
@@ -46,7 +54,7 @@ const Page: NextPage = () => {
 			.then(async (response) => {
 				//카드 정보 등록 완료 후 빌링키 받아오기
 				const billingKey = response.data.billingKey;
-				console.log(billingKey);
+				console.log(customerKey);
 
 				/**
 				 * 빌링키 등록
@@ -62,13 +70,40 @@ const Page: NextPage = () => {
 						CUSTOMER_KEY: customerKey,
 					},
 					(res) => {
+						subscriptionProductController.getOneItemByKey(
+							{
+								SUBSCRIPTION_PRODUCT_IDENTIFICATION_CODE:
+									customerKey
+										.toString()
+										.split('RatePlanId')[1],
+							},
+							(res) => {
+								// result의 타입이 BLACK이면 추가 생성
+								if (res.data.result.TYPE === 'BLACK') {
+									subscriptionAccessibilityController.createItem(
+										{
+											APP_MEMBER_IDENTIFICATION_CODE:
+												memberId,
+											TYPE: 'BLACK',
+										},
+										(res) => {
+											console.log(res);
+										},
+										(err) => {
+											console.log(err);
+										}
+									);
+								}
+							},
+							(err) => {
+								console.log(err);
+							}
+						);
 						console.log(res);
 						setLoading(false);
 						router.push('/');
 					},
 					(err) => {
-						console.log(err);
-						console.log(err.response.data.message);
 						alert(`${err.response.data.message}`);
 						router.push('/rate_plan');
 					}

@@ -7,14 +7,25 @@ import SupportiButton from '../../src/views/global/SupportiButton';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
 import { useUserAccess } from '../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
+import SupportiTheBlack from '../../src/modules/SupportiTheBlack/SupportiTheBlack';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const ratePlanController = new DefaultController('SubscriptionProduct');
+	const { memberId } = useAppMember();
+
+	/**
+	 * 서포티 블랙 신청 권한 판단
+	 */
+	const supportiTheBlack = SupportiTheBlack({ memberId });
+
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
 	const [payModal, setPayModal] = React.useState<boolean>(false);
 	const [payModalData, setPayModalData] = React.useState<any>({});
+	const [recommenderModal, setRecommenderModal] =
+		React.useState<boolean>(false);
 
 	/**
 	 * 알럿 모달
@@ -35,7 +46,6 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		ratePlanController.findAllItems(
 			{
-				TYPE: 'PRODUCT',
 				SORT_KEY: 'ORDER',
 				SORT_DIRECTION: 'ASC',
 			},
@@ -163,21 +173,61 @@ const Page: NextPage = () => {
 									</Typography>
 								</Box>
 							</Box>
-							<SupportiButton
-								variant="contained"
-								fullWidth
-								isGradient={true}
-								contents={'지금 사용하기'}
-								onClick={() => {
-									if (!access) {
-										setAlertModalType('login');
-										setAlertModal(true);
-										return;
-									}
-									setPayModalData(ratePlan);
-									setPayModal(true);
-								}}
-							/>
+
+							{ratePlan.TYPE !== 'BLACK' && (
+								<SupportiButton
+									variant="contained"
+									fullWidth
+									isGradient={true}
+									contents={'지금 사용하기'}
+									onClick={() => {
+										if (!access) {
+											setAlertModalType('login');
+											setAlertModal(true);
+											return;
+										}
+										setPayModalData(ratePlan);
+										setPayModal(true);
+									}}
+								/>
+							)}
+
+							{ratePlan.TYPE === 'BLACK' &&
+								supportiTheBlack.checkPermission() && (
+									<SupportiButton
+										variant="contained"
+										fullWidth
+										isGradient={true}
+										contents={'지금 사용하기'}
+										onClick={() => {
+											if (!access) {
+												setAlertModalType('login');
+												setAlertModal(true);
+												return;
+											}
+											setPayModalData(ratePlan);
+											setPayModal(true);
+										}}
+									/>
+								)}
+
+							{ratePlan.TYPE === 'BLACK' &&
+								!supportiTheBlack.checkPermission() && (
+									<SupportiButton
+										variant="contained"
+										fullWidth
+										isGradient={true}
+										contents={'사용 신청하기'}
+										onClick={() => {
+											if (!access) {
+												setAlertModalType('login');
+												setAlertModal(true);
+												return;
+											}
+											setRecommenderModal(true);
+										}}
+									/>
+								)}
 						</Box>
 					);
 				})}
@@ -194,6 +244,12 @@ const Page: NextPage = () => {
 				open={alertModal}
 				handleClose={() => setAlertModal(false)}
 			/>
+			{supportiTheBlack.SupportiBlackPayModal({
+				open: recommenderModal,
+				handleClose: () => {
+					setRecommenderModal(false);
+				},
+			})}
 		</Box>
 	);
 };

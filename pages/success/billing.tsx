@@ -46,7 +46,7 @@ const Page: NextPage = () => {
 			.then(async (response) => {
 				//카드 정보 등록 완료 후 빌링키 받아오기
 				const billingKey = response.data.billingKey;
-				console.log(billingKey);
+
 				/**
 				 * 빌링키 등록
 				 */
@@ -57,7 +57,7 @@ const Page: NextPage = () => {
 						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					},
 					(res) => {
-						// console.log(res);
+						console.log(customerKey);
 						/**
 						 * 성공시 구독 등록
 						 */
