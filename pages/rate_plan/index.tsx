@@ -53,6 +53,7 @@ const Page: NextPage = () => {
 			{
 				SORT_KEY: 'ORDER',
 				SORT_DIRECTION: 'ASC',
+				ACTIVATED_YN: 'Y',
 			},
 			(res) => {
 				setRatePlanList(res.data.result.rows);
@@ -277,15 +278,17 @@ const Page: NextPage = () => {
 							</Box>
 
 							{/** 버튼 영역 */}
-							{ratePlan.TYPE === 'PRODUCT' && (
+							{ratePlan.TYPE !== 'WELCOME_EVENT' && (
 								<SupportiButton
 									variant="contained"
 									style={{
 										width: '90%',
 										marginTop: 'auto',
 										marginBottom: '16px',
+										backgroundImage:
+										ratePlan.TYPE === "PRODUCT" ? 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)':	'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
 									}}
-									isGradient={true}
+									isGradient={ratePlan.TYPE === "PRODUCT" ? true : false}
 									contents={'지금 결제하기'}
 									onClick={() => {
 										if (!access) {
@@ -309,7 +312,7 @@ const Page: NextPage = () => {
 											marginTop: 'auto',
 											marginBottom: '16px',
 											backgroundImage:
-											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+												'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
 										}}
 										contents={'지금 결제하기'}
 										onClick={() => {
