@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
@@ -30,6 +30,8 @@ const Page: NextPage = () => {
 		undefined
 	);
 
+	supportiTheBlack.checkPermission(setPermission);
+
 	/**
 	 * 알럿 모달
 	 */
@@ -57,10 +59,9 @@ const Page: NextPage = () => {
 			},
 			(err) => {}
 		);
-
-	supportiTheBlack.checkPermission(setPermission);
-		console.log(permission);
 	}, []);
+
+	// console.log(memberId, 'permission is : ', permission);
 
 	return (
 		<Box
@@ -75,22 +76,13 @@ const Page: NextPage = () => {
 			}}
 		>
 			<Typography
-				variant="h4"
-				fontWeight={'bold'}
-				sx={{
-					mb: 1,
-				}}
-			>
-				비즈니스에 적합한
-			</Typography>
-			<Typography
-				variant="h4"
+				variant="h2"
 				fontWeight={'bold'}
 				sx={{
 					mb: 6,
 				}}
 			>
-				요금제를 알아보세요!
+				요금제
 			</Typography>
 			<Box
 				display={'flex'}
@@ -107,90 +99,194 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'column',
-								justifyContent: 'center',
 								alignItems: 'center',
 								width: '100%',
-								borderTop: '4px #B9C5FF solid',
 								boxShadow:
 									'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
-								borderRadius: '10px',
-								padding: 4,
+								borderRadius: '20px',
 								marginTop: '20px',
-								maxWidth: '270px',
-								height: 600,
+								maxWidth: '300px',
+								minHeight: 600,
 								bgcolor: 'white',
 							}}
 						>
-							<Typography
-								variant="h3"
-								fontWeight={'bold'}
-								color={'primary'}
-								sx={{ mb: 2, wordBreak: 'break-all' }}
-							>
-								{ratePlan.NAME}
-							</Typography>
-							<Typography variant="h6" color={'secondary.main'}>
-								{ratePlan.DESCRIPTION}
-							</Typography>
-							<Typography
-								variant="h6"
-								color={'secondary.dark'}
-								sx={{ textDecoration: 'line-through', mt: 4 }}
-							>
-								{ratePlan.PRICE.toLocaleString()}원
-							</Typography>
-							<Typography
-								variant="h3"
-								fontWeight={'bold'}
-								color={'primary'}
-								sx={{ mb: 4, mt: 1 }}
-							>
-								월 {ratePlan.DISCOUNT_PRICE.toLocaleString()}원
-							</Typography>
 							<Box
-								borderTop={'0.5px solid lightgrey'}
-								width={'100%'}
-								py={3}
 								sx={{
-									maxHeight: 300,
-									overflowY: 'auto',
-									'-ms-overflow-style': 'none',
-									'&::-webkit-scrollbar': { display: 'none' },
+									borderTopLeftRadius: '20px',
+									borderTopRightRadius: '20px',
+									padding: 4,
+									maxWidth: '300px',
+									bgcolor:
+										ratePlan.TYPE === 'BLACK'
+											? 'secondary.dark'
+											: ratePlan.TYPE === 'PRODUCT'
+											? 'primary.main'
+											: 'common.white',
+									width: '100%',
+									textAlign: 'center',
+									mb: 2,
 								}}
 							>
-								<Box
-									display={'flex'}
-									alignItems={'initial'}
-									gap={2}
-									mb={2}
+								{/** 구독권 이름 */}
+								<Typography
+									variant="h5"
+									fontWeight={500}
+									color={
+										ratePlan.TYPE === 'BLACK'
+											? 'white'
+											: ratePlan.TYPE === 'PRODUCT'
+											? 'white'
+											: 'primary'
+									}
+									sx={{ mb: 2, wordBreak: 'break-all' }}
 								>
-									<CheckIcon color="primary" />
-									<Typography variant="subtitle2">
-										{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
-										포인트 지급
-									</Typography>
-								</Box>
-								<Box
-									display={'flex'}
-									alignItems={'initial'}
-									gap={2}
+									{ratePlan.NAME}
+								</Typography>
+
+								{/** 금액 */}
+								<Typography
+									variant="h6"
+									color={
+										ratePlan.TYPE === 'BLACK'
+											? 'white'
+											: ratePlan.TYPE === 'PRODUCT'
+											? 'white'
+											: 'primary'
+									}
+									sx={{
+										textDecoration: 'line-through',
+										mt: 4,
+									}}
 								>
-									<CheckIcon color="primary" />
+									{ratePlan.PRICE.toLocaleString()}
+								</Typography>
+
+								{/** 할인 적용된 금액 */}
+								{
 									<Typography
-										variant="subtitle2"
-										// sx={{ wordBreak: 'break-all' }}
+										variant="h2"
+										fontWeight={'bold'}
+										color={
+											ratePlan.TYPE === 'BLACK'
+												? 'white'
+												: ratePlan.TYPE === 'PRODUCT'
+												? 'white'
+												: 'primary'
+										}
+										sx={{ mt: 1 }}
 									>
-										{ratePlan.DETAIL}
+										{ratePlan.DISCOUNT_PRICE.toLocaleString()}
+										원
 									</Typography>
-								</Box>
+								}
 							</Box>
 
-							{ratePlan.TYPE !== 'BLACK' && (
+							<Box
+								sx={{
+									padding: 2,
+									maxWidth: '300px',
+									width: '100%',
+								}}
+							>
+								{/** 추가 설명 */}
+
+								<Box display="flex" mb={1.5}>
+									<Typography mr={0.5}>
+										세미나 컨설팅 이용가능 포인트
+									</Typography>
+									<Typography
+										color="primary"
+										sx={{ textDecoration: 'underline' }}
+									>
+										{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
+									</Typography>
+									<Typography>제공</Typography>
+								</Box>
+
+								{/** 구독권 상세 내용 */}
+
+								{ratePlan.SubscriptionProductContents.map(
+									(content, id) => {
+										return (
+											<Box>
+												<Typography
+													variant="subtitle1"
+													sx={{
+														mb: 2,
+														wordBreak: 'break-all',
+													}}
+													fontWeight={600}
+												>
+													{content.TITLE}
+												</Typography>
+												{content.DETAIL.split(',').map(
+													(item, idx) => {
+														return (
+															<Box
+																display="flex"
+																justifyContent={
+																	'space-between'
+																}
+																mb={2}
+															>
+																<Typography
+																	sx={{
+																		wordBreak:
+																			'break-all',
+																	}}
+																	color={
+																		'secondary.dark'
+																	}
+																>
+																	{idx +
+																		1 +
+																		') '}
+																	{item}
+																</Typography>
+																<img
+																	src={
+																		'/images/icons/ratePlanChecked.svg'
+																	}
+																	alt={
+																		'check'
+																	}
+																	style={{
+																		width: '16px',
+																		height: '16px',
+																	}}
+																/>
+															</Box>
+														);
+													}
+												)}
+
+												{/** 구분선 */}
+												<Box
+													sx={{
+														width: '270px',
+														height: '1px',
+														backgroundColor:
+															'secondary.light',
+														mb: 2,
+													}}
+												/>
+											</Box>
+										);
+									}
+								)}
+							</Box>
+
+							{/** 버튼 영역 */}
+							{ratePlan.TYPE === 'PRODUCT' && (
 								<SupportiButton
 									variant="contained"
-									fullWidth
+									style={{
+										width: '90%',
+										marginTop: 'auto',
+										marginBottom: '16px',
+									}}
 									isGradient={true}
-									contents={'지금 사용하기'}
+									contents={'지금 결제하기'}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
@@ -208,9 +304,14 @@ const Page: NextPage = () => {
 								permission && (
 									<SupportiButton
 										variant="contained"
-										fullWidth
-										isGradient={true}
-										contents={'지금 사용하기'}
+										style={{
+											width: '90%',
+											marginTop: 'auto',
+											marginBottom: '16px',
+											backgroundImage:
+											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+										}}
+										contents={'지금 결제하기'}
 										onClick={() => {
 											if (!access) {
 												setAlertModalType('login');
@@ -228,8 +329,13 @@ const Page: NextPage = () => {
 								!permission && (
 									<SupportiButton
 										variant="contained"
-										fullWidth
-										isGradient={true}
+										style={{
+											width: '90%',
+											marginTop: 'auto',
+											marginBottom: '16px',
+											backgroundImage:
+												'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+										}}
 										contents={'사용 신청하기'}
 										onClick={() => {
 											if (!access) {

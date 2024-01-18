@@ -41,30 +41,22 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	 * 신청 권한에 대한 유무 판단 함수
 	 */
 	const checkPermission = (setPermission) => {
-		subscriptionAccessibilityController.getOneItemByKey(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
-				// SUBSCRIPTION_ACCESSIBILITY_IDENTIFICATION_CODE: 'N',
-			},
-			(res) => {
-				if (res.data.result !== null) {
-					if (
-						res.data.result
-							.SUBSCRIPTION_ACCESSIBILITY_IDENTIFICATION_CODE !==
-						undefined
-					) {
+		props.memberId &&
+			subscriptionAccessibilityController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+				},
+				(res) => {
+					if (res.data.result !== null) {
 						setPermission(true);
 					} else {
 						setPermission(false);
 					}
-				} else {
+				},
+				(err) => {
 					setPermission(false);
 				}
-			},
-			(err) => {
-				setPermission(false);
-			}
-		);
+			);
 	};
 
 	/**
