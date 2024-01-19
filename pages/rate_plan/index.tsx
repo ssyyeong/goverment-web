@@ -94,7 +94,7 @@ const Page: NextPage = () => {
 			</Typography>
 			<Box
 				display={'flex'}
-				alignItems={'center'}
+				// alignItems={'center'}
 				gap={4}
 				flexWrap={'wrap'}
 				justifyContent={'center'}
@@ -310,7 +310,7 @@ const Page: NextPage = () => {
 								}}
 							>
 								{/** 추가 설명 */}
-								{ratePlan.TYPE !== 'WELCOME_EVENT' && (
+								{/* {ratePlan.TYPE !== 'WELCOME_EVENT' && (
 									<Box display="flex" mb={1.5}>
 										<Typography mr={0.5}>
 											세미나 컨설팅 이용가능 포인트
@@ -323,7 +323,7 @@ const Page: NextPage = () => {
 										</Typography>
 										<Typography>제공</Typography>
 									</Box>
-								)}
+								)} */}
 
 								{/** 구독권 상세 내용 */}
 
