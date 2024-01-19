@@ -89,7 +89,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	//** Constants
 	const recommenderDataConfig = [
 		{
-			label: '추천인 핸드폰번호',
+			label: '',
 			type: 'phone',
 			endAdornment: (
 				<Button
@@ -138,26 +138,29 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 					setIsVerified('NOT_YET');
 				}}
 				activeHeader={false}
-				title="추천인 확인"
+				title="추천인 입력"
 				muiModalProps={{
-					width: { sm: '35%', xs: '100%' },
+					width: { sm: '30%', xs: '100%' },
 					minHeight: { sm: '30%', xs: '100%' },
 				}}
 				style={{
-					minWidth: '35%',
-					width: { sm: '35%', xs: '100%' },
+					minWidth: '30%',
+					width: { sm: '30%', xs: '100%' },
 					minHeight: { sm: '30%', xs: '100%' },
-					paddingTop: '30px',
+					paddingTop: '40px',
 				}}
 			>
-				<Box mb={3} width={'100%'} mt={3}>
+				<Box mb={3} width={'90%'} mt={1} textAlign="center">
+					<Typography color="secondary.dark">
+						위 요금제는 추천제로만 신청이 가능합니다.
+					</Typography>
 					{recommenderDataConfig.map((item, idx) => {
 						return (
 							<Box
 								key={idx}
 								alignItems={'center'}
 								width={'100%'}
-								mt={2}
+								mt={3}
 							>
 								<Typography>{item.label}</Typography>
 								<TextField
@@ -180,40 +183,93 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 									sx={{
 										mt: 1,
 									}}
-									placeholder={`${item.label} 입력`}
+									placeholder={`추천인 휴대폰 번호를 입력해 주세요.`}
 								/>
 							</Box>
 						);
 					})}
 
+					{/** 구분선 */}
 					{isVerified === 'OK' && (
-						<Box p={4}>
-							<Typography ml={'auto'} mr="auto">
+						<Box
+							sx={{
+								width: '100%',
+								height: '1px',
+								backgroundColor: 'secondary.light',
+								mb: 4,
+								mt: 4,
+							}}
+						/>
+					)}
+
+					{isVerified === 'OK' && (
+						<Box
+							p={'20px'}
+							mt={1}
+							bgcolor={'secondary.light'}
+							borderRadius="4px"
+							display="flex"
+							flexDirection={'column'}
+							gap={3}
+						>
+							<Typography
+								variant={'subtitle1'}
+								fontWeight={'600'}
+							>
 								신청 가이드
 							</Typography>
-							<Box>
-								<Typography>1. 구글 폼 링크 이동</Typography>
-								<Typography>
-									링크 : https://forms.gle/rmNRiRapHnmQYk1KA
+							<Box
+								textAlign={'left'}
+								display="flex"
+								flexDirection={'column'}
+								gap={1}
+							>
+								<Typography
+									color="primary.main"
+									fontWeight={'500'}
+								>
+									1. 구글 폼 링크 이동
+								</Typography>
+								<Typography fontWeight={'500'}>
+									[링크] https://forms.gle/rmNRiRapHnmQYk1KA
 								</Typography>
 							</Box>
-							<Box>
-								<Typography>
+							<Box
+								textAlign={'left'}
+								display="flex"
+								flexDirection={'column'}
+								gap={1}
+							>
+								<Typography
+									color="primary.main"
+									fontWeight={'500'}
+								>
 									2. 구글 폼 내에서 비밀번호 입력 후 폼 내용
 									입력
 								</Typography>
-								<Typography>비밀번호 : black2024</Typography>
+								<Typography fontWeight={'500'}>
+									비밀번호 : black2024
+								</Typography>
+								<Typography color="secondary.dark">
+									※ 비밀번호를 입력하셔야 폼 입력이
+									가능합니다.
+								</Typography>
 							</Box>
 						</Box>
 					)}
 				</Box>
 				{isVerified === 'OK' && (
 					<SupportiButton
-						contents={'다음'}
+						contents={'링크 이동'}
 						isGradient={true}
 						fullWidth={true}
 						onClick={() => {
 							// 구글 폼 새 창으로 띄우고 모달 닫기
+							window.open(
+								'https://forms.gle/rmNRiRapHnmQYk1KA',
+								'_blank'
+							);
+							props.handleClose();
 						}}
 						style={{ color: 'white' }}
 					/>
