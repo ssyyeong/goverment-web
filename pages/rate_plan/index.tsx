@@ -278,7 +278,7 @@ const Page: NextPage = () => {
 							</Box>
 
 							{/** 버튼 영역 */}
-							{ratePlan.TYPE !== 'WELCOME_EVENT' && (
+							{ratePlan.TYPE === 'PRODUCT' && (
 								<SupportiButton
 									variant="contained"
 									style={{
@@ -286,9 +286,15 @@ const Page: NextPage = () => {
 										marginTop: 'auto',
 										marginBottom: '16px',
 										backgroundImage:
-										ratePlan.TYPE === "PRODUCT" ? 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)':	'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+											ratePlan.TYPE === 'PRODUCT'
+												? 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)'
+												: 'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
 									}}
-									isGradient={ratePlan.TYPE === "PRODUCT" ? true : false}
+									isGradient={
+										ratePlan.TYPE === 'PRODUCT'
+											? true
+											: false
+									}
 									contents={'지금 결제하기'}
 									onClick={() => {
 										if (!access) {

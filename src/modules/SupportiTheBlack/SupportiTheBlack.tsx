@@ -140,12 +140,12 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 				activeHeader={false}
 				title="추천인 확인"
 				muiModalProps={{
-					width: { sm: '40%', xs: '100%' },
+					width: { sm: '35%', xs: '100%' },
 					minHeight: { sm: '30%', xs: '100%' },
 				}}
 				style={{
-					minWidth: '40%',
-					width: { sm: '40%', xs: '100%' },
+					minWidth: '35%',
+					width: { sm: '35%', xs: '100%' },
 					minHeight: { sm: '30%', xs: '100%' },
 					paddingTop: '30px',
 				}}
@@ -193,14 +193,16 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 							</Typography>
 							<Box>
 								<Typography>1. 구글 폼 링크 이동</Typography>
-								<Typography>링크 :</Typography>
+								<Typography>
+									링크 : https://forms.gle/rmNRiRapHnmQYk1KA
+								</Typography>
 							</Box>
 							<Box>
 								<Typography>
 									2. 구글 폼 내에서 비밀번호 입력 후 폼 내용
 									입력
 								</Typography>
-								<Typography>비밀번호 :</Typography>
+								<Typography>비밀번호 : black2024</Typography>
 							</Box>
 						</Box>
 					)}
