@@ -107,7 +107,7 @@ const Page: NextPage = () => {
 								borderRadius: '20px',
 								marginTop: '20px',
 								maxWidth: '300px',
-								minHeight: 600,
+								minHeight: 625,
 								bgcolor: 'white',
 							}}
 						>
@@ -145,23 +145,24 @@ const Page: NextPage = () => {
 								</Typography>
 
 								{/** 금액 */}
-								<Typography
-									variant="h6"
-									color={
-										ratePlan.TYPE === 'BLACK'
-											? 'white'
-											: ratePlan.TYPE === 'PRODUCT'
-											? 'white'
-											: 'primary'
-									}
-									sx={{
-										textDecoration: 'line-through',
-										mt: 4,
-									}}
-								>
-									{ratePlan.PRICE.toLocaleString()}
-								</Typography>
-
+								{ratePlan.TYPE !== 'WELCOME_EVENT' && (
+									<Typography
+										variant="h6"
+										color={
+											ratePlan.TYPE === 'BLACK'
+												? 'white'
+												: ratePlan.TYPE === 'PRODUCT'
+												? 'white'
+												: 'primary'
+										}
+										sx={{
+											textDecoration: 'line-through',
+											mt: 4,
+										}}
+									>
+										{ratePlan.PRICE.toLocaleString()}
+									</Typography>
+								)}
 								{/** 할인 적용된 금액 */}
 								{
 									<Typography
@@ -190,19 +191,20 @@ const Page: NextPage = () => {
 								}}
 							>
 								{/** 추가 설명 */}
-
-								<Box display="flex" mb={1.5}>
-									<Typography mr={0.5}>
-										세미나 컨설팅 이용가능 포인트
-									</Typography>
-									<Typography
-										color="primary"
-										sx={{ textDecoration: 'underline' }}
-									>
-										{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
-									</Typography>
-									<Typography>제공</Typography>
-								</Box>
+								{ratePlan.TYPE !== 'WELCOME_EVENT' && (
+									<Box display="flex" mb={1.5}>
+										<Typography mr={0.5}>
+											세미나 컨설팅 이용가능 포인트
+										</Typography>
+										<Typography
+											color="primary"
+											sx={{ textDecoration: 'underline' }}
+										>
+											{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
+										</Typography>
+										<Typography>제공</Typography>
+									</Box>
+								)}
 
 								{/** 구독권 상세 내용 */}
 
