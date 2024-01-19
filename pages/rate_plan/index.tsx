@@ -24,8 +24,7 @@ const Page: NextPage = () => {
 	/**
 	 * 무료 구독권 상세 내용
 	 */
-	const contentsDetail =
-		'계좌 서비스, 성과 지표 관리 서비스, 무료 세미나 신청 가능, 뉴스레터 이용';
+	const contentsDetail = '계좌 서비스, 성과 지표 관리 서비스, 뉴스레터 이용';
 
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
