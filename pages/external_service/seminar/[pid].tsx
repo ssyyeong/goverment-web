@@ -91,14 +91,14 @@ const Page: NextPage = () => {
 						},
 						(err) => {
 							console.log(err.response);
-							if (
-								err.response.data.message ===
-								'구독 회원만 이용 가능합니다.'
-							) {
-								setAlertModal(true);
-								setAlertModalType('subscribe');
-								return;
-							}
+							// if (
+							// 	err.response.data.message ===
+							// 	'구독 회원만 이용 가능합니다.'
+							// ) {
+							// 	setAlertModal(true);
+							// 	setAlertModalType('subscribe');
+							// 	return;
+							// }
 							if (
 								err.response.data.message ===
 								'신청 내역이 존재합니다.'

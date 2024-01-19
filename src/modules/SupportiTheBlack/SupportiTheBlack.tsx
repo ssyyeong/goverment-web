@@ -115,9 +115,9 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 			error: isVerified === 'NOT_OK',
 			helperText:
 				isVerified === 'NOT_OK'
-					? '유효하지 않은 추천인 입니다.'
+					? '* 유효하지 않은 추천인 입니다.'
 					: isVerified === 'OK'
-					? '인증되었습니다.'
+					? '* 인증되었습니다.'
 					: '',
 		},
 	];
@@ -150,7 +150,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 					paddingTop: '40px',
 				}}
 			>
-				<Box mb={3} width={'90%'} mt={1} textAlign="center">
+				<Box mb={3} width={'90%'} textAlign="center">
 					<Typography color="secondary.dark">
 						위 요금제는 추천제로만 신청이 가능합니다.
 					</Typography>

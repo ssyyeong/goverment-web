@@ -15,10 +15,17 @@ const Page: NextPage = () => {
 	const ratePlanController = new DefaultController('SubscriptionProduct');
 	const { memberId } = useAppMember();
 
+	//* Constants
 	/**
 	 * 서포티 블랙 모듈
 	 */
 	const supportiTheBlack = SupportiTheBlack({ memberId });
+
+	/**
+	 * 무료 구독권 상세 내용
+	 */
+	const contentsDetail =
+		'계좌 서비스, 성과 지표 관리 서비스, 무료 세미나 신청 가능, 뉴스레터 이용';
 
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
@@ -93,6 +100,118 @@ const Page: NextPage = () => {
 				justifyContent={'center'}
 				width={'100%'}
 			>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						width: '100%',
+						boxShadow:
+							'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
+						borderRadius: '20px',
+						marginTop: '20px',
+						maxWidth: '300px',
+						minHeight: 696,
+						bgcolor: 'white',
+					}}
+				>
+					<Box
+						sx={{
+							borderTopLeftRadius: '20px',
+							borderTopRightRadius: '20px',
+							padding: 4,
+							maxWidth: '300px',
+							bgcolor: 'common.white',
+							width: '100%',
+							textAlign: 'center',
+							mb: 2,
+						}}
+					>
+						{/** 구독권 이름 */}
+						<Typography
+							variant="h5"
+							fontWeight={500}
+							color={'primary'}
+							sx={{ mb: 2, wordBreak: 'break-all' }}
+						>
+							Free
+						</Typography>
+
+						{/** 금액 */}
+						{
+							<Typography
+								variant="h2"
+								fontWeight={'bold'}
+								color={'primary'}
+								sx={{ mt: 1 }}
+							>
+								0 원
+							</Typography>
+						}
+					</Box>
+
+					<Box
+						sx={{
+							padding: 2,
+							maxWidth: '300px',
+							width: '100%',
+						}}
+					>
+						{/** 구독권 상세 내용 */}
+
+						<Box>
+							<Typography
+								variant="subtitle1"
+								sx={{
+									mb: 2,
+									wordBreak: 'break-all',
+								}}
+								fontWeight={600}
+							>
+								서포티 웹 자체 기능 제공
+							</Typography>
+							{contentsDetail.split(',').map((item, idx) => {
+								return (
+									<Box
+										display="flex"
+										justifyContent={'space-between'}
+										mb={2}
+									>
+										<Typography
+											sx={{
+												wordBreak: 'break-all',
+											}}
+											color={'secondary.dark'}
+										>
+											{idx + 1 + ') '}
+											{item}
+										</Typography>
+										<img
+											src={
+												'/images/icons/ratePlanChecked.svg'
+											}
+											alt={'check'}
+											style={{
+												width: '16px',
+												height: '16px',
+											}}
+										/>
+									</Box>
+								);
+							})}
+
+							{/** 구분선 */}
+							<Box
+								sx={{
+									width: '270px',
+									height: '1px',
+									backgroundColor: 'secondary.light',
+									mb: 2,
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
 				{ratePlanList.map((ratePlan, id) => {
 					return (
 						<Box
@@ -139,7 +258,7 @@ const Page: NextPage = () => {
 											? 'white'
 											: 'primary'
 									}
-									sx={{ mb: 2, wordBreak: 'break-all' }}
+									sx={{ mb: 1.5, wordBreak: 'break-all' }}
 								>
 									{ratePlan.NAME}
 								</Typography>
