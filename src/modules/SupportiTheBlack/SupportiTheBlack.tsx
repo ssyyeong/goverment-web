@@ -63,25 +63,20 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	 * 추천인 확인
 	 */
 	const recommenderCheck = () => {
-		// isVerified = 'OK' or 'NOT_OK'
 		appMemberController.checkSpecialSubscription(
 			{
 				PHONE_NUMBER: recommenderData.PHONE_NUMBER,
 				TYPE: 'BLACK',
-				// SUBSCRIPTION_ACCESSIBILITY_IDENTIFICATION_CODE: 'N',
 			},
 			(res) => {
 				if (res.data.result !== null) {
 					setIsVerified(res.data.result ? 'OK' : 'NOT_OK');
 				} else {
 					setIsVerified('NOT_OK');
-					// setIsSubscribed(false);
 				}
 			},
 			(err) => {
 				setIsVerified('NOT_OK');
-
-				// setIsSubscribed(false);
 			}
 		);
 	};
@@ -121,6 +116,9 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 					: '',
 		},
 	];
+
+	const GoogleFormLink = 'https://forms.gle/rmNRiRapHnmQYk1KA';
+	const GoogleFormPw = 'black2024';
 
 	/**
 	 *
@@ -230,8 +228,18 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 								>
 									1. 구글 폼 링크 이동
 								</Typography>
-								<Typography fontWeight={'500'}>
-									[링크] https://forms.gle/rmNRiRapHnmQYk1KA
+								<Typography
+									fontWeight={'500'}
+									display={'flex'}
+									gap={1}
+								>
+									[링크]{' '}
+									<Typography
+										fontWeight={'500'}
+										sx={{ textDecoration: 'underline' }}
+									>
+										{GoogleFormLink}
+									</Typography>
 								</Typography>
 							</Box>
 							<Box
@@ -248,7 +256,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 									입력
 								</Typography>
 								<Typography fontWeight={'500'}>
-									비밀번호 : black2024
+									비밀번호 : {GoogleFormPw}
 								</Typography>
 								<Typography color="secondary.dark">
 									※ 비밀번호를 입력하셔야 폼 입력이
