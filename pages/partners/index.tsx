@@ -198,6 +198,7 @@ const Page: NextPage = () => {
 					APP_MEMBER_IDENTIFICATION_CODE:
 						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
 					EXPIRED_YN: 'N',
+					CANCELED_YN: 'N',
 				},
 				(res) => {
 					setSubscriptionInfo(res.data.result);
