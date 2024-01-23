@@ -49,7 +49,6 @@ const SupportiInput = React.forwardRef(
 		//* Modules
 		const imageController = new ImageController();
 		//* States
-		const [selectValue, setSelectValue] = React.useState(props.value);
 
 		//* Functions
 		//* 파일 삭제 시 인풋 초기화

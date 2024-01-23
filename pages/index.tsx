@@ -8,8 +8,10 @@ import {
 	useTheme,
 } from '@mui/material';
 import React from 'react';
-import SignIn from '@leanoncompany/supporti-ark-office-project/src/layout/auth/SignIn';
-import SideBar from '@leanoncompany/supporti-ark-office-project/src/layout/SideBar/index';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styles from '../styles/SlickCarousel.module.css';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import SupportiButton from '../src/views/global/SupportiButton';
@@ -17,13 +19,8 @@ import { NextPage } from 'next';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useAppMember } from '../src/hooks/useAppMember';
-
-// import SupportiToggle from '../src/Boxs/global/SupportiToggle';
-// import SuppportiModal from '../src/Boxs/global/SuppportiModal';
-// import SupportiProgressBar from '../src/Boxs/global/SupportiProgressBar';
-// import SupportiTable from '../src/Boxs/global/SupportiTable';
-// import { TransactionHistoryTable } from '../src/Boxs/local/internal_service/financial_solution/account_manage/TransactionHistoryTable';
-// import SupportiInput from '../src/Boxs/global/SupportiInput';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 type Props = {};
 
@@ -78,25 +75,36 @@ const Page: NextPage = () => {
 
 	const data = [
 		{
-			name: '김만수',
-			age: 20,
-			color: 'red',
+			srcPath: '/images/logo/partners/신용보증기금.svg',
+			alt: '신용보증기금',
 		},
 		{
-			name: '김민수',
-			age: 23,
+			srcPath: '/images/logo/partners/법무법인도울.svg',
+			alt: '법무법인도울',
 		},
 		{
-			name: '김민수',
-			age: 20,
+			srcPath: '/images/logo/partners/메타소프트.svg',
+			alt: '메타소프트',
 		},
 		{
-			name: '김민수',
-			age: 23,
+			srcPath: '/images/logo/partners/자버.svg',
+			alt: '자버',
 		},
 		{
-			name: '김민수',
-			age: 20,
+			srcPath: '/images/logo/partners/교보생명.svg',
+			alt: '교보생명',
+		},
+		{
+			srcPath: '/images/logo/partners/나쵸코드.svg',
+			alt: '나쵸코드',
+		},
+		{
+			srcPath: '/images/logo/partners/화웨이.svg',
+			alt: '화웨이',
+		},
+		{
+			srcPath: '/images/logo/partners/원테이커.svg',
+			alt: '원테이커',
 		},
 	];
 
@@ -175,98 +183,788 @@ const Page: NextPage = () => {
 		},
 	];
 
+	const data1 = [
+		{
+			text1: 'IR 경험은 어디서 쌓아야 하나?',
+			text2: '어떻게 진행되는 거지?',
+		},
+		{
+			text1: '투자는 어떻게 받지?',
+			text2: '대체 어떻게 해야',
+			text3: '받을 수 있는거지?',
+		},
+		{
+			text1: '내 사업을 성장시킬 방법도,',
+			text2: '투자자를 만날 방법도 모르겠어',
+		},
+	];
+
+	function SamplePrevArrow(props) {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{ ...style, display: 'block', color: 'black' }}
+				onClick={onClick}
+			>
+				<ArrowBackIosNewIcon />
+			</div>
+		);
+	}
+
+	function SampleNextArrow(props) {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{ ...style, display: 'block', color: 'black' }}
+				onClick={onClick}
+			>
+				<ArrowForwardIosIcon />
+			</div>
+		);
+	}
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		arrows: true,
+		nextArrow: <SampleNextArrow />,
+		prevArrow: <SamplePrevArrow />,
+	};
+
 	React.useEffect(() => {
 		AOS.init();
 	});
 
 	return (
 		<Grid container width={'100%'}>
-			<Grid
-				item
-				xs={12}
+			{/** 섹션 1 */}
+			<Box
 				sx={{
-					p: { xs: 5, md: 15 },
+					p: { md: 5, xs: 5 },
+					backgroundImage: `linear-gradient(to bottom, #ffffffa8 50%, #ffffff 100%),url(/images/main/mainImage.png)`,
+					backgroundSize: 'cover',
 				}}
+				width={'100%'}
 			>
-				<Grid container>
+				<Box display="flex" gap={2} flexDirection={'column'} m="auto">
 					<Box
+						textAlign={'center'}
 						display="flex"
-						gap={10}
-						ml="auto"
-						mr="auto"
-						flexWrap={'wrap'}
+						gap={1.5}
+						flexDirection={'column'}
+						m="auto"
+						pt={10}
+						pb={15}
 					>
-						<Box
-							textAlign={'left'}
-							display={'flex'}
-							flexDirection={'column'}
-							gap={2}
-							mt="70px"
+						<img
+							src={'/images/logo/Suppor-TFulllogo.svg'}
+							alt="Logo"
+							width={'145px'}
+							height={'45px'}
+							style={{
+								cursor: 'pointer',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								marginBottom: 20,
+							}}
+							onClick={() => router.push('/')}
+						/>
+						<Typography variant={'h3'}>
+							고객님의 하나뿐인,
+						</Typography>
+						<Typography
+							variant={'h3'}
+							color="primary.main"
+							fontWeight={600}
 						>
-							<Typography variant={'h1'} fontWeight={'700'}>
-								창업가를 위한
-								<br />
-								경영 관리 솔루션
+							스타트업 성장 관리 솔루션
+						</Typography>
+						<Box display="flex" gap={0.5} textAlign={'center'}>
+							<Typography mt="auto" mb="auto">
+								서포티는 스타트업과
 							</Typography>
 							<Typography
-								variant={'subtitle1'}
-								fontWeight={'500'}
+								bgcolor={'primary.main'}
+								p={'3px'}
+								color={'common.white'}
 							>
-								데이터 대시보드 기반 솔루션 플랫폼, 서포티
+								함께 성장하는 동행자
 							</Typography>
-							{memberId ? (
-								<SupportiButton
-									contents="내 대시보드 보러가기"
-									onClick={() => {
-										router.push(
-											'/internal_service/financial_solution/account_manage'
-										);
-									}}
-									variant="contained"
-									style={{
-										width: '200px',
-										marginTop: '50px',
-									}}
-								/>
-							) : (
-								<SupportiButton
-									contents="무료로 시작하기"
-									onClick={() => {
-										router.push('/auth/sign_in');
-									}}
-									variant="contained"
-									style={{
-										width: '200px',
-										marginTop: '50px',
-									}}
-								/>
-							)}
-							{/* <img src={mainTitle} style={styles.imgStyle} />
-        <img src={mobileMainTitle} style={styles.mimgStyle} /> */}
+							<Typography mt="auto" mb="auto">
+								입니다.
+							</Typography>
 						</Box>
+					</Box>
+					<img
+						src={'/images/icons/scrollIcon.svg'}
+						alt="Logo"
+						width={'10px'}
+						height={'5px'}
+						style={{
+							cursor: 'pointer',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+							marginBottom: 30,
+						}}
+					/>
+				</Box>
+			</Box>
 
+			{/** 섹션 2 */}
+			<Grid container justifyContent={'center'}>
+				<Box pt={10} pb={10} width="70%">
+					<Slider {...settings}>
+						<Box display="flex">
+							<Box mb={5}>
+								<Typography fontWeight={600} mb={1}>
+									법인계좌 연동으로 한눈에 보는
+								</Typography>
+								<Typography color="primary.main" variant="h3">
+									RunWay BurnRate
+								</Typography>
+							</Box>
+							<Box
+								display={'flex'}
+								mb={5}
+								justifyContent={'center'}
+								flexWrap={'wrap'}
+								// sx={{
+								// 	display: { xs: 'none', md: 'block' },
+								// }}
+							>
+								<img
+									src={'/images/main/runwayPC.png'}
+									alt={'runwayPC'}
+									width={'70%'}
+								/>
+								<img
+									src={'/images/main/runwayMobile.png'}
+									alt={'runwayMobile'}
+									width={'6%'}
+									style={{
+										position: 'absolute',
+										marginLeft: '10%',
+										marginTop: '2%',
+									}}
+								/>
+							</Box>
+						</Box>
+						<Box display="flex">
+							<Box mb={5}>
+								<Typography fontWeight={600} mb={1}>
+									쉽고 편하게 관리하는
+								</Typography>
+								<Typography color="primary.main" variant="h3">
+									OKR / KPI 성과지표
+								</Typography>
+							</Box>
+							<Box
+								display={'flex'}
+								mb={5}
+								justifyContent={'center'}
+							>
+								<img
+									src={'/images/main/okrPC.png'}
+									alt={'okrPC'}
+									width={'70%'}
+								/>
+								<img
+									src={'/images/main/okrMobile.png'}
+									alt={'okrMobile'}
+									width={'6%'}
+									style={{
+										position: 'absolute',
+										marginLeft: '10%',
+										marginTop: '2%',
+									}}
+								/>
+							</Box>
+						</Box>
+					</Slider>
+				</Box>
+			</Grid>
+
+			{/** 섹션 3 */}
+			{
+				<Box
+					sx={{
+						display: { xs: 'none', md: 'block' },
+						width: '100%',
+					}}
+				>
+					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/경영.png'}
+								alt={'경영'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/투자.png'}
+								alt={'투자'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
 						<Box
-							sx={{
-								width: { xs: '380px', md: '650px' },
-								height: { xs: '300px', md: '480px' },
-							}}
+							display="flex"
+							gap={10}
+							height={'145px'}
+							justifyContent={'center'}
 						>
 							<img
-								src="/images/main/mainTitle.png"
-								alt="img"
-								style={{
-									marginTop: 'auto',
-									marginBottom: 'auto',
-									width: 'inherit',
-									height: 'inherit',
+								src={'/images/main/변호사.png'}
+								alt={'변호사'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<Box textAlign={'center'} mt="auto" mb="auto">
+								<Typography variant="h5" fontWeight={'600'}>
+									경영, 투자, 마케팅, 세무, 노무, 변호사 등
+								</Typography>
+								<Typography variant="h5" fontWeight={'600'}>
+									다양한 분야에서의
+								</Typography>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h5"
+										color="primary.main"
+										fontWeight={'600'}
+									>
+										세미나, 컨설팅, 멘토링, QA
+									</Typography>
+									<Typography variant="h5" fontWeight={'600'}>
+										서비스 제공
+									</Typography>
+								</Box>
+							</Box>
+							<img
+								src={'/images/main/세무.png'}
+								alt={'세무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/마케팅.png'}
+								alt={'마케팅'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/노무.png'}
+								alt={'노무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			}
+			{
+				<Box
+					sx={{
+						display: { md: 'none', xs: 'block' },
+						width: '100%',
+					}}
+				>
+					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
+						<Box textAlign={'center'} mt="auto" mb="auto">
+							<Typography variant="h5" fontWeight={'600'}>
+								경영, 투자, 마케팅, 세무, 노무, 변호사 등
+							</Typography>
+							<Typography variant="h5" fontWeight={'600'}>
+								다양한 분야에서의
+							</Typography>
+							<Box
+								display="flex"
+								gap={1}
+								width="100%"
+								justifyContent={'center'}
+							>
+								<Typography
+									variant="h5"
+									color="primary.main"
+									fontWeight={'600'}
+								>
+									세미나, 컨설팅, 멘토링, QA
+								</Typography>
+								<Typography variant="h5" fontWeight={'600'}>
+									서비스 제공
+								</Typography>
+							</Box>
+						</Box>
+					</Box>
+				</Box>
+			}
+
+			{/** 섹션 4 */}
+			<Box width="100%" pb={8}>
+				<Box ml="auto" mr="auto" mt={20} mb={20}>
+					<Box
+						display={'flex'}
+						flexWrap={'wrap'}
+						gap={4}
+						justifyContent={'center'}
+					>
+						{data1.map((item, index) => {
+							return (
+								<Box
+									p={3.5}
+									borderRadius={4}
+									width={'280px'}
+									height={'160px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 20px'
+									}
+									textAlign={'center'}
+								>
+									<Typography
+										color={'primary.main'}
+										fontWeight={'600'}
+									>
+										PROBLEM{' ' + (index + 1)}
+									</Typography>
+									<Box mt={2.5} textAlign={'center'}>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text1}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text2}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text3}
+										</Typography>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+				</Box>
+				<Box width="100px" ml="auto" mr="auto">
+					<Typography
+						color="secondary.main"
+						fontWeight={600}
+						variant="h1"
+						marginBottom={'-100px'}
+						marginTop={'-100px'}
+					>
+						SOLVE
+					</Typography>
+					<img
+						src={'/images/main/arrow.png'}
+						alt="Logo"
+						width={'90px'}
+						height={'130px'}
+					/>
+				</Box>
+				<Box
+					bgcolor={'primary.main'}
+					py={1.5}
+					textAlign={'center'}
+					mt={3}
+				>
+					<Typography
+						fontWeight={600}
+						variant="h3"
+						color="common.white"
+					>
+						Private IR 진행과 데모데이 개최
+					</Typography>
+				</Box>
+			</Box>
+
+			{/** 섹션 5 */}
+			<Box
+				textAlign={'center'}
+				display="flex"
+				gap={2}
+				flexDirection={'column'}
+				m="auto"
+				pt={10}
+				pb={10}
+				width={'100%'}
+			>
+				<Typography variant="h3" fontWeight={'400'}>
+					서포티의 파트너가 제공하는
+				</Typography>
+				<Typography variant="h3">
+					혜택 제공 & 파트너사 서비스 할인 제공
+				</Typography>
+				<Box display="flex" gap={'5%'} mt={5} mb={5}>
+					{data.map((item, index) => {
+						return (
+							<img
+								src={item.srcPath}
+								alt={item.alt}
+								width={'145px'}
+								height={'45px'}
+							/>
+						);
+					})}
+				</Box>
+				<SupportiButton
+					contents={'파트너스 페이지 이동'}
+					variant="contained"
+					onClick={() => router.push('/partners')}
+					style={{
+						width: '200px',
+						marginRight: 'auto',
+						marginLeft: 'auto',
+					}}
+				/>
+			</Box>
+
+			{/** 섹션 6 */}
+
+			<Box
+				width="100%"
+				bgcolor={'#16263D'}
+				justifyContent={'center'}
+				textAlign={'center'}
+				display={'flex'}
+				flexDirection={'column'}
+			>
+				<Box
+					m="auto"
+					gap={2}
+					display={'flex'}
+					flexDirection={'column'}
+					justifyContent={'center'}
+					pt={14}
+					pb={10}
+				>
+					<img
+						src={'/images/main/커피챗.png'}
+						alt={'커피챗'}
+						width={'180px'}
+						height={'180px'}
+						style={{ marginLeft: 'auto', marginRight: 'auto' }}
+					/>
+					<Typography color="common.white">
+						수많은 고민을 어떤 방향으로 어떻게 해결할지 모르시겠죠?
+					</Typography>
+					<Box
+						display="flex"
+						textAlign={'center'}
+						gap={0.5}
+						justifyContent={'center'}
+					>
+						<Typography color="common.white">
+							다양한 영역의{' '}
+						</Typography>
+						<Typography color="info.main">
+							1:1 커피챗 매칭
+						</Typography>
+						<Typography color="common.white">
+							으로 방향을 찾아가세요.
+						</Typography>
+					</Box>
+				</Box>
+			</Box>
+
+			{/** 섹션 7 */}
+			<Box
+				width="100%"
+				justifyContent={'center'}
+				pt={10}
+				display={'flex'}
+				flexDirection={'column'}
+				bgcolor={'primary.main'}
+				pb={10}
+			>
+				<Box
+					textAlign={'center'}
+					m="auto"
+					display="flex"
+					gap={4}
+					flexDirection={'column'}
+					justifyContent={'center'}
+				>
+					<Box
+						display="flex"
+						gap={2}
+						flexWrap={'wrap'}
+						justifyContent={'center'}
+					>
+						<Box>
+							<Box
+								width={'350px'}
+								height="200px"
+								borderRadius={'20px'}
+								bgcolor={'primary.main'}
+								sx={{
+									background: '#F8F8F833',
+								}}
+								zIndex={3}
+								textAlign={'left'}
+								p={4}
+							>
+								<Typography color="info.main" mb={3}>
+									최00 AI 스타트업 대표
+								</Typography>
+								<Typography
+									color="common.white"
+									lineHeight={'20px'}
+								>
+									초기 스타트업이다 보니 여러 가지 신경 써야
+									할 것이 많은데 재무와 경영 지표 관리에
+									대해서만큼은 큰 신경을 안 써도 되어
+									좋습니다.
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									width: '15px',
+									height: '15px',
+									rotate: '90deg',
+									position: 'absolute',
+									marginLeft: '280px',
+									// marginTop: '-10px',
+									// bgcolor: 'primary.main',
+									opacity: 0.2,
+									zIndex: 2,
+									borderBottom: '10px solid transparent',
+									borderTop: '10px solid transparent',
+									borderLeft: '10px solid #F8F8F8',
+									borderRight: '10px solid transparent',
+								}}
+							/>
+						</Box>
+						<Box>
+							<Box
+								width={'350px'}
+								height="200px"
+								borderRadius={'20px'}
+								bgcolor={'primary.main'}
+								sx={{
+									background: '#F8F8F833',
+								}}
+								zIndex={3}
+								textAlign={'left'}
+								p={4}
+							>
+								<Typography color="info.main" mb={3}>
+									홍00 커머스 스타트업 대표
+								</Typography>
+								<Typography
+									color="common.white"
+									lineHeight={'20px'}
+								>
+									아는 대표님의 추천으로 써봤는데 실제로 쓰는
+									과정이 간편하다 보니 사용하기 편리합니다.
+									저희는 아무래도 인원이 있다 보니 모든 인원이
+									지표를 보고 써야 해서 지표 관리가 무엇보다
+									중요한데 서포티를 쓰니 일이 1/3로 줄었어요!
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									width: '15px',
+									height: '15px',
+									rotate: '90deg',
+									position: 'absolute',
+									marginLeft: '280px',
+									// marginTop: '-10px',
+									// bgcolor: 'primary.main',
+									opacity: 0.2,
+									zIndex: 2,
+									borderBottom: '10px solid transparent',
+									borderTop: '10px solid transparent',
+									borderLeft: '10px solid #F8F8F8',
+									borderRight: '10px solid transparent',
 								}}
 							/>
 						</Box>
 					</Box>
-				</Grid>
-			</Grid>
+					<Box
+						display="flex"
+						gap={2}
+						flexWrap={'wrap'}
+						justifyContent={'center'}
+					>
+						<Box>
+							<Box
+								width={'350px'}
+								height="200px"
+								borderRadius={'20px'}
+								bgcolor={'primary.main'}
+								sx={{
+									background: '#F8F8F833',
+								}}
+								zIndex={3}
+								textAlign={'left'}
+								p={4}
+							>
+								<Typography color="info.main" mb={3}>
+									김00 SaaS 스타트업 대표
+								</Typography>
+								<Typography
+									color="common.white"
+									lineHeight={'20px'}
+								>
+									초기 스타트업에 딱 필요한 서비스인 것
+									같습니다. 실제 여러 데이터를 비교할 수 있고
+									지표를 한눈에 볼 수 있어 편리합니다.
+									무엇보다 투자사에게 바로 링크를 공유해
+									전달드릴 수 있으니 시간이 많이 단축되었어요!
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									width: '15px',
+									height: '15px',
+									rotate: '90deg',
+									position: 'absolute',
+									marginLeft: '280px',
+									// marginTop: '-10px',
+									// bgcolor: 'primary.main',
+									opacity: 0.2,
+									zIndex: 2,
+									borderBottom: '10px solid transparent',
+									borderTop: '10px solid transparent',
+									borderLeft: '10px solid #F8F8F8',
+									borderRight: '10px solid transparent',
+								}}
+							/>
+						</Box>
+						<Box>
+							<Box
+								width={'350px'}
+								height="200px"
+								borderRadius={'20px'}
+								bgcolor={'primary.main'}
+								sx={{
+									background: '#F8F8F833',
+								}}
+								zIndex={3}
+								textAlign={'left'}
+								p={4}
+							>
+								<Typography color="info.main" mb={3}>
+									노00 헬스케어 스타트업 이사
+								</Typography>
+								<Typography
+									color="common.white"
+									lineHeight={'20px'}
+								>
+									초기 스타트업에서 실무를 총괄하는 입장에서
+									편리한 서비스인 것 같아요. 아직 많은
+									기능들이 있지는 않지만 재무, 경영 지표
+									관리의 차원에서는 꼭 필요한 서비스인 것
+									같습니다.
+								</Typography>
+							</Box>
+							<Box
+								sx={{
+									width: '15px',
+									height: '15px',
+									rotate: '90deg',
+									position: 'absolute',
+									marginLeft: '280px',
+									// marginTop: '-10px',
+									// bgcolor: 'primary.main',
+									opacity: 0.2,
+									zIndex: 2,
+									borderBottom: '10px solid transparent',
+									borderTop: '10px solid transparent',
+									borderLeft: '10px solid #F8F8F8',
+									borderRight: '10px solid transparent',
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
 
-			<Grid
+			{/* <Grid container>
+				<Box
+					display="flex"
+					gap={10}
+					ml="auto"
+					mr="auto"
+					flexWrap={'wrap'}
+				>
+					<Box
+						textAlign={'left'}
+						display={'flex'}
+						flexDirection={'column'}
+						gap={2}
+						mt="70px"
+					>
+						<Typography variant={'h1'} fontWeight={'700'}>
+							창업가를 위한
+							<br />
+							경영 관리 솔루션
+						</Typography>
+						<Typography variant={'subtitle1'} fontWeight={'500'}>
+							데이터 대시보드 기반 솔루션 플랫폼, 서포티
+						</Typography>
+						{memberId ? (
+							<SupportiButton
+								contents="내 대시보드 보러가기"
+								onClick={() => {
+									router.push(
+										'/internal_service/financial_solution/account_manage'
+									);
+								}}
+								variant="contained"
+								style={{
+									width: '200px',
+									marginTop: '50px',
+								}}
+							/>
+						) : (
+							<SupportiButton
+								contents="무료로 시작하기"
+								onClick={() => {
+									router.push('/auth/sign_in');
+								}}
+								variant="contained"
+								style={{
+									width: '200px',
+									marginTop: '50px',
+								}}
+							/>
+						)}
+					</Box>
+
+					<Box
+						sx={{
+							width: { xs: '380px', md: '650px' },
+							height: { xs: '300px', md: '480px' },
+						}}
+					>
+						<img
+							src="/images/main/mainTitle.png"
+							alt="img"
+							style={{
+								marginTop: 'auto',
+								marginBottom: 'auto',
+								width: 'inherit',
+								height: 'inherit',
+							}}
+						/>
+					</Box>
+				</Box>
+			</Grid> */}
+
+			{/* <Grid
 				item
 				xs={12}
 				bgcolor={'#3C52BB'}
@@ -335,9 +1033,9 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 				</Grid>
-			</Grid>
+			</Grid> */}
 
-			<Box
+			{/* <Box
 				textAlign={'center'}
 				mt={10}
 				display={'flex'}
@@ -348,8 +1046,8 @@ const Page: NextPage = () => {
 					gap: { md: 10, xs: 5 },
 					p: { md: 10, xs: 0 },
 				}}
-			>
-				<Box justifyContent={'center'}>
+			> */}
+			{/* <Box justifyContent={'center'}>
 					<Typography
 						variant={'h4'}
 						fontWeight={'600'}
@@ -365,9 +1063,9 @@ const Page: NextPage = () => {
 						시작하는 사업자와 성장하는 사업자 모두에게 알맞은
 						솔루션을 제공합니다.
 					</Typography>
-				</Box>
+				</Box> */}
 
-				<Box
+			{/* <Box
 					ml="auto"
 					mr="auto"
 					display="flex"
@@ -430,9 +1128,9 @@ const Page: NextPage = () => {
 							</Box>
 						);
 					})}
-				</Box>
+				</Box> */}
 
-				<Box
+			{/* <Box
 					ml="auto"
 					mr="auto"
 					display="flex"
@@ -494,9 +1192,9 @@ const Page: NextPage = () => {
 							</Box>
 						);
 					})}
-				</Box>
+				</Box> */}
 
-				<Grid container>
+			{/* <Grid container>
 					<Box ml="auto" mr="auto" mt={20} mb={20}>
 						<Box
 							display={'flex'}
@@ -523,7 +1221,7 @@ const Page: NextPage = () => {
 										<Box mt={2} mb={2}>
 											<Typography
 												variant={'h5'}
-												fontWeight={'500'}
+												fontWeight={'400'}
 											>
 												{item.text1}
 											</Typography>
@@ -533,13 +1231,13 @@ const Page: NextPage = () => {
 											>
 												<Typography
 													variant={'h5'}
-													fontWeight={'500'}
+													fontWeight={'400'}
 												>
 													{item.text2}
 												</Typography>
 												<Typography
 													variant={'h5'}
-													fontWeight={'600'}
+													fontWeight={'400'}
 													color={'#3C52BB'}
 													pl={0.5}
 												>
@@ -552,10 +1250,10 @@ const Page: NextPage = () => {
 							})}
 						</Box>
 					</Box>
-				</Grid>
-			</Box>
+				</Grid> */}
+			{/* </Box> */}
 
-			<Box
+			{/* <Box
 				display={'flex'}
 				gap={4}
 				flex={'wrap'}
@@ -578,9 +1276,9 @@ const Page: NextPage = () => {
 						서포티만의 대시보드 솔루션
 					</Typography>
 				</Box>
-			</Box>
+			</Box> */}
 
-			<Box ml="auto" mr="auto" pt={20} width="100%">
+			{/* <Box ml="auto" mr="auto" pt={20} width="100%">
 				<Box display="flex" flexWrap={'wrap'} justifyContent={'center'}>
 					<Box
 						height={'450px'}
@@ -682,8 +1380,8 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 				</Box>
-			</Box>
-			<Box width="100%">
+			</Box> */}
+			{/* <Box width="100%">
 				{open ? (
 					<Grid
 						textAlign={'center'}
@@ -743,9 +1441,9 @@ const Page: NextPage = () => {
 				) : (
 					<Box></Box>
 				)}
-			</Box>
+			</Box> */}
 
-			<Box display={'flex'} gap={5} ml="auto" mr="auto" mt={20} mb={20}>
+			{/* <Box display={'flex'} gap={5} ml="auto" mr="auto" mt={20} mb={20}>
 				<Box
 					textAlign={'center'}
 					display={'flex'}
@@ -863,7 +1561,7 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 				</Box>
-			</Box>
+			</Box> */}
 
 			<Grid item xs={12}>
 				<Box

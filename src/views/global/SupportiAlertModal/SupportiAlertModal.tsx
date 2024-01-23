@@ -173,7 +173,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		},
 		business: {
 			type: 'error',
-			title: '기업회원만 이용하실 수 있는 서비스입니다.',
+			title: '기업회원만 이용하실 수 있는 서비스입니다. 마이페이지에서 사업자회원으로 변경 가능합니다.',
 			content: '확인',
 			onclick: () => {
 				// props.customHandleClose && props.customHandleClose();

@@ -66,7 +66,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		React.useState<string>('NOT_YET');
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
-	const [signUpdataFinal, setSignUpdataFinal] = React.useState<any>([]);
+
 	//* Functions
 	/**
 	 * 알림톡 발송

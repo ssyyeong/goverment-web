@@ -181,7 +181,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 									sx={{
 										mt: 1,
 									}}
-									placeholder={`추천인 휴대폰 번호를 입력해 주세요.`}
+									placeholder={`추천인 휴대폰 번호 입력`}
 								/>
 							</Box>
 						);
@@ -228,19 +228,30 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 								>
 									1. 구글 폼 링크 이동
 								</Typography>
-								<Typography
-									fontWeight={'500'}
-									display={'flex'}
-									gap={1}
-								>
-									[링크]{' '}
+								<Box display="flex" flexWrap={'wrap'}>
 									<Typography
 										fontWeight={'500'}
-										sx={{ textDecoration: 'underline' }}
+										display={'flex'}
+										gap={1}
+									>
+										[링크]
+									</Typography>
+									<Typography
+										fontWeight={'500'}
+										sx={{
+											textDecoration: 'underline',
+											cursor: 'pointer',
+										}}
+										onClick={() => {
+											window.open(
+												GoogleFormLink,
+												'_blank'
+											);
+										}}
 									>
 										{GoogleFormLink}
 									</Typography>
-								</Typography>
+								</Box>
 							</Box>
 							<Box
 								textAlign={'left'}

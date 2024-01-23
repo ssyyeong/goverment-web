@@ -1,8 +1,28 @@
 import { Box, Typography } from '@mui/material';
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { AppMemberController } from '../../src/controller/AppMemberController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
+	//* Modules
+	const appMemberController = new AppMemberController();
+	const userSubscriptionController = new DefaultController(
+		'UserSubscription'
+	);
+
+	//* States
+	/**
+	 * 회원 정보
+	 */
+	const [memberInfo, setMemberInfo] = React.useState<any>({});
+
+	/**
+	 * 구독 정보
+	 */
+	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
+
+	//* Constants
 	const CardConfig = [
 		{
 			Title: '비즈니스 프로세스 · 소프트웨어',
@@ -12,6 +32,7 @@ const Page: NextPage = () => {
 					name: ['씨와이'],
 					content: 'SaaS · ERP · Cloud',
 					add: 'AWS 크레딧 5,000$ 혜택 제공',
+					form: 'https://forms.gle/r7qK37XXfHfyGy7d8',
 				},
 			],
 		},
@@ -23,6 +44,7 @@ const Page: NextPage = () => {
 					content: '스타트업 세무 회계 · Virtual CFO · 투자 감사',
 					add: '2개월 세무 기장 무료 · virtual CFO 20% 할인',
 					accent: '다솔 WM 세무사',
+					form: 'https://forms.gle/psatD7fxs3G9qjci6',
 				},
 				{
 					logoPath: '/images/logo/partners/크리에이티브파트너스.png',
@@ -57,8 +79,8 @@ const Page: NextPage = () => {
 					content: '고객사 대상 할인 · 1개월 무료 설치',
 				},
 				{
-					logoPath: '/images/logo/partners/힛빔.png',
-					name: ['힛빔'],
+					logoPath: '/images/logo/partners/나쵸코드.svg',
+					name: ['나초코드'],
 					content: '2개월 무료 노코드 이용',
 				},
 			],
@@ -66,12 +88,6 @@ const Page: NextPage = () => {
 		{
 			Title: '개발',
 			Companies: [
-				{
-					logoPath: '/images/logo/partners/CY.png',
-					name: ['CY'],
-					content: '스타트업 · 공공 전문 외주 개발',
-					add: 'AWS 크레딧 5,000$ 혜택 제공',
-				},
 				{
 					logoPath: '/images/logo/partners/메타소프트.png',
 					name: ['메타소프트'],
@@ -144,6 +160,54 @@ const Page: NextPage = () => {
 		},
 	];
 
+	//* Functions
+
+	/**
+	 * 회원정보 가져오기
+	 */
+	const getUserInfo = () => {
+		appMemberController.getData(
+			{},
+			`${appMemberController.mergedPath}/profile`,
+			(res) => {
+				if (res.data.result !== null) {
+					setMemberInfo(res.data.result);
+				}
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
+
+	//* Hooks
+	/**
+	 *유저정보 가져오기
+	 */
+	useEffect(() => {
+		getUserInfo();
+	}, []);
+
+	/**
+	 * 구독권 정보 가져오기
+	 */
+	useEffect(() => {
+		memberInfo &&
+			userSubscriptionController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE:
+						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
+					EXPIRED_YN: 'N',
+				},
+				(res) => {
+					setSubscriptionInfo(res.data.result);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [memberInfo]);
+
 	return (
 		<Box
 			sx={{
@@ -178,20 +242,46 @@ const Page: NextPage = () => {
 									paddingTop: 30,
 									overflowX: 'auto',
 								}}
+								sx={{
+									'-ms-overflow-style': 'none',
+									'&::-webkit-scrollbar': {
+										height: '5px !important',
+										backgroundColor: 'white !important',
+										padding: '0.5px',
+										borderRadius: '20px',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: '#305edccc',
+										borderRadius: '20px',
+									},
+								}}
 								ml={'auto'}
 								mr={'auto'}
 							>
-								<Typography
-									fontWeight={600}
-									variant="h3"
-									style={{
-										color: '#3C52BB',
-										lineHeight: '130%',
-										marginBottom: 30,
-									}}
-								>
-									{v.Title}
-								</Typography>
+								<Box display="flex">
+									<Typography
+										fontWeight={600}
+										variant="h3"
+										style={{
+											color: '#3C52BB',
+											lineHeight: '130%',
+											marginBottom: 30,
+										}}
+									>
+										{v.Title}
+									</Typography>
+									{(idx === 0 || idx === 1) && (
+										<Typography
+											color="secondary.dark"
+											lineHeight={'280%'}
+											ml="15px"
+										>
+											클릭해서 블랙 회원에게만 제공되는
+											혜택을 신청하세요!
+										</Typography>
+									)}
+								</Box>
+
 								<Box
 									sx={{
 										display: 'flex',
@@ -213,7 +303,33 @@ const Page: NextPage = () => {
 														bgcolor: '#FFFFFF',
 														justifyContent:
 															'center',
+														cursor:
+															item.add &&
+															item.form &&
+															'pointer',
 														p: { md: 3.5, xs: 3 },
+													}}
+													onClick={() => {
+														if (
+															item.add &&
+															item.form
+														) {
+															if (
+																subscriptionInfo
+																	?.SubscriptionProduct
+																	?.TYPE ===
+																'BLACK'
+															) {
+																window.open(
+																	item.form,
+																	'_blank'
+																);
+															} else {
+																alert(
+																	'블랙 회원에게만 제공되는 기능입니다!'
+																);
+															}
+														}
 													}}
 												>
 													<Box

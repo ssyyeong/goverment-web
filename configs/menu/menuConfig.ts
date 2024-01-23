@@ -40,15 +40,20 @@ const dashboardMenu: IMenu[] = [
 			},
 		],
 	},
-	{
-		label: '세미나',
-		path: '/external_service/seminar',
-		icon: '/images/icons/seminar.png',
-	},
+	// {
+	// 	label: '세미나',
+	// 	path: '/external_service/seminar',
+	// 	icon: '/images/icons/seminar.png',
+	// },
 	{
 		label: '컨설팅',
 		path: '/external_service/consulting',
 		icon: '/images/icons/consulting.png',
+	},
+	{
+		label: '파트너스',
+		path: '/partners',
+		icon: '/images/icons/seminar.png',
 	},
 	{
 		label: '마이페이지',

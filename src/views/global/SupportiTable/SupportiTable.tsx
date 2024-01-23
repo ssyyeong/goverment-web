@@ -73,7 +73,7 @@ interface ISupportiTableProps {
 	/**
 	 * 스티키 헤더
 	 */
-	stikyHeader?: boolean;
+	stickyHeader?: boolean;
 	/**
 	 * 클릭시 이벤트
 	 */
@@ -106,7 +106,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 					minHeight: 400,
 				}}
 			>
-				<Table stickyHeader={props.stikyHeader}>
+				<Table stickyHeader={props.stickyHeader}>
 					{/* 테이블 헤드 */}
 					<TableHead
 						sx={{

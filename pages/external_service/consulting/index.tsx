@@ -20,10 +20,26 @@ import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import Nodata from '../../../src/views/global/NoData/NoData';
+import { AppMemberController } from '../../../src/controller/AppMemberController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
+	const appMemberController = new AppMemberController();
+	const userSubscriptionController = new DefaultController(
+		'UserSubscription'
+	);
+
+	//* States
+	/**
+	 * 회원 정보
+	 */
+	const [memberInfo, setMemberInfo] = React.useState<any>({});
+
+	/**
+	 * 구독 정보
+	 */
+	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
 
 	//* Constants
 	const consultingHeaderData: TableHeaderProps[] = [
@@ -60,6 +76,25 @@ const Page: NextPage = () => {
 	 */
 	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 	//* Functions
+
+	/**
+	 * 회원정보 가져오기
+	 */
+	const getUserInfo = () => {
+		appMemberController.getData(
+			{},
+			`${appMemberController.mergedPath}/profile`,
+			(res) => {
+				if (res.data.result !== null) {
+					setMemberInfo(res.data.result);
+				}
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
+
 	//* Hooks
 	/**
 	 * 페이징 관련
@@ -83,6 +118,50 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, [page]);
+
+	/**
+	 *유저정보 가져오기
+	 */
+	useEffect(() => {
+		getUserInfo();
+	}, []);
+
+	/**
+	 * 구독권 정보 가져오기
+	 */
+	useEffect(() => {
+		memberInfo &&
+			userSubscriptionController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE:
+						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
+					EXPIRED_YN: 'N',
+				},
+				(res) => {
+					setSubscriptionInfo(res.data.result);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [memberInfo]);
+
+	/**
+	 *
+	 * 구독권 블랙 아니면 뒤로가기
+	 */
+
+	useEffect(() => {
+		if (!subscriptionInfo) {
+			alert('블랙회원만 접근 가능한 페이지입니다.');
+			router.back();
+		} else if (Object.keys(subscriptionInfo).length !== 0) {
+			if (subscriptionInfo?.SubscriptionProduct?.TYPE !== 'BLACK') {
+				alert('블랙회원만 접근 가능한 페이지입니다.');
+				router.back();
+			}
+		}
+	}, [subscriptionInfo]);
 
 	return (
 		<Box
