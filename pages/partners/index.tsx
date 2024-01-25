@@ -82,6 +82,8 @@ const Page: NextPage = () => {
 					logoPath: '/images/logo/partners/나쵸코드.svg',
 					name: ['나초코드'],
 					content: '2개월 무료 노코드 이용',
+					add: '웹 URL만 있으면 10분만에 안드로이드 & iOS 앱 빌딩',
+					form: 'https://forms.gle/AoKU4GqjRRDB9EqCA',
 				},
 			],
 		},
@@ -272,7 +274,7 @@ const Page: NextPage = () => {
 									>
 										{v.Title}
 									</Typography>
-									{(idx === 0 || idx === 1) && (
+									{(idx === 0 || idx === 1 || idx === 3) && (
 										<Typography
 											color="secondary.dark"
 											lineHeight={'280%'}

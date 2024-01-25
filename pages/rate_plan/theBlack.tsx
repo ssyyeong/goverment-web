@@ -226,7 +226,7 @@ const Page: NextPage = () => {
 					<Box
 						borderRadius={'160px'}
 						position={'absolute'}
-            marginTop={'150px'}
+						marginTop={'150px'}
 						sx={{
 							backgroundImage: `linear-gradient(to right, #305DDC 9%, #A8FCFF 89%)`,
 							width: {
@@ -237,10 +237,10 @@ const Page: NextPage = () => {
 								sm: '140px',
 								xs: '120px',
 							},
-           display: {
-            sm :"block",
-            xs: "none"
-           }
+							display: {
+								sm: 'block',
+								xs: 'none',
+							},
 						}}
 					>
 						<Typography
@@ -274,7 +274,11 @@ const Page: NextPage = () => {
 					}}
 				>
 					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
-						<Typography color="primary.main" variant="h1">
+						<Typography
+							color="primary.main"
+							variant="h1"
+							width="40px"
+						>
 							02
 						</Typography>
 					</Box>
@@ -448,55 +452,101 @@ const Page: NextPage = () => {
 					pb={15}
 					bgcolor={'primary.light'}
 				>
-					<Box display="flex" gap={5} ml="auto" mr="auto">
-						{section3.map((item, index) => {
-							return (
-								<Box>
-									<Box
-										display="flex"
-										flexDirection={'column'}
-										gap={3}
-									>
-										<Box
-											p={2}
-											sx={{
-												boxShadow:
-													'rgb(219, 219, 219) 0px 4px 10px',
-												borderRadius: '5px',
-												width: {
-													sm: '280px',
-													xs: '150px',
-												},
-												height: {
-													sm: '50px',
-													xs: '30px',
-												},
-											}}
-										>
-											<Typography
-												color="primary.main"
-												fontWeight={600}
-											>
-												Service {index + 1}
-											</Typography>
-										</Box>
-										<Box
-											height={'2px'}
-											width={'30px'}
-											bgcolor={'secondary.dark'}
-											ml="auto"
-											mr="auto"
-										/>
-										<Typography
-											variant="h5"
-											fontWeight={600}
-										>
-											{item}
-										</Typography>
-									</Box>
-								</Box>
-							);
-						})}
+					<Box
+						display="flex"
+						gap={5}
+						ml="auto"
+						mr="auto"
+						flexWrap={'wrap'}
+						justifyContent="center"
+					>
+						<Box
+							width="200px"
+							height="200px"
+							border={'1px solid #3C52BB'}
+							borderRadius="480px"
+							bgcolor="common.white"
+							pt={8}
+						>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								다양한 분야의
+							</Typography>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								믿음직스러운 연사님들과의
+							</Typography>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								세미나 진행
+							</Typography>
+						</Box>
+						<Typography
+							variant="h1"
+							color="secondary.dark"
+							mt="auto"
+							mb="auto"
+						>
+							+
+						</Typography>
+						<Box
+							width="200px"
+							height="200px"
+							border={'1px solid #3C52BB'}
+							borderRadius="480px"
+							bgcolor="common.white"
+							pt={10}
+						>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								CEO 네트워킹
+							</Typography>
+						</Box>
+						<Typography
+							variant="h1"
+							color="secondary.dark"
+							mt="auto"
+							mb="auto"
+						>
+							=
+						</Typography>
+
+						<Box
+							width="200px"
+							height="200px"
+							border={'1px solid #3C52BB'}
+							borderRadius="480px"
+							bgcolor="primary.main"
+							pt={10}
+						>
+							{' '}
+							<Typography
+								color="common.white"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								폭넓은 INSIGHT
+							</Typography>
+							<Typography
+								color="common.white"
+								variant="subtitle1"
+								fontWeight={500}
+							>
+								성장으로의 발걸음
+							</Typography>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
