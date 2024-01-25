@@ -336,6 +336,7 @@ const Page: NextPage = () => {
 									selectedPeriod={selectedPeriod}
 									keyword={searchTriggerKey}
 									setLoading={setLoading}
+									memberId={memberId}
 								/>
 							</Box>
 						))}

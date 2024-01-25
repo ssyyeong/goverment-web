@@ -39,7 +39,11 @@ export interface TableHeaderProps {
 	/**
 	 * 체크박스 클릭시 이벤트
 	 */
-	checkBoxOnClick?: (value: any, idx: number) => any;
+	checkBoxOnClick?: (
+		value: any,
+		idx: number,
+		row: { [key: string]: any }
+	) => any;
 	/**
 	 * 정렬
 	 */
@@ -188,7 +192,8 @@ const SupportiTable = (props: ISupportiTableProps) => {
 																? () =>
 																		column.checkBoxOnClick(
 																			value,
-																			idx
+																			idx,
+																			row
 																		)
 																: () => {}
 														}

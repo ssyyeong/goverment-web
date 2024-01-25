@@ -23,6 +23,7 @@ import moment from 'moment';
 import SupportiPagination from '../../../../../global/SupportiPagination';
 import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import MobileTransactionHistory from '../MobileTransactionHistory/MobileTransactionHistory';
+import { BankController } from '../../../../../../controller/BankController';
 
 interface ITransactionHistoryTableProps {
 	/**
@@ -53,6 +54,11 @@ interface ITransactionHistoryTableProps {
 	 * 로딩
 	 */
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+
+	/**
+	 * 유저 아이디
+	 */
+	memberId?: number;
 }
 
 const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
@@ -73,9 +79,39 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			label: '제외',
 			value: 'EXCEPTED_YN',
 			checkbox: true,
-			checkBoxOnClick: (value, idx) => {
-				props.setRecomputeTriggerKey(uuidv4());
-				handleExcept(value, idx);
+			checkBoxOnClick: (value, idx, row) => {
+				// 제외 여부 유효성 검사
+				const bankController = new BankController();
+
+				console.log(props.memberId);
+
+				if (props.memberId !== undefined) {
+					bankController.getFinancialRatio(
+						{
+							APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
+						},
+						(res) => {
+							if (row.EXCEPTED_YN === 'N') {
+								if (row.IN_AMOUNT != 0) {
+									if (
+										res.data.result.totalBalance -
+											row.IN_AMOUNT <
+										0
+									) {
+										alert('제외 시 잔액이 음수가 됩니다.');
+										return;
+									}
+								}
+							}
+
+							// 리랜더링을 위해 키 변경
+
+							handleExcept(value, idx);
+							props.setRecomputeTriggerKey(uuidv4());
+						},
+						(err) => {}
+					);
+				}
 			},
 			format: (value) => {
 				return value === 'Y' ? true : false;
