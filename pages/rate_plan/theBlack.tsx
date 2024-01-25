@@ -1,15 +1,58 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
+import { useRouter } from 'next/router';
+
+import SupportiButton from '../../src/views/global/SupportiButton';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
+	const router = useRouter();
+
+	const { memberId } = useAppMember();
 
 	//* States
 
 	//* Constants
 	const section3 = ['투자유치 실천회', 'CEO 북클럽', '앱 빌더'];
 	const section3_1 = ['웹 / 앱 개발', '세무 기장 & CFO', 'CRM'];
+
+	const data1 = [
+		{
+			text1: 'IR 경험은 어디서 쌓아야 하나?',
+			text2: '어떻게 진행되는 거지?',
+		},
+		{
+			text1: '투자는 어떻게 받지?',
+			text2: '대체 어떻게 해야',
+			text3: '받을 수 있는거지?',
+		},
+		{
+			text1: '내 사업을 성장시킬 방법도,',
+			text2: '투자자를 만날 방법도 모르겠어',
+		},
+	];
+
+	const data1_1 = [
+		{
+			title: '투자유치',
+			text1: '매월 Private IR',
+			text2: '+',
+			text3: '투자 전제된 Demoday',
+		},
+		{
+			title: 'IR',
+			text1: '매월 5개사 내외',
+			text2: '선정 후 투자사 연결',
+		},
+		{
+			title: '데모데이',
+			text1: '10개사 선발 후 1~2개사 선정',
+			text2: '무조건 투자 전제된 데모데이 개최',
+			text3: '(서포티 및 서포티 관계사 대상',
+		},
+	];
 
 	//* Hooks
 
@@ -25,7 +68,13 @@ const Page: NextPage = () => {
 				width={'100%'}
 				textAlign="center"
 			>
-				<Typography
+				<img
+					src={'/images/main/theblack.png'}
+					alt={'theblack'}
+					width={'280px'}
+					height={'200px'}
+				/>
+				{/* <Typography
 					sx={{
 						background:
 							'linear-gradient(to bottom, #ffffff, #ffffff1e)',
@@ -35,7 +84,7 @@ const Page: NextPage = () => {
 					variant={'h1'}
 				>
 					The Black
-				</Typography>
+				</Typography> */}
 				<Typography color={'common.white'} variant="h3" mb={2}>
 					아무나 가입할 수 없습니다
 				</Typography>
@@ -419,6 +468,160 @@ const Page: NextPage = () => {
 			<Box
 				sx={{
 					pt: { md: 10, xs: 5 },
+					bgcolor: 'primary.light',
+				}}
+				width={'100%'}
+				textAlign="center"
+				bgcolor={'primary.light'}
+			>
+				<Box display="flex" ml={'20%'}>
+					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
+						<Typography color="primary.main" variant="h1">
+							03
+						</Typography>
+					</Box>
+					<Typography
+						variant="h4"
+						fontWeight={600}
+						mt="auto"
+						mb="auto"
+					>
+						전문가 Q&A 서비스
+					</Typography>
+				</Box>
+
+				<Box
+					sx={{
+						display: { xs: 'none', md: 'block' },
+						width: '100%',
+					}}
+				>
+					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/경영.png'}
+								alt={'경영'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/투자.png'}
+								alt={'투자'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+						<Box
+							display="flex"
+							gap={15}
+							height={'145px'}
+							justifyContent={'center'}
+						>
+							<img
+								src={'/images/main/변호사.png'}
+								alt={'변호사'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<Box textAlign={'center'} mt="auto" mb="auto">
+								<Typography variant="h5" fontWeight={'600'}>
+									전문가 Q&A
+								</Typography>
+
+								<Box
+									display="flex"
+									gap={1}
+									justifyContent="center"
+								>
+									<Typography
+										variant="h5"
+										color="primary.main"
+										fontWeight={'600'}
+									>
+										세무, 특허, 노무, 법무
+									</Typography>
+									<Typography variant="h5" fontWeight={'600'}>
+										등
+									</Typography>
+								</Box>
+								<Typography variant="h5" fontWeight={'600'}>
+									전문가의 24시간 내 답변 서비스
+								</Typography>
+							</Box>
+							<img
+								src={'/images/main/세무.png'}
+								alt={'세무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/마케팅.png'}
+								alt={'마케팅'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/노무.png'}
+								alt={'노무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+
+			{/** 섹션 5 */}
+			<Box
+				sx={{
+					pt: { md: 10, xs: 5 },
+					bgcolor: 'primary.light',
+				}}
+				width={'100%'}
+				textAlign="center"
+				bgcolor={'primary.light'}
+			>
+				<Box display="flex" ml={'20%'}>
+					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
+						<Typography color="primary.main" variant="h1">
+							04
+						</Typography>
+					</Box>
+					<Typography
+						variant="h4"
+						fontWeight={600}
+						mt="auto"
+						mb="auto"
+					>
+						소셜링
+					</Typography>
+				</Box>
+				<Box pt={5} pb={15}>
+					<img
+						src={'/images/main/소셜링.png'}
+						alt={'소셜링'}
+						width={'220px'}
+						height={'220px'}
+					/>
+					<Typography fontWeight={600} variant="subtitle1" mb={5}>
+						소셜링
+					</Typography>
+
+					<Typography fontWeight={600} variant="subtitle1">
+						매월 만나고 싶은 분과의 소셜링
+					</Typography>
+					<Typography fontWeight={600} variant="subtitle1">
+						다양한 분들과의 소통으로 폭넓은 인사이트를 얻습니다
+					</Typography>
+				</Box>
+			</Box>
+
+			{/** 섹션 6 */}
+			<Box
+				sx={{
+					pt: { md: 10, xs: 5 },
 					bgcolor: 'common.white',
 				}}
 				width={'100%'}
@@ -428,7 +631,7 @@ const Page: NextPage = () => {
 				<Box display="flex" ml={'20%'}>
 					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
 						<Typography color="primary.main" variant="h1">
-							03
+							05
 						</Typography>
 					</Box>
 					<Typography
@@ -504,7 +707,7 @@ const Page: NextPage = () => {
 							border={'1px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="common.white"
-							pt={10}
+							pt={11}
 						>
 							<Typography
 								color="primary.main"
@@ -549,6 +752,224 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 				</Box>
+			</Box>
+
+			{/** 섹션 7 */}
+			<Box
+				sx={{
+					pt: { md: 10, xs: 5 },
+					bgcolor: 'common.white',
+				}}
+				width={'100%'}
+				textAlign="center"
+				bgcolor={'common.white'}
+			>
+				<Box display="flex" ml={'20%'}>
+					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
+						<Typography color="primary.main" variant="h1">
+							06
+						</Typography>
+					</Box>
+					<Typography
+						variant="h4"
+						fontWeight={600}
+						mt="auto"
+						mb="auto"
+					>
+						Private IR & Demoday
+					</Typography>
+				</Box>
+				<Box width="100%" height="1.5px" bgcolor={'secondary.light'} />
+				<Box
+					display="flex"
+					justifyContent={'center'}
+					mt={10}
+					mb={10}
+					pt={15}
+					pb={15}
+					sx={{
+						flexWrap: {
+							xs: 'wrap',
+							sm: 'nowrap',
+						},
+						gap: {
+							xs: 5,
+							sm: 0,
+						},
+					}}
+					ml={{
+						sm: '100px',
+						xs: '0',
+					}}
+					// bgcolor={'secondary.light'}
+				>
+					<Box
+						display={'flex'}
+						flexDirection="column"
+						flexWrap={'wrap'}
+						gap={4}
+						justifyContent={'center'}
+					>
+						{data1.map((item, index) => {
+							return (
+								<Box
+									p={3.5}
+									borderRadius={4}
+									width={'280px'}
+									height={'160px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 20px'
+									}
+									textAlign={'center'}
+									sx={{
+										ml: {
+											xs: '0',
+											sm: index === 1 && '-100px',
+										},
+									}}
+									// ml={index === 1 && '-100px'}
+									bgcolor={'common.white'}
+								>
+									<Typography
+										color={'primary.main'}
+										fontWeight={'600'}
+									>
+										PROBLEM{' ' + (index + 1)}
+									</Typography>
+									<Box mt={2.5} textAlign={'center'}>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text1}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text2}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+										>
+											{item.text3}
+										</Typography>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+					<Box width={'250px'} height={'250px'} mt="auto" mb="auto">
+						<img src={'/images/main/solve.png'} alt={'solve'} />
+					</Box>
+
+					<Box
+						display={'flex'}
+						flexDirection="column"
+						flexWrap={'wrap'}
+						gap={4}
+						justifyContent={'center'}
+					>
+						{data1_1.map((item, index) => {
+							return (
+								<Box
+									p={3}
+									borderRadius={4}
+									width={'290px'}
+									height={'170px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 20px'
+									}
+									textAlign={'center'}
+									bgcolor="#305DDC"
+									sx={{
+										ml: {
+											xs: '0',
+											sm: index === 1 && '100px',
+										},
+									}}
+								>
+									<Typography
+										color={'info.main'}
+										fontWeight={'600'}
+										variant="h5"
+									>
+										{item.title}
+									</Typography>
+									<Box mt={2.5} textAlign={'center'}>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+											color="common.white"
+										>
+											{item.text1}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+											color="common.white"
+										>
+											{item.text2}
+										</Typography>
+										<Typography
+											variant={'h5'}
+											fontWeight={'500'}
+											color="common.white"
+										>
+											{item.text3}
+										</Typography>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+				</Box>
+			</Box>
+
+			<Box>
+				<Box
+					textAlign={'center'}
+					position="absolute"
+					bgcolor={'rgba(0, 0, 0, 0.7)'}
+					width={'100%'}
+					height={'400px'}
+					display={'flex'}
+					flexDirection={'column'}
+					gap={2}
+					sx={{ p: { md: 15, xs: 5 } }}
+					justifyContent={'center'}
+				>
+					<Typography color={'white'} variant="h4" fontWeight={'500'}>
+						여러분의 사업을 편리하게 관리하세요
+					</Typography>
+					<Typography color={'white'} variant="subtitle1">
+						서포티에서 최적의 솔루션을 제안합니다.
+					</Typography>
+					<SupportiButton
+						contents="무료로 시작하기"
+						onClick={() => {
+							if (!memberId) {
+								router.push('/auth/sign_in');
+							} else {
+								router.push(
+									'/internal_service/financial_solution/account_manage'
+								);
+							}
+						}}
+						variant="contained"
+						style={{
+							width: '200px',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+						}}
+					/>
+				</Box>
+				<img
+					style={{ zIndex: -100, width: '100%', height: '400px' }}
+					src={'/images/main/mainBackgroundImg.jpg'}
+					alt="img"
+				/>
 			</Box>
 		</Box>
 	);

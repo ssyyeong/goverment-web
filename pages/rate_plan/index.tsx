@@ -3,6 +3,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
+import { useRouter } from 'next/router';
 import SupportiButton from '../../src/views/global/SupportiButton';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
 import { useUserAccess } from '../../src/hooks/useUserAccess';
@@ -14,6 +15,7 @@ const Page: NextPage = () => {
 	//* Modules
 	const ratePlanController = new DefaultController('SubscriptionProduct');
 	const { memberId } = useAppMember();
+	const router = useRouter();
 
 	//* Constants
 	/**
@@ -476,6 +478,22 @@ const Page: NextPage = () => {
 					);
 				})}
 			</Box>
+
+			<SupportiButton
+				variant="outlined"
+				style={{
+					width: '40%',
+					marginTop: '30px',
+					marginBottom: '16px',
+					backgroundColor: 'white',
+					color: 'primary.main',
+					cursor: 'pointer',
+				}}
+				contents={'요금제 상세보기'}
+				onClick={() => {
+					router.push('/rate_plan/theBlack');
+				}}
+			/>
 			<BillingModal
 				open={payModal}
 				handleClose={() => {
