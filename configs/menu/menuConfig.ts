@@ -7,12 +7,12 @@ interface IMenu {
 }
 
 const dashboardMenu: IMenu[] = [
-	{
-		label: '비즈니스 개요',
-		path: '/internal_service/business_info',
-		icon: '/images/icons/business.svg',
-		forBusiness: true,
-	},
+	// {
+	// 	label: '비즈니스 개요',
+	// 	path: '/internal_service/business_info',
+	// 	icon: '/images/icons/business.svg',
+	// 	forBusiness: true,
+	// },
 	{
 		label: '재무 솔루션',
 		icon: '/images/icons/financial.svg',
@@ -22,11 +22,11 @@ const dashboardMenu: IMenu[] = [
 				label: '법인 계좌 RunWay/BurnRate',
 				path: '/internal_service/financial_solution/account_manage',
 			},
-			{
-				label: '재무 정보',
-				path: '/internal_service/financial_solution/financial_statement',
-				forBusiness: true,
-			},
+			// {
+			// 	label: '재무 정보',
+			// 	path: '/internal_service/financial_solution/financial_statement',
+			// 	forBusiness: true,
+			// },
 		],
 	},
 	{
