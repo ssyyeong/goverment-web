@@ -41,7 +41,8 @@ interface ISupportiAlertModalProps {
 		| 'successCreateAxios'
 		| 'successDeleteAxios'
 		| 'failAxios'
-		| 'seminarApply';
+		| 'seminarApply'
+		| 'paymentSuccess';
 	/**
 	 * 커스텀 핸들러
 	 */
@@ -88,6 +89,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	 * 모달 설정
 	 */
 	const modalConfig: IModalConfig = {
+		paymentSuccess: {
+			type: 'paymentSuccess',
+			title: '결제완료 되었습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
 		success: {
 			type: 'success',
 			title: '신청완료 되었습니다.',

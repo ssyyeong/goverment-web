@@ -10,6 +10,7 @@ import { PaymentInfoController } from '../../src/controller/PaymentInfoControlle
 import { LoadingButton } from '@mui/lab';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -43,6 +44,10 @@ const Page: NextPage = () => {
 
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
+		/**
+	 * 알럿
+	 */
+		const [alertModal, setAlertModal] = React.useState<boolean>(false);
 	//* Functions
 	const getBillingkey = async () => {
 		await axios
@@ -101,7 +106,7 @@ const Page: NextPage = () => {
 						// );
 						console.log(res);
 						setLoading(false);
-						router.push('/');
+						setAlertModal(true);
 					},
 					(err) => {
 						alert(`${err.response.data.message}`);
@@ -151,6 +156,14 @@ const Page: NextPage = () => {
 			>
 				카드 등록이 진행중입니다!
 			</Typography>
+			<SupportiAlertModal
+				open={alertModal}
+				handleClose={() => {
+					setAlertModal(false);
+					router.push('/');
+				}}
+				type="paymentSuccess"
+			/>
 		</Box>
 	);
 };
