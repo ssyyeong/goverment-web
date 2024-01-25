@@ -73,11 +73,11 @@ const mypageMenu: IMenu[] = [
 		path: '/my_page/payment_history',
 		icon: '/images/icons/payment.png',
 	},
-	{
-		label: '포인트 히스토리',
-		path: '/my_page/point_history',
-		icon: '/images/icons/point.png',
-	},
+	// {
+	// 	label: '포인트 히스토리',
+	// 	path: '/my_page/point_history',
+	// 	icon: '/images/icons/point.png',
+	// },
 	// {
 	// 	label: '세미나 히스토리',
 	// 	path: '/my_page/seminar_reservation_history',

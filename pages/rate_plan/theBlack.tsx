@@ -85,6 +85,7 @@ const Page: NextPage = () => {
 					gap={5}
 					pt={10}
 					pb={10}
+					flexWrap="wrap"
 				>
 					<Box
 						display="flex"
@@ -95,14 +96,21 @@ const Page: NextPage = () => {
 						<Box
 							sx={{
 								boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
-								width: '400px',
-								height: '230px',
 								borderRadius: '20px',
 								p: 3,
 								textAlign: 'left',
 								display: 'flex',
 								flexDirection: 'column',
+								justifyContent: 'center',
 								gap: 2,
+								width: {
+									sm: '400px',
+									xs: '400px',
+								},
+								height: {
+									sm: '230px',
+									xs: '230px',
+								},
 							}}
 						>
 							<Typography variant="h4" fontWeight={600}>
@@ -215,8 +223,33 @@ const Page: NextPage = () => {
 							</Typography>
 						</Box>
 					</Box>
-					<Box borderRadius={'160px'} position={'absolute'}>
-						<Typography>Service</Typography>
+					<Box
+						borderRadius={'160px'}
+						position={'absolute'}
+            marginTop={'150px'}
+						sx={{
+							backgroundImage: `linear-gradient(to right, #305DDC 9%, #A8FCFF 89%)`,
+							width: {
+								sm: '140px',
+								xs: '120px',
+							},
+							height: {
+								sm: '140px',
+								xs: '120px',
+							},
+           display: {
+            sm :"block",
+            xs: "none"
+           }
+						}}
+					>
+						<Typography
+							color="common.white"
+							variant="h4"
+							lineHeight="140px"
+						>
+							Service
+						</Typography>
 					</Box>
 				</Box>
 			</Box>
@@ -231,20 +264,38 @@ const Page: NextPage = () => {
 				textAlign="center"
 				bgcolor={'common.white'}
 			>
-				<Box display="flex" ml={'20%'}>
+				<Box
+					display="flex"
+					sx={{
+						ml: {
+							sm: '20%',
+							xs: '10%',
+						},
+					}}
+				>
 					<Box sx={{ borderBottom: '3px solid #3C52BB' }} mr={2}>
 						<Typography color="primary.main" variant="h1">
 							02
 						</Typography>
 					</Box>
-					<Typography
-						variant="h4"
-						fontWeight={600}
-						mt="auto"
-						mb="auto"
-					>
-						파트너사 서비스 할인 제공 (20~50% 할인)
-					</Typography>
+					<Box display="flex" flexWrap="wrap">
+						<Typography
+							variant="h4"
+							fontWeight={600}
+							mt="auto"
+							mb="auto"
+						>
+							파트너사 서비스 할인 제공
+						</Typography>
+						<Typography
+							variant="h4"
+							fontWeight={600}
+							mt="auto"
+							mb="auto"
+						>
+							(20~50% 할인)
+						</Typography>
+					</Box>
 				</Box>
 				<Box width="100%" height="1.5px" bgcolor={'secondary.light'} />
 				<Box
@@ -255,7 +306,14 @@ const Page: NextPage = () => {
 					pt={10}
 					pb={10}
 				>
-					<Box display="flex" gap={5} ml="auto" mr="auto">
+					<Box
+						display="flex"
+						gap={5}
+						ml="auto"
+						mr="auto"
+						flexWrap={'wrap'}
+						justifyContent="center"
+					>
 						{section3.map((item, index) => {
 							return (
 								<Box>
@@ -299,7 +357,14 @@ const Page: NextPage = () => {
 							);
 						})}
 					</Box>
-					<Box display="flex" gap={5} ml="auto" mr="auto">
+					<Box
+						display="flex"
+						gap={5}
+						ml="auto"
+						mr="auto"
+						flexWrap={'wrap'}
+						justifyContent="center"
+					>
 						{section3_1.map((item, index) => {
 							return (
 								<Box>
@@ -394,12 +459,18 @@ const Page: NextPage = () => {
 									>
 										<Box
 											p={2}
-											width="280px"
-											height="50px"
 											sx={{
 												boxShadow:
 													'rgb(219, 219, 219) 0px 4px 10px',
 												borderRadius: '5px',
+												width: {
+													sm: '280px',
+													xs: '150px',
+												},
+												height: {
+													sm: '50px',
+													xs: '30px',
+												},
 											}}
 										>
 											<Typography

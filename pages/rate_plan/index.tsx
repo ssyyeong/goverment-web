@@ -68,7 +68,7 @@ const Page: NextPage = () => {
 		);
 	}, []);
 
-	// console.log(memberId, 'permission is : ', permission);
+	console.log(memberId, 'permission is : ', permission);
 
 	return (
 		<Box
@@ -428,54 +428,50 @@ const Page: NextPage = () => {
 								/>
 							)}
 
-							{ratePlan.TYPE === 'BLACK' &&
-								permission !== undefined &&
-								permission && (
-									<SupportiButton
-										variant="contained"
-										style={{
-											width: '90%',
-											marginTop: 'auto',
-											marginBottom: '16px',
-											backgroundImage:
-												'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
-										}}
-										contents={'지금 결제하기'}
-										onClick={() => {
-											if (!access) {
-												setAlertModalType('login');
-												setAlertModal(true);
-												return;
-											}
-											setPayModalData(ratePlan);
-											setPayModal(true);
-										}}
-									/>
-								)}
+							{ratePlan.TYPE === 'BLACK' && permission && (
+								<SupportiButton
+									variant="contained"
+									style={{
+										width: '90%',
+										marginTop: 'auto',
+										marginBottom: '16px',
+										backgroundImage:
+											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+									}}
+									contents={'지금 결제하기'}
+									onClick={() => {
+										if (!access) {
+											setAlertModalType('login');
+											setAlertModal(true);
+											return;
+										}
+										setPayModalData(ratePlan);
+										setPayModal(true);
+									}}
+								/>
+							)}
 
-							{ratePlan.TYPE === 'BLACK' &&
-								permission !== undefined &&
-								!permission && (
-									<SupportiButton
-										variant="contained"
-										style={{
-											width: '90%',
-											marginTop: 'auto',
-											marginBottom: '16px',
-											backgroundImage:
-												'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
-										}}
-										contents={'사용 신청하기'}
-										onClick={() => {
-											if (!access) {
-												setAlertModalType('login');
-												setAlertModal(true);
-												return;
-											}
-											setRecommenderModal(true);
-										}}
-									/>
-								)}
+							{ratePlan.TYPE === 'BLACK' && !permission && (
+								<SupportiButton
+									variant="contained"
+									style={{
+										width: '90%',
+										marginTop: 'auto',
+										marginBottom: '16px',
+										backgroundImage:
+											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+									}}
+									contents={'사용 신청하기'}
+									onClick={() => {
+										if (!access) {
+											setAlertModalType('login');
+											setAlertModal(true);
+											return;
+										}
+										setRecommenderModal(true);
+									}}
+								/>
+							)}
 						</Box>
 					);
 				})}
