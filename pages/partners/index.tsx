@@ -259,7 +259,7 @@ const Page: NextPage = () => {
 								ml={'auto'}
 								mr={'auto'}
 							>
-								<Box display="flex">
+								<Box display="flex" flexWrap={'wrap'}>
 									<Typography
 										fontWeight={600}
 										variant="h3"
@@ -267,6 +267,7 @@ const Page: NextPage = () => {
 											color: '#3C52BB',
 											lineHeight: '130%',
 											marginBottom: 30,
+											marginRight: '15px',
 										}}
 									>
 										{v.Title}
@@ -275,7 +276,6 @@ const Page: NextPage = () => {
 										<Typography
 											color="secondary.dark"
 											lineHeight={'280%'}
-											ml="15px"
 										>
 											클릭해서 블랙 회원에게만 제공되는
 											혜택을 신청하세요!

@@ -21,6 +21,7 @@ import 'aos/dist/aos.css';
 import { useAppMember } from '../src/hooks/useAppMember';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import EastIcon from '@mui/icons-material/East';
 
 type Props = {};
 
@@ -642,22 +643,78 @@ const Page: NextPage = () => {
 			>
 				<Box
 					m="auto"
-					gap={2}
+					gap={1}
 					display={'flex'}
 					flexDirection={'column'}
 					justifyContent={'center'}
 					pt={14}
 					pb={10}
 				>
-					<img
-						src={'/images/main/커피챗.png'}
-						alt={'커피챗'}
-						width={'180px'}
-						height={'180px'}
-						style={{ marginLeft: 'auto', marginRight: 'auto' }}
-					/>
-					<Typography color="common.white">
-						수많은 고민을 어떤 방향으로 어떻게 해결할지 모르시겠죠?
+					<Box gap={4} display={'flex'}>
+						<Box>
+							<img
+								src={'/images/main/커피챗종.png'}
+								alt={'종'}
+								width={'150px'}
+								height={'150px'}
+								style={{
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									marginBottom: '15px',
+								}}
+							/>
+							<Typography color="common.white">
+								커피챗 알람
+							</Typography>
+						</Box>
+						<EastIcon
+							sx={{
+								color: 'common.white',
+								mt: 'auto',
+								mb: 'auto',
+							}}
+						/>
+						<Box>
+							<img
+								src={'/images/main/커피챗손.png'}
+								alt={'손'}
+								width={'150px'}
+								height={'150px'}
+								style={{
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									marginBottom: '15px',
+								}}
+							/>
+							<Typography color="common.white">
+								상호 승인 시 커피챗 매칭
+							</Typography>
+						</Box>
+						<EastIcon
+							sx={{
+								color: 'common.white',
+								mt: 'auto',
+								mb: 'auto',
+							}}
+						/>
+						<Box>
+							<img
+								src={'/images/main/커피챗.png'}
+								alt={'커피챗'}
+								width={'140px'}
+								height={'140px'}
+								style={{
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									marginBottom: '15px',
+								}}
+							/>
+							<Typography color="common.white">커피챗</Typography>
+						</Box>
+					</Box>
+
+					<Typography color="common.white" mt={7}>
+						매월 만나고 싶은 사람을 1명씩 ! 무료로 이용 가능!
 					</Typography>
 					<Box
 						display="flex"
@@ -665,14 +722,11 @@ const Page: NextPage = () => {
 						gap={0.5}
 						justifyContent={'center'}
 					>
-						<Typography color="common.white">
-							다양한 영역의{' '}
+						<Typography color="info.main" variant="h5">
+							매월 3째 주
 						</Typography>
-						<Typography color="info.main">
-							1:1 커피챗 매칭
-						</Typography>
-						<Typography color="common.white">
-							으로 방향을 찾아가세요.
+						<Typography color="common.white" mt="auto" mb="auto">
+							진행
 						</Typography>
 					</Box>
 				</Box>
