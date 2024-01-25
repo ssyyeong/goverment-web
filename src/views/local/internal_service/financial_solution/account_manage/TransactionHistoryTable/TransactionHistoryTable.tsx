@@ -107,7 +107,6 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 							// 리랜더링을 위해 키 변경
 
 							handleExcept(value, idx);
-							props.setRecomputeTriggerKey(uuidv4());
 						},
 						(err) => {}
 					);
@@ -256,6 +255,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						value == 'Y' ? 'N' : 'Y';
 					return newTransactionHistoryList;
 				});
+				props.setRecomputeTriggerKey(uuidv4());
 			},
 			(err) => {
 				console.log(err);

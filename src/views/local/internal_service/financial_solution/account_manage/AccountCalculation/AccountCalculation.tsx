@@ -90,7 +90,10 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 		},
 		{
 			lable: 'BurnRate',
-			value: props.calculationResult?.burnRate,
+			value:
+				props.calculationResult?.burnRate < 0
+					? '흑자'
+					: props.calculationResult?.burnRate,
 			extra: true,
 		},
 		{
@@ -120,9 +123,10 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				BURN_RATE_END_DATE: standardDate,
-				BURN_RATE_START_DATE: moment(standardDate)
-					.subtract(averageMonth, 'M')
-					.format('YYYY-MM-DDTHH:mm:ss'),
+				BURN_RATE_START_DATE: moment(standardDate).subtract(
+					averageMonth,
+					'M'
+				),
 			},
 			(res) => {
 				props.setRecomputeTriggerKey(uuidv4());
@@ -166,7 +170,6 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 	}, [memberId]);
 
 	//* Hooks
-
 	/**
 	 * 데이트 피커 포커스
 	 */
