@@ -90,7 +90,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	 */
 	const modalConfig: IModalConfig = {
 		paymentSuccess: {
-			type: 'paymentSuccess',
+			type: 'success',
 			title: '결제완료 되었습니다.',
 			content: '확인',
 			onclick: () => {
