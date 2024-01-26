@@ -48,9 +48,9 @@ const Page: NextPage = () => {
 		},
 		{
 			title: '데모데이',
-			text1: '10개사 선발 후 1~2개사 선정',
+			text1: '10개사 선발 후 최종 1~2개사 선정',
 			text2: '무조건 투자 전제된 데모데이 개최',
-			text3: '(서포티 및 서포티 관계사 대상',
+			text3: '(서포티 및 서포티 관계사 대상)',
 		},
 	];
 
@@ -160,6 +160,7 @@ const Page: NextPage = () => {
 									sm: '230px',
 									xs: '230px',
 								},
+								bgcolor: 'white',
 							}}
 						>
 							<Typography variant="h4" fontWeight={600}>
@@ -194,6 +195,7 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'column',
 								gap: 2,
+								bgcolor: 'white',
 							}}
 						>
 							<Typography variant="h4" fontWeight={600}>
@@ -229,6 +231,7 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'column',
 								gap: 2,
+								bgcolor: 'white',
 							}}
 						>
 							<Typography variant="h4" fontWeight={600}>
@@ -257,6 +260,7 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'column',
 								gap: 2,
+								bgcolor: 'white',
 							}}
 						>
 							<Typography variant="h4" fontWeight={600}>
@@ -383,6 +387,7 @@ const Page: NextPage = () => {
 												boxShadow:
 													'rgb(219, 219, 219) 0px 4px 10px',
 												borderRadius: '5px',
+												bgcolor: 'white',
 											}}
 										>
 											<Typography
@@ -434,6 +439,7 @@ const Page: NextPage = () => {
 												boxShadow:
 													'rgb(219, 219, 219) 0px 4px 20px',
 												borderRadius: '5px',
+												bgcolor: 'white',
 											}}
 										>
 											<Typography
@@ -668,7 +674,7 @@ const Page: NextPage = () => {
 							height="200px"
 							border={'1px solid #3C52BB'}
 							borderRadius="480px"
-							bgcolor="common.white"
+							bgcolor="white"
 							pt={8}
 						>
 							<Typography
@@ -706,7 +712,7 @@ const Page: NextPage = () => {
 							height="200px"
 							border={'1px solid #3C52BB'}
 							borderRadius="480px"
-							bgcolor="common.white"
+							bgcolor="white"
 							pt={11}
 						>
 							<Typography
