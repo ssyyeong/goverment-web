@@ -218,67 +218,6 @@ const Page: NextPage = () => {
 					: '',
 		},
 		{
-			label: '전화번호',
-			type: 'phone',
-			for: ['BUSINESS', 'GENERAL'],
-			endAdornment: (
-				<Button
-					variant="contained"
-					sx={{
-						backgroundColor: '#d1d1d1',
-					}}
-					onClick={() => sendAlimTalk()}
-					disabled={isVerified === 'OK'}
-				>
-					<Typography variant="body2" color={'white'} width={100}>
-						인증번호 받기
-					</Typography>
-				</Button>
-			),
-			value: signupData.PHONE_NUMBER,
-			isVerified: isVerified,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					PHONE_NUMBER: e.target.value,
-				});
-			},
-			error: phoneNumDuplication,
-			helperText: phoneNumDuplication
-				? '이미 가입된 전화번호입니다.'
-				: '',
-		},
-		{
-			label: '인증번호',
-			type: 'text',
-			for: ['BUSINESS', 'GENERAL'],
-			nolabel: true,
-			isVerified: isVerified,
-			endAdornment: (
-				<Button
-					variant="contained"
-					disabled={isVerified === 'OK'}
-					sx={{
-						backgroundColor: '#d1d1d1',
-					}}
-					onClick={() => verifyAuthCode()}
-				>
-					<Typography variant="body2" color={'white'}>
-						인증
-					</Typography>
-				</Button>
-			),
-			helperText:
-				isVerified === 'NOT_OK'
-					? '인증번호가 일치하지 않습니다.'
-					: isVerified === 'OK' && '인증되었습니다.',
-			value: verifyNumber,
-			error: isVerified === 'NOT_OK',
-			onChange: (e) => {
-				setVerifyNumber(e.target.value);
-			},
-		},
-		{
 			label: '사업 분류',
 			for: 'BUSINESS',
 			type: 'select',
@@ -348,6 +287,68 @@ const Page: NextPage = () => {
 				});
 			},
 		},
+		{
+			label: '전화번호',
+			type: 'phone',
+			for: ['BUSINESS', 'GENERAL'],
+			endAdornment: (
+				<Button
+					variant="contained"
+					sx={{
+						backgroundColor: '#d1d1d1',
+					}}
+					onClick={() => sendAlimTalk()}
+					disabled={isVerified === 'OK'}
+				>
+					<Typography variant="body2" color={'white'} width={100}>
+						인증번호 받기
+					</Typography>
+				</Button>
+			),
+			value: signupData.PHONE_NUMBER,
+			isVerified: isVerified,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					PHONE_NUMBER: e.target.value,
+				});
+			},
+			error: phoneNumDuplication,
+			helperText: phoneNumDuplication
+				? '이미 가입된 전화번호입니다.'
+				: '',
+		},
+		{
+			label: '인증번호',
+			type: 'text',
+			for: ['BUSINESS', 'GENERAL'],
+			nolabel: true,
+			isVerified: isVerified,
+			endAdornment: (
+				<Button
+					variant="contained"
+					disabled={isVerified === 'OK'}
+					sx={{
+						backgroundColor: '#d1d1d1',
+					}}
+					onClick={() => verifyAuthCode()}
+				>
+					<Typography variant="body2" color={'white'}>
+						인증
+					</Typography>
+				</Button>
+			),
+			helperText:
+				isVerified === 'NOT_OK'
+					? '인증번호가 일치하지 않습니다.'
+					: isVerified === 'OK' && '인증되었습니다.',
+			value: verifyNumber,
+			error: isVerified === 'NOT_OK',
+			onChange: (e) => {
+				setVerifyNumber(e.target.value);
+			},
+		},
+	
 	];
 
 	//* Functions
