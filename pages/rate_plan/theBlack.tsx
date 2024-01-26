@@ -335,7 +335,7 @@ const Page: NextPage = () => {
 							02
 						</Typography>
 					</Box>
-					<Box display="flex" flexWrap="wrap">
+					<Box display="flex" flexWrap="wrap" gap={1}>
 						<Typography
 							variant="h4"
 							fontWeight={600}
@@ -380,9 +380,9 @@ const Page: NextPage = () => {
 										gap={3}
 									>
 										<Box
-											p={2}
-											width="280px"
-											height="50px"
+											p={2.5}
+											width="270px"
+											height="55px"
 											sx={{
 												boxShadow:
 													'rgb(219, 219, 219) 0px 4px 10px',
@@ -432,9 +432,9 @@ const Page: NextPage = () => {
 										gap={3}
 									>
 										<Box
-											p={2}
-											width="280px"
-											height="50px"
+											p={2.5}
+											width="270px"
+											height="55px"
 											sx={{
 												boxShadow:
 													'rgb(219, 219, 219) 0px 4px 20px',
@@ -611,16 +611,35 @@ const Page: NextPage = () => {
 						width={'220px'}
 						height={'220px'}
 					/>
-					<Typography fontWeight={600} variant="subtitle1" mb={5}>
+					<Typography fontWeight={600} variant="subtitle1" mb={7}>
 						소셜링
 					</Typography>
 
-					<Typography fontWeight={600} variant="subtitle1">
+					<Typography
+						fontWeight={600}
+						variant="h5"
+						sx={{
+							mb: {
+								xs: 1,
+								sm: 0,
+							},
+						}}
+					>
 						매월 만나고 싶은 분과의 소셜링
 					</Typography>
-					<Typography fontWeight={600} variant="subtitle1">
-						다양한 분들과의 소통으로 폭넓은 인사이트를 얻습니다
-					</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						gap={1}
+						justifyContent={'center'}
+					>
+						<Typography fontWeight={600} variant="h5">
+							다양한 분들과의 소통으로
+						</Typography>
+						<Typography fontWeight={600} variant="h5">
+							폭넓은 인사이트를 얻습니다
+						</Typography>
+					</Box>
 				</Box>
 			</Box>
 
@@ -670,30 +689,30 @@ const Page: NextPage = () => {
 						justifyContent="center"
 					>
 						<Box
-							width="200px"
-							height="200px"
-							border={'1px solid #3C52BB'}
+							width="220px"
+							height="220px"
+							border={'2px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="white"
-							pt={8}
+							pt={10}
 						>
 							<Typography
 								color="primary.main"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								다양한 분야의
 							</Typography>
 							<Typography
 								color="primary.main"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								믿음직스러운 연사님들과의
 							</Typography>
 							<Typography
 								color="primary.main"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								세미나 진행
@@ -708,16 +727,16 @@ const Page: NextPage = () => {
 							+
 						</Typography>
 						<Box
-							width="200px"
-							height="200px"
-							border={'1px solid #3C52BB'}
+							width="220px"
+							height="220px"
+							border={'2px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="white"
-							pt={11}
+							pt={12}
 						>
 							<Typography
 								color="primary.main"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								CEO 네트워킹
@@ -733,24 +752,24 @@ const Page: NextPage = () => {
 						</Typography>
 
 						<Box
-							width="200px"
-							height="200px"
+							width="220px"
+							height="220px"
 							border={'1px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="primary.main"
-							pt={10}
+							pt={11}
 						>
 							{' '}
 							<Typography
 								color="common.white"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								폭넓은 INSIGHT
 							</Typography>
 							<Typography
 								color="common.white"
-								variant="subtitle1"
+								variant="h5"
 								fontWeight={500}
 							>
 								성장으로의 발걸음
@@ -834,7 +853,7 @@ const Page: NextPage = () => {
 										},
 									}}
 									// ml={index === 1 && '-100px'}
-									bgcolor={'common.white'}
+									bgcolor={'white'}
 								>
 									<Typography
 										color={'primary.main'}
