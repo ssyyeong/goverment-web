@@ -336,6 +336,18 @@ const Page: NextPage = () => {
 				});
 			},
 		},
+		{
+			label: '직책',
+			type: 'text',
+			for: 'BUSINESS',
+			value: signupData.ROLE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					ROLE: e.target.value,
+				});
+			},
+		},
 	];
 
 	//* Functions

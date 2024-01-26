@@ -17,6 +17,7 @@ interface IUser {
 	SNS_TYPE?: 'KAKAO' | 'NAVER' | 'GOOGLE';
 	ALIMTALK_YN?: 'Y' | 'N';
 	[key: string]: any;
+	ROLE?: string;
 }
 
 /**
