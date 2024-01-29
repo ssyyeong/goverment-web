@@ -63,6 +63,9 @@ const Page: NextPage = () => {
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Hooks
+	React.useEffect(() => {
+		//* 초기 데이터 셋팅
+	}, []);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -84,16 +87,17 @@ const Page: NextPage = () => {
 						mobileImage="/images/main/businessMoblie.png"
 					>
 						<Box
-						// sx={{
-						// 	display: 'flex',
-						// 	flexDirection: 'column',
-						// 	width: '100%',
-						// 	height: '100%',
-						// 	minHeight: '100vh',
-						// 	p: { xs: 2, md: 15 },
-						// 	bgcolor: 'white',
-						// 	gap: 2,
-						// }}
+							p={1}
+							// sx={{
+							// 	display: 'flex',
+							// 	flexDirection: 'column',
+							// 	width: '100%',
+							// 	height: '100%',
+							// 	minHeight: '100vh',
+							// 	p: { xs: 2, md: 15 },
+							// 	bgcolor: 'white',
+							// 	gap: 2,
+							// }}
 						>
 							{/* <Typography variant="h1" mb={5}>
 								전문가에게 질문하기
@@ -108,7 +112,7 @@ const Page: NextPage = () => {
 
 							<Typography
 								variant="h5"
-								mt={8}
+								mt={5}
 								mb={2}
 								fontWeight={600}
 							>
@@ -127,6 +131,9 @@ const Page: NextPage = () => {
 									display="flex"
 									flexDirection={'column'}
 									justifyContent="space-between"
+									onClick={() =>
+										router.push('/internal_service/a2e/1')
+									}
 								>
 									<Box display="flex" gap={0.5}>
 										<Typography

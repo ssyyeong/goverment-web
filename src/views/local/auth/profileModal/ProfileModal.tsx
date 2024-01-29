@@ -58,25 +58,37 @@ const ProfileModal = (props: IProfileModalProps) => {
 		>
 			<Box mb={3} width={'100%'}>
 				<Box display="flex">
-					<img />
+					<img
+						alt="expertImg"
+						style={{
+							borderRadius: '50%',
+							width: '50px',
+							height: '50px',
+						}}
+					/>
 					<Box>
-						<Box display="flex">
+						<Box display="flex" gap={1} my={2}>
 							<Typography fontWeight={600}></Typography>
 							<Typography></Typography>
 						</Box>
-						<Typography color='secondary.dark'></Typography>
+						<Typography color="secondary.dark" fontWeight={600}></Typography>
 					</Box>
 				</Box>
 				<Box>
 					<Typography>경력</Typography>
 				</Box>
-				<Box display="flex">
+
+				{/** Contact */}
+				<Box display="flex" mt="auto">
 					<MailOutlineIcon />
-					<Typography></Typography>
+					<Typography
+						color="secondary.dark"
+						sx={{ textDecoration: 'underline' }}
+					></Typography>
 				</Box>
 				<Box display="flex">
 					<PhoneIcon />
-					<Typography></Typography>
+					<Typography color="secondary.dark"></Typography>
 				</Box>
 			</Box>
 		</SupportiModal>
