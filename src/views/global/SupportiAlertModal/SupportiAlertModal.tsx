@@ -42,7 +42,8 @@ interface ISupportiAlertModalProps {
 		| 'successDeleteAxios'
 		| 'failAxios'
 		| 'seminarApply'
-		| 'paymentSuccess';
+		| 'paymentSuccess'
+		| 'unAccess';
 	/**
 	 * 커스텀 핸들러
 	 */
@@ -261,7 +262,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		},
 		successCreateAxios: {
 			type: 'success',
-			title: '성공적으로 생성되었습니다.',
+			title: '성공적으로 등록되었습니다.',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
@@ -298,6 +299,15 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: true,
+		},
+		unAccess: {
+			type: 'error',
+			title: '본인 글만 확인 가능합니다.',
+			// content: '로그인 페이지로 이동',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
 		},
 	};
 
