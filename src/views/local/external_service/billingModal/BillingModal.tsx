@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
-import SuppportiModal from '../../../global/SuppportiModal';
+import SupportiModal from '../../../global/SupportiModal';
 import SupportiButton from '../../../global/SupportiButton';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { v4 as uuidv4 } from 'uuid';
@@ -51,7 +51,7 @@ const BillingModal = (props: IBillingModalProps) => {
 	};
 
 	return (
-		<SuppportiModal
+		<SupportiModal
 			open={props.open}
 			handleClose={() => {
 				props.handleClose();
@@ -100,7 +100,9 @@ const BillingModal = (props: IBillingModalProps) => {
 					variant="subtitle1"
 					sx={{ borderBottom: '1px solid lightgrey', py: 1, mb: 1 }}
 				>
-					{props.ratePlanInfo?.NAME === 'The Black' ? '2024-02-29' : moment().add(1, 'months').format('YYYY-MM-DD')}
+					{props.ratePlanInfo?.NAME === 'The Black'
+						? '2024-02-29'
+						: moment().add(1, 'months').format('YYYY-MM-DD')}
 				</Typography>
 			</Box>
 
@@ -113,7 +115,7 @@ const BillingModal = (props: IBillingModalProps) => {
 				}}
 				style={{ color: 'white' }}
 			/>
-		</SuppportiModal>
+		</SupportiModal>
 	);
 };
 

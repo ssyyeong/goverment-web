@@ -8,7 +8,7 @@ import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { v4 as uuidv4 } from 'uuid';
-import SuppportiModal from '../../../../../global/SuppportiModal';
+import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import { IAccountCalculationResultProps } from '../AccountCalculation/AccountCalculation';
 import AccountRegisterModal from '../AccountRegisterModal/AccountRegisterModal';
@@ -687,7 +687,7 @@ const MyAccounts = (props: IMyAccountsProps) => {
 				)}
 				{/* 계좌 등록 / 수정 모달 (얘는, 버튼으로 등록 계좌 내역 영역 쪽에 들어가야함) */}
 				{accountModifyModalOpen && (
-					<SuppportiModal
+					<SupportiModal
 						open={accountModifyModalOpen}
 						handleClose={() => {
 							setAccountModifyModalOpen(false);

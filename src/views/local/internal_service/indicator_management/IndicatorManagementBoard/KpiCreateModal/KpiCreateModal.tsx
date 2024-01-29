@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
-import SuppportiModal from '../../../../../global/SuppportiModal';
+import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../global/SupportiButton';
 import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
@@ -130,7 +130,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 
 	return (
 		<Box>
-			<SuppportiModal
+			<SupportiModal
 				open={props.modalOpen}
 				handleClose={() => {
 					props.setModalOpen(false);

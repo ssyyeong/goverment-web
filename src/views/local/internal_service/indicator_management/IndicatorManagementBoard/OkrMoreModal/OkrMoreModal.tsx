@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
-import SuppportiModal from '../../../../../global/SuppportiModal';
+import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiButton from '../../../../../global/SupportiButton';
 import SupportiInput from '../../../../../global/SupportiInput';
 import UnderGoalWriteForm from '../UnderGoalWriteForm/UnderGoalWriteForm';
@@ -256,7 +256,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 
 	return (
 		<Box>
-			<SuppportiModal
+			<SupportiModal
 				open={props.modalOpen}
 				handleClose={() => {
 					props.setModalOpen(false);

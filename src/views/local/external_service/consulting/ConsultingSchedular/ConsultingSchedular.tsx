@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Button, Typography } from '@mui/material';
-import SuppportiModal from '../../../../global/SuppportiModal';
+import SupportiModal from '../../../../global/SupportiModal';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -216,7 +216,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	}, [props.consultingData]);
 
 	return (
-		<SuppportiModal
+		<SupportiModal
 			open={props.open}
 			handleClose={() => {
 				setSelectedDate(null);
@@ -614,7 +614,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					props.handleClose();
 				}}
 			/>
-		</SuppportiModal>
+		</SupportiModal>
 	);
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, BoxProps, Grid, Modal, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-export interface ISuppportiModalProps {
+export interface ISupportiModalProps {
 	/**
 	 * 모달 열림 여부
 	 */
@@ -45,7 +45,7 @@ export interface ISuppportiModalProps {
 	modalButtonElement?: React.ReactNode;
 }
 
-const SuppportiModal = (props: ISuppportiModalProps) => {
+const SupportiModal = (props: ISupportiModalProps) => {
 	//* Constants
 	/**
 	 * 기본 스타일
@@ -133,4 +133,4 @@ const SuppportiModal = (props: ISuppportiModalProps) => {
 	);
 };
 
-export default SuppportiModal;
+export default SupportiModal;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
-import SuppportiModal from '../../../global/SuppportiModal';
+import SupportiModal from '../../../global/SupportiModal';
 import SupportiButton from '../../../global/SupportiButton';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { v4 as uuidv4 } from 'uuid';
@@ -54,7 +54,7 @@ const ChargeModal = (props: IChargeModalProps) => {
 		});
 	};
 	return (
-		<SuppportiModal
+		<SupportiModal
 			open={props.open}
 			handleClose={() => {
 				props.handleClose();
@@ -90,7 +90,7 @@ const ChargeModal = (props: IChargeModalProps) => {
 				}}
 				style={{ color: 'white' }}
 			/>
-		</SuppportiModal>
+		</SupportiModal>
 	);
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import SuppportiModal from '../../../../../global/SuppportiModal';
+import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
@@ -81,7 +81,7 @@ const GetCertModal = (props: IGetCertModalProps) => {
 
 	return (
 		<Box>
-			<SuppportiModal
+			<SupportiModal
 				open={props.modalOpen}
 				handleClose={() => {
 					props.setModalOpen(false);

@@ -8,7 +8,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import SuppportiModal from '../../../global/SuppportiModal';
+import SupportiModal from '../../../global/SupportiModal';
 import SupportiButton from '../../../global/SupportiButton';
 
 import SupportiToggle from '../../../global/SupportiToggle';
@@ -351,7 +351,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	return (
-		<SuppportiModal
+		<SupportiModal
 			open={props.open}
 			handleClose={() => {
 				props.handleClose();
@@ -469,7 +469,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				}}
 				style={{ color: 'white' }}
 			/>
-		</SuppportiModal>
+		</SupportiModal>
 	);
 };
 

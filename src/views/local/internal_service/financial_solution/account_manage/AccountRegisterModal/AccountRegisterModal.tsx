@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
 import { IBankAccount } from '../../../../../../@types/model';
-import SuppportiModal from '../../../../../global/SuppportiModal';
+import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiInput from '../../../../../global/SupportiInput';
 import axios from 'axios';
 import SupportiButton from '../../../../../global/SupportiButton';
@@ -424,7 +424,7 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	return (
 		<Box>
-			<SuppportiModal
+			<SupportiModal
 				open={props.accountRegisterModalOpen}
 				handleClose={() => {
 					props.setAccountRegisterModalOpen(false);

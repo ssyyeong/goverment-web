@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box } from '@mui/system';
-import SuppportiModal from '../../views/global/SuppportiModal';
+import SupportiModal from '../../views/global/SupportiModal';
 import { Button, TextField, Typography } from '@mui/material';
 import SupportiButton from '../../views/global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
@@ -126,7 +126,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 	 */
 	const SupportiBlackPayModal = (props: ISupportiBlackPayModalProps) => {
 		return (
-			<SuppportiModal
+			<SupportiModal
 				open={props.open}
 				handleClose={() => {
 					props.handleClose();
@@ -293,7 +293,7 @@ const SupportiTheBlack = (props: IuseSupportiTheBlackProps) => {
 						style={{ color: 'white' }}
 					/>
 				)}
-			</SuppportiModal>
+			</SupportiModal>
 		);
 	};
 

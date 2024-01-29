@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
-import SuppportiModal, {
-	ISuppportiModalProps,
-} from '../SuppportiModal/SuppportiModal';
+import SupportiModal, {
+	ISupportiModalProps,
+} from '../SupportiModal/SupportiModal';
 import SupportiButton from '../SupportiButton';
 import { useRouter } from 'next/router';
 import ChargeModal from '../../local/external_service/chargeModal/ChargeModal';
@@ -302,7 +302,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	};
 
 	return (
-		<SuppportiModal
+		<SupportiModal
 			open={props.open}
 			handleClose={() => {
 				props.handleClose();
@@ -406,7 +406,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				open={openChargeModal}
 				handleClose={() => setOpenChargeModal(false)}
 			/>
-		</SuppportiModal>
+		</SupportiModal>
 	);
 };
 
