@@ -14,6 +14,9 @@ import { useAppMember } from '../../src/hooks/useAppMember';
 const Page: NextPage = () => {
 	//* Modules
 	const ratePlanController = new DefaultController('SubscriptionProduct');
+	const userSubscriptionController = new DefaultController(
+		'UserSubscription'
+	);
 	const { memberId } = useAppMember();
 	const router = useRouter();
 
@@ -51,8 +54,34 @@ const Page: NextPage = () => {
 		'success' | 'login' | 'subscribe' | 'point' | 'already'
 	>('success');
 
+	/**
+	 * 구독 정보
+	 */
+	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
+
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
+
+	/**
+	 * 구독권 정보 가져오기
+	 */
+	useEffect(() => {
+		memberId &&
+			userSubscriptionController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					EXPIRED_YN: 'N',
+					CANCELED_YN: 'N',
+				},
+				(res) => {
+					setSubscriptionInfo(res.data.result);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [memberId]);
+
 	/**
 	 * 요금제 리스트 조회
 	 */
@@ -417,7 +446,7 @@ const Page: NextPage = () => {
 											? true
 											: false
 									}
-									contents={'지금 결제하기'}
+									contents={'결제하기'}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
@@ -440,15 +469,28 @@ const Page: NextPage = () => {
 										backgroundImage:
 											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
 									}}
-									contents={'지금 결제하기'}
+									contents={
+										subscriptionInfo?.SubscriptionProduct
+											?.TYPE !== 'BLACK'
+											? '구독중'
+											: '결제하기'
+									}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
 											setAlertModal(true);
 											return;
 										}
-										setPayModalData(ratePlan);
-										setPayModal(true);
+										if (
+											!(
+												subscriptionInfo
+													?.SubscriptionProduct
+													?.TYPE !== 'BLACK'
+											)
+										) {
+											setPayModalData(ratePlan);
+											setPayModal(true);
+										}
 									}}
 								/>
 							)}

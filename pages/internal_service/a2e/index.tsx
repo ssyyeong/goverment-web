@@ -211,7 +211,7 @@ const Page: NextPage = () => {
 															item
 																? '#e7eeff'
 																: 'common.white',
-														width: '150px',
+														width: '130px',
 														textAlign: 'center',
 														cursor: 'pointer',
 														boxShadow:
@@ -223,7 +223,10 @@ const Page: NextPage = () => {
 														)
 													}
 												>
-													<Typography color="primary.main">
+													<Typography
+														color="primary.main"
+														fontWeight={600}
+													>
 														{item}
 													</Typography>
 												</Box>
@@ -248,12 +251,12 @@ const Page: NextPage = () => {
 											setValue={setIsSecret}
 										/>
 									</Box> */}
-									<Box display="flex">
+									<Box display="flex" mr={'-22px'}>
 										<Typography
 											mt="auto"
 											mb="auto"
 											pb={1}
-											mr={0.5}
+											mr={1}
 											fontWeight={500}
 											fontFamily={'Pretendard'}
 										>
