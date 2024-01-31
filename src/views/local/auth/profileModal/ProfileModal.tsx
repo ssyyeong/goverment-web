@@ -16,29 +16,37 @@ import { AppMemberController } from '../../../../controller/AppMemberController'
 import { useRouter } from 'next/router';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneIcon from '@mui/icons-material/Phone';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 interface IProfileModalProps {
 	open: boolean;
 	handleClose: () => void;
-	appMemberData?: any;
+	partnerId: number;
 }
 
 //* A2E 커뮤니티 프로필 모달
 const ProfileModal = (props: IProfileModalProps) => {
 	//* Modules
-	const appMemberController = new AppMemberController();
+	const profileController = new DefaultController('ExpertProfile');
 
 	//* State
-
+	const [profile, setProfile] = useState<any>(undefined);
 	/**
 	 * 데이터 세팅
 	 */
 	useEffect(() => {
-		if (props.appMemberData) {
-			// setSignupData(props.appMemberData);
-			// setRawSignupData(props.appMemberData);
-		}
-	}, [props.appMemberData]);
+		profileController.getOneItem(
+			{
+				PARTNER_MEMBER_IDENTIFICATION_CODE: props.partnerId,
+			},
+			(res) => {
+				setProfile(res.data.result);
+			},
+			(err) => {}
+		);
+	}, []);
+
+	console.log(profile);
 
 	return (
 		<SupportiModal
@@ -56,7 +64,15 @@ const ProfileModal = (props: IProfileModalProps) => {
 				width: { sm: '40%', xs: '100%' },
 			}}
 		>
-			<Box mb={3} width={'100%'}>
+			{profile !== undefined &&
+			<Box
+				mb={3}
+				width={'100%'}
+				p={3}
+				display="flex"
+				flexDirection="column"
+				gap={5}
+			>
 				<Box display="flex">
 					<img
 						alt="expertImg"
@@ -66,31 +82,50 @@ const ProfileModal = (props: IProfileModalProps) => {
 							height: '50px',
 						}}
 					/>
-					<Box>
-						<Box display="flex" gap={1} my={2}>
-							<Typography fontWeight={600}></Typography>
-							<Typography></Typography>
+					<Box ml={2}>
+						<Box display="flex" gap={2} my={2}>
+							<Typography fontWeight={600}>
+								{profile.PartnerMember.FULL_NAME}
+							</Typography>
+							<Typography fontWeight={600}>
+								{profile.EXPERT_TYPE}
+							</Typography>
 						</Box>
-						<Typography color="secondary.dark" fontWeight={600}></Typography>
+						<Typography color="secondary.dark" fontWeight={600}>
+							{profile.COMPANY_NAME}
+						</Typography>
 					</Box>
 				</Box>
 				<Box>
 					<Typography>경력</Typography>
+					<Typography color="secondary.dark">
+						{profile.DESCRIPTION}
+					</Typography>
 				</Box>
 
-				{/** Contact */}
-				<Box display="flex" mt="auto">
-					<MailOutlineIcon />
-					<Typography
-						color="secondary.dark"
-						sx={{ textDecoration: 'underline' }}
-					></Typography>
+				<Box>
+					{/** Contact */}
+					<Box display="flex" gap={1}>
+						<MailOutlineIcon />
+						<Typography
+							color="secondary.dark"
+							sx={{
+								textDecoration: 'underline',
+								mt: 'auto',
+								mb: 'auto',
+							}}
+						>
+							{profile.CONTACT_EMAIL}
+						</Typography>
+					</Box>
+					<Box display="flex" gap={1}>
+						<PhoneIcon />
+						<Typography color="secondary.dark" mt="auto" mb="auto">
+							{profile.CONTACT_NUMBER}
+						</Typography>
+					</Box>
 				</Box>
-				<Box display="flex">
-					<PhoneIcon />
-					<Typography color="secondary.dark"></Typography>
-				</Box>
-			</Box>
+			</Box>}
 		</SupportiModal>
 	);
 };

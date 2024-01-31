@@ -9,10 +9,16 @@ import { useRouter } from 'next/router';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { useAppMember } from '../../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
+	const questionController = new DefaultController('A2eQuestion');
+	const categoryController = new DefaultController('A2eCategory');
+
+	const { memberId } = useAppMember();
 
 	//* States
 	/**
@@ -33,20 +39,15 @@ const Page: NextPage = () => {
 	/**
 	 * 선택 가능한 탭 카테고리
 	 */
-	const [selectableCategory, setSelectableCategory] = React.useState([
-		'전체',
-		'노무',
-		'세무',
-		'법률',
-	]);
+	const [selectableCategory, setSelectableCategory] =
+		React.useState(undefined);
 
 	/**
 	 *
-	 * 선택한 탭 카테고리
+	 * 선택한 탭 카테고리 번호
 	 */
-	const [selectedCategory, setSelectedCategory] = React.useState<string>(
-		selectableCategory[0]
-	);
+	const [selectedCategoryNum, setSelectedCategoryNum] =
+		React.useState<number>(undefined);
 
 	/**
 	 *
@@ -59,10 +60,51 @@ const Page: NextPage = () => {
 	 *
 	 * 정상 등록 알럿
 	 */
-	const [alertType, setAlertType] = React.useState();
+	const [alertType, setAlertType] = React.useState<string | undefined>();
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
+	//* Functions
+	const createQuestion = () => {
+		questionController
+			.createItem({
+				CONTENT: contents,
+				TITLE: title,
+				PRIVATE_YN: isSecret ? 'Y' : 'N',
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				A2E_CATEGORY_IDENTIFICATION_CODE: selectedCategoryNum,
+			})
+			.then((res) => {
+				setAlertModal(true);
+			})
+			.catch((err) => {
+				setAlertType('error');
+				setAlertModal(true);
+			});
+	};
+
+	console.log(selectedCategoryNum);
+
 	//* Hooks
+	React.useEffect(() => {
+		//* 초기 데이터 셋팅
+
+		categoryController.findAllItems(
+			{},
+			(res) => {
+				let temp = [];
+				for (const [key, value] of Object.entries(
+					res.data.result.rows
+				)) {
+					temp.push({
+						value: value['A2E_CATEGORY_IDENTIFICATION_CODE'],
+						label: value['CONTENT'],
+					});
+				}
+				setSelectableCategory(temp);
+			},
+			(err) => {}
+		);
+	}, []);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -181,9 +223,11 @@ const Page: NextPage = () => {
 										additionalProps={{
 											placeholder:
 												'카테고리를 선택하세요.',
+
+											defaultValue: selectableCategory[0],
 										}}
-										value={selectedCategory}
-										setValue={setSelectedCategory}
+										value={selectedCategoryNum}
+										setValue={setSelectedCategoryNum}
 										dataList={selectableCategory}
 										width={'80%'}
 									/>
@@ -237,7 +281,7 @@ const Page: NextPage = () => {
 											height: '30px',
 										}}
 										isGradient={true}
-										onClick={() => console.log('create')}
+										onClick={() => createQuestion()}
 									/>
 								</Box>
 							</Box>
@@ -249,9 +293,11 @@ const Page: NextPage = () => {
 								open={alertModal}
 								handleClose={() => {
 									setAlertModal(false);
-									router.push('/internal_service/a2e/1');
 								}}
-								type={alertType}
+								customHandleClose={() =>
+									router.push('/internal_service/a2e')
+								}
+								type={'successCreateAxios'}
 							/>
 						</Box>
 					</InternalServiceLayout>
