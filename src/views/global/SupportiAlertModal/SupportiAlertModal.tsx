@@ -7,6 +7,7 @@ import SupportiModal, {
 import SupportiButton from '../SupportiButton';
 import { useRouter } from 'next/router';
 import ChargeModal from '../../local/external_service/chargeModal/ChargeModal';
+import CoffeeChatProfileModal from '../../local/internal_service/coffeechat/CoffeeChatProfileModal/CoffeeChatProfileModal';
 
 interface ISupportiAlertModalProps {
 	/**
@@ -43,7 +44,9 @@ interface ISupportiAlertModalProps {
 		| 'failAxios'
 		| 'seminarApply'
 		| 'paymentSuccess'
-		| 'unAccess';
+		| 'unAccess'
+		| 'coffeechatprofilemissing'
+		| 'coffeechatalready';
 	/**
 	 * 커스텀 핸들러
 	 */
@@ -72,6 +75,10 @@ interface IModalConfig {
 		 * 취소 버튼 여부
 		 */
 		cancelButtonAvailable: boolean;
+		/**
+		 * 서브타이틀
+		 */
+		subTitle?: string;
 	};
 }
 
@@ -83,6 +90,11 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 	 * 충전 모달 오픈 여부
 	 */
 	const [openChargeModal, setOpenChargeModal] =
+		React.useState<boolean>(false);
+	/**
+	 * 커피챗 프로필 모달 오픈 여부
+	 */
+	const [openCoffeeChatProfileModal, setOpenCoffeeChatProfileModal] =
 		React.useState<boolean>(false);
 
 	//* Constants
@@ -303,7 +315,27 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		unAccess: {
 			type: 'error',
 			title: '본인 글만 확인 가능합니다.',
-			// content: '로그인 페이지로 이동',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		coffeechatprofilemissing: {
+			type: 'error',
+			title: '커피챗 프로필이 설정되어 있지 않습니다.',
+			content: '설정하기',
+			onclick: () => {
+				setOpenCoffeeChatProfileModal(true);
+			},
+			cancelButtonAvailable: false,
+			subTitle: '커피챗 프로필 설정 후 이용해주세요!',
+		},
+		coffeechatalready: {
+			type: 'error',
+			title: '이번달에 이미 커피챗을 진행하셨습니다.',
+			subTitle: '다음달에 다시 신청해주세요!',
+			content: '확인',
 			onclick: () => {
 				props.handleClose();
 			},
@@ -353,6 +385,17 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				<Typography variant={'h4'} fontWeight={'bold'} my={1}>
 					{modalConfig[props.type]?.title}
 				</Typography>
+				{/* 하위 내용 */}
+				{modalConfig[props.type]?.subTitle && (
+					<Typography
+						variant={'subtitle1'}
+						fontWeight={500}
+						my={2}
+						color="secondary.dark"
+					>
+						{modalConfig[props.type]?.subTitle}
+					</Typography>
+				)}
 				{props.type === 'indicatorWarning' && (
 					<Box textAlign={'center'}>
 						<Typography
@@ -415,6 +458,14 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			<ChargeModal
 				open={openChargeModal}
 				handleClose={() => setOpenChargeModal(false)}
+			/>
+			{/* 커피챗 프로필 모달 */}
+			<CoffeeChatProfileModal
+				open={openCoffeeChatProfileModal}
+				handleClose={() => {
+					setOpenCoffeeChatProfileModal(false);
+					props.handleClose();
+				}}
 			/>
 		</SupportiModal>
 	);

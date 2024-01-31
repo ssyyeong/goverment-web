@@ -61,6 +61,11 @@ const dashboardMenu: IMenu[] = [
 		icon: '/images/icons/mypage.svg',
 	},
 	{
+		label: '커피챗',
+		path: '/internal_service/coffeechat',
+		icon: '/images/icons/coffee.png',
+	},
+	{
 		label: '마이페이지',
 		path: '/my_page/edit_profile',
 		icon: '/images/icons/mypage.svg',

@@ -44,10 +44,10 @@ const Page: NextPage = () => {
 
 	//* States
 	const [loading, setLoading] = React.useState<boolean>(false);
-		/**
+	/**
 	 * 알럿
 	 */
-		const [alertModal, setAlertModal] = React.useState<boolean>(false);
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 	//* Functions
 	const getBillingkey = async () => {
 		await axios
