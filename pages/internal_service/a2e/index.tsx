@@ -9,9 +9,15 @@ import InternalServiceDrawer from '../../../src/views/local/internal_service/com
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import LockIcon from '@mui/icons-material/Lock';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
+	const questionController = new DefaultController('A2eQuestion');
+	const categoryController = new DefaultController('A2eCategory');
+
+	const { memberId } = useAppMember();
 	const router = useRouter();
 
 	//* States
@@ -21,6 +27,18 @@ const Page: NextPage = () => {
 	const { access } = useUserAccess('SIGN_IN');
 
 	/**
+	 *
+	 * 전체 글
+	 */
+	const [allQuestion, setAllQuestion] = React.useState<any[]>([]);
+
+	/**
+	 *
+	 * 상단 고정 글
+	 */
+	const [fixedQuestion, setFixedQuestion] = React.useState<any[]>([]);
+
+	/**
 	 * 검색 키워드
 	 */
 	const [keyword, setKeyword] = React.useState();
@@ -28,19 +46,26 @@ const Page: NextPage = () => {
 	/**
 	 * 선택 가능한 탭 카테고리
 	 */
-	const [selectableTabCategory, setSelectableTabCategory] = React.useState([
-		'전체',
-		'노무',
-		'세무',
-		'법률',
-	]);
+	const [selectableTabCategory, setSelectableTabCategory] =
+		React.useState(undefined);
 
 	/**
 	 *
 	 * 선택한 탭 카테고리
 	 */
 	const [selectedTabCategory, setSelectedTabCategory] =
-		React.useState<string>(selectableTabCategory[0]);
+		React.useState<string>(
+			selectableTabCategory !== undefined
+				? selectableTabCategory[0].CONTENT
+				: '전체'
+		);
+
+	/**
+	 *
+	 * 선택한 탭 카테고리 번호
+	 */
+	const [selectedCategoryNum, setSelectedCategoryNum] =
+		React.useState<number>(undefined);
 
 	/**
 	 *
@@ -62,10 +87,83 @@ const Page: NextPage = () => {
 	const [alertType, setAlertType] = React.useState();
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
+	//* Functions
+	const getQuestionList = (parameter) => {
+		questionController.findAllItems(
+			Object.assign(parameter, {}),
+			(res) => {
+				setAllQuestion(res.data.result.rows);
+			},
+			(err) => {}
+		);
+	};
+
 	//* Hooks
+
+	React.useEffect(() => {
+		let args = {};
+
+		if (isReadMine) {
+			Object.assign(args, { APP_MEMBER_IDENTIFICATION_CODE: memberId });
+		} else {
+			delete args['APP_MEMBER_IDENTIFICATION_CODE'];
+		}
+
+		if (selectedCategoryNum !== undefined) {
+			Object.assign(args, {
+				A2E_CATEGORY_IDENTIFICATION_CODE: selectedCategoryNum,
+			});
+		} else {
+			delete args['A2E_CATEGORY_IDENTIFICATION_CODE'];
+		}
+
+		if (keyword !== undefined && keyword !== '') {
+			Object.assign(args, {
+				KEYWORD: { columnKey: 'TITLE', keyword: keyword },
+			});
+		} else {
+			delete args['KEYWORD'];
+		}
+
+		getQuestionList(args);
+	}, [keyword, isReadMine, selectedTabCategory]);
+
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
+
+		getQuestionList({});
+
+		questionController.findAllItems(
+			{
+				ANSWERED_YN: 'Y',
+			},
+			(res) => {
+				let result;
+
+				// 뷰 순으로 정렬
+				result = res.data.result.rows
+					.sort(function (a, b) {
+						return b.VIEW - a.VIEW;
+					})
+					.slice(0, 5);
+
+				setFixedQuestion(result);
+			},
+			(err) => {}
+		);
+
+		categoryController.findAllItems(
+			{},
+			(res) => {
+				setSelectableTabCategory(
+					[{ CONTENT: '전체' }].concat(res.data.result.rows)
+				);
+			},
+			(err) => {}
+		);
 	}, []);
+
+	console.log(allQuestion);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -83,33 +181,10 @@ const Page: NextPage = () => {
 						title="A2E(Ask to Experts)"
 						subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
             질문하고 다른 사업가 분들의 답변도 확인하세요."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
+						image="/images/main/A2E.png"
+						mobileImage="/images/main/A2E.png"
 					>
-						<Box
-							p={1}
-							// sx={{
-							// 	display: 'flex',
-							// 	flexDirection: 'column',
-							// 	width: '100%',
-							// 	height: '100%',
-							// 	minHeight: '100vh',
-							// 	p: { xs: 2, md: 15 },
-							// 	bgcolor: 'white',
-							// 	gap: 2,
-							// }}
-						>
-							{/* <Typography variant="h1" mb={5}>
-								전문가에게 질문하기
-							</Typography>
-							<Typography variant="h3">
-								부담없이 전문가에게 질문해보세요!
-							</Typography>
-							<Typography variant="h4">
-								평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
-								질문하고 다른 사업가 분들의 답변도 확인하세요.
-							</Typography> */}
-
+						<Box p={1}>
 							<Typography
 								variant="h5"
 								mt={5}
@@ -118,43 +193,81 @@ const Page: NextPage = () => {
 							>
 								서포티 유저들이 많이 궁금해하는 질문
 							</Typography>
-							<Box display="flex">
-								<Box
-									borderRadius={'10px'}
-									p={3}
-									bgcolor="white"
-									sx={{
-										boxShadow:
-											'rgb(219, 219, 219) 0px 0px 5px',
-										minHeight: '150px',
-									}}
-									display="flex"
-									flexDirection={'column'}
-									justifyContent="space-between"
-									onClick={() =>
-										router.push('/internal_service/a2e/1')
-									}
-								>
-									<Box display="flex" gap={0.5}>
-										<Typography
-											color="primary.main"
-											fontWeight={600}
-										>
-											[카테고리]
-										</Typography>
-										<Typography fontWeight={600}>
-											질문의 제목이 들어갑니다.
-										</Typography>
-									</Box>
+							<Box
+								display={'flex'}
+								pl={{ md: 0.5, xs: '5%' }}
+								sx={{
+									overflowX: 'auto',
+									'-ms-overflow-style': 'none',
+									'&::-webkit-scrollbar': {
+										height: '5px !important',
+										backgroundColor: 'white !important',
+										padding: '0.5px',
+										borderRadius: '20px',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: '#305edccc',
+										borderRadius: '20px',
+									},
+								}}
+								p={1}
+							>
+								<Box display="flex" gap={2}>
+									{fixedQuestion.map((item, index) => {
+										return (
+											<Box
+												borderRadius={'10px'}
+												p={3}
+												bgcolor="white"
+												sx={{
+													boxShadow:
+														'rgb(219, 219, 219) 0px 0px 5px',
+													minHeight: '150px',
+													width: '220px',
+													cursor: 'pointer',
+												}}
+												display="flex"
+												flexDirection={'column'}
+												justifyContent="space-between"
+												onClick={() =>
+													router.push(
+														'/internal_service/a2e/1'
+													)
+												}
+											>
+												<Box display="flex" gap={0.5}>
+													<Typography
+														color="primary.main"
+														fontWeight={600}
+													>
+														[
+														{
+															item.A2eCategory
+																.CONTENT
+														}
+														]
+													</Typography>
+													<Typography
+														fontWeight={600}
+													>
+														{item.TITLE}
+													</Typography>
+												</Box>
 
-									<Box textAlign={'right'}>
-										<Typography color="secondary.dark">
-											생성일자
-										</Typography>
-									</Box>
+												<Box textAlign={'right'}>
+													<Typography color="secondary.dark">
+														{
+															item.UPDATED_AT.split(
+																'T'
+															)[0]
+														}
+													</Typography>
+												</Box>
+											</Box>
+										);
+									})}
 								</Box>
 							</Box>
-
 							{/** 검색창 */}
 							<Box mt={8}>
 								<Typography
@@ -199,47 +312,54 @@ const Page: NextPage = () => {
 							>
 								{/** 탭 */}
 								<Box display="flex">
-									{selectableTabCategory.map(
-										(item, index) => {
-											return (
-												<Box
-													key={index}
-													p={2}
-													sx={{
-														borderTopLeftRadius: 10,
-														borderTopRightRadius: 10,
-														color:
-															selectedTabCategory ===
-															item
-																? 'common.white'
-																: 'primary.main',
-														bgcolor:
-															selectedTabCategory ===
-															item
-																? '#e7eeff'
-																: 'common.white',
-														width: '130px',
-														textAlign: 'center',
-														cursor: 'pointer',
-														boxShadow:
-															'rgb(219, 219, 219) 0px 0px 2px',
-													}}
-													onClick={() =>
-														setSelectedTabCategory(
-															item
-														)
-													}
-												>
-													<Typography
-														color="primary.main"
-														fontWeight={600}
+									{selectableTabCategory !== undefined &&
+										selectableTabCategory.map(
+											(item, index) => {
+												return (
+													<Box
+														key={index}
+														p={2}
+														sx={{
+															borderTopLeftRadius: 10,
+															borderTopRightRadius: 10,
+															color:
+																selectedTabCategory ===
+																item['CONTENT']
+																	? 'common.white'
+																	: 'primary.main',
+															bgcolor:
+																selectedTabCategory ===
+																item['CONTENT']
+																	? '#e7eeff'
+																	: 'common.white',
+															width: '130px',
+															textAlign: 'center',
+															cursor: 'pointer',
+															boxShadow:
+																'rgb(219, 219, 219) 0px 0px 2px',
+														}}
+														onClick={() => {
+															setSelectedTabCategory(
+																item['CONTENT']
+															);
+
+															setSelectedCategoryNum(
+																item[
+																	'A2E_CATEGORY_IDENTIFICATION_CODE'
+																]
+															);
+														}}
 													>
-														{item}
-													</Typography>
-												</Box>
-											);
-										}
-									)}
+														<Typography
+															color="primary.main"
+															fontWeight={600}
+														>
+															{item['CONTENT']}
+														</Typography>
+													</Box>
+												);
+											}
+										)}
 								</Box>
 
 								<Box display="flex">
@@ -289,59 +409,103 @@ const Page: NextPage = () => {
 									borderBottomLeftRadius: '5px',
 								}}
 							>
-								<Box
-									p={3}
-									borderRadius={1}
-									bgcolor="white"
-									mb={2}
-									sx={{
-										cursor: 'pointer',
-									}}
-									onClick={() =>
-										router.push('/internal_service/a2e/1')
-									}
-								>
-									<Box
-										display="flex"
-										justifyContent={'space-between'}
-										mb={2}
-									>
-										<Box
-											borderRadius={20}
-											border="1px solid"
-											borderColor="primary.light"
-											p={1}
-										>
-											<Typography color={'primary.main'}>
-												답변 상태
-											</Typography>
-										</Box>
-										<Typography color={'secondary.dark'}>
-											생성일자
-										</Typography>
-									</Box>
+								{allQuestion !== undefined &&
+									allQuestion.map((item, index) => {
+										return (
+											<Box
+												p={3}
+												borderRadius={1}
+												bgcolor="white"
+												mb={2}
+												sx={{
+													cursor: 'pointer',
+												}}
+												onClick={() =>
+													router.push(
+														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+													)
+												}
+											>
+												<Box
+													display="flex"
+													justifyContent={
+														'space-between'
+													}
+													mb={2}
+												>
+													<Box
+														borderRadius={20}
+														border="1px solid"
+														borderColor={
+															item.ANSWERED_YN ===
+															'N'
+																? 'secondary.dark'
+																: 'primary.main'
+														}
+														p={1}
+													>
+														<Typography
+															color={
+																item.ANSWERED_YN ===
+																'N'
+																	? 'secondary.dark'
+																	: 'primary.main'
+															}
+														>
+															{item.ANSWERED_YN ===
+															'N'
+																? '답변 전'
+																: '답변 완료'}
+														</Typography>
+													</Box>
+													<Typography
+														color={'secondary.dark'}
+													>
+														{
+															item.UPDATED_AT.split(
+																'T'
+															)[0]
+														}
+													</Typography>
+												</Box>
 
-									<Box display="flex" gap={0.5} m={0.5}>
-										<Typography
-											color="primary.main"
-											fontWeight={600}
-										>
-											[카테고리]
-										</Typography>
-										<Typography>
-											질문의 제목이 들어갑니다.
-										</Typography>
-										<LockIcon
-											sx={{
-												width: '15px',
-												height: '15px',
+												<Box
+													display="flex"
+													gap={0.5}
+													m={0.5}
+												>
+													<Typography
+														color="primary.main"
+														fontWeight={600}
+													>
+														[
+														{
+															item.A2eCategory
+																.CONTENT
+														}
+														]
+													</Typography>
+													<Typography
+														fontWeight={600}
+													>
+														{item.TITLE}
+													</Typography>
+													{item.PRIVATE_YN ===
+														'Y' && (
+														<LockIcon
+															sx={{
+																width: '15px',
+																height: '15px',
 
-												mt: 'auto',
-												mb: 'auto',
-											}}
-										/>
-									</Box>
-								</Box>
+																mt: 'auto',
+																mb: 'auto',
+															}}
+														/>
+													)}
+												</Box>
+											</Box>
+										);
+									})}
 							</Box>
 							{/* 컨텐츠 레이아웃
 				{access === true && (
