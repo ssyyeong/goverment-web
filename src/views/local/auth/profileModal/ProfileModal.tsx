@@ -46,7 +46,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 		);
 	}, []);
 
-	console.log(profile);
+	console.log();
 
 	return (
 		<SupportiModal
@@ -64,68 +64,83 @@ const ProfileModal = (props: IProfileModalProps) => {
 				width: { sm: '40%', xs: '100%' },
 			}}
 		>
-			{profile !== undefined &&
-			<Box
-				mb={3}
-				width={'100%'}
-				p={3}
-				display="flex"
-				flexDirection="column"
-				gap={5}
-			>
-				<Box display="flex">
-					<img
-						alt="expertImg"
-						style={{
-							borderRadius: '50%',
-							width: '50px',
-							height: '50px',
-						}}
-					/>
-					<Box ml={2}>
-						<Box display="flex" gap={2} my={2}>
-							<Typography fontWeight={600}>
-								{profile.PartnerMember.FULL_NAME}
-							</Typography>
-							<Typography fontWeight={600}>
-								{profile.EXPERT_TYPE}
+			{profile !== undefined && (
+				<Box
+					mb={3}
+					width={'100%'}
+					p={5}
+					display="flex"
+					flexDirection="column"
+					gap={5}
+				>
+					<Box display="flex">
+						<img
+							alt="expertImg"
+							style={{
+								borderRadius: '50%',
+								width: '100px',
+								height: '100px',
+							}}
+							src={JSON.parse(profile?.PROFILE_IMAGE)[0]}
+						/>
+						<Box ml={5}>
+							<Box display="flex" gap={2} my={2}>
+								<Typography fontWeight={600} variant="h4">
+									{profile.PartnerMember.FULL_NAME}
+								</Typography>
+								<Typography fontWeight={600} variant="h4">
+									{profile.EXPERT_TYPE}
+								</Typography>
+							</Box>
+							<Typography
+								color="secondary.dark"
+								fontWeight={600}
+								variant="h5"
+							>
+								{profile.COMPANY_NAME}
 							</Typography>
 						</Box>
-						<Typography color="secondary.dark" fontWeight={600}>
-							{profile.COMPANY_NAME}
+					</Box>
+					<Box>
+						<Typography variant="h4" fontWeight={600} mb={1}>
+							경력
+						</Typography>
+						<Typography color="secondary.dark" variant="h5">
+							{profile.DESCRIPTION}
 						</Typography>
 					</Box>
-				</Box>
-				<Box>
-					<Typography>경력</Typography>
-					<Typography color="secondary.dark">
-						{profile.DESCRIPTION}
-					</Typography>
-				</Box>
 
-				<Box>
-					{/** Contact */}
-					<Box display="flex" gap={1}>
-						<MailOutlineIcon />
-						<Typography
-							color="secondary.dark"
-							sx={{
-								textDecoration: 'underline',
-								mt: 'auto',
-								mb: 'auto',
-							}}
-						>
-							{profile.CONTACT_EMAIL}
-						</Typography>
-					</Box>
-					<Box display="flex" gap={1}>
-						<PhoneIcon />
-						<Typography color="secondary.dark" mt="auto" mb="auto">
-							{profile.CONTACT_NUMBER}
-						</Typography>
+					<Box>
+						{/** Contact */}
+						<Box display="flex" gap={1}>
+							<MailOutlineIcon />
+							<Typography
+								color="secondary.dark"
+								sx={{
+									textDecoration: 'underline',
+									mt: 'auto',
+									mb: 'auto',
+								}}
+								variant="subtitle1"
+							>
+								{profile.CONTACT_EMAIL}
+							</Typography>
+						</Box>
+						<Box display="flex" gap={1}>
+							<PhoneIcon />
+							<Typography
+								color="secondary.dark"
+								mt="auto"
+								mb="auto"
+								variant="subtitle1"
+
+							>
+								{profile.CONTACT_NUMBER}
+							</Typography>
+						</Box>
 					</Box>
 				</Box>
-			</Box>}
+			)}
 		</SupportiModal>
 	);
 };

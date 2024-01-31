@@ -69,12 +69,6 @@ const Page: NextPage = () => {
 
 	/**
 	 *
-	 * 필터
-	 */
-	const [injectedArgs, setInjectedArgs] = React.useState({});
-
-	/**
-	 *
 	 * 비밀글 여부
 	 */
 
@@ -94,11 +88,9 @@ const Page: NextPage = () => {
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Functions
-	const getQuestionList = (injectedArgs) => {
+	const getQuestionList = (parameter) => {
 		questionController.findAllItems(
-			Object.assign(injectedArgs, {
-				USE_YN: 'Y',
-			}),
+			Object.assign(parameter, {}),
 			(res) => {
 				setAllQuestion(res.data.result.rows);
 			},
@@ -109,51 +101,32 @@ const Page: NextPage = () => {
 	//* Hooks
 
 	React.useEffect(() => {
-		// 내가 쓴 글만 보기
+		let args = {};
+
 		if (isReadMine) {
-			// getQuestionList({
-			// 	APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			// });
-			setInjectedArgs(
-				Object.assign(injectedArgs, {
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				})
-			);
+			Object.assign(args, { APP_MEMBER_IDENTIFICATION_CODE: memberId });
 		} else {
-			// 기존 injectedArgs object에서 APP_MEMBER_IDENTIFICATION_CODE 제거하기
-
-			delete injectedArgs['APP_MEMBER_IDENTIFICATION_CODE'];
-			// getQuestionList({});
+			delete args['APP_MEMBER_IDENTIFICATION_CODE'];
 		}
-	}, [isReadMine]);
 
-	React.useEffect(() => {
-		// 탭 변경 시 해당 카테고리 데이터 셋팅
-		// getQuestionList({
-		// 	A2E_CATEGORY_IDENTIFICATION_CODE: selectedCategoryNum,
-		// });
-		setInjectedArgs(
-			Object.assign(injectedArgs, {
+		if (selectedCategoryNum !== undefined) {
+			Object.assign(args, {
 				A2E_CATEGORY_IDENTIFICATION_CODE: selectedCategoryNum,
-			})
-		);
-	}, [selectedTabCategory]);
+			});
+		} else {
+			delete args['A2E_CATEGORY_IDENTIFICATION_CODE'];
+		}
 
-	React.useEffect(() => {
-		// 검색어 변경 시 해당 검색어 데이터 셋팅
-		// getQuestionList({
-		// 	TITLE: keyword,
-		// });
-		setInjectedArgs(
-			Object.assign(injectedArgs, {
-				TITLE: keyword,
-			})
-		);
-	}, [keyword]);
+		if (keyword !== undefined && keyword !== '') {
+			Object.assign(args, {
+				KEYWORD: { columnKey: 'TITLE', keyword: keyword },
+			});
+		} else {
+			delete args['KEYWORD'];
+		}
 
-	React.useEffect(()=> {
-		getQuestionList(injectedArgs)
-	}, [injectedArgs])
+		getQuestionList(args);
+	}, [keyword, isReadMine, selectedTabCategory]);
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -170,7 +143,7 @@ const Page: NextPage = () => {
 				// 뷰 순으로 정렬
 				result = res.data.result.rows
 					.sort(function (a, b) {
-						return a.VIEW - b.VIEW;
+						return b.VIEW - a.VIEW;
 					})
 					.slice(0, 5);
 
@@ -190,7 +163,7 @@ const Page: NextPage = () => {
 		);
 	}, []);
 
-	console.log(selectedTabCategory, allQuestion, fixedQuestion);
+	console.log(allQuestion);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -208,33 +181,10 @@ const Page: NextPage = () => {
 						title="A2E(Ask to Experts)"
 						subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
             질문하고 다른 사업가 분들의 답변도 확인하세요."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
+						image="/images/main/A2E.png"
+						mobileImage="/images/main/A2E.png"
 					>
-						<Box
-							p={1}
-							// sx={{
-							// 	display: 'flex',
-							// 	flexDirection: 'column',
-							// 	width: '100%',
-							// 	height: '100%',
-							// 	minHeight: '100vh',
-							// 	p: { xs: 2, md: 15 },
-							// 	bgcolor: 'white',
-							// 	gap: 2,
-							// }}
-						>
-							{/* <Typography variant="h1" mb={5}>
-								전문가에게 질문하기
-							</Typography>
-							<Typography variant="h3">
-								부담없이 전문가에게 질문해보세요!
-							</Typography>
-							<Typography variant="h4">
-								평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
-								질문하고 다른 사업가 분들의 답변도 확인하세요.
-							</Typography> */}
-
+						<Box p={1}>
 							<Typography
 								variant="h5"
 								mt={5}
@@ -243,54 +193,81 @@ const Page: NextPage = () => {
 							>
 								서포티 유저들이 많이 궁금해하는 질문
 							</Typography>
-							<Box display="flex" gap={2}>
-								{fixedQuestion.map((item, index) => {
-									return (
-										<Box
-											borderRadius={'10px'}
-											p={3}
-											bgcolor="white"
-											sx={{
-												boxShadow:
-													'rgb(219, 219, 219) 0px 0px 5px',
-												minHeight: '150px',
-												width: '220px',
-											}}
-											display="flex"
-											flexDirection={'column'}
-											justifyContent="space-between"
-											onClick={() =>
-												router.push(
-													'/internal_service/a2e/1'
-												)
-											}
-										>
-											<Box display="flex" gap={0.5}>
-												<Typography
-													color="primary.main"
-													fontWeight={600}
-												>
-													[{item.A2eCategory.CONTENT}]
-												</Typography>
-												<Typography fontWeight={600}>
-													{item.TITLE}
-												</Typography>
-											</Box>
+							<Box
+								display={'flex'}
+								pl={{ md: 0.5, xs: '5%' }}
+								sx={{
+									overflowX: 'auto',
+									'-ms-overflow-style': 'none',
+									'&::-webkit-scrollbar': {
+										height: '5px !important',
+										backgroundColor: 'white !important',
+										padding: '0.5px',
+										borderRadius: '20px',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: '#305edccc',
+										borderRadius: '20px',
+									},
+								}}
+								p={1}
+							>
+								<Box display="flex" gap={2}>
+									{fixedQuestion.map((item, index) => {
+										return (
+											<Box
+												borderRadius={'10px'}
+												p={3}
+												bgcolor="white"
+												sx={{
+													boxShadow:
+														'rgb(219, 219, 219) 0px 0px 5px',
+													minHeight: '150px',
+													width: '220px',
+													cursor: 'pointer',
+												}}
+												display="flex"
+												flexDirection={'column'}
+												justifyContent="space-between"
+												onClick={() =>
+													router.push(
+														'/internal_service/a2e/1'
+													)
+												}
+											>
+												<Box display="flex" gap={0.5}>
+													<Typography
+														color="primary.main"
+														fontWeight={600}
+													>
+														[
+														{
+															item.A2eCategory
+																.CONTENT
+														}
+														]
+													</Typography>
+													<Typography
+														fontWeight={600}
+													>
+														{item.TITLE}
+													</Typography>
+												</Box>
 
-											<Box textAlign={'right'}>
-												<Typography color="secondary.dark">
-													{
-														item.UPDATED_AT.split(
-															'T'
-														)[0]
-													}
-												</Typography>
+												<Box textAlign={'right'}>
+													<Typography color="secondary.dark">
+														{
+															item.UPDATED_AT.split(
+																'T'
+															)[0]
+														}
+													</Typography>
+												</Box>
 											</Box>
-										</Box>
-									);
-								})}
+										);
+									})}
+								</Box>
 							</Box>
-
 							{/** 검색창 */}
 							<Box mt={8}>
 								<Typography

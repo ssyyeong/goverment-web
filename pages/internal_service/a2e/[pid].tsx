@@ -18,6 +18,7 @@ const Page: NextPage = () => {
 	//* Modules
 	const questionController = new DefaultController('A2eQuestion');
 	const answerController = new DefaultController('A2eAnswer');
+	const categoryController = new DefaultController('A2eCategory');
 
 	const { memberId } = useAppMember();
 
@@ -42,32 +43,40 @@ const Page: NextPage = () => {
 	const [answer, setAnswer] = React.useState<any>(undefined);
 
 	/**
-	 * 검색 키워드
-	 */
-	const [keyword, setKeyword] = React.useState();
-
-	/**
 	 * 선택 가능한 탭 카테고리
 	 */
-	const [selectableTabCategory, setSelectableTabCategory] = React.useState([
-		'전체',
-		'노무',
-		'세무',
-		'법률',
-	]);
+	const [selectableCategory, setSelectableCategory] =
+		React.useState(undefined);
 
 	/**
 	 *
 	 * 선택한 탭 카테고리
 	 */
-	const [selectedTabCategory, setSelectedTabCategory] =
-		React.useState<string>(selectableTabCategory[0]);
+	const [selectedCategory, setSelectedCategory] = React.useState<string>(
+		selectableCategory !== undefined
+			? selectableCategory[0].CONTENT
+			: '전체'
+	);
+
+	/**
+	 *
+	 * 선택한 탭 카테고리 번호
+	 */
+	const [selectedCategoryNum, setSelectedCategoryNum] =
+		React.useState<number>(undefined);
 
 	/**
 	 *
 	 * 수정 모드인지 여부
 	 */
 	const [isEditMode, setIsEditMode] = React.useState(false);
+
+	/**
+	 *
+	 * 비밀글 여부
+	 */
+
+	const [isSecret, setIsSecret] = React.useState<boolean>(undefined);
 
 	/**
 	 *
@@ -83,9 +92,21 @@ const Page: NextPage = () => {
 		React.useState<boolean>(false);
 
 	/**
+	 *
+	 *  수정 성공 알럿
+	 */
+	const [successModifyAlert, setSuccessModifyAlert] =
+		React.useState<boolean>(false);
+
+	/**
 	 * 프로필 모달
 	 */
 	const [isProfileOpened, setIsProfileOpened] = React.useState(false);
+
+	/**
+	 * 수정 데이터
+	 */
+	const [modifyData, setModifyData] = React.useState(undefined);
 
 	//* Functions
 	const deleteQuestion = () => {
@@ -95,6 +116,20 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				setSuccessDeleteAlert(true);
+			},
+			(err) => {}
+		);
+	};
+
+	const modifyQuestion = () => {
+		questionController.updateItem(
+			Object.assign(modifyData, {
+				A2E_QUESTION_IDENTIFICATION_CODE: pid,
+				PRIVATE_YN: isSecret ? 'Y' : 'N',
+				A2E_CATEGORY_IDENTIFICATION_CODE: selectedCategoryNum,
+			}),
+			(res) => {
+				setSuccessModifyAlert(true);
 			},
 			(err) => {}
 		);
@@ -111,23 +146,61 @@ const Page: NextPage = () => {
 				},
 				(res) => {
 					setQuestion(res.data.result);
-					answerController.findOne(
-						{
-							A2E_QUESTION_IDENTIFICATION_CODE: pid,
-						},
-						(res) => {
-							setAnswer(res.data.result);
-						},
-						(err) => {}
-					);
+
+					if(res.data.result.A2eAnswers.length !== 0){
+						answerController.getOneItem(
+							{
+								A2E_ANSWER_IDENTIFICATION_CODE: res.data.result.A2eAnswers[0].A2E_ANSWER_IDENTIFICATION_CODE
+								,
+							},
+							(res) => {
+								setAnswer(res.data.result);
+							},
+							(err) => {}
+						);
+					}
+	
 				},
 				(err) => {}
 			);
+
 		}
 	}, [pid]);
 
-	console.log(question);
-	console.log(answer, pid);
+	React.useEffect(() => {
+		setModifyData({
+			CONTENT: question?.CONTENT,
+			TITLE: question?.TITLE,
+		});
+		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
+	}, [isEditMode]);
+
+	React.useEffect(() => {
+		categoryController.findAllItems(
+			{},
+			(res) => {
+				let temp = [];
+				for (const [key, value] of Object.entries(
+					res.data.result.rows
+				)) {
+					temp.push({
+						value: value['A2E_CATEGORY_IDENTIFICATION_CODE'],
+						label: value['CONTENT'],
+					});
+				}
+				setSelectableCategory(temp);
+			},
+			(err) => {}
+		);
+
+		setModifyData({
+			CONTENT: question?.CONTENT,
+			TITLE: question?.TITLE,
+		});
+
+		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
+	}, []);
+
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -145,8 +218,8 @@ const Page: NextPage = () => {
 						title="A2E(Ask to Experts)"
 						subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
           질문하고 다른 사업가 분들의 답변도 확인하세요."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
+						image="/images/main/A2E.png"
+						mobileImage="/images/main/A2E.png"
 					>
 						<Box
 							sx={{
@@ -186,142 +259,302 @@ const Page: NextPage = () => {
 											'rgb(219, 219, 219) 0px 4px 10px',
 									}}
 								>
-									<Box
-										display="flex"
-										justifyContent={'space-between'}
-										mb={2}
-									>
-										<Box
-											borderRadius={20}
-											border="1px solid"
-											borderColor={
-												answer === undefined
-													? 'secondary.dark'
-													: 'primary.main'
-											}
-											p={1}
-										>
-											<Typography
-												color={
-													answer === undefined
-														? 'secondary.dark'
-														: 'primary.main'
-												}
+									{!isEditMode ? (
+										<Box>
+											<Box
+												display="flex"
+												justifyContent={'space-between'}
+												mb={2}
 											>
-												{answer === undefined
-													? '답변 전'
-													: '답변 완료'}
-											</Typography>
-										</Box>
-										<Box display="flex" mb={2} gap={0.5}>
-											{question.AppMember.FULL_NAME.split(
-												''
-											).map((item, index) => {
-												return (
+												<Box
+													borderRadius={20}
+													border="1px solid"
+													borderColor={
+														answer === undefined
+															? 'secondary.dark'
+															: 'primary.main'
+													}
+													p={1}
+												>
+													<Typography
+														color={
+															answer === undefined
+																? 'secondary.dark'
+																: 'primary.main'
+														}
+													>
+														{		answer === undefined
+															? '답변 전'
+															: '답변 완료'}
+													</Typography>
+												</Box>
+												<Box
+													display="flex"
+													mb={2}
+													gap={0.5}
+												>
+													{question.AppMember.FULL_NAME.split(
+														''
+													).map((item, index) => {
+														return (
+															<Typography
+																color={
+																	'secondary.dark'
+																}
+															>
+																{index === 0
+																	? item
+																	: '*'}
+															</Typography>
+														);
+													})}
+
 													<Typography
 														color={'secondary.dark'}
 													>
-														{index === 0
-															? item
-															: '*'}
+														|
 													</Typography>
-												);
-											})}
+													<Typography
+														color={'secondary.dark'}
+													>
+														{
+															question?.UPDATED_AT?.split(
+																'T'
+															)[0]
+														}
+													</Typography>
+												</Box>
+											</Box>
+											<Box
+												display="flex"
+												justifyContent={'space-between'}
+											>
+												<Box
+													display="flex"
+													gap={0.5}
+													m={0.5}
+												>
+													<Typography
+														color="primary.main"
+														variant="subtitle1"
+														fontWeight={600}
+													>
+														[
+														{
+															question.A2eCategory
+																.CONTENT
+														}
+														]
+													</Typography>
+													<Typography variant="subtitle1">
+														{question.TITLE}
+													</Typography>
+													{question.PRIVATE_YN ===
+														'Y' && (
+														<LockIcon
+															sx={{
+																width: '15px',
+																height: '15px',
 
-											<Typography
-												color={'secondary.dark'}
-											>
-												|
-											</Typography>
-											<Typography
-												color={'secondary.dark'}
-											>
-												{
-													question?.UPDATED_AT?.split(
-														'T'
-													)[0]
-												}
-											</Typography>
+																mt: 'auto',
+																mb: 'auto',
+															}}
+														/>
+													)}
+												</Box>
+												<Box display="flex" gap={1}>
+													{question.APP_MEMBER_IDENTIFICATION_CODE ===
+														memberId &&
+														answer ===
+															undefined && (
+															<Typography
+																sx={{
+																	textDecoration:
+																		'underline',
+																	cursor: 'pointer',
+																}}
+																onClick={() =>
+																	setIsEditMode(
+																		true
+																	)
+																}
+															>
+																수정
+															</Typography>
+														)}
+													{question.APP_MEMBER_IDENTIFICATION_CODE ===
+														memberId && (
+														<Typography
+															sx={{
+																textDecoration:
+																	'underline',
+																cursor: 'pointer',
+															}}
+															onClick={() => {
+																setAlertModal(
+																	true
+																);
+															}}
+														>
+															삭제
+														</Typography>
+													)}
+												</Box>
+											</Box>
+
+											{/** 구분선 */}
+											<Box
+												sx={{
+													width: '100%',
+													height: '1px',
+													bgcolor: 'grey.300',
+													my: 2,
+												}}
+											/>
+
+											<Box p={1}>
+												<Typography>
+													{question.CONTENT}
+												</Typography>
+											</Box>
 										</Box>
-									</Box>
-									<Box
-										display="flex"
-										justifyContent={'space-between'}
-									>
-										<Box display="flex" gap={0.5} m={0.5}>
-											<Typography
-												color="primary.main"
-												variant="subtitle1"
-												fontWeight={600}
+									) : (
+										<Box>
+											<Box
+												display="flex"
+												justifyContent="space-between"
 											>
-												[{question.A2eCategory.CONTENT}]
-											</Typography>
-											<Typography variant="subtitle1">
-												{question.TITLE}
-											</Typography>
-											{question.PRIVATE_YN === 'Y' && (
-												<LockIcon
-													sx={{
-														width: '15px',
-														height: '15px',
+												<Typography
+													variant="subtitle1"
+													fontWeight={600}
+													mt="auto"
+													mb="auto"
+												>
+													제목
+												</Typography>
+												<SupportiInput
+													type="input"
+													additionalProps={{
+														placeholder:
+															'제목을 입력하세요.',
+													}}
+													value={modifyData.TITLE}
+													setValue={(e) =>
+														setModifyData({
+															...modifyData,
+															TITLE: e,
+														})
+													}
+													width={'80%'}
+												/>
+											</Box>
+											<Box
+												display="flex"
+												justifyContent="space-between"
+												my={2}
+											>
+												<Typography
+													variant="subtitle1"
+													fontWeight={600}
+													mt="auto"
+													mb="auto"
+												>
+													카테고리
+												</Typography>
+												<SupportiInput
+													type="select"
+													additionalProps={{
+														placeholder:
+															'카테고리를 선택하세요.',
 
-														mt: 'auto',
-														mb: 'auto',
+														defaultValue:
+															question.A2E_CATEGORY_IDENTIFICATION_CODE,
+													}}
+													value={selectedCategoryNum}
+													setValue={(e) =>
+														setSelectedCategoryNum(
+															e
+														)
+													}
+													dataList={
+														selectableCategory
+													}
+													style={{
+														bgcolor: 'transparent',
+													}}
+													width={'80%'}
+												/>
+											</Box>
+											<Box
+												display="flex"
+												justifyContent="space-between"
+											>
+												<Typography
+													variant="subtitle1"
+													fontWeight={600}
+													mt="auto"
+													mb="auto"
+												>
+													내용
+												</Typography>
+												<SupportiInput
+													type="input"
+													additionalProps={{
+														placeholder:
+															'내용을 입력하세요.',
+														multiline: true,
+													}}
+													value={modifyData.CONTENT}
+													setValue={(e) =>
+														setModifyData({
+															...modifyData,
+															CONTENT: e,
+														})
+													}
+													width={'80%'}
+													style={{
+														height: '200px',
 													}}
 												/>
-											)}
-										</Box>
-										<Box display="flex" gap={1}>
-											{question.APP_MEMBER_IDENTIFICATION_CODE ===
-												memberId &&
-												question?.ANSWERED_YN ===
-													'N' && (
+											</Box>
+											<Box
+												ml="auto"
+												display="flex"
+												mt={5}
+											>
+												<Box display="flex">
 													<Typography
-														sx={{
-															textDecoration:
-																'underline',
-															cursor: 'pointer',
-														}}
-														onClick={() =>
-															setIsEditMode(true)
-														}
+														mt="auto"
+														mb="auto"
+														mr={0.5}
 													>
-														수정
+														비밀글로 등록하기
 													</Typography>
-												)}
-											{question.APP_MEMBER_IDENTIFICATION_CODE ===
-												memberId && (
-												<Typography
-													sx={{
-														textDecoration:
-															'underline',
-														cursor: 'pointer',
+													<SupportiInput
+														type="checkbox"
+														value={isSecret}
+														setValue={() =>
+															setIsSecret(
+																!isSecret
+															)
+														}
+													/>
+												</Box>
+												<SupportiButton
+													contents="등록하기"
+													variant="contained"
+													style={{
+														color: 'common.white',
+														height: '30px',
 													}}
-													onClick={() => {
-														setAlertModal(true);
-													}}
-												>
-													삭제
-												</Typography>
-											)}
+													isGradient={true}
+													onClick={() =>
+														modifyQuestion()
+													}
+												/>
+											</Box>
 										</Box>
-									</Box>
-
-									{/** 구분선 */}
-									<Box
-										sx={{
-											width: '100%',
-											height: '1px',
-											bgcolor: 'grey.300',
-											my: 2,
-										}}
-									/>
-
-									<Box p={1}>
-										<Typography>
-											{question.CONTENT}
-										</Typography>
-									</Box>
+									)}
 								</Box>
 							)}
 							{/* 컨텐츠 레이아웃
@@ -329,7 +562,7 @@ const Page: NextPage = () => {
           
 				)} */}
 							{/** 답변 */}
-							{answer !== undefined && (
+							{		answer !== undefined && (
 								<Box
 									p={5}
 									borderRadius={2}
@@ -352,15 +585,16 @@ const Page: NextPage = () => {
 										</Typography>
 									</Box>
 
-									<Box display="flex" mb={2} gap={0.5} pt={2}>
+									<Box display="flex" mb={2} gap={1} pt={2}>
 										<img
 											alt="expert"
 											style={{
-												width: '20px',
-												height: '20px',
+												width: '30px',
+												height: '30px',
 												borderRadius: '20px',
 												cursor: 'pointer',
 											}}
+											src={JSON.parse(answer.PartnerMember.ExpertProfiles[0].PROFILE_IMAGE)[0]}
 											onClick={() =>
 												setIsProfileOpened(true)
 											}
@@ -370,7 +604,7 @@ const Page: NextPage = () => {
 											mt="auto"
 											mb="auto"
 										>
-											{answer.PartnerMember.FULL_NAME}
+											{answer?.PartnerMember.FULL_NAME}
 										</Typography>
 										<VerifiedIcon
 											sx={{
@@ -393,7 +627,7 @@ const Page: NextPage = () => {
 											mt="auto"
 											mb="auto"
 										>
-											{answer['UPDATED_AT'].split('T')[0]}
+											{answer?.UPDATED_AT?.split('T')[0]}
 										</Typography>
 									</Box>
 
@@ -410,7 +644,7 @@ const Page: NextPage = () => {
 									{/** 답변 내용 */}
 									<Box p={1}>
 										<Typography>
-											{answer.CONTENT}
+											{answer?.CONTENT}
 										</Typography>
 									</Box>
 								</Box>
@@ -428,9 +662,18 @@ const Page: NextPage = () => {
 								open={successDeleteAlert}
 								handleClose={() => {
 									setSuccessDeleteAlert(false);
-									router.push('/internal_service/a2e');
 								}}
+								customHandleClose={()=> 									router.push('/internal_service/a2e')}
 								type={'successDeleteAxios'}
+							/>
+
+							<SupportiAlertModal
+								open={successModifyAlert}
+								handleClose={() => {
+									setSuccessModifyAlert(false);
+								}}
+								customHandleClose={()=> 									router.push('/internal_service/a2e')}
+								type={'successModifyAxios'}
 							/>
 
 							{answer !== undefined && (
