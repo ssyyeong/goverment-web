@@ -147,11 +147,12 @@ const Page: NextPage = () => {
 				(res) => {
 					setQuestion(res.data.result);
 
-					if(res.data.result.A2eAnswers.length !== 0){
-						answerController.getOneItem(
+					if (res.data.result.A2eAnswers.length !== 0) {
+						answerController.getOneItemByKey(
 							{
-								A2E_ANSWER_IDENTIFICATION_CODE: res.data.result.A2eAnswers[0].A2E_ANSWER_IDENTIFICATION_CODE
-								,
+								A2E_ANSWER_IDENTIFICATION_CODE:
+									res.data.result.A2eAnswers[0]
+										.A2E_ANSWER_IDENTIFICATION_CODE,
 							},
 							(res) => {
 								setAnswer(res.data.result);
@@ -159,11 +160,9 @@ const Page: NextPage = () => {
 							(err) => {}
 						);
 					}
-	
 				},
 				(err) => {}
 			);
-
 		}
 	}, [pid]);
 
@@ -200,7 +199,6 @@ const Page: NextPage = () => {
 
 		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
 	}, []);
-
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -283,7 +281,7 @@ const Page: NextPage = () => {
 																: 'primary.main'
 														}
 													>
-														{		answer === undefined
+														{answer === undefined
 															? '답변 전'
 															: '답변 완료'}
 													</Typography>
@@ -562,7 +560,7 @@ const Page: NextPage = () => {
           
 				)} */}
 							{/** 답변 */}
-							{		answer !== undefined && (
+							{answer !== undefined && (
 								<Box
 									p={5}
 									borderRadius={2}
@@ -581,7 +579,7 @@ const Page: NextPage = () => {
 											[{question.A2eCategory.CONTENT}]
 										</Typography>
 										<Typography variant="subtitle1">
-											{answer.TITLE}
+											{answer?.TITLE}
 										</Typography>
 									</Box>
 
@@ -594,7 +592,13 @@ const Page: NextPage = () => {
 												borderRadius: '20px',
 												cursor: 'pointer',
 											}}
-											src={JSON.parse(answer.PartnerMember.ExpertProfiles[0].PROFILE_IMAGE)[0]}
+											// src={
+											// 	JSON.parse(
+											// 		answer?.PartnerMember
+											// 			.ExpertProfiles[0]
+											// 			.PROFILE_IMAGE
+											// 	)[0]
+											// }
 											onClick={() =>
 												setIsProfileOpened(true)
 											}
@@ -663,7 +667,9 @@ const Page: NextPage = () => {
 								handleClose={() => {
 									setSuccessDeleteAlert(false);
 								}}
-								customHandleClose={()=> 									router.push('/internal_service/a2e')}
+								customHandleClose={() =>
+									router.push('/internal_service/a2e')
+								}
 								type={'successDeleteAxios'}
 							/>
 
@@ -672,7 +678,9 @@ const Page: NextPage = () => {
 								handleClose={() => {
 									setSuccessModifyAlert(false);
 								}}
-								customHandleClose={()=> 									router.push('/internal_service/a2e')}
+								customHandleClose={() =>
+									router.push('/internal_service/a2e')
+								}
 								type={'successModifyAxios'}
 							/>
 

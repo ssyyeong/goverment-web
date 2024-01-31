@@ -35,7 +35,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 	 * 데이터 세팅
 	 */
 	useEffect(() => {
-		profileController.getOneItem(
+		profileController.getOneItemByKey(
 			{
 				PARTNER_MEMBER_IDENTIFICATION_CODE: props.partnerId,
 			},
@@ -133,7 +133,6 @@ const ProfileModal = (props: IProfileModalProps) => {
 								mt="auto"
 								mb="auto"
 								variant="subtitle1"
-
 							>
 								{profile.CONTACT_NUMBER}
 							</Typography>
