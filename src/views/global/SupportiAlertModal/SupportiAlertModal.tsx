@@ -45,9 +45,12 @@ interface ISupportiAlertModalProps {
 		| 'seminarApply'
 		| 'paymentSuccess'
 		| 'unAccess'
+
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess';
+
+		| 'private';
 
 	/**
 	 * 커스텀 핸들러
@@ -316,8 +319,11 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		},
 		unAccess: {
 			type: 'error',
-			title: '본인 글만 확인 가능합니다.',
+
+			title: '비밀글은 본인 글만 확인 가능합니다.',
 			content: '확인',
+			// content: '로그인 페이지로 이동',
+
 			onclick: () => {
 				props.handleClose();
 			},

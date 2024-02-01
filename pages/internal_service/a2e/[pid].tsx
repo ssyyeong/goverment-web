@@ -19,6 +19,7 @@ const Page: NextPage = () => {
 	const questionController = new DefaultController('A2eQuestion');
 	const answerController = new DefaultController('A2eAnswer');
 	const categoryController = new DefaultController('A2eCategory');
+	const profileController = new DefaultController('ExpertProfile');
 
 	const { memberId } = useAppMember();
 
@@ -42,6 +43,10 @@ const Page: NextPage = () => {
 	 */
 	const [answer, setAnswer] = React.useState<any>(undefined);
 
+	/**
+	 * 컨설턴트 프로필
+	 */
+	const [profile, setProfile] = React.useState<any>(undefined);
 	/**
 	 * 선택 가능한 탭 카테고리
 	 */
@@ -147,23 +152,36 @@ const Page: NextPage = () => {
 				(res) => {
 					setQuestion(res.data.result);
 
-					if(res.data.result.A2eAnswers.length !== 0){
-						answerController.getOneItem(
+					if (res.data.result.A2eAnswers.length !== 0) {
+						answerController.getOneItemByKey(
 							{
-								A2E_ANSWER_IDENTIFICATION_CODE: res.data.result.A2eAnswers[0].A2E_ANSWER_IDENTIFICATION_CODE
-								,
+								A2E_ANSWER_IDENTIFICATION_CODE:
+									res.data.result.A2eAnswers[0]
+										.A2E_ANSWER_IDENTIFICATION_CODE,
 							},
 							(res) => {
 								setAnswer(res.data.result);
+
+								if (res.data.result) {
+									profileController.getOneItemByKey(
+										{
+											PARTNER_MEMBER_IDENTIFICATION_CODE:
+												res.data.result.PartnerMember
+													.PARTNER_MEMBER_IDENTIFICATION_CODE,
+										},
+										(res) => {
+											setProfile(res.data.result);
+										},
+										(err) => {}
+									);
+								}
 							},
 							(err) => {}
 						);
 					}
-	
 				},
 				(err) => {}
 			);
-
 		}
 	}, [pid]);
 
@@ -201,6 +219,7 @@ const Page: NextPage = () => {
 		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
 	}, []);
 
+	console.log(profile);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -242,21 +261,23 @@ const Page: NextPage = () => {
 									color: 'primary.main',
 									cursor: 'pointer',
 								}}
-								contents={'목록으로'}
+								contents={!isEditMode ? '목록으로' : '취소'}
 								onClick={() => {
-									router.back();
+									if(isEditMode) {
+										setIsEditMode(false)
+									}else 	router.back();
 								}}
 							/>
 							{/** 질문 */}
 							{question !== undefined && (
 								<Box
-									p={5}
 									borderRadius={2}
 									bgcolor="primary.light"
 									mb={2}
 									sx={{
 										boxShadow:
 											'rgb(219, 219, 219) 0px 4px 10px',
+										p: { md: 5, xs: 2 },
 									}}
 								>
 									{!isEditMode ? (
@@ -283,7 +304,7 @@ const Page: NextPage = () => {
 																: 'primary.main'
 														}
 													>
-														{		answer === undefined
+														{answer === undefined
 															? '답변 전'
 															: '답변 완료'}
 													</Typography>
@@ -562,15 +583,15 @@ const Page: NextPage = () => {
           
 				)} */}
 							{/** 답변 */}
-							{		answer !== undefined && (
+							{answer !== undefined && (
 								<Box
-									p={5}
 									borderRadius={2}
 									bgcolor="white"
 									mb={2}
 									sx={{
 										boxShadow:
 											'rgb(219, 219, 219) 0px 4px 10px',
+											p: { xs: 2, md: 5 },
 									}}
 								>
 									<Box display="flex" gap={0.5} m={0.5}>
@@ -581,7 +602,7 @@ const Page: NextPage = () => {
 											[{question.A2eCategory.CONTENT}]
 										</Typography>
 										<Typography variant="subtitle1">
-											{answer.TITLE}
+											{answer?.TITLE}
 										</Typography>
 									</Box>
 
@@ -594,7 +615,12 @@ const Page: NextPage = () => {
 												borderRadius: '20px',
 												cursor: 'pointer',
 											}}
-											src={JSON.parse(answer.PartnerMember.ExpertProfiles[0].PROFILE_IMAGE)[0]}
+											src={
+												profile !== undefined &&
+												JSON.parse(
+													profile?.PROFILE_IMAGE
+												)[0]
+											}
 											onClick={() =>
 												setIsProfileOpened(true)
 											}
@@ -663,7 +689,9 @@ const Page: NextPage = () => {
 								handleClose={() => {
 									setSuccessDeleteAlert(false);
 								}}
-								customHandleClose={()=> 									router.push('/internal_service/a2e')}
+								customHandleClose={() =>
+									router.push('/internal_service/a2e')
+								}
 								type={'successDeleteAxios'}
 							/>
 
@@ -672,17 +700,16 @@ const Page: NextPage = () => {
 								handleClose={() => {
 									setSuccessModifyAlert(false);
 								}}
-								customHandleClose={()=> 									router.push('/internal_service/a2e')}
+								customHandleClose={() =>
+									router.push('/internal_service/a2e')
+								}
 								type={'successModifyAxios'}
 							/>
 
 							{answer !== undefined && (
 								<ProfileModal
 									open={isProfileOpened}
-									partnerId={
-										answer?.PartnerMember
-											.PARTNER_MEMBER_IDENTIFICATION_CODE
-									}
+									profile={profile}
 									handleClose={() =>
 										setIsProfileOpened(false)
 									}

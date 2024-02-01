@@ -11,10 +11,15 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import LockIcon from '@mui/icons-material/Lock';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import Nodata from '../../../src/views/global/NoData/NoData';
+import { usePagination } from '../../../src/hooks/usePagination';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
+import { A2eController } from '../../../src/controller/A2EController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const questionController = new DefaultController('A2eQuestion');
+	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
 
 	const { memberId } = useAppMember();
@@ -31,6 +36,12 @@ const Page: NextPage = () => {
 	 * 전체 글
 	 */
 	const [allQuestion, setAllQuestion] = React.useState<any[]>([]);
+
+	/**
+	 *
+	 * 전체 글 총 갯수
+	 */
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 
 	/**
 	 *
@@ -76,23 +87,46 @@ const Page: NextPage = () => {
 
 	/**
 	 *
+	 * 답변완료 여부
+	 */
+
+	const [isAnswerExist, setIsAnswerExist] = React.useState<boolean>(false);
+
+	/**
+	 *
 	 * 내가 쓴 글만 보기
 	 */
 	const [isReadMine, setIsReadMine] = React.useState<boolean>(false);
 
 	/**
 	 *
+	 * 비밀글 제외
+	 */
+	const [exceptSecret, setExceptSecret] = React.useState<boolean>(false);
+
+	/**
+	 *
 	 *  알럿
 	 */
-	const [alertType, setAlertType] = React.useState();
+
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Functions
-	const getQuestionList = (parameter) => {
-		questionController.findAllItems(
-			Object.assign(parameter, {}),
+	const getQuestionList = (parameter, optionParameter) => {
+		a2eController.getAllA2eQuestion(
+			Object.assign(
+				{
+					FIND_OPTION_KEY_LIST: parameter,
+				},
+				{
+					LIMIT: 10,
+					PAGE: page,
+				},
+				optionParameter
+			),
 			(res) => {
 				setAllQuestion(res.data.result.rows);
+				setTotalDataCount(res.data.result.count);
 			},
 			(err) => {}
 		);
@@ -100,8 +134,14 @@ const Page: NextPage = () => {
 
 	//* Hooks
 
+	/**
+	 * 페이징 관련
+	 */
+	const { page, limit, handlePageChange, setLimit } = usePagination();
+
 	React.useEffect(() => {
 		let args = {};
+		let option = {};
 
 		if (isReadMine) {
 			Object.assign(args, { APP_MEMBER_IDENTIFICATION_CODE: memberId });
@@ -125,13 +165,27 @@ const Page: NextPage = () => {
 			delete args['KEYWORD'];
 		}
 
-		getQuestionList(args);
-	}, [keyword, isReadMine, selectedTabCategory]);
+		if (isAnswerExist) {
+			Object.assign(option, { ANSWERED: true });
+		} else {
+			delete option['ANSWERED'];
+		}
+
+		if (exceptSecret) {
+			Object.assign(args, {
+				PRIVATE_YN: 'N',
+			});
+		} else {
+			delete args['PRIVATE_YN'];
+		}
+
+		getQuestionList(args, option);
+	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist, exceptSecret]);
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
 
-		getQuestionList({});
+		getQuestionList({}, {});
 
 		questionController.findAllItems(
 			{
@@ -162,8 +216,6 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, []);
-
-	console.log(allQuestion);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -231,7 +283,7 @@ const Page: NextPage = () => {
 												justifyContent="space-between"
 												onClick={() =>
 													router.push(
-														'/internal_service/a2e/1'
+														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
 													)
 												}
 											>
@@ -281,12 +333,14 @@ const Page: NextPage = () => {
 									display="flex"
 									justifyContent={'space-between'}
 									my={3}
+									flexWrap="wrap"
+									gap={2}
 								>
 									<SupportiInput
 										type="search"
 										value={keyword}
 										setValue={setKeyword}
-										style={{ width: '500px' }}
+										style={{ width: '320px' }}
 										additionalProps={{
 											placeholder:
 												'궁금한 것을 검색해보세요.',
@@ -306,6 +360,80 @@ const Page: NextPage = () => {
 								</Box>
 							</Box>
 
+							<Box
+								display="flex"
+								justifyContent={'space-between'}
+							>
+								{/* <Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											pb={1}
+											mr={0.5}
+										>
+											비밀글도 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isSecret}
+											setValue={setIsSecret}
+										/>
+									</Box> */}
+								<Box></Box>
+								<Box display="flex" mr="-20px">
+									<Box display="flex" flexWrap="wrap">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="auto"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											비밀글 제외
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={exceptSecret}
+											setValue={setExceptSecret}
+										/>
+									</Box>
+									<Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="-15px"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											답변완료 글만 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isAnswerExist}
+											setValue={setIsAnswerExist}
+										/>
+									</Box>
+									<Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="-15px"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											내가 쓴 글만 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isReadMine}
+											setValue={setIsReadMine}
+										/>
+									</Box>
+								</Box>
+							</Box>
 							<Box
 								display="flex"
 								justifyContent={'space-between'}
@@ -332,7 +460,10 @@ const Page: NextPage = () => {
 																item['CONTENT']
 																	? '#e7eeff'
 																	: 'common.white',
-															width: '130px',
+															width: {
+																md: '130px',
+																xs: '60px',
+															},
 															textAlign: 'center',
 															cursor: 'pointer',
 															boxShadow:
@@ -361,41 +492,6 @@ const Page: NextPage = () => {
 											}
 										)}
 								</Box>
-
-								<Box display="flex">
-									{/* <Box display="flex">
-										<Typography
-											mt="auto"
-											mb="auto"
-											pb={1}
-											mr={0.5}
-										>
-											비밀글도 보기
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isSecret}
-											setValue={setIsSecret}
-										/>
-									</Box> */}
-									<Box display="flex" mr={'-22px'}>
-										<Typography
-											mt="auto"
-											mb="auto"
-											pb={1}
-											mr={1}
-											fontWeight={500}
-											fontFamily={'Pretendard'}
-										>
-											내가 쓴 글만 보기
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isReadMine}
-											setValue={setIsReadMine}
-										/>
-									</Box>
-								</Box>
 							</Box>
 
 							<Box
@@ -420,11 +516,19 @@ const Page: NextPage = () => {
 												sx={{
 													cursor: 'pointer',
 												}}
-												onClick={() =>
-													router.push(
-														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-													)
-												}
+												onClick={() => {
+													if (
+														memberId !==
+															item.APP_MEMBER_IDENTIFICATION_CODE &&
+														item.PRIVATE_YN === 'Y'
+													) {
+														setAlertModal(true);
+													} else {
+														router.push(
+															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+														);
+													}
+												}}
 											>
 												<Box
 													display="flex"
@@ -512,13 +616,23 @@ const Page: NextPage = () => {
           
 				)} */}
 						</Box>
+						{/* 페이지 네이션 */}
+						<Box width={'100%'} p={2}>
+							<SupportiPagination
+								limit={limit}
+								setLimit={setLimit}
+								page={page}
+								handlePageChange={handlePageChange}
+								count={totalDataCount}
+								useLimit={false}
+							/>
+						</Box>
 						<SupportiAlertModal
 							open={alertModal}
 							handleClose={() => {
 								setAlertModal(false);
-								router.push('/internal_service/a2e/1');
 							}}
-							type={alertType}
+							type={'unAccess'}
 						/>
 					</InternalServiceLayout>
 				)}
