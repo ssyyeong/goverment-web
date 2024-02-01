@@ -214,21 +214,10 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 	 */
 	const uploadProfile = () => {
 		if (update) {
+			//업데이트 일 때
 			coffeeChatProfileController.updateItem(
 				profile,
 				(res) => {
-					setProfile({
-						MAIN_FIELD: [],
-						INTEREST_FIELD: [],
-						SUBJECT: [],
-						CAREER: [],
-						OFFER_YN: 'N',
-						PROFILE_IMAGE: '',
-						COMPANY_NAME: '',
-						ROLE: '',
-						INTRODUCE: '',
-						DESCRIPTION: '',
-					} as ICoffeeChatProfile);
 					setPage(0);
 					props.handleClose();
 				},
@@ -237,21 +226,10 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				}
 			);
 		} else {
+			// 생성일때
 			coffeeChatProfileController.createItem(
 				{ ...profile, APP_MEMBER_IDENTIFICATION_CODE: memberId },
 				(res) => {
-					setProfile({
-						MAIN_FIELD: [],
-						INTEREST_FIELD: [],
-						SUBJECT: [],
-						CAREER: [],
-						OFFER_YN: 'N',
-						PROFILE_IMAGE: '',
-						COMPANY_NAME: '',
-						ROLE: '',
-						INTRODUCE: '',
-						DESCRIPTION: '',
-					} as ICoffeeChatProfile);
 					setPage(0);
 					props.handleClose();
 				},
@@ -286,7 +264,12 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				},
 				(res) => {
 					if (res.data.result !== null) {
-						setProfile(res.data.result);
+						const data = res.data.result;
+						data.CAREER = JSON.parse(data.CAREER);
+						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
+						data.SUBJECT = JSON.parse(data.SUBJECT);
+						setProfile(data);
 						setUpdate(true);
 					}
 				},
@@ -294,24 +277,10 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			);
 	}, [memberId]);
 
-	console.log('profile', profile);
-
 	return (
 		<SupportiModal
 			open={props.open}
 			handleClose={() => {
-				setProfile({
-					MAIN_FIELD: [],
-					INTEREST_FIELD: [],
-					SUBJECT: [],
-					CAREER: [],
-					OFFER_YN: 'N',
-					PROFILE_IMAGE: '',
-					COMPANY_NAME: '',
-					ROLE: '',
-					INTRODUCE: '',
-					DESCRIPTION: '',
-				} as ICoffeeChatProfile);
 				setPage(0);
 				props.handleClose();
 			}}

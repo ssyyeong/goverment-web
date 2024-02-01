@@ -6,10 +6,13 @@ import SupportiModal from '../../../../global/SupportiModal';
 import SupportiInput from '../../../../global/SupportiInput';
 import SupportiButton from '../../../../global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
+import useAlert from '../../../../../hooks/useAlert/useAlert';
 
 interface ICoffeeChatApplyGeneralModalProps {
 	open: boolean;
 	handleClose: () => void;
+	profileId: number;
 }
 
 const CoffeeChatApplyGeneralModal = (
@@ -40,12 +43,18 @@ const CoffeeChatApplyGeneralModal = (
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				DESCRIPTION: applyReason,
+				COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE: props.profileId,
 			},
 			(res) => {
-				props.handleClose();
+				setOpen(true);
+				setType('coffeechatapplysuccess');
 			}
 		);
 	};
+	/**
+	 * 알러트
+	 */
+	const { open, setOpen, setType, type } = useAlert({});
 
 	return (
 		<SupportiModal
@@ -93,6 +102,13 @@ const CoffeeChatApplyGeneralModal = (
 					onClick={() => applyCoffeeChat()}
 				/>
 			</Box>
+			{/* 알림창 */}
+			<SupportiAlertModal
+				open={open}
+				handleClose={() => setOpen(false)}
+				type={type}
+				customHandleClose={() => props.handleClose()}
+			/>
 		</SupportiModal>
 	);
 };

@@ -46,7 +46,9 @@ interface ISupportiAlertModalProps {
 		| 'paymentSuccess'
 		| 'unAccess'
 		| 'coffeechatprofilemissing'
-		| 'coffeechatalready';
+		| 'coffeechatalready'
+		| 'coffeechatapplysuccess';
+
 	/**
 	 * 커스텀 핸들러
 	 */
@@ -338,6 +340,18 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		coffeechatapplysuccess: {
+			type: 'success',
+			title: '커피챗 신청이 완료되었습니다.',
+			subTitle:
+				'해당 유저분이 확인 후 수락시 줌링크 및 안내사항을 알림톡으로 발송드립니다!',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: false,
 		},

@@ -39,6 +39,7 @@ const useAlert = (props: IuseAlertProps) => {
 		| 'failAxios'
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
+		| 'coffeechatapplysuccess'
 	>();
 
 	const renderAlert = () => {

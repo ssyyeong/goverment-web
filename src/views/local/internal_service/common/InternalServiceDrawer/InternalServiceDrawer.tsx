@@ -133,6 +133,10 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 							}
 						}}
 						selected={router.asPath.includes(page.path)}
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}
 					>
 						<ListItemIcon>
 							<img

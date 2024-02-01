@@ -11,6 +11,10 @@ import { useRouter } from 'next/router';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
 import useAlert from '../../../../../hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
+import { useAppMember } from '../../../../../hooks/useAppMember';
+import { CoffeeChatProfileController } from '../../../../../controller/CoffeeChatProfileController';
+import { usePagination } from '../../../../../hooks/usePagination';
+import SupportiPagination from '../../../../global/SupportiPagination';
 interface IGeneralCoffeeChatProps {
 	triggerKey?: string;
 }
@@ -26,22 +30,13 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 	 */
 	const [coffeeChatList, setCoffeeChatList] = useState<
 		{ [key: string]: any }[]
-	>([
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-	]);
+	>([]);
+	/**
+	 * 총 갯수
+	 */
+	const [totalCount, setTotalCount] = useState<number>(0);
 	//* Controller
-	const coffeeChatController = new DefaultController('GeneralCoffeeChat');
+	const coffeeChatProfileController = new CoffeeChatProfileController();
 
 	//* Hooks
 	/**
@@ -55,6 +50,25 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 	 */
 	useEffect(() => {
 		console.log(selectedFilter);
+		coffeeChatProfileController.getFilteringCoffeeChatProfile(
+			{
+				FIELD_NAME_LIST: JSON.stringify(selectedFilter),
+				LIMIT: 9,
+				PAGE: page,
+			},
+			(res) => {
+				const data = res.data.result.rows;
+				data.map((item) => {
+					item.CAREER = JSON.parse(item.CAREER);
+					item.MAIN_FIELD = JSON.parse(item.MAIN_FIELD);
+					item.INTEREST_FIELD = JSON.parse(item.INTEREST_FIELD);
+					item.SUBJECT = JSON.parse(item.SUBJECT);
+				});
+				setCoffeeChatList(data);
+				setTotalCount(res.data.result.count);
+			},
+			(err) => {}
+		);
 	}, [selectedFilter.length]);
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
@@ -65,9 +79,17 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 	 */
 	const isCoffeeChat = useUserAccess('COFFEE_CHAT');
 	/**
+	 * 유저 아이디
+	 */
+	const { memberId } = useAppMember();
+	/**
 	 * 알러트
 	 */
 	const { open, setOpen, setType, type } = useAlert({});
+	/**
+	 * 페이지네이션
+	 */
+	const { page, limit, handlePageChange, setLimit } = usePagination();
 
 	const router = useRouter();
 
@@ -78,6 +100,7 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 				justifyContent={'space-between'}
 				alignItems={'center'}
 				width={'100%'}
+				mb={1}
 			>
 				{/* 타이틀 */}
 				<Typography variant="h5" fontWeight={'700'}>
@@ -104,7 +127,7 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 							setType('coffeechatprofilemissing');
 							return;
 						}
-						router.push('/internal_service/coffeechat/1');
+						router.push(`/internal_service/coffeechat/${memberId}`);
 					}}
 				>
 					<Image
@@ -118,12 +141,15 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 					</Typography>
 				</Box>
 			</Box>
+			<Typography color={'secondary'}>
+				아래에서 관심분야를 선택하고, 커피챗을 신청해보세요!
+			</Typography>
 			{/* 필터 */}
 			<Box
 				display={'flex'}
 				// flexDirection={'column'}
 				gap={1}
-				mt={5}
+				mt={3}
 				width={'100%'}
 				flexWrap={'wrap'}
 				mb={3}
@@ -177,27 +203,31 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 								// isExpand={true}
 								userType="사업가"
 								name="김대표"
-								level="대표"
-								companyName="서포티"
-								description="안녕하세요. 서포티 대표 김대표입니다. 저희 서포티는 대표님들의 성공을 위해 최선을 다하고 있습니다. 많은 관심 부탁드립니다.많은 관심 부탁드립니다.많은 관심 부탁드립니다."
-								career={[
-									'서포티 대표',
-									'서포티 대표',
-									'서포티 대표',
-								]}
-								mainField={[
-									'서포티 대표',
-									'서포티 대표',
-									'서포티 대표',
-								]}
+								level={coffeeChat.ROLE}
+								companyName={coffeeChat.COMPANY_NAME}
+								description={coffeeChat.INTRODUCE}
+								career={coffeeChat.CAREER}
+								mainField={coffeeChat.MAIN_FIELD}
 								special={false}
-								id={1}
+								id={coffeeChat.APP_MEMBER_IDENTIFICATION_CODE}
+								profileImage={coffeeChat.PROFILE_IMAGE}
 							/>
 						</Grid>
 					))}
 				{/* 데이터 없을 때 */}
 				{coffeeChatList.length === 0 && <Nodata />}
 			</Grid>
+			{/* 페이지 네이션 */}
+			<Box width={'100%'} p={2}>
+				<SupportiPagination
+					limit={10}
+					setLimit={setLimit}
+					page={page}
+					handlePageChange={handlePageChange}
+					count={totalCount}
+					useLimit={false}
+				/>
+			</Box>
 			{/* 알림창 */}
 			<SupportiAlertModal
 				open={open}

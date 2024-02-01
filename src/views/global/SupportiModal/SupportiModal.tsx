@@ -107,12 +107,11 @@ const SupportiModal = (props: ISupportiModalProps) => {
 											style={{ cursor: 'pointer' }}
 											onClick={props.handleClose}
 										/>
-									) : (
-										<CloseIcon
-											style={{ cursor: 'pointer' }}
-											onClick={props.handleClose}
-										/>
-									))}
+									) : // <CloseIcon
+									// 	sx={{ cursor: 'pointer' }}
+									// 	onClick={props.handleClose}
+									// />
+									null)}
 							</Grid>
 						</Grid>
 					</Box>

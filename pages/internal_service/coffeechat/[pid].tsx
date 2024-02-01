@@ -12,36 +12,26 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import useAlert from '../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import CoffeeChatApplyGeneralModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatApplyGeneralModal/CoffeeChatApplyGeneralModal';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { CoffeeChatApplicationController } from '../../../src/controller/CoffeeChatApplicationController';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const { pid, special } = useRouter().query;
 	//* Constants
-
+	//* Controller
+	const coffeeChatProfileController = new DefaultController(
+		'coffeeChatProfile'
+	);
+	const coffeeChatApplicationController =
+		new CoffeeChatApplicationController();
 	//* States
 	/**
 	 * 프로필
 	 */
 	const [coffeeChatProfile, setCoffeeChatProfile] =
-		React.useState<ICoffeeChatProfile>({
-			COMPANY_NAME: '회사명',
-			PROFILE_IMAGE: '/images/main/coffeechat.png',
-			INTRODUCE: '자기소개',
-			CAREER: ['경력', '경력1'],
-			MAIN_FIELD: ['경력', '경력1'],
-			INTEREST_FIELD: ['경력', '경력1'],
-			ROLE: '역할',
-			DESCRIPTION: '설명',
-			OFFER_YN: 'Y',
-			SUBJECT: ['경력', '경력1'],
-			PRICE: 10000,
-			AppMember: {
-				FULL_NAME: '이름',
-			},
-			PartnerMember: {
-				FULL_NAME: '스페셜이름',
-			},
-		} as ICoffeeChatProfile);
+		React.useState<ICoffeeChatProfile>({} as ICoffeeChatProfile);
 	/**
 	 * 일반 커피챗 신청 모달
 	 */
@@ -55,24 +45,53 @@ const Page: NextPage = () => {
 	 * 커피챗 신청하기 클릭시
 	 */
 	const handleCoffeeChatApply = () => {
+		// 구독 검사
 		if (isSubscription.access !== true) {
 			setOpen(true);
 			setType('subscribe');
 			return;
 		}
-		if (isCoffeeChatProfile.access !== true) {
+		// 커피챗 프로필 검사
+		if (isCoffeeChatProfile?.access !== true) {
 			setOpen(true);
 			setType('coffeechatprofilemissing');
 			return;
 		}
 
-		if (special) {
-			// 스페셜 커피챗 신청
-			setSpecialModal(true);
-		} else {
-			// 일반 커피챗 신청
-			setGeneralModal(true);
-		}
+		coffeeChatApplicationController.checkAlreadyCoffeeChat(
+			{
+				CREATE_OPTION_KEY_LIST: {
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+			},
+			(res) => {
+				if (special == 'true') {
+					// 스페셜 커피챗 신청
+					setSpecialModal(true);
+				} else {
+					// 일반 커피챗 신청
+					setGeneralModal(true);
+				}
+			},
+			(err) => {
+				if (
+					err.response.data.message ===
+					'커피챗 신청은 한 달에 한 번만 가능합니다.'
+				) {
+					setType('coffeechatalready');
+					setOpen(true);
+				}
+				if (
+					err.response.data.message ===
+					'구독자만 커피챗 신청이 가능합니다.'
+				) {
+					setOpen(true);
+					setType('subscribe');
+				}
+
+				return;
+			}
+		);
 	};
 	//* Hooks
 	/**
@@ -84,6 +103,10 @@ const Page: NextPage = () => {
 	 */
 	const isCoffeeChatProfile = useUserAccess('COFFEE_CHAT');
 	/**
+	 * 유저 아이디
+	 */
+	const { memberId } = useAppMember();
+	/**
 	 * 알러트
 	 */
 	const { open, setOpen, setType, type } = useAlert({});
@@ -93,10 +116,34 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		console.log(pid, special);
-		if (special) {
-		} else {
+		if (pid !== undefined) {
+			if (special == 'true') {
+			} else {
+				coffeeChatProfileController.getOneItemByKey(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: pid,
+					},
+					(res) => {
+						const data = res.data.result;
+						if (data == null) {
+							alert('잘못된 접근입니다.');
+							return;
+						}
+						data.CAREER = JSON.parse(data.CAREER);
+						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
+						data.SUBJECT = JSON.parse(data.SUBJECT);
+						setCoffeeChatProfile(res.data.result);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
+			}
 		}
 	}, [pid, special]);
+
+	// console.log(coffeeChatProfile);
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box
@@ -125,7 +172,7 @@ const Page: NextPage = () => {
 						justifyContent={'flex-end'}
 						gap={1}
 					>
-						{coffeeChatProfile.MAIN_FIELD?.map((item, index) => {
+						{coffeeChatProfile?.MAIN_FIELD?.map((item, index) => {
 							return (
 								<Box
 									key={index}
@@ -164,7 +211,7 @@ const Page: NextPage = () => {
 						alignItems={'center'}
 					>
 						<Avatar
-							src={coffeeChatProfile.PROFILE_IMAGE}
+							src={coffeeChatProfile?.PROFILE_IMAGE}
 							sx={{
 								width: 125,
 								height: 125,
@@ -187,10 +234,10 @@ const Page: NextPage = () => {
 						alignItems={'baseline'}
 						gap={0.5}
 					>
-						{special
+						{special == 'true'
 							? coffeeChatProfile?.PartnerMember?.FULL_NAME
 							: coffeeChatProfile?.AppMember?.FULL_NAME}
-						<Typography>{coffeeChatProfile.ROLE}</Typography>
+						<Typography>{coffeeChatProfile?.ROLE}</Typography>
 					</Typography>
 
 					<Typography
@@ -199,7 +246,7 @@ const Page: NextPage = () => {
 						fontWeight={'600'}
 						variant="subtitle2"
 					>
-						{coffeeChatProfile.COMPANY_NAME}
+						{coffeeChatProfile?.COMPANY_NAME}
 					</Typography>
 					{/* 관심 분야 */}
 					<Typography
@@ -211,7 +258,7 @@ const Page: NextPage = () => {
 					</Typography>
 					{/* 관심 분야 리스트 */}
 					<Box display={'flex'} flexWrap={'wrap'} gap={1} my={3}>
-						{coffeeChatProfile.INTEREST_FIELD?.map(
+						{coffeeChatProfile?.INTEREST_FIELD?.map(
 							(item, index) => {
 								return (
 									<Typography>
@@ -219,8 +266,8 @@ const Page: NextPage = () => {
 										<Typography
 											display={
 												index ===
-												coffeeChatProfile.INTEREST_FIELD
-													?.length -
+												coffeeChatProfile
+													?.INTEREST_FIELD?.length -
 													1
 													? 'none'
 													: 'inline'
@@ -249,7 +296,7 @@ const Page: NextPage = () => {
 						flexDirection={'column'}
 						gap={1}
 					>
-						{coffeeChatProfile.CAREER?.map((career) => (
+						{coffeeChatProfile?.CAREER?.map((career) => (
 							<Typography lineHeight={1.4}>
 								&#8226; {career}
 							</Typography>
@@ -265,14 +312,14 @@ const Page: NextPage = () => {
 					</Typography>
 					<Box my={3}>
 						<Typography variant="h6" fontWeight="bold" mb={1}>
-							{coffeeChatProfile.INTRODUCE}
+							{coffeeChatProfile?.INTRODUCE}
 						</Typography>
 						<Typography lineHeight={1.4}>
-							{coffeeChatProfile.DESCRIPTION}
+							{coffeeChatProfile?.DESCRIPTION}
 						</Typography>
 					</Box>
 					{/* 제안 주제 */}
-					{coffeeChatProfile.SUBJECT?.length !== 0 && (
+					{coffeeChatProfile?.SUBJECT?.length !== 0 && (
 						<Box>
 							<Typography
 								variant="subtitle2"
@@ -288,7 +335,7 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 								gap={1}
 							>
-								{coffeeChatProfile.SUBJECT?.map((subject) => (
+								{coffeeChatProfile?.SUBJECT?.map((subject) => (
 									<Typography lineHeight={1.4}>
 										&#8226; {subject}
 									</Typography>
@@ -297,7 +344,7 @@ const Page: NextPage = () => {
 						</Box>
 					)}
 					{/* 가격 */}
-					{special && (
+					{special == 'true' && (
 						<Box>
 							<Typography
 								variant="subtitle2"
@@ -307,14 +354,14 @@ const Page: NextPage = () => {
 								가격
 							</Typography>
 							<Typography fontWeight="bold" my={3}>
-								{coffeeChatProfile.PRICE?.toLocaleString()}
+								{coffeeChatProfile?.PRICE?.toLocaleString()}
 								포인트
 							</Typography>
 						</Box>
 					)}
 				</Box>
 				{/* 커피챗 신청 버튼 */}
-				{coffeeChatProfile.OFFER_YN === 'Y' && (
+				{coffeeChatProfile?.OFFER_YN === 'Y' && (
 					<Box
 						width={'100%'}
 						display={'flex'}
@@ -337,6 +384,9 @@ const Page: NextPage = () => {
 			<CoffeeChatApplyGeneralModal
 				open={generalModal}
 				handleClose={() => setGeneralModal(false)}
+				profileId={
+					coffeeChatProfile.COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE
+				}
 			/>
 			{/* 알림창 */}
 			<SupportiAlertModal

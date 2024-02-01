@@ -10,6 +10,9 @@ const useAppMember = () => {
 	//* Controller
 	const appMemberController = new DefaultController('AppMember');
 	const pointHistoryController = new PointHistoryController();
+	const coffeeChatProfileController = new DefaultController(
+		'CoffeeChatProfile'
+	);
 	//* State
 	/**
 	 * 유저 아이디
@@ -25,6 +28,12 @@ const useAppMember = () => {
 	const [memberPoint, setMemberPoint] = useState<string | undefined>(
 		undefined
 	);
+	/**
+	 * 유저 커피챗 프로필 아이디
+	 */
+	const [memberCoffeeChatProfileId, setMemberCoffeeChatProfileId] = useState<
+		number | undefined
+	>(undefined);
 
 	//* Cookie
 	const cookie = new CookieManager();
@@ -69,7 +78,37 @@ const useAppMember = () => {
 		}
 	}, [accessToken]);
 
-	return { memberId, memberName, memberPoint };
+	/**
+	 * 유저 커피챗 프로필 아이디 가져오기
+	 */
+	useEffect(
+		() => {
+			if (memberId === undefined) {
+				setMemberCoffeeChatProfileId(undefined);
+			} else {
+				if (memberCoffeeChatProfileId !== undefined) return;
+				coffeeChatProfileController.getOneItemByKey(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					},
+					(res) => {
+						if (res.data.result !== null) {
+							setMemberCoffeeChatProfileId(
+								res.data.result
+									.COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE
+							);
+						} else {
+							setMemberCoffeeChatProfileId(undefined);
+						}
+					}
+				);
+			}
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[memberId]
+	);
+
+	return { memberId, memberName, memberPoint, memberCoffeeChatProfileId };
 };
 
 export default useAppMember;

@@ -124,6 +124,15 @@ let themeConfig = createTheme({
 				},
 			},
 		},
+		MuiChip: {
+			styleOverrides: {
+				root: {
+					fontSize: '10px',
+					fontWeight: 500,
+					padding: '4px 8px',
+				},
+			},
+		},
 		MuiCheckbox: {
 			styleOverrides: {
 				root: {},

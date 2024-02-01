@@ -22,6 +22,7 @@ import { ImageController } from '../../../controller/ImageController';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import { DateTimePicker } from '@mui/x-date-pickers';
 
 interface SupportiInputProps {
 	type: string;
@@ -474,6 +475,14 @@ const SupportiInput = React.forwardRef(
 							);
 						})}
 					</Box>
+				) : props.type === 'datetimepicker' ? (
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DateTimePicker
+							renderInput={(params) => <TextField {...params} />}
+							value={props.value}
+							onChange={(newValue) => props.setValue(newValue)}
+						/>
+					</LocalizationProvider>
 				) : (
 					<OutlinedInput
 						sx={{ width: '100%', ...props.style }}

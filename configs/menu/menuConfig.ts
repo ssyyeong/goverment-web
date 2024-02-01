@@ -46,16 +46,6 @@ const dashboardMenu: IMenu[] = [
 	// 	icon: '/images/icons/seminar.png',
 	// },
 	{
-		label: '컨설팅',
-		path: '/external_service/consulting',
-		icon: '/images/icons/consulting.png',
-	},
-	{
-		label: '파트너스',
-		path: '/partners',
-		icon: '/images/icons/seminar.png',
-	},
-	{
 		label: 'A2E',
 		path: '/internal_service/a2e',
 		icon: '/images/icons/mypage.svg',
@@ -65,6 +55,17 @@ const dashboardMenu: IMenu[] = [
 		path: '/internal_service/coffeechat',
 		icon: '/images/icons/coffee.png',
 	},
+	{
+		label: '컨설팅',
+		path: '/external_service/consulting',
+		icon: '/images/icons/consulting.png',
+	},
+	{
+		label: '파트너스',
+		path: '/partners',
+		icon: '/images/icons/seminar.png',
+	},
+
 	{
 		label: '마이페이지',
 		path: '/my_page/edit_profile',
@@ -97,6 +98,21 @@ const mypageMenu: IMenu[] = [
 		label: '컨설팅 히스토리',
 		path: '/my_page/consulting_reservation_history',
 		icon: '/images/icons/consulting-reservation.png',
+	},
+	{
+		label: '커피챗 신청',
+		icon: '/images/icons/coffee.png',
+		path: '/my_page/coffee_chat',
+		submenu: [
+			{
+				label: '스페셜 커피챗 히스토리',
+				path: '/my_page/coffee_chat/special',
+			},
+			{
+				label: '커피챗 히스토리',
+				path: '/my_page/coffee_chat/general',
+			},
+		],
 	},
 	{
 		label: '대시보드',

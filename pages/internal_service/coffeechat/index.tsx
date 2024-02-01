@@ -57,28 +57,33 @@ const Page: NextPage = () => {
 						justifyContent={'flex-end'}
 						width={'100%'}
 						alignItems={'center'}
-						sx={{
-							cursor: 'pointer',
-						}}
-						gap={1}
-						onClick={() => {
-							if (isSubscription.access === true) {
-								setProfileModal(true);
-							} else {
-								setOpen(true);
-								setType('subscribe');
-							}
-						}}
 					>
-						<Image
-							src="/images/icons/coffeeico.png"
-							alt="coffeeico"
-							width={18}
-							height={18}
-						/>
-						<Typography fontWeight={'600'}>
-							내 커피챗 프로필 설정하기
-						</Typography>
+						<Box
+							sx={{
+								cursor: 'pointer',
+							}}
+							alignItems={'center'}
+							gap={0.5}
+							display={'flex'}
+							onClick={() => {
+								if (isSubscription.access === true) {
+									setProfileModal(true);
+								} else {
+									setOpen(true);
+									setType('subscribe');
+								}
+							}}
+						>
+							<Image
+								src="/images/icons/coffeeico.png"
+								alt="coffeeico"
+								width={18}
+								height={18}
+							/>
+							<Typography fontWeight={'600'}>
+								내 커피챗 프로필 설정하기
+							</Typography>
+						</Box>
 					</Box>
 					{/* 스페셜 커피챗 */}
 					<SpecialCoffeeChat />

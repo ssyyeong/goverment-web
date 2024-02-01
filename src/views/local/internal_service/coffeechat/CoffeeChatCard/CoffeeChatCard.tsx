@@ -15,6 +15,7 @@ interface ICoffeeChatCardProps {
 	mainField?: string[];
 	special?: boolean;
 	id?: number;
+	disabledHover?: boolean;
 }
 
 const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
@@ -30,14 +31,19 @@ const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
 			sx={{
 				transition: 'all 0.3s ease-in-out',
 				'&:hover': {
-					cursor: 'pointer',
-					boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+					cursor: props.disabledHover === true ? null : 'pointer',
+					boxShadow:
+						props.disabledHover === true
+							? null
+							: '0px 0px 20px rgba(0, 0, 0, 0.1)',
 				},
 			}}
 			onClick={() =>
-				router.push(
-					`/internal_service/coffeechat/${props.id}?special=${props.special}`
-				)
+				props.disabledHover === true
+					? null
+					: router.push(
+							`/internal_service/coffeechat/${props.id}?special=${props.special}`
+					  )
 			}
 		>
 			{/* 프로필 사진 및 신상 */}
