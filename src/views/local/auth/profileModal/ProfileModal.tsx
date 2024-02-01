@@ -35,20 +35,22 @@ const ProfileModal = (props: IProfileModalProps) => {
 				props.handleClose();
 			}}
 			activeHeader={false}
-			title=""
 			muiModalProps={{
 				width: { sm: '40%', xs: '100%' },
 			}}
 			style={{
 				minWidth: '40%',
 				width: { sm: '40%', xs: '100%' },
+				p: { xs: 2, md: 2 },
 			}}
 		>
 			{props.profile !== undefined && (
 				<Box
 					mb={3}
 					width={'100%'}
-					p={5}
+					sx={{
+						p: { xs: 0, md: 2 },
+					}}
 					display="flex"
 					flexDirection="column"
 					gap={5}
@@ -97,7 +99,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 							<Typography
 								color="secondary.dark"
 								sx={{
-									textDecoration: 'underline',
+									// textDecoration: 'underline',
 									mt: 'auto',
 									mb: 'auto',
 								}}

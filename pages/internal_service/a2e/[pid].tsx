@@ -261,21 +261,23 @@ const Page: NextPage = () => {
 									color: 'primary.main',
 									cursor: 'pointer',
 								}}
-								contents={'목록으로'}
+								contents={!isEditMode ? '목록으로' : '취소'}
 								onClick={() => {
-									router.back();
+									if(isEditMode) {
+										setIsEditMode(false)
+									}else 	router.back();
 								}}
 							/>
 							{/** 질문 */}
 							{question !== undefined && (
 								<Box
-									p={5}
 									borderRadius={2}
 									bgcolor="primary.light"
 									mb={2}
 									sx={{
 										boxShadow:
 											'rgb(219, 219, 219) 0px 4px 10px',
+										p: { md: 5, xs: 2 },
 									}}
 								>
 									{!isEditMode ? (
@@ -583,13 +585,13 @@ const Page: NextPage = () => {
 							{/** 답변 */}
 							{answer !== undefined && (
 								<Box
-									p={5}
 									borderRadius={2}
 									bgcolor="white"
 									mb={2}
 									sx={{
 										boxShadow:
 											'rgb(219, 219, 219) 0px 4px 10px',
+											p: { xs: 2, md: 5 },
 									}}
 								>
 									<Box display="flex" gap={0.5} m={0.5}>

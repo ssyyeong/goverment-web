@@ -11,10 +11,15 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import LockIcon from '@mui/icons-material/Lock';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import Nodata from '../../../src/views/global/NoData/NoData';
+import { usePagination } from '../../../src/hooks/usePagination';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
+import { A2eController } from '../../../src/controller/A2EController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const questionController = new DefaultController('A2eQuestion');
+	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
 
 	const { memberId } = useAppMember();
@@ -31,6 +36,12 @@ const Page: NextPage = () => {
 	 * 전체 글
 	 */
 	const [allQuestion, setAllQuestion] = React.useState<any[]>([]);
+
+	/**
+	 *
+	 * 전체 글 총 갯수
+	 */
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 
 	/**
 	 *
@@ -76,6 +87,13 @@ const Page: NextPage = () => {
 
 	/**
 	 *
+	 * 답변완료 여부
+	 */
+
+	const [isAnswerExist, setIsAnswerExist] = React.useState<boolean>(false);
+
+	/**
+	 *
 	 * 내가 쓴 글만 보기
 	 */
 	const [isReadMine, setIsReadMine] = React.useState<boolean>(false);
@@ -84,21 +102,30 @@ const Page: NextPage = () => {
 	 *
 	 *  알럿
 	 */
-	const [alertType, setAlertType] = React.useState();
+
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Functions
 	const getQuestionList = (parameter) => {
-		questionController.findAllItems(
-			Object.assign(parameter, {}),
+		a2eController.getAllA2eQuestion(
+			Object.assign(parameter, {
+				LIMIT: 10,
+				PAGE: page,
+			}),
 			(res) => {
 				setAllQuestion(res.data.result.rows);
+				setTotalDataCount(res.data.result.count);
 			},
 			(err) => {}
 		);
 	};
 
 	//* Hooks
+
+	/**
+	 * 페이징 관련
+	 */
+	const { page, limit, handlePageChange, setLimit } = usePagination();
 
 	React.useEffect(() => {
 		let args = {};
@@ -125,8 +152,23 @@ const Page: NextPage = () => {
 			delete args['KEYWORD'];
 		}
 
+		if (isAnswerExist) {
+			Object.assign(args, { ANSWERED: true });
+		} else {
+			delete args['ANSWERED'];
+			// Object.assign(args, { ANSWERED: false });
+		}
+
 		getQuestionList(args);
-	}, [keyword, isReadMine, selectedTabCategory]);
+	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist]);
+
+	// React.useEffect(()=> {
+	// 	if (isAnswerExist) {
+	// 		Object.assign(args, { ANSWERED_YN: 'Y' });
+	// 	} else {
+	// 		delete args['ANSWERED_YN'];
+	// 	}
+	// }, [isAnswerExist])
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -231,7 +273,7 @@ const Page: NextPage = () => {
 												justifyContent="space-between"
 												onClick={() =>
 													router.push(
-														'/internal_service/a2e/1'
+														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
 													)
 												}
 											>
@@ -328,22 +370,41 @@ const Page: NextPage = () => {
 										/>
 									</Box> */}
 								<Box></Box>
-								<Box display="flex" mr='-20px'>
-									<Typography
-										mt="auto"
-										mb="auto"
-										ml="auto"
-										mr={1}
-										fontWeight={500}
-										fontFamily={'Pretendard'}
-									>
-										내가 쓴 글만 보기
-									</Typography>
-									<SupportiInput
-										type="checkbox"
-										value={isReadMine}
-										setValue={setIsReadMine}
-									/>
+								<Box display="flex" mr="-20px">
+									<Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="auto"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											답변완료 글만 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isAnswerExist}
+											setValue={setIsAnswerExist}
+										/>
+									</Box>
+									<Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="-15px"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											내가 쓴 글만 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isReadMine}
+											setValue={setIsReadMine}
+										/>
+									</Box>
 								</Box>
 							</Box>
 							<Box
@@ -428,11 +489,19 @@ const Page: NextPage = () => {
 												sx={{
 													cursor: 'pointer',
 												}}
-												onClick={() =>
-													router.push(
-														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-													)
-												}
+												onClick={() => {
+													if (
+														memberId !==
+															item.APP_MEMBER_IDENTIFICATION_CODE &&
+														item.PRIVATE_YN === 'Y'
+													) {
+														setAlertModal(true);
+													} else {
+														router.push(
+															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+														);
+													}
+												}}
 											>
 												<Box
 													display="flex"
@@ -520,13 +589,23 @@ const Page: NextPage = () => {
           
 				)} */}
 						</Box>
+						{/* 페이지 네이션 */}
+						<Box width={'100%'} p={2}>
+							<SupportiPagination
+								limit={limit}
+								setLimit={setLimit}
+								page={page}
+								handlePageChange={handlePageChange}
+								count={totalDataCount}
+								useLimit={false}
+							/>
+						</Box>
 						<SupportiAlertModal
 							open={alertModal}
 							handleClose={() => {
 								setAlertModal(false);
-								router.push('/internal_service/a2e/1');
 							}}
-							type={alertType}
+							type={'unAccess'}
 						/>
 					</InternalServiceLayout>
 				)}

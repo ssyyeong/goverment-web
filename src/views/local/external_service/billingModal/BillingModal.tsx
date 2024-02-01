@@ -100,9 +100,7 @@ const BillingModal = (props: IBillingModalProps) => {
 					variant="subtitle1"
 					sx={{ borderBottom: '1px solid lightgrey', py: 1, mb: 1 }}
 				>
-					{props.ratePlanInfo?.NAME === 'The Black'
-						? '2024-02-29'
-						: moment().add(1, 'months').format('YYYY-MM-DD')}
+					{moment().add(1, 'months').format('YYYY-MM-DD')}
 				</Typography>
 			</Box>
 
