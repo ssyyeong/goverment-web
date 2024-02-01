@@ -6,33 +6,35 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import Calendar from 'react-calendar';
-import { ConsultingApplicationController } from '../../../../../controller/ConsultingApplicationController';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
-import styles from './Calendar.module.css';
-import './Calendar.module.css';
+import styles from '../../../external_service/consulting/ConsultingSchedular/Calendar.module.css';
+
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SupportiButton from '../../../../global/SupportiButton';
-import { ImageController } from '../../../../../controller/ImageController';
 
-import { ConsultingAnswerController } from '../../../../../controller/ConsultingAnswerController';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import { useAppMember } from '../../../../../hooks/useAppMember';
-import ConsultingQna from '../../../external_service/consulting/ConsultingQna/ConsultingQna';
+import CoffeeChatQnA from '../CoffeeChatQnA/CoffeeChatQnA';
 
-interface IConsultingSchedularProps {
+import { SpecialCoffeeChatAnswerController } from '../../../../../controller/CoffeeChatAnswerController';
+import { SpecialCoffeeChatApplicationController } from '../../../../../controller/SpecialCoffeeChatApplicationController';
+
+interface ISpecialCoffeeChatApplyModalProps {
 	open: boolean;
 	handleClose: () => void;
-	consultingData: any;
+	coffeeChatData: any;
 }
 
-const ConsultingSchedular = (props: IConsultingSchedularProps) => {
+const SpecialCoffeeChatApplyModal = (
+	props: ISpecialCoffeeChatApplyModalProps
+) => {
 	//* States
 	/**
 	 * 컨설팅 답변
 	 */
-	const [consultingAnswer, setConsultingAnswer] = React.useState<any>([]);
+	const [coffeeChatAnswer, setCoffeeChatAnswer] = React.useState<any>([]);
 	/**
 	 * 선택된 날짜
 	 */
@@ -76,22 +78,24 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 컨설팅 신청 컨트롤러
 	 */
-	const consultingApplicationController =
-		new ConsultingApplicationController();
+	const specialCoffeeChatApplicationController =
+		new SpecialCoffeeChatApplicationController();
 	/**
 	 * 컨설팅 답변 컨트롤러
 	 */
-	const consultingAnswerController = new ConsultingAnswerController();
+	const specialCoffeeChatAnswerController =
+		new SpecialCoffeeChatAnswerController();
 
 	//* Functions
 	/**
 	 * 매 월 일정을 가져오기
 	 */
 	const getMonthSchedule = (month) => {
-		consultingApplicationController.getAvailableTime(
+		specialCoffeeChatApplicationController.getAvailableTime(
 			{
-				CONSULTING_PRODUCT_IDENTIFICATION_CODE:
-					props.consultingData.CONSULTING_PRODUCT_IDENTIFICATION_CODE,
+				SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE:
+					props.coffeeChatData
+						.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE,
 				MONTH: month,
 			},
 			(res) => {
@@ -104,15 +108,15 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 컨설팅 신청 전 필수 질문 답변 체크
 	 */
-	const checkConsultingAnswer = () => {
+	const checkcoffeeChatAnswer = () => {
 		let check = true;
-		consultingAnswer?.forEach((x, index) => {
+		coffeeChatAnswer?.forEach((x, index) => {
 			// 질문의 내용을 가져온다
 			const indexQuestion =
-				props.consultingData?.ConsultingQuestions.filter(
+				props.coffeeChatData?.SpecialCoffeeChatQuestions.filter(
 					(y) =>
-						y.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
-						x.CONSULTING_QUESTION_IDENTIFICATION_CODE
+						y.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE ===
+						x.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE
 				);
 			// 답변이 없는 질문이 있을 때
 			if (
@@ -129,16 +133,17 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	/**
 	 * 컨설팅 신청하기
 	 */
-	const applyConsulting = () => {
+	const applyCoffeeChat = () => {
 		// 필수 질문 답변 체크
-		if (!checkConsultingAnswer()) {
+		if (!checkcoffeeChatAnswer()) {
 			alert('필수 질문에 답변해주세요.');
 			return;
 		}
-		consultingApplicationController.createItem(
+		specialCoffeeChatApplicationController.createItem(
 			{
-				CONSULTING_PRODUCT_IDENTIFICATION_CODE:
-					props.consultingData.CONSULTING_PRODUCT_IDENTIFICATION_CODE,
+				SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE:
+					props.coffeeChatData
+						.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE,
 				RESERVATION_DATE: selectedDate,
 				RESERVATION_START_TIME: selectedTime.START,
 				RESERVATION_END_TIME: selectedTime.END,
@@ -147,22 +152,22 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			},
 			(res) => {
 				/**
-				 * 컨설팅 답변 업로드 (res로 들어온 id 값 consultingAnswer에 꽂아넣기)
+				 * 컨설팅 답변 업로드 (res로 들어온 id 값 coffeeChatAnswer에 꽂아넣기)
 				 */
-				const answermap = consultingAnswer.map((x) => {
+				const answermap = coffeeChatAnswer.map((x) => {
 					return {
 						...x,
-						CONSULTING_APPLICATION_IDENTIFICATION_CODE:
+						SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
 							res.data.result
-								.CONSULTING_APPLICATION_IDENTIFICATION_CODE,
+								.SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
 					};
 				});
-				consultingAnswerController.uploadConsultingAnswer(
+				specialCoffeeChatAnswerController.uploadBulkAnswer(
 					answermap,
 					(res) => {
 						setSelectedDate(null);
 						setPage(0);
-						setConsultingAnswer([]);
+						setCoffeeChatAnswer([]);
 						setAlertModal(true);
 						setAlertModalType('success');
 					},
@@ -200,21 +205,21 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	useEffect(() => {
 		//* 컨설팅 질문에 대한 답변 초기화
 		let question = [];
-		props.consultingData?.ConsultingQuestions?.map((x) => {
+		props.coffeeChatData?.SpecialCoffeeChatQuestions?.map((x) => {
 			question.push({
-				CONSULTING_QUESTION_IDENTIFICATION_CODE:
-					x.CONSULTING_QUESTION_IDENTIFICATION_CODE,
+				SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE:
+					x.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE,
 				ANSWER_CONTENT: '',
 				FILE_LIST: [],
 			});
 		});
-		setConsultingAnswer(question);
-	}, [props.consultingData, props.open]);
+		setCoffeeChatAnswer(question);
+	}, [props.coffeeChatData, props.open]);
 
 	// 초기 월별 일정 가져오기
 	useEffect(() => {
 		getMonthSchedule(moment().format('YYYY-MM'));
-	}, [props.consultingData]);
+	}, [props.coffeeChatData]);
 
 	return (
 		<SupportiModal
@@ -222,7 +227,6 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			handleClose={() => {
 				setSelectedDate(null);
 				setPage(0);
-
 				props.handleClose();
 			}}
 			activeHeader={true}
@@ -234,6 +238,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				width: { sm: 'fit-content', xs: '100%' },
 				maxWidth: { sm: '400px', xs: '100%' },
 				maxHeight: { sm: '90%', xs: '100%' },
+				minWidth: { sm: '400px', xs: '100%' },
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 / 페이지 0*/}
@@ -248,7 +253,8 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							alignItems={'center'}
 						>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.consultingData.PRODUCT_NAME} 예약 일정
+								{props.coffeeChatData.PartnerMember?.FULL_NAME}{' '}
+								와(과)의 커피챗 일정
 							</Typography>
 						</Box>
 
@@ -261,7 +267,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							<AccessTimeIcon />
 							<Typography ml={1}>
 								{
-									props.consultingData
+									props.coffeeChatData
 										.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -275,30 +281,30 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						>
 							<PaidOutlinedIcon />
 							<Typography ml={1}>
-								{props.consultingData.PRICE} P
+								{props.coffeeChatData.PRICE} P
 							</Typography>
 						</Box>
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
-								{moment(props.consultingData.START_DATE).format(
+								{moment(props.coffeeChatData.START_DATE).format(
 									'YYYY-MM-DD'
 								)}{' '}
 								-{' '}
-								{moment(props.consultingData.END_DATE).format(
+								{moment(props.coffeeChatData.END_DATE).format(
 									'YYYY-MM-DD'
 								)}
 							</Typography>
 						</Box>
 						<Box mt={2}>
 							<Typography color={'primary'}>
-								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+								{props.coffeeChatData.LOCK_DOWN_TIME_UNIT ===
 									'WEEK' && '한주에'}
-								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+								{props.coffeeChatData.LOCK_DOWN_TIME_UNIT ===
 									'DAY' && '하루에'}
-								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+								{props.coffeeChatData.LOCK_DOWN_TIME_UNIT ===
 									'YEAR' && '일년에'}
-								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
+								{props.coffeeChatData.LOCK_DOWN_TIME_UNIT ===
 									'MONTH' && '한달에 '}
 								{' 최대1회 예약 가능합니다.'}
 							</Typography>
@@ -317,7 +323,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							minDetail="month"
 							maxDetail="month"
 							minDate={new Date()}
-							maxDate={new Date(props.consultingData.END_DATE)}
+							maxDate={new Date(props.coffeeChatData.END_DATE)}
 							formatDay={(locale, date) =>
 								moment(date).format('DD')
 							}
@@ -521,7 +527,8 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 								}}
 							/>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.consultingData.PRODUCT_NAME} 예약 일정
+								{props.coffeeChatData.PartnerMember?.FULL_NAME}{' '}
+								와(과)의 커피챗 일정
 							</Typography>
 						</Box>
 
@@ -534,7 +541,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							<AccessTimeIcon />
 							<Typography ml={1}>
 								{
-									props.consultingData
+									props.coffeeChatData
 										.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -566,7 +573,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							alignItems={'center'}
 						>
 							<Typography variant="h5" fontWeight={'700'}>
-								컨설팅 사전 질문
+								커피챗 사전 질문
 							</Typography>
 							<Typography color={'red'} fontWeight={'300'}>
 								* 필수 입력
@@ -580,15 +587,15 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						</Typography>
 						{/* 질문 */}
 						<Box mb={2}>
-							{props.consultingData.ConsultingQuestions?.map(
+							{props.coffeeChatData.SpecialCoffeeChatQuestions?.map(
 								(question, index) => {
 									return (
-										<ConsultingQna
+										<CoffeeChatQnA
 											key={index}
 											qnaData={question}
-											consultingAnswer={consultingAnswer}
-											setConsultingAnswer={
-												setConsultingAnswer
+											coffeeChatAnswer={coffeeChatAnswer}
+											setCoffeeChatAnswer={
+												setCoffeeChatAnswer
 											}
 										/>
 									);
@@ -599,7 +606,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						<SupportiButton
 							contents={'예약하기'}
 							onClick={() => {
-								applyConsulting();
+								applyCoffeeChat();
 							}}
 							variant="contained"
 							fullWidth
@@ -619,4 +626,4 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	);
 };
 
-export default ConsultingSchedular;
+export default SpecialCoffeeChatApplyModal;

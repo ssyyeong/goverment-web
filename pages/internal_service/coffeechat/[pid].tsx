@@ -15,6 +15,8 @@ import CoffeeChatApplyGeneralModal from '../../../src/views/local/internal_servi
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { CoffeeChatApplicationController } from '../../../src/controller/CoffeeChatApplicationController';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import SpecialCoffeeChatApplyModal from '../../../src/views/local/internal_service/coffeechat/SpecialCoffeeChatApplyModal/SpecialCoffeeChatApplyModal';
+import { SpecialCoffeeChatApplicationController } from '../../../src/controller/SpecialCoffeeChatApplicationController';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -26,6 +28,8 @@ const Page: NextPage = () => {
 	);
 	const coffeeChatApplicationController =
 		new CoffeeChatApplicationController();
+	const specialCoffeeChatApplicationController =
+		new SpecialCoffeeChatApplicationController();
 	const specialCoffeeChatProductController = new DefaultController(
 		'SpecialCoffeeChatProduct'
 	);
@@ -62,40 +66,65 @@ const Page: NextPage = () => {
 			return;
 		}
 
-		coffeeChatApplicationController.checkAlreadyCoffeeChat(
-			{
-				CREATE_OPTION_KEY_LIST: {
+		if (special == 'true') {
+			specialCoffeeChatApplicationController.checkAlreadyCoffeeChat(
+				{
+					SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE: pid,
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
-			},
-			(res) => {
-				if (special == 'true') {
-					// 스페셜 커피챗 신청
-					setSpecialModal(true);
-				} else {
-					// 일반 커피챗 신청
+				(res) => {
+					if (!res.data.result) {
+						setType('already');
+						setOpen(true);
+					} else {
+						setSpecialModal(true);
+					}
+				},
+				(err) => {
+					if (
+						err.response.data.message === '신청 내역이 존재합니다.'
+					) {
+						setOpen(true);
+						setType('already');
+						return;
+					}
+					if (err.response.data.message === '포인트가 부족합니다.') {
+						setOpen(true);
+						setType('point');
+						return;
+					}
+				}
+			);
+		} else {
+			coffeeChatApplicationController.checkAvailable(
+				{
+					CREATE_OPTION_KEY_LIST: {
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					},
+				},
+				(res) => {
 					setGeneralModal(true);
-				}
-			},
-			(err) => {
-				if (
-					err.response.data.message ===
-					'커피챗 신청은 한 달에 한 번만 가능합니다.'
-				) {
-					setType('coffeechatalready');
-					setOpen(true);
-				}
-				if (
-					err.response.data.message ===
-					'구독자만 커피챗 신청이 가능합니다.'
-				) {
-					setOpen(true);
-					setType('subscribe');
-				}
+				},
+				(err) => {
+					if (
+						err.response.data.message ===
+						'커피챗 신청은 한 달에 한 번만 가능합니다.'
+					) {
+						setType('coffeechatalready');
+						setOpen(true);
+					}
+					if (
+						err.response.data.message ===
+						'구독자만 커피챗 신청이 가능합니다.'
+					) {
+						setOpen(true);
+						setType('subscribe');
+					}
 
-				return;
-			}
-		);
+					return;
+				}
+			);
+		}
 	};
 	//* Hooks
 	/**
@@ -405,7 +434,7 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 			</Box>
-			{/* 커피챗 신청 모달 */}
+			{/* 커피챗 일반 신청 모달 */}
 			<CoffeeChatApplyGeneralModal
 				open={generalModal}
 				handleClose={() => setGeneralModal(false)}
@@ -413,6 +442,14 @@ const Page: NextPage = () => {
 					coffeeChatProfile.COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE
 				}
 			/>
+			{/* 스페셜 커피챗 신청 모달 */}
+			{special == 'true' && coffeeChatProfile && (
+				<SpecialCoffeeChatApplyModal
+					open={specialModal}
+					handleClose={() => setSpecialModal(false)}
+					coffeeChatData={coffeeChatProfile}
+				/>
+			)}
 			{/* 알림창 */}
 			<SupportiAlertModal
 				open={open}

@@ -21,6 +21,10 @@ const Page: NextPage = () => {
 	 * 프로필 설정 모달
 	 */
 	const [profileModal, setProfileModal] = React.useState<boolean>(false);
+	/**
+	 * 트리거 키 설정
+	 */
+	const [triggerKey, setTriggerKey] = React.useState<string>('');
 	//* Functions
 	//* Hooks
 	/**
@@ -88,12 +92,13 @@ const Page: NextPage = () => {
 					{/* 스페셜 커피챗 */}
 					<SpecialCoffeeChat />
 					{/* 일반 커피챗 */}
-					<GeneralCoffeeChat />
+					<GeneralCoffeeChat triggerKey={triggerKey} />
 				</InternalServiceLayout>
 			</Box>
 			<CoffeeChatProfileModal
 				open={profileModal}
 				handleClose={() => setProfileModal(false)}
+				setTriggerKey={setTriggerKey}
 			/>
 			{/* 알림창 */}
 			<SupportiAlertModal

@@ -1,22 +1,22 @@
 import { ControllerABC } from '@leanoncompany/supporti-ark-office-project/src/controller/base/ControllerABC';
 
-export class CoffeeChatApplicationController extends ControllerABC {
+export class SpecialCoffeeChatAnswerController extends ControllerABC {
 	//* 클래스 멤버
 	constructor(role?: string) {
-		super('CoffeeChatApplication', role);
+		super('SpecialCoffeeChatAnswer', role);
 	}
 
-	/**
-	 * 신청 가능 여부 체크
-	 */
-	public checkAvailable(
+	//* 답변 벌크 업로드
+	public uploadBulkAnswer(
 		args: { [key: string]: any },
 		successCallback?: (response: any) => void,
 		failCallback?: (err: any) => void
 	): any {
-		super.getData(
-			args,
-			`${this.mergedPath}/check_condition`,
+		super.postData(
+			{
+				CREATE_OPTION_KEY_LIST: args,
+			},
+			`${this.mergedPath}/bulk_create`,
 			successCallback,
 			failCallback
 		);

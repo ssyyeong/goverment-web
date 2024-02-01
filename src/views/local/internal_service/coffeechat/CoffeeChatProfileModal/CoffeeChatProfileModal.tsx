@@ -17,10 +17,12 @@ import SupportiButton from '../../../../global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../../hooks/useAppMember';
 import { ICoffeeChatProfile } from '../../../../../@types/model';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ICoffeeChatProfileModalProps {
 	open: boolean;
 	handleClose: () => void;
+	setTriggerKey?: (key: string) => void;
 }
 
 const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
@@ -218,6 +220,8 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			coffeeChatProfileController.updateItem(
 				profile,
 				(res) => {
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+
 					setPage(0);
 					props.handleClose();
 				},
@@ -230,6 +234,8 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			coffeeChatProfileController.createItem(
 				{ ...profile, APP_MEMBER_IDENTIFICATION_CODE: memberId },
 				(res) => {
+					props.setTriggerKey && props.setTriggerKey(uuidv4());
+
 					setPage(0);
 					props.handleClose();
 				},

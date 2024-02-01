@@ -3,19 +3,19 @@ import React from 'react';
 import { Box, BoxProps, Typography } from '@mui/material';
 import SupportiInput from '../../../../global/SupportiInput';
 
-interface IConsultingQnaProps {
+interface ICoffeeChatQnAProps {
 	qnaData: any;
-	setConsultingAnswer: any;
-	consultingAnswer: {
-		CONSULTING_QUESTION_IDENTIFICATION_CODE: string | number;
-		CONSULTING_APPLICATION_IDENTIFICATION_CODE?: number;
-		CONSULTING_ANSWER_IDENTIFICATION_CODE?: number;
+	setCoffeeChatAnswer: any;
+	coffeeChatAnswer: {
+		SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE: string | number;
+		SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE?: number;
+		SPECIAL_COFFEE_CHAT_ANSWER_IDENTIFICATION_CODE?: number;
 		ANSWER_CONTENT: string;
 		FILE_LIST: string;
 	}[];
 }
 
-const ConsultingQna = (props: IConsultingQnaProps) => {
+const CoffeeChatQnA = (props: ICoffeeChatQnAProps) => {
 	//* State
 	/**
 	 * 텍스트 답변
@@ -35,18 +35,20 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 	 * 답변 데이터 등록
 	 */
 	React.useEffect(() => {
-		props.setConsultingAnswer((prev: any) => {
+		props.setCoffeeChatAnswer((prev: any) => {
 			let temp = [...prev];
 			let idx = temp.findIndex(
 				(item: any) =>
-					item.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
-					props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE
+					item.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE ===
+					props.qnaData
+						.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE
 			);
 			//	답변이 없을 경우
 			if (idx === -1) {
 				temp.push({
-					CONSULTING_QUESTION_IDENTIFICATION_CODE:
-						props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE,
+					SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE:
+						props.qnaData
+							.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE,
 					ANSWER_CONTENT: textAnswer,
 					FILE_LIST: [],
 				});
@@ -64,17 +66,19 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 	 * 파일 답변등록
 	 */
 	React.useEffect(() => {
-		props.setConsultingAnswer((prev: any) => {
+		props.setCoffeeChatAnswer((prev: any) => {
 			let temp = [...prev];
 			let idx = temp.findIndex(
 				(item: any) =>
-					item.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
-					props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE
+					item.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE ===
+					props.qnaData
+						.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE
 			);
 			if (idx === -1) {
 				temp.push({
-					CONSULTING_QUESTION_IDENTIFICATION_CODE:
-						props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE,
+					SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE:
+						props.qnaData
+							.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE,
 					ANSWER_CONTENT: '',
 					FILE_LIST: fileAnswer,
 				});
@@ -92,14 +96,14 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 	 * 들어온 데이터 등록
 	 */
 	React.useEffect(() => {
-		let idx = props.consultingAnswer.findIndex(
+		let idx = props.coffeeChatAnswer.findIndex(
 			(item: any) =>
-				item.CONSULTING_QUESTION_IDENTIFICATION_CODE ===
-				props.qnaData.CONSULTING_QUESTION_IDENTIFICATION_CODE
+				item.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE ===
+				props.qnaData.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE
 		);
 		if (idx !== -1) {
-			setTextAnswer(props.consultingAnswer[idx].ANSWER_CONTENT);
-			setFileAnswer(props.consultingAnswer[idx].FILE_LIST);
+			setTextAnswer(props.coffeeChatAnswer[idx].ANSWER_CONTENT);
+			setFileAnswer(props.coffeeChatAnswer[idx].FILE_LIST);
 		}
 	}, []);
 
@@ -166,4 +170,4 @@ const ConsultingQna = (props: IConsultingQnaProps) => {
 	);
 };
 
-export default ConsultingQna;
+export default CoffeeChatQnA;

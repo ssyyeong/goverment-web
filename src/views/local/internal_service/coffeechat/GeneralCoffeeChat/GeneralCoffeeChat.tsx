@@ -40,6 +40,10 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 
 	//* Hooks
 	/**
+	 * 페이지네이션
+	 */
+	const { page, limit, handlePageChange, setLimit } = usePagination();
+	/**
 	 * 트리거키가 변경되면 선택 필터 초기화
 	 */
 	useEffect(() => {
@@ -69,7 +73,7 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 			},
 			(err) => {}
 		);
-	}, [selectedFilter.length]);
+	}, [selectedFilter.length, props.triggerKey, page]);
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
 	 */
@@ -86,10 +90,6 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 	 * 알러트
 	 */
 	const { open, setOpen, setType, type } = useAlert({});
-	/**
-	 * 페이지네이션
-	 */
-	const { page, limit, handlePageChange, setLimit } = usePagination();
 
 	const router = useRouter();
 

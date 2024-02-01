@@ -20,6 +20,7 @@ import CoffeeChatHistoryListBox from '../../../../src/views/local/internal_servi
 import SupportiButton from '../../../../src/views/global/SupportiButton';
 import { coffeeChatApplicationTestData } from '../../../../configs/data/TestData';
 import CoffeeChatProfileShownModal from '../../../../src/views/local/internal_service/coffeechat/CoffeeChatProfileShownModal/CoffeeChatProfileShownModal';
+import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -46,15 +47,15 @@ const Page: NextPage = () => {
 	const [selectedCoffeeChatProfile, setSelectedCoffeeChatProfile] =
 		useState<any>(null);
 	//* Controller
-	const coffeeChatApplicationController = new DefaultController(
-		'CoffeeChatApplication'
+	const specialCoffeeChatApplicationController = new DefaultController(
+		'SpecialCoffeeChatApplication'
 	);
 	//* Functions
 	/**
 	 * 커피챗 신청 취소
 	 */
 	const cancelCoffeeChatApplication = () => {
-		coffeeChatApplicationController.updateItem(
+		specialCoffeeChatApplicationController.updateItem(
 			{
 				COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
 					selectedCoffeeChatProfile?.COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
@@ -90,25 +91,20 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		if (memberId) {
 			//구독 체크
-			if (!access) {
-				setOpen(true);
-				setType('subscribe');
-				return;
-			}
+			// if (!access) {
+			// 	setOpen(true);
+			// 	setType('subscribe');
+			// 	return;
+			// }
 			if (memberCoffeeChatProfileId) {
-				coffeeChatApplicationController.findAllItems(
+				specialCoffeeChatApplicationController.findAllItems(
 					{
-						COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE:
-							tab === 'RECIEVED'
-								? memberCoffeeChatProfileId
-								: undefined,
-						APP_MEMBER_IDENTIFICATION_CODE:
-							tab === 'RECIEVED' ? undefined : memberId,
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
 						LIMIT: 10,
 						PAGE: page,
 					},
 					(res) => {
-						setCoffeeChatApplicationList(res.data);
+						setCoffeeChatApplicationList(res.data.result);
 					}
 				);
 			} else {
@@ -143,7 +139,7 @@ const Page: NextPage = () => {
 				{/* 탭 */}
 				<Box
 					width={{
-						sm: '50%',
+						sm: '25%',
 						xs: '100%',
 					}}
 				>
@@ -152,10 +148,6 @@ const Page: NextPage = () => {
 							{
 								label: '신청한 커피챗',
 								value: 'SENT',
-							},
-							{
-								label: '신청받은 커피챗',
-								value: 'RECIEVED',
 							},
 						]}
 						angled
@@ -182,7 +174,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				{/*모바일 테이블 */}
-				<Box
+				{/* <Box
 					width={'100%'}
 					py={2}
 					display={{
@@ -209,38 +201,26 @@ const Page: NextPage = () => {
 					{coffeeChatApplicationList?.rows?.length === 0 && (
 						<Nodata />
 					)}
-				</Box>
+				</Box> */}
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
 					// p={2}
 					// mt={2}
-					display={{
-						sm: 'block',
-						xs: 'none',
-					}}
+					// display={{
+					// 	sm: 'block',
+					// 	xs: 'none',
+					// }}
 				>
 					<CoffeeChatHistoryList
 						rows={coffeeChatApplicationList?.rows}
 						listRenderCallback={(row, idx) => (
 							<CoffeeChatHistoryListBox
-								label={
-									tab === 'RECIEVED'
-										? row.CONFIRM_YN === 'Y'
-											? '진행 완료'
-											: '신청'
-										: row.CONFIRM_YN === 'Y'
-										? '수락 완료'
-										: '신청'
-								}
+								label={'신청'}
 								activeColor={row.CONFIRM_YN === 'N'}
 								userName={row.AppMember?.FULL_NAME}
 								received={tab === 'RECIEVED'}
-								endButtonLabel={
-									tab === 'RECIEVED' || row.CONFIRM_YN === 'Y'
-										? undefined
-										: '취소하기'
-								}
+								endButtonLabel={undefined}
 								endButtonCallback={
 									tab === 'RECIEVED'
 										? undefined
@@ -252,116 +232,12 @@ const Page: NextPage = () => {
 												);
 										  }
 								}
-								disableAccordion={tab === 'SENT'}
-								accordionContent={
-									<Box>
-										<Box
-											bgcolor={'white'}
-											p={2}
-											borderRadius={2}
-											display={'flex'}
-											flexDirection={'column'}
-											gap={2.5}
-										>
-											<Typography
-												variant="subtitle2"
-												fontWeight={'bold'}
-											>
-												커피챗 제안자
-											</Typography>
-											<Box
-												display={'flex'}
-												alignItems={'baseline'}
-											>
-												<Typography
-													width={'10%'}
-													color={'secondary.dark'}
-													variant="body2"
-													fontWeight={'600'}
-												>
-													이름
-												</Typography>
-												<Typography
-													width={'90%'}
-													variant="body2"
-												>
-													{row.AppMember?.FULL_NAME}
-												</Typography>
-											</Box>
-											<Box
-												display={'flex'}
-												alignItems={'baseline'}
-											>
-												<Typography
-													width={'10%'}
-													color={'secondary.dark'}
-													variant="body2"
-													fontWeight={'600'}
-												>
-													전화번호
-												</Typography>
-												<Typography
-													width={'90%'}
-													variant="body2"
-												>
-													{
-														row.AppMember
-															?.PHONE_NUMBER
-													}
-												</Typography>
-											</Box>
-											<Box
-												display={'flex'}
-												alignItems={'baseline'}
-											>
-												<Typography
-													width={'10%'}
-													color={'secondary.dark'}
-													variant="body2"
-													fontWeight={'600'}
-												>
-													신청이유
-												</Typography>
-												<Typography
-													width={'90%'}
-													variant="body2"
-													lineHeight={1.5}
-												>
-													{row.DESCRIPTION}
-												</Typography>
-											</Box>
-										</Box>
-										<Box
-											display={'flex'}
-											justifyContent={'end'}
-										>
-											<SupportiButton
-												variant="contained"
-												contents={
-													<Typography
-														color={'white'}
-														fontWeight={'bold'}
-														fontSize={'body2'}
-													>
-														자세히 보기
-													</Typography>
-												}
-												onClick={() =>
-													setProfileModal(true)
-												}
-												isGradient
-												disabledGutters
-												style={{
-													px: 4,
-													py: 1,
-													fontSize:
-														'0.8rem !important',
-													mt: 2,
-												}}
-											/>
-										</Box>
-									</Box>
-								}
+								reservationDateAndTime={`${moment(
+									row.RESERVATION_DATE
+								).format('YY.MM.DD(ddd)')} ${
+									row.RESERVATION_START_TIME.split(':00')[0]
+								}-${row.RESERVATION_END_TIME.split(':00')[0]}`}
+								disableAccordion={true}
 							/>
 						)}
 					/>
