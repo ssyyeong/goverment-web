@@ -124,6 +124,23 @@ interface IBusinessHistory {
 	[key: string]: any;
 }
 
+/**
+ * 커피챗 프로필
+ */
+interface ICoffeeChatProfile {
+	COMPANY_NAME: string;
+	PROFILE_IMAGE: string;
+	INTRODUCE: string;
+	CAREER: string[];
+	MAIN_FIELD: string[];
+	INTEREST_FIELD: string[];
+	ROLE: string;
+	DESCRIPTION: string;
+	OFFER_YN: 'Y' | 'N';
+	SUBJECT: string[];
+	[key: string]: any;
+}
+
 export type {
 	IBankAccount,
 	ITransactionHistory,
@@ -136,4 +153,5 @@ export type {
 	IFinancialStatement,
 	IBusiness,
 	IBusinessHistory,
+	ICoffeeChatProfile,
 };

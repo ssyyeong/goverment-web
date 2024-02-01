@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Box,
 	Button,
 	Checkbox,
+	Chip,
 	FormControlLabel,
 	InputAdornment,
 	MenuItem,
@@ -18,7 +19,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import moment from 'moment';
 import { ImageController } from '../../../controller/ImageController';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import { DateTimePicker } from '@mui/x-date-pickers';
 
 interface SupportiInputProps {
 	type: string;
@@ -38,6 +42,9 @@ interface SupportiInputProps {
 	additionalProps?: { [key: string]: any };
 	inputType?: string;
 	eraseValue?: () => void;
+	handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handleAdd?: (value: any) => void;
+	handleDelete?: (value: any, idx: number) => void;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -49,7 +56,7 @@ const SupportiInput = React.forwardRef(
 		//* Modules
 		const imageController = new ImageController();
 		//* States
-
+		const [addableData, setAddableData] = useState<string>('');
 		//* Functions
 		//* 파일 삭제 시 인풋 초기화
 		const resetInputValue = () => {
@@ -378,6 +385,104 @@ const SupportiInput = React.forwardRef(
 							);
 						})}
 					</Box>
+				) : props.type === 'multiselect' &&
+				  Array.isArray(props.value) ? (
+					<Select
+						labelId="demo-multiple-chip-label"
+						id="demo-multiple-chip"
+						multiple
+						value={props.value}
+						onChange={props.handleChange}
+						input={
+							<OutlinedInput
+								id="select-multiple-chip"
+								label="Chip"
+							/>
+						}
+						fullWidth
+						placeholder="선택하세요."
+						renderValue={(selected) => (
+							<Box
+								sx={{
+									display: 'flex',
+									flexWrap: 'wrap',
+									gap: 0.5,
+								}}
+							>
+								{selected.map((value) => (
+									<Chip key={value} label={value} />
+								))}
+							</Box>
+						)}
+					>
+						{props.dataList.map((name) => (
+							<MenuItem key={name} value={name}>
+								{name}
+							</MenuItem>
+						))}
+					</Select>
+				) : props.type === 'addablestringlist' ? (
+					<Box>
+						{/* 데이터 입력 부분 */}
+						<Box
+							display={'flex'}
+							alignItems={'center'}
+							justifyContent={'space-between'}
+						>
+							<OutlinedInput
+								sx={{ width: '90%', ...props.style }}
+								value={addableData}
+								onChange={(e) => {
+									setAddableData(e.target.value);
+								}}
+								{...props.additionalProps}
+								type={props.inputType}
+							/>
+							<AddCircleIcon
+								onClick={() => {
+									if (addableData !== '') {
+										props.handleAdd &&
+											props.handleAdd(addableData);
+										setAddableData('');
+									}
+								}}
+							/>
+						</Box>
+						{/* 데이터 리스트 부분 */}
+						{props.value?.map((item: string, index: number) => {
+							return (
+								<Box
+									display={'flex'}
+									alignItems={'center'}
+									justifyContent={'space-between'}
+									mt={1}
+									key={index}
+								>
+									<OutlinedInput
+										sx={{ width: '90%', ...props.style }}
+										value={item}
+										disabled
+										{...props.additionalProps}
+										type={props.inputType}
+									/>
+									<RemoveCircleIcon
+										onClick={() => {
+											props.handleDelete &&
+												props.handleDelete(item, index);
+										}}
+									/>
+								</Box>
+							);
+						})}
+					</Box>
+				) : props.type === 'datetimepicker' ? (
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DateTimePicker
+							renderInput={(params) => <TextField {...params} />}
+							value={props.value}
+							onChange={(newValue) => props.setValue(newValue)}
+						/>
+					</LocalizationProvider>
 				) : (
 					<OutlinedInput
 						sx={{ width: '100%', ...props.style }}

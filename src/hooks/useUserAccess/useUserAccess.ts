@@ -3,7 +3,11 @@ import { CookieManager } from '@leanoncompany/supporti-utility';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-type TCheckTarget = 'SIGN_IN' | 'SUBSCRIPTION' | 'BUSINESS_MEMBER';
+type TCheckTarget =
+	| 'SIGN_IN'
+	| 'SUBSCRIPTION'
+	| 'BUSINESS_MEMBER'
+	| 'COFFEE_CHAT';
 
 /**
  * 결제 정보 혹은 로그인 정보 가져오는 훅
@@ -15,6 +19,9 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	//* Controller
 	const appMemberController = new DefaultController('AppMember');
 	const subscriptionController = new DefaultController('UserSubscription');
+	const coffeeChatProfileController = new DefaultController(
+		'CoffeeChatProfile'
+	);
 
 	//* Constant
 	/**
@@ -56,6 +63,12 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 * 사업자 회원 체크
 	 */
 	const [isBusinessMember, setIsBusinessMember] = useState<
+		boolean | undefined
+	>();
+	/**
+	 * 커피챗 프로필 여부 체크
+	 */
+	const [isCoffeeChatProfile, setIsCoffeeChatProfile] = useState<
 		boolean | undefined
 	>();
 
@@ -114,6 +127,15 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	}, [isSignedIn]);
 
 	/**
+	 * 커피챗 프로필 권한 체크
+	 */
+	useEffect(() => {
+		if (isCoffeeChatProfile !== undefined && checkTarget == 'COFFEE_CHAT') {
+			setAccess(isCoffeeChatProfile);
+		}
+	}, [isCoffeeChatProfile]);
+
+	/**
 	 * 진입 시 로그인 체크 (setIsSignedIn)
 	 */
 	const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
@@ -164,6 +186,28 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 				},
 				(err) => {
 					setIsSubscribed(false);
+				}
+			);
+	}, [userId]);
+
+	/**
+	 * 진입 시 커피챗 프로필 체크 (setIsCoffeeChatProfile)
+	 */
+	useEffect(() => {
+		userId &&
+			coffeeChatProfileController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: userId,
+				},
+				(res) => {
+					if (res.data.result !== null) {
+						setIsCoffeeChatProfile(true);
+					} else {
+						setIsCoffeeChatProfile(false);
+					}
+				},
+				(err) => {
+					setIsCoffeeChatProfile(false);
 				}
 			);
 	}, [userId]);
