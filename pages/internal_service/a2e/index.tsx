@@ -402,7 +402,7 @@ const Page: NextPage = () => {
 										<Typography
 											mt="auto"
 											mb="auto"
-											ml="auto"
+											ml="-15px"
 											mr={1}
 											fontWeight={500}
 											fontFamily={'Pretendard'}
