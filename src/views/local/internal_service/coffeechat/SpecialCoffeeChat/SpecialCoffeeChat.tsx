@@ -24,12 +24,18 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 	//* Function
 
 	//* Controller
-	const coffeeChatController = new DefaultController('SpecialCoffeeChat');
+	const coffeeChatController = new DefaultController(
+		'SpecialCoffeeChatProduct'
+	);
 	//* Hooks
 	/**
 	 * 커피챗 리스트 조회
 	 */
-	useEffect(() => {}, []);
+	useEffect(() => {
+		coffeeChatController.findAllItems({}, (res) => {
+			setCoffeeChatList(res.data.result.rows);
+		});
+	}, []);
 	return (
 		<Box>
 			<Box display={'flex'} flexDirection={'column'} gap={1}>
@@ -71,22 +77,23 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 							<CoffeeChatCard
 								isExpand={true}
 								userType="사업가"
-								name="김대표"
-								level="대표"
-								companyName="서포티"
-								description="안녕하세요. 서포티 대표 김대표입니다. 저희 서포티는 대표님들의 성공을 위해 최선을 다하고 있습니다. 많은 관심 부탁드립니다.많은 관심 부탁드립니다.많은 관심 부탁드립니다."
-								career={[
-									'서포티 대표',
-									'서포티 대표',
-									'서포티 대표',
-								]}
-								mainField={[
-									'서포티 대표',
-									'서포티 대표',
-									'서포티 대표',
-								]}
+								name={coffeeChat?.PartnerMember?.FULL_NAME}
+								level={coffeeChat.ROLE}
+								companyName={coffeeChat.COMPANY_NAME}
+								description={coffeeChat.INTRODUCE}
+								career={
+									coffeeChat.CAREER &&
+									JSON.parse(coffeeChat.CAREER)
+								}
+								mainField={
+									coffeeChat.MAIN_FIELD &&
+									JSON.parse(coffeeChat.MAIN_FIELD)
+								}
 								special={true}
-								id={1}
+								profileImage={coffeeChat.PROFILE_IMAGE}
+								id={
+									coffeeChat.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE
+								}
 							/>
 						))}
 					{/* 데이터 없을 때 */}

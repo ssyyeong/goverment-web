@@ -26,6 +26,10 @@ const Page: NextPage = () => {
 	);
 	const coffeeChatApplicationController =
 		new CoffeeChatApplicationController();
+	const specialCoffeeChatProductController = new DefaultController(
+		'SpecialCoffeeChatProduct'
+	);
+
 	//* States
 	/**
 	 * 프로필
@@ -118,6 +122,27 @@ const Page: NextPage = () => {
 		console.log(pid, special);
 		if (pid !== undefined) {
 			if (special == 'true') {
+				specialCoffeeChatProductController.getOneItemByKey(
+					{
+						SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE: pid,
+					},
+					(res) => {
+						const data = res.data.result;
+
+						if (data == null) {
+							alert('잘못된 접근입니다.');
+							return;
+						}
+						data.CAREER = JSON.parse(data.CAREER);
+						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
+						data.SUBJECT = JSON.parse(data.SUBJECT);
+						setCoffeeChatProfile(data);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
 			} else {
 				coffeeChatProfileController.getOneItemByKey(
 					{
@@ -361,7 +386,7 @@ const Page: NextPage = () => {
 					)}
 				</Box>
 				{/* 커피챗 신청 버튼 */}
-				{coffeeChatProfile?.OFFER_YN === 'Y' && (
+				{(special == 'true' || coffeeChatProfile?.OFFER_YN === 'Y') && (
 					<Box
 						width={'100%'}
 						display={'flex'}

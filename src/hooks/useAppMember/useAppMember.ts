@@ -48,6 +48,7 @@ const useAppMember = () => {
 			setMemberId(undefined);
 			setMemberName(undefined);
 			setMemberPoint(undefined);
+			setMemberCoffeeChatProfileId(undefined);
 		} else {
 			if (memberId !== undefined) return;
 			appMemberController.getData(
@@ -70,6 +71,23 @@ const useAppMember = () => {
 								setMemberPoint(res.data.result);
 							}
 						);
+						coffeeChatProfileController.getOneItemByKey(
+							{
+								APP_MEMBER_IDENTIFICATION_CODE:
+									res.data.result
+										.APP_MEMBER_IDENTIFICATION_CODE,
+							},
+							(res) => {
+								if (res.data.result !== null) {
+									setMemberCoffeeChatProfileId(
+										res.data.result
+											.COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE
+									);
+								} else {
+									setMemberCoffeeChatProfileId(undefined);
+								}
+							}
+						);
 					} else {
 						setMemberId(undefined);
 					}
@@ -77,36 +95,6 @@ const useAppMember = () => {
 			);
 		}
 	}, [accessToken]);
-
-	/**
-	 * 유저 커피챗 프로필 아이디 가져오기
-	 */
-	useEffect(
-		() => {
-			if (memberId === undefined) {
-				setMemberCoffeeChatProfileId(undefined);
-			} else {
-				if (memberCoffeeChatProfileId !== undefined) return;
-				coffeeChatProfileController.getOneItemByKey(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					},
-					(res) => {
-						if (res.data.result !== null) {
-							setMemberCoffeeChatProfileId(
-								res.data.result
-									.COFFEE_CHAT_PROFILE_IDENTIFICATION_CODE
-							);
-						} else {
-							setMemberCoffeeChatProfileId(undefined);
-						}
-					}
-				);
-			}
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[memberId]
-	);
 
 	return { memberId, memberName, memberPoint, memberCoffeeChatProfileId };
 };

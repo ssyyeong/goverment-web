@@ -35,7 +35,7 @@ const Page: NextPage = () => {
 	const [coffeeChatApplicationList, setCoffeeChatApplicationList] = useState<{
 		count: number;
 		rows?: { [key: string]: any }[];
-	}>(coffeeChatApplicationTestData);
+	}>({ count: 0, rows: [] });
 	/**
 	 * 프로필 모달 오픈 여부
 	 */
@@ -185,7 +185,7 @@ const Page: NextPage = () => {
 						}}
 					/>
 				</Box>
-				{/*모바일 테이블 */}
+				{/* 모바일 테이블
 				<Box
 					width={'100%'}
 					py={2}
@@ -213,16 +213,16 @@ const Page: NextPage = () => {
 					{coffeeChatApplicationList?.rows?.length === 0 && (
 						<Nodata />
 					)}
-				</Box>
+				</Box> */}
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
 					// p={2}
 					// mt={2}
-					display={{
-						sm: 'block',
-						xs: 'none',
-					}}
+					// display={{
+					// 	sm: 'block',
+					// 	xs: 'none',
+					// }}
 				>
 					<CoffeeChatHistoryList
 						rows={coffeeChatApplicationList?.rows}
