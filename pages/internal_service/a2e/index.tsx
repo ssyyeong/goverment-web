@@ -100,13 +100,19 @@ const Page: NextPage = () => {
 
 	/**
 	 *
+	 * 비밀글 제외
+	 */
+	const [exceptSecret, setExceptSecret] = React.useState<boolean>(false);
+
+	/**
+	 *
 	 *  알럿
 	 */
 
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
 	//* Functions
-	const getQuestionList = (parameter) => {
+	const getQuestionList = (parameter, optionParameter) => {
 		a2eController.getAllA2eQuestion(
 			Object.assign(
 				{
@@ -115,7 +121,8 @@ const Page: NextPage = () => {
 				{
 					LIMIT: 10,
 					PAGE: page,
-				}
+				},
+				optionParameter
 			),
 			(res) => {
 				setAllQuestion(res.data.result.rows);
@@ -134,6 +141,7 @@ const Page: NextPage = () => {
 
 	React.useEffect(() => {
 		let args = {};
+		let option = {};
 
 		if (isReadMine) {
 			Object.assign(args, { APP_MEMBER_IDENTIFICATION_CODE: memberId });
@@ -158,27 +166,27 @@ const Page: NextPage = () => {
 		}
 
 		if (isAnswerExist) {
-			Object.assign(args, { ANSWERED: true });
+			Object.assign(option, { ANSWERED: true });
 		} else {
-			delete args['ANSWERED'];
-			// Object.assign(args, { ANSWERED: false });
+			delete option['ANSWERED'];
 		}
 
-		getQuestionList(args);
-	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist]);
+		if (exceptSecret) {
+			Object.assign(args, {
+				PRIVATE_YN: 'Y',
+			});
+		} else {
+			delete args['PRIVATE_YN'];
+		}
 
-	// React.useEffect(()=> {
-	// 	if (isAnswerExist) {
-	// 		Object.assign(args, { ANSWERED_YN: 'Y' });
-	// 	} else {
-	// 		delete args['ANSWERED_YN'];
-	// 	}
-	// }, [isAnswerExist])
+		getQuestionList(args, option);
+	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist, exceptSecret]);
+
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
 
-		getQuestionList({});
+		getQuestionList({}, {});
 
 		questionController.findAllItems(
 			{
@@ -209,8 +217,6 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, []);
-
-	console.log(allQuestion);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -376,6 +382,23 @@ const Page: NextPage = () => {
 									</Box> */}
 								<Box></Box>
 								<Box display="flex" mr="-20px">
+								<Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											ml="auto"
+											mr={1}
+											fontWeight={500}
+											fontFamily={'Pretendard'}
+										>
+											비밀글 제외
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={exceptSecret}
+											setValue={setExceptSecret}
+										/>
+									</Box>
 									<Box display="flex">
 										<Typography
 											mt="auto"
