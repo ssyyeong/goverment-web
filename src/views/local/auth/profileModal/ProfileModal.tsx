@@ -87,9 +87,19 @@ const ProfileModal = (props: IProfileModalProps) => {
 						<Typography variant="h4" fontWeight={600} mb={1}>
 							경력
 						</Typography>
-						<Typography color="secondary.dark" variant="h5">
-							{props.profile.DESCRIPTION}
-						</Typography>
+						{JSON.parse(props.profile.CAREER).map(
+							(career: any, index: number) => {
+								return (
+									<Typography
+										key={index}
+										color="secondary.dark"
+										variant="h5"
+									>
+										{career}
+									</Typography>
+								);
+							}
+						)}
 					</Box>
 
 					<Box>

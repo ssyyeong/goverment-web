@@ -108,10 +108,15 @@ const Page: NextPage = () => {
 	//* Functions
 	const getQuestionList = (parameter) => {
 		a2eController.getAllA2eQuestion(
-			Object.assign(parameter, {
-				LIMIT: 10,
-				PAGE: page,
-			}),
+			Object.assign(
+				{
+					FIND_OPTION_KEY_LIST: parameter,
+				},
+				{
+					LIMIT: 10,
+					PAGE: page,
+				}
+			),
 			(res) => {
 				setAllQuestion(res.data.result.rows);
 				setTotalDataCount(res.data.result.count);
