@@ -45,11 +45,9 @@ interface ISupportiAlertModalProps {
 		| 'seminarApply'
 		| 'paymentSuccess'
 		| 'unAccess'
-
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
-		| 'coffeechatapplysuccess';
-
+		| 'coffeechatapplysuccess'
 		| 'private';
 
 	/**
