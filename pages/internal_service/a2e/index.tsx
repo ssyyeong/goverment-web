@@ -173,7 +173,7 @@ const Page: NextPage = () => {
 
 		if (exceptSecret) {
 			Object.assign(args, {
-				PRIVATE_YN: 'Y',
+				PRIVATE_YN: 'N',
 			});
 		} else {
 			delete args['PRIVATE_YN'];
@@ -181,7 +181,6 @@ const Page: NextPage = () => {
 
 		getQuestionList(args, option);
 	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist, exceptSecret]);
-
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -382,7 +381,7 @@ const Page: NextPage = () => {
 									</Box> */}
 								<Box></Box>
 								<Box display="flex" mr="-20px">
-								<Box display="flex">
+									<Box display="flex" flexWrap="wrap">
 										<Typography
 											mt="auto"
 											mb="auto"
