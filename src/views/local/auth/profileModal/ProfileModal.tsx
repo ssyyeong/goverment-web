@@ -21,32 +21,12 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 interface IProfileModalProps {
 	open: boolean;
 	handleClose: () => void;
-	partnerId: number;
+	profile: any;
 }
 
 //* A2E 커뮤니티 프로필 모달
 const ProfileModal = (props: IProfileModalProps) => {
 	//* Modules
-	const profileController = new DefaultController('ExpertProfile');
-
-	//* State
-	const [profile, setProfile] = useState<any>(undefined);
-	/**
-	 * 데이터 세팅
-	 */
-	useEffect(() => {
-		profileController.getOneItemByKey(
-			{
-				PARTNER_MEMBER_IDENTIFICATION_CODE: props.partnerId,
-			},
-			(res) => {
-				setProfile(res.data.result);
-			},
-			(err) => {}
-		);
-	}, []);
-
-	console.log();
 
 	return (
 		<SupportiModal
@@ -64,7 +44,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 				width: { sm: '40%', xs: '100%' },
 			}}
 		>
-			{profile !== undefined && (
+			{props.profile !== undefined && (
 				<Box
 					mb={3}
 					width={'100%'}
@@ -81,15 +61,15 @@ const ProfileModal = (props: IProfileModalProps) => {
 								width: '100px',
 								height: '100px',
 							}}
-							src={JSON.parse(profile?.PROFILE_IMAGE)[0]}
+							src={JSON.parse(props.profile?.PROFILE_IMAGE)[0]}
 						/>
 						<Box ml={5}>
 							<Box display="flex" gap={2} my={2}>
 								<Typography fontWeight={600} variant="h4">
-									{profile.PartnerMember.FULL_NAME}
+									{props.profile.PartnerMember.FULL_NAME}
 								</Typography>
 								<Typography fontWeight={600} variant="h4">
-									{profile.EXPERT_TYPE}
+									{props.profile.EXPERT_TYPE}
 								</Typography>
 							</Box>
 							<Typography
@@ -97,7 +77,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 								fontWeight={600}
 								variant="h5"
 							>
-								{profile.COMPANY_NAME}
+								{props.profile.COMPANY_NAME}
 							</Typography>
 						</Box>
 					</Box>
@@ -106,7 +86,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 							경력
 						</Typography>
 						<Typography color="secondary.dark" variant="h5">
-							{profile.DESCRIPTION}
+							{props.profile.DESCRIPTION}
 						</Typography>
 					</Box>
 
@@ -123,7 +103,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 								}}
 								variant="subtitle1"
 							>
-								{profile.CONTACT_EMAIL}
+								{props.profile.CONTACT_EMAIL}
 							</Typography>
 						</Box>
 						<Box display="flex" gap={1}>
@@ -134,7 +114,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 								mb="auto"
 								variant="subtitle1"
 							>
-								{profile.CONTACT_NUMBER}
+								{props.profile.CONTACT_NUMBER}
 							</Typography>
 						</Box>
 					</Box>

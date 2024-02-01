@@ -19,6 +19,7 @@ const Page: NextPage = () => {
 	const questionController = new DefaultController('A2eQuestion');
 	const answerController = new DefaultController('A2eAnswer');
 	const categoryController = new DefaultController('A2eCategory');
+	const profileController = new DefaultController('ExpertProfile');
 
 	const { memberId } = useAppMember();
 
@@ -42,6 +43,10 @@ const Page: NextPage = () => {
 	 */
 	const [answer, setAnswer] = React.useState<any>(undefined);
 
+	/**
+	 * 컨설턴트 프로필
+	 */
+	const [profile, setProfile] = React.useState<any>(undefined);
 	/**
 	 * 선택 가능한 탭 카테고리
 	 */
@@ -156,6 +161,20 @@ const Page: NextPage = () => {
 							},
 							(res) => {
 								setAnswer(res.data.result);
+
+								if (res.data.result) {
+									profileController.getOneItemByKey(
+										{
+											PARTNER_MEMBER_IDENTIFICATION_CODE:
+												res.data.result.PartnerMember
+													.PARTNER_MEMBER_IDENTIFICATION_CODE,
+										},
+										(res) => {
+											setProfile(res.data.result);
+										},
+										(err) => {}
+									);
+								}
 							},
 							(err) => {}
 						);
@@ -199,6 +218,8 @@ const Page: NextPage = () => {
 
 		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
 	}, []);
+
+	console.log(profile);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -592,13 +613,12 @@ const Page: NextPage = () => {
 												borderRadius: '20px',
 												cursor: 'pointer',
 											}}
-											// src={
-											// 	JSON.parse(
-											// 		answer?.PartnerMember
-											// 			.ExpertProfiles[0]
-											// 			.PROFILE_IMAGE
-											// 	)[0]
-											// }
+											src={
+												profile !== undefined &&
+												JSON.parse(
+													profile?.PROFILE_IMAGE
+												)[0]
+											}
 											onClick={() =>
 												setIsProfileOpened(true)
 											}
@@ -687,10 +707,7 @@ const Page: NextPage = () => {
 							{answer !== undefined && (
 								<ProfileModal
 									open={isProfileOpened}
-									partnerId={
-										answer?.PartnerMember
-											.PARTNER_MEMBER_IDENTIFICATION_CODE
-									}
+									profile={profile}
 									handleClose={() =>
 										setIsProfileOpened(false)
 									}

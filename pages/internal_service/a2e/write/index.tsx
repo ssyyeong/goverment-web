@@ -216,19 +216,19 @@ const Page: NextPage = () => {
 									>
 										카테고리
 									</Typography>
-									<SupportiInput
-										type="select"
-										additionalProps={{
-											placeholder:
-												'카테고리를 선택하세요.',
-
-											defaultValue: selectableCategory[0],
-										}}
-										value={selectedCategoryNum}
-										setValue={setSelectedCategoryNum}
-										dataList={selectableCategory}
-										width={'80%'}
-									/>
+									{selectableCategory !== undefined && (
+										<SupportiInput
+											type="select"
+											additionalProps={{
+												placeholder:
+													'카테고리를 선택하세요.',
+											}}
+											value={selectedCategoryNum}
+											setValue={setSelectedCategoryNum}
+											dataList={selectableCategory}
+											width={'80%'}
+										/>
+									)}
 								</Box>
 								<Box
 									display="flex"
@@ -237,8 +237,6 @@ const Page: NextPage = () => {
 									<Typography
 										variant="subtitle1"
 										fontWeight={600}
-										mt="auto"
-										mb="auto"
 									>
 										내용
 									</Typography>
@@ -247,13 +245,12 @@ const Page: NextPage = () => {
 										additionalProps={{
 											placeholder: '내용을 입력하세요.',
 											multiline: true,
+											rows: 5
 										}}
 										value={contents}
 										setValue={setContents}
 										width={'80%'}
-										style={{
-											height: '200px',
-										}}
+									
 									/>
 								</Box>
 								<Box ml="auto" display="flex" mt={5}>
@@ -279,7 +276,18 @@ const Page: NextPage = () => {
 											height: '30px',
 										}}
 										isGradient={true}
-										onClick={() => createQuestion()}
+										onClick={() => {
+											if (
+												title === undefined ||
+												contents === undefined ||
+												selectedCategoryNum ===
+													undefined
+											) {
+												alert(
+													'필수 입력값을 모두 입력해주세요'
+												);
+											} else createQuestion();
+										}}
 									/>
 								</Box>
 							</Box>

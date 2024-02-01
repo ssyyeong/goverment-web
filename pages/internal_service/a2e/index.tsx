@@ -281,12 +281,14 @@ const Page: NextPage = () => {
 									display="flex"
 									justifyContent={'space-between'}
 									my={3}
+									flexWrap="wrap"
+									gap={2}
 								>
 									<SupportiInput
 										type="search"
 										value={keyword}
 										setValue={setKeyword}
-										style={{ width: '500px' }}
+										style={{ width: '320px' }}
 										additionalProps={{
 											placeholder:
 												'궁금한 것을 검색해보세요.',
@@ -306,6 +308,44 @@ const Page: NextPage = () => {
 								</Box>
 							</Box>
 
+							<Box
+								display="flex"
+								justifyContent={'space-between'}
+							>
+								{/* <Box display="flex">
+										<Typography
+											mt="auto"
+											mb="auto"
+											pb={1}
+											mr={0.5}
+										>
+											비밀글도 보기
+										</Typography>
+										<SupportiInput
+											type="checkbox"
+											value={isSecret}
+											setValue={setIsSecret}
+										/>
+									</Box> */}
+								<Box></Box>
+								<Box display="flex" mr='-20px'>
+									<Typography
+										mt="auto"
+										mb="auto"
+										ml="auto"
+										mr={1}
+										fontWeight={500}
+										fontFamily={'Pretendard'}
+									>
+										내가 쓴 글만 보기
+									</Typography>
+									<SupportiInput
+										type="checkbox"
+										value={isReadMine}
+										setValue={setIsReadMine}
+									/>
+								</Box>
+							</Box>
 							<Box
 								display="flex"
 								justifyContent={'space-between'}
@@ -332,7 +372,10 @@ const Page: NextPage = () => {
 																item['CONTENT']
 																	? '#e7eeff'
 																	: 'common.white',
-															width: '130px',
+															width: {
+																md: '130px',
+																xs: '60px',
+															},
 															textAlign: 'center',
 															cursor: 'pointer',
 															boxShadow:
@@ -360,41 +403,6 @@ const Page: NextPage = () => {
 												);
 											}
 										)}
-								</Box>
-
-								<Box display="flex">
-									{/* <Box display="flex">
-										<Typography
-											mt="auto"
-											mb="auto"
-											pb={1}
-											mr={0.5}
-										>
-											비밀글도 보기
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isSecret}
-											setValue={setIsSecret}
-										/>
-									</Box> */}
-									<Box display="flex" mr={'-22px'}>
-										<Typography
-											mt="auto"
-											mb="auto"
-											pb={1}
-											mr={1}
-											fontWeight={500}
-											fontFamily={'Pretendard'}
-										>
-											내가 쓴 글만 보기
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isReadMine}
-											setValue={setIsReadMine}
-										/>
-									</Box>
 								</Box>
 							</Box>
 
