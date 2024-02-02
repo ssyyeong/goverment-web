@@ -19,6 +19,7 @@ import IrQna from '../IrQna/IrQna';
 import { IrAnswerController } from '../../../../../controller/IrAnswerController';
 import SupportiInput from '../../../../global/SupportiInput';
 import IrAlertModal from '../IrAlertModal/IrAlertModal';
+import { phoneRegex } from '../../../../../../configs/regex/regex';
 
 interface IIrApplicationModalProps {
 	open: boolean;
@@ -53,7 +54,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	/**
 	 * IR 답변
 	 */
-	const [irContactNum, setIrContactNum] = React.useState<number | undefined>(
+	const [irContactNum, setIrContactNum] = React.useState<string | undefined>(
 		undefined
 	);
 
@@ -104,11 +105,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			}
 		});
 
-		if (
-			irContactNum === undefined ||
-			irContactNum === null ||
-			irContactNum === 0
-		) {
+		if (irContactNum === undefined || irContactNum === null) {
 			check = false;
 		}
 
@@ -120,6 +117,12 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		if (!checkIrAnswer()) {
 			alert('필수 질문에 답변해주세요.');
 			console.log(irAnswer, irContactNum);
+			return;
+		}
+
+		if (irContactNum && !phoneRegex.test(irContactNum)) {
+			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
+			console.log(irContactNum);
 			return;
 		}
 
@@ -185,6 +188,12 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			return;
 		}
 
+		if (irContactNum && !phoneRegex.test(irContactNum)) {
+			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
+			console.log(irContactNum);
+			return;
+		}
+
 		irApplicationController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -202,9 +211,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				setIrAnswer([]);
 				setSuccessAlertModal(true);
 			},
-			(err) => {
-			
-			}
+			(err) => {}
 		);
 	};
 
@@ -266,7 +273,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			);
 	}, [props.irProductId]);
 
-	console.log(questionList)
+	console.log(questionList);
 
 	return (
 		<SupportiModal

@@ -65,19 +65,20 @@ const Page: NextPage = () => {
 			) : selectedData?.ADOPTED_YN === 'N' ? (
 				<Typography>미선정</Typography>
 			) : (
-				<Button
-					variant="contained"
-					onClick={() => {
-						setUpdateModalData(selectedData);
-						setUpdateModal(true);
-					}}
-					sx={{
-						fontWeight: '400',
-						fontSize: '12px',
-					}}
-				>
-					변경
-				</Button>
+				<Typography>선정전</Typography>
+				// <Button
+				// 	variant="contained"
+				// 	onClick={() => {
+				// 		setUpdateModalData(selectedData);
+				// 		setUpdateModal(true);
+				// 	}}
+				// 	sx={{
+				// 		fontWeight: '400',
+				// 		fontSize: '12px',
+				// 	}}
+				// >
+				// 	변경
+				// </Button>
 			);
 		},
 	};
