@@ -162,9 +162,8 @@ const Page: NextPage = () => {
 							alert('잘못된 접근입니다.');
 							return;
 						}
-						data.PROFILE_IMAGE = JSON.parse(
-							data.PROFILE_IMAGE_URL
-						)[0];
+						console.log();
+						data.PROFILE_IMAGE = JSON.parse(data.PROFILE_IMAGE)[0];
 						data.CAREER = JSON.parse(data.CAREER);
 						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
 						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
@@ -200,7 +199,7 @@ const Page: NextPage = () => {
 		}
 	}, [pid, special]);
 
-	// console.log(coffeeChatProfile);
+	console.log(coffeeChatProfile);
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box

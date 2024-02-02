@@ -247,7 +247,7 @@ const Page: NextPage = () => {
 				</Box>
 				{/* 버튼 */}
 				<SupportiButton
-					contents={'회원가입하고 서포티 2주간 무료로 이용하기'}
+					contents={'회원가입하고 서포티 무료로 이용하기'}
 					variant="outlined"
 					onClick={() => {
 						router.push('/auth/sign_up');

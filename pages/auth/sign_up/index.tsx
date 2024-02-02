@@ -348,7 +348,6 @@ const Page: NextPage = () => {
 				setVerifyNumber(e.target.value);
 			},
 		},
-	
 	];
 
 	//* Functions
@@ -390,7 +389,7 @@ const Page: NextPage = () => {
 				/>
 			</Box>
 			<Typography color={'secondary.main'} variant="h6">
-				회원가입하고 서포티를 2주간 무료로 이용해보세요.
+				회원가입하고 서포티를 무료로 이용해보세요.
 			</Typography>
 			{/* 스테퍼 */}
 			<Stepper

@@ -113,7 +113,7 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	 */
 	useEffect(() => {
 		if (isSubscribed !== undefined && checkTarget == 'SUBSCRIPTION') {
-			setAccess(true);
+			setAccess(isSubscribed);
 		}
 	}, [isSubscribed]);
 
