@@ -471,7 +471,7 @@ const Page: NextPage = () => {
 									}}
 									contents={
 										subscriptionInfo?.SubscriptionProduct
-											?.TYPE !== 'BLACK'
+											?.TYPE === 'BLACK'
 											? '구독중'
 											: '결제하기'
 									}
