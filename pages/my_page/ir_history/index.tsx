@@ -22,6 +22,8 @@ const Page: NextPage = () => {
 	const irApplicationController = new DefaultController('IrApplication');
 	//* Constants
 
+
+
 	const irApplicationGeneralHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
@@ -47,39 +49,8 @@ const Page: NextPage = () => {
 			},
 			align: 'center',
 		},
-		{
-			label: '상태/변경',
-			value: 'IR_APPLICATION_IDENTIFICATION_CODE',
-			align: 'center',
-	
-			customView: (value) => {
-				const selectedData = irApplicationList.find(
-					(item) => item.IR_APPLICATION_IDENTIFICATION_CODE === value
-				);
-				return selectedData?.ADOPTED_YN === 'Y' ? (
-					<Typography>선정</Typography>
-				) : selectedData?.ADOPTED_YN === 'N' ? (
-					<Typography>미선정</Typography>
-				) : selectedData ? (
-					<Button
-						variant="contained"
-						onClick={() => {
-							setUpdateModalData(selectedData);
-							setUpdateModal(true);
-						}}
-						sx={{
-							fontWeight: '400',
-							fontSize: '12px',
-						}}
-					>
-						변경
-					</Button>
-				):(
-					<Typography>선정전</Typography>
-				) ;
-			},
-		}
 	];
+
 
 	const cancelIrHeaderData: TableHeaderProps = {
 		label: '상태/변경',
@@ -94,7 +65,7 @@ const Page: NextPage = () => {
 				<Typography>선정</Typography>
 			) : selectedData?.ADOPTED_YN === 'N' ? (
 				<Typography>미선정</Typography>
-			) : selectedData ? (
+			) :(
 				<Button
 					variant="contained"
 					onClick={() => {
@@ -108,11 +79,10 @@ const Page: NextPage = () => {
 				>
 					변경
 				</Button>
-			):(
-				<Typography>선정전</Typography>
-			) ;
+			);
 		},
 	};
+
 
 	//* States
 	/**
@@ -161,19 +131,19 @@ const Page: NextPage = () => {
 				(res) => {
 					setIrApplicationList(res.data.result.rows);
 					setTotalDataSize(res.data.result.count);
-					// if (tab === 'IR') {
-					// 	setIrApplicationHeaderData(
-					// 		irApplicationGeneralHeaderData.concat(
-					// 			cancelIrHeaderData
-					// 		)
-					// 	);
-					// } else {
-					// 	setIrApplicationHeaderData(
-					// 		irApplicationGeneralHeaderData.concat(
-					// 			cancelIrHeaderData
-					// 		)
-					// 	);
-					// }
+					if (tab === 'IR') {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					} else {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					}
 				},
 				(err) => {
 					console.log(err);
@@ -192,19 +162,19 @@ const Page: NextPage = () => {
 				(res) => {
 					setIrApplicationList(res.data.result.rows);
 					setTotalDataSize(res.data.result.count);
-					// if (tab === 'IR') {
-					// 	setIrApplicationHeaderData(
-					// 		irApplicationGeneralHeaderData.concat(
-					// 			cancelIrHeaderData
-					// 		)
-					// 	);
-					// } else {
-					// 	setIrApplicationHeaderData(
-					// 		irApplicationGeneralHeaderData.concat(
-					// 			cancelIrHeaderData
-					// 		)
-					// 	);
-					// }
+					if (tab === 'IR') {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					} else {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					}
 				},
 				(err) => {
 					console.log(err);
@@ -223,7 +193,7 @@ const Page: NextPage = () => {
 				bgcolor={'primary.light'}
 			>
 				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
-					IR 신청 내역
+					IR  신청 내역
 				</Typography>
 				{/* 탭 */}
 				<Box
@@ -238,6 +208,7 @@ const Page: NextPage = () => {
 								label: 'IR 신청',
 								value: 'IR',
 							},
+							
 						]}
 						angled
 						disablePadding
@@ -365,7 +336,7 @@ const Page: NextPage = () => {
 					irApplicationData={updateModalData}
 				/>
 			)} */}
-			{updateModalData && (
+				{updateModalData && (
 				<IrUpdateModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
