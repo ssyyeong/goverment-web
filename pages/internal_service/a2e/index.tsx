@@ -237,12 +237,7 @@ const Page: NextPage = () => {
 						mobileImage="/images/main/A2EMobile.png"
 					>
 						<Box p={1}>
-							<Typography
-								variant="h5"
-								mt={5}
-								mb={2}
-								fontWeight={600}
-							>
+							<Typography variant="h5" mb={2} fontWeight={600}>
 								서포티 유저들이 많이 궁금해하는 질문
 							</Typography>
 							<Box
@@ -264,68 +259,81 @@ const Page: NextPage = () => {
 								}}
 								p={1}
 							>
-								<Box display="flex" gap={2}>
-									{fixedQuestion.map((item, index) => {
-										return (
-											<Box
-												borderRadius={'10px'}
-												p={3}
-												bgcolor="white"
-												sx={{
-													boxShadow:
-														'rgb(219, 219, 219) 0px 0px 5px',
-													minHeight: '150px',
-													width: '220px',
-													cursor: 'pointer',
-												}}
-												display="flex"
-												flexDirection={'column'}
-												justifyContent="space-between"
-												onClick={() =>
-													router.push(
-														`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-													)
-												}
-											>
-												<Box display="flex" gap={0.5}>
-													<Typography
-														color="primary.main"
-														fontWeight={600}
+								<Box display="flex" gap={2} width={'100%'}>
+									{fixedQuestion.length !== 0 &&
+										fixedQuestion.map((item, index) => {
+											return (
+												<Box
+													borderRadius={'10px'}
+													p={3}
+													bgcolor="white"
+													sx={{
+														boxShadow:
+															'rgb(219, 219, 219) 0px 0px 5px',
+														minHeight: '150px',
+														width: '220px',
+														cursor: 'pointer',
+													}}
+													display="flex"
+													flexDirection={'column'}
+													justifyContent="space-between"
+													onClick={() =>
+														router.push(
+															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+														)
+													}
+												>
+													<Box
+														display="flex"
+														gap={0.5}
 													>
-														[
-														{
-															item.A2eCategory
-																.CONTENT
-														}
-														]
-													</Typography>
-													<Typography
-														fontWeight={600}
-													>
-														{item.TITLE}
-													</Typography>
-												</Box>
+														<Typography
+															color="primary.main"
+															fontWeight={600}
+														>
+															[
+															{
+																item.A2eCategory
+																	.CONTENT
+															}
+															]
+														</Typography>
+														<Typography
+															fontWeight={600}
+														>
+															{item.TITLE}
+														</Typography>
+													</Box>
 
-												<Box textAlign={'right'}>
-													<Typography color="secondary.dark">
-														{
-															item.UPDATED_AT.split(
-																'T'
-															)[0]
-														}
-													</Typography>
+													<Box textAlign={'right'}>
+														<Typography color="secondary.dark">
+															{
+																item.UPDATED_AT.split(
+																	'T'
+																)[0]
+															}
+														</Typography>
+													</Box>
 												</Box>
-											</Box>
-										);
-									})}
+											);
+										})}
+									{fixedQuestion.length === 0 && (
+										<Box
+											width={'100%'}
+											display={'flex'}
+											justifyContent={'center'}
+										>
+											<Nodata />
+										</Box>
+									)}
 								</Box>
 							</Box>
 							{/** 검색창 */}
-							<Box mt={8}>
+							<Box mt={3}>
 								<Typography
-									variant="h4"
-									fontWeight={600}
+									variant="h5"
 									mb={2}
+									fontWeight={600}
 								>
 									모든 질문
 								</Typography>
@@ -506,6 +514,7 @@ const Page: NextPage = () => {
 								}}
 							>
 								{allQuestion !== undefined &&
+									allQuestion.length !== 0 &&
 									allQuestion.map((item, index) => {
 										return (
 											<Box
@@ -610,6 +619,8 @@ const Page: NextPage = () => {
 											</Box>
 										);
 									})}
+								{allQuestion !== undefined &&
+									allQuestion.length === 0 && <Nodata />}
 							</Box>
 							{/* 컨텐츠 레이아웃
 				{access === true && (

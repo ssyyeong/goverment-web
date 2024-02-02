@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
@@ -12,9 +12,13 @@ import GeneralCoffeeChat from '../../../src/views/local/internal_service/coffeec
 import CoffeeChatProfileModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatProfileModal/CoffeeChatProfileModal';
 import useAlert from '../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import CoffeeChatRecommendModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatRecommendModal/CoffeeChatRecommendModal';
+import { CookieManager } from '@leanoncompany/supporti-utility';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
+	const cookie = new CookieManager();
 	//* Constants
 	//* States
 	/**
@@ -25,7 +29,15 @@ const Page: NextPage = () => {
 	 * 트리거 키 설정
 	 */
 	const [triggerKey, setTriggerKey] = React.useState<string>('');
+	/**
+	 * 커피챗 추천 모달
+	 */
+	const [recommendModal, setRecommendModal] = React.useState<boolean>(false);
 	//* Functions
+	//* Controller
+	const coffeeChatProfileController = new DefaultController(
+		'CoffeeChatProfile'
+	);
 	//* Hooks
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
@@ -36,6 +48,28 @@ const Page: NextPage = () => {
 	 * 알러트
 	 */
 	const { open, setOpen, setType, type } = useAlert({});
+
+	/**
+	 * 커피챗 추천 모달
+	 */
+	useEffect(() => {
+		coffeeChatProfileController.getOneItemByKey(
+			{
+				IS_RECOMMENDED: 'Y',
+			},
+			(res) => {
+				if (res.data.result === null) {
+				} else {
+					if (
+						!cookie.getItemInCookies('COFFEE_CHAT_RECOMMEND_MODAL')
+					) {
+						setRecommendModal(true);
+					}
+				}
+			}
+		);
+	}, []);
+
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box
@@ -95,10 +129,16 @@ const Page: NextPage = () => {
 					<GeneralCoffeeChat triggerKey={triggerKey} />
 				</InternalServiceLayout>
 			</Box>
+			{/* 커피챗 프로필 설정 모달 */}
 			<CoffeeChatProfileModal
 				open={profileModal}
 				handleClose={() => setProfileModal(false)}
 				setTriggerKey={setTriggerKey}
+			/>
+			{/* 커피챗 추천 모달 */}
+			<CoffeeChatRecommendModal
+				open={recommendModal}
+				handleClose={() => setRecommendModal(false)}
 			/>
 			{/* 알림창 */}
 			<SupportiAlertModal

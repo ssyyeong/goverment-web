@@ -46,7 +46,7 @@ const dashboardMenu: IMenu[] = [
 	// 	icon: '/images/icons/seminar.png',
 	// },
 	{
-		label: 'A2E',
+		label: 'A2E(Ask to Expert)',
 		path: '/internal_service/a2e',
 		icon: '/images/icons/expert.png',
 	},
