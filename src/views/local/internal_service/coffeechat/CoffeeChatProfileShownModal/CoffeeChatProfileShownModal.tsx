@@ -5,6 +5,7 @@ import CoffeeChatCard from '../CoffeeChatCard/CoffeeChatCard';
 import SupportiModal from '../../../../global/SupportiModal';
 import SupportiButton from '../../../../global/SupportiButton';
 import CoffeeChatApprovalModal from '../CoffeeChatApprovalModal/CoffeeChatApprovalModal';
+import useWindowWidth from '../../../../../hooks/useWindowWidth/useWindowWidth';
 
 interface ICoffeeChatProfileShownModalProps {
 	open: boolean;
@@ -23,15 +24,20 @@ const CoffeeChatProfileShownModal = (
 	const [coffeeChatApprovalModal, setCoffeeChatApprovalModal] =
 		React.useState<boolean>(false);
 
+	const { width } = useWindowWidth();
+
 	return (
 		<SupportiModal
 			open={props.open}
 			handleClose={props.handleClose}
 			activeHeader={false}
+			style={{
+				minWidth: 350,
+			}}
 		>
 			{props.coffeeChatProfileData && (
 				<CoffeeChatCard
-					isExpand={true}
+					isExpand={width > 800}
 					userType={
 						props.coffeeChatProfileData?.AppMember?.USER_GRADE ===
 						'GENERAL'

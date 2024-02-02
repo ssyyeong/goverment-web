@@ -8,6 +8,7 @@ import CoffeeChatApprovalModal from '../CoffeeChatApprovalModal/CoffeeChatApprov
 import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import useWindowWidth from '../../../../../hooks/useWindowWidth/useWindowWidth';
 
 interface ICoffeeChatRecommendModalProps {
 	open: boolean;
@@ -64,12 +65,17 @@ const CoffeeChatRecommendModal = (props: ICoffeeChatRecommendModalProps) => {
 		}
 	}, [props.open]);
 
+	const { width } = useWindowWidth();
+
 	return (
 		<SupportiModal
 			open={props.open}
 			handleClose={closeToday}
 			activeHeader={true}
 			title="추천 커피챗"
+			style={{
+				minWidth: 350,
+			}}
 		>
 			<Box width={'100%'} mb={2}>
 				<Typography fontWeight={'600'} variant="subtitle2">
@@ -78,7 +84,7 @@ const CoffeeChatRecommendModal = (props: ICoffeeChatRecommendModalProps) => {
 				</Typography>
 			</Box>
 			<CoffeeChatCard
-				isExpand={true}
+				isExpand={width > 800}
 				userType={
 					coffeeChatProfileData?.AppMember?.USER_GRADE === 'GENERAL'
 						? '일반'
