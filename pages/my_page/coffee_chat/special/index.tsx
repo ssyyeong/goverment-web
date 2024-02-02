@@ -36,7 +36,7 @@ const Page: NextPage = () => {
 	const [coffeeChatApplicationList, setCoffeeChatApplicationList] = useState<{
 		count: number;
 		rows?: { [key: string]: any }[];
-	}>(coffeeChatApplicationTestData);
+	}>({ count: 0, rows: [] });
 	/**
 	 * 프로필 모달 오픈 여부
 	 */
@@ -109,8 +109,8 @@ const Page: NextPage = () => {
 				);
 			} else {
 				//커피챗 프로필 체크
-				setOpen(true);
-				setType('coffeechatprofilemissing');
+				// setOpen(true);
+				// setType('coffeechatprofilemissing');
 			}
 		}
 	}, [page, tab, memberId, memberCoffeeChatProfileId]);
@@ -233,10 +233,10 @@ const Page: NextPage = () => {
 										  }
 								}
 								reservationDateAndTime={`${moment(
-									row.RESERVATION_DATE
+									row?.RESERVATION_DATE
 								).format('YY.MM.DD(ddd)')} ${
-									row.RESERVATION_START_TIME.split(':00')[0]
-								}-${row.RESERVATION_END_TIME.split(':00')[0]}`}
+									row.RESERVATION_START_TIME?.split(':00')[0]
+								}-${row.RESERVATION_END_TIME?.split(':00')[0]}`}
 								disableAccordion={true}
 							/>
 						)}

@@ -48,7 +48,7 @@ const dashboardMenu: IMenu[] = [
 	{
 		label: 'A2E',
 		path: '/internal_service/a2e',
-		icon: '/images/icons/mypage.svg',
+		icon: '/images/icons/expert.png',
 	},
 	{
 		label: '커피챗',
