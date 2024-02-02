@@ -485,7 +485,7 @@ const Page: NextPage = () => {
 											!(
 												subscriptionInfo
 													?.SubscriptionProduct
-													?.TYPE !== 'BLACK'
+													?.TYPE === 'BLACK'
 											)
 										) {
 											setPayModalData(ratePlan);

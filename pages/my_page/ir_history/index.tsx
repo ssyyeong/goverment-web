@@ -22,8 +22,6 @@ const Page: NextPage = () => {
 	const irApplicationController = new DefaultController('IrApplication');
 	//* Constants
 
-
-
 	const irApplicationGeneralHeaderData: TableHeaderProps[] = [
 		{
 			label: 'NO',
@@ -37,7 +35,7 @@ const Page: NextPage = () => {
 			label: '제목',
 			value: 'IrProduct.TITLE',
 			customValue: (value) => {
-				return value.IrProduct.TITLE;
+				return value.IrProduct?.TITLE;
 			},
 			align: 'center',
 		},
@@ -50,7 +48,6 @@ const Page: NextPage = () => {
 			align: 'center',
 		},
 	];
-
 
 	const cancelIrHeaderData: TableHeaderProps = {
 		label: '상태/변경',
@@ -65,7 +62,7 @@ const Page: NextPage = () => {
 				<Typography>선정</Typography>
 			) : selectedData?.ADOPTED_YN === 'N' ? (
 				<Typography>미선정</Typography>
-			) :(
+			) : (
 				<Button
 					variant="contained"
 					onClick={() => {
@@ -82,7 +79,6 @@ const Page: NextPage = () => {
 			);
 		},
 	};
-
 
 	//* States
 	/**
@@ -193,7 +189,7 @@ const Page: NextPage = () => {
 				bgcolor={'primary.light'}
 			>
 				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
-					IR  신청 내역
+					IR 신청 내역
 				</Typography>
 				{/* 탭 */}
 				<Box
@@ -208,7 +204,6 @@ const Page: NextPage = () => {
 								label: 'IR 신청',
 								value: 'IR',
 							},
-							
 						]}
 						angled
 						disablePadding
@@ -336,7 +331,7 @@ const Page: NextPage = () => {
 					irApplicationData={updateModalData}
 				/>
 			)} */}
-				{updateModalData && (
+			{updateModalData && (
 				<IrUpdateModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
