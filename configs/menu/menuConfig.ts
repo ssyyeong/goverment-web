@@ -95,7 +95,7 @@ const mypageMenu: IMenu[] = [
 	// 	icon: '/images/icons/seminar-reservation.png',
 	// },
 	{
-		label: 'IR/데모데이 신청내역',
+		label: 'IR 신청내역',
 		path: '/my_page/ir_history',
 		icon: '/images/icons/consulting-reservation.png',
 	},

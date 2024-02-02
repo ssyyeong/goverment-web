@@ -111,6 +111,12 @@ const Page: NextPage = () => {
 
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
 
+	/**
+	 * 페이징 관련
+	 */
+	const { page, limit, handlePageChange, setLimit, setPage } =
+		usePagination();
+
 	//* Functions
 	const getQuestionList = (parameter, optionParameter) => {
 		a2eController.getAllA2eQuestion(
@@ -134,12 +140,7 @@ const Page: NextPage = () => {
 
 	//* Hooks
 
-	/**
-	 * 페이징 관련
-	 */
-	const { page, limit, handlePageChange, setLimit, setPage } =
-		usePagination();
-
+	console.log(page);
 	/**
 	 * 탭 변경시 페이지 초기화
 	 */
@@ -188,7 +189,14 @@ const Page: NextPage = () => {
 		}
 
 		getQuestionList(args, option);
-	}, [keyword, isReadMine, selectedTabCategory, isAnswerExist, exceptSecret]);
+	}, [
+		keyword,
+		isReadMine,
+		selectedTabCategory,
+		isAnswerExist,
+		exceptSecret,
+		page,
+	]);
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -280,6 +288,7 @@ const Page: NextPage = () => {
 															'rgb(219, 219, 219) 0px 0px 5px',
 														minHeight: '150px',
 														width: '220px',
+														minWidth: '220px',
 														cursor: 'pointer',
 													}}
 													display="flex"
@@ -424,7 +433,7 @@ const Page: NextPage = () => {
 											fontWeight={500}
 											fontFamily={'Pretendard'}
 										>
-											답변완료 글만 보기
+											답변완료 글
 										</Typography>
 										<SupportiInput
 											type="checkbox"
@@ -441,7 +450,7 @@ const Page: NextPage = () => {
 											fontWeight={500}
 											fontFamily={'Pretendard'}
 										>
-											내가 쓴 글만 보기
+											내가 쓴 글
 										</Typography>
 										<SupportiInput
 											type="checkbox"

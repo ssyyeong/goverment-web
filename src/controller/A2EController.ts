@@ -14,7 +14,7 @@ export class A2eController extends ControllerABC {
 	) {
 		super.getData(
 			args,
-			`${this.mergedPath}/find_all`,
+			`${this.mergedPath}/find_all_and_separate_by_answered`,
 			successCallback,
 			failCallback
 		);
