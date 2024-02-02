@@ -48,7 +48,7 @@ interface ISupportiAlertModalProps {
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
-		| 'private';
+		| 'irFinish';
 
 	/**
 	 * 커스텀 핸들러

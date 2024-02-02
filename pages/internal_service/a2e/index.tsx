@@ -137,7 +137,14 @@ const Page: NextPage = () => {
 	/**
 	 * 페이징 관련
 	 */
-	const { page, limit, handlePageChange, setLimit } = usePagination();
+	const { page, limit, handlePageChange, setLimit, setPage } = usePagination();
+
+		/**
+	 * 탭 변경시 페이지 초기화
+	 */
+		React.useEffect(() => {
+			setPage(0);
+		}, [selectedTabCategory]);
 
 	React.useEffect(() => {
 		let args = {};

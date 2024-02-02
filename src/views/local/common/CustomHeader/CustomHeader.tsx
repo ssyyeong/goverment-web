@@ -32,10 +32,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 * 메뉴
 	 */
 	const pages = [
-		// {
-		// 	label: 'IR',
-		// 	path: '/internal_service/ir',
-		// },
+		{
+			label: 'IR',
+			path: '/external_service/ir/landing',
+		},
 		{
 			label: '파트너스',
 			path: '/partners',
