@@ -210,7 +210,7 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 				{/* 질문 */}
 
 				<Box mb={2}>
-					{props.irApplicationData.IrAnswers?.map(
+					{irAnswer?.map(
 						(question, index) => {
 							return (
 								<IrQna

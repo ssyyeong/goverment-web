@@ -144,6 +144,37 @@ const Page: NextPage = () => {
 			);
 	}, [page, tab, memberId, updateModal]);
 
+	useEffect(() => {
+		memberId &&
+			irApplicationController.findAllItems(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					LIMIT: 10,
+					PAGE: page,
+				},
+				(res) => {
+					setIrApplicationList(res.data.result.rows);
+					setTotalDataSize(res.data.result.count);
+					if (tab === 'IR') {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					} else {
+						setIrApplicationHeaderData(
+							irApplicationGeneralHeaderData.concat(
+								cancelIrHeaderData
+							)
+						);
+					}
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, []);
+
 	return (
 		<InternalServiceDrawer type="mypage">
 			<Box
