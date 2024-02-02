@@ -41,7 +41,7 @@ const Page: NextPage = () => {
 		},
 		{
 			label: '마감 날짜',
-			value: 'DUE_DATE',
+			value: 'IrProduct.DUE_DATE',
 			customValue: (value) => {
 				return `${moment(value.IrProduct?.DUE_DATE).format(
 					'YYYY-MM-DD'
