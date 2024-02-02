@@ -13,14 +13,7 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 	 */
 	const [coffeeChatList, setCoffeeChatList] = useState<
 		{ [key: string]: any }[]
-	>([
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-		{
-			profileImage: '/assets/images/default_profile.png',
-		},
-	]);
+	>([]);
 	//* Function
 
 	//* Controller

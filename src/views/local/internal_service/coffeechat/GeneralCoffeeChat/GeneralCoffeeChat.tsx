@@ -201,8 +201,13 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 						<Grid item xs={12} sm={5.5} md={3.8} key={idx}>
 							<CoffeeChatCard
 								// isExpand={true}
-								userType="사업가"
-								name="김대표"
+								userType={
+									coffeeChat.AppMember.USER_GRADE ===
+									'GENERAL'
+										? '일반'
+										: '사업가'
+								}
+								name={coffeeChat.AppMember.FULL_NAME}
 								level={coffeeChat.ROLE}
 								companyName={coffeeChat.COMPANY_NAME}
 								description={coffeeChat.INTRODUCE}

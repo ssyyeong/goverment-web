@@ -418,24 +418,26 @@ const Page: NextPage = () => {
 					)}
 				</Box>
 				{/* 커피챗 신청 버튼 */}
-				{(special == 'true' || coffeeChatProfile?.OFFER_YN === 'Y') && (
-					<Box
-						width={'100%'}
-						display={'flex'}
-						justifyContent={'center'}
-						alignItems={'center'}
-					>
-						<SupportiButton
-							variant="contained"
-							isGradient={true}
-							contents={'커피챗 신청하기'}
-							onClick={() => {
-								handleCoffeeChatApply();
-							}}
-							style={{ width: 400 }}
-						/>
-					</Box>
-				)}
+				{(special == 'true' || coffeeChatProfile?.OFFER_YN === 'Y') &&
+					memberId !==
+						coffeeChatProfile.APP_MEMBER_IDENTIFICATION_CODE && (
+						<Box
+							width={'100%'}
+							display={'flex'}
+							justifyContent={'center'}
+							alignItems={'center'}
+						>
+							<SupportiButton
+								variant="contained"
+								isGradient={true}
+								contents={'커피챗 신청하기'}
+								onClick={() => {
+									handleCoffeeChatApply();
+								}}
+								style={{ width: 400 }}
+							/>
+						</Box>
+					)}
 			</Box>
 			{/* 커피챗 일반 신청 모달 */}
 			<CoffeeChatApplyGeneralModal
