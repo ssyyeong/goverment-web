@@ -95,7 +95,7 @@ const Page: NextPage = () => {
 		}
 
 		// 싡청 가능한 기간이 지났을 시
-		if (moment(irData.DUE_DATE).isBefore(moment())) {
+		if (moment(irData?.DUE_DATE).isBefore(moment())) {
 			setIrFinishAlertModal(true);
 			return;
 		}
@@ -124,9 +124,6 @@ const Page: NextPage = () => {
 
 		setOpenApplicationModal(true);
 	};
-
-	console.log(irData.DUE_DATE, moment(irData.DUE_DATE).isBefore(moment()));
-	console.log(irData.ADOPTION_DATE);
 
 	//* Hooks
 	/**
@@ -166,8 +163,8 @@ const Page: NextPage = () => {
 				height={'auto'}
 				position={'relative'}
 			>
-				{irData.IMAGE_LIST &&
-					JSON.parse(irData.IMAGE_LIST).map((item, index) => {
+				{irData?.IMAGE_LIST &&
+					JSON.parse(irData?.IMAGE_LIST).map((item, index) => {
 						return (
 							<Box key={index}>
 								<img src={item} alt="" />
@@ -217,9 +214,9 @@ const Page: NextPage = () => {
 			<IrApplicationModal
 				open={openApplicationModal}
 				handleClose={() => setOpenApplicationModal(false)}
-				irProductId={irData.IR_PRODUCT_IDENTIFICATION_CODE}
+				irProductId={irData?.IR_PRODUCT_IDENTIFICATION_CODE}
 				memberId={memberId}
-				date={irData.ADOPTION_DATE}
+				date={irData?.ADOPTION_DATE}
 				mode="create"
 			/>
 		</Box>
