@@ -151,9 +151,7 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 				setIrAnswer([]);
 				setSuccessAlertModal(true);
 			},
-			(err) => {
-			
-			}
+			(err) => {}
 		);
 	};
 
@@ -161,28 +159,25 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 	useEffect(() => {
 		//* IR 질문에 대한 답변 초기화
 
-				// 신청 변경 모드일 때 props로 받은 신청 데이터
-				if (props.irApplicationData) {
-					let question = [];
-					props.irApplicationData.IrAnswers?.map((x, index) => {
-						question.push({
-							IR_QUESTION_IDENTIFICATION_CODE:
-								x.IR_QUESTION_IDENTIFICATION_CODE,
-							ANSWER_CONTENT: x.ANSWER_CONTENT,
-							FILE_LIST: x.FILE_LIST,
-							IR_ANSWER_IDENTIFICATION_CODE:
-								x.IR_ANSWER_IDENTIFICATION_CODE,
-						});
-					});
+		// 신청 변경 모드일 때 props로 받은 신청 데이터
+		if (props.irApplicationData) {
+			let question = [];
+			props.irApplicationData.IrAnswers?.map((x, index) => {
+				question.push({
+					IR_QUESTION_IDENTIFICATION_CODE:
+						x.IR_QUESTION_IDENTIFICATION_CODE,
+					ANSWER_CONTENT: x.ANSWER_CONTENT,
+					FILE_LIST: x.FILE_LIST,
+					IR_ANSWER_IDENTIFICATION_CODE:
+						x.IR_ANSWER_IDENTIFICATION_CODE,
+				});
+			});
 
-					console.log(question, questionList);
-					setIrAnswer(question);
-					setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
-				}
-
+			console.log(question, questionList);
+			setIrAnswer(question);
+			setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
+		}
 	}, [props.open, props.irApplicationData]);
-
-
 
 	return (
 		<SupportiModal
@@ -201,22 +196,22 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 			}}
 		>
 			{/* IR 사전 질문 */}
-			{questionList.length !== 0 && (
-				<Box width={'100%'}>
-					<Box
-						display={'flex'}
-						justifyContent={'space-between'}
-						mb={1}
-						alignItems={'center'}
-					>
-						<Typography variant="h5" fontWeight={'700'}>
-							IR 사전 질문 & 파일
-						</Typography>
-					</Box>
-					{/* 질문 */}
+			<Box width={'100%'}>
+				<Box
+					display={'flex'}
+					justifyContent={'space-between'}
+					mb={1}
+					alignItems={'center'}
+				>
+					<Typography variant="h5" fontWeight={'700'}>
+						IR 사전 질문 & 파일
+					</Typography>
+				</Box>
+				{/* 질문 */}
 
-					<Box mb={2}>
-						{questionList?.map((question, index) => {
+				<Box mb={2}>
+					{props.irApplicationData.IrAnswers?.map(
+						(question, index) => {
 							return (
 								<IrQna
 									key={index}
@@ -225,59 +220,59 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 									setIrAnswer={setIrAnswer}
 								/>
 							);
-						})}
-						<Box mt={2}>
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-								alignItems={'center'}
-							>
-								<Typography
-									sx={{
-										display: 'flex',
-										gap: 0.5,
-									}}
-									fontWeight={600}
-									variant="subtitle1"
-								>
-									핸드폰 번호 입력
-									{/* 필수 여부 표시 */}
-									<Typography color={'red'}>*</Typography>
-								</Typography>
-							</Box>
+						}
+					)}
+					<Box mt={2}>
+						<Box
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+						>
 							<Typography
 								sx={{
 									display: 'flex',
-									my: 0.5,
+									gap: 0.5,
 								}}
+								fontWeight={600}
+								variant="subtitle1"
 							>
-								선정 결과를 받으실 핸드폰 번호를 입력해주세요.
+								핸드폰 번호 입력
+								{/* 필수 여부 표시 */}
+								<Typography color={'red'}>*</Typography>
 							</Typography>
-							{/* 질문 타입에 따른 뷰어 수정 */}
-							<Box mt={1}>
-								<SupportiInput
-									type="text"
-									value={irContactNum}
-									setValue={(value) => {
-										setIrContactNum(value);
-									}}
-									additionalProps={{
-										placeholder: '답변을 입력해주세요!',
-									}}
-									width={'100%'}
-								/>
-							</Box>
+						</Box>
+						<Typography
+							sx={{
+								display: 'flex',
+								my: 0.5,
+							}}
+						>
+							선정 결과를 받으실 핸드폰 번호를 입력해주세요.
+						</Typography>
+						{/* 질문 타입에 따른 뷰어 수정 */}
+						<Box mt={1}>
+							<SupportiInput
+								type="text"
+								value={irContactNum}
+								setValue={(value) => {
+									setIrContactNum(value);
+								}}
+								additionalProps={{
+									placeholder: '답변을 입력해주세요!',
+								}}
+								width={'100%'}
+							/>
 						</Box>
 					</Box>
 				</Box>
-			)}
+			</Box>
+
 			<SupportiButton
 				contents={props.mode === 'create' ? '신청하기' : '변경하기'}
 				isGradient={true}
 				fullWidth={true}
 				onClick={() => {
-			
-						modifyApplication();
+					modifyApplication();
 				}}
 				style={{ color: 'white' }}
 			/>
