@@ -277,6 +277,8 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 						data.SUBJECT = JSON.parse(data.SUBJECT);
 						setProfile(data);
 						setUpdate(true);
+					} else {
+						setUpdate(false);
 					}
 				},
 				(err) => console.log(err)

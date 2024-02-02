@@ -94,11 +94,11 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		if (memberId) {
 			//구독 체크
-			if (!access) {
-				// setOpen(true);
-				// setType('subscribe');
-				// return;
-			}
+			// if (!access) {
+			// 	setOpen(true);
+			// 	setType('subscribe');
+			// 	return;
+			// }
 			if (memberCoffeeChatProfileId) {
 				coffeeChatApplicationController.findAllItems(
 					{
@@ -121,7 +121,7 @@ const Page: NextPage = () => {
 				// setType('coffeechatprofilemissing');
 			}
 		}
-	}, [page, tab, memberId, memberCoffeeChatProfileId, profileModal]);
+	}, [page, tab, memberId, memberCoffeeChatProfileId, profileModal, open]);
 
 	return (
 		<InternalServiceDrawer type="mypage">
@@ -243,7 +243,12 @@ const Page: NextPage = () => {
 									row.CONFIRMED_YN === 'N' &&
 									row.CANCELED_YN === 'N'
 								}
-								userName={row.AppMember?.FULL_NAME}
+								userName={
+									tab === 'RECIEVED'
+										? row.AppMember?.FULL_NAME
+										: row.CoffeeChatProfile?.AppMember
+												?.FULL_NAME
+								}
 								received={tab === 'RECIEVED'}
 								endButtonLabel={
 									tab === 'RECIEVED' ||

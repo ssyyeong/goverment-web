@@ -54,77 +54,99 @@ const Page: NextPage = () => {
 	 */
 	const handleCoffeeChatApply = () => {
 		// 구독 검사
-		if (isSubscription.access !== true) {
-			setOpen(true);
-			setType('subscribe');
-			return;
-		}
+		// if (isSubscription.access !== true) {
+		// 	setOpen(true);
+		// 	setType('subscribe');
+		// 	return;
+		// }
 		// 커피챗 프로필 검사
-		if (isCoffeeChatProfile?.access !== true) {
-			setOpen(true);
-			setType('coffeechatprofilemissing');
-			return;
-		}
-
-		if (special == 'true') {
-			specialCoffeeChatApplicationController.checkAlreadyCoffeeChat(
-				{
-					SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE: pid,
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
-				(res) => {
-					if (!res.data.result) {
-						setType('already');
-						setOpen(true);
-					} else {
-						setSpecialModal(true);
-					}
-				},
-				(err) => {
-					if (
-						err.response.data.message === '신청 내역이 존재합니다.'
-					) {
-						setOpen(true);
-						setType('already');
-						return;
-					}
-					if (err.response.data.message === '포인트가 부족합니다.') {
-						setOpen(true);
-						setType('point');
-						return;
-					}
-				}
-			);
-		} else {
-			coffeeChatApplicationController.checkAvailable(
-				{
-					CREATE_OPTION_KEY_LIST: {
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					},
-				},
-				(res) => {
-					setGeneralModal(true);
-				},
-				(err) => {
-					if (
-						err.response.data.message ===
-						'커피챗 신청은 한 달에 한 번만 가능합니다.'
-					) {
-						setType('coffeechatalready');
-						setOpen(true);
-					}
-					if (
-						err.response.data.message ===
-						'구독자만 커피챗 신청이 가능합니다.'
-					) {
-						setOpen(true);
-						setType('subscribe');
-					}
-
+		coffeeChatProfileController.getOneItemByKey(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				if (res.data.result === null) {
+					setOpen(true);
+					setType('coffeechatprofilemissing');
 					return;
+				} else {
+					if (special == 'true') {
+						specialCoffeeChatApplicationController.checkAlreadyCoffeeChat(
+							{
+								SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE:
+									pid,
+								APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							},
+							(res) => {
+								if (!res.data.result) {
+									setType('already');
+									setOpen(true);
+								} else {
+									setSpecialModal(true);
+								}
+							},
+							(err) => {
+								if (
+									err.response.data.message ===
+									'구독자만 커피챗 신청이 가능합니다.'
+								) {
+									setOpen(true);
+									setType('subscribe');
+								}
+								if (
+									err.response.data.message ===
+									'신청 내역이 존재합니다.'
+								) {
+									setOpen(true);
+									setType('already');
+									return;
+								}
+								if (
+									err.response.data.message ===
+									'포인트가 부족합니다.'
+								) {
+									setOpen(true);
+									setType('point');
+									return;
+								}
+							}
+						);
+					} else {
+						coffeeChatApplicationController.checkAvailable(
+							{
+								CREATE_OPTION_KEY_LIST: {
+									APP_MEMBER_IDENTIFICATION_CODE: memberId,
+								},
+							},
+							(res) => {
+								setGeneralModal(true);
+							},
+							(err) => {
+								if (
+									err.response.data.message ===
+									'커피챗 신청은 한 달에 한 번만 가능합니다.'
+								) {
+									setType('coffeechatalready');
+									setOpen(true);
+								}
+								if (
+									err.response.data.message ===
+									'구독자만 커피챗 신청이 가능합니다.'
+								) {
+									setOpen(true);
+									setType('subscribe');
+								}
+
+								return;
+							}
+						);
+					}
 				}
-			);
-		}
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
 	};
 	//* Hooks
 	/**

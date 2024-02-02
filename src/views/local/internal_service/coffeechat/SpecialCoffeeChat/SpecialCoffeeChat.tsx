@@ -83,7 +83,10 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 									JSON.parse(coffeeChat.MAIN_FIELD)
 								}
 								special={true}
-								profileImage={coffeeChat.PROFILE_IMAGE}
+								profileImage={
+									coffeeChat.PROFILE_IMAGE &&
+									JSON.parse(coffeeChat.PROFILE_IMAGE)[0]
+								}
 								id={
 									coffeeChat.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE
 								}
