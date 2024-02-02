@@ -359,6 +359,18 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 			},
 			cancelButtonAvailable: false,
 		},
+		irFinish: {
+			type: 'error',
+
+			title: '신청가능 기간이 지났습니다.',
+			content: '확인',
+			// content: '로그인 페이지로 이동',
+
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		}
 	};
 
 	return (
