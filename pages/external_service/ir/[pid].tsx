@@ -179,10 +179,10 @@ const Page: NextPage = () => {
 					// bgcolor={'red'}
 					sx={{
 						position: 'fixed',
-						bottom: 100,
+						bottom: { md: 100, xs: 50 },
 						display: 'flex',
+						pr: {md: 20, xs: 5}
 					}}
-					pr={20}
 				>
 					<Box />
 					<SupportiButton

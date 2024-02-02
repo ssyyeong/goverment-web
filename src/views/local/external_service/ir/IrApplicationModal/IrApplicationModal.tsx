@@ -266,6 +266,8 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			);
 	}, [props.irProductId]);
 
+	console.log(questionList)
+
 	return (
 		<SupportiModal
 			open={props.open}

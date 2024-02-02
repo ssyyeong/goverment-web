@@ -43,7 +43,9 @@ const Page: NextPage = () => {
 			label: '마감 날짜',
 			value: 'DUE_DATE',
 			customValue: (value) => {
-				return `${moment(value.DUE_DATE).format('YYYY-MM-DD')}`;
+				return `${moment(value.IrProduct?.DUE_DATE).format(
+					'YYYY-MM-DD'
+				)}`;
 			},
 			align: 'center',
 		},
@@ -320,7 +322,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Box>
-			{/* {updateModalData && (
+			{updateModalData && (
 				<IrApplicationModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
@@ -330,8 +332,8 @@ const Page: NextPage = () => {
 					mode={'modify'}
 					irApplicationData={updateModalData}
 				/>
-			)} */}
-			{updateModalData && (
+			)}
+			{/* {updateModalData && (
 				<IrUpdateModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
@@ -341,7 +343,7 @@ const Page: NextPage = () => {
 					mode={'modify'}
 					irApplicationData={updateModalData}
 				/>
-			)}
+			)} */}
 		</InternalServiceDrawer>
 	);
 };

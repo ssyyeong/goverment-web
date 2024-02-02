@@ -162,19 +162,23 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 		// 신청 변경 모드일 때 props로 받은 신청 데이터
 		if (props.irApplicationData) {
 			let question = [];
-			props.irApplicationData.IrAnswers?.map((x, index) => {
-				question.push({
-					IR_QUESTION_IDENTIFICATION_CODE:
-						x.IR_QUESTION_IDENTIFICATION_CODE,
-					ANSWER_CONTENT: x.ANSWER_CONTENT,
-					FILE_LIST: x.FILE_LIST,
-					IR_ANSWER_IDENTIFICATION_CODE:
-						x.IR_ANSWER_IDENTIFICATION_CODE,
-				});
-			});
+			const answerMap = props.irApplicationData.IrAnswers?.map(
+				(x, index) => {
+					return {
+						IR_QUESTION_IDENTIFICATION_CODE:
+							x.IR_QUESTION_IDENTIFICATION_CODE,
+						ANSWER_CONTENT: x.ANSWER_CONTENT,
+						FILE_LIST: x.FILE_LIST,
+						IR_ANSWER_IDENTIFICATION_CODE:
+							x.IR_ANSWER_IDENTIFICATION_CODE,
+					};
+				}
+			);
 
-			console.log(question, questionList);
-			setIrAnswer(question);
+			console.log(props.irApplicationData)
+
+			console.log(question, questionList, answerMap);
+			setIrAnswer(answerMap);
 			setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 		}
 	}, [props.open, props.irApplicationData]);
@@ -210,8 +214,8 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 				{/* 질문 */}
 
 				<Box mb={2}>
-					{irAnswer?.map(
-						(question, index) => {
+					{irAnswer &&
+						irAnswer?.map((question, index) => {
 							return (
 								<IrQna
 									key={index}
@@ -220,8 +224,7 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 									setIrAnswer={setIrAnswer}
 								/>
 							);
-						}
-					)}
+						})}
 					<Box mt={2}>
 						<Box
 							display={'flex'}

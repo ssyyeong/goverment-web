@@ -154,10 +154,10 @@ const Page: NextPage = () => {
 
 	useEffect(() => {
 		if (!subscriptionInfo) {
-			alert('블랙회원만 접근 가능한 페이지입니다.');
+			alert('구독회원만 접근 가능한 페이지입니다.');
 			router.back();
 		} else if (Object.keys(subscriptionInfo).length !== 0) {
-			if (subscriptionInfo?.SubscriptionProduct?.TYPE !== 'BLACK') {
+			if (subscriptionInfo?.SubscriptionProduct?.TYPE === 'BLACK') {
 				alert('블랙회원만 접근 가능한 페이지입니다.');
 				router.back();
 			}
