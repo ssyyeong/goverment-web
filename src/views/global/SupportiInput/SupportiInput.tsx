@@ -127,7 +127,7 @@ const SupportiInput = React.forwardRef(
 								return (
 									<MenuItem
 										key={item.label}
-										value={item.value ? item.value : item}
+										value={item.value}
 										sx={{
 											display: 'flex',
 											alignItems: 'center',
@@ -144,7 +144,7 @@ const SupportiInput = React.forwardRef(
 												}}
 											/>
 										)}
-										{item.label ? item.label : item}
+										{item.label}
 									</MenuItem>
 								);
 							})}
