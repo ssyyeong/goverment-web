@@ -20,7 +20,7 @@ import { IrAnswerController } from '../../../../../controller/IrAnswerController
 import SupportiInput from '../../../../global/SupportiInput';
 import IrAlertModal from '../IrAlertModal/IrAlertModal';
 
-interface IIrApplicationModalProps {
+interface IIrUpdateModalProps {
 	open: boolean;
 	handleClose: () => void;
 	irProductId: any;
@@ -30,7 +30,7 @@ interface IIrApplicationModalProps {
 	irApplicationData?: any;
 }
 
-const IrApplicationModal = (props: IIrApplicationModalProps) => {
+const IrUpdateModal = (props: IIrUpdateModalProps) => {
 	//* Modules
 
 	//* Controller
@@ -115,57 +115,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		return check;
 	};
 
-	const irApply = () => {
-		// 필수 질문 답변 체크
-		if (!checkIrAnswer()) {
-			alert('필수 질문에 답변해주세요.');
-			console.log(irAnswer, irContactNum);
-			return;
-		}
-
-		irApplicationController.createItem(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				IR_PRODUCT_IDENTIFICATION_CODE: props.irProductId,
-				CONTACT_NUMBER: irContactNum,
-			},
-			(res) => {
-				console.log(res);
-				/**
-				 * IR 답변 업로드 (res로 들어온 id 값 irAnswer에 꽂아넣기)
-				 */
-
-				const answermap = irAnswer.map((x) => {
-					return {
-						...x,
-						IR_APPLICATION_IDENTIFICATION_CODE:
-							res?.data.result.IR_APPLICATION_IDENTIFICATION_CODE,
-					};
-				});
-
-				irAnswerController.uploadIrAnswer(
-					answermap,
-					(res) => {
-						setIrAnswer([]);
-						setSuccessAlertModal(true);
-					},
-					(err) => {}
-				);
-			},
-			(err) => {
-				if (err.response.data.message === '이미 신청한 IR입니다.') {
-					alert('이미 신청한 IR입니다.');
-				}
-
-				if (
-					err.response.data.message === '구독 회원만 이용 가능합니다.'
-				) {
-					alert('구독 회원만 이용 가능합니다.');
-				}
-			}
-		);
-	};
-
 	/**
 	 * IR 답변 업데이트
 	 */
@@ -212,21 +161,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	useEffect(() => {
 		//* IR 질문에 대한 답변 초기화
 
-		if (questionList !== undefined && questionList.length !== 0) {
-			if (props.mode === 'create') {
-				let question = [];
-				questionList?.map((x) => {
-					question.push({
-						IR_QUESTION_IDENTIFICATION_CODE:
-							x.IR_QUESTION_IDENTIFICATION_CODE,
-						ANSWER_CONTENT: '',
-						FILE_LIST: [],
-					});
-				});
-				setIrAnswer(question);
-				setIrContactNum(undefined);
-			} else {
-				console.log('여기까지');
 				// 신청 변경 모드일 때 props로 받은 신청 데이터
 				if (props.irApplicationData) {
 					let question = [];
@@ -245,26 +179,10 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 					setIrAnswer(question);
 					setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 				}
-			}
-		}
-		return () => {
-			setIrAnswer([]);
-		};
+
 	}, [props.open, props.irApplicationData]);
 
-	useEffect(() => {
-		// 질문 리스트 가져온다.
-		props.irProductId &&
-			irQuestionController.findAllItems(
-				{
-					IR_PRODUCT_IDENTIFICATION_CODE: props.irProductId,
-				},
-				(res) => {
-					setQuestionList(res.data.result.rows);
-				},
-				(err) => {}
-			);
-	}, [props.irProductId]);
+
 
 	return (
 		<SupportiModal
@@ -358,11 +276,8 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				isGradient={true}
 				fullWidth={true}
 				onClick={() => {
-					if (props.mode === 'create') {
-						irApply();
-					} else {
+			
 						modifyApplication();
-					}
 				}}
 				style={{ color: 'white' }}
 			/>
@@ -387,4 +302,4 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	);
 };
 
-export default IrApplicationModal;
+export default IrUpdateModal;

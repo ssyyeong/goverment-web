@@ -15,6 +15,7 @@ import InternalServiceDrawer from '../../../src/views/local/internal_service/com
 import Nodata from '../../../src/views/global/NoData/NoData';
 import IrQna from '../../../src/views/local/external_service/ir/IrQna/IrQna';
 import IrApplicationModal from '../../../src/views/local/external_service/ir/IrApplicationModal/IrApplicationModal';
+import IrUpdateModal from '../../../src/views/local/external_service/ir/IrUpdateModal/IrUpdateModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -289,8 +290,19 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Box>
-			{updateModalData && (
+			{/* {updateModalData && (
 				<IrApplicationModal
+					open={updateModal}
+					handleClose={() => setUpdateModal(false)}
+					irProductId={updateModalData.IR_PRODUCT_IDENTIFICATION_CODE}
+					memberId={memberId}
+					date={updateModalData.ADOPTION_DATE}
+					mode={'modify'}
+					irApplicationData={updateModalData}
+				/>
+			)} */}
+				{updateModalData && (
+				<IrUpdateModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
 					irProductId={updateModalData.IR_PRODUCT_IDENTIFICATION_CODE}
