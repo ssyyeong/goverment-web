@@ -560,6 +560,17 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 						>
 							등록
 						</LoadingButton>
+						{loading && (
+							<Typography
+								variant="body2"
+								sx={{
+									mt: 1,
+									color: 'red',
+								}}
+							>
+								데이터의 양이 많을수록 시간이 오래 소요됩니다.
+							</Typography>
+						)}
 					</Box>
 				}
 			/>
