@@ -147,7 +147,6 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 				 */
 
 				updateIrAnswer();
-
 				setIrAnswer([]);
 				setSuccessAlertModal(true);
 			},
@@ -175,7 +174,7 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 				}
 			);
 
-			console.log(props.irApplicationData)
+			console.log(props.irApplicationData);
 
 			console.log(question, questionList, answerMap);
 			setIrAnswer(answerMap);

@@ -20,15 +20,16 @@ import CoffeeChatQnA from '../CoffeeChatQnA/CoffeeChatQnA';
 
 import { SpecialCoffeeChatAnswerController } from '../../../../../controller/CoffeeChatAnswerController';
 import { SpecialCoffeeChatApplicationController } from '../../../../../controller/SpecialCoffeeChatApplicationController';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
-interface ISpecialCoffeeChatApplyModalProps {
+interface ISpecialCoffeeChatUpdateModalProps {
 	open: boolean;
 	handleClose: () => void;
 	coffeeChatData: any;
 }
 
-const SpecialCoffeeChatApplyModal = (
-	props: ISpecialCoffeeChatApplyModalProps
+const SpecialCoffeeChatUpdateModal = (
+	props: ISpecialCoffeeChatUpdateModalProps
 ) => {
 	//* States
 	/**
@@ -76,15 +77,21 @@ const SpecialCoffeeChatApplyModal = (
 	const [page, setPage] = React.useState<number>(0);
 	//* Controller
 	/**
-	 * 컨설팅 신청 컨트롤러
+	 * 커피챗 신청 컨트롤러
 	 */
 	const specialCoffeeChatApplicationController =
 		new SpecialCoffeeChatApplicationController();
 	/**
-	 * 컨설팅 답변 컨트롤러
+	 * 커피챗 답변 컨트롤러
 	 */
 	const specialCoffeeChatAnswerController =
 		new SpecialCoffeeChatAnswerController();
+	/**
+	 * 커피챗 상품 컨트롤러
+	 */
+	const specialCoffeeChatProductController = new DefaultController(
+		'SpecialCoffeeChatProduct'
+	);
 
 	//* Functions
 	/**
@@ -106,6 +113,24 @@ const SpecialCoffeeChatApplyModal = (
 		);
 	};
 	/**
+	 * 커피챗 상품 정보 가져오기
+	 */
+	const getSpecialCoffeeChatProduct = () => {
+		specialCoffeeChatProductController.getOneItem(
+			{
+				SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE:
+					props.coffeeChatData
+						.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE,
+			},
+			(res) => {
+				props.coffeeChatData.SpecialCoffeeChatProduct = res.data.result;
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
+	/**
 	 * 커피챗 신청 전 필수 질문 답변 체크
 	 */
 	const checkcoffeeChatAnswer = () => {
@@ -113,7 +138,7 @@ const SpecialCoffeeChatApplyModal = (
 		coffeeChatAnswer?.forEach((x, index) => {
 			// 질문의 내용을 가져온다
 			const indexQuestion =
-				props.coffeeChatData?.SpecialCoffeeChatQuestions.filter(
+				props.coffeeChatData?.SpecialCoffeeChatProduct.SpecialCoffeeChatQuestions.filter(
 					(y) =>
 						y.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE ===
 						x.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE
@@ -131,7 +156,7 @@ const SpecialCoffeeChatApplyModal = (
 	};
 
 	/**
-	 * 컨설팅 신청하기
+	 * 컨설팅 신청 업데이트
 	 */
 	const applyCoffeeChat = () => {
 		// 필수 질문 답변 체크
@@ -139,11 +164,11 @@ const SpecialCoffeeChatApplyModal = (
 			alert('필수 질문에 답변해주세요.');
 			return;
 		}
-		specialCoffeeChatApplicationController.createItem(
+		specialCoffeeChatApplicationController.updateItem(
 			{
-				SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE:
+				SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
 					props.coffeeChatData
-						.SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE,
+						.SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
 				RESERVATION_DATE: selectedDate,
 				RESERVATION_START_TIME: selectedTime.START,
 				RESERVATION_END_TIME: selectedTime.END,
@@ -152,27 +177,9 @@ const SpecialCoffeeChatApplyModal = (
 			},
 			(res) => {
 				/**
-				 * 컨설팅 답변 업로드 (res로 들어온 id 값 coffeeChatAnswer에 꽂아넣기)
+				 * 컨설팅 답변 업로드
 				 */
-				const answermap = coffeeChatAnswer.map((x) => {
-					return {
-						...x,
-						SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
-							res.data.result
-								.SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
-					};
-				});
-				specialCoffeeChatAnswerController.uploadBulkAnswer(
-					answermap,
-					(res) => {
-						setSelectedDate(null);
-						setPage(0);
-						setCoffeeChatAnswer([]);
-						setAlertModal(true);
-						setAlertModalType('success');
-					},
-					(err) => {}
-				);
+				updateConsultingAnswer();
 			},
 			(err) => {
 				// 에러 핸들링
@@ -196,6 +203,16 @@ const SpecialCoffeeChatApplyModal = (
 			}
 		);
 	};
+	/**
+	 * 컨설팅 답변 업데이트
+	 */
+	const updateConsultingAnswer = () => {
+		coffeeChatAnswer.map((x) => {
+			specialCoffeeChatAnswerController.updateItem(x, (res) => {
+				props.handleClose();
+			});
+		});
+	};
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -205,39 +222,26 @@ const SpecialCoffeeChatApplyModal = (
 	console.log('coffeeChatData', props.coffeeChatData);
 
 	useEffect(() => {
-		if (props.coffeeChatData) {
-			if (props.coffeeChatData.SpecialCoffeeChatAnswers) {
-				const answerList =
-					props.coffeeChatData.SpecialCoffeeChatAnswers.map((x) => {
-						return {
-							SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE:
-								x.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE,
-							SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
-								props.coffeeChatData
-									.SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
-							ANSWER_CONTENT: x.ANSWER_CONTENT,
-							FILE_LIST: x.FILE_LIST,
-							SPECIAL_COFFEE_CHAT_ANSWER_IDENTIFICATION_CODE:
-								x.SPECIAL_COFFEE_CHAT_ANSWER_IDENTIFICATION_CODE,
-						};
-					});
-				console.log('answerList', answerList);
-				setCoffeeChatAnswer(answerList);
-			} else {
-				//* 컨설팅 질문에 대한 답변 초기화
-				let question = [];
-				props.coffeeChatData?.SpecialCoffeeChatQuestions?.map((x) => {
-					question.push({
+		if (props.coffeeChatData.SpecialCoffeeChatAnswers) {
+			const answerList =
+				props.coffeeChatData.SpecialCoffeeChatAnswers.map((x) => {
+					return {
 						SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE:
 							x.SPECIAL_COFFEE_CHAT_QUESTION_IDENTIFICATION_CODE,
-						ANSWER_CONTENT: '',
-						FILE_LIST: [],
-					});
+						SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE:
+							props.coffeeChatData
+								.SPECIAL_COFFEE_CHAT_APPLICATION_IDENTIFICATION_CODE,
+						ANSWER_CONTENT: x.ANSWER_CONTENT,
+						FILE_LIST: x.FILE_LIST,
+						SPECIAL_COFFEE_CHAT_ANSWER_IDENTIFICATION_CODE:
+							x.SPECIAL_COFFEE_CHAT_ANSWER_IDENTIFICATION_CODE,
+					};
 				});
-				setCoffeeChatAnswer(question);
-			}
+
+			setCoffeeChatAnswer(answerList);
+			getSpecialCoffeeChatProduct();
 		}
-	}, [props.coffeeChatData, props.open]);
+	}, [props.coffeeChatData]);
 
 	// 초기 월별 일정 가져오기
 	useEffect(() => {
@@ -253,7 +257,7 @@ const SpecialCoffeeChatApplyModal = (
 				props.handleClose();
 			}}
 			activeHeader={true}
-			title="예약 신청"
+			title="예약 수정"
 			muiModalProps={{
 				maxWidth: '60%',
 			}}
@@ -276,7 +280,11 @@ const SpecialCoffeeChatApplyModal = (
 							alignItems={'center'}
 						>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.coffeeChatData?.PartnerMember?.FULL_NAME}{' '}
+								{
+									props.coffeeChatData
+										?.SpecialCoffeeChatProduct.PartnerMember
+										?.FULL_NAME
+								}{' '}
 								와(과)의 커피챗 일정
 							</Typography>
 						</Box>
@@ -291,6 +299,7 @@ const SpecialCoffeeChatApplyModal = (
 							<Typography ml={1}>
 								{
 									props.coffeeChatData
+										.SpecialCoffeeChatProduct
 										?.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -304,31 +313,40 @@ const SpecialCoffeeChatApplyModal = (
 						>
 							<PaidOutlinedIcon />
 							<Typography ml={1}>
-								{props.coffeeChatData?.PRICE} P
+								{
+									props.coffeeChatData
+										.SpecialCoffeeChatProduct?.PRICE
+								}{' '}
+								P
 							</Typography>
 						</Box>
 						<Box display={'flex'} alignItems={'center'} gap={1}>
 							<CalendarTodayOutlinedIcon />
 							<Typography ml={1}>
 								{moment(
-									props.coffeeChatData?.START_DATE
+									props.coffeeChatData
+										.SpecialCoffeeChatProduct?.START_DATE
 								).format('YYYY-MM-DD')}{' '}
 								-{' '}
-								{moment(props.coffeeChatData?.END_DATE).format(
-									'YYYY-MM-DD'
-								)}
+								{moment(
+									props.coffeeChatData
+										.SpecialCoffeeChatProduct?.END_DATE
+								).format('YYYY-MM-DD')}
 							</Typography>
 						</Box>
 						<Box mt={2}>
 							<Typography color={'primary'}>
-								{props.coffeeChatData?.LOCK_DOWN_TIME_UNIT ===
-									'WEEK' && '한주에'}
-								{props.coffeeChatData?.LOCK_DOWN_TIME_UNIT ===
-									'DAY' && '하루에'}
-								{props.coffeeChatData?.LOCK_DOWN_TIME_UNIT ===
-									'YEAR' && '일년에'}
-								{props.coffeeChatData?.LOCK_DOWN_TIME_UNIT ===
-									'MONTH' && '한달에 '}
+								{props.coffeeChatData.SpecialCoffeeChatProduct
+									?.LOCK_DOWN_TIME_UNIT === 'WEEK' &&
+									'한주에'}
+								{props.coffeeChatData.SpecialCoffeeChatProduct
+									?.LOCK_DOWN_TIME_UNIT === 'DAY' && '하루에'}
+								{props.coffeeChatData.SpecialCoffeeChatProduct
+									?.LOCK_DOWN_TIME_UNIT === 'YEAR' &&
+									'일년에'}
+								{props.coffeeChatData.SpecialCoffeeChatProduct
+									?.LOCK_DOWN_TIME_UNIT === 'MONTH' &&
+									'한달에 '}
 								{' 최대1회 예약 가능합니다.'}
 							</Typography>
 						</Box>
@@ -346,7 +364,11 @@ const SpecialCoffeeChatApplyModal = (
 							minDetail="month"
 							maxDetail="month"
 							minDate={new Date()}
-							maxDate={new Date(props.coffeeChatData?.END_DATE)}
+							maxDate={
+								new Date(
+									props.coffeeChatData.SpecialCoffeeChatProduct?.END_DATE
+								)
+							}
 							formatDay={(locale, date) =>
 								moment(date).format('DD')
 							}
@@ -550,7 +572,11 @@ const SpecialCoffeeChatApplyModal = (
 								}}
 							/>
 							<Typography variant="h5" fontWeight={'700'}>
-								{props.coffeeChatData?.PartnerMember?.FULL_NAME}{' '}
+								{
+									props.coffeeChatData
+										.SpecialCoffeeChatProduct?.PartnerMember
+										?.FULL_NAME
+								}{' '}
 								와(과)의 커피챗 일정
 							</Typography>
 						</Box>
@@ -565,6 +591,7 @@ const SpecialCoffeeChatApplyModal = (
 							<Typography ml={1}>
 								{
 									props.coffeeChatData
+										.SpecialCoffeeChatProduct
 										?.DURATION_PER_RESERVE_IN_MINUTE
 								}
 								분
@@ -610,7 +637,7 @@ const SpecialCoffeeChatApplyModal = (
 						</Typography>
 						{/* 질문 */}
 						<Box mb={2}>
-							{props.coffeeChatData?.SpecialCoffeeChatQuestions?.map(
+							{props.coffeeChatData.SpecialCoffeeChatProduct?.SpecialCoffeeChatQuestions?.map(
 								(question, index) => {
 									return (
 										<CoffeeChatQnA
@@ -649,4 +676,4 @@ const SpecialCoffeeChatApplyModal = (
 	);
 };
 
-export default SpecialCoffeeChatApplyModal;
+export default SpecialCoffeeChatUpdateModal;

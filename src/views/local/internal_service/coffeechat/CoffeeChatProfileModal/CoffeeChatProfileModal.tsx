@@ -75,6 +75,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			essential: true,
 			setValue: (value: string) =>
 				setProfile({ ...profile, COMPANY_NAME: value }),
+			maxLength: 25,
 			grid: {
 				xs: 12,
 				sm: 5.8,
@@ -87,6 +88,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				placeholder: '직책을 입력해주세요',
 			},
 			essential: true,
+			maxLength: 20,
 			setValue: (value: string) =>
 				setProfile({ ...profile, ROLE: value }),
 			grid: {
@@ -98,6 +100,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			label: '나를 표현하는 한 문장',
 			value: profile.INTRODUCE,
 			essential: true,
+			maxLength: 120,
 			additionalProps: {
 				placeholder: '나를 표현하는 한 문장을 입력해주세요',
 			},
@@ -129,7 +132,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			},
 		},
 		{
-			label: '내 주요 분야',
+			label: '내 주요 분야(다중선택)',
 			value: profile.MAIN_FIELD,
 			essential: true,
 			type: 'multiselect',
@@ -145,7 +148,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			},
 		},
 		{
-			label: '내 관심 분야',
+			label: '내 관심 분야(다중선택)',
 			essential: true,
 			value: profile.INTEREST_FIELD,
 			type: 'multiselect',
@@ -169,6 +172,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 			label: '소개글',
 			value: profile.DESCRIPTION,
 			type: 'input',
+			maxLength: 300,
 			additionalProps: {
 				placeholder: '소개글을 입력해주세요',
 				multiline: true,
@@ -370,6 +374,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 									dataList={profile.dataList}
 									handleAdd={profile.handleAdd}
 									handleDelete={profile.handleDelete}
+									maxLength={profile.maxLength}
 								/>
 							</Grid>
 						))}

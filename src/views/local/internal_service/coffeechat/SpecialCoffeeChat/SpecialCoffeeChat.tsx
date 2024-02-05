@@ -25,9 +25,14 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 	 * 커피챗 리스트 조회
 	 */
 	useEffect(() => {
-		coffeeChatController.findAllItems({}, (res) => {
-			setCoffeeChatList(res.data.result.rows);
-		});
+		coffeeChatController.findAllItems(
+			{
+				PURCHASE_AVAILABLE_YN: 'Y',
+			},
+			(res) => {
+				setCoffeeChatList(res.data.result.rows);
+			}
+		);
 	}, []);
 	return (
 		<Box>

@@ -50,11 +50,11 @@ const dashboardMenu: IMenu[] = [
 		path: '/internal_service/a2e',
 		icon: '/images/icons/expert.png',
 	},
-	// {
-	// 	label: '커피챗',
-	// 	path: '/internal_service/coffeechat',
-	// 	icon: '/images/icons/coffee.png',
-	// },
+	{
+		label: '커피챗',
+		path: '/internal_service/coffeechat',
+		icon: '/images/icons/coffee.png',
+	},
 	{
 		label: '컨설팅',
 		path: '/external_service/consulting',

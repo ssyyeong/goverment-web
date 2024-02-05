@@ -21,6 +21,8 @@ import SupportiButton from '../../../../src/views/global/SupportiButton';
 import { coffeeChatApplicationTestData } from '../../../../configs/data/TestData';
 import CoffeeChatProfileShownModal from '../../../../src/views/local/internal_service/coffeechat/CoffeeChatProfileShownModal/CoffeeChatProfileShownModal';
 import moment from 'moment';
+import SpecialCoffeeChatApplyModal from '../../../../src/views/local/internal_service/coffeechat/SpecialCoffeeChatApplyModal/SpecialCoffeeChatApplyModal';
+import SpecialCoffeeChatUpdateModal from '../../../../src/views/local/internal_service/coffeechat/SpecialCoffeeChatApplyModal/SpecialCoffeeChatUpdateModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -41,6 +43,10 @@ const Page: NextPage = () => {
 	 * 프로필 모달 오픈 여부
 	 */
 	const [profileModal, setProfileModal] = useState<boolean>(false);
+	/**
+	 * 업데이트 모달 오픈 여부
+	 */
+	const [updateModal, setUpdateModal] = useState<boolean>(false);
 	/**
 	 * 선택한 커피챗 프로필
 	 */
@@ -90,12 +96,6 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		if (memberId) {
-			//구독 체크
-			// if (!access) {
-			// 	setOpen(true);
-			// 	setType('subscribe');
-			// 	return;
-			// }
 			if (memberCoffeeChatProfileId) {
 				specialCoffeeChatApplicationController.findAllItems(
 					{
@@ -113,7 +113,7 @@ const Page: NextPage = () => {
 				// setType('coffeechatprofilemissing');
 			}
 		}
-	}, [page, tab, memberId, memberCoffeeChatProfileId]);
+	}, [page, tab, memberId, memberCoffeeChatProfileId, updateModal]);
 
 	return (
 		<InternalServiceDrawer type="mypage">
@@ -173,72 +173,60 @@ const Page: NextPage = () => {
 						}}
 					/>
 				</Box>
-				{/*모바일 테이블 */}
-				{/* <Box
-					width={'100%'}
-					py={2}
-					display={{
-						sm: 'none',
-						xs: 'block',
-					}}
-				>
-					{coffeeChatApplicationList?.rows?.map((item, idx) => {
-						return (
-							<MobileTableRow
-								index={idx}
-								title={item?.ConsultingProduct?.PRODUCT_NAME}
-								colums={[
-									{
-										label: '금액',
-										value:
-											item?.ConsultingProduct?.PRICE +
-											'원',
-									},
-								]}
-							/>
-						);
-					})}
-					{coffeeChatApplicationList?.rows?.length === 0 && (
-						<Nodata />
-					)}
-				</Box> */}
 				{/* 테이블 */}
-				<Box
-					width={'100%'}
-					// p={2}
-					// mt={2}
-					// display={{
-					// 	sm: 'block',
-					// 	xs: 'none',
-					// }}
-				>
+				<Box width={'100%'}>
 					<CoffeeChatHistoryList
 						rows={coffeeChatApplicationList?.rows}
 						listRenderCallback={(row, idx) => (
-							<CoffeeChatHistoryListBox
-								label={'신청'}
-								activeColor={row.CONFIRM_YN === 'N'}
-								userName={row.AppMember?.FULL_NAME}
-								received={tab === 'RECIEVED'}
-								endButtonLabel={undefined}
-								endButtonCallback={
-									tab === 'RECIEVED'
-										? undefined
-										: () => {
-												setOpen(true);
-												setType('cancel');
-												setSelectedCoffeeChatProfile(
-													row
-												);
-										  }
-								}
-								reservationDateAndTime={`${moment(
-									row?.RESERVATION_DATE
-								).format('YY.MM.DD(ddd)')} ${
-									row.RESERVATION_START_TIME?.split(':00')[0]
-								}-${row.RESERVATION_END_TIME?.split(':00')[0]}`}
-								disableAccordion={true}
-							/>
+							<Box>
+								<CoffeeChatHistoryListBox
+									label={'신청'}
+									activeColor={moment(moment()).isBefore(
+										row.RESERVATION_DATE
+									)}
+									userName={
+										row.SpecialCoffeeChatProduct
+											?.PartnerMember.FULL_NAME
+									}
+									received={tab === 'RECIEVED'}
+									endButtonLabel={
+										row.CAN_BE_CANCELED === 'Y'
+											? '수정하기'
+											: undefined
+									}
+									endButtonCallback={
+										tab === 'RECIEVED'
+											? undefined
+											: () => {
+													setUpdateModal(true);
+													setSelectedCoffeeChatProfile(
+														row
+													);
+											  }
+									}
+									reservationDateAndTime={`${moment(
+										row?.RESERVATION_DATE
+									).format(
+										'YY.MM.DD(ddd)'
+									)} ${row.RESERVATION_START_TIME?.substr(
+										0,
+										5
+									)}-${row.RESERVATION_END_TIME?.substr(
+										0,
+										5
+									)}`}
+									disableAccordion={true}
+								/>
+								{updateModal && (
+									<SpecialCoffeeChatUpdateModal
+										open={updateModal}
+										handleClose={() =>
+											setUpdateModal(false)
+										}
+										coffeeChatData={row}
+									/>
+								)}
+							</Box>
 						)}
 					/>
 				</Box>
@@ -266,6 +254,8 @@ const Page: NextPage = () => {
 				open={profileModal}
 				handleClose={() => setProfileModal(false)}
 			/>
+
+			{/* 수정 모달 */}
 		</InternalServiceDrawer>
 	);
 };

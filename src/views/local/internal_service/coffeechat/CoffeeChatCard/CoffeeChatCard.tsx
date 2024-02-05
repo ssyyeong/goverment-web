@@ -28,6 +28,8 @@ const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
 			borderRadius={5}
 			minWidth={props.isExpand ? 780 : 0}
 			width={props.isExpand ? 780 : 'auto'}
+			height={props.isExpand ? 'auto' : 350}
+			maxHeight={350}
 			sx={{
 				transition: 'all 0.3s ease-in-out',
 				'&:hover': {
@@ -101,9 +103,9 @@ const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
 				</Typography>
 			</Box>
 			{/* 주요분야 */}
-			<Box display={'flex'}>
+			<Box display={'flex'} flexWrap={'wrap'}>
 				{props.mainField?.map((field, idx) => (
-					<Typography variant="body2">
+					<Typography variant="body2" lineHeight={'1.3'}>
 						{field}
 						<Typography
 							variant="body2"

@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import {
-	Autocomplete,
-	Box,
-	BoxProps,
-	Button,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import SupportiModal from '../../../../global/SupportiModal';
 import SupportiButton from '../../../../global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import { businessSector } from '../../../../../../configs/data/BusinessConfig';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
 import { useAppMember } from '../../../../../hooks/useAppMember';
-import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import IrQna from '../IrQna/IrQna';
 import { IrAnswerController } from '../../../../../controller/IrAnswerController';
 import SupportiInput from '../../../../global/SupportiInput';

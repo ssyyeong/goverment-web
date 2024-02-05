@@ -45,6 +45,7 @@ interface SupportiInputProps {
 	handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleAdd?: (value: any) => void;
 	handleDelete?: (value: any, idx: number) => void;
+	maxLength?: number;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -491,6 +492,9 @@ const SupportiInput = React.forwardRef(
 							props.setValue(e.target.value);
 						}}
 						{...props.additionalProps}
+						inputProps={{
+							maxLength: props.maxLength,
+						}}
 						type={props.inputType}
 					/>
 				)}
