@@ -601,18 +601,18 @@ const Page: NextPage = () => {
 						mt="auto"
 						mb="auto"
 					>
-						소셜링
+						커피챗
 					</Typography>
 				</Box>
 				<Box pt={5} pb={15}>
 					<img
-						src={'/images/main/소셜링.png'}
-						alt={'소셜링'}
+						src={'/images/main/커피챗.png'}
+						alt={'커피챗'}
 						width={'220px'}
 						height={'220px'}
 					/>
 					<Typography fontWeight={600} variant="subtitle1" mb={7}>
-						소셜링
+					커피챗
 					</Typography>
 
 					<Typography
@@ -625,7 +625,7 @@ const Page: NextPage = () => {
 							},
 						}}
 					>
-						매월 만나고 싶은 분과의 소셜링
+						매월 만나고 싶은 분과의 커피챗
 					</Typography>
 					<Box
 						display="flex"

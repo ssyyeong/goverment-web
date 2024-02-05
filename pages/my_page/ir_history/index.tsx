@@ -170,6 +170,12 @@ const Page: NextPage = () => {
 			);
 	}, [page, tab, memberId, updateModal, updateModalData]);
 
+
+	useEffect(()=> {
+setUpdateModalData(undefined);
+setUpdateModal(false)
+	}, [])
+
 	console.log(updateModalData);
 
 	return (
@@ -317,11 +323,13 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Box>
-			{updateModalData  && (
+			{updateModalData && (
 				<IrApplicationModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
-					irApplicationId={updateModalData.IR_APPLICATION_IDENTIFICATION_CODE}
+					irApplicationId={
+						updateModalData.IR_APPLICATION_IDENTIFICATION_CODE
+					}
 					irProductId={updateModalData.IR_PRODUCT_IDENTIFICATION_CODE}
 					memberId={memberId}
 					date={updateModalData.ADOPTION_DATE}

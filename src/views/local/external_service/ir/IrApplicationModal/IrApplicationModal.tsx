@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react';
-
-import { Box, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+	Autocomplete,
+	Box,
+	BoxProps,
+	Button,
+	TextField,
+	Typography,
+} from '@mui/material';
 import SupportiModal from '../../../../global/SupportiModal';
 import SupportiButton from '../../../../global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { businessSector } from '../../../../../../configs/data/BusinessConfig';
 import { useUserAccess } from '../../../../../hooks/useUserAccess';
 import { useAppMember } from '../../../../../hooks/useAppMember';
+import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import IrQna from '../IrQna/IrQna';
 import { IrAnswerController } from '../../../../../controller/IrAnswerController';
 import SupportiInput from '../../../../global/SupportiInput';
 import IrAlertModal from '../IrAlertModal/IrAlertModal';
 import { phoneRegex } from '../../../../../../configs/regex/regex';
-
 interface IIrApplicationModalProps {
 	open: boolean;
 	handleClose: () => void;
@@ -22,39 +29,32 @@ interface IIrApplicationModalProps {
 	mode: 'modify' | 'create';
 	irApplicationData?: any;
 }
-
 const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	//* Modules
-
 	//* Controller
 	const irApplicationController = new DefaultController('IrApplication');
 	const irQuestionController = new DefaultController('IrQuestion');
 	const irAnswerController = new IrAnswerController();
-
 	//* States
 	/**
 	 * 질문 리스트
 	 */
 	const [questionList, setQuestionList] = React.useState([]);
-
 	/**
 	 * IR 답변
 	 */
 	const [irAnswer, setIrAnswer] = React.useState<any>([]);
-
 	/**
 	 * IR 답변
 	 */
 	const [irContactNum, setIrContactNum] = React.useState<string | undefined>(
 		undefined
 	);
-
 	/**
 	 * 신청 완료 알럿 모달
 	 */
 	const [successAlertModal, setSuccessAlertModal] =
 		React.useState<boolean>(false);
-
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -64,9 +64,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	 * 로그인 여부 가져오는 훅
 	 */
 	const { access } = useUserAccess('SIGN_IN');
-
 	//* Functions
-
 	/**
 	 *
 	 * 필수 답변 체크
@@ -87,7 +85,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			) {
 				check = false;
 			}
-
 			if (
 				indexQuestion[0].QUESTION_TYPE == 'FILE' && // 파일 타입이고
 				x.FILE_LIST.length == 0 // 답변이 없을 때
@@ -95,14 +92,11 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				check = false;
 			}
 		});
-
 		if (irContactNum === undefined || irContactNum === null) {
 			check = false;
 		}
-
 		return check;
 	};
-
 	const irApply = () => {
 		// 필수 질문 답변 체크
 		if (!checkIrAnswer()) {
@@ -110,13 +104,11 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			console.log(irAnswer, irContactNum);
 			return;
 		}
-
 		if (irContactNum && !phoneRegex.test(irContactNum)) {
 			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
 			console.log(irContactNum);
 			return;
 		}
-
 		irApplicationController.createItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -128,7 +120,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				/**
 				 * IR 답변 업로드 (res로 들어온 id 값 irAnswer에 꽂아넣기)
 				 */
-
 				const answermap = irAnswer.map((x) => {
 					return {
 						...x,
@@ -136,7 +127,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 							res?.data.result.IR_APPLICATION_IDENTIFICATION_CODE,
 					};
 				});
-
 				irAnswerController.uploadIrAnswer(
 					answermap,
 					(res) => {
@@ -150,7 +140,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				if (err.response.data.message === '이미 신청한 IR입니다.') {
 					alert('이미 신청한 IR입니다.');
 				}
-
 				if (
 					err.response.data.message === '구독 회원만 이용 가능합니다.'
 				) {
@@ -159,7 +148,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			}
 		);
 	};
-
 	/**
 	 * IR 답변 업데이트
 	 */
@@ -167,10 +155,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		irAnswer.map((x) => {
 			irAnswerController.updateItem(x, (res) => {});
 		});
-
-		console.log(irAnswer);
 	};
-
 	const modifyApplication = () => {
 		// 필수 질문 답변 체크
 		if (!checkIrAnswer()) {
@@ -178,13 +163,11 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			console.log(irAnswer, irContactNum);
 			return;
 		}
-
 		if (irContactNum && !phoneRegex.test(irContactNum)) {
 			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
 			console.log(irContactNum);
 			return;
 		}
-
 		irApplicationController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -196,18 +179,15 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				/**
 				 * IR 답변 업로드 (res로 들어온 id 값 irAnswer에 꽂아넣기)
 				 */
-
 				updateIrAnswer();
 				setSuccessAlertModal(true);
 			},
 			(err) => {}
 		);
 	};
-
 	//* Hooks
 	useEffect(() => {
 		//* IR 질문에 대한 답변 초기화
-
 		if (questionList !== undefined && questionList.length !== 0) {
 			if (props.mode === 'create') {
 				let question = [];
@@ -236,14 +216,13 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 								x.IR_ANSWER_IDENTIFICATION_CODE,
 						});
 					});
-
 					console.log(question, questionList);
 					setIrAnswer(question);
 					setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 				}
 			}
 		}
-	}, [props.open, props.irProductId, props.irApplicationId]);
+	}, [props.open, props.irApplicationData, questionList]);
 
 	useEffect(() => {
 		// 질문 리스트 가져온다.
@@ -258,6 +237,28 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				(err) => {}
 			);
 	}, [props.irProductId]);
+
+	useEffect(() => {
+		if (props.irApplicationData && props.open == true) {
+			let question = [];
+			props.irApplicationData.IrAnswers?.map((x, index) => {
+				question.push({
+					IR_QUESTION_IDENTIFICATION_CODE:
+						x.IR_QUESTION_IDENTIFICATION_CODE,
+					ANSWER_CONTENT: x.ANSWER_CONTENT,
+					FILE_LIST: x.FILE_LIST,
+					IR_ANSWER_IDENTIFICATION_CODE:
+						x.IR_ANSWER_IDENTIFICATION_CODE,
+				});
+			});
+			console.log(question, questionList);
+			setIrAnswer(question);
+			setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
+		}
+	}, []);
+
+	console.log(props.irApplicationData);
+	console.log(irAnswer);
 
 	return (
 		<SupportiModal
@@ -289,7 +290,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 						</Typography>
 					</Box>
 					{/* 질문 */}
-
 					<Box mb={2}>
 						{questionList?.map((question, index) => {
 							return (
@@ -379,5 +379,4 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		</SupportiModal>
 	);
 };
-
 export default IrApplicationModal;
