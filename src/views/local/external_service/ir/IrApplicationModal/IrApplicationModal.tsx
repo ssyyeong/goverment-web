@@ -16,6 +16,7 @@ interface IIrApplicationModalProps {
 	open: boolean;
 	handleClose: () => void;
 	irProductId: any;
+	irApplicationId?: any;
 	memberId: any;
 	date: any;
 	mode: 'modify' | 'create';
@@ -30,7 +31,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	const irQuestionController = new DefaultController('IrQuestion');
 	const irAnswerController = new IrAnswerController();
 
-	console.log(props.irApplicationData);
 	//* States
 	/**
 	 * 질문 리스트
@@ -188,7 +188,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		irApplicationController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				IR_PRODUCT_IDENTIFICATION_CODE: props.irProductId,
+				IR_APPLICATION_IDENTIFICATION_CODE: props.irApplicationId,
 				CONTACT_NUMBER: irContactNum,
 			},
 			(res) => {
@@ -198,8 +198,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				 */
 
 				updateIrAnswer();
-
-				setIrAnswer([]);
 				setSuccessAlertModal(true);
 			},
 			(err) => {}
@@ -224,9 +222,9 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				setIrAnswer(question);
 				setIrContactNum(undefined);
 			} else {
-				console.log('여기까지');
 				// 신청 변경 모드일 때 props로 받은 신청 데이터
-				if (props.irApplicationData) {
+				console.log(props.irApplicationData);
+				if (props.irApplicationData && props.open == true) {
 					let question = [];
 					props.irApplicationData.IrAnswers?.map((x, index) => {
 						question.push({
@@ -245,10 +243,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				}
 			}
 		}
-		return () => {
-			setIrAnswer([]);
-		};
-	}, [props.open, props.irApplicationData]);
+	}, [props.open, props.irProductId, props.irApplicationId]);
 
 	useEffect(() => {
 		// 질문 리스트 가져온다.
@@ -263,8 +258,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				(err) => {}
 			);
 	}, [props.irProductId]);
-
-	console.log(questionList);
 
 	return (
 		<SupportiModal

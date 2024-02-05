@@ -149,7 +149,7 @@ const Page: NextPage = () => {
 			width={'100%'}
 			p={{
 				xs: 2,
-				md: 10,
+				md: 5,
 			}}
 			minHeight={'90vh'}
 		>
@@ -172,31 +172,46 @@ const Page: NextPage = () => {
 						);
 					})}
 				{/* 스티키 버튼 */}
-
+				{/* <Box
+					height={'50px'}
+					// position="absolute"
+					// right="20px"
+				> */}
 				<Box
 					width={'100%'}
 					justifyContent="space-between"
 					// bgcolor={'red'}
 					sx={{
+						// position: 'sticky',
 						position: 'fixed',
-						bottom: { md: 100, xs: 50 },
+						// bottom: '0px',
+						bottom: { md: '320px', xs: '400px' },
 						display: 'flex',
-						pr: {md: 20, xs: 5}
+						pr: { md: 10, xs: 5 },
 					}}
 				>
 					<Box />
 					<SupportiButton
-						contents={'신청하기'}
+						contents={'신청'}
 						isGradient={true}
 						onClick={() => handleApplyir()}
 						style={{
 							color: 'white',
-							width: '100px',
-							height: '100px',
+							// width: '100px',
+							// height: '100px',
 							borderRadius: '50%',
+							width: {
+								md: '100px',
+								xs: '70px',
+							},
+							height: {
+								md: '100px',
+								xs: '70px',
+							},
 						}}
 					/>
 				</Box>
+				{/* </Box> */}
 
 				<SupportiAlertModal
 					type={'subscribe'}

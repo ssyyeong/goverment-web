@@ -49,10 +49,24 @@ const Page: NextPage = () => {
 			},
 			align: 'center',
 		},
+		{
+			label: '상태',
+			value: 'ADOPTED_YN',
+			customValue: (value) => {
+				return value.ADOPTED_YN === 'Y'
+					? '선정'
+					: value.ADOPTED_YN === 'N'
+					? '미선정'
+					: value.ADOPTED_YN === null
+					? '선정전'
+					: '신청중';
+			},
+			align: 'center',
+		},
 	];
 
 	const cancelIrHeaderData: TableHeaderProps = {
-		label: '상태/변경',
+		label: '변경',
 		value: 'IR_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
 
@@ -60,25 +74,30 @@ const Page: NextPage = () => {
 			const selectedData = irApplicationList.find(
 				(item) => item.IR_APPLICATION_IDENTIFICATION_CODE === value
 			);
-			return selectedData?.ADOPTED_YN === 'Y' ? (
-				<Typography>선정</Typography>
-			) : selectedData?.ADOPTED_YN === 'N' ? (
-				<Typography>미선정</Typography>
-			) : (
-				<Typography>선정전</Typography>
-				// <Button
-				// 	variant="contained"
-				// 	onClick={() => {
-				// 		setUpdateModalData(selectedData);
-				// 		setUpdateModal(true);
-				// 	}}
-				// 	sx={{
-				// 		fontWeight: '400',
-				// 		fontSize: '12px',
-				// 	}}
-				// >
-				// 	변경
-				// </Button>
+			return (
+				<Button
+					variant="contained"
+					onClick={() => {
+						if (selectedData?.ADOPTED_YN === 'Y') {
+							alert('선정된 IR은 변경할 수 없습니다.');
+							return;
+						}
+
+						if (selectedData?.ADOPTED_YN === 'N') {
+							alert('미선정된 IR은 변경할 수 없습니다.');
+							return;
+						}
+
+						setUpdateModalData(selectedData);
+						setUpdateModal(true);
+					}}
+					sx={{
+						fontWeight: '400',
+						fontSize: '12px',
+					}}
+				>
+					변경
+				</Button>
 			);
 		},
 	};
@@ -130,6 +149,7 @@ const Page: NextPage = () => {
 				(res) => {
 					setIrApplicationList(res.data.result.rows);
 					setTotalDataSize(res.data.result.count);
+					console.log(res.data.result.rows);
 					if (tab === 'IR') {
 						setIrApplicationHeaderData(
 							irApplicationGeneralHeaderData.concat(
@@ -148,38 +168,9 @@ const Page: NextPage = () => {
 					console.log(err);
 				}
 			);
-	}, [page, tab, memberId, updateModal]);
+	}, [page, tab, memberId, updateModal, updateModalData]);
 
-	useEffect(() => {
-		memberId &&
-			irApplicationController.findAllItems(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					LIMIT: 10,
-					PAGE: page,
-				},
-				(res) => {
-					setIrApplicationList(res.data.result.rows);
-					setTotalDataSize(res.data.result.count);
-					if (tab === 'IR') {
-						setIrApplicationHeaderData(
-							irApplicationGeneralHeaderData.concat(
-								cancelIrHeaderData
-							)
-						);
-					} else {
-						setIrApplicationHeaderData(
-							irApplicationGeneralHeaderData.concat(
-								cancelIrHeaderData
-							)
-						);
-					}
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, []);
+	console.log(updateModalData);
 
 	return (
 		<InternalServiceDrawer type="mypage">
@@ -232,7 +223,7 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 				{/*모바일 테이블 */}
-				{/* <Box
+				<Box
 					width={'100%'}
 					py={2}
 					display={{
@@ -247,64 +238,67 @@ const Page: NextPage = () => {
 								title={item.IrProduct.PRODUCT_NAME}
 								colums={[
 									{
-										label: '금액',
-										value: item.IrProduct.PRICE + '원',
+										label: '제목',
+										value: item.IrProduct.TITLE,
 									},
 									{
-										label: '일정',
+										label: '마감 날짜',
 										value: `${moment(
-											item.RESERVATION_DATE
-										).format('YYYY-MM-DD')} ${
-											item.RESERVATION_START_TIME
-										}`,
+											item.IrProduct?.DUE_DATE
+										).format('YYYY-MM-DD')}`,
 									},
 									{
-										label: '변경',
-										value:
-											tab !== 'COMPLETED' &&
-											item.CANCELED_YN === 'Y' ? (
-												<Typography>취소됨</Typography>
-											) : item.CAN_BE_CANCELED === 'N' ? (
-												<Typography color={'error'}>
-													변경불가
-												</Typography>
+										label: '상태/변경',
+										value: (value) => {
+											const selectedData =
+												irApplicationList.find(
+													(item) =>
+														item.IR_APPLICATION_IDENTIFICATION_CODE ===
+														value
+												);
+											return selectedData?.ADOPTED_YN ===
+												'Y' ? (
+												<Typography>선정</Typography>
+											) : selectedData?.ADOPTED_YN ===
+											  'N' ? (
+												<Typography>미선정</Typography>
+											) : selectedData?.ADOPTED_YN ===
+											  null ? (
+												<Typography>선정전</Typography>
 											) : (
-												tab !== 'COMPLETED' && (
-													<Button
-														variant="contained"
-														onClick={() => {
-															setUpdateModalData(
-																item
-															);
-															setUpdateModal(
-																true
-															);
-														}}
-														sx={{
-															fontWeight: '400',
-															fontSize: '12px',
-														}}
-													>
-														변경
-													</Button>
-												)
-											),
+												<Button
+													variant="contained"
+													onClick={() => {
+														setUpdateModalData(
+															selectedData
+														);
+														setUpdateModal(true);
+													}}
+													sx={{
+														fontWeight: '400',
+														fontSize: '12px',
+													}}
+												>
+													변경
+												</Button>
+											);
+										},
 									},
 								]}
 							/>
 						);
 					})}
 					{irApplicationList.length === 0 && <Nodata />}
-				</Box> */}
+				</Box>
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
-					// p={2}
-					// mt={2}
-					// display={{
-					// 	sm: 'block',
-					// 	xs: 'none',
-					// }}
+					p={2}
+					mt={2}
+					display={{
+						sm: 'block',
+						xs: 'none',
+					}}
 				>
 					<SupportiTable
 						rowData={irApplicationList}
@@ -323,10 +317,11 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Box>
-			{updateModalData && (
+			{updateModalData  && (
 				<IrApplicationModal
 					open={updateModal}
 					handleClose={() => setUpdateModal(false)}
+					irApplicationId={updateModalData.IR_APPLICATION_IDENTIFICATION_CODE}
 					irProductId={updateModalData.IR_PRODUCT_IDENTIFICATION_CODE}
 					memberId={memberId}
 					date={updateModalData.ADOPTION_DATE}
