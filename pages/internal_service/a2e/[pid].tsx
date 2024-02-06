@@ -263,9 +263,9 @@ const Page: NextPage = () => {
 								}}
 								contents={!isEditMode ? '목록으로' : '취소'}
 								onClick={() => {
-									if(isEditMode) {
-										setIsEditMode(false)
-									}else 	router.back();
+									if (isEditMode) {
+										setIsEditMode(false);
+									} else router.back();
 								}}
 							/>
 							{/** 질문 */}
@@ -434,7 +434,7 @@ const Page: NextPage = () => {
 											/>
 
 											<Box p={1}>
-												<Typography>
+												<Typography sx={{ wordBreak: 'keep-all', lineHeight: '20px' }}>
 													{question.CONTENT}
 												</Typography>
 											</Box>
@@ -591,7 +591,7 @@ const Page: NextPage = () => {
 									sx={{
 										boxShadow:
 											'rgb(219, 219, 219) 0px 4px 10px',
-											p: { xs: 2, md: 5 },
+										p: { xs: 2, md: 5 },
 									}}
 								>
 									<Box display="flex" gap={0.5} m={0.5}>
@@ -669,7 +669,9 @@ const Page: NextPage = () => {
 
 									{/** 답변 내용 */}
 									<Box p={1}>
-										<Typography>
+										<Typography
+											sx={{ wordBreak: 'keep-all', lineHeight: '20px' }}
+										>
 											{answer?.CONTENT}
 										</Typography>
 									</Box>

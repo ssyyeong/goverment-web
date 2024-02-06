@@ -37,10 +37,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/external_service/ir/landing',
 		},
 		{
-			label: '파트너스',
-			path: '/partners',
+			label: '더블랙',
+			path: '/rate_plan/theBlack',
 		},
-		
+
 		// {
 		// 	label: '세미나',
 		// 	path: '/external_service/seminar',
@@ -59,8 +59,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 */
 	const mobileMenu = [
 		{
-			label: '파트너스',
-			path: '/partners',
+			label: '더블랙',
+			path: '/rate_plan/theBlack',
 		},
 		{
 			label: '대시보드',

@@ -144,10 +144,15 @@ const IrQna = (props: IIrQnaProps) => {
 						type="text"
 						value={textAnswer}
 						setValue={(value) => {
-							setTextAnswer(value);
+							if(value.length > 300) {
+								alert('300자 내외로 입력해주세요!')
+								setTextAnswer(value.slice(0, 300))
+							}else 	setTextAnswer(value);
 						}}
 						additionalProps={{
 							placeholder: '답변을 입력해주세요!',
+							multiline: true,
+							disabled: textAnswer.length > 300,
 						}}
 						width={'100%'}
 					/>

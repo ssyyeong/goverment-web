@@ -21,6 +21,9 @@ const Page: NextPage = () => {
 	const questionController = new DefaultController('A2eQuestion');
 	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
+	const userSubscriptionController = new DefaultController(
+		'UserSubscription'
+	);
 
 	const { memberId } = useAppMember();
 	const router = useRouter();
@@ -30,6 +33,11 @@ const Page: NextPage = () => {
 	 * 페이지 진입 시 유저 권한 검사
 	 */
 	const { access } = useUserAccess('SIGN_IN');
+
+	/**
+	 * 구독 정보
+	 */
+	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
 
 	/**
 	 *
@@ -198,15 +206,42 @@ const Page: NextPage = () => {
 		page,
 	]);
 
+	/**
+	 * 구독권 정보 가져오기
+	 */
+	React.useEffect(() => {
+		memberId &&
+			userSubscriptionController.getOneItemByKey(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					EXPIRED_YN: 'N',
+					CANCELED_YN: 'N',
+				},
+				(res) => {
+					setSubscriptionInfo(res.data.result);
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [memberId]);
+
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
 
 		getQuestionList({}, {});
 
-		questionController.findAllItems(
-			{
-				ANSWERED_YN: 'Y',
-			},
+		a2eController.getAllA2eQuestion(
+			Object.assign(
+				{
+					FIND_OPTION_KEY_LIST: {},
+				},
+				{
+					LIMIT: 10,
+					PAGE: page,
+				},
+				{ ANSWERED: true }
+			),
 			(res) => {
 				let result;
 
@@ -221,6 +256,25 @@ const Page: NextPage = () => {
 			},
 			(err) => {}
 		);
+
+		// questionController.findAll(
+		// 	{
+		// 		ANSWERED_YN: 'Y',
+		// 	},
+		// 	(res) => {
+		// 		let result;
+
+		// 		// 뷰 순으로 정렬
+		// 		result = res.data.result.rows
+		// 			.sort(function (a, b) {
+		// 				return b.VIEW - a.VIEW;
+		// 			})
+		// 			.slice(0, 5);
+
+		// 		setFixedQuestion(result);
+		// 	},
+		// 	(err) => {}
+		// );
 
 		categoryController.findAllItems(
 			{},
@@ -294,11 +348,26 @@ const Page: NextPage = () => {
 													display="flex"
 													flexDirection={'column'}
 													justifyContent="space-between"
-													onClick={() =>
-														router.push(
-															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-														)
-													}
+													onClick={() => {
+														if (
+															subscriptionInfo
+																?.SubscriptionProduct
+																?.TYPE ===
+																'BLACK' ||
+															subscriptionInfo
+																?.SubscriptionProduct
+																?.TYPE ===
+																'PRODUCT'
+														) {
+															router.push(
+																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+															);
+														} else {
+															alert(
+																'구독 회원에게만 제공되는 기능입니다!'
+															);
+														}
+													}}
 												>
 													<Box
 														display="flex"
@@ -318,6 +387,10 @@ const Page: NextPage = () => {
 														</Typography>
 														<Typography
 															fontWeight={600}
+															sx={{
+																wordBreak:
+																	'keep-all',
+															}}
 														>
 															{item.TITLE}
 														</Typography>
@@ -545,16 +618,43 @@ const Page: NextPage = () => {
 												}}
 												onClick={() => {
 													if (
-														memberId !==
-															item.APP_MEMBER_IDENTIFICATION_CODE &&
-														item.PRIVATE_YN === 'Y'
+														subscriptionInfo
+															?.SubscriptionProduct
+															?.TYPE ===
+															'BLACK' ||
+														subscriptionInfo
+															?.SubscriptionProduct
+															?.TYPE === 'PRODUCT'
 													) {
-														setAlertModal(true);
+														if (
+															memberId !==
+																item.APP_MEMBER_IDENTIFICATION_CODE &&
+															item.PRIVATE_YN ===
+																'Y'
+														) {
+															setAlertModal(true);
+														} else {
+															router.push(
+																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+															);
+														}
 													} else {
-														router.push(
-															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+														alert(
+															'구독 회원에게만 제공되는 기능입니다!'
 														);
 													}
+
+													// if (
+													// 	memberId !==
+													// 		item.APP_MEMBER_IDENTIFICATION_CODE &&
+													// 	item.PRIVATE_YN === 'Y'
+													// ) {
+													// 	setAlertModal(true);
+													// } else {
+													// 	router.push(
+													// 		`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+													// 	);
+													// }
 												}}
 											>
 												<Box

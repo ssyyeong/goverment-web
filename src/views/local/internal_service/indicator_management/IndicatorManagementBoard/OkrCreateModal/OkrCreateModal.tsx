@@ -215,8 +215,19 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 						sx={{
 							width: { xs: '100%', md: '90%' },
 							'-ms-overflow-style': 'none',
-							'&::-webkit-scrollbar': { display: 'none' },
+							'&::-webkit-scrollbar': {
+								width: '6px',
+								height: '5px !important',
+								backgroundColor: 'white !important',
+								padding: '1px',
+								borderRadius: '20px',
+							},
+							'&::-webkit-scrollbar-thumb': {
+								backgroundColor: '#b0b5c2',
+								borderRadius: '20px',
+							},
 							pt: 2,
+							pr: 1,
 						}}
 					>
 						{/** 상위 목표 작성 영역*/}

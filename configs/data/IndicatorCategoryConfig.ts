@@ -47,6 +47,10 @@ const IndicatorCategory = [
 		label: '프로젝트',
 		value: '프로젝트',
 	},
+	{
+		label: '직접입력',
+		value: '직접입력',
+	},
 ];
 
 export { IndicatorCategory };

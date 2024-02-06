@@ -6,6 +6,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -54,6 +55,7 @@ const Page: NextPage = () => {
 					);
 				})}
 			</Box>
+			{noticeList.length === 0 && <Nodata />}
 		</Box>
 	);
 };

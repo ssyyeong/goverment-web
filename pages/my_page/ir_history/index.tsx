@@ -11,6 +11,8 @@ import moment from 'moment';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import { useRouter } from 'next/router';
 
 import Nodata from '../../../src/views/global/NoData/NoData';
 import IrQna from '../../../src/views/local/external_service/ir/IrQna/IrQna';
@@ -115,6 +117,8 @@ const Page: NextPage = () => {
 	 * 탭
 	 */
 	const [tab, setTab] = React.useState<'IR' | 'DEMODAY'>('IR');
+
+	const router = useRouter();
 	/**
 	 * 업데이트 모달
 	 */
@@ -170,11 +174,10 @@ const Page: NextPage = () => {
 			);
 	}, [page, tab, memberId, updateModal, updateModalData]);
 
-
-	useEffect(()=> {
-setUpdateModalData(undefined);
-setUpdateModal(false)
-	}, [])
+	useEffect(() => {
+		setUpdateModalData(undefined);
+		setUpdateModal(false);
+	}, []);
 
 	console.log(updateModalData);
 
@@ -198,7 +201,7 @@ setUpdateModal(false)
 						xs: '100%',
 					}}
 				>
-					<SupportiToggle
+					{/* <SupportiToggle
 						chipDataList={[
 							{
 								label: 'IR 신청',
@@ -225,6 +228,19 @@ setUpdateModal(false)
 							chipMapStyle: {
 								fontWeight: 'bold',
 							},
+						}}
+					/> */}
+					<SupportiButton
+						contents={'IR 신청'}
+						style={{
+							color: 'primary.main',
+							mb: 3,
+							width: '200px',
+							bgcolor: 'white',
+							height: '45px',
+						}}
+						onClick={() => {
+							router.push('/external_service/ir/landing');
 						}}
 					/>
 				</Box>
@@ -299,7 +315,6 @@ setUpdateModal(false)
 				{/* 테이블 */}
 				<Box
 					width={'100%'}
-					p={2}
 					mt={2}
 					display={{
 						sm: 'block',

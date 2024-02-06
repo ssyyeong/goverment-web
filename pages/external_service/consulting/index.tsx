@@ -139,10 +139,7 @@ const Page: NextPage = () => {
 					CANCELED_YN: 'N',
 				},
 				(res) => {
-					if(res.data.result === null) {
-						alert('구독회원만 접근 가능한 페이지입니다.');
-						router.back();
-					}else 		setSubscriptionInfo(res.data.result);
+setSubscriptionInfo(res.data.result);
 				},
 				(err) => {
 					console.log(err);
@@ -155,17 +152,17 @@ const Page: NextPage = () => {
 	 * 구독권 블랙 아니면 뒤로가기
 	 */
 
-	// useEffect(() => {
-	// 	if (!subscriptionInfo) {
-	// 		alert('구독회원만 접근 가능한 페이지입니다.');
-	// 		router.back();
-	// 	} else if (Object.keys(subscriptionInfo).length !== 0) {
-	// 		if (subscriptionInfo?.SubscriptionProduct?.TYPE !== 'BLACK') {
-	// 			alert('블랙회원만 접근 가능한 페이지입니다.');
-	// 			router.back();
-	// 		}
-	// 	}
-	// }, [subscriptionInfo]);
+	useEffect(() => {
+		if (!subscriptionInfo) {
+			alert('구독회원만 접근 가능한 페이지입니다.');
+			router.back();
+		} else if (Object.keys(subscriptionInfo).length !== 0) {
+			if (subscriptionInfo?.SubscriptionProduct?.TYPE !== 'PRODUCT') {
+				alert('PRODUCT 요금제 구독 회원만 접근 가능한 페이지입니다.');
+				router.back();
+			}
+		}
+	}, [subscriptionInfo]);
 
 	return (
 		<Box

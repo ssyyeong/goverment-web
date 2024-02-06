@@ -55,6 +55,12 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 	 */
 	const [successAlertModal, setSuccessAlertModal] =
 		React.useState<boolean>(false);
+
+	/**
+	 * 동의 여부
+	 */
+	const [isChecked, setIsChecked] = React.useState<boolean>(false);
+
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -97,6 +103,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		}
 		return check;
 	};
+
 	const irApply = () => {
 		// 필수 질문 답변 체크
 		if (!checkIrAnswer()) {
@@ -109,6 +116,12 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			console.log(irContactNum);
 			return;
 		}
+
+		if (!isChecked) {
+			alert('신청을 위한 동의가 필요합니다.');
+			return;
+		}
+
 		irApplicationController.createItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -163,11 +176,18 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			console.log(irAnswer, irContactNum);
 			return;
 		}
+
 		if (irContactNum && !phoneRegex.test(irContactNum)) {
 			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
 			console.log(irContactNum);
 			return;
 		}
+
+		if (!isChecked) {
+			alert('신청을 위한 동의가 필요합니다.');
+			return;
+		}
+
 		irApplicationController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -229,6 +249,8 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		props.irProductId &&
 			irQuestionController.findAllItems(
 				{
+					SORT_KEY: 'ORDER',
+					SORT_DIRECTION: 'ASC',
 					IR_PRODUCT_IDENTIFICATION_CODE: props.irProductId,
 				},
 				(res) => {
@@ -256,9 +278,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 			setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 		}
 	}, []);
-
-	console.log(props.irApplicationData);
-	console.log(irAnswer);
 
 	return (
 		<SupportiModal
@@ -342,6 +361,52 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									width={'100%'}
 								/>
 							</Box>
+						</Box>
+
+						{/** 약관 동의 */}
+						<Box>
+							<Box
+								display={'flex'}
+								justifyContent={'space-between'}
+								alignItems={'center'}
+								mt={-2}
+								mb={2}
+							>
+								<SupportiInput
+									type="checkbox"
+									value={isChecked}
+									setValue={setIsChecked}
+									label={''}
+									width={'20px'}
+								/>
+								<Typography
+									sx={{
+										display: 'flex',
+										gap: 0.5,
+										lineHeight: '20px',
+										pt: 5,
+									}}
+									fontWeight={600}
+								>
+									IR은 더블랙 회원에게만 제공되며, 2월 IR은
+									2월 20일에 개최됩니다. 심사역, 투자자
+									3~4분이 참석하며 실제 투자 검토가 전제된
+									IR입니다. 서류 검토 결과 선정된 인원에
+									한해서만 진행하는 점 인지 부탁드립니다.
+									(이에 동의함을 눌러주시면 신청할 수
+									있습니다.)
+									{/* 필수 여부 표시 */}
+									<Typography color={'red'}>*</Typography>
+								</Typography>
+							</Box>
+							{/* <Typography
+								sx={{
+									display: 'flex',
+									my: 0.5,
+								}}
+							>
+								선정 결과를 받으실 핸드폰 번호를 입력해주세요.
+							</Typography> */}
 						</Box>
 					</Box>
 				</Box>

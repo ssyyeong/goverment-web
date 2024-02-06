@@ -3,6 +3,9 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { AppMemberController } from '../../src/controller/AppMemberController';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import SupportiButton from '../../src/views/global/SupportiButton';
+import SupportiModal from '../../src/views/global/SupportiModal';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -21,6 +24,12 @@ const Page: NextPage = () => {
 	 * 구독 정보
 	 */
 	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
+
+	/**
+	 * 모달 오픈 여부
+	 */
+	const [registerModalOpen, setRegisterModalOpen] =
+		React.useState<boolean>(false);
 
 	//* Constants
 	const CardConfig = [
@@ -217,14 +226,49 @@ const Page: NextPage = () => {
 				width: '100%',
 				height: '100%',
 				p: { xs: 0.5, sm: 10 },
-				bgcolor: '#F1F3FB',
+				bgcolor: 'primary.light',
 				alignItems: 'center',
 			}}
 		>
-			<Box textAlign="center">
-				<Typography fontWeight={700} variant="h2" sx={{ mb: '15px' }}>
+			<Box textAlign="left" sx={{ mb: '15px' }}>
+				<Typography fontWeight={700} variant="h2">
 					파트너스
 				</Typography>
+				<Box display="flex" gap={2} flexWrap="wrap">
+					<Typography
+						fontWeight={600}
+						variant="subtitle1"
+						style={{
+							color: '#3C52BB',
+							marginRight: '15px',
+							marginTop: 30,
+							wordBreak: 'keep-all',
+						}}
+					>
+						파트너사가 제공하는 여러가지 혜택을 신청해보세요.
+					</Typography>
+					<SupportiButton
+						contents={'혜택 신청하기'}
+						isGradient={true}
+						style={{
+							color: '#fff',
+							mt: 3,
+							height: '35px',
+						}}
+						onClick={() => {
+							if (
+								subscriptionInfo?.SubscriptionProduct?.TYPE ===
+									'BLACK' ||
+								subscriptionInfo?.SubscriptionProduct?.TYPE ===
+									'PRODUCT'
+							) {
+								setRegisterModalOpen(true);
+							} else {
+								alert('구독 회원에게만 제공되는 기능입니다!');
+							}
+						}}
+					/>
+				</Box>
 			</Box>
 			<Box sx={{ height: '100%', width: '100%', mt: '20px' }}>
 				<Box
@@ -279,7 +323,7 @@ const Page: NextPage = () => {
 											color="secondary.dark"
 											lineHeight={'280%'}
 										>
-											클릭해서 블랙 회원에게만 제공되는
+											클릭해서 구독 회원에게만 제공되는
 											혜택을 신청하세요!
 										</Typography>
 									)}
@@ -321,7 +365,11 @@ const Page: NextPage = () => {
 																subscriptionInfo
 																	?.SubscriptionProduct
 																	?.TYPE ===
-																'BLACK'
+																	'BLACK' ||
+																subscriptionInfo
+																	?.SubscriptionProduct
+																	?.TYPE ===
+																	'PRODUCT'
 															) {
 																window.open(
 																	item.form,
@@ -329,7 +377,7 @@ const Page: NextPage = () => {
 																);
 															} else {
 																alert(
-																	'블랙 회원에게만 제공되는 기능입니다!'
+																	'구독 회원에게만 제공되는 기능입니다!'
 																);
 															}
 														}
@@ -585,6 +633,125 @@ const Page: NextPage = () => {
 					})}
 				</Box>
 			</Box>
+			<SupportiModal
+				open={registerModalOpen}
+				handleClose={() => {
+					setRegisterModalOpen(false);
+				}}
+				activeHeader={false}
+				title=""
+				style={{
+					width: { sm: '40%', xs: '100%' },
+				}}
+				children={
+					<Box
+						width="90%"
+						display={'flex'}
+						flexDirection={'column'}
+						gap={2}
+						sx={{
+							overflowY: 'auto',
+						}}
+					>
+						<Box display="flex" justifyContent="space-between">
+							<Box />
+							<Typography
+								variant="h5"
+								fontWeight={'600'}
+								lineHeight={1}
+							>
+								파트너 제공 혜택
+							</Typography>
+							<CloseIcon
+								sx={{ cursor: 'pointer' }}
+								onClick={() => {
+									setRegisterModalOpen(false);
+								}}
+							/>
+						</Box>
+
+						<Box
+							sx={{
+								width: '100%',
+								minHeight: 300,
+								padding: 2,
+							}}
+							textAlign="center"
+						>
+							<Typography variant="subtitle1" fontWeight={'600'}>
+								비즈니스 나우(CY)
+							</Typography>
+							<SupportiButton
+								contents={'AWS 크레딧 5,000$ 혜택 제공'}
+								style={{
+									color: 'common.white',
+									bgcolor: 'secondary.main',
+									my: 1,
+									height: '40px',
+								}}
+								fullWidth
+								onClick={() => {
+									window.open(
+										'https://forms.gle/r7qK37XXfHfyGy7d8',
+										'_blank'
+									);
+								}}
+							/>
+							<Typography variant="subtitle1" fontWeight={'600'}>
+								세무법인 다솔
+							</Typography>
+							<SupportiButton
+								contents={'세무기장 3개월 무료 신청'}
+								style={{
+									color: 'common.white',
+									bgcolor: 'secondary.main',
+									my: 1,
+									height: '40px',
+								}}
+								fullWidth
+								onClick={() => {
+									window.open(
+										'https://forms.gle/psatD7fxs3G9qjci6',
+										'_blank'
+									);
+								}}
+							/>
+							<Typography variant="subtitle1" fontWeight={'600'}>
+								나쵸코드
+							</Typography>
+							<SupportiButton
+								contents={'URL만 있다면 손쉽게! 앱빌딩 신청'}
+								style={{
+									color: 'common.white',
+									bgcolor: 'secondary.main',
+									mt: 1,
+									height: '40px',
+								}}
+								fullWidth
+								onClick={() => {
+									window.open(
+										'https://forms.gle/AoKU4GqjRRDB9EqCA',
+										'_blank'
+									);
+								}}
+							/>
+						</Box>
+
+						{/** 등록 버튼 */}
+						<SupportiButton
+							contents={'다음에 신청하기'}
+							isGradient={true}
+							style={{
+								color: '#fff',
+								height: '45px',
+							}}
+							onClick={() => {
+								setRegisterModalOpen(false);
+							}}
+						/>
+					</Box>
+				}
+			/>
 		</Box>
 	);
 };

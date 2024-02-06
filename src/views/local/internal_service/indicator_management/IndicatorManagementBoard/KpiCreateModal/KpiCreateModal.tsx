@@ -13,6 +13,7 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { KpiController } from '../../../../../../controller/KpiController';
 
 interface IKpiCreateModalProps {
 	modalOpen: boolean;
@@ -26,6 +27,10 @@ interface IKpiCreateModalProps {
 const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Controllers
 	const kpiController = new DefaultController('Kpi');
+	/**
+	 * KPI 컨트롤러
+	 */
+	const kpiCategoryController = new KpiController();
 
 	//* Modules
 
@@ -60,6 +65,75 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	 * 목표분류 직접입력 여부
 	 */
 	const [isUserMakeUnit, setIsUserMakeUnit] = React.useState(false);
+
+	/**
+	 *
+	 * 카테고리 직접입력 여부
+	 */
+	const [isUserMakeCategory, setIsUserMakeCategory] = React.useState(false);
+
+	/**
+	 * 카테고리에 따라
+	 */
+	const [selectableCategoryList, setSelectableCategoryList] =
+		React.useState(undefined);
+
+	/**
+	 * 선택 가능한 KPI 카테고리
+	 */
+	const selectableKpiCategoryList: {
+		value: string | undefined;
+		label: string;
+	}[] = [
+		{
+			label: '전체',
+			value: '전체',
+		},
+		{
+			label: '재무',
+			value: '재무',
+		},
+		{
+			label: '고객 서비스',
+			value: '고객 서비스',
+		},
+		{
+			label: '운영',
+			value: '운영',
+		},
+		{
+			label: '마케팅',
+			value: '마케팅',
+		},
+		{
+			label: '인력관리',
+			value: '인력관리',
+		},
+		{
+			label: '기술 및 혁신',
+			value: '기술 및 혁신',
+		},
+		{
+			label: '지속 가능성',
+			value: '지속 가능성',
+		},
+		{
+			label: '소셜미디어',
+			value: '소셜미디어',
+		},
+		{
+			label: '효율성',
+			value: '효율성',
+		},
+		{
+			label: '품질',
+			value: '품질',
+		},
+		{
+			label: '프로젝트',
+			value: '프로젝트',
+		},
+	];
 
 	/**
 	 * 알럿
@@ -109,6 +183,41 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		if (memberId) {
+			kpiCategoryController.getAllKpiCategory(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					if (res.data.result) {
+						const temp = res.data.result?.map((item) => {
+							return {
+								value: item,
+								label: item,
+							};
+						});
+
+						if (props.mode === 'modify') {
+							setSelectableCategoryList(
+								selectableKpiCategoryList.concat(temp)
+							);
+						} else {
+							setSelectableCategoryList(
+								selectableKpiCategoryList
+									.concat([
+										{
+											value: '직접입력',
+											label: '직접입력',
+										},
+									])
+							);
+						}
+					}
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+
 			if (props.mode === 'modify') {
 				setKpiData(props.data);
 			} else {
@@ -126,6 +235,8 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 				});
 			}
 		}
+		setIsUserMakeCategory(false);
+		setIsUserMakeUnit(false);
 	}, [memberId, props.modalOpen, props.data]);
 
 	return (
@@ -321,6 +432,63 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 									</Typography>
 									<SupportiInput
 										type="select"
+										value={
+											isUserMakeCategory
+												? '직접입력'
+												: kpiData.CATEGORY
+										}
+										setValue={(value) => {
+											if (value === '직접입력') {
+												setIsUserMakeCategory(true);
+
+												setKpiData({
+													...kpiData,
+													CATEGORY: '',
+												});
+											} else {
+												setIsUserMakeCategory(false);
+
+												setKpiData({
+													...kpiData,
+													CATEGORY: value,
+												});
+											}
+										}}
+										dataList={selectableCategoryList}
+										style={{
+											width: {
+												xs: '100px',
+												md: '150px',
+											},
+										}}
+									/>
+									{/** 유저가 목표 분류 직접 입력 선택 시 */}
+									{isUserMakeCategory && (
+										<SupportiInput
+											type="input"
+											value={kpiData.CATEGORY}
+											setValue={(value) => {
+												setKpiData({
+													...kpiData,
+													CATEGORY: value,
+												});
+											}}
+											style={{
+												bgcolor: 'white',
+												marginTop: '5px',
+												width: {
+													xs: '100px',
+													md: '150px',
+												},
+											}}
+										/>
+									)}
+
+									{/* 
+
+
+									<SupportiInput
+										type="select"
 										value={kpiData.CATEGORY}
 										setValue={(value) => {
 											setKpiData({
@@ -330,7 +498,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										}}
 										dataList={IndicatorCategory}
 										width={'150px'}
-									/>
+									/> */}
 									{/* <Typography
 										fontWeight={500}
 										mt={'5px'}

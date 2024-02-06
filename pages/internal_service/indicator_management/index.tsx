@@ -111,12 +111,38 @@ const Page: NextPage = () => {
 	/**
 	 * 카테고리에 따라
 	 */
+	const [selectableCategoryList, setSelectableCategoryList] =
+		React.useState(undefined);
 
 	//* Hooks
 	/**
 	 * 페이지 진입 시 유저 권한 검사
 	 */
 	// const userAccess = useUserAccess('SUBSCRIPTION');
+
+	React.useEffect(() => {
+		memberId &&
+			kpiController.getAllKpiCategory(
+				{
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				},
+				(res) => {
+					if (res.data.result) {
+						const temp = res.data.result?.map((item) => {
+							return {
+								value: item,
+								label: item,
+							};
+						});
+						setSelectableCategoryList(temp);
+					}
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+	}, [memberId, triggerKey]);
+
 	const userAccess = true;
 
 	return (
@@ -180,6 +206,9 @@ const Page: NextPage = () => {
 								setTriggerKey={setTriggerKey}
 								loading={loading}
 								setLoading={setLoading}
+								selectableKpiCategoryList={
+									selectableCategoryList
+								}
 							/>
 						</InternalServiceLayout>
 					)}

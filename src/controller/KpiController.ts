@@ -19,4 +19,19 @@ export class KpiController extends ControllerABC {
 			failCallback
 		);
 	}
+
+
+	//* kpi 카테고리 조회
+	public getAllKpiCategory(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		super.getData(
+			args,
+			`${this.mergedPath}/category_list`,
+			successCallback,
+			failCallback
+		);
+	}
 }

@@ -972,15 +972,9 @@ const Page: NextPage = () => {
 						서포티에서 최적의 솔루션을 제안합니다.
 					</Typography>
 					<SupportiButton
-						contents="무료로 시작하기"
+						contents="블랙 요금제 시작하기"
 						onClick={() => {
-							if (!memberId) {
-								router.push('/auth/sign_in');
-							} else {
-								router.push(
-									'/internal_service/financial_solution/account_manage'
-								);
-							}
+								router.push('/rate_plan');
 						}}
 						variant="contained"
 						style={{

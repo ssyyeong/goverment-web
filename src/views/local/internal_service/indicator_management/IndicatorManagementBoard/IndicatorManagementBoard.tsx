@@ -16,6 +16,7 @@ import SupportiInput from '../../../../global/SupportiInput';
 import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCategoryConfig';
 import { useAppMember } from '../../../../../hooks/useAppMember';
 import Nodata from '../../../../global/NoData/NoData';
+import { KpiController } from '../../../../../controller/KpiController';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -38,6 +39,11 @@ interface IIndicatorManagementBoardProps {
 	 */
 	triggerKey?: string;
 	setTriggerKey?: React.Dispatch<React.SetStateAction<string>>;
+
+	/**
+	 * KPI 카테고리
+	 */
+	selectableKpiCategoryList?: any;
 
 	/**
 	 * 로딩 상태
@@ -169,7 +175,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 
 	const [selectedKpiCategory, setSelectedKpiCategory] = React.useState<
 		string | undefined
-	>(selectableKpiCategoryList[0].value);
+	>(
+		selectableKpiCategoryList.concat(props.selectableKpiCategoryList)[0]
+			.value
+	);
 
 	/**
 	 *  지표 등록하는 모달 오픈 여부
@@ -293,7 +302,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					type="select"
 					value={selectedKpiCategory}
 					setValue={(value: any) => setSelectedKpiCategory(value)}
-					dataList={selectableKpiCategoryList}
+					dataList={selectableKpiCategoryList.concat(props.selectableKpiCategoryList)}
 					width={'100px'}
 				/>
 			)}

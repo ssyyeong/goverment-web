@@ -139,11 +139,44 @@ const Page: NextPage = () => {
 				<Typography
 					variant="body1"
 					fontWeight={'bold'}
-					sx={{ mb: 3 }}
+					sx={{ mb: 1 }}
 					color={'secondary'}
 				>
 					신청한 커피챗과 제안받은 커피챗을 확인해보세요!
 				</Typography>
+				<Box display="flex" gap={0.5} sx={{ mb: 2 }}>
+					<Typography
+						variant="body1"
+						fontWeight={'bold'}
+						sx={{ mb: 3 }}
+						color={'secondary'}
+					>
+						커피챗 제안 수락시에 줌링크 또는 구글미팅 주소가
+						필요해요! 줌링크, 구글미팅 주소 모르시겠다면,
+					</Typography>
+					<Typography
+						variant="body1"
+						fontWeight={'bold'}
+						sx={{ mb: 3, textDecoration: 'underline' }}
+						color={'secondary.dark'}
+						onClick={() => {
+							window.open(
+								'https://tststartup.notion.site/ZOOM-GOOGLE-MEET-2af36d2dd070438e9bb1a750ab2f2c47?pvs=4',
+								'_blank'
+							);
+						}}
+					>
+						여기
+					</Typography>
+					<Typography
+						variant="body1"
+						fontWeight={'bold'}
+						sx={{ mb: 3 }}
+						color={'secondary'}
+					>
+						를 확인해주세요 !
+					</Typography>
+				</Box>
 				{/* 탭 */}
 				<Box
 					width={{
