@@ -270,6 +270,13 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			{
 				BANK_ACCOUNT_IDENTIFICATION_CODE:
 					props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+				PERIOD_TARGET_KEY: 'TRANSACTION_DATE',
+				PERIOD_START: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-01`
+				),
+				PERIOD_END: new Date(
+					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
+				),
 			},
 			(res) => {
 				setAllTransactionHistoryList(res.data.result.rows);

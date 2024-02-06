@@ -22,7 +22,9 @@ import {
 	DesktopDatePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import { useAppMember } from '../../../../../../hooks/useAppMember';
+import dayjs from 'dayjs';
 
 export interface IAccountCalculationResultProps {
 	monthlyIncome: { [key: string]: any };
@@ -119,13 +121,14 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			return;
 		}
 		props.setLoading(true);
+		console.log(standardDate, averageMonth);
 		bankController.saveBankAccountCondition(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				BURN_RATE_END_DATE: standardDate,
-				BURN_RATE_START_DATE: moment(standardDate).subtract(
+				BURN_RATE_START_DATE: dayjs(standardDate).subtract(
 					averageMonth,
-					'M'
+					'month'
 				),
 			},
 			(res) => {
@@ -150,13 +153,14 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
 				(res) => {
+					console.log(res.data.result);
 					if (res.data.result == null) {
 						setStandardDate(moment());
 						setAverageMonth(1);
 					} else {
 						setStandardDate(res.data.result.BURN_RATE_END_DATE);
 						setAverageMonth(
-							moment(res.data.result.BURN_RATE_END_DATE)
+							dayjs(res.data.result.BURN_RATE_END_DATE)
 								.add(1, 'd')
 								.diff(
 									res.data.result.BURN_RATE_START_DATE,

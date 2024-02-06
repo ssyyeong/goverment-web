@@ -21,6 +21,7 @@
 		"@tosspayments/payment-sdk": "^1.7.0",
 		"aos": "^2.3.4",
 		"axios": "^1.2.3",
+		"dayjs": "^1.11.10",
 		"dotenv": "^16.3.1",
 		"file-saver": "^2.0.5",
 		"moment": "^2.29.4",
