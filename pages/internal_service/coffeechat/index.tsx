@@ -15,6 +15,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import CoffeeChatRecommendModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatRecommendModal/CoffeeChatRecommendModal';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import CoffeeChatOpenEventModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatOpenEventModal/CoffeeChatOpenEventModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -38,6 +39,10 @@ const Page: NextPage = () => {
 	const coffeeChatProfileController = new DefaultController(
 		'CoffeeChatProfile'
 	);
+	/**
+	 * 오픈 이벤트 모달
+	 */
+	const [openEventModal, setOpenEventModal] = React.useState<boolean>(true);
 	//* Hooks
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
@@ -54,6 +59,9 @@ const Page: NextPage = () => {
 	 * 커피챗 추천 모달
 	 */
 	useEffect(() => {
+		if (!cookie.getItemInCookies('COFFEE_CHAT_EVENT_MODAL')) {
+			setOpenEventModal(true);
+		}
 		coffeeChatProfileController.getOneItemByKey(
 			{
 				IS_RECOMMENDED: 'Y',
@@ -69,7 +77,7 @@ const Page: NextPage = () => {
 				}
 			}
 		);
-	}, []);
+	}, [isSubscription]);
 
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -123,6 +131,29 @@ const Page: NextPage = () => {
 								내 커피챗 프로필 설정하기
 							</Typography>
 						</Box>
+						<Box
+							sx={{
+								cursor: 'pointer',
+							}}
+							alignItems={'center'}
+							gap={0.5}
+							ml={1}
+							display={'flex'}
+							onClick={() => {
+								if (isSubscription.access === true) {
+									window.open(
+										'https://jober.io/wall-write-document/cc935fd9-a388-4ff3-a9c5-a45dab221db0'
+									);
+								} else {
+									setOpen(true);
+									setType('subscribe');
+								}
+							}}
+						>
+							<Typography fontWeight={'600'}>
+								/ 매칭 서비스 이용하기
+							</Typography>
+						</Box>
 					</Box>
 					{/* 스페셜 커피챗 */}
 					<SpecialCoffeeChat />
@@ -146,6 +177,14 @@ const Page: NextPage = () => {
 				open={open}
 				handleClose={() => setOpen(false)}
 				type={type}
+			/>
+			{/* 오픈 이벤트 */}
+			<CoffeeChatOpenEventModal
+				open={openEventModal}
+				handleClose={() => setOpenEventModal(false)}
+				alertSetOpen={setOpen}
+				alertSetType={setType}
+				subscription={isSubscription.access}
 			/>
 		</InternalServiceDrawer>
 	);

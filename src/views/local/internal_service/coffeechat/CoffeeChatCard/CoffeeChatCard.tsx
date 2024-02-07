@@ -104,22 +104,25 @@ const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
 			</Box>
 			{/* 주요분야 */}
 			<Box display={'flex'} flexWrap={'wrap'}>
-				{props.mainField?.map((field, idx) => (
-					<Typography variant="body2" lineHeight={'1.3'}>
-						{field}
-						<Typography
-							variant="body2"
-							display={
-								idx === props.mainField.length - 1
-									? 'none'
-									: 'inline'
-							}
-						>
-							{' '}
-							,
-						</Typography>
-					</Typography>
-				))}
+				{props.mainField?.map(
+					(field, idx) =>
+						field !== '기타' && (
+							<Typography variant="body2" lineHeight={'1.3'}>
+								{field}
+								<Typography
+									variant="body2"
+									display={
+										idx === props.mainField.length - 1
+											? 'none'
+											: 'inline'
+									}
+								>
+									{' '}
+									,
+								</Typography>
+							</Typography>
+						)
+				)}
 			</Box>
 		</Box>
 	);

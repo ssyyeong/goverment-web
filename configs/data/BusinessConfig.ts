@@ -915,9 +915,8 @@ const investSector: string[] = [
 // 	'[99001] 주한 외국 공관',
 // ];
 
-
 /**
- * 
+ *
  * 서포티 사업 분류
  */
 const businessSector: string[] = [
@@ -940,7 +939,23 @@ const businessSector: string[] = [
 	'세일즈',
 	'보안',
 	'ESG',
-	'기타'
-]
+	'기타',
+];
 
-export { businessConfig, businessSector, investSector };
+/**
+ * 커피챗 분야 분류
+ */
+const coffeeChatSector: string[] = [
+	'세일즈',
+	'마케팅',
+	'투자',
+	'정부지원사업',
+	'세무',
+	'특허',
+	'사업',
+	'개발',
+	'법',
+	'기타',
+];
+
+export { businessConfig, businessSector, investSector, coffeeChatSector };

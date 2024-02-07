@@ -48,17 +48,88 @@ const Page: NextPage = () => {
 	 * 스페셜 커피챗 신청 모달
 	 */
 	const [specialModal, setSpecialModal] = React.useState<boolean>(false);
+
+	//* Hooks
+	/**
+	 * 페이지 진입 시 유저 권한 검사 (구독검사)
+	 */
+	const { access } = useUserAccess('SUBSCRIPTION');
+
+	/**
+	 * 유저 아이디
+	 */
+	const { memberId } = useAppMember();
+	/**
+	 * 알러트
+	 */
+	const { open, setOpen, setType, type } = useAlert({});
+
+	/**
+	 * 유저 커피챗 프로필 조회
+	 */
+	useEffect(() => {
+		console.log(pid, special);
+		if (pid !== undefined) {
+			if (special == 'true') {
+				specialCoffeeChatProductController.getOneItemByKey(
+					{
+						SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE: pid,
+					},
+					(res) => {
+						const data = res.data.result;
+
+						if (data == null) {
+							alert('잘못된 접근입니다.');
+							return;
+						}
+						console.log();
+						data.PROFILE_IMAGE = JSON.parse(data.PROFILE_IMAGE)[0];
+						data.CAREER = JSON.parse(data.CAREER);
+						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
+						data.SUBJECT = JSON.parse(data.SUBJECT);
+						setCoffeeChatProfile(data);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
+			} else {
+				coffeeChatProfileController.getOneItemByKey(
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: pid,
+					},
+					(res) => {
+						const data = res.data.result;
+						if (data == null) {
+							alert('잘못된 접근입니다.');
+							return;
+						}
+						data.CAREER = JSON.parse(data.CAREER);
+						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
+						data.SUBJECT = JSON.parse(data.SUBJECT);
+						setCoffeeChatProfile(res.data.result);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
+			}
+		}
+	}, [pid, special, access]);
+
 	//* Functions
 	/**
 	 * 커피챗 신청하기 클릭시
 	 */
 	const handleCoffeeChatApply = () => {
 		// 구독 검사
-		// if (isSubscription.access !== true) {
-		// 	setOpen(true);
-		// 	setType('subscribe');
-		// 	return;
-		// }
+		if (access == false) {
+			setOpen(true);
+			setType('subscribe');
+			return;
+		}
 		if (memberId == coffeeChatProfile.APP_MEMBER_IDENTIFICATION_CODE) {
 			alert('본인의 커피챗은 신청할 수 없습니다.');
 			return;
@@ -152,78 +223,6 @@ const Page: NextPage = () => {
 			}
 		);
 	};
-	//* Hooks
-	/**
-	 * 페이지 진입 시 유저 권한 검사 (구독검사)
-	 */
-	const isSubscription = useUserAccess('SUBSCRIPTION');
-	/**
-	 * 유저 커피챗 프로필 검사
-	 */
-	const isCoffeeChatProfile = useUserAccess('COFFEE_CHAT');
-	/**
-	 * 유저 아이디
-	 */
-	const { memberId } = useAppMember();
-	/**
-	 * 알러트
-	 */
-	const { open, setOpen, setType, type } = useAlert({});
-
-	/**
-	 * 유저 커피챗 프로필 조회
-	 */
-	useEffect(() => {
-		console.log(pid, special);
-		if (pid !== undefined) {
-			if (special == 'true') {
-				specialCoffeeChatProductController.getOneItemByKey(
-					{
-						SPECIAL_COFFEE_CHAT_PRODUCT_IDENTIFICATION_CODE: pid,
-					},
-					(res) => {
-						const data = res.data.result;
-
-						if (data == null) {
-							alert('잘못된 접근입니다.');
-							return;
-						}
-						console.log();
-						data.PROFILE_IMAGE = JSON.parse(data.PROFILE_IMAGE)[0];
-						data.CAREER = JSON.parse(data.CAREER);
-						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
-						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
-						data.SUBJECT = JSON.parse(data.SUBJECT);
-						setCoffeeChatProfile(data);
-					},
-					(err) => {
-						console.log(err);
-					}
-				);
-			} else {
-				coffeeChatProfileController.getOneItemByKey(
-					{
-						APP_MEMBER_IDENTIFICATION_CODE: pid,
-					},
-					(res) => {
-						const data = res.data.result;
-						if (data == null) {
-							alert('잘못된 접근입니다.');
-							return;
-						}
-						data.CAREER = JSON.parse(data.CAREER);
-						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
-						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
-						data.SUBJECT = JSON.parse(data.SUBJECT);
-						setCoffeeChatProfile(res.data.result);
-					},
-					(err) => {
-						console.log(err);
-					}
-				);
-			}
-		}
-	}, [pid, special]);
 
 	console.log(coffeeChatProfile);
 	return (
@@ -256,26 +255,28 @@ const Page: NextPage = () => {
 					>
 						{coffeeChatProfile?.MAIN_FIELD?.map((item, index) => {
 							return (
-								<Box
-									key={index}
-									sx={{
-										display: 'flex',
-										alignItems: 'center',
-										gap: 1,
-										border: '0.5px solid #6D6D6D',
-										bgcolor: '#FFFFFF',
-										borderRadius: 4,
-										px: 1.5,
-										py: 1,
-									}}
-								>
-									<Typography
-										variant="body2"
-										color={'#6D6D6D'}
+								item !== '기타' && (
+									<Box
+										key={index}
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: 1,
+											border: '0.5px solid #6D6D6D',
+											bgcolor: '#FFFFFF',
+											borderRadius: 4,
+											px: 1.5,
+											py: 1,
+										}}
 									>
-										{item}
-									</Typography>
-								</Box>
+										<Typography
+											variant="body2"
+											color={'#6D6D6D'}
+										>
+											{item}
+										</Typography>
+									</Box>
+								)
 							);
 						})}
 					</Box>
@@ -343,22 +344,25 @@ const Page: NextPage = () => {
 						{coffeeChatProfile?.INTEREST_FIELD?.map(
 							(item, index) => {
 								return (
-									<Typography>
-										{item}
-										<Typography
-											display={
-												index ===
-												coffeeChatProfile
-													?.INTEREST_FIELD?.length -
-													1
-													? 'none'
-													: 'inline'
-											}
-										>
-											{' '}
-											,
+									item !== '기타' && (
+										<Typography>
+											{item}
+											<Typography
+												display={
+													index ===
+													coffeeChatProfile
+														?.INTEREST_FIELD
+														?.length -
+														1
+														? 'none'
+														: 'inline'
+												}
+											>
+												{' '}
+												,
+											</Typography>
 										</Typography>
-									</Typography>
+									)
 								);
 							}
 						)}

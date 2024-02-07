@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Box, BoxProps, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import { businessSector } from '../../../../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	coffeeChatSector,
+} from '../../../../../../configs/data/BusinessConfig';
 import CoffeeChatCard from '../CoffeeChatCard/CoffeeChatCard';
 import Nodata from '../../../../global/NoData/NoData';
 import { profile } from 'console';
@@ -154,7 +157,7 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 				flexWrap={'wrap'}
 				mb={3}
 			>
-				{businessSector.map((sector) => (
+				{coffeeChatSector.map((sector) => (
 					<Box
 						display={'flex'}
 						alignItems={'center'}

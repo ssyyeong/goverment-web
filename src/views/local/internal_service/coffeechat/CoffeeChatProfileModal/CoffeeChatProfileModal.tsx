@@ -11,7 +11,10 @@ import {
 import SupportiModal from '../../../../global/SupportiModal';
 import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import ImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/ImageUploader';
-import { businessSector } from '../../../../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	coffeeChatSector,
+} from '../../../../../../configs/data/BusinessConfig';
 import SupportiInput from '../../../../global/SupportiInput';
 import SupportiButton from '../../../../global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
@@ -49,6 +52,13 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 		INTRODUCE: '',
 		DESCRIPTION: '',
 	} as ICoffeeChatProfile);
+	/**
+	 * 기타 필드
+	 */
+	const [mainFieldEtc, setMainFieldEtc] = React.useState<string[]>([]);
+	const [interestFieldEtc, setInterestFieldEtc] = React.useState<string[]>(
+		[]
+	);
 	/**
 	 * 페이지
 	 */
@@ -142,10 +152,36 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				} = event;
 				setProfile({ ...profile, MAIN_FIELD: value });
 			},
-			dataList: businessSector,
+			dataList: coffeeChatSector,
 			grid: {
 				xs: 12,
 			},
+			additionalDataInput: (
+				<Box mt={1}>
+					{profile.MAIN_FIELD.findIndex(
+						(field) => field === '기타'
+					) !== -1 && (
+						<SupportiInput
+							value={mainFieldEtc}
+							additionalProps={{
+								placeholder: '기타 주요 분야를 입력해주세요',
+							}}
+							setValue={setMainFieldEtc}
+							handleAdd={(value: string) =>
+								setMainFieldEtc([...mainFieldEtc, value])
+							}
+							handleDelete={(value: string, idx: number) =>
+								setMainFieldEtc(
+									mainFieldEtc.filter(
+										(career, index) => index !== idx
+									)
+								)
+							}
+							type={'addablestringlist'}
+						/>
+					)}
+				</Box>
+			),
 		},
 		{
 			label: '내 관심 분야(다중선택)',
@@ -158,10 +194,39 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				} = event;
 				setProfile({ ...profile, INTEREST_FIELD: value });
 			},
-			dataList: businessSector,
+			dataList: coffeeChatSector,
 			grid: {
 				xs: 12,
 			},
+			additionalDataInput: (
+				<Box mt={1}>
+					{profile.INTEREST_FIELD.findIndex(
+						(field) => field === '기타'
+					) !== -1 && (
+						<SupportiInput
+							value={interestFieldEtc}
+							additionalProps={{
+								placeholder: '기타 관심 분야를 입력해주세요',
+							}}
+							setValue={setInterestFieldEtc}
+							handleAdd={(value: string) =>
+								setInterestFieldEtc([
+									...interestFieldEtc,
+									value,
+								])
+							}
+							handleDelete={(value: string, idx: number) =>
+								setInterestFieldEtc(
+									interestFieldEtc.filter(
+										(career, index) => index !== idx
+									)
+								)
+							}
+							type={'addablestringlist'}
+						/>
+					)}
+				</Box>
+			),
 		},
 	];
 	/**
@@ -178,7 +243,6 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				multiline: true,
 				rows: 2,
 			},
-
 			setValue: (value: string) =>
 				setProfile({ ...profile, DESCRIPTION: value }),
 			grid: {
@@ -219,6 +283,23 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 	 * 프로필 업로드
 	 */
 	const uploadProfile = () => {
+		// 기타 필드 추가
+		if (
+			mainFieldEtc.length !== 0 &&
+			profile.MAIN_FIELD.findIndex((field) => field === '기타') !== -1
+		) {
+			profile.MAIN_FIELD = [...profile.MAIN_FIELD, ...mainFieldEtc];
+		}
+		if (
+			interestFieldEtc.length !== 0 &&
+			profile.INTEREST_FIELD.findIndex((field) => field === '기타') !== -1
+		) {
+			profile.INTEREST_FIELD = [
+				...profile.INTEREST_FIELD,
+				...interestFieldEtc,
+			];
+		}
+
 		if (update) {
 			//업데이트 일 때
 			coffeeChatProfileController.updateItem(
@@ -274,13 +355,73 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 				},
 				(res) => {
 					if (res.data.result !== null) {
+						setUpdate(true);
 						const data = res.data.result;
+						const main = JSON.parse(data.MAIN_FIELD);
+						console.log(main);
+						if (
+							main.findIndex(
+								(field: string) => field == '기타'
+							) !== -1
+						) {
+							console.log('기타');
+							// 기타가 있을 때 coffeeChatSector리스트 에 있는 내용을 제외한 모든 값을 mainFieldEtc 로 넣어줌
+							const etc = main.filter(
+								(field: string) =>
+									coffeeChatSector.findIndex(
+										(sector: string) => sector === field
+									) === -1
+							);
+							setMainFieldEtc(etc);
+
+							// coffeeChatSector리스트 에 있으면 data.MAIN_FIELD로 지정
+							const mainField = main.filter(
+								(field: string) =>
+									coffeeChatSector.findIndex(
+										(sector: string) => sector === field
+									) !== -1
+							);
+							data.MAIN_FIELD = mainField;
+						} else {
+							setMainFieldEtc([]);
+							data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						}
+						const interest = JSON.parse(data.INTEREST_FIELD);
+						if (
+							interest.findIndex(
+								(field: string) => field == '기타'
+							) !== -1
+						) {
+							console.log('기타2');
+							// 기타가 있을 때 coffeeChatSector리스트 에 있는 내용을 제외한 모든 값을 interestFieldEtc 로 넣어줌
+							const etc2 = interest.filter(
+								(field: string) =>
+									coffeeChatSector.findIndex(
+										(sector: string) => sector === field
+									) === -1
+							);
+							console.log(etc2);
+							setInterestFieldEtc(etc2);
+							// coffeeChatSector리스트 에 있으면 data.INTEREST_FIELD로 지정
+							const interestField = interest.filter(
+								(field: string) =>
+									coffeeChatSector.findIndex(
+										(sector: string) => sector === field
+									) !== -1
+							);
+							data.INTEREST_FIELD = interestField;
+						} else {
+							setInterestFieldEtc([]);
+							data.INTEREST_FIELD = JSON.parse(
+								data.INTEREST_FIELD
+							);
+						}
+
+						// data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
+						// data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
 						data.CAREER = JSON.parse(data.CAREER);
-						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
-						data.INTEREST_FIELD = JSON.parse(data.INTEREST_FIELD);
 						data.SUBJECT = JSON.parse(data.SUBJECT);
 						setProfile(data);
-						setUpdate(true);
 					} else {
 						setUpdate(false);
 					}
@@ -376,6 +517,7 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 									handleDelete={profile.handleDelete}
 									maxLength={profile.maxLength}
 								/>
+								{profile.additionalDataInput}
 							</Grid>
 						))}
 					</Grid>
