@@ -334,7 +334,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									fontWeight={600}
 									variant="subtitle1"
 								>
-									핸드폰 번호 입력
+									핸드폰 번호 입력 ('-' 제외)
 									{/* 필수 여부 표시 */}
 									<Typography color={'red'}>*</Typography>
 								</Typography>
@@ -369,7 +369,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 								display={'flex'}
 								justifyContent={'space-between'}
 								alignItems={'center'}
-								mt={-2}
+								mt={1}
 								mb={2}
 							>
 								<SupportiInput
@@ -384,7 +384,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 										display: 'flex',
 										gap: 0.5,
 										lineHeight: '20px',
-										pt: 5,
+										mt: 2,
 									}}
 									fontWeight={600}
 								>
