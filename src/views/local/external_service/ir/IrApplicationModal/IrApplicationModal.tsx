@@ -334,7 +334,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									fontWeight={600}
 									variant="subtitle1"
 								>
-									핸드폰 번호 입력 ('-' 제외)
+									핸드폰 번호 입력 ('-' 포함)
 									{/* 필수 여부 표시 */}
 									<Typography color={'red'}>*</Typography>
 								</Typography>

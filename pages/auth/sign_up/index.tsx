@@ -42,6 +42,8 @@ const Page: NextPage = () => {
 	const [activeStep, setActiveStep] = React.useState<number>(0);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
+	const [emailDuplication, setEmailDuplication] =
+		React.useState<boolean>(undefined);
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
 
@@ -120,6 +122,28 @@ const Page: NextPage = () => {
 	};
 
 	/**
+	 *
+	 * 이메일 중복 체크
+	 */
+	const emailCheck = () => {
+		appMemberController.checkEmail(
+			{
+				USER_NAME: signupData.USER_NAME,
+			},
+			(res) => {
+				if (res) {
+					setEmailDuplication(!res.data.result);
+				}
+			},
+			(err) => {
+				// setEmailDuplication(true);
+			}
+		);
+	};
+
+	console.log(emailDuplication);
+
+	/**
 	 * 회원가입
 	 */
 	const signUp = () => {
@@ -161,11 +185,45 @@ const Page: NextPage = () => {
 					USER_NAME: e.target.value,
 				});
 			},
+			endAdornment: (
+				<Button
+					variant="contained"
+					sx={{
+						backgroundColor: '#d1d1d1',
+					}}
+					onClick={() => {
+						if (
+							signupData.USER_NAME &&
+							!emailRegex.test(signupData.USER_NAME)
+						)
+							return alert('정확한 이메일을 입력해주세요!');
+
+						emailCheck();
+					}}
+
+				>
+					<Typography variant="body2" color={'white'}>
+						인증
+					</Typography>
+				</Button>
+			),
+			isVerified:
+				(signupData.USER_NAME &&
+					emailRegex.test(signupData.USER_NAME)) &&
+				(emailDuplication !== undefined && !emailDuplication),
 			error:
-				signupData.USER_NAME && !emailRegex.test(signupData.USER_NAME),
+				(signupData.USER_NAME &&
+					!emailRegex.test(signupData.USER_NAME)) ||
+				(emailDuplication !== undefined && emailDuplication),
 			helperText:
 				signupData.USER_NAME && !emailRegex.test(signupData.USER_NAME)
 					? '이메일 형식이 올바르지 않습니다.'
+					: emailDuplication !== undefined && emailDuplication
+					? '중복된 이메일입니다.'
+					: emailDuplication !== undefined && !emailDuplication
+					? '인증되었습니다.'
+					: emailDuplication !== undefined && !emailDuplication && signupData.USER_NAME === ''
+					? ''
 					: '',
 		},
 		{

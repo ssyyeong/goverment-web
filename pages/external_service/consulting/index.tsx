@@ -158,7 +158,7 @@ setSubscriptionInfo(res.data.result);
 			router.back();
 		} else if (Object.keys(subscriptionInfo).length !== 0) {
 			if (subscriptionInfo?.SubscriptionProduct?.TYPE !== 'PRODUCT') {
-				alert('PRODUCT 요금제 구독 회원만 접근 가능한 페이지입니다.');
+				alert('THE PREMIUM PRO 요금제 구독 회원만 접근 가능한 페이지입니다.');
 				router.back();
 			}
 		}
