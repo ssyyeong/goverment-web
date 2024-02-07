@@ -277,6 +277,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				PERIOD_END: new Date(
 					`${props.selectedPeriod?.year}-${props.selectedPeriod?.month}-31`
 				),
+				EXCEPTED_YN: 'N',
 			},
 			(res) => {
 				setAllTransactionHistoryList(res.data.result.rows);
@@ -354,7 +355,11 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 */
 	useEffect(() => {
 		getAllTransactionHistoryList();
-	}, [props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE]);
+	}, [
+		props.bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE,
+		props.selectedPeriod?.year,
+		props.selectedPeriod?.month,
+	]);
 
 	return (
 		<Box

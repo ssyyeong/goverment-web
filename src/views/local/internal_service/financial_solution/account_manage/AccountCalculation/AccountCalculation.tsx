@@ -396,7 +396,11 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 													  ).toLocaleString()
 													: item.value}
 
-												{item.month ? '개월' : '원'}
+												{item.month
+													? '개월'
+													: item.value == '흑자'
+													? ''
+													: '원'}
 											</Typography>
 										</Box>
 									);
@@ -581,6 +585,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 						{props.calculationResult?.burnRate !== null &&
 							props.calculationResult &&
 							resultConfig.map((item, index) => {
+								console.log(item);
 								return (
 									<Box
 										mr={3}
@@ -610,7 +615,11 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 												  ).toLocaleString()
 												: item.value}
 
-											{item.month ? '개월' : '원'}
+											{item.month
+												? '개월'
+												: item.value == '흑자'
+												? ''
+												: '원'}
 										</Typography>
 									</Box>
 								);
