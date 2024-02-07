@@ -86,10 +86,6 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 		label: string;
 	}[] = [
 		{
-			label: '전체',
-			value: '전체',
-		},
-		{
 			label: '재무',
 			value: '재무',
 		},
@@ -202,13 +198,12 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							);
 						} else {
 							setSelectableCategoryList(
-								selectableKpiCategoryList
-									.concat([
-										{
-											value: '직접입력',
-											label: '직접입력',
-										},
-									])
+								selectableKpiCategoryList.concat([
+									{
+										value: '직접입력',
+										label: '직접입력',
+									},
+								])
 							);
 						}
 					}
