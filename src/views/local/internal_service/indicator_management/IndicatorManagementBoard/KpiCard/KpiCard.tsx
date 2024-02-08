@@ -277,7 +277,7 @@ const KpiCard = (props: IKpiCardProps) => {
 
 					{/** 중요도 */}
 
-					<Box display="flex" gap={1} mt="auto" mb="auto">
+					<Box display="flex" gap={1} mb="auto" mt={1}>
 						<Rating
 							name="simple-controlled"
 							value={kpiData.RATE}

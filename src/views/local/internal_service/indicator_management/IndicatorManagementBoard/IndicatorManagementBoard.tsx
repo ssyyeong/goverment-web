@@ -241,8 +241,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			{/* 새로운 목표 등록 영역 */}
 			<Box
 				sx={{
-					pl: { xs: '15px', md: '0' },
-					pr: { xs: '15px', md: '0' },
+					pl: { xs: '0', md: '0' },
+					pr: { xs: '0', md: '0' },
 				}}
 			>
 				<SupportiButton
@@ -302,7 +302,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					type="select"
 					value={selectedKpiCategory}
 					setValue={(value: any) => setSelectedKpiCategory(value)}
-					dataList={selectableKpiCategoryList.concat(props.selectableKpiCategoryList)}
+					dataList={selectableKpiCategoryList.concat(
+						props.selectableKpiCategoryList
+					)}
 					width={'100px'}
 				/>
 			)}
