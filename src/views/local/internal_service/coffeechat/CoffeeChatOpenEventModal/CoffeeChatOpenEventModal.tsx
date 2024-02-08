@@ -60,7 +60,7 @@ const CoffeeChatOpenEventModal = (props: ICoffeeChatOpenEventModalProps) => {
 					<Typography
 						lineHeight={1.2}
 						fontWeight={'500'}
-						variant="h6"
+						variant="subtitle1"
 					>
 						안녕하세요, 서포티 입니다! <br />
 						<br />
@@ -71,7 +71,7 @@ const CoffeeChatOpenEventModal = (props: ICoffeeChatOpenEventModalProps) => {
 					<Typography
 						lineHeight={1.2}
 						fontWeight={'500'}
-						variant="h6"
+						variant="subtitle1"
 					>
 						서비스를 위해 정보가 필요하니,아래버튼을 클릭하여
 						참여신청 해주세요!

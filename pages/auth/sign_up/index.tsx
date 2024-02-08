@@ -157,6 +157,8 @@ const Page: NextPage = () => {
 			!signupData.PHONE_NUMBER
 		)
 			return alert('모든 정보를 입력해주세요.');
+		if (signupData.USER_NAME && emailDuplication)
+			return alert('중복된 이메일입니다.');
 		appMemberController.register(
 			{
 				...signupData,
@@ -200,7 +202,6 @@ const Page: NextPage = () => {
 
 						emailCheck();
 					}}
-
 				>
 					<Typography variant="body2" color={'white'}>
 						인증
@@ -208,9 +209,10 @@ const Page: NextPage = () => {
 				</Button>
 			),
 			isVerified:
-				(signupData.USER_NAME &&
-					emailRegex.test(signupData.USER_NAME)) &&
-				(emailDuplication !== undefined && !emailDuplication),
+				signupData.USER_NAME &&
+				emailRegex.test(signupData.USER_NAME) &&
+				emailDuplication !== undefined &&
+				!emailDuplication,
 			error:
 				(signupData.USER_NAME &&
 					!emailRegex.test(signupData.USER_NAME)) ||
@@ -222,7 +224,9 @@ const Page: NextPage = () => {
 					? '중복된 이메일입니다.'
 					: emailDuplication !== undefined && !emailDuplication
 					? '인증되었습니다.'
-					: emailDuplication !== undefined && !emailDuplication && signupData.USER_NAME === ''
+					: emailDuplication !== undefined &&
+					  !emailDuplication &&
+					  signupData.USER_NAME === ''
 					? ''
 					: '',
 		},

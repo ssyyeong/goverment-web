@@ -293,7 +293,8 @@ const Page: NextPage = () => {
 															? 'secondary.dark'
 															: 'primary.main'
 													}
-													p={1}
+													px={1.5}
+													py={0.8}
 												>
 													<Typography
 														color={
@@ -301,6 +302,7 @@ const Page: NextPage = () => {
 																? 'secondary.dark'
 																: 'primary.main'
 														}
+														variant="body2"
 													>
 														{answer === undefined
 															? '답변 전'

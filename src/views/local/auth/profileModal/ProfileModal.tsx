@@ -36,55 +36,60 @@ const ProfileModal = (props: IProfileModalProps) => {
 			}}
 			activeHeader={false}
 			muiModalProps={{
-				width: { sm: '40%', xs: '100%' },
+				width: { sm: '30%', xs: '100%' },
 			}}
 			style={{
-				minWidth: '40%',
-				width: { sm: '40%', xs: '100%' },
+				minWidth: '30%',
+				width: { sm: '30%', xs: '100%' },
 				p: { xs: 2, md: 2 },
 			}}
 		>
 			{props.profile !== undefined && (
 				<Box
-					mb={3}
 					width={'100%'}
-					sx={{
-						p: { xs: 0, md: 2 },
-					}}
 					display="flex"
 					flexDirection="column"
 					gap={5}
 				>
-					<Box display="flex">
+					<Box display="flex" alignItems={'center'}>
 						<img
 							alt="expertImg"
 							style={{
 								borderRadius: '50%',
 								width: '100px',
 								height: '100px',
+								objectFit: 'cover',
 							}}
 							src={JSON.parse(props.profile?.PROFILE_IMAGE)[0]}
 						/>
-						<Box ml={5}>
-							<Box display="flex" gap={2} my={2}>
-								<Typography fontWeight={600} variant="h4">
+						<Box ml={4}>
+							<Box
+								display="flex"
+								gap={0.5}
+								mb={1}
+								alignItems={'baseline'}
+							>
+								<Typography fontWeight={600} variant="h6">
 									{props.profile.PartnerMember.FULL_NAME}
 								</Typography>
-								<Typography fontWeight={600} variant="h4">
+								<Typography
+									fontWeight={600}
+									variant="subtitle2"
+								>
 									{props.profile.EXPERT_TYPE}
 								</Typography>
 							</Box>
 							<Typography
 								color="secondary.dark"
 								fontWeight={600}
-								variant="h5"
+								variant="subtitle2"
 							>
 								{props.profile.COMPANY_NAME}
 							</Typography>
 						</Box>
 					</Box>
 					<Box>
-						<Typography variant="h4" fontWeight={600} mb={1}>
+						<Typography variant="h6" fontWeight={700} mb={1}>
 							경력
 						</Typography>
 						{JSON.parse(props.profile.CAREER).map(
@@ -93,9 +98,9 @@ const ProfileModal = (props: IProfileModalProps) => {
 									<Typography
 										key={index}
 										color="secondary.dark"
-										variant="h5"
+										variant="subtitle2"
 									>
-										{career}
+										&#8226; {career}
 									</Typography>
 								);
 							}
@@ -104,7 +109,7 @@ const ProfileModal = (props: IProfileModalProps) => {
 
 					<Box>
 						{/** Contact */}
-						<Box display="flex" gap={1}>
+						<Box display="flex" gap={1} mb={1}>
 							<MailOutlineIcon />
 							<Typography
 								color="secondary.dark"

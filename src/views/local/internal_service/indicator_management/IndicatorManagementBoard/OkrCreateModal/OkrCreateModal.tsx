@@ -203,7 +203,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				title={'목표 등록'}
 				activeHeader={true}
 				style={{
-					width: { xs: '100%', md: '60%' },
+					width: { xs: '100%', md: '55%' },
 				}}
 				children={
 					<Box
@@ -213,7 +213,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 						maxHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', md: '90%' },
+							width: '100%',
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': {
 								width: '6px',
@@ -229,9 +229,16 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 							pt: 2,
 							pr: 1,
 						}}
+						width={'100%'}
 					>
 						{/** 상위 목표 작성 영역*/}
-						<Box display={'flex'} flexDirection={'column'} gap={1}>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							gap={1}
+							width={'100%'}
+							height={'100%'}
+						>
 							<Box width={'100%'}>
 								{/** 상위 목표 작성하는 인풋 */}
 								<SupportiInput
@@ -247,6 +254,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 											TITLE: value,
 										});
 									}}
+									style={{}}
 									width={'100%'}
 								/>
 								<Box
@@ -255,8 +263,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								>
 									{/** 필수 입력값 알림 */}
 									<Typography
-										fontWeight={500}
-										variant="body1"
+										fontWeight={400}
+										variant="caption"
 										color="error.main"
 										mt={'5px'}
 										sx={{
@@ -273,7 +281,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									<Box
 										display="flex"
 										ml={'auto'}
-										my={1}
+										my={0.5}
 										gap={0.5}
 									>
 										<Typography
@@ -373,7 +381,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 						</Box>
 
 						{/** 구분선 */}
-						<Divider sx={{ my: 2 }} />
+						<Divider sx={{ my: 0.5 }} />
 
 						{/** 하위 목표 작성 */}
 						<Box>
@@ -423,7 +431,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								}}
 								style={{
 									height: 5,
-									marginTop: 2,
+									// marginTop: 2,
 									color: 'black',
 								}}
 								color={'secondary'}

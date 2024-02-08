@@ -248,7 +248,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 				}}
 				title={props.mode === 'modify' ? '수정하기' : '목표 등록'}
 				style={{
-					width: { xs: '100%', md: '60%' },
+					width: { xs: '100%', md: '55%' },
 				}}
 				activeHeader={true}
 				children={
@@ -259,14 +259,14 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 						maxHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', md: '90%' },
+							width: { xs: '100%', md: '98%' },
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': { display: 'none' },
-							pt: 2,
+							// pt: 2,
 						}}
 					>
 						{/** 목표 작성 영역 */}
-						<Box display={'flex'} flexDirection={'column'} gap={3}>
+						<Box display={'flex'} flexDirection={'column'} gap={0}>
 							<Box>
 								<SupportiInput
 									type="input"
@@ -342,7 +342,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							</Box>
 
 							{/** 날짜 선택 */}
-							<Box display={'flex'}>
+							<Box display={'flex'} gap={0.5}>
 								<CalendarTodayIcon
 									sx={{
 										width: '15px',
@@ -396,7 +396,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							</Box>
 
 							{/** 중요도 */}
-							<Box mb={2} mt={1}>
+							<Box my={2}>
 								<Typography fontWeight={500} mb={1}>
 									중요도
 								</Typography>
@@ -424,7 +424,12 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 								</Box>
 							</Box>
 
-							<Box display={'flex'} gap={2} flexWrap="wrap">
+							<Box
+								display={'flex'}
+								gap={2}
+								flexWrap="wrap"
+								mt={2}
+							>
 								{/** 카테고리 */}
 								<Box>
 									<Typography fontWeight={500} mb={1}>

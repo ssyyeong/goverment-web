@@ -15,6 +15,7 @@ import Nodata from '../../../src/views/global/NoData/NoData';
 import { usePagination } from '../../../src/hooks/usePagination';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { A2eController } from '../../../src/controller/A2EController';
+import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -307,9 +308,21 @@ const Page: NextPage = () => {
 						mobileImage="/images/main/A2EMobile.png"
 					>
 						<Box p={1}>
-							<Typography variant="h5" mb={2} fontWeight={600}>
+							<Typography variant="h5" fontWeight={700} mb={1}>
 								서포티 유저들이 많이 궁금해하는 질문
 							</Typography>
+							<Box
+								display={'flex'}
+								justifyContent={'space-between'}
+							>
+								<Typography mb={2} color={'secondary.main'}>
+									서포티 유저들이 가장 많이 궁금해하는 질문을
+									확인해보세요.
+								</Typography>
+								<Typography mb={2} color={'secondary.main'}>
+									{moment().format('YYYY-MM-DD HH:mm')} 기준
+								</Typography>
+							</Box>
 							<Box
 								display={'flex'}
 								pl={{ md: 0.5, xs: '5%' }}
@@ -424,14 +437,15 @@ const Page: NextPage = () => {
 								<Typography
 									variant="h5"
 									mb={2}
-									fontWeight={600}
+									fontWeight={700}
 								>
 									모든 질문
 								</Typography>
 								<Box
 									display="flex"
 									justifyContent={'space-between'}
-									my={3}
+									mt={2}
+									mb={1}
 									flexWrap="wrap"
 									gap={2}
 								>
@@ -448,7 +462,10 @@ const Page: NextPage = () => {
 									<SupportiButton
 										contents="질문하러 가기"
 										variant="contained"
-										style={{ color: 'common.white' }}
+										style={{
+											color: 'common.white',
+											height: 40,
+										}}
 										isGradient={true}
 										onClick={() =>
 											router.push(
@@ -673,7 +690,8 @@ const Page: NextPage = () => {
 																? 'secondary.dark'
 																: 'primary.main'
 														}
-														p={1}
+														px={1.5}
+														py={0.8}
 													>
 														<Typography
 															color={
@@ -682,6 +700,7 @@ const Page: NextPage = () => {
 																	? 'secondary.dark'
 																	: 'primary.main'
 															}
+															variant="body2"
 														>
 															{item.ANSWERED_YN ===
 															'N'

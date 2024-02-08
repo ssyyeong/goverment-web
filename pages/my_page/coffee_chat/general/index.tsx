@@ -157,7 +157,11 @@ const Page: NextPage = () => {
 					<Typography
 						variant="body1"
 						fontWeight={'bold'}
-						sx={{ mb: 3, textDecoration: 'underline' }}
+						sx={{
+							mb: 3,
+							textDecoration: 'underline',
+							cursor: 'pointer',
+						}}
 						color={'secondary.dark'}
 						onClick={() => {
 							window.open(

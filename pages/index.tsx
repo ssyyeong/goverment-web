@@ -723,7 +723,7 @@ const Page: NextPage = () => {
 						justifyContent={'center'}
 					>
 						<Typography color="info.main" variant="h5">
-							매월 3째 주
+							상시
 						</Typography>
 						<Typography color="common.white" mt="auto" mb="auto">
 							진행

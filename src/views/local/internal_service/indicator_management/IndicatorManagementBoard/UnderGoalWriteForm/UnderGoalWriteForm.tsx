@@ -148,7 +148,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 
 	return (
 		<Box
-			sx={{ p: { xs: 1.5, md: 3 } }}
+			sx={{ px: { xs: 1.5, md: 3 }, py: 1.5 }}
 			bgcolor={'secondary.light'}
 			borderRadius={2}
 			display={'flex'}
