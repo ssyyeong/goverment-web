@@ -194,7 +194,12 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 
 						if (props.mode === 'modify') {
 							setSelectableCategoryList(
-								selectableKpiCategoryList.concat(temp)
+								selectableKpiCategoryList.concat(temp).concat([
+									{
+										value: '직접입력',
+										label: '직접입력',
+									},
+								])
 							);
 						} else {
 							setSelectableCategoryList(

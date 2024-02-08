@@ -219,8 +219,6 @@ const Page: NextPage = () => {
 		setIsSecret(question?.PRIVATE_YN === 'Y' ? true : false);
 	}, []);
 
-	console.log(profile);
-
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box
@@ -434,9 +432,22 @@ const Page: NextPage = () => {
 											/>
 
 											<Box p={1}>
-												<Typography sx={{ wordBreak: 'keep-all', lineHeight: '20px' }}>
-													{question.CONTENT}
-												</Typography>
+												{question.CONTENT.split(
+													'\n'
+												).map((item, index) => {
+													return (
+														<Typography
+															sx={{
+																wordBreak:
+																	'keep-all',
+																lineHeight:
+																	'20px',
+															}}
+														>
+															{item}
+														</Typography>
+													);
+												})}
 											</Box>
 										</Box>
 									) : (
@@ -669,11 +680,21 @@ const Page: NextPage = () => {
 
 									{/** 답변 내용 */}
 									<Box p={1}>
-										<Typography
-											sx={{ wordBreak: 'keep-all', lineHeight: '20px' }}
-										>
-											{answer?.CONTENT}
-										</Typography>
+										{answer.CONTENT.split('\n').map(
+											(item, index) => {
+												return (
+													<Typography
+														sx={{
+															wordBreak:
+																'keep-all',
+															lineHeight: '20px',
+														}}
+													>
+														{item}
+													</Typography>
+												);
+											}
+										)}
 									</Box>
 								</Box>
 							)}
