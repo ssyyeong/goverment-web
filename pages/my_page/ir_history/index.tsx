@@ -194,56 +194,7 @@ const Page: NextPage = () => {
 				<Typography variant="h4" fontWeight={'bold'} sx={{ mb: 3 }}>
 					IR 신청 내역
 				</Typography>
-				{/* 탭 */}
-				<Box
-					width={{
-						sm: '50%',
-						xs: '100%',
-					}}
-				>
-					{/* <SupportiToggle
-						chipDataList={[
-							{
-								label: 'IR 신청',
-								value: 'IR',
-							},
-						]}
-						angled
-						disablePadding
-						value={tab}
-						setValue={setTab}
-						chipHeight={40}
-						selectedChipColor="primary.main"
-						unselectedChipColor="secondary.dark"
-						style={{
-							chipStyle: {
-								// height: '40px',
-								bgcolor: '#ffffff',
-								borderRadius: 0,
-							},
-							outerBoxStyle: {
-								bgcolor: 'secondary.light',
-								p: 0,
-							},
-							chipMapStyle: {
-								fontWeight: 'bold',
-							},
-						}}
-					/> */}
-					<SupportiButton
-						contents={'IR 신청'}
-						style={{
-							color: 'primary.main',
-							mb: 3,
-							width: '200px',
-							bgcolor: 'white',
-							height: '45px',
-						}}
-						onClick={() => {
-							router.push('/external_service/ir/landing');
-						}}
-					/>
-				</Box>
+
 				{/*모바일 테이블 */}
 				<Box
 					width={'100%'}
@@ -324,6 +275,59 @@ const Page: NextPage = () => {
 					<SupportiTable
 						rowData={irApplicationList}
 						headerData={irApplicationHeaderData}
+					/>
+				</Box>
+				<Box
+					width={{
+						md: '100%',
+						xs: '100%',
+					}}
+					display="flex"
+					justifyContent={'space-between'}
+				>
+					{/* <SupportiToggle
+						chipDataList={[
+							{
+								label: 'IR 신청',
+								value: 'IR',
+							},
+						]}
+						angled
+						disablePadding
+						value={tab}
+						setValue={setTab}
+						chipHeight={40}
+						selectedChipColor="primary.main"
+						unselectedChipColor="secondary.dark"
+						style={{
+							chipStyle: {
+								// height: '40px',
+								bgcolor: '#ffffff',
+								borderRadius: 0,
+							},
+							outerBoxStyle: {
+								bgcolor: 'secondary.light',
+								p: 0,
+							},
+							chipMapStyle: {
+								fontWeight: 'bold',
+							},
+						}}
+					/> */}
+					<Box />
+					<SupportiButton
+						contents={'IR 신청하러가기'}
+						style={{
+							color: 'primary.main',
+							mt: 3,
+							width: '200px',
+							bgcolor: 'white',
+							height: '45px',
+						}}
+						variant="outlined"
+						onClick={() => {
+							router.push('/external_service/ir/landing');
+						}}
 					/>
 				</Box>
 				{/* 페이지 네이션 */}
