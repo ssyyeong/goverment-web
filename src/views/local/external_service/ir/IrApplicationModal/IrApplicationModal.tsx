@@ -25,7 +25,8 @@ interface IIrApplicationModalProps {
 	irProductId: any;
 	irApplicationId?: any;
 	memberId: any;
-	date: any;
+	adoptionDate: any;
+	irDate: any;
 	mode: 'modify' | 'create';
 	irApplicationData?: any;
 }
@@ -108,12 +109,10 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		// 필수 질문 답변 체크
 		if (!checkIrAnswer()) {
 			alert('필수 질문에 답변해주세요.');
-			console.log(irAnswer, irContactNum);
 			return;
 		}
 		if (irContactNum && !phoneRegex.test(irContactNum)) {
 			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
-			console.log(irContactNum);
 			return;
 		}
 
@@ -129,7 +128,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				CONTACT_NUMBER: irContactNum,
 			},
 			(res) => {
-				console.log(res);
 				/**
 				 * IR 답변 업로드 (res로 들어온 id 값 irAnswer에 꽂아넣기)
 				 */
@@ -173,13 +171,11 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 		// 필수 질문 답변 체크
 		if (!checkIrAnswer()) {
 			alert('필수 질문에 답변해주세요.');
-			console.log(irAnswer, irContactNum);
 			return;
 		}
 
 		if (irContactNum && !phoneRegex.test(irContactNum)) {
 			alert('올바른 휴대폰 번호를 입력해주세요. (- 포함)');
-			console.log(irContactNum);
 			return;
 		}
 
@@ -195,7 +191,6 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				CONTACT_NUMBER: irContactNum,
 			},
 			(res) => {
-				console.log(res);
 				/**
 				 * IR 답변 업로드 (res로 들어온 id 값 irAnswer에 꽂아넣기)
 				 */
@@ -223,7 +218,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				setIrContactNum(undefined);
 			} else {
 				// 신청 변경 모드일 때 props로 받은 신청 데이터
-				console.log(props.irApplicationData);
+
 				if (props.irApplicationData && props.open == true) {
 					let question = [];
 					props.irApplicationData.IrAnswers?.map((x, index) => {
@@ -236,7 +231,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 								x.IR_ANSWER_IDENTIFICATION_CODE,
 						});
 					});
-					console.log(question, questionList);
+
 					setIrAnswer(question);
 					setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 				}
@@ -273,7 +268,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 						x.IR_ANSWER_IDENTIFICATION_CODE,
 				});
 			});
-			console.log(question, questionList);
+
 			setIrAnswer(question);
 			setIrContactNum(props.irApplicationData.CONTACT_NUMBER);
 		}
@@ -388,13 +383,20 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									}}
 									fontWeight={600}
 								>
-									IR은 더블랙 회원에게만 제공되며, 2월 IR은
-									2월 20일에 개최됩니다. 심사역, 투자자
-									3~4분이 참석하며 실제 투자 검토가 전제된
-									IR입니다. 서류 검토 결과 선정된 인원에
-									한해서만 진행하는 점 인지 부탁드립니다.
-									(이에 동의함을 눌러주시면 신청할 수
-									있습니다.)
+									IR은 더블랙 회원에게만 제공되며,{' '}
+									{props.irDate.split('T')[0].split('-')[1].replace('0', '')}월
+									IR은
+									{' ' +
+										props.irDate
+											.split('T')[0]
+											.split('-')[1].replace('0', '')}
+									월{' '}
+									{props.irDate.split('T')[0].split('-')[2]}
+									일에 개최됩니다. 심사역, 투자자 3~4분이
+									참석하며 실제 투자 검토가 전제된 IR입니다.
+									서류 검토 결과 선정된 인원에 한해서만
+									진행하는 점 인지 부탁드립니다. (이에
+									동의함을 눌러주시면 신청할 수 있습니다.)
 									{/* 필수 여부 표시 */}
 									<Typography color={'red'}>*</Typography>
 								</Typography>
@@ -430,7 +432,7 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 					open={successAlertModal}
 					handleClose={() => setSuccessAlertModal(false)}
 					customHandleClose={() => props.handleClose()}
-					date={props.date}
+					adoptionDate={props.adoptionDate}
 				/>
 			) : (
 				<IrAlertModal
@@ -438,7 +440,9 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 					open={successAlertModal}
 					handleClose={() => setSuccessAlertModal(false)}
 					customHandleClose={() => props.handleClose()}
-					date={props.irApplicationData?.IrProduct?.ADOPTION_DATE}
+					adoptionDate={
+						props.irApplicationData?.IrProduct?.ADOPTION_DATE
+					}
 				/>
 			)}
 		</SupportiModal>

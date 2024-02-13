@@ -284,7 +284,7 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 					open={successAlertModal}
 					handleClose={() => setSuccessAlertModal(false)}
 					customHandleClose={() => props.handleClose()}
-					date={props.date}
+					adoptionDate={props.date}
 				/>
 			) : (
 				<IrAlertModal
@@ -292,7 +292,9 @@ const IrUpdateModal = (props: IIrUpdateModalProps) => {
 					open={successAlertModal}
 					handleClose={() => setSuccessAlertModal(false)}
 					customHandleClose={() => props.handleClose()}
-					date={props.irApplicationData?.IrProduct?.ADOPTION_DATE}
+					adoptionDate={
+						props.irApplicationData?.IrProduct?.ADOPTION_DATE
+					}
 				/>
 			)}
 		</SupportiModal>

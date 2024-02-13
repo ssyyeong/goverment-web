@@ -231,7 +231,8 @@ const Page: NextPage = () => {
 				handleClose={() => setOpenApplicationModal(false)}
 				irProductId={irData?.IR_PRODUCT_IDENTIFICATION_CODE}
 				memberId={memberId}
-				date={irData?.ADOPTION_DATE}
+				adoptionDate={irData?.ADOPTION_DATE}
+				irDate={irData?.IR_DATE}
 				mode="create"
 			/>
 		</Box>

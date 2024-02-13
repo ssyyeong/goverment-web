@@ -27,7 +27,7 @@ interface IIrAlertModalProps {
 	/**
 	 * 선정 일자
 	 */
-	date: any;
+	adoptionDate: any;
 }
 
 interface IModalConfig {
@@ -56,7 +56,7 @@ interface IModalConfig {
 		/**
 		 * 선정 일자
 		 */
-		date: any;
+		adoptionDate: any;
 	};
 }
 
@@ -79,7 +79,7 @@ const IrAlertModal = (props: IIrAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: false,
-			date: props.date,
+			adoptionDate: props.adoptionDate,
 		},
 		modify: {
 			type: 'success',
@@ -90,7 +90,7 @@ const IrAlertModal = (props: IIrAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: false,
-			date: props.date,
+			adoptionDate: props.adoptionDate,
 		},
 	};
 
@@ -153,7 +153,7 @@ const IrAlertModal = (props: IIrAlertModalProps) => {
 							my={1}
 							color="primary.main"
 						>
-							{modalConfig[props.type]?.date?.split('T')[0]?.split('24-0')[1]?.replace('-', '/')}
+							{modalConfig[props.type]?.adoptionDate?.split('T')[0]?.split('24-0')[1]?.replace('-', '/')}
 							일 18:30
 						</Typography>
 						<Typography

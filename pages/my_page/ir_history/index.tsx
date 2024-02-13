@@ -347,7 +347,8 @@ const Page: NextPage = () => {
 					}
 					irProductId={updateModalData.IR_PRODUCT_IDENTIFICATION_CODE}
 					memberId={memberId}
-					date={updateModalData.ADOPTION_DATE}
+					adoptionDate={updateModalData.ADOPTION_DATE}
+					irDate={updateModalData.IR_DATE}
 					mode={'modify'}
 					irApplicationData={updateModalData}
 				/>
