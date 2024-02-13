@@ -384,14 +384,12 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									fontWeight={600}
 								>
 									IR은 더블랙 회원에게만 제공되며,{' '}
-									{props.irDate.split('T')[0].split('-')[1].replace('0', '')}월
+									{props.irDate?.split('T')[0]?.split('-')[1]?.replace('0', '')}월
 									IR은
 									{' ' +
-										props.irDate
-											.split('T')[0]
-											.split('-')[1].replace('0', '')}
+										props.irDate?.split('T')[0]?.split('-')[1]?.replace('0', '')}
 									월{' '}
-									{props.irDate.split('T')[0].split('-')[2]}
+									{props.irDate?.split('T')[0]?.split('-')[2]}
 									일에 개최됩니다. 심사역, 투자자 3~4분이
 									참석하며 실제 투자 검토가 전제된 IR입니다.
 									서류 검토 결과 선정된 인원에 한해서만
