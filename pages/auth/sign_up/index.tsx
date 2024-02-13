@@ -141,8 +141,6 @@ const Page: NextPage = () => {
 		);
 	};
 
-	console.log(emailDuplication);
-
 	/**
 	 * 회원가입
 	 */

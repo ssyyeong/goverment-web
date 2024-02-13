@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import IrApplicationModal from '../../../src/views/local/external_service/ir/IrApplicationModal/IrApplicationModal';
+import { useSubscription } from '../../../src/hooks/useSubscription';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -42,11 +43,6 @@ const Page: NextPage = () => {
 	const [irFinishAlertModal, setIrFinishAlertModal] =
 		React.useState<boolean>(false);
 
-	/**
-	 * 구독 정보
-	 */
-	const [subscriptionInfo, setSubscriptionInfo] =
-		React.useState<any>(undefined);
 
 	/**
 	 *
@@ -67,22 +63,8 @@ const Page: NextPage = () => {
 	/**
 	 * 구독권 정보 가져오기
 	 */
-	useEffect(() => {
-		memberId &&
-			userSubscriptionController.getOneItemByKey(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					EXPIRED_YN: 'N',
-					CANCELED_YN: 'N',
-				},
-				(res) => {
-					setSubscriptionInfo(res.data.result);
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, [memberId]);
+	const { subscriptionInfo } = useSubscription({ memberId: memberId });
+
 
 	/**
 	 * IR 신청 버튼 클릭시

@@ -146,21 +146,25 @@ const KpiCard = (props: IKpiCardProps) => {
 		{
 			label: '달성',
 			color: 'primary.main',
+			textColor: 'common.white',
 			onclick: () => updateKpi({ STATUS: 'SUCCESS' }),
 		},
 		{
 			label: '실패',
 			color: 'error.main',
+			textColor: 'common.white',
 			onclick: () => updateKpi({ STATUS: 'FAILURE' }),
 		},
 		{
 			label: '삭제',
 			color: 'secondary.dark',
+			textColor: 'common.white',
 			onclick: () => setIsDeleteAlertOpen(true),
 		},
 		{
 			label: '수정',
 			color: 'secondary.light',
+			textColor: 'common.black',
 			onclick: () => setIsModifyModalOpen(true),
 		},
 	];
@@ -305,7 +309,12 @@ const KpiCard = (props: IKpiCardProps) => {
 									variant="contained"
 									style={{
 										bgcolor: button.color,
+										color: button.textColor,
 										height: '20px',
+										':hover': {
+											bgcolor: 'secondary.main', 
+											color: 'common.black',
+										},
 									}}
 									onClick={button.onclick}
 								/>
@@ -319,7 +328,12 @@ const KpiCard = (props: IKpiCardProps) => {
 								variant="contained"
 								style={{
 									bgcolor: controllButtons[2].color,
+									color: controllButtons[2].textColor,
 									height: '20px',
+									':hover': {
+										bgcolor: 'secondary.main', // theme.palette.primary.main
+										color: 'common.black',
+									},
 								}}
 								onClick={controllButtons[2].onclick}
 							/>

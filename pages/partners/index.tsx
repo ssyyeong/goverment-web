@@ -1,29 +1,19 @@
 import { Box, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
-import { AppMemberController } from '../../src/controller/AppMemberController';
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+
 import SupportiButton from '../../src/views/global/SupportiButton';
 import SupportiModal from '../../src/views/global/SupportiModal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useAppMember } from '../../src/hooks/useAppMember';
+import { useSubscription } from '../../src/hooks/useSubscription';
 
 const Page: NextPage = () => {
 	//* Modules
-	const appMemberController = new AppMemberController();
-	const userSubscriptionController = new DefaultController(
-		'UserSubscription'
-	);
+	const { memberId } = useAppMember();
+	const { subscriptionInfo } = useSubscription({ memberId: memberId });
 
 	//* States
-	/**
-	 * 회원 정보
-	 */
-	const [memberInfo, setMemberInfo] = React.useState<any>({});
-
-	/**
-	 * 구독 정보
-	 */
-	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
 
 	/**
 	 * 모달 오픈 여부
@@ -173,52 +163,7 @@ const Page: NextPage = () => {
 
 	//* Functions
 
-	/**
-	 * 회원정보 가져오기
-	 */
-	const getUserInfo = () => {
-		appMemberController.getData(
-			{},
-			`${appMemberController.mergedPath}/profile`,
-			(res) => {
-				if (res.data.result !== null) {
-					setMemberInfo(res.data.result);
-				}
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	};
-
 	//* Hooks
-	/**
-	 *유저정보 가져오기
-	 */
-	useEffect(() => {
-		getUserInfo();
-	}, []);
-
-	/**
-	 * 구독권 정보 가져오기
-	 */
-	useEffect(() => {
-		memberInfo &&
-			userSubscriptionController.getOneItemByKey(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE:
-						memberInfo.APP_MEMBER_IDENTIFICATION_CODE,
-					EXPIRED_YN: 'N',
-					CANCELED_YN: 'N',
-				},
-				(res) => {
-					setSubscriptionInfo(res.data.result);
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, [memberInfo]);
 
 	return (
 		<Box
@@ -230,7 +175,7 @@ const Page: NextPage = () => {
 				alignItems: 'center',
 			}}
 		>
-			<Box textAlign="left" sx={{ mb: '15px' }}>
+			<Box textAlign="left" sx={{ mb: '15px', p: { xs: 2, sm: 0.5 } }}>
 				<Typography fontWeight={700} variant="h2">
 					파트너스
 				</Typography>
@@ -688,6 +633,10 @@ const Page: NextPage = () => {
 									bgcolor: 'secondary.main',
 									my: 1,
 									height: '40px',
+									':hover': {
+										bgcolor: 'secondary.light',
+										color: 'common.black',
+									},
 								}}
 								fullWidth
 								onClick={() => {
@@ -707,6 +656,10 @@ const Page: NextPage = () => {
 									bgcolor: 'secondary.main',
 									my: 1,
 									height: '40px',
+									':hover': {
+										bgcolor: 'secondary.light',
+										color: 'common.black',
+									},
 								}}
 								fullWidth
 								onClick={() => {
@@ -726,6 +679,10 @@ const Page: NextPage = () => {
 									bgcolor: 'secondary.main',
 									mt: 1,
 									height: '40px',
+									':hover': {
+										bgcolor: 'secondary.light',
+										color: 'common.black',
+									},
 								}}
 								fullWidth
 								onClick={() => {

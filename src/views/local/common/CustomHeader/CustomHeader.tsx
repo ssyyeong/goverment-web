@@ -206,7 +206,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					bgcolor: 'primary.light',
 					backdropFilter: 'blur(20px)',
 					borderStyle: 'solid',
-					borderColor: '#f5f5f5',
+					borderColor: 'primary.light',
 					borderWidth: 0,
 					borderBottomWidth: 'thin',
 					boxShadow: 'inset 0px -1px 1px #f5f5f5',
@@ -551,10 +551,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										PaperProps={{
 											sx: {
 												bgcolor: 'primary.light',
-												boxShadow:
-													'inset 0px -1px 1px #f5f5f5',
+												// boxShadow:
+												// 	'inset 0px -1px 1px #f5f5f5',
 												borderRadius: 2,
 												p: 1,
+												boxShadow:
+												'rgb(219, 219, 219) 0px 4px 10px',
 											},
 										}}
 									>

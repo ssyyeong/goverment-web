@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import LockIcon from '@mui/icons-material/Lock';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import { useSubscription } from '../../../src/hooks/useSubscription';
 import Nodata from '../../../src/views/global/NoData/NoData';
 import { usePagination } from '../../../src/hooks/usePagination';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
@@ -22,10 +23,8 @@ const Page: NextPage = () => {
 	const questionController = new DefaultController('A2eQuestion');
 	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
-	const userSubscriptionController = new DefaultController(
-		'UserSubscription'
-	);
 
+	
 	const { memberId } = useAppMember();
 	const router = useRouter();
 
@@ -34,11 +33,6 @@ const Page: NextPage = () => {
 	 * 페이지 진입 시 유저 권한 검사
 	 */
 	const { access } = useUserAccess('SIGN_IN');
-
-	/**
-	 * 구독 정보
-	 */
-	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
 
 	/**
 	 *
@@ -148,8 +142,6 @@ const Page: NextPage = () => {
 	};
 
 	//* Hooks
-
-	console.log(page);
 	/**
 	 * 탭 변경시 페이지 초기화
 	 */
@@ -157,6 +149,9 @@ const Page: NextPage = () => {
 		setPage(0);
 	}, [selectedTabCategory]);
 
+	/**
+	 * 필터링 조건이 변경될 때마다 데이터 가져오기
+	 */
 	React.useEffect(() => {
 		let args = {};
 		let option = {};
@@ -210,22 +205,7 @@ const Page: NextPage = () => {
 	/**
 	 * 구독권 정보 가져오기
 	 */
-	React.useEffect(() => {
-		memberId &&
-			userSubscriptionController.getOneItemByKey(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					EXPIRED_YN: 'N',
-					CANCELED_YN: 'N',
-				},
-				(res) => {
-					setSubscriptionInfo(res.data.result);
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, [memberId]);
+	const { subscriptionInfo } = useSubscription({ memberId: memberId });
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -257,25 +237,6 @@ const Page: NextPage = () => {
 			},
 			(err) => {}
 		);
-
-		// questionController.findAll(
-		// 	{
-		// 		ANSWERED_YN: 'Y',
-		// 	},
-		// 	(res) => {
-		// 		let result;
-
-		// 		// 뷰 순으로 정렬
-		// 		result = res.data.result.rows
-		// 			.sort(function (a, b) {
-		// 				return b.VIEW - a.VIEW;
-		// 			})
-		// 			.slice(0, 5);
-
-		// 		setFixedQuestion(result);
-		// 	},
-		// 	(err) => {}
-		// );
 
 		categoryController.findAllItems(
 			{},

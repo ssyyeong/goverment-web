@@ -13,7 +13,6 @@ import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiTable, {
 	TableHeaderProps,
 } from '../../../src/views/global/SupportiTable/SupportiTable';
-import moment from 'moment';
 import { usePagination } from '../../../src/hooks/usePagination';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';

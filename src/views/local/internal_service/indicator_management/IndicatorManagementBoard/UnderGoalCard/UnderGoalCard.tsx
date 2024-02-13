@@ -246,7 +246,7 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 						mt: '5px',
 					}}
 				/>
-				<Box width="100%">
+				<Box width="95%">
 					<Box mb={1} display="flex">
 						{/** 타이틀 */}
 						{isEditMode ? (

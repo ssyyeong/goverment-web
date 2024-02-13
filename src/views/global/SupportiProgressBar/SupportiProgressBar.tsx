@@ -22,7 +22,7 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 				alignItems: 'center',
 				width: '100%',
 				height: 10,
-				bgcolor: '#f1f2f5',
+				bgcolor: 'common.white',
 				borderRadius: '5px',
 			}}
 		>
