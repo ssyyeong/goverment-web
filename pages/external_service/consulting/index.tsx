@@ -103,7 +103,7 @@ const Page: NextPage = () => {
 
 	/**
 	 *
-	 * 구독권 블랙 아니면 뒤로가기
+	 * 구독권 프리미엄 프로 회원만 접근 가능
 	 */
 
 	useEffect(() => {
@@ -117,6 +117,8 @@ const Page: NextPage = () => {
 			router.back();
 		}
 	}, [subscriptionInfo]);
+
+	console.log(subscriptionInfo);
 
 	return (
 		<Box
