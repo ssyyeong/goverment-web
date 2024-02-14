@@ -81,7 +81,7 @@ module.exports = withTM(nextConfig);
 
 // Injected content via Sentry wizard below
 
-const { withSentryConfig } = require("@sentry/nextjs");
+// const { withSentryConfig } = require("@sentry/nextjs");
 
 // if (process.env.SENTRY_AUTH_TOKEN) console.log("Building frontend with Sentry enabled...");
 
