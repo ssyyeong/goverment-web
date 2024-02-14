@@ -256,13 +256,22 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={5}
-						maxHeight={'60vh'}
+						maxHeight={'70vh'}
 						overflow={'auto'}
 						sx={{
 							width: { xs: '100%', md: '98%' },
 							'-ms-overflow-style': 'none',
-							'&::-webkit-scrollbar': { display: 'none' },
-							// pt: 2,
+							'&::-webkit-scrollbar': {
+								width: '6px',
+								height: '5px !important',
+								backgroundColor: 'white !important',
+								padding: '1px',
+								borderRadius: '20px',
+							},
+							'&::-webkit-scrollbar-thumb': {
+								backgroundColor: '#b0b5c2',
+								borderRadius: '20px',
+							},
 						}}
 					>
 						{/** 목표 작성 영역 */}

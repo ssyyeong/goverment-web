@@ -426,7 +426,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 								width={'100%'}
 								mt={!item.nolabel && 2}
 							>
-								<Typography>
+								<Typography fontWeight={600}>
 									{!item.nolabel && item.label}
 								</Typography>
 								<TextField
@@ -466,7 +466,9 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 								width={'100%'}
 								mt={2}
 							>
-								<Typography>{item.label}</Typography>
+								<Typography fontWeight={600}>
+									{item.label}
+								</Typography>
 								{item.label == '사업 분류' ? (
 									<Autocomplete
 										options={businessSector}

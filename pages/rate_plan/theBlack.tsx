@@ -612,7 +612,7 @@ const Page: NextPage = () => {
 						height={'220px'}
 					/>
 					<Typography fontWeight={600} variant="subtitle1" mb={7}>
-					커피챗
+						커피챗
 					</Typography>
 
 					<Typography
@@ -674,10 +674,10 @@ const Page: NextPage = () => {
 					justifyContent={'center'}
 					flexDirection="column"
 					gap={10}
-					mt={10}
-					mb={10}
-					pt={15}
-					pb={15}
+					mt={5}
+					mb={5}
+					pt={20}
+					pb={20}
 					bgcolor={'primary.light'}
 				>
 					<Box
@@ -691,7 +691,7 @@ const Page: NextPage = () => {
 						<Box
 							width="220px"
 							height="220px"
-							border={'2px solid #3C52BB'}
+							border={'1px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="white"
 							pt={10}
@@ -729,7 +729,7 @@ const Page: NextPage = () => {
 						<Box
 							width="220px"
 							height="220px"
-							border={'2px solid #3C52BB'}
+							border={'1px solid #3C52BB'}
 							borderRadius="480px"
 							bgcolor="white"
 							pt={12}
@@ -974,7 +974,7 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents="블랙 요금제 시작하기"
 						onClick={() => {
-								router.push('/rate_plan');
+							router.push('/rate_plan');
 						}}
 						variant="contained"
 						style={{

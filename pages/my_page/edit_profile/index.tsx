@@ -319,7 +319,20 @@ const Page: NextPage = () => {
 			<Container sx={{ my: 6 }}>
 				{dataConfig.map((data, idx) => {
 					return (
-						<Box width={{ sm: '50%', xs: '100%' }} p={2}>
+						<Box
+							width={{ sm: '50%', xs: '100%' }}
+							borderRadius={'10px'}
+							p={{ sm: 5, xs: 3 }}
+							bgcolor="white"
+							sx={{
+								boxShadow: 'rgb(219, 219, 219) 0px 0px 2px',
+								minHeight: '150px',
+								// width: '220px',
+								minWidth: '220px',
+								cursor: 'pointer',
+							}}
+							mb={2}
+						>
 							<Box
 								sx={{
 									display: 'flex',
@@ -405,7 +418,7 @@ const Page: NextPage = () => {
 															cursor: 'pointer',
 															position:
 																'absolute',
-															right: -25,
+															right: -22,
 															color: 'gray',
 														}}
 														onClick={() => {
@@ -434,7 +447,13 @@ const Page: NextPage = () => {
 								})}
 							</Box>
 							{/* 버튼 섹션 */}
-							<Box display={'flex'} alignItems={'center'} gap={2}>
+							<Box
+								display={'flex'}
+								alignItems={'center'}
+								gap={2}
+								flexWrap={'wrap'}
+								mt={5}
+							>
 								{data.additionalButton.map((button, idx) => {
 									return (
 										<Typography

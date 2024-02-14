@@ -525,6 +525,7 @@ const Page: NextPage = () => {
 										'rgb(213, 212, 239) 0px 4px 20px'
 									}
 									textAlign={'center'}
+									key={index}
 								>
 									<Typography
 										color={'primary.main'}
@@ -886,8 +887,6 @@ const Page: NextPage = () => {
 									rotate: '90deg',
 									position: 'absolute',
 									marginLeft: '280px',
-									// marginTop: '-10px',
-									// bgcolor: 'primary.main',
 									opacity: 0.2,
 									zIndex: 2,
 									borderBottom: '10px solid transparent',
@@ -931,8 +930,6 @@ const Page: NextPage = () => {
 									rotate: '90deg',
 									position: 'absolute',
 									marginLeft: '280px',
-									// marginTop: '-10px',
-									// bgcolor: 'primary.main',
 									opacity: 0.2,
 									zIndex: 2,
 									borderBottom: '10px solid transparent',

@@ -270,7 +270,7 @@ const Page: NextPage = () => {
 							{question !== undefined && (
 								<Box
 									borderRadius={2}
-									bgcolor="primary.light"
+									bgcolor="white"
 									mb={2}
 									sx={{
 										boxShadow:
@@ -303,6 +303,8 @@ const Page: NextPage = () => {
 																: 'primary.main'
 														}
 														variant="body2"
+														fontWeight={500}
+														my="auto"
 													>
 														{answer === undefined
 															? '답변 전'
@@ -367,7 +369,10 @@ const Page: NextPage = () => {
 														}
 														]
 													</Typography>
-													<Typography variant="subtitle1">
+													<Typography
+														variant="subtitle1"
+														fontWeight={500}
+													>
 														{question.TITLE}
 													</Typography>
 													{question.PRIVATE_YN ===
@@ -611,10 +616,14 @@ const Page: NextPage = () => {
 										<Typography
 											color="primary.main"
 											variant="subtitle1"
+											fontWeight={600}
 										>
 											[{question.A2eCategory.CONTENT}]
 										</Typography>
-										<Typography variant="subtitle1">
+										<Typography
+											variant="subtitle1"
+											fontWeight={500}
+										>
 											{answer?.TITLE}
 										</Typography>
 									</Box>

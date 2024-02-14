@@ -99,8 +99,6 @@ const Page: NextPage = () => {
 		);
 	}, []);
 
-	console.log(memberId, 'permission is : ', permission);
-
 	return (
 		<Box
 			sx={{

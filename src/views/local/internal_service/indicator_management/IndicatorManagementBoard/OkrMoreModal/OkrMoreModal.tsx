@@ -526,7 +526,10 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									<Typography fontWeight={600}>
 										현재 달성률
 									</Typography>
-									<Typography color={'primary.main'}>
+									<Typography
+										color={'primary.main'}
+										fontWeight={600}
+									>
 										{okrMainData.ACHIEVED_RATE
 											? okrMainData.ACHIEVED_RATE
 											: 0}

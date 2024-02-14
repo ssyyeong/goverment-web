@@ -68,7 +68,6 @@ const Page: NextPage = () => {
 	 * 유저 커피챗 프로필 조회
 	 */
 	useEffect(() => {
-		console.log(pid, special);
 		if (pid !== undefined) {
 			if (special == 'true') {
 				specialCoffeeChatProductController.getOneItemByKey(
@@ -82,7 +81,6 @@ const Page: NextPage = () => {
 							alert('잘못된 접근입니다.');
 							return;
 						}
-						console.log();
 						data.PROFILE_IMAGE = JSON.parse(data.PROFILE_IMAGE)[0];
 						data.CAREER = JSON.parse(data.CAREER);
 						data.MAIN_FIELD = JSON.parse(data.MAIN_FIELD);
@@ -224,7 +222,6 @@ const Page: NextPage = () => {
 		);
 	};
 
-	console.log(coffeeChatProfile);
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box

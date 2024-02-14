@@ -99,7 +99,7 @@ const Page: NextPage = () => {
 				}}
 				bgcolor={'primary.light'}
 			>
-				<Typography variant="h4" fontWeight={'bold'}>
+				<Typography variant="h4" fontWeight={'bold'} p={2}>
 					결제내역
 				</Typography>
 				{/*모바일 테이블 */}

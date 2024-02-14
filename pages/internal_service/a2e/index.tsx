@@ -24,7 +24,6 @@ const Page: NextPage = () => {
 	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
 
-	
 	const { memberId } = useAppMember();
 	const router = useRouter();
 
@@ -275,6 +274,7 @@ const Page: NextPage = () => {
 							<Box
 								display={'flex'}
 								justifyContent={'space-between'}
+								flexWrap={'wrap'}
 							>
 								<Typography mb={2} color={'secondary.main'}>
 									서포티 유저들이 가장 많이 궁금해하는 질문을
@@ -313,7 +313,7 @@ const Page: NextPage = () => {
 													bgcolor="white"
 													sx={{
 														boxShadow:
-															'rgb(219, 219, 219) 0px 0px 5px',
+															'rgb(219, 219, 219) 0px 0px 2px',
 														minHeight: '150px',
 														width: '220px',
 														minWidth: '220px',
@@ -441,21 +441,6 @@ const Page: NextPage = () => {
 								display="flex"
 								justifyContent={'space-between'}
 							>
-								{/* <Box display="flex">
-										<Typography
-											mt="auto"
-											mb="auto"
-											pb={1}
-											mr={0.5}
-										>
-											비밀글도 보기
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isSecret}
-											setValue={setIsSecret}
-										/>
-									</Box> */}
 								<Box></Box>
 								<Box display="flex" mr="-20px">
 									<Box display="flex" flexWrap="wrap">
@@ -544,7 +529,7 @@ const Page: NextPage = () => {
 															textAlign: 'center',
 															cursor: 'pointer',
 															boxShadow:
-																'rgb(219, 219, 219) 0px 0px 2px',
+																'rgb(219, 219, 219) 0px 0px 1px',
 														}}
 														onClick={() => {
 															setSelectedTabCategory(

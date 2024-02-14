@@ -393,7 +393,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							width={'100%'}
 							mt={!item.nolabel && 2}
 						>
-							<Typography>
+							<Typography fontWeight={600}>
 								{!item.nolabel && item.label}
 							</Typography>
 							{item.label == '사업 분류' ? (

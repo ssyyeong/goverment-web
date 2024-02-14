@@ -87,7 +87,6 @@ const Page: NextPage = () => {
 	 */
 	const { open, setOpen, setType, type } = useAlert({});
 
-	console.log(memberCoffeeChatProfileId);
 	/**
 	 * 커피챗 신청 리스트 가져오기
 	 */
@@ -155,10 +154,11 @@ const Page: NextPage = () => {
 						필요해요! 줌링크, 구글미팅 주소 모르시겠다면,
 					</Typography>
 					<Typography
-						variant="body1"
+						variant="subtitle1"
 						fontWeight={'bold'}
 						sx={{
 							mb: 3,
+							mt: -1,
 							textDecoration: 'underline',
 							cursor: 'pointer',
 						}}

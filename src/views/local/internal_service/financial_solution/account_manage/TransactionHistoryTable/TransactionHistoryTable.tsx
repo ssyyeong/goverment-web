@@ -299,7 +299,6 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	 * 입출금 내역 가져오기
 	 */
 	useEffect(() => {
-		// console.log(props.keyword);
 		props.setLoading(true);
 		const injectedParameter = Object.assign(
 			{

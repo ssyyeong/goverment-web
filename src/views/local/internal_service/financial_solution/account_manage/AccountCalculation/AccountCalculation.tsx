@@ -121,7 +121,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			return;
 		}
 		props.setLoading(true);
-		console.log(standardDate, averageMonth);
+
 		bankController.saveBankAccountCondition(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,

@@ -48,7 +48,6 @@ const Page: NextPage = () => {
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
 	 */
 	const isSubscription = useUserAccess('SUBSCRIPTION');
-	console.log(isSubscription);
 
 	/**
 	 * 알러트

@@ -184,6 +184,10 @@ const Page: NextPage = () => {
 													selectedIndicator.name
 														? 'common.black'
 														: 'common.white',
+												':hover': {
+													bgcolor: 'secondary.dark',
+													color: 'common.white',
+												},
 											}}
 											variant="contained"
 											color={

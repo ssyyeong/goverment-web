@@ -61,6 +61,9 @@ const CoffeeChatOpenEventModal = (props: ICoffeeChatOpenEventModalProps) => {
 						lineHeight={1.2}
 						fontWeight={'500'}
 						variant="subtitle1"
+						sx={{
+							wordBreak: 'keep-all',
+						}}
 					>
 						안녕하세요, 서포티 입니다! <br />
 						<br />

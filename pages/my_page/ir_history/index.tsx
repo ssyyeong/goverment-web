@@ -179,8 +179,6 @@ const Page: NextPage = () => {
 		setUpdateModal(false);
 	}, []);
 
-	console.log(updateModalData);
-
 	return (
 		<InternalServiceDrawer type="mypage">
 			<Box

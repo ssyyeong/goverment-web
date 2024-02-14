@@ -118,8 +118,6 @@ const Page: NextPage = () => {
 		}
 	}, [subscriptionInfo]);
 
-	console.log(subscriptionInfo);
-
 	return (
 		<Box
 			width={'100%'}

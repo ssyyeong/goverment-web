@@ -101,20 +101,20 @@ const CustomFooter = (props: ICustomFooterProps) => {
 								flexWrap={'wrap'}
 								display={'flex'}
 								width={'100%'}
-								margin={{ xs: 1, md: 5 }}
+								margin={{ xs: 1, md: 4 }}
 							>
 								{BrandInfoList.map((item, index) => (
-									<Box display={'flex'} mb={0.5}>
+									<Box display={'flex'} mb={0.5} key={index}>
 										<Typography mr={1} variant="body2">
 											{item.subject}
 										</Typography>
 										<Typography variant="body2">
 											{item.content}
 										</Typography>
-										{index !== BrandInfoList.length-1 && (
-										<Typography mr={1} ml={1}>
-										|
-									</Typography>
+										{index !== BrandInfoList.length - 1 && (
+											<Typography mr={1} ml={1}>
+												|
+											</Typography>
 										)}
 									</Box>
 								))}

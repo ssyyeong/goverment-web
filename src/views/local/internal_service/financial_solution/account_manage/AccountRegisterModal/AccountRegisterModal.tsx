@@ -271,11 +271,8 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 		);
 	};
 
-	// console.log(userAccountInfo);
-
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
-		console.log(userAccountInfo);
 		setLoading(true);
 		bankController.registerBankAccount(
 			{
