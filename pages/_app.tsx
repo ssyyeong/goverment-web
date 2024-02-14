@@ -76,7 +76,7 @@ function App({
 		<React.Fragment>
 			{/* Head */}
 			{/* <CssBaseline /> */}
-			<Head>
+			{/* <Head>
 				<script
 					dangerouslySetInnerHTML={{
 						__html: `
@@ -90,12 +90,12 @@ function App({
             `,
 					}}
 				/>
-			</Head>
+			</Head> */}
 			{/* Global Site Tag (gtag.js) - Google Analytics */}
-			<Script
+			{/* <Script
 				strategy="afterInteractive"
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-			/>
+			/> */}
 			<Entry
 				disableBreadCrumb={true}
 				memory={memory}
