@@ -165,7 +165,7 @@ const GuidelineModal = (props: IGuidelineModalProps) => {
 								fontWeight={500}
 								sx={{ wordBreak: 'keep-all' }}
 							>
-								메모를 등록하여 등록한 메인 OKR을 쉽게 관리하실
+								메모를 추가하여 등록한 메인 OKR을 쉽게 관리하실
 								수 있습니다.
 							</Typography>
 						</Box>
@@ -234,7 +234,7 @@ const GuidelineModal = (props: IGuidelineModalProps) => {
 								fontWeight={500}
 								sx={{ wordBreak: 'keep-all' }}
 							>
-								메모를 등록하여 등록한 KPI를 쉽게 관리하실 수
+								메모를 추가하여 등록한 KPI를 쉽게 관리하실 수
 								있습니다.
 							</Typography>
 						</Box>

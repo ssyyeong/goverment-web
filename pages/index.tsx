@@ -6,6 +6,7 @@ import {
 	Paper,
 	Typography,
 	useTheme,
+	keyframes,
 } from '@mui/material';
 import React from 'react';
 import Slider from 'react-slick';
@@ -28,6 +29,19 @@ type Props = {};
 const Page: NextPage = () => {
 	const router = useRouter();
 	const { memberId } = useAppMember();
+
+	const motion = keyframes`
+  0% {
+    margin-top: 0px;
+		
+  }
+	50% {
+		margin-top: 5px;
+	}
+  100% {
+    margin-top: 10px;
+  }
+`;
 
 	useEffect(() => {}, []);
 
@@ -300,18 +314,32 @@ const Page: NextPage = () => {
 							</Typography>
 						</Box>
 					</Box>
-					<img
-						src={'/images/icons/scrollIcon.svg'}
-						alt="Logo"
-						width={'10px'}
-						height={'5px'}
-						style={{
-							cursor: 'pointer',
-							marginLeft: 'auto',
-							marginRight: 'auto',
-							marginBottom: 30,
-						}}
-					/>
+					<Box height={5}>
+						<Box
+							sx={{
+								animation: `${motion} 0.9s linear 0s infinite alternate`,
+								cursor: 'pointer',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								width: '10px',
+								height: '10px',
+								transition: 'all 0.5s ease-out',
+							}}
+						>
+							<img
+								src={'/images/icons/scrollIcon.svg'}
+								alt="Logo"
+								width={'10px'}
+								height={'7px'}
+								// style={{
+								// 	cursor: 'pointer',
+								// 	marginLeft: 'auto',
+								// 	marginRight: 'auto',
+								// 	marginBottom: 30,
+								// }}
+							/>
+						</Box>
+					</Box>
 				</Box>
 			</Box>
 
