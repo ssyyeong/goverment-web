@@ -285,6 +285,9 @@ const SupportiInput = React.forwardRef(
 											sx={{
 												// height: '80%',
 												color: 'white',
+												':hover': {
+													color: 'black',
+												},
 											}}
 											variant="contained"
 											color="secondary"
@@ -337,6 +340,9 @@ const SupportiInput = React.forwardRef(
 										width: '70px',
 										bgcolor: 'common.black',
 										color: 'white',
+										':hover': {
+											color: 'black',
+										},
 										marginTop:
 											props.additionalProps !==
 												undefined &&

@@ -38,10 +38,10 @@ const SpecialCoffeeChat = (props: ISpecialCoffeeChatProps) => {
 		<Box>
 			<Box display={'flex'} flexDirection={'column'} gap={1}>
 				{/* 타이틀 */}
-				<Typography variant="h5" fontWeight={'700'}>
+				<Typography variant="h5" fontWeight={'700'} mt={2}>
 					스페셜 커피챗
 				</Typography>
-				<Typography fontWeight={500}>
+				<Typography fontWeight={500} sx={{ wordBreak: 'keep-all' }}>
 					평소에 모시기 힘든 분들을 저희 서포티에서 어렵게 모셨습니다!
 					서포티에서 특별히 진행되는 스페셜한 대표님들과의 커피챗을
 					진행해보세요!

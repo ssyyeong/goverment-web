@@ -13,6 +13,7 @@ import KpiCreateModal from '../KpiCreateModal/KpiCreateModal';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import addCommaToNumber from '../../../../../../function/DataFormatter/addCommaToNumber';
 
 interface IKpiCardProps {
 	data: IKpi;
@@ -272,7 +273,7 @@ const KpiCard = (props: IKpiCardProps) => {
 							목표량
 						</Typography>
 						<Typography mt="auto" mb="auto" fontWeight={500}>
-							{kpiData.TARGET_AMOUNT}
+							{addCommaToNumber(kpiData.TARGET_AMOUNT)}
 						</Typography>
 						<Typography mt="auto" mb="auto" fontWeight={500}>
 							{kpiData.TARGET_UNIT}
@@ -312,7 +313,7 @@ const KpiCard = (props: IKpiCardProps) => {
 										color: button.textColor,
 										height: '20px',
 										':hover': {
-											bgcolor: 'secondary.main', 
+											bgcolor: 'secondary.main',
 											color: 'common.black',
 										},
 									}}

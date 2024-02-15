@@ -143,6 +143,10 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					}}
 					style={{
 						bgcolor: 'white',
+						// ':hover': {
+						// 	bgcolor: 'secondary.main',
+						// 	color: 'white',
+						// },
 					}}
 				/>
 			</Box>

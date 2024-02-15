@@ -41,7 +41,7 @@ const Page: NextPage = () => {
 				{
 					name: ['김동현'],
 					content: '스타트업 세무 회계 · Virtual CFO · 투자 감사',
-					add: '2개월 세무 기장 무료 · virtual CFO 20% 할인',
+					add: '3개월 세무 기장 무료 · virtual CFO 20% 할인',
 					accent: '다솔 WM 세무사',
 					form: 'https://forms.gle/psatD7fxs3G9qjci6',
 				},

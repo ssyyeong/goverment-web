@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
@@ -12,6 +12,8 @@ import InternalServiceDrawer from '../../../src/views/local/internal_service/com
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import { KpiController } from '../../../src/controller/KpiController';
 import { OkrMainController } from '../../../src/controller/OkrMainController';
+import GuidelineModal from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/GuidelineModal/GuidelineModal';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 type TSelectableIndicator = {
 	name: string;
@@ -29,6 +31,12 @@ const Page: NextPage = () => {
 	 * KPI 컨트롤러
 	 */
 	const kpiController = new KpiController();
+
+	/**
+	 *
+	 * 가이드라인 오픈 여부
+	 */
+	const [openGuideline, setOpenGuideline] = React.useState<boolean>(false);
 
 	//* Hooks
 	/**
@@ -158,49 +166,77 @@ const Page: NextPage = () => {
 							image="/images/main/indicatorHead.webp"
 							mobileImage="/images/main/indicatorHeadMobile.webp"
 						>
-							{/* 지표 (OKR / KPI) 선택 영역 */}
-							<Box sx={{ pl: { xs: '15px', sm: '0' } }}>
-								{selectableIndicatorList.map(
-									(selectableIndicator) => (
-										<SupportiButton
-											contents={selectableIndicator.name}
-											onClick={() => {
-												setSelectedIndicator(
-													selectableIndicator
-												);
-											}}
-											style={{
-												border: 'solid 1px #d1d4db',
-												borderRadius: 10,
-												height: 3,
-												marginRight: 1,
-												color:
+							<Box
+								display="flex"
+								justifyContent={'space-between'}
+							>
+								{/* 지표 (OKR / KPI) 선택 영역 */}
+								<Box sx={{ pl: { xs: '15px', sm: '0' } }}>
+									{selectableIndicatorList.map(
+										(selectableIndicator) => (
+											<SupportiButton
+												contents={
+													selectableIndicator.name
+												}
+												onClick={() => {
+													setSelectedIndicator(
+														selectableIndicator
+													);
+												}}
+												style={{
+													border: 'solid 1px #d1d4db',
+													borderRadius: 10,
+													height: 3,
+													marginRight: 1,
+													color:
+														selectableIndicator.name ===
+														selectedIndicator.name
+															? 'common.white'
+															: 'common.black',
+													backgroundColor:
+														selectableIndicator.name ===
+														selectedIndicator.name
+															? 'common.black'
+															: 'common.white',
+													':hover': {
+														bgcolor:
+															'secondary.dark',
+														color: 'common.white',
+													},
+												}}
+												variant="contained"
+												color={
 													selectableIndicator.name ===
 													selectedIndicator.name
-														? 'common.white'
-														: 'common.black',
-												backgroundColor:
-													selectableIndicator.name ===
-													selectedIndicator.name
-														? 'common.black'
-														: 'common.white',
-												':hover': {
-													bgcolor: 'secondary.dark',
-													color: 'common.white',
-												},
-											}}
-											variant="contained"
-											color={
-												selectableIndicator.name ===
-												selectedIndicator.name
-													? 'primary'
-													: 'secondary'
-											}
-										/>
-									)
-								)}
-							</Box>
+														? 'primary'
+														: 'secondary'
+												}
+											/>
+										)
+									)}
+								</Box>
 
+								<Box
+									display="flex"
+									alignItems={'center'}
+									gap={0.5}
+								>
+									<Typography fontWeight={500}>
+										가이드라인
+									</Typography>
+									<HelpOutlineIcon
+										sx={{
+											color: 'secondary.dark',
+											width: '20px',
+											height: '20px',
+											cursor: 'pointer',
+										}}
+										onClick={() => {
+											setOpenGuideline(true);
+										}}
+									/>
+								</Box>
+							</Box>
 							{/* 지표 보드 영역 */}
 							<IndicatorManagementBoard
 								key={JSON.stringify(selectedIndicator)}
@@ -217,6 +253,10 @@ const Page: NextPage = () => {
 						</InternalServiceLayout>
 					)}
 				</Box>
+				<GuidelineModal
+					modalOpen={openGuideline}
+					setModalOpen={setOpenGuideline}
+				/>
 			</InternalServiceDrawer>
 		)
 	);

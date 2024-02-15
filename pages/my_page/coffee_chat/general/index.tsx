@@ -143,7 +143,7 @@ const Page: NextPage = () => {
 				>
 					신청한 커피챗과 제안받은 커피챗을 확인해보세요!
 				</Typography>
-				<Box display="flex" gap={0.5} sx={{ mb: 2 }}>
+				<Box display="flex" gap={0.5} sx={{ mb: 2 }} flexWrap={'wrap'}>
 					<Typography
 						variant="body1"
 						fontWeight={'bold'}
