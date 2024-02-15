@@ -242,7 +242,9 @@ const GuidelineModal = (props: IGuidelineModalProps) => {
 						{/** 수정시 등록 버튼 */}
 						<SupportiButton
 							contents={'닫기'}
-							onClick={() => {}}
+							onClick={() => {
+								props.setModalOpen(false);
+							}}
 							style={{
 								height: '50px',
 								width: { xs: '100%', md: '260px' },

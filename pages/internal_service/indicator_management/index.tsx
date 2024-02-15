@@ -220,6 +220,7 @@ const Page: NextPage = () => {
 									display="flex"
 									alignItems={'center'}
 									gap={0.5}
+									mr={1}
 								>
 									<Typography fontWeight={500}>
 										가이드라인
