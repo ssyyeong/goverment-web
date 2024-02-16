@@ -13,10 +13,42 @@ export default class MyDocument extends Document {
 			<Html lang="en">
 				<Head>
 					{/* PWA primary color */}
+					<title>서포티</title>
 					<meta
 						name="theme-color"
 						content={theme.palette.primary.main}
 					/>
+					<meta
+						name="description"
+						content="스타트업 성장 관리 솔루션"
+					/>
+					<meta
+						name="keywords"
+						content="서포티, 스타트업, 사업 관리"
+					/>
+					<meta name="robots" content="index, follow" />
+					<meta
+						name="viewport"
+						content="width=device-width, initial-scale=1.0"
+					/>
+					<meta charSet="utf-8" />
+					<meta property="og:site_name" content="사이트 이름" />
+					<meta property="og:locale" content="ko_KR" />
+					<meta property="og:title" content="서포티" />
+					<meta
+						property="og:description"
+						content="웹페이지 상세 설명"
+					/>
+					<meta property="og:type" content="website" />
+					<meta property="og:url" content="https://supporti.biz" />
+					{/* <meta
+						property="og:image"
+						content="https://mycodings.fly.dev/blog/2024-01-14-all-about-nextjs-seo/thumbnail.png"
+					/> */}
+					<meta property="og:image:alt" content="서포티" />
+					<meta property="og:image:type" content="image/png" />
+					<meta property="og:image:width" content="1200" />
+					<meta property="og:image:height" content="630" />
 					<link rel="shortcut icon" href="/static/favicon.ico" />
 					{/* <link
 						rel="stylesheet"
