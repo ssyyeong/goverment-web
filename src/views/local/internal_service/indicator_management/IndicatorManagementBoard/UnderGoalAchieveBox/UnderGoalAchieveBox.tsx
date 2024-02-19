@@ -115,8 +115,8 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 	return (
 		<Box display={'flex'} flexDirection={'column'} gap={2}>
 			{/** 달성량 추가 */}
-			<Box mt={1}>
-				<Typography fontWeight={500} mb={1}>
+			<Box>
+				<Typography fontWeight={600} mb={1}>
 					달성량 추가
 				</Typography>
 				<SupportiInput

@@ -495,6 +495,9 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 													md: '150px',
 												},
 											}}
+											additionalProps={{
+												placeholder: '목표 분류값',
+											}}
 										/>
 									)}
 
@@ -615,6 +618,9 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 														xs: '100px',
 														md: '150px',
 													},
+												}}
+												additionalProps={{
+													placeholder: '목표 분류값',
 												}}
 											/>
 										)}

@@ -46,6 +46,7 @@ interface SupportiInputProps {
 	handleAdd?: (value: any) => void;
 	handleDelete?: (value: any, idx: number) => void;
 	maxLength?: number;
+	error?: boolean;
 }
 
 //* 서포티 인풋 컴포넌트
@@ -352,7 +353,9 @@ const SupportiInput = React.forwardRef(
 									}}
 									onClick={props.btnOnClick}
 								>
-									{props.btnContent}
+									<Typography color={'white'} variant="body2">
+										{props.btnContent}
+									</Typography>
 								</Button>
 							</InputAdornment>
 						}
@@ -502,6 +505,7 @@ const SupportiInput = React.forwardRef(
 							maxLength: props.maxLength,
 						}}
 						type={props.inputType}
+						error={props.error}
 					/>
 				)}
 			</Box>

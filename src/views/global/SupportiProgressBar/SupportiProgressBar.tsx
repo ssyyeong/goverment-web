@@ -8,6 +8,7 @@ interface IMaterialProps {
 interface ISupportiProgressBarProps {
 	materialDataList: IMaterialProps[];
 	totalPercentage?: number;
+	bgColor?: string;
 }
 
 const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
@@ -22,7 +23,7 @@ const SupportiProgressBar = (props: ISupportiProgressBarProps) => {
 				alignItems: 'center',
 				width: '100%',
 				height: 10,
-				bgcolor: 'common.white',
+				bgcolor: props.bgColor ? props.bgColor : 'white',
 				borderRadius: '5px',
 			}}
 		>

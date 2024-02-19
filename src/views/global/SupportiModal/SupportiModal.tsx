@@ -76,7 +76,7 @@ const SupportiModal = (props: ISupportiModalProps) => {
 				<Box sx={{ ...defaultStyle, ...props.style }}>
 					{/* 헤더 */}
 					<Box
-						display={'flex'}
+						display={props.activeHeader ? 'flex' : 'none'}
 						justifyContent={'space-between'}
 						width={'100%'}
 						alignItems={'center'}

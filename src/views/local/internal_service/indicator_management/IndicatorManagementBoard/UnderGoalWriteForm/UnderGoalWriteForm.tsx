@@ -149,7 +149,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 	return (
 		<Box
 			sx={{ px: { xs: 1.5, md: 3 }, py: 1.5 }}
-			bgcolor={'secondary.light'}
+			bgcolor={'#f8f8f8'}
 			borderRadius={2}
 			display={'flex'}
 			flexDirection={'column'}
@@ -159,7 +159,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 		>
 			<Box display={'flex'} flexDirection={'column'} gap={2}>
 				<Box display={'flex'} justifyContent={'space-between'}>
-					<Box width={'90%'}>
+					<Box width={'100%'}>
 						<Box display={'flex'} width={'100%'}>
 							{/** 컬러 칩 */}
 							<Box
@@ -172,8 +172,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 												  props.index
 												: props.index
 										],
-									width: '10px',
-									height: '10px',
+									width: '14px',
+									height: '14px',
+									mr: 1,
 								}}
 								mt={'auto'}
 								mb={'auto'}
@@ -292,58 +293,73 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						<Typography fontWeight={500} mb={1}>
 							목표분류
 						</Typography>
-						<SupportiInput
-							type="select"
-							value={
-								isUserMakeUnit
-									? '직접입력'
-									: props.data.TARGET_UNIT
-							}
-							setValue={(value) => {
-								if (value === '직접입력') {
-									setIsUserMakeUnit(true);
-									let temp: any = [...props.okrDetailData];
-									temp[props.index].TARGET_UNIT = '';
-
-									props.setOkrDetailData(temp);
-								} else {
-									setIsUserMakeUnit(false);
-
-									let temp: any = [...props.okrDetailData];
-									temp[props.index].TARGET_UNIT = value;
-
-									props.setOkrDetailData(temp);
-								}
-							}}
-							dataList={IndicatorUnit}
-							style={{
-								width: { xs: '100px', md: '150px' },
-							}}
-						/>
-						{/** 목표분류 유저 직접 입력 선택 시  */}
-						{isUserMakeUnit && (
+						<Box
+							display={'flex'}
+							gap={2}
+							alignItems={'center'}
+							flexDirection={{ md: 'row', xs: 'column' }}
+						>
 							<SupportiInput
-								type="input"
+								type="select"
 								value={
-									props.okrDetailData[props.index].TARGET_UNIT
+									isUserMakeUnit
+										? '직접입력'
+										: props.data.TARGET_UNIT
 								}
 								setValue={(value) => {
-									let temp: any = [...props.okrDetailData];
-									temp[props.index].TARGET_UNIT = value;
+									if (value === '직접입력') {
+										setIsUserMakeUnit(true);
+										let temp: any = [
+											...props.okrDetailData,
+										];
+										temp[props.index].TARGET_UNIT = '';
 
-									props.setOkrDetailData(temp);
+										props.setOkrDetailData(temp);
+									} else {
+										setIsUserMakeUnit(false);
+
+										let temp: any = [
+											...props.okrDetailData,
+										];
+										temp[props.index].TARGET_UNIT = value;
+
+										props.setOkrDetailData(temp);
+									}
 								}}
+								dataList={IndicatorUnit}
 								style={{
-									bgcolor: 'white',
-									marginTop: '5px',
-									width: {
-										xs: '100px',
-										md: '150px',
-									},
+									width: { xs: '100px', md: '150px' },
 								}}
 							/>
-						)}
+							{/** 목표분류 유저 직접 입력 선택 시  */}
+							{isUserMakeUnit && (
+								<SupportiInput
+									type="input"
+									value={
+										props.okrDetailData[props.index]
+											.TARGET_UNIT
+									}
+									additionalProps={{
+										placeholder: '목표 분류값',
+									}}
+									setValue={(value) => {
+										let temp: any = [
+											...props.okrDetailData,
+										];
+										temp[props.index].TARGET_UNIT = value;
 
+										props.setOkrDetailData(temp);
+									}}
+									style={{
+										bgcolor: 'white',
+										width: {
+											xs: '100px',
+											md: '150px',
+										},
+									}}
+								/>
+							)}
+						</Box>
 						{/* <Typography
 							fontWeight={500}
 							variant="body1"

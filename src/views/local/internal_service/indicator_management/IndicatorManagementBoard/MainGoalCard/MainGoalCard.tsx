@@ -147,18 +147,27 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 			p={3}
 			display="flex"
 			flexDirection={'column'}
-			gap={2}
+			gap={1}
 			boxShadow={'0 3px 15px 0 #e1eaff'}
 			mb={2}
 		>
-			<Box display={'flex'} justifyContent={'space-between'}>
+			<Box
+				display={'flex'}
+				justifyContent={'space-between'}
+				alignItems={'center'}
+			>
 				{/** 메인 타이틀 */}
 				<Typography variant="h3" fontWeight={'bold'}>
 					{okrMainData.TITLE}
 				</Typography>
 				{/** 상세보기 */}
-				<Box display="flex" onClick={() => setIsMoreModalOpen(true)}>
-					<Typography fontWeight={500} width="48px" m={1}>
+				<Box
+					display="flex"
+					onClick={() => setIsMoreModalOpen(true)}
+					alignItems={'center'}
+					gap={1}
+				>
+					<Typography fontWeight={500} width="48px">
 						상세보기
 					</Typography>
 					<img
@@ -169,7 +178,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 				</Box>
 			</Box>
 			{/** 기간 */}
-			<Box display={'flex'}>
+			<Box display={'flex'} alignItems={'center'} mb={2.5}>
 				<Typography fontWeight={500} color={'secondary.main'}>
 					{(okrMainData.START_DATE as string).split('T')[0]}
 				</Typography>
@@ -195,9 +204,15 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 
 			{/** 달성률*/}
 			<Box display="flex" flexDirection="column" gap={1}>
-				<Box display="flex">
-					<Typography fontWeight={600}>현재 달성률</Typography>
-					<Typography ml={1} color={'primary.main'} fontWeight={600}>
+				<Box display="flex" gap={0.5}>
+					<Typography fontWeight={600} variant="subtitle1">
+						현재 달성률
+					</Typography>
+					<Typography
+						color={'primary.main'}
+						fontWeight={600}
+						variant="subtitle1"
+					>
 						{okrMainData.ACHIEVED_RATE
 							? okrMainData.ACHIEVED_RATE
 							: 0}
@@ -209,6 +224,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 				<SupportiProgressBar
 					materialDataList={materialDataList}
 					totalPercentage={okrMainData?.ACHIEVED_RATE}
+					bgColor="secondary.light"
 				/>
 			</Box>
 
@@ -217,10 +233,16 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 
 			{/** 하위 목표리스트 영역 */}
 			<Box width="100%">
-				<Box display={'flex'} mb={1}>
-					<Typography fontWeight={600}>하위목표</Typography>
+				<Box display={'flex'} mb={1} gap={0.5}>
+					<Typography fontWeight={600} variant="subtitle1">
+						하위목표
+					</Typography>
 					{/** 하위목표 갯수 */}
-					<Typography color="primary.main" ml={1} fontWeight={600}>
+					<Typography
+						color="primary.main"
+						fontWeight={600}
+						variant="subtitle1"
+					>
 						{okrMainData?.OkrDetails.length}
 					</Typography>
 				</Box>
@@ -228,7 +250,7 @@ const MainGoalCard = (props: IMainGoalCardProps) => {
 				<Box
 					display={'flex'}
 					width="100%"
-					gap={1}
+					gap={1.5}
 					sx={{ overflowX: 'auto' }}
 				>
 					{/** 하위 리스트들 카드로 출력 */}

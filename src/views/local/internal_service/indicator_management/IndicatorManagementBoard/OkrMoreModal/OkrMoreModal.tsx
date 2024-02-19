@@ -261,10 +261,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				handleClose={() => {
 					props.setModalOpen(false);
 				}}
+				activeHeader={false}
 				title={''}
 				style={{
-					width: { xs: '100%', md: '60%' },
-					padding: { xs: '10px', md: '20px' },
+					width: { xs: '100%', md: '55%' },
+					// padding: { xs: '10px', md: '0' },
 				}}
 				children={
 					<Box
@@ -275,7 +276,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 						minHeight={'70vh'}
 						overflow={'auto'}
 						sx={{
-							width: { xs: '100%', md: '80%' },
+							width: '100%',
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': {
 								width: '6px',
@@ -297,10 +298,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 							<Box
 								display={'flex'}
 								justifyContent={'space-between'}
+								alignItems={'center'}
 							>
 								{/** 수정모드일 시 입력 폼 */}
 								{isEditMode ? (
-									<Box width={'85%'}>
+									<Box width={'95%'}>
 										<SupportiInput
 											type="input"
 											value={okrMainData.TITLE}
@@ -376,7 +378,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								) : (
 									<Typography
 										fontWeight={'bold'}
-										variant="h5"
+										variant="h2"
 									>
 										{okrMainData?.TITLE}
 									</Typography>
@@ -385,25 +387,40 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									display={'flex'}
 									gap={'4px'}
 									alignItems={'center'}
-									pb={'22px'}
+									pb={'10px'}
 								>
 									{/** 삭제 버튼 */}
-									<DeleteIcon
-										onClick={() => {
-											setIsDeleteAlertOpen(true);
-										}}
-										color={'secondary'}
-									/>
+									{!isEditMode && (
+										<DeleteIcon
+											onClick={() => {
+												setIsDeleteAlertOpen(true);
+											}}
+											color={'secondary'}
+										/>
+									)}
 
 									{/** 수정 버튼 */}
-									<ModeEditOutlineIcon
-										onClick={() => {
-											setIsEditMode(!isEditMode);
-										}}
-										color={'secondary'}
-									/>
+									{!isEditMode ? (
+										<ModeEditOutlineIcon
+											onClick={() => {
+												setIsEditMode(!isEditMode);
+											}}
+											color={'secondary'}
+										/>
+									) : (
+										<CloseIcon
+											style={{
+												marginLeft: 1,
+												cursor: 'pointer',
+												color: 'gray',
+											}}
+											onClick={() => {
+												setIsEditMode(!isEditMode);
+											}}
+										/>
+									)}
 									{/** 닫기 버튼 */}
-									<CloseIcon
+									{/* <CloseIcon
 										style={{
 											marginLeft: 1,
 											cursor: 'pointer',
@@ -411,15 +428,25 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										onClick={() =>
 											props.setModalOpen(false)
 										}
-									/>
+									/> */}
 								</Box>
 							</Box>
 
 							{/** 날짜  */}
-							<Box display={'flex'}>
+							<Box display={'flex'} pb={1}>
 								{!isEditMode ? (
 									<Box display={'flex'}>
 										{/** 수정모드 아닐 시 시작 기간 ~ 끝 기간 */}
+										<CalendarTodayIcon
+											sx={{
+												width: '15px',
+												height: '15px',
+												marginTop: 'auto',
+												marginBottom: 'auto',
+												marginRight: '5px',
+												color: 'secondary.main',
+											}}
+										/>
 										<Typography
 											fontWeight={500}
 											color={'secondary.main'}
@@ -523,12 +550,16 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 							{/** 달성률 영역 */}
 							<Box display="flex" gap={2} flexDirection="column">
 								<Box display="flex" gap={1}>
-									<Typography fontWeight={600}>
+									<Typography
+										fontWeight={600}
+										variant="subtitle1"
+									>
 										현재 달성률
 									</Typography>
 									<Typography
 										color={'primary.main'}
 										fontWeight={600}
+										variant="subtitle1"
 									>
 										{okrMainData.ACHIEVED_RATE
 											? okrMainData.ACHIEVED_RATE
@@ -540,6 +571,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								<SupportiProgressBar
 									materialDataList={materialDataList}
 									totalPercentage={okrMainData.ACHIEVED_RATE}
+									bgColor="secondary.light"
 								/>
 
 								{/** 메모 입력 */}
@@ -600,7 +632,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 						{/** 등록 버튼 */}
 						{isEditMode && (
 							<SupportiButton
-								contents={'등록하기'}
+								contents={'수정하기'}
 								onClick={() => {
 									//* Okr 메인 목표 등록
 									props.setLoading(true);
@@ -619,16 +651,21 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 						)}
 
 						{/** 구분선 */}
-						<Divider sx={{ my: 2 }} />
+						<Divider sx={{ my: 1 }} />
 
 						{/** 하위 목표 작성 */}
 						<Box>
 							<Box
 								display={'flex'}
 								justifyContent={'space-between'}
+								alignItems={'center'}
+								mb={1}
 							>
 								<Box display={'flex'}>
-									<Typography fontWeight={600}>
+									<Typography
+										fontWeight={700}
+										variant="subtitle1"
+									>
 										하위목표
 									</Typography>
 									{/** 갯수 */}
@@ -636,6 +673,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										color="primary.main"
 										ml={1}
 										fontWeight={600}
+										variant="subtitle1"
 									>
 										{okrDetails.length}
 									</Typography>
@@ -665,7 +703,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 									style={{
 										height: 5,
 										color: 'black',
-										marginBottom: '10px',
+										// marginBottom: '10px',
 									}}
 									color={'secondary'}
 									variant="outlined"
@@ -703,12 +741,10 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 								{okrDetails?.map((item, index) => {
 									return (
 										<Box
-											bgcolor={'secondary.light'}
 											borderRadius={2}
 											display={'flex'}
 											flexDirection={'column'}
-											gap={2}
-											mb={2}
+											mb={1}
 										>
 											<UnderGoalCard
 												data={item}
