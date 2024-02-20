@@ -149,10 +149,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				props.setLoading(false);
 
 				alert('타이틀은 20자내로 입력해주세요.');
-				// setOkrDetailData({
-				// 	...okrDetailData,
-				// 	TITLE: okrDetailData.TITLE.substring(0, 20),
-				// });
 			} else {
 				okrDetailController.updateItem(
 					Object.assign(
@@ -187,18 +183,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 	//* Hooks
 	React.useEffect(() => {
 		//* 수정모드가 아닐 경우 기존 데이터로 리셋
-		// if (!isEditMode) {
-		// 	setOkrDetailData({
-		// 		TITLE: props.data.TITLE,
-		// 		START_DATE: props.data.START_DATE,
-		// 		END_DATE: props.data.END_DATE,
-		// 		TARGET_AMOUNT: Number(props.data.TARGET_AMOUNT),
-		// 		TARGET_UNIT: props.data.TARGET_UNIT,
-		// 		NOTE: props.data.NOTE,
-		// 		ACHIEVED_AMOUNT: props.data.ACHIEVED_AMOUNT,
-		// 		APP_MEMBER_IDENTIFICATION_CODE: props.memberId,
-		// 	});
-		// }
 		setOkrDetailData({
 			TITLE: props.data.TITLE,
 			START_DATE: props.data.START_DATE,
@@ -351,105 +335,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 				{/** 상세보기 모달에서 사용될 시 더보기 클릭 후 */}
 				{props.mode === 'detail' && isMoreOpen ? (
 					<Box display="flex" flexDirection="column" gap={1}>
-						{/** 수정모드일 시 데이트피커, 수정모드 해제 시 시작 ~ 끝 기간 */}
-						{isEditMode ? (
-							<Box display={'flex'} alignItems={'center'}>
-								<CalendarTodayIcon
-									sx={{
-										width: '15px',
-										height: '15px',
-										marginTop: 'auto',
-										marginBottom: 'auto',
-										marginRight: '5px',
-									}}
-								/>
-								<SupportiInput
-									type="datepicker"
-									additionalProps={{
-										defaultValue: okrDetailData.START_DATE,
-									}}
-									value={okrDetailData.START_DATE}
-									setValue={(value) => {
-										setOkrDetailData({
-											...okrDetailData,
-											START_DATE: value
-												.toDate()
-												.toISOString(),
-										});
-									}}
-									width={'110px'}
-									useIcon={false}
-									style={{
-										height: '20px',
-									}}
-								/>
-								<Typography
-									ml={0.5}
-									mr={0.5}
-									fontWeight={500}
-									color={'secondary.main'}
-									sx={{
-										marginTop: 'auto',
-										marginBottom: 'auto',
-									}}
-								>
-									-
-								</Typography>
-								<SupportiInput
-									type="datepicker"
-									additionalProps={{
-										defaultValue: okrDetailData.END_DATE,
-									}}
-									value={okrDetailData?.END_DATE}
-									minDate={
-										okrDetailData?.START_DATE as string
-									}
-									maxDate={props.maxDate}
-									setValue={(value) => {
-										setOkrDetailData({
-											...okrDetailData,
-											END_DATE: value
-												.toDate()
-												.toISOString(),
-										});
-									}}
-									width={'110px'}
-									useIcon={false}
-								/>
-							</Box>
-						) : (
-							<Box display={'flex'}>
-								<Typography
-									fontWeight={500}
-									color={'secondary.main'}
-								>
-									{
-										(
-											props.data?.START_DATE as string
-										).split('T')[0]
-									}
-								</Typography>
-								<Typography
-									ml={0.5}
-									mr={0.5}
-									fontWeight={500}
-									color={'secondary.main'}
-								>
-									-
-								</Typography>
-								<Typography
-									fontWeight={500}
-									color={'secondary.main'}
-								>
-									{
-										(props.data?.END_DATE as string).split(
-											'T'
-										)[0]
-									}
-								</Typography>
-							</Box>
-						)}
-
 						{/** 수정모드 아닐 경우 */}
 						{!isEditMode && (
 							<Box display="flex" flexDirection="column" gap={1}>
@@ -587,20 +472,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 															''
 													}
 												/>
-												{/* <Typography
-														fontWeight={400}
-														variant="body2"
-														color="error.main"
-														sx={{
-															visibility:
-																okrDetailData.TARGET_UNIT !=
-																undefined
-																	? 'hidden'
-																	: 'block',
-														}}
-													>
-														필수 값 입니다.
-													</Typography> */}
 											</Box>
 										)}
 									</Box>
@@ -700,37 +571,9 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 					</Box>
 				) : props.mode === 'detail' && !isMoreOpen ? null : (
 					<Box>
-						{/** 기간 */}
-						<Box display={'flex'}>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{
-									(props.data?.START_DATE as string).split(
-										'T'
-									)[0]
-								}
-							</Typography>
-							<Typography
-								ml={0.5}
-								mr={0.5}
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								~
-							</Typography>
-							<Typography
-								fontWeight={500}
-								color={'secondary.main'}
-							>
-								{(props.data?.END_DATE as string).split('T')[0]}
-							</Typography>
-						</Box>
-
 						{/** 달성률*/}
 						<Box display="flex" flexDirection="column" gap={1}>
-							<Box display="flex" mt={'20px'}>
+							<Box display="flex" mt={'12px'}>
 								<Typography fontWeight={600}>
 									현재 달성률
 								</Typography>

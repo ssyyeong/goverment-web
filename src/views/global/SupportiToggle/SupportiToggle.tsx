@@ -82,7 +82,7 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 					width={`${
 						props.disablePadding
 							? 100 / props.chipDataList.length
-							: 99 / props.chipDataList.length
+							: 95 / props.chipDataList.length
 					}%`}
 					borderRadius={props.angled ? 1 : 5}
 					sx={{
@@ -128,7 +128,11 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 							}}
 							{...props.style?.chipMapStyle}
 							textAlign={'center'}
-							width={`${100 / props.chipDataList.length}%`}
+							width={`${
+								props.disablePadding
+									? 100 / props.chipDataList.length
+									: 98 / props.chipDataList.length
+							}%`}
 						>
 							{data.label}
 						</Box>

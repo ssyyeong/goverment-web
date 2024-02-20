@@ -353,13 +353,15 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			{indicatorList.length === 0 && <Nodata />}
 
 			{props.name === 'OKR' && (
-				<OkrCreateModal
-					modalOpen={indicatorRegisterModal}
-					setModalOpen={setIndicatorRegisterModal}
-					setTriggerKey={props.setTriggerKey}
-					loading={props.loading}
-					setLoading={props.setLoading}
-				/>
+				<Box key={indicatorRegisterModal.toString()}>
+					<OkrCreateModal
+						modalOpen={indicatorRegisterModal}
+						setModalOpen={setIndicatorRegisterModal}
+						setTriggerKey={props.setTriggerKey}
+						loading={props.loading}
+						setLoading={props.setLoading}
+					/>
+				</Box>
 			)}
 			{props.name === 'KPI' && (
 				<KpiCreateModal

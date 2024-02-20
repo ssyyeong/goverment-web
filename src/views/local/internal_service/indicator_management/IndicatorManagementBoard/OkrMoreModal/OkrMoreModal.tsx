@@ -20,6 +20,8 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import UnderGoalCard from '../UnderGoalCard';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
+import moment from 'moment';
+import SupportiToggle from '../../../../../global/SupportiToggle';
 
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
@@ -99,6 +101,103 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	 */
 	const [isDeleteAlertOpen, setIsDeleteAlertOpen] = React.useState(false);
 
+	/**
+	 * 선택 가능한 기간
+	 */
+	const selectableRangeList: { value: string; label: string }[] = [
+		{
+			value: '연간',
+			label: '연간',
+		},
+		{
+			value: '분기별',
+			label: '분기별',
+		},
+	];
+	/**
+	 * 선택된 기간
+	 */
+	const [selectedRange, setSelectedRange] = React.useState<string>('연간');
+	/**
+	 * Okr 년도 데이터
+	 */
+	const [okrYearData, setOkrYearData] = React.useState<any>(
+		moment().format('YYYY-MM-DDTHH:mm:ss.000')
+	);
+	/**
+	 * 선택 가능 분기
+	 */
+	const selectableQuarterList: { value: any; label: string }[] = [
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(2, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '1분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(3, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(5, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '2분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(6, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(8, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '3분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(9, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.endOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '4분기',
+		},
+	];
+	/**
+	 * 선택된 분기
+	 */
+	const [selectedQuarter, setSelectedQuarter] = React.useState<string>(
+		JSON.stringify({
+			START_DATE: moment(okrYearData)
+				.startOf('year')
+				.format('YYYY-MM-DDTHH:mm:ss.000'),
+			END_DATE: moment(okrYearData)
+				.startOf('year')
+				.add(2, 'months')
+				.endOf('month')
+				.format('YYYY-MM-DDTHH:mm:ss.000'),
+		})
+	);
+
 	//* Functions
 	/**
 	 * 하위 목표 작성 폼 삭제
@@ -130,6 +229,21 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				});
 
 				setOkrDetails(res.data.result.OkrDetails);
+
+				setSelectedQuarter(
+					JSON.stringify({
+						START_DATE: res.data.result.START_DATE,
+						END_DATE: res.data.result.END_DATE,
+					})
+				);
+				setSelectedRange(
+					moment(res.data.result.START_DATE).diff(
+						moment(res.data.result.END_DATE)
+					) > 5
+						? '연간'
+						: '분기별'
+				);
+				setOkrYearData(res.data.result.START_DATE);
 			},
 			(err: any) => {
 				setAlertType('failAxios');
@@ -154,6 +268,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				alert('20자 이하로 입력해주세요.');
 				return;
 			} else {
+				const startDate = `${injectedObj?.START_DATE}Z`;
+				const endDate = `${injectedObj?.END_DATE}Z`;
+				injectedObj.START_DATE = startDate;
+				injectedObj.END_DATE = endDate;
+
 				okrMainController.updateItem(
 					Object.assign(
 						{
@@ -253,6 +372,27 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	React.useEffect(() => {
 		getOkrMain();
 	}, []);
+
+	//* 연간/분기별 선택시 날짜 변경
+	useEffect(() => {
+		if (selectedRange === '연간') {
+			setOkrMainData({
+				...okrMainData,
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.endOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			});
+		} else {
+			setOkrMainData({
+				...okrMainData,
+				START_DATE: JSON.parse(selectedQuarter).START_DATE,
+				END_DATE: JSON.parse(selectedQuarter).END_DATE,
+			});
+		}
+	}, [selectedRange, okrYearData, selectedQuarter]);
 
 	return (
 		<Box>
@@ -477,72 +617,132 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										</Typography>
 									</Box>
 								) : (
-									<Box display={'flex'}>
-										{/** 수정모드일 시 데이트피커 */}
-										<CalendarTodayIcon
-											sx={{
-												width: '15px',
-												height: '15px',
-												marginTop: 'auto',
-												marginBottom: 'auto',
-												marginRight: '5px',
+									<Box
+										display={'flex'}
+										flexDirection={'column'}
+										gap={1}
+										width={'100%'}
+										height={'100%'}
+									>
+										{/* 분기별/ 연도별 */}
+										<Box width={{ md: '30%', xs: '100%' }}>
+											<SupportiToggle
+												chipDataList={
+													selectableRangeList
+												}
+												value={selectedRange}
+												setValue={(value) =>
+													setSelectedRange(
+														value as string
+													)
+												}
+												chipHeight={'30px'}
+												style={{
+													outerBoxStyle: {
+														p: '5px',
+													},
+												}}
+											/>
+										</Box>
+										{/** 날짜  */}
+										<Box
+											display={'flex'}
+											bgcolor={'white'}
+											flexDirection={{
+												md: 'row',
+												xs: 'column',
 											}}
-										/>
-										<SupportiInput
-											type="datepicker"
-											additionalProps={{
-												readOnly: isEditMode
-													? false
-													: true,
+											justifyContent={'space-between'}
+											alignItems={{
+												md: 'center',
+												xs: 'flex-start',
 											}}
-											value={okrMainData?.START_DATE}
-											setValue={(value) => {
-												setOkrMainData({
-													...okrMainData,
-													START_DATE: value
-														.toDate()
-														.toISOString(),
-												});
-											}}
-											width={'110px'}
-											useIcon={false}
-											style={{ height: '20px' }}
-										/>
-										<Typography
-											ml={0.5}
-											mr={0.5}
-											fontWeight={500}
-											color={'secondary.main'}
-											sx={{
-												marginTop: 'auto',
-												marginBottom: 'auto',
-											}}
+											gap={2}
 										>
-											~
-										</Typography>
-										<SupportiInput
-											type="datepicker"
-											additionalProps={{
-												defaultValue: new Date(),
-												readOnly: isEditMode
-													? false
-													: true,
-											}}
-											value={okrMainData.END_DATE}
-											minDate={
-												okrMainData?.START_DATE as string
-											}
-											setValue={(value) => {
-												setOkrMainData({
-													...okrMainData,
-													END_DATE: value
-														.toDate()
-														.toISOString(),
-												});
-											}}
-											width={'110px'}
-											useIcon={false}
-										/>
+											<Box display={'flex'}>
+												<CalendarTodayIcon
+													sx={{
+														width: '15px',
+														height: '15px',
+														marginTop: 'auto',
+														marginBottom: 'auto',
+														marginRight: '5px',
+													}}
+												/>
+												<Box>
+													<SupportiInput
+														type="yearpicker"
+														value={okrYearData}
+														setValue={(value) => {
+															setOkrYearData(
+																value.toDate()
+															);
+														}}
+														style={{
+															border: '0px solid red',
+															'& .MuiInputBase-root':
+																{
+																	border: '0px solid red !important',
+																},
+														}}
+														additionalProps={{
+															variant: 'standard',
+														}}
+														width={'70px'}
+													/>
+												</Box>
+												{selectedRange === '분기별' && (
+													<Box ml={1}>
+														<SupportiInput
+															type="select"
+															value={
+																selectedQuarter
+															}
+															setValue={(
+																value
+															) => {
+																setSelectedQuarter(
+																	value
+																);
+																setOkrMainData({
+																	...okrMainData,
+																	START_DATE:
+																		JSON.parse(
+																			value
+																		)
+																			.START_DATE,
+																	END_DATE:
+																		JSON.parse(
+																			value
+																		)
+																			.END_DATE,
+																});
+															}}
+															dataList={
+																selectableQuarterList
+															}
+															width={'110px'}
+														/>
+													</Box>
+												)}
+											</Box>
+											<Typography
+												fontWeight={500}
+												color={'secondary.main'}
+											>
+												{
+													okrMainData.START_DATE.split(
+														'T'
+													)[0]
+												}{' '}
+												~
+												{
+													okrMainData.END_DATE.split(
+														'T'
+													)[0]
+												}
+											</Typography>
+										</Box>
 									</Box>
 								)}
 							</Box>

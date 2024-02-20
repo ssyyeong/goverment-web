@@ -12,11 +12,11 @@ import { useAppMember } from '../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import moment from 'moment';
-
+import SupportiToggle from '../../../../../global/SupportiToggle';
+import 'moment/locale/ko';
 interface IOkrCreateModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
-
 	okrMainData?: any;
 	setOkrMainData?: any;
 	okrDetailData?: any;
@@ -42,7 +42,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	 */
 	const { memberId } = useAppMember();
 	//* Constants
-
+	moment.locale('en');
 	//* States
 
 	/**
@@ -50,8 +50,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	 */
 	const [okrMainData, setOkrMainData] = React.useState({
 		TITLE: '',
-		START_DATE: moment(),
-		END_DATE: moment(),
+		START_DATE: moment().format('YYYY-MM-DDTHH:mm:ss.000'),
+		END_DATE: moment().format('YYYY-MM-DDTHH:mm:ss.000'),
 		NOTE: '',
 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
 	});
@@ -63,8 +63,8 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	const [okrDetailData, setOkrDetailData] = React.useState([
 		{
 			TITLE: '',
-			START_DATE: moment(),
-			END_DATE: moment(),
+			START_DATE: moment().format('YYYY-MM-DDTHH:mm:ss.000'),
+			END_DATE: moment().format('YYYY-MM-DDTHH:mm:ss.000'),
 			TARGET_AMOUNT: undefined,
 			TARGET_UNIT: undefined,
 			NOTE: '',
@@ -72,6 +72,103 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			APP_MEMBER_IDENTIFICATION_CODE: memberId,
 		},
 	]);
+
+	/**
+	 * 선택 가능한 기간
+	 */
+	const selectableRangeList: { value: string; label: string }[] = [
+		{
+			value: '연간',
+			label: '연간',
+		},
+		{
+			value: '분기별',
+			label: '분기별',
+		},
+	];
+	/**
+	 * 선택된 기간
+	 */
+	const [selectedRange, setSelectedRange] = React.useState<string>('연간');
+	/**
+	 * Okr 년도 데이터
+	 */
+	const [okrYearData, setOkrYearData] = React.useState<any>(
+		moment().format('YYYY-MM-DDTHH:mm:ss.000')
+	);
+	/**
+	 * 선택 가능 분기
+	 */
+	const selectableQuarterList: { value: any; label: string }[] = [
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(2, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '1분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(3, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(5, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '2분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(6, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(8, 'months')
+					.endOf('month')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '3분기',
+		},
+		{
+			value: JSON.stringify({
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.add(9, 'months')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.endOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+			}),
+			label: '4분기',
+		},
+	];
+	/**
+	 * 선택된 분기
+	 */
+	const [selectedQuarter, setSelectedQuarter] = React.useState<string>(
+		JSON.stringify({
+			START_DATE: moment(okrYearData)
+				.startOf('year')
+				.format('YYYY-MM-DDTHH:mm:ss.000'),
+			END_DATE: moment(okrYearData)
+				.startOf('year')
+				.add(2, 'months')
+				.endOf('month')
+				.format('YYYY-MM-DDTHH:mm:ss.000'),
+		})
+	);
 
 	/**
 	 *
@@ -100,6 +197,9 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 	 * 목표 등록하는 api 호출 처리
 	 */
 	const createOkr = () => {
+		const startDate = `${okrMainData.START_DATE}Z`;
+		const endDate = `${okrMainData.END_DATE}Z`;
+
 		okrDetailData.map((item) => {
 			if (
 				item.TITLE === '' ||
@@ -113,7 +213,12 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 				setIsAlertOpen(true);
 				return;
 			}
+			item.START_DATE = startDate;
+			item.END_DATE = endDate;
 		});
+
+		okrMainData.START_DATE = startDate;
+		okrMainData.END_DATE = endDate;
 
 		if (isAlertOpen) return;
 		else {
@@ -143,13 +248,20 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		}
 	};
 
+	console.log('okrMainData', okrMainData);
+
 	//* Hooks
 	useEffect(() => {
 		if (memberId) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: moment(),
-				END_DATE: moment(),
+				START_DATE: moment()
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment()
+					.add(1, 'years')
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			});
@@ -157,8 +269,10 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 			setOkrDetailData([
 				{
 					TITLE: '',
-					START_DATE: moment(),
-					END_DATE: moment(),
+					START_DATE: moment().format('YYYY-MM-DDTHH:mm:ss.000'),
+					END_DATE: moment()
+						.add(1, 'years')
+						.format('YYYY-MM-DDTHH:mm:ss.000'),
 					TARGET_AMOUNT: undefined,
 					TARGET_UNIT: undefined,
 					NOTE: '',
@@ -169,29 +283,39 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		}
 	}, [memberId]);
 
-	React.useEffect(() => {
-		if (memberId && !props.modalOpen) {
+	//* 연간/분기별 선택시 날짜 변경
+	useEffect(() => {
+		if (selectedRange === '연간') {
 			setOkrMainData({
-				TITLE: '',
-				START_DATE: moment(),
-				END_DATE: moment(),
-				NOTE: '',
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				...okrMainData,
+				START_DATE: moment(okrYearData)
+					.startOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
+				END_DATE: moment(okrYearData)
+					.endOf('year')
+					.format('YYYY-MM-DDTHH:mm:ss.000'),
 			});
-			setOkrDetailData([
-				{
-					TITLE: '',
-					START_DATE: moment(),
-					END_DATE: moment(),
-					TARGET_AMOUNT: undefined,
-					TARGET_UNIT: undefined,
-					NOTE: '',
-					ACHIEVED_AMOUNT: 0,
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
-			]);
+		} else {
+			setOkrMainData({
+				...okrMainData,
+				START_DATE: JSON.parse(selectedQuarter).START_DATE,
+				END_DATE: JSON.parse(selectedQuarter).END_DATE,
+			});
 		}
-	}, [memberId, props.modalOpen, props.okrMainData]);
+	}, [selectedRange, okrYearData, selectedQuarter]);
+
+	//* mainData START_DATE, END_DATE 변경시 하위 목표 START_DATE, END_DATE 변경
+	useEffect(() => {
+		setOkrDetailData(
+			okrDetailData.map((item) => {
+				return {
+					...item,
+					START_DATE: okrMainData.START_DATE,
+					END_DATE: okrMainData.END_DATE,
+				};
+			})
+		);
+	}, [okrMainData.START_DATE, okrMainData.END_DATE]);
 
 	return (
 		<Box>
@@ -226,7 +350,6 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 								backgroundColor: '#b0b5c2',
 								borderRadius: '20px',
 							},
-							pt: 2,
 							pr: 1,
 						}}
 						width={'100%'}
@@ -267,6 +390,7 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										variant="caption"
 										color="error.main"
 										mt={'5px'}
+										pl={2}
 										sx={{
 											visibility:
 												okrMainData.TITLE !== ''
@@ -314,9 +438,31 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 									</Box>
 								</Box>
 							</Box>
-
+							{/* 분기별/ 연도별 */}
+							<Box width={{ md: '30%', xs: '100%' }}>
+								<SupportiToggle
+									chipDataList={selectableRangeList}
+									value={selectedRange}
+									setValue={(value) =>
+										setSelectedRange(value as string)
+									}
+									chipHeight={'30px'}
+									style={{
+										outerBoxStyle: {
+											p: '5px',
+										},
+									}}
+								/>
+							</Box>
 							{/** 날짜  */}
-							<Box display={'flex'}>
+							<Box
+								display={'flex'}
+								bgcolor={'white'}
+								flexDirection={{ md: 'row', xs: 'column' }}
+								justifyContent={'space-between'}
+								alignItems={{ md: 'center', xs: 'flex-start' }}
+								gap={2}
+							>
 								<Box display={'flex'}>
 									<CalendarTodayIcon
 										sx={{
@@ -327,56 +473,55 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 											marginRight: '5px',
 										}}
 									/>
-									<SupportiInput
-										type="datepicker"
-										additionalProps={{
-											defaultValue:
-												okrMainData.START_DATE,
-										}}
-										value={okrMainData.START_DATE}
-										setValue={(value) => {
-											setOkrMainData({
-												...okrMainData,
-												START_DATE: value
-													.toDate()
-													.toISOString(),
-											});
-										}}
-										width={'110px'}
-										useIcon={false}
-										style={{ height: '20px' }}
-									/>
-									<Typography
-										ml={0.5}
-										mr={0.5}
-										fontWeight={500}
-										color={'secondary.main'}
-										sx={{
-											marginTop: 'auto',
-											marginBottom: 'auto',
-										}}
-									>
-										~
-									</Typography>
-									<SupportiInput
-										type="datepicker"
-										additionalProps={{
-											defaultValue: okrMainData.END_DATE,
-										}}
-										value={okrMainData.END_DATE}
-										minDate={okrMainData.START_DATE}
-										setValue={(value) => {
-											setOkrMainData({
-												...okrMainData,
-												END_DATE: value
-													.toDate()
-													.toISOString(),
-											});
-										}}
-										width={'110px'}
-										useIcon={false}
-									/>
+									<Box>
+										<SupportiInput
+											type="yearpicker"
+											value={okrYearData}
+											setValue={(value) => {
+												setOkrYearData(value.toDate());
+											}}
+											style={{
+												border: '0px solid red',
+												'& .MuiInputBase-root': {
+													border: '0px solid red !important',
+												},
+											}}
+											additionalProps={{
+												variant: 'standard',
+											}}
+											width={'70px'}
+										/>
+									</Box>
+									{selectedRange === '분기별' && (
+										<Box ml={1}>
+											<SupportiInput
+												type="select"
+												value={selectedQuarter}
+												setValue={(value) => {
+													setSelectedQuarter(value);
+													setOkrMainData({
+														...okrMainData,
+														START_DATE:
+															JSON.parse(value)
+																.START_DATE,
+														END_DATE:
+															JSON.parse(value)
+																.END_DATE,
+													});
+												}}
+												dataList={selectableQuarterList}
+												width={'110px'}
+											/>
+										</Box>
+									)}
 								</Box>
+								<Typography
+									fontWeight={500}
+									color={'secondary.main'}
+								>
+									{okrMainData.START_DATE.split('T')[0]} ~
+									{okrMainData.END_DATE.split('T')[0]}
+								</Typography>
 							</Box>
 						</Box>
 
@@ -418,8 +563,12 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 										...okrDetailData,
 										{
 											TITLE: '',
-											START_DATE: moment(),
-											END_DATE: moment(),
+											START_DATE: moment().format(
+												'YYYY-MM-DDTHH:mm:ss.000'
+											),
+											END_DATE: moment().format(
+												'YYYY-MM-DDTHH:mm:ss.000'
+											),
 											TARGET_AMOUNT: undefined,
 											TARGET_UNIT: undefined,
 											NOTE: '',

@@ -22,7 +22,7 @@ import { ImageController } from '../../../controller/ImageController';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, YearPicker } from '@mui/x-date-pickers';
 
 interface SupportiInputProps {
 	type: string;
@@ -59,6 +59,7 @@ const SupportiInput = React.forwardRef(
 		const imageController = new ImageController();
 		//* States
 		const [addableData, setAddableData] = useState<string>('');
+		const [yearPickerOpen, setYearPickerOpen] = useState<boolean>(false);
 		//* Functions
 		//* 파일 삭제 시 인풋 초기화
 		const resetInputValue = () => {
@@ -491,6 +492,27 @@ const SupportiInput = React.forwardRef(
 							renderInput={(params) => <TextField {...params} />}
 							value={props.value}
 							onChange={(newValue) => props.setValue(newValue)}
+						/>
+					</LocalizationProvider>
+				) : props.type === 'yearpicker' ? (
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<MobileDatePicker
+							inputFormat="YYYY년"
+							onChange={(newValue) => {
+								props.setValue(newValue);
+							}}
+							value={moment(props.value)}
+							openTo="year"
+							disablePast
+							views={['year']}
+							// {...props.additionalProps}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									{...props.additionalProps}
+									sx={{ ...props.style }}
+								/>
+							)}
 						/>
 					</LocalizationProvider>
 				) : (

@@ -157,6 +157,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 			gap={1}
 			mb={2}
 			pl={5}
+			pt={3}
 		>
 			<Box display={'flex'} flexDirection={'column'} gap={2}>
 				<Box display={'flex'} justifyContent={'space-between'}>
@@ -196,6 +197,9 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 
 									props.setOkrDetailData(temp);
 								}}
+								style={{
+									bgcolor: 'white',
+								}}
 								width={'100%'}
 							/>
 						</Box>
@@ -230,60 +234,6 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 						onClick={() => {
 							props.deleteOkrDetail(props.index);
 						}}
-					/>
-				</Box>
-				{/** 날짜 선택 */}
-				<Box display={'flex'}>
-					<CalendarTodayIcon
-						sx={{
-							width: '15px',
-							height: '15px',
-							marginTop: 'auto',
-							marginBottom: 'auto',
-							marginRight: '5px',
-						}}
-					/>
-					<SupportiInput
-						type="datepicker"
-						value={props.okrDetailData[props.index].START_DATE}
-						setValue={(value) => {
-							let temp: any = [...props.okrDetailData];
-							temp[props.index].START_DATE = value
-								.toDate()
-								.toISOString();
-
-							props.setOkrDetailData(temp);
-						}}
-						width={'110px'}
-						useIcon={false}
-					/>
-					<Typography
-						ml={0.5}
-						mr={0.5}
-						fontWeight={500}
-						color={'secondary.main'}
-						sx={{
-							marginTop: 'auto',
-							marginBottom: 'auto',
-						}}
-					>
-						~
-					</Typography>
-					<SupportiInput
-						type="datepicker"
-						value={props.okrDetailData[props.index].END_DATE}
-						setValue={(value) => {
-							let temp: any = [...props.okrDetailData];
-							temp[props.index].END_DATE = value
-								.toDate()
-								.toISOString();
-
-							props.setOkrDetailData(temp);
-						}}
-						minDate={props.okrDetailData[props.index].START_DATE}
-						maxDate={props.maxDate}
-						width={'110px'}
-						useIcon={false}
 					/>
 				</Box>
 
