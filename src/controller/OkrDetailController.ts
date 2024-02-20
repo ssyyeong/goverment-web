@@ -54,4 +54,21 @@ export class OkrDetailController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	/**
+	 *
+	 * OKR 달성량 조회
+	 */
+	// public getAchieved(
+	// 	args: { [key: string]: any },
+	// 	successCallback?: (response: any) => void,
+	// 	failCallback?: (err: any) => void
+	// ): any {
+	// 	super.getData(
+	// 		args,
+	// 		`${this.mergedPath}/get_achieved`,
+	// 		successCallback,
+	// 		failCallback
+	// 	);
+	// }
 }

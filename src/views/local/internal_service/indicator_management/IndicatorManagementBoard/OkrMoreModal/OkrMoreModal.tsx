@@ -22,6 +22,7 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import moment from 'moment';
 import SupportiToggle from '../../../../../global/SupportiToggle';
+import AchievedModal from '../../AcheivedModal/AchievedModal';
 
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
@@ -197,6 +198,11 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 				.format('YYYY-MM-DDTHH:mm:ss.000'),
 		})
 	);
+	/*
+	 *
+	 * 달성현황 확인하는 모달 오픈 여부
+	 */
+	const [achieveModalOpen, setAchieveModalOpen] = React.useState(false);
 
 	//* Functions
 	/**
@@ -516,12 +522,28 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										</Box>
 									</Box>
 								) : (
-									<Typography
-										fontWeight={'bold'}
-										variant="h2"
-									>
-										{okrMainData?.TITLE}
-									</Typography>
+									<Box display="flex" gap={2}>
+										<Typography
+											fontWeight={'bold'}
+											variant="h2"
+										>
+											{okrMainData?.TITLE}
+										</Typography>
+										<SupportiButton
+											contents={'달성현황 확인하기'}
+											onClick={() => {
+												setAchieveModalOpen(true);
+											}}
+											style={{
+												height: '35px',
+												width: '140px',
+												marginLeft: 'auto',
+												marginRight: 'auto',
+											}}
+											color={'primary'}
+											variant="outlined"
+										/>
+									</Box>
 								)}
 								<Box
 									display={'flex'}
@@ -970,6 +992,25 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 					</Box>
 				}
 			/>
+
+			{/** 달성현황 확인 모달 */}
+			{/* <AchievedModal
+				modalOpen={achieveModalOpen}
+				setModalOpen={setAchieveModalOpen}
+				chartData={{
+					mainData: {
+						title: okrMainData.TITLE,
+						startDate: okrMainData.START_DATE,
+						endDate: okrMainData.END_DATE,
+					},
+					subData: okrDetails.map((item) => {
+						return {
+							title: item.TITLE,
+							id: item.OKR_DETAIL_IDENTIFICATION_CODE,
+						};
+					}),
+				}}
+			/> */}
 
 			{/** 알럿 */}
 			<SupportiAlertModal

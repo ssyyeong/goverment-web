@@ -343,7 +343,8 @@ const SupportiInput = React.forwardRef(
 										bgcolor: 'common.black',
 										color: 'white',
 										':hover': {
-											color: 'black',
+											bgcolor: 'secondary.main', // theme.palette.primary.main
+											color: 'common.black',
 										},
 										marginTop:
 											props.additionalProps !==
