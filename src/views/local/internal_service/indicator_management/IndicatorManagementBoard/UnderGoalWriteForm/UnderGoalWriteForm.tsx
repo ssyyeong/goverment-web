@@ -26,6 +26,7 @@ interface IUnderGoalWriteFormProps {
 	setTriggerKey?: React.Dispatch<any>;
 	getOkrMain?: any;
 	maxDate?: any;
+	okrDetails?: any;
 	/**
 	 * 로딩 상태
 	 */
@@ -168,7 +169,7 @@ const UnderGoalWriteForm = (props: IUnderGoalWriteFormProps) => {
 									bgcolor:
 										randomColor[
 											props.mode === 'detail'
-												? props.okrDetailData.length +
+												? props.okrDetails.length +
 												  props.index
 												: props.index
 										],

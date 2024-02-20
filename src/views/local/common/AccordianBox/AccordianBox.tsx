@@ -55,7 +55,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				</Box>
 
 				<Typography variant="body1" fontWeight={'bold'}>
-					{props.title}
+					Q) {props.title}
 				</Typography>
 				{props.additional && open && (
 					<Typography variant="body1" my={2}>
@@ -68,21 +68,32 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 					</Typography>
 				)}
 				{open && (
-					<TextField
+					<Typography
 						sx={{
 							width: '100%',
 							my: 2,
-							bgcolor: 'white',
+
+							// bgcolor: 'white',
 						}}
-						fullWidth
-						multiline
-						rows={5}
-						value={props.content}
-						InputProps={{
-							readOnly: true,
-						}}
-						focused={false}
-					/>
+						fontWeight={'500'}
+					>
+						A) {props.content}
+					</Typography>
+					// <TextField
+					// 	sx={{
+					// 		width: '100%',
+					// 		my: 2,
+					// 		bgcolor: 'white',
+					// 	}}
+					// 	fullWidth
+					// 	multiline
+					// 	rows={5}
+					// 	value={props.content}
+					// 	InputProps={{
+					// 		readOnly: true,
+					// 	}}
+					// 	focused={false}
+					// />
 				)}
 				<Typography variant="body1">
 					{moment(props.created_at).format('YYYY-MM-DD(ddd) HH:mm')}

@@ -314,32 +314,6 @@ const Page: NextPage = () => {
 							</Typography>
 						</Box>
 					</Box>
-					<Box height={5}>
-						<Box
-							sx={{
-								animation: `${motion} 0.9s linear 0s infinite alternate`,
-								cursor: 'pointer',
-								marginLeft: 'auto',
-								marginRight: 'auto',
-								width: '10px',
-								height: '10px',
-								transition: 'all 0.5s ease-out',
-							}}
-						>
-							<img
-								src={'/images/icons/scrollIcon.svg'}
-								alt="Logo"
-								width={'10px'}
-								height={'7px'}
-								// style={{
-								// 	cursor: 'pointer',
-								// 	marginLeft: 'auto',
-								// 	marginRight: 'auto',
-								// 	marginBottom: 30,
-								// }}
-							/>
-						</Box>
-					</Box>
 				</Box>
 			</Box>
 

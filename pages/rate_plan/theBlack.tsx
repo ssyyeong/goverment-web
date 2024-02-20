@@ -153,13 +153,15 @@ const Page: NextPage = () => {
 								justifyContent: 'center',
 								gap: 2,
 								width: {
-									sm: '400px',
-									xs: '400px',
+									md: '400px',
+									xs: '350px',
 								},
 								height: {
-									sm: '230px',
+									md: '230px',
 									xs: '230px',
 								},
+								ml: 'auto',
+								mr: 'auto',
 								bgcolor: 'white',
 							}}
 						>
@@ -187,8 +189,16 @@ const Page: NextPage = () => {
 						<Box
 							sx={{
 								boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
-								width: '400px',
-								height: '230px',
+								width: {
+									md: '400px',
+									xs: '350px',
+								},
+								height: {
+									md: '230px',
+									xs: '230px',
+								},
+								ml: 'auto',
+								mr: 'auto',
 								borderRadius: '20px',
 								p: 3,
 								textAlign: 'left',
@@ -223,8 +233,16 @@ const Page: NextPage = () => {
 						<Box
 							sx={{
 								boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
-								width: '400px',
-								height: '230px',
+								width: {
+									md: '400px',
+									xs: '350px',
+								},
+								height: {
+									md: '230px',
+									xs: '230px',
+								},
+								ml: 'auto',
+								mr: 'auto',
 								borderRadius: '20px',
 								p: 3,
 								textAlign: 'right',
@@ -252,8 +270,16 @@ const Page: NextPage = () => {
 						<Box
 							sx={{
 								boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
-								width: '400px',
-								height: '230px',
+								width: {
+									md: '400px',
+									xs: '350px',
+								},
+								height: {
+									md: '230px',
+									xs: '230px',
+								},
+								ml: 'auto',
+								mr: 'auto',
 								borderRadius: '20px',
 								p: 3,
 								textAlign: 'right',

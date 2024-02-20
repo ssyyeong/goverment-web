@@ -732,6 +732,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										loading={props.loading}
 										setLoading={props.setLoading}
 										getOkrMain={getOkrMain}
+										okrDetails={okrDetails}
 									/>
 								);
 							})}
