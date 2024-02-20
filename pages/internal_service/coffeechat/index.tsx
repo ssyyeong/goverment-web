@@ -58,9 +58,10 @@ const Page: NextPage = () => {
 	 * 커피챗 추천 모달
 	 */
 	useEffect(() => {
-		if (!cookie.getItemInCookies('COFFEE_CHAT_EVENT_MODAL')) {
-			setOpenEventModal(true);
+		if (cookie.getItemInCookies('COFFEE_CHAT_EVENT_MODAL')) {
+			setOpenEventModal(false);
 		}
+
 		coffeeChatProfileController.getOneItemByKey(
 			{
 				IS_RECOMMENDED: 'Y',

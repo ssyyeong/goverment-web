@@ -24,6 +24,7 @@ import SupportiPagination from '../../../../../global/SupportiPagination';
 import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import MobileTransactionHistory from '../MobileTransactionHistory/MobileTransactionHistory';
 import { BankController } from '../../../../../../controller/BankController';
+import Nodata from '../../../../../global/NoData/NoData';
 
 interface ITransactionHistoryTableProps {
 	/**
@@ -503,6 +504,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 						/>
 					</Box>
 				))}
+				{transactionHistoryList.length === 0 && <Nodata />}
 			</Box>
 			{/* 페이지 네이션 */}
 			<SupportiPagination

@@ -36,11 +36,11 @@ const ProfileModal = (props: IProfileModalProps) => {
 			}}
 			activeHeader={false}
 			muiModalProps={{
-				width: { sm: '30%', xs: '100%' },
+				width: { md: '35%', sm: '50%', xs: '100%' },
 			}}
 			style={{
 				minWidth: '30%',
-				width: { sm: '30%', xs: '100%' },
+				width: { md: '35%', sm: '50%', xs: '100%' },
 				p: { xs: 2, md: 2 },
 			}}
 		>

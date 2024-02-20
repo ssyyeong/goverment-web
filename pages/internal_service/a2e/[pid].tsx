@@ -236,7 +236,7 @@ const Page: NextPage = () => {
 						subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
           질문하고 다른 사업가 분들의 답변도 확인하세요."
 						image="/images/main/A2E.png"
-						mobileImage="/images/main/A2E.png"
+						mobileImage="/images/main/A2EMobile.png"
 					>
 						<Box
 							sx={{
