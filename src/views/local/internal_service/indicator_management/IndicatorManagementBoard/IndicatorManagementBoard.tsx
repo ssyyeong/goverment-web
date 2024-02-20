@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { InfiniteLoadBoard } from '../../../../../modules/will_be_in_core/InfiniteLoadBoard';
 import { IKpi, IOkrCombination } from '../../../../../@types/model';
@@ -238,30 +238,12 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				pr: { xs: '15px', md: '0' },
 			}}
 		>
-			{/* 새로운 목표 등록 영역 */}
-			<Box
-				sx={{
-					pl: { xs: '0', md: '0' },
-					pr: { xs: '0', md: '0' },
-				}}
-			>
-				<SupportiButton
-					contents={`+ ${props.name} 목표 등록`}
-					startIcon={<img src="/images/icons/flag.svg" />}
-					onClick={() => setIndicatorRegisterModal(true)}
-					isGradient={true}
-					style={{
-						height: { xs: '40px', md: 40 },
-						color: 'white',
-						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
-						marginTop: '10px',
-						width: { xs: '100%', md: '172px' },
-					}}
-				/>
-			</Box>
-
 			{/* 컨트롤러 영역 */}
-			<Box display={'flex'} justifyContent={'space-between'}>
+			<Box
+				display={'flex'}
+				justifyContent={'space-between'}
+				alignItems={'center'}
+			>
 				{/* 상태 영역 (진행중 / 완료) */}
 				<SupportiToggle
 					chipDataList={selectableStatusList}
@@ -280,17 +262,59 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 						},
 					}}
 				/>
-
 				{/* 정렬 선택 (오래된 순 / 최신 순) 영역 */}
-				<SupportiInput
-					type="select"
-					value={selectedSort}
-					setValue={(value) => setSelectedSort(value as string)}
-					dataList={selectableSortList}
-					width={'100px'}
-				/>
+				<Box
+					display={'flex'}
+					width={'100%'}
+					justifyContent={'end'}
+					gap={2}
+				>
+					{/* <SupportiInput
+						type="select"
+						value={selectedSort}
+						setValue={(value) => setSelectedSort(value as string)}
+						dataList={selectableSortList}
+						width={'100px'}
+					/> */}
+					{selectableSortList.map((selectableSort) => (
+						<Typography
+							fontWeight={'600'}
+							color={
+								selectableSort.value === selectedSort
+									? 'primary'
+									: 'secondary'
+							}
+							onClick={() => {
+								setSelectedSort(selectableSort.value);
+							}}
+						>
+							{selectableSort.label}
+						</Typography>
+					))}
+				</Box>
 			</Box>
 
+			{/* 새로운 목표 등록 영역 */}
+			<Box
+				sx={{
+					pl: { xs: '0', md: '0' },
+					pr: { xs: '0', md: '0' },
+				}}
+			>
+				<SupportiButton
+					contents={`+ ${props.name} 목표 등록`}
+					startIcon={<img src="/images/icons/flag.svg" />}
+					onClick={() => setIndicatorRegisterModal(true)}
+					isGradient={true}
+					style={{
+						height: { xs: '40px', md: 40 },
+						color: 'white',
+						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
+						marginTop: '10px',
+						width: { xs: '100%', md: '100%' },
+					}}
+				/>
+			</Box>
 			{/* 추가 필터 영역 */}
 			{props.additionalFilterConfigList?.map((config, index) => (
 				<Box></Box>

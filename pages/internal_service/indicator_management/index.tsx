@@ -169,49 +169,33 @@ const Page: NextPage = () => {
 							<Box
 								display="flex"
 								justifyContent={'space-between'}
+								alignItems={'center'}
+								pb={1}
+								mb={1}
 							>
 								{/* 지표 (OKR / KPI) 선택 영역 */}
-								<Box sx={{ pl: { xs: '15px', sm: '0' } }}>
+								<Box display={'flex'} gap={3}>
 									{selectableIndicatorList.map(
 										(selectableIndicator) => (
-											<SupportiButton
-												contents={
-													selectableIndicator.name
-												}
+											<Typography
+												variant="h4"
+												fontWeight={'800'}
 												onClick={() => {
 													setSelectedIndicator(
 														selectableIndicator
 													);
 												}}
-												style={{
-													border: 'solid 1px #d1d4db',
-													borderRadius: 10,
-													height: 3,
-													marginRight: 1,
+												sx={{
 													color:
 														selectableIndicator.name ===
 														selectedIndicator.name
-															? 'common.white'
-															: 'common.black',
-													backgroundColor:
-														selectableIndicator.name ===
-														selectedIndicator.name
-															? 'common.black'
-															: 'common.white',
-													':hover': {
-														bgcolor:
-															'secondary.dark',
-														color: 'common.white',
-													},
+															? 'primary.main'
+															: 'grey',
+													cursor: 'pointer',
 												}}
-												variant="contained"
-												color={
-													selectableIndicator.name ===
-													selectedIndicator.name
-														? 'primary'
-														: 'secondary'
-												}
-											/>
+											>
+												{selectableIndicator.name}
+											</Typography>
 										)
 									)}
 								</Box>
@@ -238,6 +222,14 @@ const Page: NextPage = () => {
 									/>
 								</Box>
 							</Box>
+							<Typography
+								color={'secondary.dark'}
+								sx={{ mb: 2, pb: 1 }}
+							>
+								{selectedIndicator.name === 'OKR'
+									? '서포티의 OKR관리를 이용해 보다 쉽게 전사목표와 하위목표를 설계하고 달성까지 함께 하세요!'
+									: '서포티의 KPI관리를 이용해 보다 쉽게 성과관리를 하고 목표달성까지 함께 하세요!'}
+							</Typography>
 							{/* 지표 보드 영역 */}
 							<IndicatorManagementBoard
 								key={JSON.stringify(selectedIndicator)}
