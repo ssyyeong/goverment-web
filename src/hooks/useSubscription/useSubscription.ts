@@ -57,8 +57,12 @@ const useSubscription = (props: ISubscriptionProps) => {
 	 * 구독권 타입 가져오기
 	 */
 	useEffect(() => {
-		if (Object.keys(subscriptionInfo).length !== 0) {
-			setSubscriptionType(subscriptionInfo?.SubscriptionProduct?.TYPE);
+		if (subscriptionInfo) {
+			if (Object.keys(subscriptionInfo)?.length !== 0) {
+				setSubscriptionType(
+					subscriptionInfo?.SubscriptionProduct?.TYPE
+				);
+			}
 		}
 	}, [subscriptionInfo]);
 

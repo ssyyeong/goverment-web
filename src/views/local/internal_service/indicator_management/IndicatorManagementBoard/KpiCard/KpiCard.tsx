@@ -91,12 +91,12 @@ const KpiCard = (props: IKpiCardProps) => {
 		} else {
 			/** 타이틀이 20자 이상일 경우 처리 */
 			if (
-				injectedObj.TITLE != undefined &&
-				injectedObj.TITLE.length > 20
+				injectedObj?.TITLE != undefined &&
+				injectedObj?.TITLE?.length > 20
 			) {
 				alert('타이틀은 20자내로 입력해주세요.');
 			} else {
-				if (injectedObj.NOTE.length > 500) {
+				if (injectedObj?.NOTE?.length > 500) {
 					alert('메모는 500자내로 입력해주세요.');
 				} else {
 					kpiController.updateItem(
