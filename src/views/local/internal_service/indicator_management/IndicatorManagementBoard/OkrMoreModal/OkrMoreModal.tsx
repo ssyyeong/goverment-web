@@ -22,7 +22,7 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import moment from 'moment';
 import SupportiToggle from '../../../../../global/SupportiToggle';
-import AchievedModal from '../../AcheivedModal/AchievedModal';
+import AchievedChartModal from '../../AchievedChartModal/AchievedChartModal';
 
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
@@ -994,7 +994,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 			/>
 
 			{/** 달성현황 확인 모달 */}
-			{/* <AchievedModal
+			{/* <AchievedChartModal
 				modalOpen={achieveModalOpen}
 				setModalOpen={setAchieveModalOpen}
 				chartData={{

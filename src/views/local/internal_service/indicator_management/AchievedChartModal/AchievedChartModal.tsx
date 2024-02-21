@@ -26,13 +26,13 @@ type chartData = {
 	subData: subData[];
 };
 
-interface IAchievedModalProps {
+interface IAchievedChartModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	chartData: chartData;
 }
 
-const AchievedModal = (props: IAchievedModalProps) => {
+const AchievedChartModal = (props: IAchievedChartModalProps) => {
 	//* Controllers
 	const okrDetailController = new OkrDetailController();
 
@@ -52,16 +52,14 @@ const AchievedModal = (props: IAchievedModalProps) => {
 	 */
 	const date1 = dayjs(props.chartData.mainData.startDate);
 	const date2 = dayjs(props.chartData.mainData.endDate);
-	const diff = date1.diff(date2, 'y');
+	const diff = date2.diff(date1, 'month');
 
 	/**
 	 *
 	 * 선택 가능한 탭
 	 */
 
-	const [selectableTab, setSelectableTab] = useState<string[]>(
-		diff < 1 ? ['일별', '월별'] : ['월별', '분기별']
-	);
+	const selectableTab = diff < 11 ? ['일별', '월별'] : ['월별', '분기별'];
 
 	/**
 	 * 선택한 탭
@@ -79,14 +77,46 @@ const AchievedModal = (props: IAchievedModalProps) => {
 	 */
 	const [chartData, setChartData] = useState<any>(undefined);
 
+	/**
+	 *
+	 * x축 데이터
+	 */
+	const [xAxisData, setXAxisData] = useState<any>([]);
+
 	//* Functions
 	/**
 	 *
 	 * api 호출
 	 */
 	const getAcheivedData = (id, selectedTab) => {
-		// TODO :: api 작성
-		return [id + 1, id + 2, id + 3];
+		okrDetailController.getItem(
+			{
+				OKR_DETAIL_IDENTIFICATION_CODE: id,
+				TYPE:
+					selectedTab === '일별'
+						? 'DAY'
+						: selectedTab === '월별'
+						? 'MONTH'
+						: 'QUARTER',
+			},
+			(res) => {
+				const objectArr = res.data.result;
+				const date = objectArr?.map((item) => {
+					return item.date;
+				});
+
+				//* 각 하위 목표에 해당하는 달성률 배열
+				const value = objectArr.map((item) => {
+					return item.achievedRate;
+				});
+
+				return value;
+			},
+			(err) => {
+				return [];
+			}
+		);
+		return [];
 	};
 
 	/**
@@ -99,8 +129,8 @@ const AchievedModal = (props: IAchievedModalProps) => {
 
 		let result = [];
 
-		totalData.forEach((item) => {
-			result = item.map((value, index) => {
+		totalData?.forEach((item) => {
+			result = item?.map((value, index) => {
 				return (result[index] || 0) + value;
 			});
 		});
@@ -207,7 +237,7 @@ const AchievedModal = (props: IAchievedModalProps) => {
 					{
 						title: {
 							formatter: function (val) {
-								return val;
+								return val + ' %';
 							},
 						},
 					},
@@ -221,8 +251,6 @@ const AchievedModal = (props: IAchievedModalProps) => {
 
 	//* Hooks
 
-	//* Hooks
-
 	useEffect(() => {
 		/**
 		 * 선택한 탭에 따라 detail values 불러오기
@@ -230,11 +258,14 @@ const AchievedModal = (props: IAchievedModalProps) => {
 		setChartData(chartDataConfig);
 	}, [selectedTab]);
 
-	// const objectArr = [{ 1: 'a' }, { 2: 'b' }, { 3: 'c' }];
-	// const result = objectArr.map((item) => {
-	// 	return Object.keys(item);
-	// });
-	// console.log(result);
+	useEffect(() => {
+		/**
+		 * 모달 닫힐 때 초기화
+		 */
+		if (!props.modalOpen) {
+			setSelectedTab(selectableTab[0]);
+		}
+	}, [props.modalOpen]);
 
 	return (
 		<Box>
@@ -405,4 +436,4 @@ const AchievedModal = (props: IAchievedModalProps) => {
 	);
 };
 
-export default AchievedModal;
+export default AchievedChartModal;
