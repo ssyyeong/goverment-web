@@ -180,7 +180,13 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 				const convertedArr = objectArr.map((item) => {
 					const convertingArr = item.data.map((ele) => {
 						return {
-							x: ele.date,
+							x: `${ele.date}${
+								selectedTab === '일별'
+									? ''
+									: selectedTab === '월별'
+									? '월'
+									: '분기'
+							}`,
 							y: ele.achievedRate,
 						};
 					});
@@ -205,7 +211,6 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 		);
 	};
 
-	console.log(chartDataConfig);
 	//* Constants
 
 	//* Hooks
@@ -235,7 +240,7 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={5}
-						minHeight={'70vh'}
+						// minHeight={'70vh'}
 						maxHeight={'85vh'}
 						overflow={'auto'}
 						sx={{
