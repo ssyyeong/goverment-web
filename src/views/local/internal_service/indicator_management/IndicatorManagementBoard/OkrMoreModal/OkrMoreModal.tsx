@@ -23,6 +23,7 @@ import { randomColor } from '../../../../../../../configs/randomColorConfig';
 import moment from 'moment';
 import SupportiToggle from '../../../../../global/SupportiToggle';
 import AchievedChartModal from '../../AchievedChartModal/AchievedChartModal';
+import dayjs from 'dayjs';
 
 interface IOkrMoreModalProps {
 	modalOpen: boolean;
@@ -54,6 +55,10 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	const { memberId } = useAppMember();
 
 	//* Constants
+	const today = dayjs();
+	const startDate = dayjs(props.okrMainData?.START_DATE);
+	const isStartDateAfterToday =
+		startDate.diff(today, 'day') > 0 ? true : false;
 
 	//* States
 	/**
@@ -529,20 +534,22 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 										>
 											{okrMainData?.TITLE}
 										</Typography>
-										<SupportiButton
-											contents={'달성현황 확인하기'}
-											onClick={() => {
-												setAchieveModalOpen(true);
-											}}
-											style={{
-												height: '35px',
-												width: '140px',
-												marginLeft: 'auto',
-												marginRight: 'auto',
-											}}
-											color={'primary'}
-											variant="outlined"
-										/>
+										{!isStartDateAfterToday && (
+											<SupportiButton
+												contents={'달성현황 확인하기'}
+												onClick={() => {
+													setAchieveModalOpen(true);
+												}}
+												style={{
+													height: '35px',
+													width: '140px',
+													marginLeft: 'auto',
+													marginRight: 'auto',
+												}}
+												color={'primary'}
+												variant="outlined"
+											/>
+										)}
 									</Box>
 								)}
 								<Box
@@ -977,6 +984,9 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 													<UnderGoalAchieveBox
 														data={item}
 														getOkrMain={getOkrMain}
+														isStartDateAfterToday={
+															isStartDateAfterToday
+														}
 													/>
 												}
 												maxDate={okrMainData?.END_DATE}

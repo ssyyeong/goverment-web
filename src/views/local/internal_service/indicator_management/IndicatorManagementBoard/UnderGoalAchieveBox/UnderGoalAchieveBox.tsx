@@ -10,6 +10,7 @@ import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 interface IUnderGoalAchieveBoxProps {
 	data: IOkrCombination;
 	getOkrMain: any;
+	isStartDateAfterToday: boolean;
 }
 
 const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
@@ -132,6 +133,11 @@ const UnderGoalAchieveBox = (props: IUnderGoalAchieveBoxProps) => {
 					width={'200px'}
 					btnContent="달성량 추가"
 					btnOnClick={() => {
+						if (props.isStartDateAfterToday) {
+							alert('해당하는 기간 내에만 입력하실 수 있습니다.');
+							setAchieveAmount('');
+							return;
+						}
 						if (
 							achieveAmount === undefined ||
 							achieveAmount === null ||
