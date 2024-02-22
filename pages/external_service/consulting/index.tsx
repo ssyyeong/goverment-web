@@ -75,6 +75,12 @@ const Page: NextPage = () => {
 	 * 컨설팅 데이터 총 개수
 	 */
 	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
+
+	/**
+	 * 페이지 접근 권한
+	 */
+	const [pageAccess, setPageAccess] = React.useState<boolean>(true);
+
 	//* Functions
 
 	//* Hooks
@@ -103,20 +109,31 @@ const Page: NextPage = () => {
 
 	/**
 	 *
-	 * 구독권 프리미엄 프로 회원만 접근 가능
+	 * 구독권 확인
 	 */
 
 	useEffect(() => {
-		if (
+		if (Object.keys(subscriptionInfo)?.length === 0) {
+			setPageAccess(false);
+		} else if (
 			Object.keys(subscriptionInfo)?.length !== 0 &&
 			subscriptionType !== 'PRODUCT'
 		) {
+			setPageAccess(false);
+		}
+	}, [subscriptionInfo]);
+
+	/**
+	 * 페이지 접근 권한 체크
+	 */
+	useEffect(() => {
+		if (!pageAccess) {
 			alert(
 				'THE PREMIUM PRO 요금제 구독 회원만 접근 가능한 페이지입니다.'
 			);
 			router.back();
 		}
-	}, [subscriptionInfo]);
+	}, [pageAccess]);
 
 	return (
 		<Box
