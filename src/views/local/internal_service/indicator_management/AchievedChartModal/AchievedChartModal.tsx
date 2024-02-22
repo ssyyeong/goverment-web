@@ -9,11 +9,14 @@ import dayjs from 'dayjs';
 
 import dynamic from 'next/dynamic';
 import { OkrDetailController } from '../../../../../controller/OkrDetailController';
+import { randomColor } from '../../../../../../configs/randomColorConfig';
+import { OkrMainController } from '../../../../../controller/OkrMainController';
 
 type mainData = {
 	title: string;
 	startDate: string;
 	endDate: string;
+	id: number;
 };
 
 type subData = {
@@ -34,7 +37,7 @@ interface IAchievedChartModalProps {
 
 const AchievedChartModal = (props: IAchievedChartModalProps) => {
 	//* Controllers
-	const okrDetailController = new OkrDetailController();
+	const okrMainConroller = new OkrMainController();
 
 	//* Modules
 	/**
@@ -78,117 +81,39 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 	const [chartData, setChartData] = useState<any>(undefined);
 
 	/**
+	 * 실제 차트 데이터
+	 */
+	const [realChartData, setRealChartData] = useState<any>([]);
+
+	/**
 	 *
 	 * x축 데이터
 	 */
 	const [xAxisData, setXAxisData] = useState<any>([]);
-
-	//* Functions
-	/**
-	 *
-	 * api 호출
-	 */
-	const getAcheivedData = (id, selectedTab) => {
-		okrDetailController.getItem(
-			{
-				OKR_DETAIL_IDENTIFICATION_CODE: id,
-				TYPE:
-					selectedTab === '일별'
-						? 'DAY'
-						: selectedTab === '월별'
-						? 'MONTH'
-						: 'QUARTER',
-			},
-			(res) => {
-				const objectArr = res.data.result;
-				const date = objectArr?.map((item) => {
-					return item.date;
-				});
-
-				//* 각 하위 목표에 해당하는 달성률 배열
-				const value = objectArr.map((item) => {
-					return item.achievedRate;
-				});
-
-				return value;
-			},
-			(err) => {
-				return [];
-			}
-		);
-		return [];
-	};
-
-	/**
-	 * 전체 누적 데이터
-	 */
-	const getTotalData = () => {
-		const totalData = props.chartData.subData.map((item) => {
-			return getAcheivedData(item.id, selectedTab);
-		});
-
-		let result = [];
-
-		totalData?.forEach((item) => {
-			result = item?.map((value, index) => {
-				return (result[index] || 0) + value;
-			});
-		});
-
-		return result;
-	};
-
-	/**
-	 * 차트 데이터 생성
-	 */
-	const makeSeries = () => {
-		return props.chartData.subData
-			.map((item) => {
-				return {
-					name: item.title,
-					data: getAcheivedData(item.id, selectedTab),
-				};
-			})
-			.concat([
-				{
-					name: '전체',
-					data: getTotalData(),
-				},
-			]);
-	};
-
-	//* Constants
 	/**
 	 *
 	 * 차트 데이터
 	 */
 	const chartDataConfig = {
-		series: makeSeries(),
+		series: [],
 		options: {
 			chart: {
 				height: 350,
 				type: 'line',
-				zoom: {
-					enabled: false,
-				},
 			},
 			dataLabels: {
 				enabled: false,
 			},
 			stroke: {
-				width: [5, 7, 5],
-				curve: 'straight',
+				width: 5,
+				curve: 'smooth',
 				dashArray: [0, 8, 5],
-			},
-			title: {
-				text: 'Page Statistics',
-				align: 'left',
 			},
 			legend: {
 				tooltipHoverFormatter: function (val, opts) {
 					return (
 						val +
-						' - <strong>' +
+						'  <strong>' +
 						opts.w.globals.series[opts.seriesIndex][
 							opts.dataPointIndex
 						] +
@@ -203,51 +128,85 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 				},
 			},
 			xaxis: {
-				categories: [
-					'01 Jan',
-					'02 Jan',
-					'03 Jan',
-					'04 Jan',
-					'05 Jan',
-					'06 Jan',
-					'07 Jan',
-					'08 Jan',
-					'09 Jan',
-					'10 Jan',
-					'11 Jan',
-					'12 Jan',
-				],
+				type: 'category',
+				stepSize: 5,
+				label: {
+					formatter: undefined,
+				},
 			},
+			yaxis: {
+				min: 0,
+				max: 100,
+				demicalsInFloat: 0,
+			},
+
 			tooltip: {
-				y: [
-					// {
-					// 	title: {
-					// 		formatter: function (val) {
-					// 			return val + ' (mins)';
-					// 		},
-					// 	},
-					// },
-					// {
-					// 	title: {
-					// 		formatter: function (val) {
-					// 			return val + ' per session';
-					// 		},
-					// 	},
-					// },
-					{
-						title: {
-							formatter: function (val) {
-								return val + ' %';
-							},
+				x: {
+					show: true,
+					format: 'dd MMM',
+					formatter: undefined,
+				},
+				y: {
+					title: {
+						formatter: function (val) {
+							return val + '(%)';
 						},
 					},
-				],
+				},
 			},
 			grid: {
 				borderColor: '#f1f1f1',
 			},
 		},
 	};
+	//* Functions
+	/**
+	 *
+	 * api 호출
+	 */
+	const getAcheivedData = (id, selectedTab) => {
+		okrMainConroller.getItem(
+			{
+				OKR_MAIN_IDENTIFICATION_CODE: id,
+				TYPE:
+					selectedTab === '일별'
+						? 'DAY'
+						: selectedTab === '월별'
+						? 'MONTH'
+						: 'QUARTER',
+			},
+			(res) => {
+				const objectArr = res.data.result;
+				const convertedArr = objectArr.map((item) => {
+					const convertingArr = item.data.map((ele) => {
+						return {
+							x: ele.date,
+							y: ele.achievedRate,
+						};
+					});
+					// console.log('convertingArr', convertingArr);
+					return {
+						name: item.name,
+						data: convertingArr,
+						color:
+							item.name === 'Total'
+								? '#305ddc'
+								: randomColor[objectArr.indexOf(item)],
+					};
+				});
+				chartDataConfig.series = convertedArr;
+				chartDataConfig.options.xaxis.type =
+					selectedTab === '일별' ? 'datetime' : 'category';
+				setChartData(chartDataConfig);
+			},
+			(err) => {
+				return [];
+			}
+		);
+	};
+
+	console.log(chartDataConfig);
+	//* Constants
 
 	//* Hooks
 
@@ -255,17 +214,8 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 		/**
 		 * 선택한 탭에 따라 detail values 불러오기
 		 */
-		setChartData(chartDataConfig);
+		getAcheivedData(props.chartData.mainData.id, selectedTab);
 	}, [selectedTab]);
-
-	useEffect(() => {
-		/**
-		 * 모달 닫힐 때 초기화
-		 */
-		if (!props.modalOpen) {
-			setSelectedTab(selectableTab[0]);
-		}
-	}, [props.modalOpen]);
 
 	return (
 		<Box>
@@ -277,7 +227,7 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 				title={'달성 현황'}
 				style={{
 					width: { xs: '100%', md: '55%' },
-					pt: 5,
+					// pt: 5,
 				}}
 				activeHeader={true}
 				children={
@@ -400,14 +350,14 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 								<ReactApexChart
 									type="line"
 									series={chartData.series}
-									options={chartData}
+									options={chartData.options}
 									width={'100%'}
 									height={450}
 								/>
 							</Box>
 						)}
 						{/** 모달창 닫기 버튼 */}
-						<SupportiButton
+						{/* <SupportiButton
 							contents={'확인'}
 							onClick={() => {
 								props.setModalOpen(false);
@@ -421,7 +371,7 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 							color={'primary'}
 							variant="contained"
 							isGradient={true}
-						/>
+						/> */}
 					</Box>
 				}
 			/>

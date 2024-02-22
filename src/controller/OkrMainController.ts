@@ -19,4 +19,18 @@ export class OkrMainController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	//* 날짜별 OKR 달성률 조회
+	public getItem(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/get_okr`,
+			successCallback,
+			failCallback
+		);
+	}
 }

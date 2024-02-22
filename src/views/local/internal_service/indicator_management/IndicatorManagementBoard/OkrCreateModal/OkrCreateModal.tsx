@@ -255,12 +255,11 @@ const OkrCreateModal = (props: IOkrCreateModalProps) => {
 		if (memberId) {
 			setOkrMainData({
 				TITLE: '',
-				START_DATE: moment()
+				START_DATE: moment(okrYearData)
 					.startOf('year')
 					.format('YYYY-MM-DDTHH:mm:ss.000'),
-				END_DATE: moment()
-					.add(1, 'years')
-					.startOf('year')
+				END_DATE: moment(okrYearData)
+					.endOf('year')
 					.format('YYYY-MM-DDTHH:mm:ss.000'),
 				NOTE: '',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
