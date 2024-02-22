@@ -45,7 +45,12 @@ const useSubscription = (props: ISubscriptionProps) => {
 					CANCELED_YN: 'N',
 				},
 				(res) => {
-					setSubscriptionInfo(res.data.result);
+					if (
+						res.data.result === null ||
+						res.data.result === undefined
+					)
+						return;
+					else setSubscriptionInfo(res.data.result);
 				},
 				(err) => {
 					console.log(err);
@@ -62,11 +67,7 @@ const useSubscription = (props: ISubscriptionProps) => {
 				setSubscriptionType(
 					subscriptionInfo?.SubscriptionProduct?.TYPE
 				);
-			} else {
-				setSubscriptionType('NULL');
 			}
-		} else {
-			setSubscriptionInfo({});
 		}
 	}, [subscriptionInfo]);
 
