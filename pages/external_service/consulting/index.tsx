@@ -108,7 +108,7 @@ const Page: NextPage = () => {
 
 	useEffect(() => {
 		if (
-			Object.keys(subscriptionInfo).length !== 0 &&
+			Object.keys(subscriptionInfo)?.length !== 0 &&
 			subscriptionType !== 'PRODUCT'
 		) {
 			alert(

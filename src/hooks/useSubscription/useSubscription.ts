@@ -62,7 +62,11 @@ const useSubscription = (props: ISubscriptionProps) => {
 				setSubscriptionType(
 					subscriptionInfo?.SubscriptionProduct?.TYPE
 				);
+			} else {
+				setSubscriptionType('NULL');
 			}
+		} else {
+			setSubscriptionInfo({});
 		}
 	}, [subscriptionInfo]);
 
