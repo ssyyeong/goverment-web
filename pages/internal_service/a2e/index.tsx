@@ -20,7 +20,6 @@ import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
-	const questionController = new DefaultController('A2eQuestion');
 	const a2eController = new A2eController();
 	const categoryController = new DefaultController('A2eCategory');
 
@@ -82,13 +81,6 @@ const Page: NextPage = () => {
 
 	/**
 	 *
-	 * 비밀글 여부
-	 */
-
-	const [isSecret, setIsSecret] = React.useState<boolean>(false);
-
-	/**
-	 *
 	 * 답변완료 여부
 	 */
 
@@ -108,10 +100,19 @@ const Page: NextPage = () => {
 
 	/**
 	 *
-	 *  알럿
+	 *  알럿 오픈 여부
 	 */
 
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+
+	/**
+	 *
+	 *  알럿 오픈 타입
+	 */
+
+	const [alertType, setAlertType] = React.useState<
+		'unAccess' | 'subscribe' | undefined
+	>(undefined);
 
 	/**
 	 * 페이징 관련
@@ -337,9 +338,10 @@ const Page: NextPage = () => {
 																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
 															);
 														} else {
-															alert(
-																'구독 회원에게만 제공되는 기능입니다!'
+															setAlertType(
+																'subscribe'
 															);
+															setAlertModal(true);
 														}
 													}}
 												>
@@ -428,11 +430,23 @@ const Page: NextPage = () => {
 											height: 40,
 										}}
 										isGradient={true}
-										onClick={() =>
-											router.push(
-												'/internal_service/a2e/write'
-											)
-										}
+										onClick={() => {
+											if (
+												subscriptionInfo
+													?.SubscriptionProduct
+													?.TYPE === 'BLACK' ||
+												subscriptionInfo
+													?.SubscriptionProduct
+													?.TYPE === 'PRODUCT'
+											) {
+												router.push(
+													'/internal_service/a2e/write'
+												);
+											} else {
+												setAlertType('subscribe');
+												setAlertModal(true);
+											}
+										}}
 									/>
 								</Box>
 							</Box>
@@ -595,6 +609,9 @@ const Page: NextPage = () => {
 															item.PRIVATE_YN ===
 																'Y'
 														) {
+															setAlertType(
+																'unAccess'
+															);
 															setAlertModal(true);
 														} else {
 															router.push(
@@ -602,9 +619,10 @@ const Page: NextPage = () => {
 															);
 														}
 													} else {
-														alert(
-															'구독 회원에게만 제공되는 기능입니다!'
+														setAlertType(
+															'subscribe'
 														);
+														setAlertModal(true);
 													}
 
 													// if (
@@ -726,7 +744,7 @@ const Page: NextPage = () => {
 							handleClose={() => {
 								setAlertModal(false);
 							}}
-							type={'unAccess'}
+							type={alertType}
 						/>
 					</InternalServiceLayout>
 				)}

@@ -7,6 +7,7 @@ import SupportiModal from '../../src/views/global/SupportiModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import { useSubscription } from '../../src/hooks/useSubscription';
+import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -14,6 +15,22 @@ const Page: NextPage = () => {
 	const { subscriptionInfo } = useSubscription({ memberId: memberId });
 
 	//* States
+
+	/**
+	 *
+	 *  알럿 오픈 여부
+	 */
+
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+
+	/**
+	 *
+	 *  알럿 오픈 타입
+	 */
+
+	const [alertType, setAlertType] = React.useState<'subscribe' | undefined>(
+		undefined
+	);
 
 	/**
 	 * 모달 오픈 여부
@@ -209,7 +226,8 @@ const Page: NextPage = () => {
 							) {
 								setRegisterModalOpen(true);
 							} else {
-								alert('구독 회원에게만 제공되는 기능입니다!');
+								setAlertType('subscribe');
+								setAlertModal(true);
 							}
 						}}
 					/>
@@ -321,8 +339,11 @@ const Page: NextPage = () => {
 																	'_blank'
 																);
 															} else {
-																alert(
-																	'구독 회원에게만 제공되는 기능입니다!'
+																setAlertType(
+																	'subscribe'
+																);
+																setAlertModal(
+																	true
 																);
 															}
 														}
@@ -708,6 +729,13 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 				}
+			/>
+			<SupportiAlertModal
+				open={alertModal}
+				handleClose={() => {
+					setAlertModal(false);
+				}}
+				type={alertType}
 			/>
 		</Box>
 	);
