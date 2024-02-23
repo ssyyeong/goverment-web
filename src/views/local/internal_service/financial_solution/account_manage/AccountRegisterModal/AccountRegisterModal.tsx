@@ -273,6 +273,9 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 
 	//* 계좌 등록 함수
 	const registerAccount = async () => {
+		if (userAccountInfo.ACCOUNT_HOLDER === '') {
+			return alert('계좌를 선택해주세요.');
+		}
 		setLoading(true);
 		bankController.registerBankAccount(
 			{
