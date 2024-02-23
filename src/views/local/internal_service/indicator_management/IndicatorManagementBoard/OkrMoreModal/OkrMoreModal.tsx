@@ -54,12 +54,6 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	 */
 	const { memberId } = useAppMember();
 
-	//* Constants
-	const today = dayjs();
-	const startDate = dayjs(props.okrMainData?.START_DATE);
-	const isStartDateAfterToday =
-		startDate.diff(today, 'day') > 0 ? true : false;
-
 	//* States
 	/**
 	 * OKR 메인 데이터
@@ -199,6 +193,12 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	 * 달성현황 확인하는 모달 오픈 여부
 	 */
 	const [achieveModalOpen, setAchieveModalOpen] = React.useState(false);
+
+	//* Constants
+	const today = dayjs();
+	const startDate = dayjs(okrMainData?.START_DATE);
+	const isStartDateAfterToday =
+		startDate.diff(today, 'day') > 0 ? true : false;
 
 	//* Functions
 	/**
