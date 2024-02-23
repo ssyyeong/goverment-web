@@ -348,7 +348,7 @@ const Page: NextPage = () => {
 					sx={{
 						ml: {
 							sm: '20%',
-							xs: '10%',
+							xs: '15%',
 						},
 					}}
 				>
@@ -603,6 +603,36 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 				</Box>
+				<Box
+					sx={{
+						display: { md: 'none', xs: 'block' },
+						width: '100%',
+					}}
+					pt={20}
+					pb={20}
+				>
+					<Box textAlign={'center'} mt="auto" mb="auto">
+						<Typography variant="h5" fontWeight={'600'}>
+							전문가 Q&A
+						</Typography>
+
+						<Box display="flex" gap={1} justifyContent="center">
+							<Typography
+								variant="h5"
+								color="primary.main"
+								fontWeight={'600'}
+							>
+								세무, 특허, 노무, 법무
+							</Typography>
+							<Typography variant="h5" fontWeight={'600'}>
+								등
+							</Typography>
+						</Box>
+						<Typography variant="h5" fontWeight={'600'}>
+							전문가의 24시간 내 답변 서비스
+						</Typography>
+					</Box>
+				</Box>
 			</Box>
 
 			{/** 섹션 5 */}
@@ -707,12 +737,15 @@ const Page: NextPage = () => {
 					bgcolor={'primary.light'}
 				>
 					<Box
-						display="flex"
 						gap={5}
 						ml="auto"
 						mr="auto"
 						flexWrap={'wrap'}
 						justifyContent="center"
+						sx={{
+							display: { xs: 'none', md: 'flex' },
+							width: '100%',
+						}}
 					>
 						<Box
 							width="220px"
@@ -802,6 +835,88 @@ const Page: NextPage = () => {
 							</Typography>
 						</Box>
 					</Box>
+					<Box
+						gap={1.5}
+						ml="auto"
+						mr="auto"
+						justifyContent="center"
+						sx={{
+							display: { md: 'none', xs: 'flex' },
+							width: '100%',
+						}}
+					>
+						<Box width="90px" height="100px" mt="auto" mb="auto">
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+								mt={1}
+							>
+								다양한 분야의
+							</Typography>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+								sx={{
+									wordBreak: 'keep-all',
+								}}
+							>
+								믿음직스러운 연사님들과의
+							</Typography>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+							>
+								세미나 진행
+							</Typography>
+						</Box>
+						<Typography
+							variant="h3"
+							color="secondary.dark"
+							mt="auto"
+							mb="auto"
+						>
+							+
+						</Typography>
+						<Box width="90px" height="100px">
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+								lineHeight={'100px'}
+							>
+								CEO 네트워킹
+							</Typography>
+						</Box>
+						<Typography
+							variant="h3"
+							color="secondary.dark"
+							mt="auto"
+							mb="auto"
+						>
+							=
+						</Typography>
+
+						<Box width="110px" height="100px">
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+								mt={3}
+							>
+								폭넓은 INSIGHT
+							</Typography>
+							<Typography
+								color="primary.main"
+								variant="subtitle1"
+								fontWeight={600}
+							>
+								성장으로의 발걸음
+							</Typography>
+						</Box>
+					</Box>
 				</Box>
 			</Box>
 
@@ -847,6 +962,8 @@ const Page: NextPage = () => {
 							xs: 5,
 							sm: 0,
 						},
+						display: { xs: 'none', md: 'flex' },
+						width: '100%',
 					}}
 					ml={{
 						sm: '100px',
@@ -966,6 +1083,167 @@ const Page: NextPage = () => {
 										<Typography
 											variant={'h5'}
 											fontWeight={'500'}
+											color="common.white"
+										>
+											{item.text3}
+										</Typography>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+				</Box>
+				<Box
+					display="flex"
+					justifyContent={'center'}
+					mb={10}
+					pt={15}
+					pb={15}
+					sx={{
+						flexWrap: {
+							xs: 'wrap',
+							sm: 'nowrap',
+						},
+						gap: {
+							xs: 5,
+							sm: 0,
+						},
+						display: { md: 'none', xs: 'flex' },
+						width: '100%',
+					}}
+					ml={{
+						sm: '100px',
+						xs: '0',
+					}}
+					// bgcolor={'secondary.light'}
+				>
+					<Box display={'flex'} gap={1} justifyContent={'center'}>
+						{data1.map((item, index) => {
+							return (
+								<Box
+									p={1}
+									py={2}
+									borderRadius={4}
+									width={'130px'}
+									height={'120px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 20px'
+									}
+									textAlign={'center'}
+									sx={{
+										ml: {
+											xs: '0',
+											sm: index === 1 && '-100px',
+										},
+									}}
+									// ml={index === 1 && '-100px'}
+									bgcolor={'white'}
+								>
+									<Typography
+										color={'primary.main'}
+										fontWeight={'600'}
+									>
+										PROBLEM{' ' + (index + 1)}
+									</Typography>
+									<Box mt={2} textAlign={'center'}>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+										>
+											{item.text1}
+										</Typography>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+										>
+											{item.text2}
+										</Typography>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+										>
+											{item.text3}
+										</Typography>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+					{/* <Box width={'150px'} height={'150px'} mt="auto" mb="auto">
+						<img src={'/images/main/solve.png'} alt={'solve'} />
+					</Box> */}
+
+					<Box display={'flex'} gap={1} justifyContent={'center'}>
+						{data1_1.map((item, index) => {
+							return (
+								<Box
+									p={1}
+									py={3}
+									borderRadius={4}
+									width={'130px'}
+									height={'150px'}
+									boxShadow={
+										'rgb(213, 212, 239) 0px 4px 20px'
+									}
+									textAlign={'center'}
+									bgcolor="#305DDC"
+									sx={{
+										ml: {
+											xs: '0',
+											sm: index === 1 && '100px',
+										},
+									}}
+								>
+									<Typography
+										color={'info.main'}
+										fontWeight={'600'}
+										variant="body1"
+									>
+										{item.title}
+									</Typography>
+									<Box mt={2} textAlign={'center'}>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+											color="common.white"
+											pt={
+												index === 0
+													? 1
+													: index === 1
+													? 2
+													: -0.5
+											}
+										>
+											{item.text1}
+										</Typography>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+											color="common.white"
+										>
+											{item.text2}
+										</Typography>
+										<Typography
+											variant={'body1'}
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
 											color="common.white"
 										>
 											{item.text3}
