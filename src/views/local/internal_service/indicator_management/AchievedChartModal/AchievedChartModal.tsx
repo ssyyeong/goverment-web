@@ -8,7 +8,6 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import dayjs from 'dayjs';
 
 import dynamic from 'next/dynamic';
-import { OkrDetailController } from '../../../../../controller/OkrDetailController';
 import { randomColor } from '../../../../../../configs/randomColorConfig';
 import { OkrMainController } from '../../../../../controller/OkrMainController';
 
@@ -80,16 +79,6 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 	 */
 	const [chartData, setChartData] = useState<any>(undefined);
 
-	/**
-	 * 실제 차트 데이터
-	 */
-	const [realChartData, setRealChartData] = useState<any>([]);
-
-	/**
-	 *
-	 * x축 데이터
-	 */
-	const [xAxisData, setXAxisData] = useState<any>([]);
 	/**
 	 *
 	 * 차트 데이터
@@ -221,6 +210,12 @@ const AchievedChartModal = (props: IAchievedChartModalProps) => {
 		 */
 		getAcheivedData(props.chartData.mainData.id, selectedTab);
 	}, [selectedTab]);
+
+	useEffect(() => {
+		if (!props.modalOpen) {
+			setSelectedTab(selectableTab[0]);
+		}
+	}, [props.modalOpen]);
 
 	return (
 		<Box>
