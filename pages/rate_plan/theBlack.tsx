@@ -10,8 +10,6 @@ const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 
-	const { memberId } = useAppMember();
-
 	//* States
 
 	//* Constants
