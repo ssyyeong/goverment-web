@@ -76,17 +76,26 @@ const Page: NextPage = () => {
 			const selectedData = irApplicationList.find(
 				(item) => item.IR_APPLICATION_IDENTIFICATION_CODE === value
 			);
+
+			console.log(selectedData);
 			return (
 				<Button
 					variant="contained"
 					onClick={() => {
-						if (selectedData?.ADOPTED_YN === 'Y') {
+						if (selectedData?.IrProduct.ADOPTED_YN === 'Y') {
 							alert('선정된 IR은 변경할 수 없습니다.');
 							return;
 						}
-
-						if (selectedData?.ADOPTED_YN === 'N') {
-							alert('미선정된 IR은 변경할 수 없습니다.');
+						// if (selectedData?.IrProduct.ADOPTED_YN === 'N') {
+						// 	alert('미선정된 IR은 변경할 수 없습니다.');
+						// 	return;
+						// }
+						if (
+							moment(selectedData?.IrProduct.DUE_DATE).isBefore(
+								moment()
+							)
+						) {
+							alert('마감된 IR은 변경할 수 없습니다.');
 							return;
 						}
 

@@ -172,6 +172,7 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								pb={1}
 								mb={1}
+								px={{ sm: 0, xs: 2 }}
 							>
 								{/* 지표 (OKR / KPI) 선택 영역 */}
 								<Box display={'flex'} gap={3}>
@@ -204,7 +205,6 @@ const Page: NextPage = () => {
 									display="flex"
 									alignItems={'center'}
 									gap={0.5}
-									mr={1}
 								>
 									<Typography fontWeight={500}>
 										가이드라인
@@ -225,6 +225,8 @@ const Page: NextPage = () => {
 							<Typography
 								color={'secondary.dark'}
 								sx={{ mb: 2, pb: 1 }}
+								px={{ sm: 0, xs: 2 }}
+								lineHeight={1.5}
 							>
 								{selectedIndicator.name === 'OKR'
 									? '서포티의 OKR관리를 이용해 보다 쉽게 전사목표와 하위목표를 설계하고 달성까지 함께 하세요!'

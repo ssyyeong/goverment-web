@@ -192,16 +192,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 	 * 선택된 분기
 	 */
 	const [selectedQuarter, setSelectedQuarter] = React.useState<string>(
-		JSON.stringify({
-			START_DATE: moment(okrYearData)
-				.startOf('year')
-				.format('YYYY-MM-DDTHH:mm:ss.000'),
-			END_DATE: moment(okrYearData)
-				.startOf('year')
-				.add(2, 'months')
-				.endOf('month')
-				.format('YYYY-MM-DDTHH:mm:ss.000'),
-		})
+		selectableQuarterList[0].value
 	);
 	/*
 	 *
@@ -232,8 +223,9 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 			(res: any) => {
 				setOkrMainData({
 					TITLE: res.data.result.TITLE,
-					START_DATE: res.data.result.START_DATE,
-					END_DATE: res.data.result.END_DATE,
+					START_DATE:
+						res.data.result.START_DATE.split('.')[0] + '.000',
+					END_DATE: res.data.result.END_DATE.split('.')[0] + '.000',
 					NOTE: res.data.result.NOTE,
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					ACHIEVED_RATE: res.data.result.ACHIEVED_RATE,
@@ -243,8 +235,10 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 
 				setSelectedQuarter(
 					JSON.stringify({
-						START_DATE: res.data.result.START_DATE,
-						END_DATE: res.data.result.END_DATE,
+						START_DATE:
+							res.data.result.START_DATE.split('.')[0] + '.000',
+						END_DATE:
+							res.data.result.END_DATE.split('.')[0] + '.000',
 					})
 				);
 				setSelectedRange(
@@ -254,7 +248,7 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 						? '연간'
 						: '분기별'
 				);
-				setOkrYearData(res.data.result.START_DATE);
+				setOkrYearData(dayjs(res.data.result.START_DATE));
 			},
 			(err: any) => {
 				setAlertType('failAxios');
