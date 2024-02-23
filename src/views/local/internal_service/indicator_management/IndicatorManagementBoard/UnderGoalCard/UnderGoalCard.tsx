@@ -418,14 +418,12 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 											setValue={(value) => {
 												if (value === '직접입력') {
 													setIsUserMakeUnit(true);
-
 													setOkrDetailData({
 														...okrDetailData,
 														TARGET_UNIT: '',
 													});
 												} else {
 													setIsUserMakeUnit(false);
-
 													setOkrDetailData({
 														...okrDetailData,
 														TARGET_UNIT: value,
@@ -460,7 +458,6 @@ const UnderGoalCard = (props: IUnderGoalCardProps) => {
 													}}
 													style={{
 														bgcolor: 'white',
-
 														width: {
 															xs: '100px',
 															md: '150px',

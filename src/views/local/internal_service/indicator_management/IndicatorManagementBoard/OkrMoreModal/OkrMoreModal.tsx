@@ -996,26 +996,29 @@ const OkrMoreModal = (props: IOkrMoreModalProps) => {
 					</Box>
 				}
 			/>
-
-			{/** 달성현황 확인 모달 */}
-			<AchievedChartModal
-				modalOpen={achieveModalOpen}
-				setModalOpen={setAchieveModalOpen}
-				chartData={{
-					mainData: {
-						title: okrMainData.TITLE,
-						startDate: okrMainData.START_DATE,
-						endDate: okrMainData.END_DATE,
-						id: props.okrMainData['OKR_MAIN_IDENTIFICATION_CODE'],
-					},
-					subData: okrDetails.map((item) => {
-						return {
-							title: item.TITLE,
-							id: item.OKR_DETAIL_IDENTIFICATION_CODE,
-						};
-					}),
-				}}
-			/>
+			<Box key={achieveModalOpen.toString()}>
+				{/** 달성현황 확인 모달 */}
+				<AchievedChartModal
+					modalOpen={achieveModalOpen}
+					setModalOpen={setAchieveModalOpen}
+					chartData={{
+						mainData: {
+							title: okrMainData.TITLE,
+							startDate: okrMainData.START_DATE,
+							endDate: okrMainData.END_DATE,
+							id: props.okrMainData[
+								'OKR_MAIN_IDENTIFICATION_CODE'
+							],
+						},
+						subData: okrDetails.map((item) => {
+							return {
+								title: item.TITLE,
+								id: item.OKR_DETAIL_IDENTIFICATION_CODE,
+							};
+						}),
+					}}
+				/>
+			</Box>
 
 			{/** 알럿 */}
 			<SupportiAlertModal
