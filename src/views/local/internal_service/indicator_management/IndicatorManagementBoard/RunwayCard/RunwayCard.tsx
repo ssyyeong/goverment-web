@@ -86,6 +86,19 @@ const RunwayCard = (props: IRunwayCardProps) => {
 					top: 5,
 					right: 5,
 				}}
+				arrow
+				slotProps={{
+					popper: {
+						modifiers: [
+							{
+								name: 'offset',
+								options: {
+									offset: [0, -14],
+								},
+							},
+						],
+					},
+				}}
 			>
 				<IconButton>
 					<HelpOutlineIcon />

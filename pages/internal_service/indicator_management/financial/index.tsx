@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Skeleton, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	IconButton,
+	Skeleton,
+	Tooltip,
+	Typography,
+} from '@mui/material';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import dynamic from 'next/dynamic';
@@ -15,6 +22,7 @@ import SupportiButton from '../../../../src/views/global/SupportiButton';
 import { useRouter } from 'next/router';
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -543,7 +551,39 @@ const Page: NextPage = () => {
 										variant="h6"
 										fontWeight={'700'}
 										textAlign={'center'}
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}
 									>
+										<Tooltip
+											title={
+												netOrGross
+													? '순수하게 지출되는 비용'
+													: '수익을 감안한 월 지출비용'
+											}
+											arrow
+											placement="top"
+											slotProps={{
+												popper: {
+													modifiers: [
+														{
+															name: 'offset',
+															options: {
+																offset: [
+																	0, -14,
+																],
+															},
+														},
+													],
+												},
+											}}
+										>
+											<IconButton size="small">
+												<HelpOutlineIcon fontSize="small" />
+											</IconButton>
+										</Tooltip>
 										{netOrGross ? 'Gross' : 'Net'} Burn Rate
 									</Typography>
 									<Typography
