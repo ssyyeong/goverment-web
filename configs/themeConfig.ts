@@ -349,7 +349,7 @@ let themeConfig = createTheme({
 		h6: {
 			fontWeight: 500,
 			fontSize: '16px !important',
-			lineHeight: 1.6,
+			lineHeight: 1.1,
 			'@media (min-width:0px)': {
 				fontSize: '16px !important',
 			},

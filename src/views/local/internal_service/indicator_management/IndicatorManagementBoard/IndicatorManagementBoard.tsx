@@ -284,6 +284,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 									? 'primary'
 									: 'secondary'
 							}
+							sx={{
+								cursor: 'pointer',
+							}}
 							onClick={() => {
 								setSelectedSort(selectableSort.value);
 							}}

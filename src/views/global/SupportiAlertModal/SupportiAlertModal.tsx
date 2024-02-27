@@ -48,7 +48,8 @@ interface ISupportiAlertModalProps {
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
-		| 'irFinish';
+		| 'irFinish'
+		| 'noAccount';
 
 	/**
 	 * 커스텀 핸들러
@@ -370,7 +371,19 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.handleClose();
 			},
 			cancelButtonAvailable: false,
-		}
+		},
+		noAccount: {
+			type: 'error',
+			title: '계좌 등록 및 카테고리 설정 후 이용 가능합니다.',
+			content: '계좌 등록하러 가기',
+			onclick: () => {
+				router.push(
+					'/internal_service/financial_solution/account_manage'
+				);
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
 	};
 
 	return (

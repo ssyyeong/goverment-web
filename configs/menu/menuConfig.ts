@@ -22,6 +22,7 @@ const dashboardMenu: IMenu[] = [
 				label: '법인 계좌 RunWay/BurnRate',
 				path: '/internal_service/financial_solution/account_manage',
 			},
+
 			// {
 			// 	label: '재무 정보',
 			// 	path: '/internal_service/financial_solution/financial_statement',
@@ -36,7 +37,11 @@ const dashboardMenu: IMenu[] = [
 		submenu: [
 			{
 				label: '성과 지표',
-				path: '/internal_service/indicator_management',
+				path: '/internal_service/indicator_management/achievement',
+			},
+			{
+				label: '재무 지표',
+				path: '/internal_service/indicator_management/financial',
 			},
 		],
 	},
@@ -121,7 +126,7 @@ const mypageMenu: IMenu[] = [
 	},
 	{
 		label: '대시보드',
-		path: '/internal_service/indicator_management',
+		path: '/internal_service/indicator_management/achievement',
 		icon: '/images/icons/business.svg',
 	},
 ];

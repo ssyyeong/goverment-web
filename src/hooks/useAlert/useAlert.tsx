@@ -40,6 +40,7 @@ const useAlert = (props: IuseAlertProps) => {
 		| 'coffeechatprofilemissing'
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
+		| 'noAccount'
 	>();
 
 	const renderAlert = () => {

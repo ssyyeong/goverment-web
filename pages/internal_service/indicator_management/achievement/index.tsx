@@ -1,18 +1,17 @@
 import { Box, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
-import { InternalServiceLayout } from '../../../src/views/layout/InternalServiceLayout';
-import { IndicatorManagementBoard } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard';
-import { IIndicatorManagementBoardProps } from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
-import { useUserAccess } from '../../../src/hooks/useUserAccess';
-import SupportiButton from '../../../src/views/global/SupportiButton';
-import KpiCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
-import MainGoalCard from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/MainGoalCard/MainGoalCard';
-import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
-import { useAppMember } from '../../../src/hooks/useAppMember';
-import { KpiController } from '../../../src/controller/KpiController';
-import { OkrMainController } from '../../../src/controller/OkrMainController';
-import GuidelineModal from '../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/GuidelineModal/GuidelineModal';
+import IndicatorManagementBoard, {
+	IIndicatorManagementBoardProps,
+} from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/IndicatorManagementBoard';
+import { OkrMainController } from '../../../../src/controller/OkrMainController';
+import { KpiController } from '../../../../src/controller/KpiController';
+import { useAppMember } from '../../../../src/hooks/useAppMember';
+import { MainGoalCard } from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/MainGoalCard';
+import KpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
+import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
+import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
+import GuidelineModal from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/GuidelineModal/GuidelineModal';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 type TSelectableIndicator = {
