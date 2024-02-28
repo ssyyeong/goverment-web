@@ -129,7 +129,10 @@ const RunwayCard = (props: IRunwayCardProps) => {
 						textAlign={{ xs: 'center', md: 'left' }}
 					>
 						Runway가{' '}
-						{props.runway < 0 ? '∞' : Math.ceil(props.runway)}
+						{props.runway === Infinity || props.runway < 0
+							? '∞'
+							: Math.ceil(props.runway)}
+						{/* {props.runway < 0 ? '∞' : Math.ceil(props.runway)} */}
 						개월 남았습니다.
 					</Typography>
 				)}

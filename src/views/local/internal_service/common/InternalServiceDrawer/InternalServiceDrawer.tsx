@@ -252,6 +252,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 			flexDirection={'column'}
 			justifyContent={'space-between'}
 			height={'100vh'}
+			position={'relative'}
 		>
 			<Box>
 				<Toolbar
@@ -281,7 +282,7 @@ const InternalServiceDrawer = (props: IInternalServiceDrawerProps) => {
 						))}
 				</List>
 			</Box>
-			<Box p={4} pb={10}>
+			<Box p={4} pb={4}>
 				<Typography fontWeight={'600'} sx={{ mb: 1 }}>
 					주식회사 린온컴퍼니
 				</Typography>

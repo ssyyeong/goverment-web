@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import InvestmentModal from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/InvestmentModal/InvestmentModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -68,9 +69,20 @@ const Page: NextPage = () => {
 	 * Net Burn 데이터
 	 */
 	const [netBurn, setNetBurn] = useState<any>(undefined);
-
+	/**
+	 * 계산 결과 조회
+	 */
 	const [calculationResult, setCalculationResult] =
 		React.useState<IAccountCalculationResultProps>();
+	/**
+	 * 예상 투자금 입력 모달 오픈 여부
+	 */
+	const [openInvestmentModal, setOpenInvestmentModal] =
+		React.useState<boolean>(false);
+	/**
+	 * 예상 투자금
+	 */
+	const [investment, setInvestment] = React.useState<number>(0);
 
 	//* Constants
 	const chartDataConfig = {
@@ -378,6 +390,33 @@ const Page: NextPage = () => {
 										데이터입니다.)
 									</Typography>
 								)}
+							{chartData !== undefined &&
+								monthlyInOut[0].name !== 'example' && (
+									<Typography
+										color={'green'}
+										px={{ xs: 2, md: 0 }}
+										lineHeight={1.5}
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: 1,
+										}}
+									>
+										⚠ 예상 투자금을 입력하여 런웨이를
+										계산해보세요.
+										<Typography
+											sx={{
+												textDecoration: 'underline',
+												cursor: 'pointer',
+											}}
+											onClick={() => {
+												setOpenInvestmentModal(true);
+											}}
+										>
+											입력하기
+										</Typography>
+									</Typography>
+								)}
 						</Box>
 						<SupportiButton
 							contents={'계좌 관리하러 가기'}
@@ -429,7 +468,8 @@ const Page: NextPage = () => {
 						{calculationResult && (
 							<RunwayCard
 								runway={
-									calculationResult.totalBalance /
+									(calculationResult.totalBalance +
+										investment) /
 									Math.ceil(
 										netBurn[0]?.data?.reduce(
 											(acc, cur) => acc + cur.y,
@@ -676,6 +716,13 @@ const Page: NextPage = () => {
 						open={open}
 						handleClose={() => setOpen(false)}
 						type={'noAccount'}
+					/>
+					{/* 예투금 입력 모달 */}
+					<InvestmentModal
+						modalOpen={openInvestmentModal}
+						setModalOpen={setOpenInvestmentModal}
+						investment={investment}
+						setInvestment={setInvestment}
 					/>
 				</InternalServiceLayout>
 			</Box>
