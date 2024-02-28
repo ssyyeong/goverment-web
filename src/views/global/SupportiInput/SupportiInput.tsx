@@ -129,7 +129,7 @@ const SupportiInput = React.forwardRef(
 							props.dataList?.map((item, index) => {
 								return (
 									<MenuItem
-										key={item.label}
+										key={item?.label}
 										value={item.value}
 										sx={{
 											display: 'flex',

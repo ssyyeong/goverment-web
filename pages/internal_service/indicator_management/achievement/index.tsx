@@ -232,18 +232,20 @@ const Page: NextPage = () => {
 									: '서포티의 KPI관리를 이용해 보다 쉽게 성과관리를 하고 목표달성까지 함께 하세요!'}
 							</Typography>
 							{/* 지표 보드 영역 */}
-							<IndicatorManagementBoard
-								key={JSON.stringify(selectedIndicator)}
-								{...selectedIndicator.indicatorManagementBoardProps}
-								name={selectedIndicator.name}
-								triggerKey={triggerKey}
-								setTriggerKey={setTriggerKey}
-								loading={loading}
-								setLoading={setLoading}
-								selectableKpiCategoryList={
-									selectableCategoryList
-								}
-							/>
+							{selectableCategoryList && (
+								<IndicatorManagementBoard
+									key={JSON.stringify(selectedIndicator)}
+									{...selectedIndicator.indicatorManagementBoardProps}
+									name={selectedIndicator.name}
+									triggerKey={triggerKey}
+									setTriggerKey={setTriggerKey}
+									loading={loading}
+									setLoading={setLoading}
+									selectableKpiCategoryList={
+										selectableCategoryList
+									}
+								/>
+							)}
 						</InternalServiceLayout>
 					)}
 				</Box>

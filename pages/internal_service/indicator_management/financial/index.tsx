@@ -388,6 +388,10 @@ const Page: NextPage = () => {
 							}
 							isGradient={true}
 							variant="contained"
+							style={{
+								ml: { xs: 2, md: 0 },
+								mt: { xs: 2, md: 0 },
+							}}
 						/>
 					</Box>
 					{/* 데이터 */}
