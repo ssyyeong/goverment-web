@@ -31,7 +31,7 @@ export interface TableHeaderProps {
 	/**
 	 * 커스텀 모양
 	 */
-	customView?: (value: any) => any;
+	customView?: (value: any, key: any) => any;
 	/**
 	 * 체크박스 모양 적용 여부
 	 */
@@ -176,7 +176,10 @@ const SupportiTable = (props: ISupportiTableProps) => {
 												align={column.align}
 											>
 												{column.customView ? (
-													column.customView(value)
+													column.customView(
+														value,
+														key
+													)
 												) : column.checkbox ? (
 													<Checkbox
 														color="primary"

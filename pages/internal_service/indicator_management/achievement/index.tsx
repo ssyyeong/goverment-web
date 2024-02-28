@@ -62,6 +62,27 @@ const Page: NextPage = () => {
 	 */
 	const selectableIndicatorList: TSelectableIndicator[] = [
 		{
+			name: 'KPI',
+			indicatorManagementBoardProps: {
+				name: 'KPI',
+				infiniteLoadBoardProps: {
+					renderItem: (data, index) => {
+						return (
+							<KpiCard
+								data={data}
+								setTriggerKey={setTriggerKey}
+							/>
+						);
+					},
+					injectedParams: {
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					},
+					getAllCallback:
+						kpiController.getAllKpiData.bind(kpiController),
+				},
+			},
+		},
+		{
 			name: 'OKR',
 			indicatorManagementBoardProps: {
 				name: 'OKR',
@@ -81,27 +102,6 @@ const Page: NextPage = () => {
 					},
 					getAllCallback:
 						okrController.getAllOkrMainData.bind(okrController),
-				},
-			},
-		},
-		{
-			name: 'KPI',
-			indicatorManagementBoardProps: {
-				name: 'KPI',
-				infiniteLoadBoardProps: {
-					renderItem: (data, index) => {
-						return (
-							<KpiCard
-								data={data}
-								setTriggerKey={setTriggerKey}
-							/>
-						);
-					},
-					injectedParams: {
-						APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					},
-					getAllCallback:
-						kpiController.getAllKpiData.bind(kpiController),
 				},
 			},
 		},

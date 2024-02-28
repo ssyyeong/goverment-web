@@ -19,6 +19,8 @@ import SupportiInput from '../../../../src/views/global/SupportiInput';
 import { AccountCalculation } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import LinkIcon from '@mui/icons-material/Link';
+import LinkedCategoryListModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/LinkedCategoryListModal/LinkedCategoryListModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -91,6 +93,12 @@ const Page: NextPage = () => {
 	 * 첫 로딩
 	 */
 	const [firstLoading, setFirstLoading] = React.useState<boolean>(true);
+
+	/**
+	 *
+	 * 카테고리 목록 오픈 여부
+	 */
+	const [openCategoryList, setOpenCategoryList] = React.useState(false);
 
 	//* Functions
 	/**
@@ -256,6 +264,37 @@ const Page: NextPage = () => {
 									width={145}
 								/>
 							)}
+							{/** 카테고리 목록 버튼 */}
+							<Box
+								sx={{
+									width: { sm: 125, xs: 40 },
+									height: 36,
+									p: { sm: '10px 15px', xs: 1 },
+									border: 'solid 1px #305edccc',
+									borderRadius: '5px',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									cursor: 'pointer',
+								}}
+								onClick={() => {
+									setOpenCategoryList(true);
+								}}
+							>
+								<LinkIcon
+									sx={{
+										width: 20,
+										height: 20,
+										color: 'primary.main',
+									}}
+								/>
+								<Typography
+									variant="body2"
+									display={{ sm: 'block', xs: 'none' }}
+								>
+									카테고리 목록
+								</Typography>
+							</Box>
 						</Box>
 
 						{/* 검색 영역 */}
@@ -291,7 +330,7 @@ const Page: NextPage = () => {
 								value={keyword}
 								setValue={setKeyword}
 								additionalProps={{
-									placeholder: '거래자명검색',
+									placeholder: '거래자명 검색',
 								}}
 								btnOnClick={() => {
 									setSearchTriggerKey(keyword);
@@ -303,7 +342,8 @@ const Page: NextPage = () => {
 								}}
 							/>
 						)}
-						<Box display={'flex'} gap={1} alignItems={'center'}>
+
+						<Box display={'flex'} alignItems={'center'}>
 							{selectablePeriodList && (
 								<SupportiInput
 									type="select"
@@ -322,6 +362,38 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
+							{/** 카테고리 목록 버튼 */}
+							<Box
+								sx={{
+									width: { sm: 125, xs: 40 },
+									height: 36,
+									p: { sm: '10px 15px', xs: 1 },
+									border: 'solid 1px #305edccc',
+									borderRadius: '5px',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									cursor: 'pointer',
+									mr: 1,
+								}}
+								onClick={() => {
+									setOpenCategoryList(true);
+								}}
+							>
+								<LinkIcon
+									sx={{
+										width: 20,
+										height: 20,
+										color: 'primary.main',
+									}}
+								/>
+								<Typography
+									variant="body2"
+									display={{ sm: 'block', xs: 'none' }}
+								>
+									카테고리 목록
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 					{/* 실제 계좌 내역 */}
@@ -476,6 +548,10 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			)}
+			<LinkedCategoryListModal
+				modalOpen={openCategoryList}
+				setModalOpen={setOpenCategoryList}
+			/>
 		</InternalServiceDrawer>
 	);
 };

@@ -239,64 +239,67 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			}}
 		>
 			{/* 컨트롤러 영역 */}
-			<Box
-				display={'flex'}
-				justifyContent={'space-between'}
-				alignItems={'center'}
-			>
-				{/* 상태 영역 (진행중 / 완료) */}
-				<SupportiToggle
-					chipDataList={selectableStatusList}
-					value={selectedStatus}
-					setValue={(value) => setSelectedStatus(value as boolean)}
-					chipHeight={'30px'}
-					style={{
-						outerBoxStyle: {
-							width: '150px',
-							height: '36px',
-							marginTop: 'auto',
-							marginBottom: 'auto',
-						},
-						chipStyle: {
-							height: '30px',
-						},
-					}}
-				/>
-				{/* 정렬 선택 (오래된 순 / 최신 순) 영역 */}
+			{props.name === 'OKR' && (
 				<Box
 					display={'flex'}
-					width={'100%'}
-					justifyContent={'end'}
-					gap={2}
+					justifyContent={'space-between'}
+					alignItems={'center'}
 				>
-					{/* <SupportiInput
+					{/* 상태 영역 (진행중 / 완료) */}
+					<SupportiToggle
+						chipDataList={selectableStatusList}
+						value={selectedStatus}
+						setValue={(value) =>
+							setSelectedStatus(value as boolean)
+						}
+						chipHeight={'30px'}
+						style={{
+							outerBoxStyle: {
+								width: '150px',
+								height: '36px',
+								marginTop: 'auto',
+								marginBottom: 'auto',
+							},
+							chipStyle: {
+								height: '30px',
+							},
+						}}
+					/>
+					{/* 정렬 선택 (오래된 순 / 최신 순) 영역 */}
+					<Box
+						display={'flex'}
+						width={'100%'}
+						justifyContent={'end'}
+						gap={2}
+					>
+						{/* <SupportiInput
 						type="select"
 						value={selectedSort}
 						setValue={(value) => setSelectedSort(value as string)}
 						dataList={selectableSortList}
 						width={'100px'}
 					/> */}
-					{selectableSortList.map((selectableSort) => (
-						<Typography
-							fontWeight={'600'}
-							color={
-								selectableSort.value === selectedSort
-									? 'primary'
-									: 'secondary'
-							}
-							sx={{
-								cursor: 'pointer',
-							}}
-							onClick={() => {
-								setSelectedSort(selectableSort.value);
-							}}
-						>
-							{selectableSort.label}
-						</Typography>
-					))}
+						{selectableSortList.map((selectableSort) => (
+							<Typography
+								fontWeight={'600'}
+								color={
+									selectableSort.value === selectedSort
+										? 'primary'
+										: 'secondary'
+								}
+								sx={{
+									cursor: 'pointer',
+								}}
+								onClick={() => {
+									setSelectedSort(selectableSort.value);
+								}}
+							>
+								{selectableSort.label}
+							</Typography>
+						))}
+					</Box>
 				</Box>
-			</Box>
-
+			)}
 			{/* 새로운 목표 등록 영역 */}
 			<Box
 				sx={{

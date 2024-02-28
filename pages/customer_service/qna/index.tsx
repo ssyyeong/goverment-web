@@ -5,7 +5,6 @@ import { NextPage } from 'next';
 import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
-import SupportiInput from '../../../src/views/global/SupportiInput';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useRouter } from 'next/router';

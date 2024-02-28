@@ -25,6 +25,8 @@ import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import MobileTransactionHistory from '../MobileTransactionHistory/MobileTransactionHistory';
 import { BankController } from '../../../../../../controller/BankController';
 import Nodata from '../../../../../global/NoData/NoData';
+import CategoryMappingModal from '../CategoryMappingModal/CategoryMappingModal';
+import SupportiButton from '../../../../../global/SupportiButton';
 
 interface ITransactionHistoryTableProps {
 	/**
@@ -67,6 +69,11 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 	const transactionHistoryController = new DefaultController(
 		'TransactionHistory'
 	);
+
+	const [categoryMappingModal, setCategoryMappingModal] =
+		React.useState(false);
+
+	const [targetTraderName, setTargetTraderName] = React.useState(undefined);
 
 	//* Constants
 	// 1-50까지의 숫자 배열
@@ -162,14 +169,6 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			align: 'center',
 		},
 		{
-			label: '거래내역',
-			value: 'TRANSACTION_DESCRIPTION',
-			align: 'center',
-			format: (value) => {
-				return value ? value : '-';
-			},
-		},
-		{
 			label: '거래자명',
 			value: 'TRADER_NAME',
 			align: 'center',
@@ -181,6 +180,44 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				return value.toLocaleString();
 			},
 			align: 'center',
+		},
+		{
+			label: '카테고리',
+			value: 'BANK_CATEGORY',
+			align: 'center',
+			format: (value) => {
+				return value ? value : '-';
+			},
+			customView: (value, key) => {
+				return value ? (
+					<Typography
+						variant={'body2'}
+						sx={{ cursor: 'pointer' }}
+						onClick={() => {
+							setCategoryMappingModal(true);
+						}}
+					>
+						{value}
+					</Typography>
+				) : (
+					<Typography>-</Typography>
+					// <SupportiButton
+					// 	contents={'매핑'}
+					// 	variant="outlined"
+					// 	style={{
+					// 		color: 'secondary.dark',
+					// 		bgcolor: 'white',
+					// 		height: '10px',
+					// 		width: '15px',
+					// 		fontSize: '10px',
+					// 	}}
+					// 	onClick={() => {
+					// 		setCategoryMappingModal(true);
+					// 	}}
+					// 	// fontVariant={'body2'}
+					// />
+				);
+			},
 		},
 	];
 	//* 엑셀 다운로드 헤더
@@ -471,6 +508,9 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				<SupportiTable
 					rowData={transactionHistoryList}
 					headerData={transactionHistoryHeaderData}
+					onClick={(row) => {
+						setTargetTraderName(row['TRADER_NAME']);
+					}}
 				/>
 			</Box>
 
@@ -487,6 +527,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 							checked={item.EXCEPTED_YN === 'Y' ? true : false}
 							onClick={() => {
 								handleExcept(item.EXCEPTED_YN, index);
+								setTargetTraderName(item.TRADER_NAME);
 							}}
 							transactionDate={item.TRANSACTION_DATE}
 							traderBank={item.TRADER_BANK_NAME}
@@ -515,6 +556,13 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				count={totalDataCount}
 				useLimit={false}
 			/>
+			{targetTraderName !== undefined && (
+				<CategoryMappingModal
+					modalOpen={categoryMappingModal}
+					setModalOpen={setCategoryMappingModal}
+					traderName={targetTraderName}
+				/>
+			)}
 		</Box>
 	);
 };

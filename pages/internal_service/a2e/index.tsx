@@ -314,11 +314,14 @@ const Page: NextPage = () => {
 													bgcolor="white"
 													sx={{
 														boxShadow:
-															'rgb(219, 219, 219) 0px 0px 2px',
+															'0 3px 15px 0 #e1eaff',
 														minHeight: '150px',
 														width: '220px',
 														minWidth: '220px',
 														cursor: 'pointer',
+														border: '1px solid',
+														borderColor:
+															'secondary.light',
 													}}
 													display="flex"
 													flexDirection={'column'}
@@ -462,9 +465,9 @@ const Page: NextPage = () => {
 											mt="auto"
 											mb="auto"
 											ml="auto"
-											mr={1}
+											mr={0.5}
 											fontWeight={500}
-											fontFamily={'Pretendard'}
+											variant="body2"
 										>
 											비밀글 제외
 										</Typography>
@@ -479,9 +482,9 @@ const Page: NextPage = () => {
 											mt="auto"
 											mb="auto"
 											ml="-15px"
-											mr={1}
+											mr={0.5}
 											fontWeight={500}
-											fontFamily={'Pretendard'}
+											variant="body2"
 										>
 											답변완료 글
 										</Typography>
@@ -496,9 +499,9 @@ const Page: NextPage = () => {
 											mt="auto"
 											mb="auto"
 											ml="-15px"
-											mr={1}
+											mr={0.5}
 											fontWeight={500}
-											fontFamily={'Pretendard'}
+											variant="body2"
 										>
 											내가 쓴 글
 										</Typography>
@@ -543,7 +546,7 @@ const Page: NextPage = () => {
 															textAlign: 'center',
 															cursor: 'pointer',
 															boxShadow:
-																'rgb(219, 219, 219) 0px 0px 1px',
+																'0 3px 15px 0 #e1eaff',
 														}}
 														onClick={() => {
 															setSelectedTabCategory(

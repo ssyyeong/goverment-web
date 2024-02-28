@@ -183,6 +183,7 @@ const SupportiInput = React.forwardRef(
 										<CloseIcon
 											sx={{
 												fontSize: '0.9rem',
+												color: 'secondary.dark',
 											}}
 										/>
 									</Typography>
