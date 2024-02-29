@@ -55,7 +55,7 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 	 *
 	 * 선택된 카테고리
 	 */
-	const [category, setCategory] = React.useState<string>('');
+	const [category, setCategory] = React.useState<string>('서비스 이용료');
 
 	/**
 	 *
@@ -347,17 +347,21 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 					/>
 
 					{/* 카테고리 수정 모달 */}
-					<CategoryMappingModal
-						modalOpen={isCategoryModifyModalOpen}
-						setModalOpen={() => {
-							setCategoryModifyModalOpen(false);
-						}}
-						isEditMode={true}
-						traderName={traderName}
-						categoryId={categoryId}
-						category={category !== '' ? category : '카테고리'}
-						setRecomputeTriggerKey={props.setRecomputeTriggerKey}
-					/>
+					<Box key={isCategoryModifyModalOpen.toString()}>
+						<CategoryMappingModal
+							modalOpen={isCategoryModifyModalOpen}
+							setModalOpen={() => {
+								setCategoryModifyModalOpen(false);
+							}}
+							isEditMode={true}
+							traderName={traderName}
+							categoryId={categoryId}
+							category={category}
+							setRecomputeTriggerKey={
+								props.setRecomputeTriggerKey
+							}
+						/>
+					</Box>
 				</Box>
 			}
 		/>

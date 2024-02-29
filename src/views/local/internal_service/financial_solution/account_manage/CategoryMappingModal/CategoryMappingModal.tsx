@@ -165,20 +165,20 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 											<FormControl
 												sx={{ width: '100%', mt: 1 }}
 											>
-												<InputLabel htmlFor="grouped-native-select">
+												{/* <InputLabel htmlFor="grouped-native-select">
 													카테고리
-												</InputLabel>
+												</InputLabel> */}
 												<Select
 													native
-													defaultValue=""
+													defaultValue={category}
 													id="grouped-native-select"
-													label={category}
+													// label={category}
 													onChange={item.onChange}
 													// value={category}
 												>
 													<option
-														value={category}
-														// area-label="None"
+														// value={category}
+														area-label="None"
 													/>
 													{Object.entries(
 														TransactionCategoryConfig
