@@ -565,12 +565,14 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 				useLimit={false}
 			/>
 			{targetTraderName !== undefined && (
-				<CategoryMappingModal
-					modalOpen={categoryMappingModal}
-					setModalOpen={setCategoryMappingModal}
-					traderName={targetTraderName}
-					setRecomputeTriggerKey={props.setRecomputeTriggerKey}
-				/>
+				<Box key={categoryMappingModal.toString()}>
+					<CategoryMappingModal
+						modalOpen={categoryMappingModal}
+						setModalOpen={setCategoryMappingModal}
+						traderName={targetTraderName}
+						setRecomputeTriggerKey={props.setRecomputeTriggerKey}
+					/>
+				</Box>
 			)}
 		</Box>
 	);
