@@ -125,9 +125,37 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 						>
 							{props.supportBusiness.supt_biz_clsfc}
 						</Typography>
-						<Typography variant="h4" fontWeight={'700'}>
-							{props.supportBusiness.biz_pbanc_nm}
-						</Typography>
+						<Box
+							display={'flex'}
+							flexWrap={'wrap'}
+							gap={1}
+							alignItems={'center'}
+						>
+							<Typography variant="h4" fontWeight={'700'}>
+								{props.supportBusiness.biz_pbanc_nm}
+							</Typography>
+							<Typography
+								color={'error.main'}
+								fontWeight={'700'}
+								variant="caption"
+								fontSize={'11px !important'}
+								lineHeight={1}
+								sx={{
+									px: 1,
+									py: 0.5,
+									borderRadius: 3,
+									borderColor: 'error.light',
+									borderWidth: 1,
+									borderStyle: 'solid',
+								}}
+							>
+								D-
+								{moment(
+									props.supportBusiness.pbanc_rcpt_end_dt
+								).diff(moment(), 'days')}
+								일
+							</Typography>
+						</Box>
 					</Box>
 					{saved ? (
 						<TurnedInIcon

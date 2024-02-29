@@ -469,19 +469,19 @@ let themeConfig = createTheme({
 		},
 		caption: {
 			fontWeight: 400,
-			fontSize: '11px',
+			fontSize: '12px',
 			lineHeight: 1.66,
 			'@media (min-width:0px)': {
-				fontSize: '7px',
+				fontSize: '12px',
 			},
 			'@media (min-width:600px)': {
-				fontSize: '7px',
+				fontSize: '12px',
 			},
 			'@media (min-width:900px)': {
-				fontSize: '7px',
+				fontSize: '12px',
 			},
 			'@media (min-width:1260px)': {
-				fontSize: '7px',
+				fontSize: '12px',
 			},
 			'@media (min-width:1536px)': {
 				fontSize: '7px',

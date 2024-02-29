@@ -318,6 +318,7 @@ const Page: NextPage = () => {
 						<SupportiButton
 							contents={'검색하기'}
 							onClick={() => {
+								setOnlySaved(false);
 								getSupportBusiness();
 								if (page !== 1) {
 									handlePageChange(1);
