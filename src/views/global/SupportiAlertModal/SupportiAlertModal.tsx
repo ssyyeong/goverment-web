@@ -49,7 +49,8 @@ interface ISupportiAlertModalProps {
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
 		| 'irFinish'
-		| 'noAccount';
+		| 'noAccount'
+		| 'unReady';
 
 	/**
 	 * 커스텀 핸들러
@@ -380,6 +381,15 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				router.push(
 					'/internal_service/financial_solution/account_manage'
 				);
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		unReady: {
+			type: 'error',
+			title: '해당 기능은 현재 준비중입니다.조금만 기다려주세요!',
+			content: '확인',
+			onclick: () => {
 				props.handleClose();
 			},
 			cancelButtonAvailable: false,

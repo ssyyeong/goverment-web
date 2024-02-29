@@ -13,6 +13,7 @@ import {
 	styled,
 	useTheme,
 	Checkbox,
+	TableCellProps,
 } from '@mui/material';
 import Nodata from '../NoData/NoData';
 export interface TableHeaderProps {
@@ -82,6 +83,12 @@ interface ISupportiTableProps {
 	 * 클릭시 이벤트
 	 */
 	onClick?: (value: any) => any;
+	/**
+	 * 스타일
+	 */
+	style?: {
+		tablecell?: TableCellProps;
+	};
 }
 
 const SupportiTable = (props: ISupportiTableProps) => {
@@ -174,6 +181,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 											<TableCell
 												key={column.value}
 												align={column.align}
+												{...props.style?.tablecell}
 											>
 												{column.customView ? (
 													column.customView(

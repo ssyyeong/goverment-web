@@ -45,6 +45,21 @@ const dashboardMenu: IMenu[] = [
 			},
 		],
 	},
+	{
+		label: '지원 사업',
+		icon: '/images/icons/government.png',
+		path: '/internal_service/government',
+		submenu: [
+			{
+				label: '지원 사업 조회',
+				path: '/internal_service/government/research',
+			},
+			// {
+			// 	label: '지원 사업 관리',
+			// 	path: '/internal_service/government/management',
+			// },
+		],
+	},
 	// {
 	// 	label: '세미나',
 	// 	path: '/external_service/seminar',
