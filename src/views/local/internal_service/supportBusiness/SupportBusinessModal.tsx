@@ -131,6 +131,9 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 					</Box>
 					{saved ? (
 						<TurnedInIcon
+							sx={{
+								cursor: 'pointer',
+							}}
 							onClick={() => {
 								update
 									? updateSupportBusiness('N')
@@ -139,6 +142,9 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 						/>
 					) : (
 						<TurnedInNotIcon
+							sx={{
+								cursor: 'pointer',
+							}}
 							onClick={() => {
 								update
 									? updateSupportBusiness('Y')
@@ -151,18 +157,32 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 				<Grid container>
 					<Grid item xs={12} md={6} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>
+							<Typography color={'gray'} fontWeight={500}>
 								소관부처,지자체
 							</Typography>
-							<Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+									lineHeight: 1.5,
+								}}
+							>
 								{props.supportBusiness.pbanc_ntrp_nm}
 							</Typography>
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={6} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>사업수행기관</Typography>
-							<Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								사업수행기관
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+									lineHeight: 1.5,
+								}}
+							>
 								{props.supportBusiness.sprv_inst}(Tel.
 								{props.supportBusiness.prch_cnpl_no})
 							</Typography>
@@ -170,16 +190,32 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 					</Grid>
 					<Grid item xs={12} md={6} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>지역</Typography>
-							<Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								지역
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+									lineHeight: 1.5,
+								}}
+							>
 								{props.supportBusiness.supt_regin}
 							</Typography>
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={6} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>신청기간</Typography>
-							<Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								신청기간
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+									lineHeight: 1.5,
+								}}
+							>
 								{moment(
 									props.supportBusiness.pbanc_rcpt_bgng_dt
 								).format('YYYY.MM.DD')}
@@ -192,23 +228,41 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 					</Grid>
 					<Grid item xs={12} md={6} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>지원대상</Typography>
-							<Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								지원대상
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+									lineHeight: 1.5,
+								}}
+							>
 								{props.supportBusiness.aply_trgt}
 							</Typography>
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={12} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>개요</Typography>
-							<Typography lineHeight={1.5}>
+							<Typography color={'gray'} fontWeight={500}>
+								개요
+							</Typography>
+							<Typography
+								lineHeight={1.5}
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+								}}
+							>
 								{props.supportBusiness.pbanc_ctnt}
 							</Typography>
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={12} mb={2}>
 						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'}>모집내용</Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								모집내용
+							</Typography>
 							<Typography lineHeight={1.5}>
 								{props.supportBusiness.aply_trgt_ctnt}
 							</Typography>

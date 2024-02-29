@@ -77,6 +77,7 @@ const Page: NextPage = () => {
 							// 	index={index}
 							// 	title={'test'}
 							// 	isCertified={true}
+							// 	id={1}
 							// />
 						);
 					},

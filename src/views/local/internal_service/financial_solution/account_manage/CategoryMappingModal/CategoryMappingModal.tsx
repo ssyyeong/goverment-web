@@ -40,7 +40,7 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 
 	//* States
 	const [category, setCategory] = React.useState(
-		props.category ? props.category : ''
+		props.category ? props.category : '서비스 이용료'
 	);
 
 	/**
@@ -61,7 +61,7 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 		{
 			label: '카테고리',
 			type: 'select',
-			value: props.category ? props.category : '',
+			value: props.category ? props.category : '서비스 이용료',
 			onChange: (e) => {
 				setCategory(e.target.value);
 				console.log(e.target.value);
@@ -165,19 +165,20 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 											<FormControl
 												sx={{ width: '100%', mt: 1 }}
 											>
-												{/* <InputLabel htmlFor="grouped-native-select">
-												카테고리
-											</InputLabel> */}
+												<InputLabel htmlFor="grouped-native-select">
+													카테고리
+												</InputLabel>
 												<Select
 													native
 													defaultValue=""
 													id="grouped-native-select"
-													// label="카테고리"
+													label={category}
 													onChange={item.onChange}
+													// value={category}
 												>
 													<option
-														aria-label="None"
-														value=""
+														value={category}
+														// area-label="None"
 													/>
 													{Object.entries(
 														TransactionCategoryConfig

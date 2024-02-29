@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import ReactApexChart from 'react-apexcharts';
 
@@ -8,28 +8,24 @@ type TKpiChartProps = {
 
 const KpiChart = (props: TKpiChartProps) => {
 	//* Constants
+	/**
+	 *
+	 * 차트 데이터
+	 */
 	const chartDataConfig = {
 		series: [],
 		options: {
 			chart: {
-				type: 'bar',
-				height: 250,
-				toolbar: {
-					show: false,
-				},
-			},
-			plotOptions: {
-				bar: {
-					horizontal: false,
-					columnWidth: '55%',
-					endingShape: 'rounded',
-				},
+				height: 350,
+				type: 'line',
 			},
 			dataLabels: {
 				enabled: false,
 			},
 			stroke: {
 				width: 5,
+				curve: 'smooth',
+				dashArray: [0, 8, 5],
 			},
 			legend: {
 				tooltipHoverFormatter: function (val, opts) {
@@ -38,8 +34,7 @@ const KpiChart = (props: TKpiChartProps) => {
 						'  <strong>' +
 						opts.w.globals.series[opts.seriesIndex][
 							opts.dataPointIndex
-						].toLocaleString() +
-						'원' +
+						] +
 						'</strong>'
 					);
 				},
@@ -51,42 +46,50 @@ const KpiChart = (props: TKpiChartProps) => {
 				},
 			},
 			xaxis: {
-				type: 'datetime',
+				type: 'category',
 				stepSize: 5,
 				label: {
 					formatter: undefined,
 				},
 			},
 			yaxis: {
-				// min: 0,
-				// max: 100,
+				min: 0,
+				max: 100,
 				demicalsInFloat: 0,
-				labels: {
-					formatter: function (val) {
-						return Math.abs(val) > 999999
-							? (val / 1000000).toFixed(1) + 'M'
-							: val.toLocaleString() + '원';
-					},
-				},
 			},
 
 			tooltip: {
+				x: {
+					show: true,
+					format: 'dd MMM',
+					formatter: undefined,
+				},
 				y: {
-					formatter: function (val) {
-						return Math.abs(val) > 999999
-							? (val / 1000000).toFixed(1) + 'M'
-							: val.toLocaleString() + '원';
+					title: {
+						formatter: function (val) {
+							return val + '(%)';
+						},
 					},
 				},
 			},
 			grid: {
 				borderColor: '#f1f1f1',
-				show: false,
 			},
 		},
 	};
 
 	//*States
+
+	/**
+	 *
+	 * 차트 데이터
+	 */
+	const [chartData, setChartData] = useState<any>(undefined);
+
+	//* Hooks
+	useEffect(() => {
+		setChartData(chartDataConfig);
+	}, []);
 
 	return (
 		<Box
@@ -100,13 +103,15 @@ const KpiChart = (props: TKpiChartProps) => {
 				textAlign: 'center',
 			}}
 		>
-			{/* <ReactApexChart
-									type="line"
-									series={monthlyInOut}
-									options={chartDataConfig.options}
-									width={'95%'}
-									height={300}
-								/> */}
+			{chartData !== undefined && (
+				<ReactApexChart
+					type="line"
+					series={chartData.series}
+					options={chartData.options}
+					width={'95%'}
+					height={300}
+				/>
+			)}
 		</Box>
 	);
 };

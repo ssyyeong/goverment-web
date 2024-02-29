@@ -35,6 +35,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Modules
 
 	//* Constants
+	const KpiCategory = ['비즈니스 지표', '마케팅 지표'];
 
 	//* Hooks
 	/**
@@ -661,6 +662,225 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 													});
 												}}
 												width={'150px'}
+											/>
+											{/* <Typography
+												fontWeight={500}
+												variant="body1"
+												mt={'5px'}
+												color="error.main"
+												sx={{
+													visibility:
+														kpiData.TARGET_AMOUNT !==
+															0 ||
+														kpiData.TARGET_AMOUNT !==
+															undefined
+															? 'hidden'
+															: 'block',
+												}}
+											>
+												필수 값 입니다.
+											</Typography> */}
+										</Box>
+									</Box>
+								</Box>
+							</Box>
+						</Box>
+
+						<Box display={'flex'} flexDirection={'column'} gap={2}>
+							<Typography fontWeight={500}>
+								KPI 카테고리
+							</Typography>
+							<Box display="flex" gap={1}>
+								{KpiCategory.map((item, index) => {
+									return (
+										<SupportiButton
+											contents={item}
+											variant="outlined"
+											onClick={(e) =>
+												console.log(e.target.value)
+											}
+											style={{
+												height: '30px',
+											}}
+										/>
+									);
+								})}
+							</Box>
+
+							{/** 타이틀 작성 */}
+							<Typography fontWeight={500}>KPI 목표</Typography>
+							<Box>
+								<SupportiInput
+									type="input"
+									additionalProps={{
+										placeholder:
+											'목표 타이틀을 입력해주세요.',
+									}}
+									value={kpiData.TITLE}
+									setValue={(value: string) => {
+										setKpiData({
+											...kpiData,
+											TITLE: value,
+										});
+									}}
+									width={'100%'}
+								/>
+								<Box
+									display="flex"
+									justifyContent={'space-between'}
+								>
+									{/** 필수값 알림 영역*/}
+									{/* <Typography
+										fontWeight={500}
+										variant="body1"
+										color="error.main"
+										my={1}
+										sx={{
+											visibility:
+												kpiData.TITLE !== ''
+													? 'hidden'
+													: 'block',
+										}}
+									>
+										필수 값 입니다.
+									</Typography> */}
+
+									{/** 목표 제목 글자수와 글자수 제한 영역 */}
+									<Box
+										display="flex"
+										ml={'auto'}
+										my={1}
+										gap={0.5}
+									>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											{kpiData.TITLE.length}
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											/
+										</Typography>
+										<Typography
+											color={
+												kpiData.TITLE.length < 20
+													? 'secondary.main'
+													: 'warning.main'
+											}
+										>
+											20
+										</Typography>
+									</Box>
+								</Box>
+							</Box>
+
+							{/** 중요도 */}
+							<Box my={2}>
+								<Typography fontWeight={500} mb={1}>
+									중요도
+								</Typography>
+								<Box display="flex">
+									<Rating
+										name="simple-controlled"
+										value={kpiData.RATE}
+										onChange={(event, newValue) => {
+											setKpiData({
+												...kpiData,
+												RATE: newValue,
+											});
+										}}
+										size="large"
+									/>
+									<Typography
+										ml={1}
+										mt="auto"
+										mb="auto"
+										color="primary.main"
+										fontWeight={500}
+									>
+										{RatingConfig[kpiData.RATE]}
+									</Typography>
+								</Box>
+							</Box>
+
+							<Box
+								display={'flex'}
+								gap={2}
+								flexWrap="wrap"
+								mt={2}
+							>
+								{/** 목표값 등록 영역 */}
+								<Box display="flex" gap={2}>
+									{/** 목표값 */}
+									<Box display={'flex'}>
+										<Box>
+											<Typography fontWeight={500} mb={1}>
+												목표값
+											</Typography>
+											<SupportiInput
+												type="input"
+												inputType="number"
+												additionalProps={{
+													placeholder: '목표값 입력',
+												}}
+												value={kpiData.TARGET_AMOUNT}
+												setValue={(value: number) => {
+													setKpiData({
+														...kpiData,
+														TARGET_AMOUNT: value,
+													});
+												}}
+												width={'50%'}
+											/>
+											{/* <Typography
+												fontWeight={500}
+												variant="body1"
+												mt={'5px'}
+												color="error.main"
+												sx={{
+													visibility:
+														kpiData.TARGET_AMOUNT !==
+															0 ||
+														kpiData.TARGET_AMOUNT !==
+															undefined
+															? 'hidden'
+															: 'block',
+												}}
+											>
+												필수 값 입니다.
+											</Typography> */}
+										</Box>
+									</Box>
+									{/** 목표 증가율 */}
+									<Box display={'flex'}>
+										<Box>
+											<Typography fontWeight={500} mb={1}>
+												목표 증가치 (0-100%)
+											</Typography>
+											<SupportiInput
+												type="input"
+												inputType="number"
+												additionalProps={{
+													placeholder:
+														'목표 증가치 입력',
+												}}
+												value={kpiData.TARGET_AMOUNT}
+												setValue={(value: number) => {
+													setKpiData({
+														...kpiData,
+														TARGET_AMOUNT: value,
+													});
+												}}
+												width={'50%'}
 											/>
 											{/* <Typography
 												fontWeight={500}

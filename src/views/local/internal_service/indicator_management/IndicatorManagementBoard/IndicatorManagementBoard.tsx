@@ -18,6 +18,7 @@ import { useAppMember } from '../../../../../hooks/useAppMember';
 import Nodata from '../../../../global/NoData/NoData';
 import { KpiController } from '../../../../../controller/KpiController';
 import KpiTable from './Kpi/KpiTable/KpiTable';
+import KpiChart from './Kpi/KpiChart/KpiChart';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -377,8 +378,9 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
+			{/* {props.name === 'KPI' && <KpiChart />}
 
-			{/* {props.name === 'KPI' && <KpiTable />} */}
+			{props.name === 'KPI' && <KpiTable />} */}
 		</Box>
 	);
 };

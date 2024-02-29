@@ -274,7 +274,10 @@ const Page: NextPage = () => {
 										width={{ xs: '100%', md: '49%' }}
 										gap={1}
 									>
-										<Typography color={'gray'}>
+										<Typography
+											color={'gray'}
+											fontWeight={500}
+										>
 											{item.label}
 										</Typography>
 										<SupportiInput
@@ -295,7 +298,9 @@ const Page: NextPage = () => {
 							flexDirection={'column'}
 							gap={1}
 						>
-							<Typography color={'gray'}>지원사업명</Typography>
+							<Typography color={'gray'} fontWeight={500}>
+								지원사업명
+							</Typography>
 							<SupportiInput
 								type="input"
 								value={filter.biz_pbanc_nm}
