@@ -132,26 +132,9 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
-					gap={2}
-					maxHeight={'55vh'}
-					minHeight={'45vh'}
 					overflow={'auto'}
 					sx={{
 						width: '100%',
-						'-ms-overflow-style': 'none',
-						'&::-webkit-scrollbar': {
-							width: '6px',
-							height: '5px !important',
-							backgroundColor: 'white !important',
-							padding: '1px',
-							borderRadius: '20px',
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: '#b0b5c2',
-							borderRadius: '20px',
-						},
-						pt: 1,
-						pr: 1,
 					}}
 				>
 					<Box width={'100%'} height={'100%'}>
@@ -165,6 +148,20 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 								borderRadius: '8px',
 								width: '100%',
 								minHeight: '35vh',
+								overflowY: 'auto',
+								maxHeight: '200px',
+								'-ms-overflow-style': 'none',
+								'&::-webkit-scrollbar': {
+									width: '6px',
+									height: '5px !important',
+									backgroundColor: 'white !important',
+									padding: '1px',
+									borderRadius: '20px',
+								},
+								'&::-webkit-scrollbar-thumb': {
+									backgroundColor: '#b0b5c2',
+									borderRadius: '20px',
+								},
 								mt: 2,
 							}}
 						>
@@ -330,7 +327,7 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 							}}
 							style={{
 								height: '45px',
-								marginTop: '60px',
+								marginTop: 2,
 							}}
 							fullWidth={true}
 							color={'primary'}

@@ -219,9 +219,10 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 				<SupportiButton
 					contents={'자세히 보러가기'}
 					onClick={() => {
-						props.supportBusiness.biz_gdnc_url
+						props.supportBusiness.aply_mthd_onli_rcpt_istc
 							? window.open(
-									props.supportBusiness.biz_gdnc_url,
+									props.supportBusiness
+										.aply_mthd_onli_rcpt_istc,
 									'_blank'
 							  )
 							: window.open(

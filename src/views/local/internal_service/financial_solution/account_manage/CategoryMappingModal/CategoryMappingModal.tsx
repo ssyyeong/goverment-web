@@ -132,9 +132,6 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
-					gap={2}
-					maxHeight={'50vh'}
-					minHeight={'40vh'}
 					overflow={'auto'}
 					sx={{
 						width: '100%',
@@ -150,19 +147,16 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 							backgroundColor: '#b0b5c2',
 							borderRadius: '20px',
 						},
-						pt: 2,
-						pr: 1,
 					}}
 				>
-					<Box my={1} width={'100%'}>
-						<Box>
+					<Box width={'100%'}>
+						<Box display={'flex'} flexDirection={'column'} gap={2}>
 							{categoryDataConfig.map((item, idx) => {
 								return (
 									<Box
 										key={idx}
 										alignItems={'center'}
 										width={'100%'}
-										mt={!item.nolabel && 2}
 									>
 										<Typography fontWeight={600}>
 											{!item.nolabel && item.label}
@@ -256,7 +250,7 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 							}}
 							style={{
 								height: '45px',
-								marginTop: '60px',
+								marginTop: 2,
 							}}
 							fullWidth={true}
 							color={'primary'}
