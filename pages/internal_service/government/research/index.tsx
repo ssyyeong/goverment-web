@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import { usePagination } from '../../../../src/hooks/usePagination';
@@ -323,6 +323,21 @@ const Page: NextPage = () => {
 							style={{ width: '20% ', margin: 'auto', mt: 2 }}
 						/>
 					</Box>
+					{supportBusiness === undefined && (
+						<Box
+							width={'100%'}
+							display={'flex'}
+							flexDirection={'column'}
+							gap={2}
+							mt={3}
+						>
+							<Skeleton
+								variant="rounded"
+								width={'100%'}
+								height={350}
+							/>
+						</Box>
+					)}
 					{/* 테이블 */}
 
 					{supportBusiness && (
