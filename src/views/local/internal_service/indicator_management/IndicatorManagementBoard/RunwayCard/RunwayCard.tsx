@@ -4,6 +4,7 @@ import { Box, BoxProps, IconButton, Tooltip, Typography } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 interface IRunwayCardProps {
 	runway: number;
+	setOpenInvestmentModal: React.Dispatch<boolean>;
 }
 
 const RunwayCard = (props: IRunwayCardProps) => {
@@ -79,31 +80,27 @@ const RunwayCard = (props: IRunwayCardProps) => {
 			width={'100%'}
 			position={'relative'}
 		>
-			<Tooltip
-				title="해당 데이터는 현재의 현금흐름(Net Burn Rate)을 기반으로 최근 6개월간의 데이터를 가지고 예측된 데이터입니다. 실제 상황과 다를 수 있습니다."
+			<Box
 				sx={{
+					display: 'flex',
+					alignItems: 'center',
 					position: 'absolute',
-					top: 5,
-					right: 5,
-				}}
-				arrow
-				slotProps={{
-					popper: {
-						modifiers: [
-							{
-								name: 'offset',
-								options: {
-									offset: [0, -14],
-								},
-							},
-						],
-					},
+					top: 15,
+					right: 15,
 				}}
 			>
-				<IconButton>
-					<HelpOutlineIcon />
-				</IconButton>
-			</Tooltip>
+				<Typography
+					sx={{
+						textDecoration: 'underline',
+						cursor: 'pointer',
+					}}
+					onClick={() => {
+						props.setOpenInvestmentModal(true);
+					}}
+				>
+					투자금 입력하기
+				</Typography>
+			</Box>
 			{/* 아이콘 */}
 			<Box>
 				<img src={runwayCardConfig[runwayType].icons} alt="icon" />

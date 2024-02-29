@@ -390,6 +390,36 @@ const Page: NextPage = () => {
 										데이터입니다.)
 									</Typography>
 								)}
+							<Typography
+								variant="h6"
+								fontWeight={'bold'}
+								px={{ xs: 2, md: 0 }}
+								display={'flex'}
+								alignItems={'center'}
+								mt={3}
+							>
+								분석 결과
+								<Tooltip
+									title="해당 데이터는 현재의 현금흐름(Net Burn Rate)을 기반으로 최근 6개월간의 데이터를 가지고 예측된 데이터입니다. 실제 상황과 다를 수 있습니다."
+									arrow
+									slotProps={{
+										popper: {
+											modifiers: [
+												{
+													name: 'offset',
+													options: {
+														offset: [0, -14],
+													},
+												},
+											],
+										},
+									}}
+								>
+									<IconButton size="small">
+										<HelpOutlineIcon fontSize="small" />
+									</IconButton>
+								</Tooltip>
+							</Typography>
 							{chartData !== undefined &&
 								monthlyInOut[0].name !== 'example' && (
 									<Typography
@@ -404,17 +434,6 @@ const Page: NextPage = () => {
 									>
 										⚠ 예상 투자금을 입력하여 런웨이를
 										계산해보세요.
-										<Typography
-											sx={{
-												textDecoration: 'underline',
-												cursor: 'pointer',
-											}}
-											onClick={() => {
-												setOpenInvestmentModal(true);
-											}}
-										>
-											입력하기
-										</Typography>
 									</Typography>
 								)}
 						</Box>
@@ -467,6 +486,7 @@ const Page: NextPage = () => {
 						{/* 런웨이 카드 */}
 						{calculationResult && (
 							<RunwayCard
+								setOpenInvestmentModal={setOpenInvestmentModal}
 								runway={
 									(calculationResult.totalBalance +
 										investment) /

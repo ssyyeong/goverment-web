@@ -214,12 +214,12 @@ const Page: NextPage = () => {
 					});
 					setSupportBusiness({
 						data: convertedData,
-						totalCount: res.data.result.count,
+						matchCount: res.data.result.count,
 					});
 				} else {
 					setSupportBusiness({
 						data: [],
-						totalCount: 0,
+						matchCount: 0,
 					});
 				}
 			}
@@ -239,7 +239,18 @@ const Page: NextPage = () => {
 	 *
 	 */
 	React.useEffect(() => {
-		onlySaved ? getSavedSupportBusiness() : getSupportBusiness();
+		if (onlySaved) {
+			setFilter({
+				biz_pbanc_nm: '',
+				supt_biz_clsfc: '전체',
+				supt_regin: '전체',
+				aply_trgt: '전체',
+				biz_enyy: '전체',
+			});
+			getSavedSupportBusiness();
+		} else {
+			getSupportBusiness();
+		}
 	}, [page, onlySaved]);
 	return (
 		<InternalServiceDrawer type="dashboard">
@@ -303,6 +314,9 @@ const Page: NextPage = () => {
 							contents={'검색하기'}
 							onClick={() => {
 								getSupportBusiness();
+								if (page !== 1) {
+									handlePageChange(1);
+								}
 							}}
 							variant="contained"
 							isGradient
@@ -328,7 +342,7 @@ const Page: NextPage = () => {
 							>
 								<Typography color={'gray'}>
 									{' '}
-									총 {supportBusiness?.totalCount}건
+									총 {supportBusiness?.matchCount}건
 								</Typography>
 								<SupportiInput
 									type="checkbox"
@@ -364,7 +378,7 @@ const Page: NextPage = () => {
 								setLimit={setLimit}
 								page={page}
 								handlePageChange={handlePageChange}
-								count={supportBusiness?.totalCount}
+								count={supportBusiness?.matchCount}
 								useLimit={false}
 							/>
 						</Box>
@@ -386,6 +400,3 @@ const Page: NextPage = () => {
 };
 
 export default Page;
-function useMember(): { memberId: any } {
-	throw new Error('Function not implemented.');
-}
