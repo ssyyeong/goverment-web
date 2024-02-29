@@ -7,10 +7,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CategoryMappingModal from '../CategoryMappingModal/CategoryMappingModal';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import Nodata from '../../../../../global/NoData/NoData';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { BankCategoryController } from '../../../../../../controller/BankCategoryController';
 
 interface ILinkedCategoryListModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
+	setRecomputeTriggerKey: React.Dispatch<any>;
 }
 
 const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
@@ -18,6 +21,8 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 	const CategoryController = new DefaultController(
 		'BankCategoryMatchHistory'
 	);
+
+	const subController = new BankCategoryController();
 
 	//* Modules
 
@@ -48,9 +53,22 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 
 	/**
 	 *
+	 * 선택된 카테고리
+	 */
+	const [category, setCategory] = React.useState<string>('');
+
+	/**
+	 *
 	 * 선택된 카테고리 아이디
 	 */
 	const [categoryId, setCategoryId] = React.useState<number | null>(null);
+
+	/**
+	 *
+	 * 삭제 알럿 오픈 여부
+	 */
+	const [isDeleteAlertOpen, setIsDeleteAlertOpen] =
+		React.useState<boolean>(false);
 
 	//* Constants
 	const categoryHeader = ['카테고리', '거래자명'];
@@ -65,18 +83,38 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 	 * 연결된 카테고리 내역 받아오기
 	 */
 	React.useEffect(() => {
-		// CategoryController.findAllItems(
-		// 	{
-		// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
-		// 	},
-		// 	(res) => {
-		// 		setCategoryList(res.data.result.rows);
-		// 	},
-		// 	(err) => {
-		// 		console.log(err);
-		// 	}
-		// );
-	}, []);
+		CategoryController.findAllItems(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				setCategoryList(res.data.result.rows);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	}, [props.modalOpen, isDeleteAlertOpen, isCategoryModifyModalOpen]);
+
+	//* Functions
+	const deleteCategory = () => {
+		subController.deleteBankCategory(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				BANK_CATEGORY_MATCH_HISTORY_IDENTIFICATION_CODE: categoryId,
+			},
+			{
+				CATEGORY: category,
+			},
+			(res) => {
+				props.setRecomputeTriggerKey((prev) => prev + 1);
+				setIsDeleteAlertOpen(false);
+				// setAlertType('successModifyAxios');
+				// setIsAlertOpen(true);
+			},
+			(err) => {}
+		);
+	};
 
 	return (
 		<SupportiModal
@@ -173,13 +211,13 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 											textAlign={'center'}
 										>
 											<Typography sx={{ width: '110px' }}>
-												연결된 카테고리
+												{item.BankCategory.CATEGORY}
 											</Typography>
 											<Box display="flex">
 												<Typography
 													sx={{ width: '120px' }}
 												>
-													거래자명
+													{item.TRADER_NAME}
 												</Typography>
 
 												{/* 메뉴 */}
@@ -209,7 +247,10 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 														setTraderName(
 															item.TRADER_NAME
 														);
-
+														setCategory(
+															item.BankCategory
+																.CATEGORY
+														);
 														setCategoryId(
 															item.BANK_CATEGORY_MATCH_HISTORY_IDENTIFICATION_CODE
 														);
@@ -252,6 +293,7 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 															setCategoryModifyModalOpen(
 																true
 															);
+															setAnchorEl(null);
 														}}
 													>
 														수정하기
@@ -263,9 +305,10 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 																'center',
 														}}
 														onClick={() => {
-															// deleteBankAccount(
-															// 	bankAccount.BANK_ACCOUNT_IDENTIFICATION_CODE
-															// );
+															setIsDeleteAlertOpen(
+																true
+															);
+															setAnchorEl(null);
 														}}
 													>
 														삭제하기
@@ -295,27 +338,18 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 							isGradient={true}
 						/>
 					</Box>
-					{/** 알럿 */}
-					{/* <SupportiAlertModal
-				open={isAlertOpen}
-				handleClose={() => {
-					props.setLoading(false);
-					setIsAlertOpen(false);
-				}}
-				type={alertType}
-			/>
-			<SupportiAlertModal
-				open={isDeleteAlertOpen}
-				handleClose={() => setIsDeleteAlertOpen(false)}
-				customHandleClose={() => {
-					props.setLoading(true);
-					memberId && deleteOkrMain();
 
-					setIsDeleteAlertOpen(false);
-				}}
-				type={'delete'}
-			/> */}
-					{/* 카테고리 매핑 모달 */}
+					{/** 알럿 */}
+					<SupportiAlertModal
+						open={isDeleteAlertOpen}
+						handleClose={() => setIsDeleteAlertOpen(false)}
+						customHandleClose={() => {
+							deleteCategory();
+						}}
+						type={'delete'}
+					/>
+
+					{/* 카테고리 수정 모달 */}
 					<CategoryMappingModal
 						modalOpen={isCategoryModifyModalOpen}
 						setModalOpen={() => {
@@ -324,6 +358,8 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 						isEditMode={true}
 						traderName={traderName}
 						categoryId={categoryId}
+						category={category !== '' ? category : '카테고리'}
+						setRecomputeTriggerKey={props.setRecomputeTriggerKey}
 					/>
 				</Box>
 			}

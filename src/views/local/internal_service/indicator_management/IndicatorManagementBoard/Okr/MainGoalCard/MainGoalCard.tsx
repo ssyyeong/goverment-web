@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
-import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
+import SupportiProgressBar from '../../../../../../global/SupportiProgressBar';
 
-import { IOkrCombination } from '../../../../../../@types/model';
+import { IOkrCombination } from '../../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import { randomColor } from '../../../../../../../configs/randomColorConfig';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 import moment from 'moment';
 import { OkrMoreModal } from '../OkrMoreModal';
 import { v4 as uuidv4 } from 'uuid';

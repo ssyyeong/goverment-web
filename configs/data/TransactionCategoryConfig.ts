@@ -3,11 +3,11 @@ const TransactionCategoryConfig = {
 		subCategory: [
 			{
 				label: '서비스 이용료',
-				value: 'SERVICE_FEE',
+				value: '서비스 이용료',
 			},
 			{
 				label: '단발성 수익',
-				value: 'ONE_TIME_PROFIT',
+				value: '단발성 수익',
 			},
 		],
 	},
@@ -15,27 +15,27 @@ const TransactionCategoryConfig = {
 		subCategory: [
 			{
 				label: '인건비',
-				value: 'PERSONAL_EXPENSES',
+				value: '인건비',
 			},
 			{
 				label: 'SaaS이용료',
-				value: 'SAAS_USAGE_FEE',
+				value: 'SaaS이용료',
 			},
 			{
 				label: '임대료',
-				value: 'RENT_FEE',
+				value: '임대료',
 			},
 			{
 				label: '추가채용',
-				value: 'ADDITIONAL_RECRUITMENT',
+				value: '추가채용',
 			},
 			{
 				label: '운영비',
-				value: 'OPERATING_EXPENSES',
+				value: '운영비',
 			},
 			{
 				label: '마케팅',
-				value: 'MARKETING_EXPENSES',
+				value: '마케팅',
 			},
 		],
 	},

@@ -12,6 +12,8 @@ import SupportiModal from '../../../../../global/SupportiModal';
 import SupportiButton from '../../../../../global/SupportiButton';
 import { TransactionCategoryConfig } from '../../../../../../../configs/data/TransactionCategoryConfig';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { BankCategoryController } from '../../../../../../controller/BankCategoryController';
+import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
 
 interface ICategoryMappingModalProps {
 	modalOpen: boolean;
@@ -20,13 +22,13 @@ interface ICategoryMappingModalProps {
 	traderName: string;
 	isEditMode?: boolean;
 	categoryId?: number;
+	setRecomputeTriggerKey?: React.Dispatch<any>;
 }
 
 const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 	//* Controllers
-	const CategoryController = new DefaultController(
-		'BankCategoryMatchHistory'
-	);
+
+	const CategoryController = new BankCategoryController();
 
 	//* Modules
 
@@ -36,41 +38,23 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 	 */
 	const { memberId } = useAppMember();
 
-	/**
-	 * 카테고리 매핑 생성하는 함수
-	 *  */
-	const createCategoryMapping = () => {
-		CategoryController.createItem(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				CATEGORY: category,
-				TRADER_NAME: props.traderName,
-			},
-			(res) => {},
-			(err) => {}
-		);
-	};
-
-	/**
-	 * 카테고리 매핑 수정하는 함수
-	 *  */
-	const modifyCategoryMapping = () => {
-		CategoryController.updateItem(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				CATEGORY: category,
-				BANK_CATEGORY_MATCH_HISTORY_IDENTIFICATION_CODE:
-					props.categoryId,
-			},
-			(res) => {},
-			(err) => {}
-		);
-	};
-
 	//* States
 	const [category, setCategory] = React.useState(
 		props.category ? props.category : ''
 	);
+
+	/**
+	 * 알럿 오픈 여부
+	 */
+	const [isAlertOpen, setIsAlertOpen] = React.useState<boolean>(false);
+
+	/**
+	 *
+	 * 알럿 타입
+	 */
+	const [alertType, setAlertType] = React.useState<
+		'successModifyAxios' | 'successCreateAxios'
+	>(null);
 
 	//* Constants
 	const categoryDataConfig = [
@@ -90,6 +74,47 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 			value: props.traderName,
 		},
 	];
+
+	//* Functions
+
+	/**
+	 * 카테고리 매핑 생성하는 함수
+	 *  */
+	const createCategoryMapping = () => {
+		CategoryController.registerBankCategory(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				CATEGORY: category,
+				TRADER_NAME: props.traderName,
+			},
+			(res) => {
+				setAlertType('successCreateAxios');
+				setIsAlertOpen(true);
+			},
+			(err) => {}
+		);
+	};
+
+	/**
+	 * 카테고리 매핑 수정하는 함수
+	 *  */
+	const modifyCategoryMapping = () => {
+		CategoryController.modifyBankCategory(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				BANK_CATEGORY_MATCH_HISTORY_IDENTIFICATION_CODE:
+					props.categoryId,
+			},
+			{
+				CATEGORY: category,
+			},
+			(res) => {
+				setAlertType('successModifyAxios');
+				setIsAlertOpen(true);
+			},
+			(err) => {}
+		);
+	};
 
 	return (
 		<SupportiModal
@@ -218,9 +243,16 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 								props.isEditMode ? '수정하기' : '등록하기'
 							}
 							onClick={() => {
-								props.isEditMode
-									? modifyCategoryMapping()
-									: createCategoryMapping();
+								if (props.isEditMode) {
+									modifyCategoryMapping();
+								} else {
+									if (category === '') {
+										alert('카테고리를 선택해주세요');
+										return;
+									} else {
+										createCategoryMapping();
+									}
+								}
 							}}
 							style={{
 								height: '45px',
@@ -233,15 +265,21 @@ const CategoryMappingModal = (props: ICategoryMappingModalProps) => {
 						/>
 					</Box>
 					{/** 알럿 */}
+					<SupportiAlertModal
+						open={isAlertOpen}
+						handleClose={() => {
+							setIsAlertOpen(false);
+						}}
+						customHandleClose={() => {
+							props.setModalOpen(false);
+							props.setRecomputeTriggerKey &&
+								props.setRecomputeTriggerKey(
+									(prev) => prev + 1
+								);
+						}}
+						type={alertType}
+					/>
 					{/* <SupportiAlertModal
-				open={isAlertOpen}
-				handleClose={() => {
-					props.setLoading(false);
-					setIsAlertOpen(false);
-				}}
-				type={alertType}
-			/>
-			<SupportiAlertModal
 				open={isDeleteAlertOpen}
 				handleClose={() => setIsDeleteAlertOpen(false)}
 				customHandleClose={() => {

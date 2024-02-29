@@ -8,8 +8,8 @@ import { IInfiniteLoadBoardProps } from '../../../../../modules/will_be_in_core/
 import { TRenderItemCallback } from '../../../../../@types/callbacks';
 
 import SupportiButton from '../../../../global/SupportiButton';
-import OkrCreateModal from './OkrCreateModal/OkrCreateModal';
-import KpiCreateModal from './KpiCreateModal/KpiCreateModal';
+import OkrCreateModal from './Okr/OkrCreateModal/OkrCreateModal';
+import KpiCreateModal from './Kpi/KpiCreateModal/KpiCreateModal';
 import SupportiToggle from '../../../../global/SupportiToggle';
 import SupportiInput from '../../../../global/SupportiInput';
 
@@ -17,6 +17,7 @@ import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCateg
 import { useAppMember } from '../../../../../hooks/useAppMember';
 import Nodata from '../../../../global/NoData/NoData';
 import { KpiController } from '../../../../../controller/KpiController';
+import KpiTable from './Kpi/KpiTable/KpiTable';
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -376,6 +377,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
+
+			{/* {props.name === 'KPI' && <KpiTable />} */}
 		</Box>
 	);
 };

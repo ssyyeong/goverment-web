@@ -62,6 +62,17 @@ interface ITransactionHistoryTableProps {
 	 * 유저 아이디
 	 */
 	memberId?: number;
+	/**
+	 * 카테고리 목록 모달 오픈 여부
+	 */
+	openCategoryList?: boolean;
+
+	/**
+	 *
+	 * 거래내역 다시 불러오는 트리거 키
+	 */
+	accountHistoryTriggerKey?: string;
+	setAccountHistoryTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
@@ -190,32 +201,26 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 			},
 			customView: (value, key) => {
 				return value ? (
-					<Typography
-						variant={'body2'}
-						sx={{ cursor: 'pointer' }}
-						onClick={() => {
-							setCategoryMappingModal(true);
-						}}
-					>
+					<Typography variant={'body2'} sx={{ cursor: 'pointer' }}>
 						{value}
 					</Typography>
 				) : (
-					<Typography>-</Typography>
-					// <SupportiButton
-					// 	contents={'매핑'}
-					// 	variant="outlined"
-					// 	style={{
-					// 		color: 'secondary.dark',
-					// 		bgcolor: 'white',
-					// 		height: '10px',
-					// 		width: '15px',
-					// 		fontSize: '10px',
-					// 	}}
-					// 	onClick={() => {
-					// 		setCategoryMappingModal(true);
-					// 	}}
-					// 	// fontVariant={'body2'}
-					// />
+					// <Typography>-</Typography>
+					<SupportiButton
+						contents={'매핑'}
+						variant="outlined"
+						style={{
+							color: 'secondary.dark',
+							bgcolor: 'white',
+							height: '10px',
+							width: '15px',
+							fontSize: '10px',
+						}}
+						onClick={() => {
+							setCategoryMappingModal(true);
+						}}
+						// fontVariant={'body2'}
+					/>
 				);
 			},
 		},
@@ -378,6 +383,9 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 		page,
 		props.selectedPeriod,
 		props.keyword,
+		categoryMappingModal,
+		props.openCategoryList,
+		props.accountHistoryTriggerKey,
 	]);
 
 	/**
@@ -561,6 +569,7 @@ const TransactionHistoryTable = (props: ITransactionHistoryTableProps) => {
 					modalOpen={categoryMappingModal}
 					setModalOpen={setCategoryMappingModal}
 					traderName={targetTraderName}
+					setRecomputeTriggerKey={props.setRecomputeTriggerKey}
 				/>
 			)}
 		</Box>

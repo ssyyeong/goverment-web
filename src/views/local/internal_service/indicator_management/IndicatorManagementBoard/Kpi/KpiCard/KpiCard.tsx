@@ -1,19 +1,19 @@
 import React from 'react';
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
 
-import SupportiButton from '../../../../../global/SupportiButton';
-import { RatingConfig } from '../../../../../../../configs/data/RatingConfig';
+import SupportiButton from '../../../../../../global/SupportiButton';
+import { RatingConfig } from '../../../../../../../../configs/data/RatingConfig';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { IKpi } from '../../../../../../@types/model';
+import { IKpi } from '../../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import SupportiInput from '../../../../../global/SupportiInput';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import SupportiInput from '../../../../../../global/SupportiInput';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 import KpiCreateModal from '../KpiCreateModal/KpiCreateModal';
-import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { useAppMember } from '../../../../../../../hooks/useAppMember';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import addCommaToNumber from '../../../../../../function/DataFormatter/addCommaToNumber';
+import addCommaToNumber from '../../../../../../../function/DataFormatter/addCommaToNumber';
 
 interface IKpiCardProps {
 	data: IKpi;

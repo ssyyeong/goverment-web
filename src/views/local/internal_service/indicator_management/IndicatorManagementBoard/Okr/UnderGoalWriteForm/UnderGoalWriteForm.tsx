@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
-import SupportiInput from '../../../../../global/SupportiInput';
+import SupportiInput from '../../../../../../global/SupportiInput';
 import CancelIcon from '@mui/icons-material/Cancel';
-import SupportiButton from '../../../../../global/SupportiButton';
-import { IndicatorUnit } from '../../../../../../../configs/data/IndicatorUnitConfig';
-import { IOkrDetail } from '../../../../../../@types/model';
-import { randomColor } from '../../../../../../../configs/randomColorConfig';
+import SupportiButton from '../../../../../../global/SupportiButton';
+import { IndicatorUnit } from '../../../../../../../../configs/data/IndicatorUnitConfig';
+import { IOkrDetail } from '../../../../../../../@types/model';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { useAppMember } from '../../../../../../hooks/useAppMember';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { useAppMember } from '../../../../../../../hooks/useAppMember';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalWriteFormProps {
 	mode: string;

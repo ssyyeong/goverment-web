@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
-import SupportiModal from '../../../../../global/SupportiModal';
-import SupportiButton from '../../../../../global/SupportiButton';
-import SupportiInput from '../../../../../global/SupportiInput';
+import SupportiModal from '../../../../../../global/SupportiModal';
+import SupportiButton from '../../../../../../global/SupportiButton';
+import SupportiInput from '../../../../../../global/SupportiInput';
 import UnderGoalWriteForm from '../UnderGoalWriteForm/UnderGoalWriteForm';
-import { IOkrDetail } from '../../../../../../@types/model';
-import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
+import { IOkrDetail } from '../../../../../../../@types/model';
+import { OkrDetailController } from '../../../../../../../controller/OkrDetailController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { useAppMember } from '../../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 import moment from 'moment';
-import SupportiToggle from '../../../../../global/SupportiToggle';
+import SupportiToggle from '../../../../../../global/SupportiToggle';
 import 'moment/locale/ko';
 interface IOkrCreateModalProps {
 	modalOpen: boolean;

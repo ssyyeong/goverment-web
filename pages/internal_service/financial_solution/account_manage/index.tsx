@@ -1,6 +1,7 @@
 import {
 	Box,
 	SwipeableDrawer,
+	Tooltip,
 	Typography,
 	styled,
 	useTheme,
@@ -45,6 +46,11 @@ const Page: NextPage = () => {
 	 */
 	const [accountTriggerKey, setAccountTriggerKey] = React.useState<string>();
 
+	/**
+	 * 계좌 히스토리 트리거키
+	 */
+	const [accountHistoryTriggerKey, setAccountHistoryTriggerKey] =
+		React.useState<string>();
 	/**
 	 * 검색용 키워드
 	 */
@@ -265,36 +271,63 @@ const Page: NextPage = () => {
 								/>
 							)}
 							{/** 카테고리 목록 버튼 */}
-							<Box
-								sx={{
-									width: { sm: 125, xs: 40 },
-									height: 36,
-									p: { sm: '10px 15px', xs: 1 },
-									border: 'solid 1px #305edccc',
-									borderRadius: '5px',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									cursor: 'pointer',
-								}}
-								onClick={() => {
-									setOpenCategoryList(true);
-								}}
-							>
-								<LinkIcon
+							{selectablePeriodList && (
+								<Tooltip
+									title="거래자명과 카테고리를 연결하여 거래 내역을 분석할 수 있어요"
 									sx={{
-										width: 20,
-										height: 20,
-										color: 'primary.main',
+										position: 'absolute',
+										top: 5,
+										right: 5,
 									}}
-								/>
-								<Typography
-									variant="body2"
-									display={{ sm: 'block', xs: 'none' }}
+									arrow
+									slotProps={{
+										popper: {
+											modifiers: [
+												{
+													name: 'offset',
+													options: {
+														offset: [0, -14],
+													},
+												},
+											],
+										},
+									}}
 								>
-									카테고리 목록
-								</Typography>
-							</Box>
+									<Box
+										sx={{
+											width: { sm: 125, xs: 40 },
+											height: 36,
+											p: { sm: '10px 15px', xs: 1 },
+											border: 'solid 1px #305edccc',
+											borderRadius: '5px',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+											cursor: 'pointer',
+										}}
+										onClick={() => {
+											setOpenCategoryList(true);
+										}}
+									>
+										<LinkIcon
+											sx={{
+												width: 20,
+												height: 20,
+												color: 'primary.main',
+											}}
+										/>
+										<Typography
+											variant="body2"
+											display={{
+												sm: 'block',
+												xs: 'none',
+											}}
+										>
+											카테고리 목록
+										</Typography>
+									</Box>
+								</Tooltip>
+							)}
 						</Box>
 
 						{/* 검색 영역 */}
@@ -363,37 +396,39 @@ const Page: NextPage = () => {
 								/>
 							)}
 							{/** 카테고리 목록 버튼 */}
-							<Box
-								sx={{
-									width: { sm: 125, xs: 40 },
-									height: 36,
-									p: { sm: '10px 15px', xs: 1 },
-									border: 'solid 1px #305edccc',
-									borderRadius: '5px',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									cursor: 'pointer',
-									mr: 1,
-								}}
-								onClick={() => {
-									setOpenCategoryList(true);
-								}}
-							>
-								<LinkIcon
+							{selectablePeriodList && (
+								<Box
 									sx={{
-										width: 20,
-										height: 20,
-										color: 'primary.main',
+										width: { sm: 125, xs: 40 },
+										height: 36,
+										p: { sm: '10px 15px', xs: 1 },
+										border: 'solid 1px #305edccc',
+										borderRadius: '5px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+										cursor: 'pointer',
+										mr: 1,
 									}}
-								/>
-								<Typography
-									variant="body2"
-									display={{ sm: 'block', xs: 'none' }}
+									onClick={() => {
+										setOpenCategoryList(true);
+									}}
 								>
-									카테고리 목록
-								</Typography>
-							</Box>
+									<LinkIcon
+										sx={{
+											width: 20,
+											height: 20,
+											color: 'primary.main',
+										}}
+									/>
+									<Typography
+										variant="body2"
+										display={{ sm: 'block', xs: 'none' }}
+									>
+										카테고리 목록
+									</Typography>
+								</Box>
+							)}
 						</Box>
 					</Box>
 					{/* 실제 계좌 내역 */}
@@ -409,6 +444,13 @@ const Page: NextPage = () => {
 									keyword={searchTriggerKey}
 									setLoading={setLoading}
 									memberId={memberId}
+									openCategoryList={openCategoryList}
+									accountHistoryTriggerKey={
+										accountHistoryTriggerKey
+									}
+									setAccountHistoryTriggerKey={
+										setAccountHistoryTriggerKey
+									}
 								/>
 							</Box>
 						))}
@@ -551,6 +593,7 @@ const Page: NextPage = () => {
 			<LinkedCategoryListModal
 				modalOpen={openCategoryList}
 				setModalOpen={setOpenCategoryList}
+				setRecomputeTriggerKey={setAccountHistoryTriggerKey}
 			/>
 		</InternalServiceDrawer>
 	);

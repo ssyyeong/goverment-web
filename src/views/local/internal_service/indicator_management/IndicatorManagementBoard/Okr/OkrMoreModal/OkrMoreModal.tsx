@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react';
 
 import { Box, BoxProps, Divider, Typography } from '@mui/material';
-import SupportiModal from '../../../../../global/SupportiModal';
-import SupportiButton from '../../../../../global/SupportiButton';
-import SupportiInput from '../../../../../global/SupportiInput';
+import SupportiModal from '../../../../../../global/SupportiModal';
+import SupportiButton from '../../../../../../global/SupportiButton';
+import SupportiInput from '../../../../../../global/SupportiInput';
 import UnderGoalWriteForm from '../UnderGoalWriteForm/UnderGoalWriteForm';
-import SupportiProgressBar from '../../../../../global/SupportiProgressBar';
-import { IOkrDetail } from '../../../../../../@types/model';
-import { OkrDetailController } from '../../../../../../controller/OkrDetailController';
+import SupportiProgressBar from '../../../../../../global/SupportiProgressBar';
+import { IOkrDetail } from '../../../../../../../@types/model';
+import { OkrDetailController } from '../../../../../../../controller/OkrDetailController';
 
 import UnderGoalAchieveBox from '../UnderGoalAchieveBox/UnderGoalAchieveBox';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppMember } from '../../../../../../hooks/useAppMember';
+import { useAppMember } from '../../../../../../../hooks/useAppMember';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import UnderGoalCard from '../UnderGoalCard';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
-import { randomColor } from '../../../../../../../configs/randomColorConfig';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 import moment from 'moment';
-import SupportiToggle from '../../../../../global/SupportiToggle';
-import AchievedChartModal from '../../AchievedChartModal/AchievedChartModal';
+import SupportiToggle from '../../../../../../global/SupportiToggle';
+import AchievedChartModal from '../../../AchievedChartModal/AchievedChartModal';
 import dayjs from 'dayjs';
 
 interface IOkrMoreModalProps {

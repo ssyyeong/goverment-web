@@ -557,9 +557,9 @@ const Page: NextPage = () => {
 										sx={{
 											border: '1px solid #305DDC',
 											borderRadius: '5px',
-											width: '100px',
-											height: '40px',
-											p: 1.5,
+											width: '90px',
+											height: '32px',
+											p: 1,
 											ml: 'auto',
 										}}
 										display="flex"

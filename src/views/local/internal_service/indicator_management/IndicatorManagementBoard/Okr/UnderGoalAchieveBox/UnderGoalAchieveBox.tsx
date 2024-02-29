@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Box, BoxProps, Rating, Typography } from '@mui/material';
-import { IOkrCombination } from '../../../../../../@types/model';
+import { IOkrCombination } from '../../../../../../../@types/model';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import SupportiInput from '../../../../../global/SupportiInput';
-import { useAppMember } from '../../../../../../hooks/useAppMember';
-import { SupportiAlertModal } from '../../../../../global/SupportiAlertModal';
+import SupportiInput from '../../../../../../global/SupportiInput';
+import { useAppMember } from '../../../../../../../hooks/useAppMember';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 
 interface IUnderGoalAchieveBoxProps {
 	data: IOkrCombination;

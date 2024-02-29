@@ -7,12 +7,13 @@ import IndicatorManagementBoard, {
 import { OkrMainController } from '../../../../src/controller/OkrMainController';
 import { KpiController } from '../../../../src/controller/KpiController';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
-import { MainGoalCard } from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/MainGoalCard';
-import KpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/KpiCard/KpiCard';
+import { MainGoalCard } from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/Okr/MainGoalCard';
+import KpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/KpiCard/KpiCard';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import GuidelineModal from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/GuidelineModal/GuidelineModal';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import RenewalKpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/RenewalKpiCard/RenewalKpiCard';
 
 type TSelectableIndicator = {
 	name: string;
@@ -72,6 +73,11 @@ const Page: NextPage = () => {
 								data={data}
 								setTriggerKey={setTriggerKey}
 							/>
+							// <RenewalKpiCard
+							// 	index={index}
+							// 	title={'test'}
+							// 	isCertified={true}
+							// />
 						);
 					},
 					injectedParams: {
@@ -249,6 +255,7 @@ const Page: NextPage = () => {
 						</InternalServiceLayout>
 					)}
 				</Box>
+				{/* 가이드라인 모달 */}
 				<GuidelineModal
 					modalOpen={openGuideline}
 					setModalOpen={setOpenGuideline}
