@@ -489,7 +489,7 @@ const Page: NextPage = () => {
 								setOpenInvestmentModal={setOpenInvestmentModal}
 								runway={
 									(calculationResult.totalBalance +
-										investment) /
+										Number(investment)) /
 									Math.ceil(
 										netBurn[0]?.data?.reduce(
 											(acc, cur) => acc + cur.y,
