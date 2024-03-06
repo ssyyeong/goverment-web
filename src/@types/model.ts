@@ -92,15 +92,11 @@ interface IOkrAchievement {
  */
 interface IKpi {
 	TITLE: string;
-	START_DATE: Date | string;
-	END_DATE: Date | string;
-	NOTE: string;
 	TARGET_AMOUNT: number;
-	TARGET_UNIT: string;
+	TARGET_INCREASE: number;
 	CATEGORY: string;
-	ASSIGNEE: string;
 	RATE: number;
-	STATUS: 'PROCEEDING' | 'SUCCESS' | 'FAILURE';
+	BANK_CATEGORY?: string;
 }
 
 /**

@@ -69,16 +69,16 @@ const Page: NextPage = () => {
 				infiniteLoadBoardProps: {
 					renderItem: (data, index) => {
 						return (
-							<KpiCard
-								data={data}
-								setTriggerKey={setTriggerKey}
-							/>
-							// <RenewalKpiCard
-							// 	index={index}
-							// 	title={'test'}
-							// 	isCertified={true}
-							// 	id={1}
+							// <KpiCard
+							// 	data={data}
+							// 	setTriggerKey={setTriggerKey}
 							// />
+							<RenewalKpiCard
+								index={index}
+								title={'test'}
+								isCertified={true}
+								id={1}
+							/>
 						);
 					},
 					injectedParams: {

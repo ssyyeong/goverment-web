@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, BoxProps } from '@mui/material';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { TRenderItemCallback } from '../../../@types/callbacks';
+import KpiChart from '../../../views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/KpiChart/KpiChart';
+import KpiTable from '../../../views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/KpiTable/KpiTable';
 
 interface IInfiniteLoadBoardProps {
 	/**
@@ -229,19 +231,28 @@ const InfiniteLoadBoard = (props: IInfiniteLoadBoardProps) => {
 	});
 
 	return (
-		<Box {...props.boxProps}>
-			{/* 데이터 랜더링 영역 */}
-			{(props.allData !== undefined && props.setAllData !== undefined
-				? props.allData
-				: allData
-			).map((el: any, index: any) => {
-				if (props.renderItem !== undefined) {
-					return props.renderItem(el, index);
-				}
-			})}
+		<Box>
+			<Box {...props.boxProps}>
+				{/* 데이터 랜더링 영역 */}
+				{(props.allData !== undefined && props.setAllData !== undefined
+					? props.allData
+					: allData
+				).map((el: any, index: any) => {
+					if (props.renderItem !== undefined) {
+						return props.renderItem(el, index);
+					}
+				})}
 
-			{/* 데이터 로딩 감지 영역 */}
-			{(loading || hasNextPage) && <Box ref={sentryRef} />}
+				{/* 데이터 로딩 감지 영역 */}
+				{(loading || hasNextPage) && <Box ref={sentryRef} />}
+			</Box>
+			{/** KPI 일 시 chart, table 출력 */}
+			{/* {props.name === 'KPI' && (
+				<Box mt={5} display="flex" flexDirection={'column'} gap={5}>
+					<KpiChart />
+					<KpiTable />
+				</Box>
+			)} */}
 		</Box>
 	);
 };

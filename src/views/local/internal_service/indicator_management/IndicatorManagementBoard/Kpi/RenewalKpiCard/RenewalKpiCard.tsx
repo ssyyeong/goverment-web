@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import KpiAddAchievementModal from '../KpiAddAchievementModal/KpiAddAchievementModal';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 type TRenewalKpiCardProps = {
 	index: number;
@@ -11,12 +13,26 @@ type TRenewalKpiCardProps = {
 };
 
 const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
+	//* Controllers
+	const kpiController = new DefaultController('Kpi');
+
 	//*States
 	/**
 	 * 메뉴 오픈 여부
 	 */
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+
+	/**
+	 * 달성값 등록하는 모달 오픈 여부
+	 */
+	const [openAddModal, setOpenAddModal] = React.useState(false);
+
+	//*Functions
+	/**
+	 * kpi 삭제하는 함수
+	 */
+	const deleteKpi = () => {};
 
 	return (
 		<Box
@@ -25,7 +41,7 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 				boxShadow: '0 3px 15px 0 #e1eaff',
 				width: { sm: '200px', xs: '100%' },
 				py: 4,
-				px: { sm: 4, xs: 0 },
+				px: { sm: 4, xs: 2 },
 				borderRadius: 2,
 			}}
 		>
@@ -54,7 +70,7 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 							color: 'secondary.dark',
 							mt: 'auto',
 							mb: 'auto',
-							mr: -3,
+							mr: { sm: -3, xs: -1 },
 							cursor: 'pointer',
 						}}
 						id="basic-button"
@@ -93,9 +109,10 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 							}}
 							onClick={() => {
 								setAnchorEl(null);
+								setOpenAddModal(true);
 							}}
 						>
-							수정하기
+							달성값 등록
 						</MenuItem>
 						<MenuItem
 							sx={{
@@ -104,9 +121,10 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 							}}
 							onClick={() => {
 								setAnchorEl(null);
+								deleteKpi();
 							}}
 						>
-							삭제하기
+							삭제
 						</MenuItem>
 					</Menu>
 				</Box>
@@ -121,6 +139,14 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 			<Typography fontWeight={500} mt={10} color={'secondary.dark'}>
 				{props.isCertified ? '계좌내역 연동중' : null}
 			</Typography>
+
+			{/** 달성값 등록 모달 */}
+			<KpiAddAchievementModal
+				modalOpen={openAddModal}
+				setModalOpen={setOpenAddModal}
+				kpiId={props.id}
+				title={props.title}
+			/>
 		</Box>
 	);
 };

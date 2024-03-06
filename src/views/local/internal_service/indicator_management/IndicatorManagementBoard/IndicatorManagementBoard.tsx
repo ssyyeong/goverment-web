@@ -17,8 +17,8 @@ import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCateg
 import { useAppMember } from '../../../../../hooks/useAppMember';
 import Nodata from '../../../../global/NoData/NoData';
 import { KpiController } from '../../../../../controller/KpiController';
-import KpiTable from './Kpi/KpiTable/KpiTable';
-import KpiChart from './Kpi/KpiChart/KpiChart';
+import KpiIndicator from './Kpi/KpiIndicator/KpiIndicator';
+
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -329,7 +329,7 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 			))}
 
 			{/* KPI 카테고리 셀렉터 */}
-			{props.name === 'KPI' && (
+			{/* {props.name === 'KPI' && (
 				<SupportiInput
 					type="select"
 					value={selectedKpiCategory}
@@ -339,10 +339,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					)}
 					width={'100px'}
 				/>
-			)}
+			)} */}
 
 			{/* 지표 목록 영역 */}
-			{memberId && (
+			{memberId && props.name === 'OKR' && (
 				<InfiniteLoadBoard
 					{...Object.assign(props.infiniteLoadBoardProps, {
 						injectedParams: {
@@ -354,11 +354,18 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
 					name={props.name}
+					boxProps={{
+						display: 'flex',
+						flexDirection: props.name === 'OKR' ? 'column' : 'row',
+						gap: props.name === 'OKR' ? 0 : 2,
+					}}
 				/>
 			)}
 
+			{memberId && props.name === 'KPI' && <KpiIndicator />}
+
 			{/* 데이터 없을 때 */}
-			{indicatorList.length === 0 && <Nodata />}
+			{indicatorList.length === 0 && props.name === 'OKR' && <Nodata />}
 
 			{props.name === 'OKR' && (
 				<Box key={indicatorRegisterModal.toString()}>
@@ -375,12 +382,8 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				<KpiCreateModal
 					modalOpen={indicatorRegisterModal}
 					setModalOpen={setIndicatorRegisterModal}
-					setTriggerKey={props.setTriggerKey}
 				/>
 			)}
-			{/* {props.name === 'KPI' && <KpiChart />}
-
-			{props.name === 'KPI' && <KpiTable />} */}
 		</Box>
 	);
 };
