@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 
-import { Box, BoxProps, Rating, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	FormControl,
+	Rating,
+	Select,
+	Typography,
+} from '@mui/material';
 import SupportiModal from '../../../../../../global/SupportiModal';
 import SupportiInput from '../../../../../../global/SupportiInput';
 import SupportiButton from '../../../../../../global/SupportiButton';
@@ -13,10 +20,12 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { v4 as uuidv4 } from 'uuid';
 import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 import { KpiController } from '../../../../../../../controller/KpiController';
+import { TransactionCategoryConfig } from '../../../../../../../../configs/data/TransactionCategoryConfig';
 
 interface IKpiCreateModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
+	setKpiTriggerKey: React.Dispatch<string>;
 	data?: any;
 }
 
@@ -32,7 +41,10 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	//* Modules
 
 	//* Constants
-	const KpiCategory = ['비즈니스 지표', '마케팅 지표'];
+	const KpiCategory = [
+		{ label: '비즈니스 지표', value: 'BUSINESS' },
+		{ label: '마케팅 지표', value: 'MARKETING' },
+	];
 
 	//* Hooks
 	/**
@@ -48,7 +60,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 					TITLE: '',
 					TARGET_AMOUNT: undefined,
 					TARGET_INCREASE: undefined,
-					CATEGORY: undefined,
+					CATEGORY: 'BUSINESS',
 					BANK_CATEGORY: undefined,
 					RATE: 1,
 			  }
@@ -134,7 +146,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	 *KPI 자체 카테고리
 	 */
 	const [selectedKpiCategory, setSelectedKpiCategory] =
-		React.useState<string>(KpiCategory[0]);
+		React.useState<string>(KpiCategory[0].value);
 
 	/**
 	 * KPI 연동 계좌 카테고리 선택
@@ -152,7 +164,8 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 	const createKpi = () => {
 		if (
 			kpiData.TITLE === '' ||
-			kpiData.CATEGORY == undefined ||
+			kpiData.TARGET_AMOUNT === undefined ||
+			kpiData.TARGET_INCREASE === undefined ||
 			kpiData.TARGET_AMOUNT === 0
 		) {
 			alert('필수 입력값을 입력해주세요.');
@@ -160,17 +173,12 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 			if (kpiData.TITLE.length > 20) {
 				/** 타이틀이 20자 이상일 경우 처리 */
 				alert('타이틀은 20자내로 입력해주세요.');
-
-				// setKpiData({
-				// 	...kpiData,
-				// 	TITLE: kpiData.TITLE.slice(0, 20),
-				// });
 			} else {
 				kpiController.createKpi(
 					{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
 					(response) => {
 						setAlertModal(true);
-
+						props.setKpiTriggerKey(new Date().getTime().toString());
 						props.setModalOpen(false);
 					},
 					(err) => {
@@ -198,6 +206,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 						 * 연동된 계좌가 존재하는지에 따라 알럿 띄우기
 						 */
 						setAccountAlertModal(true);
+						setAgree(false);
 					} else {
 						// setLoading(false);
 						setAgree(true);
@@ -280,26 +289,30 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 								{KpiCategory.map((item, index) => {
 									return (
 										<SupportiButton
-											contents={item}
+											contents={item.label}
 											variant={'outlined'}
 											onClick={(e) => {
-												setSelectedKpiCategory(item);
+												setSelectedKpiCategory(
+													item.value
+												);
 												setKpiData({
 													...kpiData,
-													CATEGORY:
-														item === '비즈니스 지표'
-															? 'BUSINESS'
-															: 'MARKETING',
+													CATEGORY: item.value,
+													// item.label === '비즈니스 지표'
+													// 	? 'BUSINESS'
+													// 	: 'MARKETING',
 												});
 											}}
 											style={{
 												height: '30px',
 												color:
-													item === selectedKpiCategory
+													item.value ===
+													selectedKpiCategory
 														? 'white'
 														: 'primary.main',
 												bgcolor:
-													item === selectedKpiCategory
+													item.value ===
+													selectedKpiCategory
 														? 'primary.main'
 														: 'white',
 											}}
@@ -385,7 +398,7 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 							</Box>
 
 							{/** 동의 안내 */}
-							{selectedKpiCategory === '비즈니스 지표' && (
+							{selectedKpiCategory === 'BUSINESS' && (
 								<Box>
 									<Typography
 										fontWeight={500}
@@ -419,26 +432,61 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 										계좌와 연동할 카테고리 선택
 									</Typography>
 									<Box display="flex" gap={2}>
-										{/* <SupportiInput
-											type="select"
-											value={selectedKpiCategory}
-											setValue={(value: any) =>
-												setSelectedKpiCategory(value)
-											}
-											dataList={selectableKpiCategoryList}
-											width={'160px'}
-										/> */}
-										<SupportiInput
-											type="select"
-											value={selectedBankCategory}
-											setValue={(value: any) =>
-												setSelectedBankCategory(value)
-											}
-											dataList={
-												selectableBankCategoryList
-											}
-											width={'160px'}
-										/>
+										<FormControl
+											sx={{ width: '100%', mt: 1 }}
+										>
+											{/* <InputLabel htmlFor="grouped-native-select">
+													카테고리
+												</InputLabel> */}
+											<Select
+												native
+												defaultValue={
+													kpiData.BANK_CATEGORY
+												}
+												id="grouped-native-select"
+												// label={category}
+												onChange={(e) => {
+													setKpiData({
+														...kpiData,
+														BANK_CATEGORY:
+															e.target.value,
+													});
+												}}
+												// value={category}
+											>
+												<option
+													// value={category}
+													area-label="None"
+												/>
+												{Object.entries(
+													TransactionCategoryConfig
+												).map(([key, value]) => {
+													return (
+														<>
+															<optgroup
+																label={key}
+															>
+																{value.subCategory.map(
+																	(item) => {
+																		return (
+																			<option
+																				value={
+																					item.value
+																				}
+																			>
+																				{
+																					item.label
+																				}
+																			</option>
+																		);
+																	}
+																)}
+															</optgroup>
+														</>
+													);
+												})}
+											</Select>
+										</FormControl>
 									</Box>
 								</Box>
 							)}

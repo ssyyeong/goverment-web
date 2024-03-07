@@ -73,12 +73,13 @@ const Page: NextPage = () => {
 							// 	data={data}
 							// 	setTriggerKey={setTriggerKey}
 							// />
-							<RenewalKpiCard
-								index={index}
-								title={'test'}
-								isCertified={true}
-								id={1}
-							/>
+							// <RenewalKpiCard
+							// 	index={index}
+							// 	title={'test'}
+							// 	isCertified={true}
+							// 	id={1}
+							// />
+							<Box></Box>
 						);
 					},
 					injectedParams: {
@@ -134,28 +135,28 @@ const Page: NextPage = () => {
 	 */
 	// const userAccess = useUserAccess('SUBSCRIPTION');
 
-	React.useEffect(() => {
-		memberId &&
-			kpiController.getAllKpiCategory(
-				{
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
-				(res) => {
-					if (res.data.result) {
-						const temp = res.data.result?.map((item) => {
-							return {
-								value: item,
-								label: item,
-							};
-						});
-						setSelectableCategoryList(temp);
-					}
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-	}, [memberId, triggerKey]);
+	// React.useEffect(() => {
+	// 	memberId &&
+	// 		kpiController.getAllKpiCategory(
+	// 			{
+	// 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+	// 			},
+	// 			(res) => {
+	// 				if (res.data.result) {
+	// 					const temp = res.data.result?.map((item) => {
+	// 						return {
+	// 							value: item,
+	// 							label: item,
+	// 						};
+	// 					});
+	// 					setSelectableCategoryList(temp);
+	// 				}
+	// 			},
+	// 			(err) => {
+	// 				console.log(err);
+	// 			}
+	// 		);
+	// }, [memberId, triggerKey]);
 
 	const userAccess = true;
 
@@ -239,20 +240,18 @@ const Page: NextPage = () => {
 									: '서포티의 KPI관리를 이용해 보다 쉽게 성과관리를 하고 목표달성까지 함께 하세요!'}
 							</Typography>
 							{/* 지표 보드 영역 */}
-							{selectableCategoryList && (
-								<IndicatorManagementBoard
-									key={JSON.stringify(selectedIndicator)}
-									{...selectedIndicator.indicatorManagementBoardProps}
-									name={selectedIndicator.name}
-									triggerKey={triggerKey}
-									setTriggerKey={setTriggerKey}
-									loading={loading}
-									setLoading={setLoading}
-									selectableKpiCategoryList={
-										selectableCategoryList
-									}
-								/>
-							)}
+							<IndicatorManagementBoard
+								key={JSON.stringify(selectedIndicator)}
+								{...selectedIndicator.indicatorManagementBoardProps}
+								name={selectedIndicator.name}
+								triggerKey={triggerKey}
+								setTriggerKey={setTriggerKey}
+								loading={loading}
+								setLoading={setLoading}
+								selectableKpiCategoryList={
+									selectableCategoryList
+								}
+							/>
 						</InternalServiceLayout>
 					)}
 				</Box>

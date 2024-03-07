@@ -1,17 +1,13 @@
 import React from 'react';
 import { Box, TextFieldProps, Typography } from '@mui/material';
 import KpiTableRow from '../KpiTableRow/KpiTableRow';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 type TKpiTableProps = {
 	list?: any[];
-	year?: Date;
-	setYear?: React.Dispatch<Date>;
 };
 
 const KpiTable = (props: TKpiTableProps) => {
+	console.log(props.list, 'props.list');
 	//* Constants
 	const TableHeader = [
 		'1월',
@@ -44,51 +40,6 @@ const KpiTable = (props: TKpiTableProps) => {
 				textAlign: 'center',
 			}}
 		>
-			{/** 연도 선택 영역 */}
-			<Box width="80px" sx={{ cursor: 'pointer' }}>
-				<LocalizationProvider dateAdapter={AdapterDayjs}>
-					<DatePicker
-						label={'연도 선택'}
-						openTo="year"
-						views={['year']}
-						onChange={(e) => {
-							props.setYear(e);
-						}}
-						maxDate={new Date()}
-						value={props.year}
-						renderInput={({ inputRef, inputProps, InputProps }) => (
-							<Box
-								sx={{
-									display: 'flex',
-									alignItems: 'center',
-								}}
-								onClick={(e) => {
-									InputProps.endAdornment?.[
-										'props'
-									].children.props.onClick();
-								}}
-							>
-								<Typography
-									variant="h6"
-									fontWeight={'bold'}
-									color={'common.black'}
-									ref={inputRef}
-								>
-									{inputProps?.value}
-								</Typography>
-								<KeyboardArrowDownIcon
-									sx={{
-										color: 'common.black',
-									}}
-								/>
-								{/* <input ref={inputRef} {...inputProps} /> */}
-								{/* {InputProps.endAdornment} */}
-							</Box>
-						)}
-					/>
-				</LocalizationProvider>
-			</Box>
-
 			{/** 표 영역 */}
 			<Box
 				sx={{
@@ -97,7 +48,7 @@ const KpiTable = (props: TKpiTableProps) => {
 					borderTopLeftRadius: '5px',
 					borderTopRightRadius: '5px',
 
-					mt: 2.5,
+					// mt: 2.5,
 					display: 'flex',
 				}}
 			>
@@ -106,7 +57,7 @@ const KpiTable = (props: TKpiTableProps) => {
 					<Box p={1} minWidth={'150px'}>
 						<Typography fontWeight={500}>구분</Typography>
 					</Box>
-					{new Array(3).fill(0).map((item, index) => {
+					{props.list.map((item, index) => {
 						return (
 							<Box
 								sx={{
@@ -189,8 +140,8 @@ const KpiTable = (props: TKpiTableProps) => {
 							flexDirection: 'column',
 						}}
 					>
-						{new Array(3).fill(0).map((item, index) => (
-							<KpiTableRow />
+						{props.list.map((item, index) => (
+							<KpiTableRow kpiData={item.KPI_AMOUNT_RATE_LIST} />
 						))}
 					</Box>
 				</Box>

@@ -303,26 +303,28 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				</Box>
 			)}
 			{/* 새로운 목표 등록 영역 */}
-			<Box
-				sx={{
-					pl: { xs: '0', md: '0' },
-					pr: { xs: '0', md: '0' },
-				}}
-			>
-				<SupportiButton
-					contents={`+ ${props.name} 목표 등록`}
-					startIcon={<img src="/images/icons/flag.svg" />}
-					onClick={() => setIndicatorRegisterModal(true)}
-					isGradient={true}
-					style={{
-						height: { xs: '40px', md: 40 },
-						color: 'white',
-						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
-						marginTop: '10px',
-						width: { xs: '100%', md: '100%' },
+			{props.name === 'OKR' && (
+				<Box
+					sx={{
+						pl: { xs: '0', md: '0' },
+						pr: { xs: '0', md: '0' },
 					}}
-				/>
-			</Box>
+				>
+					<SupportiButton
+						contents={`+ ${props.name} 목표 등록`}
+						startIcon={<img src="/images/icons/flag.svg" />}
+						onClick={() => setIndicatorRegisterModal(true)}
+						isGradient={true}
+						style={{
+							height: { xs: '40px', md: 40 },
+							color: 'white',
+							backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
+							marginTop: '10px',
+							width: { xs: '100%', md: '100%' },
+						}}
+					/>
+				</Box>
+			)}
 			{/* 추가 필터 영역 */}
 			{props.additionalFilterConfigList?.map((config, index) => (
 				<Box></Box>
@@ -377,12 +379,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 						setLoading={props.setLoading}
 					/>
 				</Box>
-			)}
-			{props.name === 'KPI' && (
-				<KpiCreateModal
-					modalOpen={indicatorRegisterModal}
-					setModalOpen={setIndicatorRegisterModal}
-				/>
 			)}
 		</Box>
 	);

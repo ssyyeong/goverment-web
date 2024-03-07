@@ -13,6 +13,7 @@ interface IKpiAddAchievementModalProps {
 	setModalOpen: React.Dispatch<boolean>;
 	kpiId: string | number;
 	title: string;
+	setKpiTriggerKey: React.Dispatch<string>;
 }
 
 const KpiAddAchievementModal = (props: IKpiAddAchievementModalProps) => {
@@ -60,13 +61,16 @@ const KpiAddAchievementModal = (props: IKpiAddAchievementModalProps) => {
 	const kpiAchievementAdd = () => {
 		kpiController.updateAchievement(
 			{
-				MONTH: achieveData.MONTH.split('월')[0],
+				MONTH: achieveData.MONTH.split('월')[0].padStart(2, '0'),
 				KPI_IDENTIFICATION_CODE: props.kpiId,
 			},
 			{
 				AMOUNT: achieveData.AMOUNT,
 			},
-			(res) => {},
+			(res) => {
+				props.setKpiTriggerKey(new Date().getTime().toString());
+				props.setModalOpen(false);
+			},
 			(err) => {}
 		);
 	};

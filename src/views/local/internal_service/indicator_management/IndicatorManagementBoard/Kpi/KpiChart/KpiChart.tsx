@@ -23,44 +23,6 @@ const KpiChart = (props: TKpiChartProps) => {
 	/**
 	 * 예시 데이터
 	 */
-	const exampleData = [
-		{
-			name: 'KPI1',
-			data: [
-				{ x: '2023-01', y: 10 },
-				{ x: '2023-02', y: 20 },
-				{ x: '2023-03', y: 30 },
-				{ x: '2023-04', y: 40 },
-				{ x: '2023-05', y: 50 },
-				{ x: '2023-06', y: 60 },
-				{ x: '2023-07', y: 70 },
-				{ x: '2023-08', y: 80 },
-				{ x: '2023-09', y: 90 },
-				{ x: '2023-10', y: 100 },
-				{ x: '2023-11', y: 110 },
-				{ x: '2023-12', y: 120 },
-			],
-			color: randomColor[randomColor.length - 1],
-		},
-		{
-			name: 'KPI2',
-			data: [
-				{ x: '2023-01', y: 1 },
-				{ x: '2023-02', y: 2 },
-				{ x: '2023-03', y: 3 },
-				{ x: '2023-04', y: 4 },
-				{ x: '2023-05', y: 5 },
-				{ x: '2023-06', y: 6 },
-				{ x: '2023-07', y: 7 },
-				{ x: '2023-08', y: 8 },
-				{ x: '2023-09', y: 9 },
-				{ x: '2023-10', y: 10 },
-				{ x: '2023-11', y: 11 },
-				{ x: '2023-12', y: 12 },
-			],
-			color: randomColor[randomColor.length - 2],
-		},
-	];
 
 	/**
 	 *
@@ -72,14 +34,15 @@ const KpiChart = (props: TKpiChartProps) => {
 			chart: {
 				height: 350,
 				type: 'line',
+				toolbar: {
+					show: false,
+				},
 			},
 			dataLabels: {
 				enabled: false,
 			},
 			stroke: {
 				width: 5,
-				// curve: 'smooth',
-				dashArray: [0, 8, 5],
 			},
 			legend: {
 				tooltipHoverFormatter: function (val, opts) {
@@ -110,6 +73,11 @@ const KpiChart = (props: TKpiChartProps) => {
 				min: 0,
 				max: 100,
 				demicalsInFloat: 0,
+				labels: {
+					formatter: function (val) {
+						return val + '%';
+					},
+				},
 			},
 
 			tooltip: {
@@ -175,7 +143,7 @@ const KpiChart = (props: TKpiChartProps) => {
 			{chartData !== undefined && (
 				<ReactApexChart
 					type="line"
-					series={exampleData}
+					series={props.list}
 					options={chartData.options}
 					width={'95%'}
 					height={350}

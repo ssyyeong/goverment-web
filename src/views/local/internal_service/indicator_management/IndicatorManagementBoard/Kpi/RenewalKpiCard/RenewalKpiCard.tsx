@@ -10,6 +10,7 @@ type TRenewalKpiCardProps = {
 	title: string;
 	isCertified: boolean;
 	id: number | string;
+	setKpiTriggerKey: React.Dispatch<string>;
 };
 
 const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
@@ -32,7 +33,16 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 	/**
 	 * kpi 삭제하는 함수
 	 */
-	const deleteKpi = () => {};
+	const deleteKpi = () => {
+		kpiController.deleteItem(
+			{
+				KPI_IDENTIFICATION_CODE: props.id,
+			},
+			(res) => {
+				props.setKpiTriggerKey(new Date().getTime().toString());
+			}
+		);
+	};
 
 	return (
 		<Box
@@ -40,6 +50,7 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 				bgcolor: 'white',
 				boxShadow: '0 3px 15px 0 #e1eaff',
 				width: { sm: '200px', xs: '100%' },
+				minWidth: '200px',
 				py: 4,
 				px: { sm: 4, xs: 2 },
 				borderRadius: 2,
@@ -108,8 +119,15 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 								justifyContent: 'center',
 							}}
 							onClick={() => {
-								setAnchorEl(null);
-								setOpenAddModal(true);
+								if (props.isCertified) {
+									alert(
+										'계좌 연동중인 KPI는 달성값을 등록할 수 없습니다.'
+									);
+									setAnchorEl(null);
+								} else {
+									setAnchorEl(null);
+									setOpenAddModal(true);
+								}
 							}}
 						>
 							달성값 등록
@@ -141,12 +159,15 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 			</Typography>
 
 			{/** 달성값 등록 모달 */}
-			<KpiAddAchievementModal
-				modalOpen={openAddModal}
-				setModalOpen={setOpenAddModal}
-				kpiId={props.id}
-				title={props.title}
-			/>
+			<Box key={openAddModal.toString()}>
+				<KpiAddAchievementModal
+					modalOpen={openAddModal}
+					setModalOpen={setOpenAddModal}
+					kpiId={props.id}
+					title={props.title}
+					setKpiTriggerKey={props.setKpiTriggerKey}
+				/>
+			</Box>
 		</Box>
 	);
 };

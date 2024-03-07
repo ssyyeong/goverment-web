@@ -2,10 +2,15 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 
-type TKpiDataProps = {};
+type TKpiDataProps = {
+	MONTH: string;
+	TARGET_AMOUNT: number;
+	AMOUNT_RATE: number;
+	AMOUNT: number;
+};
 
 type TKpiTableRowProps = {
-	kpiData?: TKpiDataProps;
+	kpiData?: TKpiDataProps[];
 };
 
 const KpiTableRow = (props: TKpiTableRowProps) => {
@@ -29,7 +34,7 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 					borderBottom={'1px solid #b0b5c2'}
 					textAlign={'right'}
 				>
-					{new Array(12).fill(100).map((item, index) => {
+					{props.kpiData?.map((item, index) => {
 						return (
 							<Typography
 								p={1.5}
@@ -37,7 +42,7 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
 							>
-								100
+								{item.TARGET_AMOUNT?.toLocaleString()}
 							</Typography>
 						);
 					})}
@@ -49,7 +54,7 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 					borderBottom={'1px solid #b0b5c2'}
 					textAlign={'right'}
 				>
-					{new Array(12).fill(100).map((item, index) => {
+					{props.kpiData?.map((item, index) => {
 						return (
 							<Typography
 								p={1.5}
@@ -57,7 +62,7 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
 							>
-								100
+								{item.AMOUNT?.toLocaleString()}
 							</Typography>
 						);
 					})}
@@ -67,9 +72,9 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 				<Box
 					display={'flex'}
 					textAlign={'right'}
-					bgcolor={randomColor[randomColor.length - 5]}
+					bgcolor={'primary.light'}
 				>
-					{new Array(12).fill(100).map((item, index) => {
+					{props.kpiData?.map((item, index) => {
 						return (
 							<Typography
 								p={1.5}
@@ -77,7 +82,7 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
 							>
-								100%
+								{item.AMOUNT_RATE}%
 							</Typography>
 						);
 					})}
