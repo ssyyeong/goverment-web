@@ -192,9 +192,7 @@ const Page: NextPage = () => {
 			{}
 		);
 		// console.log(filteredFilter);
-		const url = `https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation?serviceKey=${key}&page=${
-			page + 1
-		}&perPage=10&returnType=json`;
+		const url = `https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation?serviceKey=${key}&page=${page}&perPage=10&returnType=json`;
 
 		const encodingRegion = encodeURI(
 			`cond[supt_regin::LIKE]=${filteredFilter?.supt_regin}`
@@ -211,7 +209,8 @@ const Page: NextPage = () => {
 		const encodingYear = encodeURI(
 			`cond[biz_enyy::LIKE]=${filteredFilter?.biz_enyy}`
 		);
-		const encoding = `${encodingRegion}&${encodingField}&${encodingTarget}&${encodingName}&${encodingYear}`;
+		const done = encodeURI(`cond[rcrt_prgs_yn::EQ]=Y`);
+		const encoding = `${encodingRegion}&${encodingField}&${encodingTarget}&${encodingName}&${encodingYear}&${done}`;
 
 		await axios
 			.get(url + '&' + encoding)
