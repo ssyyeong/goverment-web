@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import addCommaToNumber from '../../../../../../../function/DataFormatter/addCommaToNumber';
 
 interface IKpiCardProps {
-	data: IKpi;
+	data: any;
 	setTriggerKey: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -30,7 +30,7 @@ const KpiCard = (props: IKpiCardProps) => {
 	//* Modules
 
 	//* States
-	const [kpiData, setKpiData] = React.useState<IKpi>(props.data);
+	const [kpiData, setKpiData] = React.useState<any>(props.data);
 
 	// 메모
 	const [note, setNote] = React.useState<string>('');
@@ -366,13 +366,7 @@ const KpiCard = (props: IKpiCardProps) => {
 					/>
 				</Box>
 			)}
-			<KpiCreateModal
-				modalOpen={isModifyModalOpen}
-				setModalOpen={setIsModifyModalOpen}
-				data={kpiData}
-				mode={'modify'}
-				updateKpi={updateKpi}
-			/>
+
 			<SupportiAlertModal
 				open={isDeleteAlertOpen}
 				handleClose={() => setIsDeleteAlertOpen(false)}
