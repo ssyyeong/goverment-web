@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import ReactApexChart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+import { KpiController } from '../../../../../../../controller/KpiController';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 
 type TKpiChartProps = {
-	kpiList?: any[];
+	list?: any[];
 };
 
 const KpiChart = (props: TKpiChartProps) => {
+	//* Controllers
+	const kpiController = new KpiController();
+	/**
+	 * Next 차트 적용을 위함
+	 */
+	const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+		ssr: false,
+	});
+
 	//* Constants
+
+	/**
+	 * 예시 데이터
+	 */
+
 	/**
 	 *
 	 * 차트 데이터
@@ -18,14 +34,15 @@ const KpiChart = (props: TKpiChartProps) => {
 			chart: {
 				height: 350,
 				type: 'line',
+				toolbar: {
+					show: false,
+				},
 			},
 			dataLabels: {
 				enabled: false,
 			},
 			stroke: {
 				width: 5,
-				curve: 'smooth',
-				dashArray: [0, 8, 5],
 			},
 			legend: {
 				tooltipHoverFormatter: function (val, opts) {
@@ -56,6 +73,11 @@ const KpiChart = (props: TKpiChartProps) => {
 				min: 0,
 				max: 100,
 				demicalsInFloat: 0,
+				labels: {
+					formatter: function (val) {
+						return val + '%';
+					},
+				},
 			},
 
 			tooltip: {
@@ -88,6 +110,19 @@ const KpiChart = (props: TKpiChartProps) => {
 
 	//* Hooks
 	useEffect(() => {
+		/**
+		 * api calls
+		 */
+		// kpiController.getAllKpiGraph(
+		// 	{},
+		// 	(res: any) => {
+		// 		chartDataConfig.series = res.data;
+		// 		setChartData(chartDataConfig);
+		// 	},
+		// 	(err: any) => {
+		// 		console.error(err);
+		// 	}
+		// );
 		setChartData(chartDataConfig);
 	}, []);
 
@@ -100,16 +135,18 @@ const KpiChart = (props: TKpiChartProps) => {
 				py: 4,
 				px: { sm: 4, xs: 0 },
 				borderRadius: 2,
-				textAlign: 'center',
 			}}
 		>
+			<Typography fontWeight={600} variant="subtitle1" mb={2}>
+				월별 KPI 지표 달성률
+			</Typography>
 			{chartData !== undefined && (
 				<ReactApexChart
 					type="line"
-					series={chartData.series}
+					series={props.list}
 					options={chartData.options}
 					width={'95%'}
-					height={300}
+					height={350}
 				/>
 			)}
 		</Box>

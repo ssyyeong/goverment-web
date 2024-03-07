@@ -17,8 +17,8 @@ import { IndicatorCategory } from '../../../../../../configs/data/IndicatorCateg
 import { useAppMember } from '../../../../../hooks/useAppMember';
 import Nodata from '../../../../global/NoData/NoData';
 import { KpiController } from '../../../../../controller/KpiController';
-import KpiTable from './Kpi/KpiTable/KpiTable';
-import KpiChart from './Kpi/KpiChart/KpiChart';
+import KpiIndicator from './Kpi/KpiIndicator/KpiIndicator';
+
 interface IIndicatorManagementBoardProps {
 	/**
 	 * 무한 스크롤 게시판에 들어갈 props
@@ -303,33 +303,35 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 				</Box>
 			)}
 			{/* 새로운 목표 등록 영역 */}
-			<Box
-				sx={{
-					pl: { xs: '0', md: '0' },
-					pr: { xs: '0', md: '0' },
-				}}
-			>
-				<SupportiButton
-					contents={`+ ${props.name} 목표 등록`}
-					startIcon={<img src="/images/icons/flag.svg" />}
-					onClick={() => setIndicatorRegisterModal(true)}
-					isGradient={true}
-					style={{
-						height: { xs: '40px', md: 40 },
-						color: 'white',
-						backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
-						marginTop: '10px',
-						width: { xs: '100%', md: '100%' },
+			{props.name === 'OKR' && (
+				<Box
+					sx={{
+						pl: { xs: '0', md: '0' },
+						pr: { xs: '0', md: '0' },
 					}}
-				/>
-			</Box>
+				>
+					<SupportiButton
+						contents={`+ ${props.name} 목표 등록`}
+						startIcon={<img src="/images/icons/flag.svg" />}
+						onClick={() => setIndicatorRegisterModal(true)}
+						isGradient={true}
+						style={{
+							height: { xs: '40px', md: 40 },
+							color: 'white',
+							backgroundImage: `linear-gradient(289deg, #000 9%, #545454 89%)`,
+							marginTop: '10px',
+							width: { xs: '100%', md: '100%' },
+						}}
+					/>
+				</Box>
+			)}
 			{/* 추가 필터 영역 */}
 			{props.additionalFilterConfigList?.map((config, index) => (
 				<Box></Box>
 			))}
 
 			{/* KPI 카테고리 셀렉터 */}
-			{props.name === 'KPI' && (
+			{/* {props.name === 'KPI' && (
 				<SupportiInput
 					type="select"
 					value={selectedKpiCategory}
@@ -339,10 +341,10 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					)}
 					width={'100px'}
 				/>
-			)}
+			)} */}
 
 			{/* 지표 목록 영역 */}
-			{memberId && (
+			{memberId && props.name === 'OKR' && (
 				<InfiniteLoadBoard
 					{...Object.assign(props.infiniteLoadBoardProps, {
 						injectedParams: {
@@ -354,11 +356,18 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					setAllData={setIndicatorList}
 					triggerKey={props.triggerKey}
 					name={props.name}
+					boxProps={{
+						display: 'flex',
+						flexDirection: props.name === 'OKR' ? 'column' : 'row',
+						gap: props.name === 'OKR' ? 0 : 2,
+					}}
 				/>
 			)}
 
+			{memberId && props.name === 'KPI' && <KpiIndicator />}
+
 			{/* 데이터 없을 때 */}
-			{indicatorList.length === 0 && <Nodata />}
+			{indicatorList.length === 0 && props.name === 'OKR' && <Nodata />}
 
 			{props.name === 'OKR' && (
 				<Box key={indicatorRegisterModal.toString()}>
@@ -371,16 +380,6 @@ const IndicatorManagementBoard = (props: IIndicatorManagementBoardProps) => {
 					/>
 				</Box>
 			)}
-			{props.name === 'KPI' && (
-				<KpiCreateModal
-					modalOpen={indicatorRegisterModal}
-					setModalOpen={setIndicatorRegisterModal}
-					setTriggerKey={props.setTriggerKey}
-				/>
-			)}
-			{/* {props.name === 'KPI' && <KpiChart />}
-
-			{props.name === 'KPI' && <KpiTable />} */}
 		</Box>
 	);
 };
