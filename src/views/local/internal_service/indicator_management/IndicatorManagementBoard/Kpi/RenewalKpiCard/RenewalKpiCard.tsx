@@ -4,6 +4,8 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import KpiAddAchievementModal from '../KpiAddAchievementModal/KpiAddAchievementModal';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import useAlert from '../../../../../../../hooks/useAlert/useAlert';
+import { SupportiAlertModal } from '../../../../../../global/SupportiAlertModal';
 
 type TRenewalKpiCardProps = {
 	index: number;
@@ -22,7 +24,7 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 	 * 메뉴 오픈 여부
 	 */
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
+	const menuopen = Boolean(anchorEl);
 
 	/**
 	 * 달성값 등록하는 모달 오픈 여부
@@ -43,6 +45,11 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 			}
 		);
 	};
+	//* Hooks
+	/**
+	 * 알러트
+	 */
+	const { open, setOpen, setType, type } = useAlert({});
 
 	return (
 		<Box
@@ -54,6 +61,8 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 				py: 4,
 				px: { sm: 4, xs: 2 },
 				borderRadius: 2,
+				maxHeight: '250px',
+				height: '250px',
 			}}
 		>
 			<Box display={'flex'} justifyContent={'space-between'}>
@@ -85,16 +94,16 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 							cursor: 'pointer',
 						}}
 						id="basic-button"
-						aria-controls={open ? 'basic-menu' : undefined}
+						aria-controls={menuopen ? 'basic-menu' : undefined}
 						aria-haspopup="true"
-						aria-expanded={open ? 'true' : undefined}
+						aria-expanded={menuopen ? 'true' : undefined}
 						onClick={(event) => {
 							setAnchorEl(event.currentTarget);
 						}}
 					/>
 					<Menu
 						id="basic-menu"
-						open={open}
+						open={menuopen}
 						anchorEl={anchorEl}
 						onClose={() => {
 							setAnchorEl(null);
@@ -139,7 +148,9 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 							}}
 							onClick={() => {
 								setAnchorEl(null);
-								deleteKpi();
+								setType('delete');
+								setOpen(true);
+								// deleteKpi();
 							}}
 						>
 							삭제
@@ -148,16 +159,22 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 				</Box>
 			</Box>
 
-			{/** KPI 제목 */}
-			<Typography fontWeight={600} variant="h5">
-				{props.title}
-			</Typography>
+			<Box
+				display={'flex'}
+				flexDirection={'column'}
+				justifyContent={'space-between'}
+				height={'85%'}
+			>
+				{/** KPI 제목 */}
+				<Typography fontWeight={600} variant="h5">
+					{props.title}
+				</Typography>
 
-			{/** 계좌 연동 된 KPI이면 출력 */}
-			<Typography fontWeight={500} mt={10} color={'secondary.dark'}>
-				{props.isCertified ? '계좌내역 연동중' : null}
-			</Typography>
-
+				{/** 계좌 연동 된 KPI이면 출력 */}
+				<Typography fontWeight={500} color={'secondary.dark'}>
+					{props.isCertified ? '계좌내역 연동중' : null}
+				</Typography>
+			</Box>
 			{/** 달성값 등록 모달 */}
 			<Box key={openAddModal.toString()}>
 				<KpiAddAchievementModal
@@ -168,6 +185,16 @@ const RenewalKpiCard = (props: TRenewalKpiCardProps) => {
 					setKpiTriggerKey={props.setKpiTriggerKey}
 				/>
 			</Box>
+			{/* 알림창 */}
+			<SupportiAlertModal
+				open={open}
+				handleClose={() => setOpen(false)}
+				type={type}
+				customHandleClose={() => {
+					deleteKpi();
+					setOpen(false);
+				}}
+			/>
 		</Box>
 	);
 };

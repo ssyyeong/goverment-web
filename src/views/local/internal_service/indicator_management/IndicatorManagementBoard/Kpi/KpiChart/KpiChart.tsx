@@ -71,7 +71,7 @@ const KpiChart = (props: TKpiChartProps) => {
 			},
 			yaxis: {
 				min: 0,
-				max: 100,
+				// max: 100,
 				demicalsInFloat: 0,
 				labels: {
 					formatter: function (val) {

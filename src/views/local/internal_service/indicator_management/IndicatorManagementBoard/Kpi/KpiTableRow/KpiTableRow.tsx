@@ -11,6 +11,7 @@ type TKpiDataProps = {
 
 type TKpiTableRowProps = {
 	kpiData?: TKpiDataProps[];
+	increase?: string;
 };
 
 const KpiTableRow = (props: TKpiTableRowProps) => {
@@ -69,13 +70,19 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 				</Box>
 			</Box>
 			<Box display={'flex'} width="100%">
-				<Box
-					display={'flex'}
-					textAlign={'right'}
-					bgcolor={'primary.light'}
-				>
-					{props.kpiData?.map((item, index) => {
-						return (
+				{props.kpiData?.map((item, index) => {
+					return (
+						<Box
+							display={'flex'}
+							textAlign={'right'}
+							bgcolor={
+								item.AMOUNT_RATE > 100
+									? props.increase === 'Y'
+										? 'success.main'
+										: 'error.main'
+									: 'primary.light'
+							}
+						>
 							<Typography
 								p={1.5}
 								minWidth={'100px'}
@@ -84,9 +91,9 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 							>
 								{item.AMOUNT_RATE}%
 							</Typography>
-						);
-					})}
-				</Box>
+						</Box>
+					);
+				})}
 			</Box>
 		</Box>
 	);

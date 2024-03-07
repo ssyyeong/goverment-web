@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, TextFieldProps, Typography } from '@mui/material';
 import KpiTableRow from '../KpiTableRow/KpiTableRow';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 
 type TKpiTableProps = {
 	list?: any[];
@@ -90,7 +91,7 @@ const KpiTable = (props: TKpiTableProps) => {
 									p={1.5}
 									minWidth={'150px'}
 									bgcolor={'primary.dark'}
-									color={'white'}
+									color={randomColor[index]}
 									fontWeight={500}
 								>
 									KPI ({index + 1}) 달성률
@@ -141,7 +142,10 @@ const KpiTable = (props: TKpiTableProps) => {
 						}}
 					>
 						{props.list.map((item, index) => (
-							<KpiTableRow kpiData={item.KPI_AMOUNT_RATE_LIST} />
+							<KpiTableRow
+								kpiData={item.KPI_AMOUNT_RATE_LIST}
+								increase={item.INCREASE_YN}
+							/>
 						))}
 					</Box>
 				</Box>

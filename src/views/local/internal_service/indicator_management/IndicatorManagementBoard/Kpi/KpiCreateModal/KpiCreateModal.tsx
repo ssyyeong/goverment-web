@@ -175,7 +175,11 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 				alert('타이틀은 20자내로 입력해주세요.');
 			} else {
 				kpiController.createKpi(
-					{ APP_MEMBER_IDENTIFICATION_CODE: memberId, ...kpiData },
+					{
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						INCREASE_YN: kpiData.TARGET_INCREASE < 0 ? 'N' : 'Y',
+						...kpiData,
+					},
 					(response) => {
 						setAlertModal(true);
 						props.setKpiTriggerKey(new Date().getTime().toString());
@@ -549,30 +553,13 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 												}}
 												width={'160px'}
 											/>
-											{/* <Typography
-												fontWeight={500}
-												variant="body1"
-												mt={'5px'}
-												color="error.main"
-												sx={{
-													visibility:
-														kpiData.TARGET_AMOUNT !==
-															0 ||
-														kpiData.TARGET_AMOUNT !==
-															undefined
-															? 'hidden'
-															: 'block',
-												}}
-											>
-												필수 값 입니다.
-											</Typography> */}
 										</Box>
 									</Box>
 									{/** 목표 증가율 */}
 									<Box display={'flex'}>
 										<Box>
 											<Typography fontWeight={500} mb={1}>
-												목표 증가치 (0-100%)
+												목표 증가치 (+- 100%)
 											</Typography>
 											<SupportiInput
 												type="input"
@@ -590,23 +577,21 @@ const KpiCreateModal = (props: IKpiCreateModalProps) => {
 												}}
 												width={'160px'}
 											/>
-											{/* <Typography
+											<Typography
 												fontWeight={500}
 												variant="body1"
 												mt={'5px'}
 												color="error.main"
 												sx={{
 													visibility:
-														kpiData.TARGET_AMOUNT !==
-															0 ||
-														kpiData.TARGET_AMOUNT !==
-															undefined
-															? 'hidden'
-															: 'block',
+														kpiData.TARGET_INCREASE <
+														0
+															? 'block'
+															: 'hidden',
 												}}
 											>
-												필수 값 입니다.
-											</Typography> */}
+												감소 목표로 설정됩니다.
+											</Typography>
 										</Box>
 									</Box>
 								</Box>

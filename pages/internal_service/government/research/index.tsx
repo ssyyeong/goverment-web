@@ -2,12 +2,13 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, IconButton, Skeleton, Tooltip, Typography } from '@mui/material';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import { usePagination } from '../../../../src/hooks/usePagination';
 import axios from 'axios';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
 	applicationTarget,
 	region,
@@ -23,7 +24,14 @@ import SupportBusinessModal from '../../../../src/views/local/internal_service/s
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 
-interface ISupportBusinessFilter {
+import { get } from 'http';
+import RecommendSupportBusinessCard from '../../../../src/views/local/internal_service/supportBusiness/RecommendSupportBusinessCard';
+import PersonalFilterModal from '../../../../src/views/local/internal_service/supportBusiness/PersonalFilterModal';
+import { useUserAccess } from '../../../../src/hooks/useUserAccess';
+import useAlert from '../../../../src/hooks/useAlert/useAlert';
+import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
+
+export interface ISupportBusinessFilter {
 	biz_pbanc_nm?: string;
 	supt_biz_clsfc?: string;
 	supt_regin?: string;
@@ -39,6 +47,10 @@ const Page: NextPage = () => {
 	 */
 	const [supportBusiness, setSupportBusiness] = React.useState<any>();
 	/**
+	 * 추천사업데이터
+	 */
+	const [recommendBusiness, setRecommendBusiness] = React.useState<any>();
+	/**
 	 * 필터
 	 */
 	const [filter, setFilter] = React.useState<ISupportBusinessFilter>({
@@ -48,6 +60,16 @@ const Page: NextPage = () => {
 		aply_trgt: '전체',
 		biz_enyy: '전체',
 	});
+	/**
+	 *개별 필터
+	 */
+	const [personalFilter, setPersonalFilter] =
+		React.useState<ISupportBusinessFilter>();
+	/**
+	 * 개별필터 존재 여부
+	 */
+	const [personalFilterExist, setPersonalFilterExist] =
+		React.useState<boolean>(false);
 	/**
 	 * 검색 트리거키
 	 */
@@ -64,6 +86,11 @@ const Page: NextPage = () => {
 	 * 내가 저장한 것만 보기
 	 */
 	const [onlySaved, setOnlySaved] = React.useState<boolean>(false);
+	/**
+	 * 개인 필터 모달 오픈
+	 */
+	const [personalFilterModal, setPersonalFilterModal] =
+		React.useState<boolean>(false);
 
 	//* Constants
 	const key =
@@ -143,11 +170,15 @@ const Page: NextPage = () => {
 	const userSupportBusinessController = new DefaultController(
 		'UserSupportBusiness'
 	);
+	const supportBusinessConfigController = new DefaultController(
+		'SupportBusinessConfig'
+	);
 	//* Functions
 	/**
 	 * 창업진흥원 지원 사업 조회
 	 */
-	const getSupportBusiness = async () => {
+	const getSupportBusiness = async (filter, setData, page) => {
+		console.log(filter);
 		//filter 중에 value가 전체가 아닌 것만 필터링
 		const filterKeys = Object.keys(filter);
 		const filteredFilter: ISupportBusinessFilter = filterKeys.reduce(
@@ -186,7 +217,7 @@ const Page: NextPage = () => {
 			.get(url + '&' + encoding)
 			.then((res) => {
 				console.log(res);
-				setSupportBusiness(res.data);
+				setData(res.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -226,6 +257,35 @@ const Page: NextPage = () => {
 		);
 	};
 
+	/**
+	 * 저장된 지원사업 필터 조회
+	 */
+	const getSupportBusinessConfig = () => {
+		supportBusinessConfigController.getOneItemByKey(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				if (res.data.result) {
+					setPersonalFilterExist(true);
+					getSupportBusiness(
+						{
+							supt_biz_clsfc: res.data.result.FIELD,
+							supt_regin: res.data.result.REGION,
+							aply_trgt: res.data.result.TARGET,
+							biz_enyy: res.data.result.BUSINESS_HISTORY,
+							biz_pbanc_nm: '',
+						},
+						setRecommendBusiness,
+						0
+					);
+				} else {
+					setPersonalFilterExist(false);
+				}
+			}
+		);
+	};
+
 	//* Hooks
 	/**
 	 * 유저 아이디
@@ -235,6 +295,14 @@ const Page: NextPage = () => {
 	 * 페이지네이션
 	 */
 	const { page, limit, handlePageChange, setLimit } = usePagination();
+	/**
+	 * 구독 체크
+	 */
+	const { access } = useUserAccess('SUBSCRIPTION');
+	/**
+	 * 알러트
+	 */
+	const { open, setOpen, setType, type } = useAlert({});
 	/**
 	 *
 	 */
@@ -249,23 +317,149 @@ const Page: NextPage = () => {
 			});
 			getSavedSupportBusiness();
 		} else {
-			getSupportBusiness();
+			getSupportBusiness(filter, setSupportBusiness, page);
 		}
 	}, [page, onlySaved]);
+
+	React.useEffect(() => {
+		if (memberId) {
+			getSupportBusinessConfig();
+		}
+	}, [memberId]);
+
+	console.log(recommendBusiness, 'recommendBusiness');
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
 				{/* 컨텐츠 레이아웃 */}
 				<InternalServiceLayout
-					title="지원 사업 조회"
+					title="지원 사업"
 					subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
-					image="/images/main/indicatorHead.webp"
-					mobileImage="/images/main/indicatorHeadMobile.webp"
+					image="/images/main/supportbusiness.png"
+					mobileImage="/images/main/supportbusinessmobile.png"
 				>
 					{/* 컨텐츠 */}
 					<Box display={'flex'} flexDirection={'column'}>
+						<Box
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+						>
+							<Box>
+								<Typography
+									variant="h3"
+									fontWeight={'bold'}
+									sx={{ mb: 2 }}
+								>
+									지원 사업 조회
+								</Typography>
+								<Typography
+									color={'secondary.dark'}
+									sx={{ mb: 2 }}
+								>
+									지원사업을 조회하고 관리할 수 있습니다.
+								</Typography>
+							</Box>
+							<SupportiButton
+								contents={'개인 필터 설정하기'}
+								onClick={() => {
+									if (access) {
+										setPersonalFilterModal(true);
+									} else {
+										setOpen(true);
+										setType('subscribe');
+										return;
+									}
+								}}
+							/>
+						</Box>
+						{/* 추천 지원 사업 */}
+						{personalFilterExist && (
+							<Typography
+								fontWeight={'600'}
+								variant="subtitle2"
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
+								추천 지원 사업{' '}
+								<Tooltip
+									title={
+										'개인 필터 설정을 통해 추천받은 지원사업입니다.'
+									}
+									arrow
+									placement="top"
+									slotProps={{
+										popper: {
+											modifiers: [
+												{
+													name: 'offset',
+													options: {
+														offset: [0, -14],
+													},
+												},
+											],
+										},
+									}}
+								>
+									<IconButton size="small">
+										<HelpOutlineIcon fontSize="small" />
+									</IconButton>
+								</Tooltip>
+							</Typography>
+						)}
+						{personalFilterExist && (
+							<Box
+								display={'flex'}
+								sx={{
+									overflowX: 'auto',
+									'-ms-overflow-style': 'none',
+									'&::-webkit-scrollbar': {
+										height: '5px !important',
+										backgroundColor: 'white !important',
+										padding: '0.5px',
+										borderRadius: '20px',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: '#305edccc',
+										borderRadius: '20px',
+									},
+								}}
+								gap={1}
+								pb={1}
+								my={1}
+							>
+								{recommendBusiness?.data.map((item, index) => {
+									return (
+										<Box
+											key={index}
+											onClick={() => {
+												setDetailData(item);
+												setDetailModal(true);
+											}}
+										>
+											<RecommendSupportBusinessCard
+												supportBusiness={item}
+											/>
+										</Box>
+									);
+								})}
+								{
+									// 추천 지원 사업이 없을 경우
+									recommendBusiness?.data.length === 0 && (
+										<Typography color={'gray'} py={1}>
+											필터와 일치하는 지원사업이
+											없습니다.(너무 자세한 필터 설정은
+											추천 지원사업이 없을 수 있습니다.)
+										</Typography>
+									)
+								}
+							</Box>
+						)}
+
 						{/* 필터 선택 */}
-						<Box display={'flex'} flexWrap={'wrap'} gap={1}>
+						<Box display={'flex'} flexWrap={'wrap'} gap={1} mt={2}>
 							{selectableConfig.map((item, index) => {
 								return (
 									<Box
@@ -319,7 +513,11 @@ const Page: NextPage = () => {
 							contents={'검색하기'}
 							onClick={() => {
 								setOnlySaved(false);
-								getSupportBusiness();
+								getSupportBusiness(
+									filter,
+									setSupportBusiness,
+									1
+								);
 								if (page !== 1) {
 									handlePageChange(1);
 								}
@@ -368,7 +566,15 @@ const Page: NextPage = () => {
 								<SupportiInput
 									type="checkbox"
 									value={onlySaved}
-									setValue={setOnlySaved}
+									setValue={(e) => {
+										if (access) {
+											setOnlySaved(e);
+										} else {
+											setOpen(true);
+											setType('subscribe');
+											return;
+										}
+									}}
 									label={'내가 저장한 것만 보기'}
 								/>
 							</Box>
@@ -415,6 +621,26 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 				)}
+				{/* 개인 필터 설정 모달 */}
+				<Box key={personalFilterModal.toString()}>
+					<PersonalFilterModal
+						modalOpen={personalFilterModal}
+						setModalOpen={setPersonalFilterModal}
+						additionalFunction={(newFilter) => {
+							getSupportBusiness(
+								newFilter,
+								setRecommendBusiness,
+								0
+							);
+						}}
+					/>
+				</Box>
+				{/* 알림창 */}
+				<SupportiAlertModal
+					open={open}
+					handleClose={() => setOpen(false)}
+					type={type}
+				/>
 			</Box>
 		</InternalServiceDrawer>
 	);

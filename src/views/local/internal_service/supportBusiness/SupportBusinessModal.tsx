@@ -10,6 +10,7 @@ import useAlert from '../../../../hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../global/SupportiAlertModal';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../hooks/useAppMember';
+import { useUserAccess } from '../../../../hooks/useUserAccess';
 
 interface ISupportBusinessModalProps {
 	modalOpen: boolean;
@@ -19,8 +20,13 @@ interface ISupportBusinessModalProps {
 
 const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 	//* Hooks
-	const { open, setOpen } = useAlert({});
+	const { open, setOpen, setType, type } = useAlert({});
 	const { memberId } = useAppMember();
+
+	/**
+	 * 구독 체크
+	 */
+	const { access } = useUserAccess('SUBSCRIPTION');
 	//* Controller
 	const userSupportBusinessController = new DefaultController(
 		'UserSupportBusiness'
@@ -51,6 +57,9 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 			},
 			(res) => {
 				setSaved(true);
+				setUpdate(
+					res.data.result.USER_SUPPORT_BUSINESS_IDENTIFICATION_CODE
+				);
 			}
 		);
 	};
@@ -67,6 +76,17 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 				save === 'Y' ? setSaved(true) : setSaved(false);
 			}
 		);
+	};
+	/**
+	 * 저장하기 저장 취소하기
+	 */
+	const bookmarkSupportBusiness = (type) => {
+		if (access) {
+			update ? updateSupportBusiness(type) : saveSupportBusiness();
+		} else {
+			setType('subscribe');
+			setOpen(true);
+		}
 	};
 
 	//* Hooks
@@ -162,22 +182,14 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 							sx={{
 								cursor: 'pointer',
 							}}
-							onClick={() => {
-								update
-									? updateSupportBusiness('N')
-									: saveSupportBusiness();
-							}}
+							onClick={() => bookmarkSupportBusiness('N')}
 						/>
 					) : (
 						<TurnedInNotIcon
 							sx={{
 								cursor: 'pointer',
 							}}
-							onClick={() => {
-								update
-									? updateSupportBusiness('Y')
-									: saveSupportBusiness();
-							}}
+							onClick={() => bookmarkSupportBusiness('Y')}
 						/>
 					)}
 				</Box>
@@ -320,7 +332,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 			<SupportiAlertModal
 				open={open}
 				handleClose={() => setOpen(false)}
-				type="unReady"
+				type={type}
 			/>
 		</SupportiModal>
 	);

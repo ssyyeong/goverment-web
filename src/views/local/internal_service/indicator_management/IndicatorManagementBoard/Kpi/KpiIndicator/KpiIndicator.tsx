@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { randomColor } from '../../../../../../../../configs/randomColorConfig';
 
 const KpiIndicator = () => {
 	//* Controllers
@@ -43,6 +44,8 @@ const KpiIndicator = () => {
 
 	const [kpiCreateModal, setKpiCreateModal] = React.useState<boolean>(false);
 
+	const [noData, setNoData] = React.useState<boolean>(false);
+
 	//* Hooks
 	const { memberId } = useAppMember();
 	//* Functions
@@ -66,8 +69,10 @@ const KpiIndicator = () => {
 			});
 
 			if (res.data.result.rows.length === 0) {
+				setNoData(true);
 				return 0;
 			} else {
+				setNoData(false);
 				setKpiData(res.data.result.rows);
 				setKpiTableList(res.data.result.rows);
 				return 1;
@@ -88,7 +93,13 @@ const KpiIndicator = () => {
 				CATEGORY: selectedKpiCategory,
 			},
 			(res) => {
-				setKpiChartList(res.data.result.rows);
+				const insertColor = res.data.result.rows.map((data, index) => {
+					return {
+						...data,
+						color: randomColor[index],
+					};
+				});
+				setKpiChartList(insertColor);
 			},
 			(err) => console.log(err)
 		);
@@ -186,13 +197,14 @@ const KpiIndicator = () => {
 					width={'150px'}
 				/>
 			</Box>
-			{kpiData.length !== 0 ? (
+			{!noData ? (
 				<Box display="flex" flexDirection={'column'} gap={3}>
 					<Box
 						display="flex"
 						gap={1}
 						sx={{
 							overflowX: 'auto',
+							overflowY: 'hidden',
 							'-ms-overflow-style': 'none',
 							'&::-webkit-scrollbar': {
 								height: '5px !important',
