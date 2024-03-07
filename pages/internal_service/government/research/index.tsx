@@ -632,6 +632,7 @@ const Page: NextPage = () => {
 								0
 							);
 						}}
+						setPersonalFilterExist={setPersonalFilterExist}
 					/>
 				</Box>
 				{/* 알림창 */}

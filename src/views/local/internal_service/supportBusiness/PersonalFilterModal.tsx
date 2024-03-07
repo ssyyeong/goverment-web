@@ -20,6 +20,7 @@ interface ISupportBusinessModalProps {
 	modalOpen: boolean;
 	setModalOpen: React.Dispatch<boolean>;
 	additionalFunction?: any;
+	setPersonalFilterExist?: React.Dispatch<boolean>;
 }
 
 const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
@@ -103,6 +104,7 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 			(res) => {
 				setType('successCreateAxios');
 				setOpen(true);
+				props.setPersonalFilterExist(true);
 			},
 			(err) => {
 				setType('failAxios');
