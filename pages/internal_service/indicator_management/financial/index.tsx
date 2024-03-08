@@ -324,12 +324,12 @@ const Page: NextPage = () => {
 				type: 'pie',
 			},
 			labels: [
-				'인건비',
-				'SaaS이용료',
 				'임대료',
 				'추가채용',
 				'운영비',
 				'마케팅',
+				'인건비',
+				'SaaS이용료',
 				'기타',
 			],
 			responsive: [
@@ -1196,7 +1196,7 @@ const Page: NextPage = () => {
 														stackedChart.options
 													}
 													width={'520px'}
-													height={300}
+													height={350}
 												/>
 											</Box>
 											<Box>

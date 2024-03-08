@@ -288,7 +288,8 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지네이션
 	 */
-	const { page, limit, handlePageChange, setLimit } = usePagination();
+	const { page, limit, handlePageChange, setLimit, setPage } =
+		usePagination();
 	/**
 	 * 구독 체크
 	 */
@@ -563,6 +564,7 @@ const Page: NextPage = () => {
 									setValue={(e) => {
 										if (access) {
 											setOnlySaved(e);
+											setPage(0);
 										} else {
 											setOpen(true);
 											setType('subscribe');
