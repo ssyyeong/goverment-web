@@ -121,6 +121,16 @@ const Page: NextPage = () => {
 		today.format('YYYY-MM'),
 	];
 
+	const colorChip = [
+		randomColor[0],
+		randomColor[1],
+		randomColor[2],
+		randomColor[3],
+		randomColor[4],
+		randomColor[5],
+		randomColor[6],
+	];
+
 	const chartDataConfig = {
 		series: [],
 		options: {
@@ -254,6 +264,8 @@ const Page: NextPage = () => {
 					},
 				},
 			],
+			colors: colorChip,
+
 			xaxis: {
 				categories: categories,
 			},
@@ -300,6 +312,7 @@ const Page: NextPage = () => {
 					},
 				},
 			],
+			colors: colorChip,
 		},
 	};
 
@@ -312,7 +325,7 @@ const Page: NextPage = () => {
 			},
 			labels: [
 				'인건비',
-				'SaaS 이용료',
+				'SaaS이용료',
 				'임대료',
 				'추가채용',
 				'운영비',
@@ -332,6 +345,7 @@ const Page: NextPage = () => {
 					},
 				},
 			],
+			colors: colorChip,
 		},
 	};
 
@@ -487,7 +501,9 @@ const Page: NextPage = () => {
 			{ TYPE: '지출', APP_MEMBER_IDENTIFICATION_CODE: memberId },
 			(res) => {
 				// 데이터 셋팅
+
 				setExpenseCategoryData(res.data.result);
+
 				setStackedChart(stackedChartConfig);
 				setExpenseDonutChart(ExpenseDonutChartConfig);
 			},
@@ -1036,7 +1052,8 @@ const Page: NextPage = () => {
 							justifyContent={'space-between'}
 							gap={2}
 						>
-							{stackedChart !== undefined &&
+							{chartData !== undefined &&
+								stackedChart !== undefined &&
 								donutChart !== undefined &&
 								incomeCategoryData && (
 									<Box
@@ -1125,7 +1142,8 @@ const Page: NextPage = () => {
 							justifyContent={'space-between'}
 							gap={2}
 						>
-							{stackedChart !== undefined &&
+							{chartData !== undefined &&
+								stackedChart !== undefined &&
 								donutChart !== undefined &&
 								expenseCategoryData && (
 									<Box
