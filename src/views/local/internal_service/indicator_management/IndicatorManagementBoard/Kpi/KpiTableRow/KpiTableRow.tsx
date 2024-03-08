@@ -43,7 +43,11 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
 							>
-								{item.TARGET_AMOUNT?.toLocaleString()}
+								{item.TARGET_AMOUNT < 1000000
+									? item.TARGET_AMOUNT?.toLocaleString()
+									: (item.TARGET_AMOUNT / 1000000).toFixed(
+											2
+									  ) + 'M'}
 							</Typography>
 						);
 					})}
@@ -63,7 +67,9 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
 							>
-								{item.AMOUNT?.toLocaleString()}
+								{item.AMOUNT < 1000000
+									? item.AMOUNT?.toLocaleString()
+									: (item.AMOUNT / 1000000).toFixed(2) + 'M'}
 							</Typography>
 						);
 					})}

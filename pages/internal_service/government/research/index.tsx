@@ -24,7 +24,6 @@ import SupportBusinessModal from '../../../../src/views/local/internal_service/s
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 
-import { get } from 'http';
 import RecommendSupportBusinessCard from '../../../../src/views/local/internal_service/supportBusiness/RecommendSupportBusinessCard';
 import PersonalFilterModal from '../../../../src/views/local/internal_service/supportBusiness/PersonalFilterModal';
 import { useUserAccess } from '../../../../src/hooks/useUserAccess';
@@ -70,10 +69,6 @@ const Page: NextPage = () => {
 	 */
 	const [personalFilterExist, setPersonalFilterExist] =
 		React.useState<boolean>(false);
-	/**
-	 * 검색 트리거키
-	 */
-	const [searchTriggerKey, setSearchTriggerKey] = React.useState<string>();
 	/**
 	 * 디테일 모달 오픈
 	 */
