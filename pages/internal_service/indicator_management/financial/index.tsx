@@ -389,9 +389,9 @@ const Page: NextPage = () => {
 	/**
 	 * 계산 결과 조회
 	 */
-	const getCalculationResult = () => {
+	const getCalculationResult = async () => {
 		memberId &&
-			bankController.getFinancialRatio(
+			(await bankController.getFinancialRatio(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
@@ -476,16 +476,16 @@ const Page: NextPage = () => {
 					setLoading(false);
 				},
 				(err) => {}
-			);
+			));
 	};
 
 	/**
 	 *
 	 * 카테고리별 차트 데이터 조회
 	 */
-	const getCategoryGraphData = () => {
+	const getCategoryGraphData = async () => {
 		// 매출 카테고리별 데이터
-		transactionHistoryController.getCategoryGraphData(
+		await transactionHistoryController.getCategoryGraphData(
 			{ TYPE: '매출', APP_MEMBER_IDENTIFICATION_CODE: memberId },
 			(res) => {
 				// 데이터 셋팅
@@ -497,7 +497,7 @@ const Page: NextPage = () => {
 		);
 
 		// 지출 카테고리별 데이터
-		transactionHistoryController.getCategoryGraphData(
+		await transactionHistoryController.getCategoryGraphData(
 			{ TYPE: '지출', APP_MEMBER_IDENTIFICATION_CODE: memberId },
 			(res) => {
 				// 데이터 셋팅

@@ -94,8 +94,19 @@ const KpiTableRow = (props: TKpiTableRowProps) => {
 								minWidth={'100px'}
 								fontWeight={500}
 								borderRight={'1px solid #f1f2f5'}
+								display={'flex'}
+								textAlign={'right'}
+								justifyContent={'flex-end'}
 							>
-								{item.AMOUNT_RATE}%
+								{item.AMOUNT_RATE < 1000
+									? item.AMOUNT_RATE
+									: 1000}
+								%
+								{item.AMOUNT_RATE < 1000 ? (
+									''
+								) : (
+									<Typography>&#9652;</Typography>
+								)}
 							</Typography>
 						</Box>
 					);

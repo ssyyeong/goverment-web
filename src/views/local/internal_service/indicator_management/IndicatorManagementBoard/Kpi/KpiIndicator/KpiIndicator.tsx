@@ -112,6 +112,7 @@ const KpiIndicator = () => {
 				alert(
 					`${dayjs(e).format('YYYY')}년도에 등록된 KPI가 없습니다.`
 				);
+				setNoData(false);
 			} else {
 				setSelectedYear(e);
 			}
@@ -125,7 +126,7 @@ const KpiIndicator = () => {
 			getKpiData(selectedYear);
 			getKpiChart();
 		}
-	}, [selectedYear, selectedKpiCategory, memberId, kpiTriggerKey]);
+	}, [selectedKpiCategory, memberId, kpiTriggerKey]);
 
 	return (
 		<Box width={'100%'}>

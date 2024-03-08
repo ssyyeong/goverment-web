@@ -78,6 +78,7 @@ const KpiChart = (props: TKpiChartProps) => {
 						return val + '%';
 					},
 				},
+				forceNiceScale: true,
 			},
 
 			tooltip: {
