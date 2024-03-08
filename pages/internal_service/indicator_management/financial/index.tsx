@@ -128,7 +128,7 @@ const Page: NextPage = () => {
 		randomColor[3],
 		randomColor[4],
 		randomColor[5],
-		randomColor[6],
+		randomColor[7],
 	];
 
 	const chartDataConfig = {
