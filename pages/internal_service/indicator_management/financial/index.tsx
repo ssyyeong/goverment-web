@@ -14,6 +14,7 @@ import InternalServiceDrawer from '../../../../src/views/local/internal_service/
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import dynamic from 'next/dynamic';
 import { BankController } from '../../../../src/controller/BankController';
+import { TransactionHistoryController } from '../../../../src/controller/TransactionHistoryController';
 import { IAccountCalculationResultProps } from '../../../../src/views/local/internal_service/financial_solution/account_manage/AccountCalculation/AccountCalculation';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
@@ -24,6 +25,8 @@ import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InvestmentModal from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/InvestmentModal/InvestmentModal';
+import { randomColor } from '../../../../configs/randomColorConfig';
+import dayjs from 'dayjs';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -38,6 +41,8 @@ const Page: NextPage = () => {
 	const bankAccountController = new DefaultController('BankAccount');
 
 	const bankController = new BankController();
+
+	const transactionHistoryController = new TransactionHistoryController();
 	//* States
 	/**
 	 * 로딩
@@ -84,7 +89,38 @@ const Page: NextPage = () => {
 	 */
 	const [investment, setInvestment] = React.useState<number>(0);
 
+	/**
+	 * 매출 카테고리별 데이터
+	 */
+	const [incomeCategoryData, setIncomeCategoryData] = useState<any>();
+
+	/**
+	 * 지출 카테고리별 데이터
+	 */
+	const [expenseCategoryData, setExpenseCategoryData] = useState<any>();
+
+	const [stackedChart, setStackedChart] = useState<any>(undefined);
+
+	const [donutChart, setDonutChart] = useState<any>(undefined);
+
+	const [expenseDonutChart, setExpenseDonutChart] = useState<any>(undefined);
+
 	//* Constants
+
+	const today = dayjs();
+	/**
+	 * stacked chart x축 데이터
+	 *
+	 */
+	const categories = [
+		today.subtract(5, 'month').format('YYYY-MM'),
+		today.subtract(4, 'month').format('YYYY-MM'),
+		today.subtract(3, 'month').format('YYYY-MM'),
+		today.subtract(2, 'month').format('YYYY-MM'),
+		today.subtract(1, 'month').format('YYYY-MM'),
+		today.format('YYYY-MM'),
+	];
+
 	const chartDataConfig = {
 		series: [],
 		options: {
@@ -162,6 +198,143 @@ const Page: NextPage = () => {
 			},
 		},
 	};
+
+	const stackedChartConfig = {
+		series: [
+			{
+				name: 'PRODUCT A',
+				data: [44, 55, 41, 67, 22, 43],
+				// color: randomColor[0],
+			},
+			{
+				name: 'PRODUCT B',
+				data: [13, 23, 20, 8, 13, 27],
+				// color: randomColor[1],
+			},
+			{
+				name: 'PRODUCT C',
+				data: [11, 17, 15, 15, 21, 14],
+				// color: randomColor[2],
+			},
+			{
+				name: 'PRODUCT A',
+				data: [44, 55, 41, 67, 22, 43],
+				// color: randomColor[0],
+			},
+			{
+				name: 'PRODUCT B',
+				data: [13, 23, 20, 8, 13, 27],
+				// color: randomColor[1],
+			},
+			{
+				name: 'PRODUCT C',
+				data: [11, 17, 15, 15, 21, 14],
+				// color: randomColor[2],
+			},
+		],
+		options: {
+			chart: {
+				type: 'bar',
+				height: 350,
+				stacked: true,
+				stackType: '100%',
+				toolbar: {
+					show: false,
+				},
+			},
+			responsive: [
+				{
+					breakpoint: 480,
+					options: {
+						legend: {
+							position: 'bottom',
+							offsetX: -10,
+							offsetY: 0,
+						},
+					},
+				},
+			],
+			xaxis: {
+				categories: categories,
+			},
+			// xaxis: {
+			// 	type: 'datetime',
+			// 	stepSize: 5,
+			// 	label: {
+			// 		formatter: undefined,
+			// 	},
+			// },
+			fill: {
+				opacity: 1,
+			},
+			legend: {
+				position: 'right',
+				offsetX: 0,
+				offsetY: 50,
+			},
+			grid: {
+				borderColor: '#f1f1f1',
+				show: false,
+			},
+		},
+	};
+
+	const IncomeDonutChartConfig = {
+		series: [440, 550, 130, 430, 220],
+		options: {
+			chart: {
+				width: 380,
+				type: 'pie',
+			},
+			labels: ['서비스 이용료', '단발성 수익', '기타'],
+			responsive: [
+				{
+					breakpoint: 480,
+					options: {
+						chart: {
+							width: 200,
+						},
+						legend: {
+							position: 'bottom',
+						},
+					},
+				},
+			],
+		},
+	};
+
+	const ExpenseDonutChartConfig = {
+		series: [440, 550, 130, 15, 21, 14, 1],
+		options: {
+			chart: {
+				width: 380,
+				type: 'pie',
+			},
+			labels: [
+				'인건비',
+				'SaaS 이용료',
+				'임대료',
+				'추가채용',
+				'운영비',
+				'마케팅',
+				'기타',
+			],
+			responsive: [
+				{
+					breakpoint: 480,
+					options: {
+						chart: {
+							width: 200,
+						},
+						legend: {
+							position: 'bottom',
+						},
+					},
+				},
+			],
+		},
+	};
+
 	/**
 	 * 선택된 탭
 	 */
@@ -292,6 +465,36 @@ const Page: NextPage = () => {
 			);
 	};
 
+	/**
+	 *
+	 * 카테고리별 차트 데이터 조회
+	 */
+	const getCategoryGraphData = () => {
+		// 매출 카테고리별 데이터
+		transactionHistoryController.getCategoryGraphData(
+			{ TYPE: '매출', APP_MEMBER_IDENTIFICATION_CODE: memberId },
+			(res) => {
+				// 데이터 셋팅
+				setIncomeCategoryData(res.data.result);
+				setStackedChart(stackedChartConfig);
+				setDonutChart(IncomeDonutChartConfig);
+			},
+			(err) => {}
+		);
+
+		// 지출 카테고리별 데이터
+		transactionHistoryController.getCategoryGraphData(
+			{ TYPE: '지출', APP_MEMBER_IDENTIFICATION_CODE: memberId },
+			(res) => {
+				// 데이터 셋팅
+				setExpenseCategoryData(res.data.result);
+				setStackedChart(stackedChartConfig);
+				setExpenseDonutChart(ExpenseDonutChartConfig);
+			},
+			(err) => {}
+		);
+	};
+
 	//* Hooks
 	/**
 	 * 유저 아이디 정보 가져오는 훅
@@ -332,8 +535,95 @@ const Page: NextPage = () => {
 						setNetBurn(exampleData);
 						setMonthlyInOut(exampleData);
 						setMonthlyNetProfit(exampleData);
+						setIncomeCategoryData({
+							rows: [
+								{
+									name: 'PRODUCT A',
+									data: [44, 55, 41, 67, 22, 43],
+									color: randomColor[0],
+								},
+								{
+									name: 'PRODUCT B',
+									data: [13, 23, 20, 8, 13, 27],
+									color: randomColor[1],
+								},
+								{
+									name: 'PRODUCT C',
+									data: [11, 17, 15, 15, 21, 14],
+									color: randomColor[2],
+								},
+							],
+							total: [440, 550, 130],
+						});
+						setExpenseCategoryData({
+							rows: [
+								{
+									name: 'PRODUCT A',
+									data: [44, 55, 41, 67, 22, 43],
+									color: randomColor[0],
+								},
+								{
+									name: 'PRODUCT B',
+									data: [13, 23, 20, 8, 13, 27],
+									color: randomColor[1],
+								},
+								{
+									name: 'PRODUCT C',
+									data: [11, 17, 15, 15, 21, 14],
+									color: randomColor[2],
+								},
+							],
+							total: [440, 550, 130, 15, 21, 14, 1],
+						});
+						setStackedChart(stackedChartConfig);
+						setDonutChart(IncomeDonutChartConfig);
+						setExpenseDonutChart(ExpenseDonutChartConfig);
 					} else {
 						getCalculationResult();
+						getCategoryGraphData();
+						// setIncomeCategoryData({
+						// 	rows: [
+						// 		{
+						// 			name: 'PRODUCT A',
+						// 			data: [44, 55, 41, 67, 22, 43],
+						// 			color: randomColor[0],
+						// 		},
+						// 		{
+						// 			name: 'PRODUCT B',
+						// 			data: [13, 23, 20, 8, 13, 27],
+						// 			color: randomColor[1],
+						// 		},
+						// 		{
+						// 			name: 'PRODUCT C',
+						// 			data: [11, 17, 15, 15, 21, 14],
+						// 			color: randomColor[2],
+						// 		},
+						// 	],
+						// 	total: [440, 550, 130],
+						// });
+						// setExpenseCategoryData({
+						// 	rows: [
+						// 		{
+						// 			name: 'PRODUCT A',
+						// 			data: [44, 55, 41, 67, 22, 43],
+						// 			color: randomColor[0],
+						// 		},
+						// 		{
+						// 			name: 'PRODUCT B',
+						// 			data: [13, 23, 20, 8, 13, 27],
+						// 			color: randomColor[1],
+						// 		},
+						// 		{
+						// 			name: 'PRODUCT C',
+						// 			data: [11, 17, 15, 15, 21, 14],
+						// 			color: randomColor[2],
+						// 		},
+						// 	],
+						// 	total: [440, 550, 130, 15, 21, 14, 1],
+						// });
+						// setStackedChart(stackedChartConfig);
+						// setDonutChart(IncomeDonutChartConfig);
+						// setExpenseDonutChart(ExpenseDonutChartConfig);
 					}
 				},
 				(err) => {
@@ -343,6 +633,13 @@ const Page: NextPage = () => {
 			);
 		}
 	}, [memberId]);
+
+	console.log(
+		stackedChart,
+		donutChart,
+		incomeCategoryData,
+		expenseCategoryData
+	);
 
 	return (
 		<InternalServiceDrawer type="dashboard" loading={loading}>
@@ -730,6 +1027,185 @@ const Page: NextPage = () => {
 								/>
 							</Box>
 						)}
+
+						{/** 매출 카테고리별 추이 그래프 */}
+						<Box
+							width={'100%'}
+							display={'flex'}
+							flexDirection={{ xs: 'column', sm: 'row' }}
+							justifyContent={'space-between'}
+							gap={2}
+						>
+							{stackedChart !== undefined &&
+								donutChart !== undefined &&
+								incomeCategoryData && (
+									<Box
+										bgcolor={'white'}
+										width={{ sm: '100%', xs: '100%' }}
+										py={4}
+										px={{ sm: 4, xs: 0 }}
+										borderRadius={2}
+										display={'flex'}
+										flexDirection={'column'}
+										justifyContent={'center'}
+										gap={1}
+									>
+										<Typography
+											variant="h6"
+											fontWeight={'700'}
+											textAlign={'center'}
+										>
+											매출 카테고리별 추이
+										</Typography>
+										<Typography
+											fontWeight={'500'}
+											color={'gray'}
+											textAlign={'center'}
+											mb={4}
+										>
+											최근 6개월
+										</Typography>
+										<Box
+											display="flex"
+											width="100%"
+											flexWrap={'wrap'}
+											gap={2}
+											justifyContent="center"
+										>
+											<Box>
+												<Typography
+													variant="subtitle1"
+													fontWeight={'700'}
+													textAlign={'center'}
+													mb={2}
+												>
+													월별 카테고리별 비율
+												</Typography>
+												<ReactApexChart
+													type="bar"
+													series={
+														incomeCategoryData.rows
+													}
+													options={
+														stackedChart.options
+													}
+													width={'520px'}
+													height={350}
+												/>
+											</Box>
+											<Box>
+												<Typography
+													variant="subtitle1"
+													fontWeight={'700'}
+													textAlign={'center'}
+													mb={7}
+												>
+													카테고리별 비율
+												</Typography>
+												<ReactApexChart
+													type="pie"
+													series={
+														incomeCategoryData.total
+													}
+													options={donutChart.options}
+													width={'410px'}
+													height={350}
+												/>
+											</Box>
+										</Box>
+									</Box>
+								)}
+						</Box>
+
+						{/** 지출 카테고리별 추이 그래프 */}
+						<Box
+							width={'100%'}
+							display={'flex'}
+							flexDirection={{ xs: 'column', sm: 'row' }}
+							justifyContent={'space-between'}
+							gap={2}
+						>
+							{stackedChart !== undefined &&
+								donutChart !== undefined &&
+								expenseCategoryData && (
+									<Box
+										bgcolor={'white'}
+										width={{ sm: '100%', xs: '100%' }}
+										py={4}
+										px={{ sm: 4, xs: 0 }}
+										borderRadius={2}
+										display={'flex'}
+										flexDirection={'column'}
+										justifyContent={'center'}
+										gap={1}
+									>
+										<Typography
+											variant="h6"
+											fontWeight={'700'}
+											textAlign={'center'}
+										>
+											지출 카테고리별 추이
+										</Typography>
+										<Typography
+											fontWeight={'500'}
+											color={'gray'}
+											textAlign={'center'}
+											mb={2}
+										>
+											최근 6개월
+										</Typography>
+										<Box
+											display="flex"
+											width="100%"
+											flexWrap={'wrap'}
+											gap={2}
+											justifyContent={'center'}
+										>
+											<Box>
+												<Typography
+													variant="subtitle1"
+													fontWeight={'700'}
+													textAlign={'center'}
+												>
+													월별 카테고리별 비율
+												</Typography>
+												<ReactApexChart
+													type="bar"
+													series={
+														expenseCategoryData.rows
+													}
+													options={
+														stackedChart.options
+													}
+													width={'520px'}
+													height={300}
+												/>
+											</Box>
+											<Box>
+												<Typography
+													variant="subtitle1"
+													fontWeight={'700'}
+													textAlign={'center'}
+													mb={7}
+												>
+													카테고리별 비율
+												</Typography>
+												<ReactApexChart
+													type="pie"
+													series={
+														expenseCategoryData.total
+													}
+													options={
+														expenseDonutChart.options
+													}
+													width={'420px'}
+													height={300}
+												/>
+											</Box>
+										</Box>
+									</Box>
+								)}
+						</Box>
 					</Box>
 					{/* 알림창 */}
 					<SupportiAlertModal

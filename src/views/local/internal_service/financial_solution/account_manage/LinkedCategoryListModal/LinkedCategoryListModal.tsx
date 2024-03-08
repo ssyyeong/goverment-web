@@ -246,7 +246,7 @@ const LinkedCategoryListModal = (props: ILinkedCategoryListModalProps) => {
 														);
 														setCategory(
 															item.BankCategory
-																.CATEGORY
+																?.CATEGORY
 														);
 														setCategoryId(
 															item.BANK_CATEGORY_MATCH_HISTORY_IDENTIFICATION_CODE
