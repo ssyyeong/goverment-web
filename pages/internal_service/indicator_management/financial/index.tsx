@@ -113,12 +113,12 @@ const Page: NextPage = () => {
 	 *
 	 */
 	const categories = [
-		today.subtract(7, 'month').format('YYYY-MM'),
 		today.subtract(6, 'month').format('YYYY-MM'),
 		today.subtract(5, 'month').format('YYYY-MM'),
 		today.subtract(4, 'month').format('YYYY-MM'),
 		today.subtract(3, 'month').format('YYYY-MM'),
 		today.subtract(2, 'month').format('YYYY-MM'),
+		today.subtract(1, 'month').format('YYYY-MM'),
 	];
 
 	const colorChip = [
