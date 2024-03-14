@@ -163,13 +163,14 @@ const Page: NextPage = () => {
 								지원 사업 관리
 							</Typography>
 							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
-								현금, 현물/인건비 계상, 지원사업 관리를 한눈에!
+								{/* 현금, 현물/인건비 계상, */}
+								지원사업 관리를 한눈에!
 							</Typography>
 						</Box>
-						<SupportiButton
+						{/* <SupportiButton
 							contents={'현금,현물/인건비 계상하기'}
 							onClick={() => {}}
-						/>
+						/> */}
 					</Box>
 					{/* 진행중 지원사업 */}
 					<Box

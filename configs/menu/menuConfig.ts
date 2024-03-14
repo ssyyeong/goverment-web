@@ -54,10 +54,10 @@ const dashboardMenu: IMenu[] = [
 				label: '지원 사업 조회',
 				path: '/internal_service/government/research',
 			},
-			// {
-			// 	label: '지원 사업 관리',
-			// 	path: '/internal_service/government/management',
-			// },
+			{
+				label: '지원 사업 관리',
+				path: '/internal_service/government/management',
+			},
 		],
 	},
 	// {
@@ -65,21 +65,21 @@ const dashboardMenu: IMenu[] = [
 	// 	path: '/external_service/seminar',
 	// 	icon: '/images/icons/seminar.png',
 	// },
-	// {
-	// 	label: 'IR',
-	// 	path: '/internal_service/ir',
-	// 	icon: '/images/icons/ir.png',
-	// 	submenu: [
-	// 		{
-	// 			label: '자료 관리',
-	// 			path: '/internal_service/ir/management',
-	// 		},
-	// 		{
-	// 			label: '데모데이',
-	// 			path: '/internal_service/ir/demoday',
-	// 		},
-	// 	],
-	// },
+	{
+		label: 'IR',
+		path: '/internal_service/ir',
+		icon: '/images/icons/ir.png',
+		submenu: [
+			{
+				label: '자료 관리',
+				path: '/internal_service/ir/management',
+			},
+			{
+				label: '데모데이',
+				path: '/internal_service/ir/demoday',
+			},
+		],
+	},
 	{
 		label: 'A2E(Ask to Expert)',
 		path: '/internal_service/a2e',

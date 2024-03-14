@@ -343,12 +343,12 @@ const Page: NextPage = () => {
 							<Typography fontWeight={'700'} variant="h6" mb={2}>
 								지원사업
 							</Typography>
-							<SupportiButton
+							{/* <SupportiButton
 								contents={'검색하기'}
 								onClick={() => {}}
 								variant="contained"
 								isGradient
-							/>
+							/> */}
 						</Box>
 						<Grid container gap={1}>
 							{supportBusinessManagementData

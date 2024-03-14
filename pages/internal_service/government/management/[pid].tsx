@@ -16,10 +16,12 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import SubsidyByItemTable from '../../../../src/views/local/internal_service/supportBusiness/SubsidyByItemTable/SubsidyByItemTable';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
+import dayjs from 'dayjs';
 
 const Page: NextPage = () => {
 	//* Modules
 	const { pid } = useRouter().query;
+	const router = useRouter();
 	//* States
 	/**
 	 * 지원사업 상세
@@ -139,6 +141,26 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+	/**
+	 * 지원 사업 삭제
+	 */
+	const deleteSupportBusiness = () => {
+		const really = confirm('정말 삭제하시겠습니까?');
+		if (!really) return;
+
+		supportBusinessManagementController.deleteItem(
+			{
+				SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE: pid,
+			},
+			(res) => {
+				alert('삭제되었습니다.');
+				router.push('/internal_service/government/management');
+			},
+			(err) => {
+				alert('삭제에 실패했습니다.');
+			}
+		);
+	};
 	//* Hooks
 	React.useEffect(() => {
 		if (pid) getSupportBusiness();
@@ -247,7 +269,9 @@ const Page: NextPage = () => {
 												</Typography>
 											</Box>
 										}
-										onClick={() => {}}
+										onClick={() => {
+											deleteSupportBusiness();
+										}}
 										disabledGutters
 										style={{
 											px: 2,
@@ -296,7 +320,7 @@ const Page: NextPage = () => {
 															...supportBusinessManagement,
 															[item.key]:
 																item.type
-																	? moment(
+																	? dayjs(
 																			value
 																	  ).format(
 																			'YYYY-MM-DD'
