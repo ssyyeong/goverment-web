@@ -6,11 +6,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 interface IAccordianBoxProps {
-	type: string;
-	title: string;
+	type: any;
+	title: any;
 	created_at: Date;
-	content: string;
+	content?: string;
 	additional?: string;
+	notAQna?: boolean;
+	additionalComponent?: React.ReactNode;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
@@ -55,8 +57,20 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				</Box>
 
 				<Typography variant="body1" fontWeight={'bold'}>
-					Q) {props.title}
+					{props.notAQna ? '' : 'Q)'}
+					{props.title}
 				</Typography>
+				{props.additionalComponent && open && (
+					<Box
+						sx={{
+							width: '100%',
+							my: 2,
+						}}
+					>
+						{props.additionalComponent}
+					</Box>
+				)}
+
 				{props.additional && open && (
 					<Typography variant="body1" my={2}>
 						{props.additional}
@@ -67,33 +81,17 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						답변
 					</Typography>
 				)}
-				{open && (
+				{open && !props.additionalComponent && (
 					<Typography
 						sx={{
 							width: '100%',
 							my: 2,
-
-							// bgcolor: 'white',
 						}}
 						fontWeight={'500'}
 					>
-						A) {props.content}
+						{props.notAQna ? '' : 'A)'}
+						{props.content}
 					</Typography>
-					// <TextField
-					// 	sx={{
-					// 		width: '100%',
-					// 		my: 2,
-					// 		bgcolor: 'white',
-					// 	}}
-					// 	fullWidth
-					// 	multiline
-					// 	rows={5}
-					// 	value={props.content}
-					// 	InputProps={{
-					// 		readOnly: true,
-					// 	}}
-					// 	focused={false}
-					// />
 				)}
 				<Typography variant="body1">
 					{moment(props.created_at).format('YYYY-MM-DD(ddd) HH:mm')}

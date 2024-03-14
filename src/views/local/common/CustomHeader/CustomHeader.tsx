@@ -32,10 +32,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 * 메뉴
 	 */
 	const pages = [
-		{
-			label: 'IR',
-			path: '/external_service/ir/landing',
-		},
+		// {
+		// 	label: 'IR',
+		// 	path: '/external_service/ir/landing',
+		// },
 		{
 			label: '더블랙',
 			path: '/rate_plan/theBlack',
@@ -556,7 +556,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 												borderRadius: 2,
 												p: 1,
 												boxShadow:
-												'rgb(219, 219, 219) 0px 4px 10px',
+													'rgb(219, 219, 219) 0px 4px 10px',
 											},
 										}}
 									>

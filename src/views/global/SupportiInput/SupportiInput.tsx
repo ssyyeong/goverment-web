@@ -8,6 +8,7 @@ import {
 	InputAdornment,
 	MenuItem,
 	OutlinedInput,
+	OutlinedInputProps,
 	Select,
 	SxProps,
 	TextField,
@@ -23,6 +24,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { DateTimePicker, YearPicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 
 interface SupportiInputProps {
 	type: string;
@@ -47,6 +49,12 @@ interface SupportiInputProps {
 	handleDelete?: (value: any, idx: number) => void;
 	maxLength?: number;
 	error?: boolean;
+	outLineInputProps?: OutlinedInputProps;
+	fileTypeInputName?: boolean;
+	fileTypeInputNameMaxSize?: {
+		unit: 'KB' | 'MB' | 'GB';
+		size: number;
+	};
 }
 
 //* 서포티 인풋 컴포넌트
@@ -71,7 +79,27 @@ const SupportiInput = React.forwardRef(
 		//* 파일 선택 시 호출되는 함수
 		const fileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			const fileList = event.target.files;
+			console.log(fileList);
 			const files = fileList ? Array.from(fileList) : [];
+			//* 파일 사이즈 체크
+			if (
+				props.fileTypeInputNameMaxSize !== undefined &&
+				files.length > 0
+			) {
+				const maxSize =
+					props.fileTypeInputNameMaxSize.size *
+					(props.fileTypeInputNameMaxSize.unit === 'KB'
+						? 1024
+						: props.fileTypeInputNameMaxSize.unit === 'MB'
+						? 1024 * 1024
+						: 1024 * 1024 * 1024);
+				if (files[0].size > maxSize) {
+					alert(
+						`파일 사이즈는 ${props.fileTypeInputNameMaxSize.size}${props.fileTypeInputNameMaxSize.unit} 이하여야 합니다.`
+					);
+					return;
+				}
+			}
 
 			if (
 				props.additionalProps !== undefined &&
@@ -84,9 +112,14 @@ const SupportiInput = React.forwardRef(
 				}
 			} else {
 				const formData = new FormData();
-				formData.append('file', files[0]);
+				formData.append('file', files[0], files[0].name);
 				imageController.uploadImage(formData, (res) => {
-					props.setValue(res);
+					props.fileTypeInputName
+						? props.setValue({
+								FILE_URL: res,
+								FILE_NAME: files[0].name,
+						  })
+						: props.setValue(res);
 				});
 
 				// props.setValue?.(files[0] || null);
@@ -208,15 +241,15 @@ const SupportiInput = React.forwardRef(
 							onChange={(newValue) => {
 								props.setValue(newValue);
 							}}
-							value={moment(props.value)}
+							value={dayjs(props.value)}
 							minDate={
 								props.minDate !== undefined
-									? moment(props.minDate)
+									? dayjs(props.minDate)
 									: undefined
 							}
 							maxDate={
 								props.maxDate !== undefined
-									? moment(props.maxDate)
+									? dayjs(props.maxDate)
 									: undefined
 							}
 							// {...props.additionalProps}
@@ -278,7 +311,9 @@ const SupportiInput = React.forwardRef(
 											color={'secondary.main'}
 											noWrap
 										>
-											{props.value}
+											{props.fileTypeInputName
+												? props.value.FILE_NAME
+												: props.value}
 										</Typography>
 									</InputAdornment>
 								),
@@ -528,6 +563,7 @@ const SupportiInput = React.forwardRef(
 						inputProps={{
 							maxLength: props.maxLength,
 						}}
+						{...props.outLineInputProps}
 						type={props.inputType}
 						error={props.error}
 					/>

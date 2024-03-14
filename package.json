@@ -6,6 +6,7 @@
 		"start": "next start -p 3000"
 	},
 	"dependencies": {
+		"@cyntler/react-doc-viewer": "^1.12.0",
 		"@emotion/react": "^11.10.5",
 		"@emotion/server": "^11.11.0",
 		"@emotion/styled": "^11.10.5",

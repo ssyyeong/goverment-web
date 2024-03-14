@@ -137,6 +137,46 @@ interface ICoffeeChatProfile {
 	[key: string]: any;
 }
 
+/**
+ * 지원사업 관리
+ */
+interface ISupportBusinessManagement {
+	FIELD?: string;
+	TITLE?: string;
+	BUSINESS_TITLE?: string;
+	START_DATE?: any;
+	END_DATE?: any;
+	DATA?: string;
+	ALIMTALK_YN?: 'Y' | 'N';
+	MIN_DEAD_LINE_DATE?: any;
+	DEAD_LINE_DATE?: any;
+	PERSON_IN_CHARGE?: string;
+	MAIN_CONTACT?: string;
+	SEND_DATE?: any;
+	[key: string]: any;
+}
+
+/**
+ * 유저IRdata
+ */
+interface IUserIRData {
+	BUSINESS_NUMBER?: string;
+	IR_FILE?: string;
+	IMAGE_LIST?: string[];
+	COMPANY_NAME?: string;
+	BUSINESS_SECTOR?: string;
+	ESTABLISHMENT_DATE?: string;
+	COMPANY_ADDRESS?: string;
+	HOME_PAGE?: string;
+	CONTACT_NUMBER?: string;
+	SUMMARY?: string;
+	DESCRIPTION?: string;
+	INVEST_INFO?: string;
+	HOPE_INVEST_ROUND?: string;
+	HOPE_INVEST_MONEY?: string;
+	[key: string]: any;
+}
+
 export type {
 	IBankAccount,
 	ITransactionHistory,
@@ -150,4 +190,6 @@ export type {
 	IBusiness,
 	IBusinessHistory,
 	ICoffeeChatProfile,
+	ISupportBusinessManagement,
+	IUserIRData,
 };

@@ -1,0 +1,55 @@
+import { ControllerABC } from '@leanoncompany/supporti-ark-office-project/src/controller/base/ControllerABC';
+
+export class SupportBusinessManagementController extends ControllerABC {
+	//* 클래스 멤버
+	constructor(role?: string) {
+		super('SupportBusinessManagement', role);
+	}
+
+	/**
+	 * 스케줄 데이터 가져오기
+	 */
+	public getScheduleData(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/find_schedule_by_appmember_id_and_month`,
+			successCallback,
+			failCallback
+		);
+	}
+	/**
+	 * 생성하기
+	 */
+	public createItem(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/create_support_business_management`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	/**
+	 * 진행중 지원사업 가져오기
+	 */
+	public getOnGoingSupportBusiness(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/find_sorting_date_list`,
+			successCallback,
+			failCallback
+		);
+	}
+}

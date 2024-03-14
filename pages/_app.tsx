@@ -18,6 +18,7 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import '../styles/Calendar.css';
 
 import sideBarConfig from '../configs/sideBarConfig';
 import Memory from '@leanoncompany/supporti-ark-office-project/src/utils/data/Memory';

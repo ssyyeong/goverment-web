@@ -540,14 +540,7 @@ const Page: NextPage = () => {
 					{/* 테이블 */}
 
 					{supportBusiness && (
-						<Box
-							width={'100%'}
-							mt={2}
-							display={{
-								sm: 'block',
-								xs: 'none',
-							}}
-						>
+						<Box width={'100%'} mt={2}>
 							<Box
 								display={'flex'}
 								justifyContent={'space-between'}
