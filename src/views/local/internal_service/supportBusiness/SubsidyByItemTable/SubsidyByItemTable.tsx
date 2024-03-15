@@ -440,6 +440,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 										] = Number(e);
 										setSubSidyByItems(newSubSidyByItems); // 새로운 배열로 상태 업데이트
 									}}
+									inputType="number"
 									style={{
 										width: '100%',
 									}}

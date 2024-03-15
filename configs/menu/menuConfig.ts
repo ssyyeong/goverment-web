@@ -129,16 +129,16 @@ const mypageMenu: IMenu[] = [
 	// 	path: '/my_page/seminar_reservation_history',
 	// 	icon: '/images/icons/seminar-reservation.png',
 	// },
-	{
-		label: 'IR 신청내역',
-		path: '/my_page/ir_history',
-		icon: '/images/icons/seminar-reservation.png',
-	},
-	{
-		label: '컨설팅 히스토리',
-		path: '/my_page/consulting_reservation_history',
-		icon: '/images/icons/consulting-reservation.png',
-	},
+	// {
+	// 	label: 'IR 신청내역',
+	// 	path: '/my_page/ir_history',
+	// 	icon: '/images/icons/seminar-reservation.png',
+	// },
+	// {
+	// 	label: '컨설팅 히스토리',
+	// 	path: '/my_page/consulting_reservation_history',
+	// 	icon: '/images/icons/consulting-reservation.png',
+	// },
 	{
 		label: '커피챗 신청',
 		icon: '/images/icons/coffee.png',
