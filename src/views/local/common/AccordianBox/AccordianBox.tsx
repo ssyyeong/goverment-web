@@ -8,7 +8,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 interface IAccordianBoxProps {
 	type: any;
 	title: any;
-	created_at: Date;
+	created_at?: Date;
 	content?: string;
 	additional?: string;
 	notAQna?: boolean;
@@ -93,9 +93,13 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						{props.content}
 					</Typography>
 				)}
-				<Typography variant="body1">
-					{moment(props.created_at).format('YYYY-MM-DD(ddd) HH:mm')}
-				</Typography>
+				{props.created_at && (
+					<Typography variant="body1">
+						{moment(props.created_at).format(
+							'YYYY-MM-DD(ddd) HH:mm'
+						)}
+					</Typography>
+				)}
 			</Box>
 		</Box>
 	);

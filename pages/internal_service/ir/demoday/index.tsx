@@ -104,7 +104,11 @@ const Page: NextPage = () => {
 			}
 			return;
 		}
-		if (moment(duedate).isBefore(moment())) {
+		const five = moment(duedate).format('YYYY-MM-DD 17:00');
+
+		if (moment(five).isBefore(moment())) {
+			alert('신청이 마감되었습니다.');
+			return;
 		}
 
 		irApplicationController.createItem(
@@ -214,7 +218,6 @@ const Page: NextPage = () => {
 											</Box>
 										}
 										content={'답변이 등록되지 않았습니다.'}
-										created_at={demoday.IR_DATE}
 										additional={demoday.CONTENT}
 										type={
 											<Box
