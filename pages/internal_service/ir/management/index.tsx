@@ -87,6 +87,7 @@ const Page: NextPage = () => {
 		{
 			label: '설립일자',
 			value: 'ESTABLISHMENT_DATE',
+			type: 'datepicker',
 		},
 		{
 			label: '회사주소',
@@ -486,7 +487,11 @@ const Page: NextPage = () => {
 												</Typography>
 												{isEdit ? (
 													<SupportiInput
-														type="text"
+														type={
+															item.type
+																? item.type
+																: 'text'
+														}
 														value={
 															userIrInfo[
 																item.value
@@ -496,7 +501,14 @@ const Page: NextPage = () => {
 															setUserIrInfo({
 																...userIrInfo,
 																[item.value]:
-																	value,
+																	item.type ===
+																	'datepicker'
+																		? dayjs(
+																				value
+																		  ).format(
+																				'YYYY-MM-DD'
+																		  )
+																		: value,
 															});
 														}}
 														additionalProps={{

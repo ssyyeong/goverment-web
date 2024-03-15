@@ -19,7 +19,7 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 			display={'flex'}
 			alignItems={'center'}
 			borderBottom={'0.5px solid #cccc'}
-			gap={2}
+			gap={1.5}
 			py={2}
 			onClick={() => {
 				router.push(
@@ -30,6 +30,14 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 				cursor: 'pointer',
 			}}
 		>
+			<Typography
+				color={
+					props.type === 'MID_DEAD_LINE_DATE' ? 'blue' : 'error.main'
+				}
+				fontWeight={'700'}
+			>
+				{props.type === 'MID_DEAD_LINE_DATE' ? '[중간]' : '[최종]'}
+			</Typography>
 			<Typography
 				color={
 					props.type === 'MID_DEAD_LINE_DATE' ? 'blue' : 'error.main'

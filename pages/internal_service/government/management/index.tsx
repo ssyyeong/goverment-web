@@ -228,7 +228,7 @@ const Page: NextPage = () => {
 								mb={2}
 							>
 								<Typography variant="h6" fontWeight={'bold'}>
-									총 진행사업
+									총 지원사업
 								</Typography>
 								<SupportiButton
 									contents={'지원 사업 추가하기'}

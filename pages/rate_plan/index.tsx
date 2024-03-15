@@ -457,7 +457,7 @@ const Page: NextPage = () => {
 								/>
 							)}
 
-							{ratePlan.TYPE === 'BLACK' && permission && (
+							{ratePlan.TYPE === 'BLACK' && (
 								<SupportiButton
 									variant="contained"
 									style={{
@@ -493,7 +493,7 @@ const Page: NextPage = () => {
 								/>
 							)}
 
-							{ratePlan.TYPE === 'BLACK' && !permission && (
+							{/* {ratePlan.TYPE === 'BLACK' && !permission && (
 								<SupportiButton
 									variant="contained"
 									style={{
@@ -513,7 +513,7 @@ const Page: NextPage = () => {
 										setRecommenderModal(true);
 									}}
 								/>
-							)}
+							)} */}
 						</Box>
 					);
 				})}

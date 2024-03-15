@@ -96,13 +96,15 @@ const Page: NextPage = () => {
 	/**
 	 * 데모데이 신청
 	 */
-	const irApply = (demodayId) => {
+	const irApply = (demodayId, duedate) => {
 		if (!userIrData) {
 			let noIrData = confirm('IR 정보를 먼저 등록해주세요.');
 			if (noIrData) {
 				router.push('/internal_service/ir/management');
 			}
 			return;
+		}
+		if (moment(duedate).isBefore(moment())) {
 		}
 
 		irApplicationController.createItem(
@@ -265,6 +267,7 @@ const Page: NextPage = () => {
 										notAQna
 										additionalComponent={
 											<Box width={'100%'}>
+												{/* 마감일, 개최일 */}
 												<Grid container mb={2} p={1}>
 													<Grid
 														sm={4}
@@ -281,7 +284,8 @@ const Page: NextPage = () => {
 																demoday.DUE_DATE
 															).format(
 																'YYYY-MM-DD'
-															)}
+															)}{' '}
+															17:00
 														</Typography>
 													</Grid>
 													<Grid
@@ -299,7 +303,8 @@ const Page: NextPage = () => {
 																demoday.ADOPTION_DATE
 															).format(
 																'YYYY-MM-DD'
-															)}
+															)}{' '}
+															18:00
 														</Typography>
 													</Grid>
 													<Grid
@@ -323,7 +328,7 @@ const Page: NextPage = () => {
 												</Grid>
 												<Box
 													sx={{
-														height: '300px',
+														height: '400px',
 														overflowY: 'auto',
 													}}
 												>
@@ -485,7 +490,8 @@ const Page: NextPage = () => {
 																	}
 																	onClick={() => {
 																		irApply(
-																			demoday.IR_PRODUCT_IDENTIFICATION_CODE
+																			demoday.IR_PRODUCT_IDENTIFICATION_CODE,
+																			demoday.DUE_DATE
 																		);
 																	}}
 																	variant="contained"

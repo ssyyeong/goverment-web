@@ -135,24 +135,34 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	/**
 	 * 항목별 지원금 수정하기
 	 */
-	const updateSubsidyByItem = () => {
-		const updatedData = subSidyByItems.map((subSidyByItem) => {
-			subsidyByItemController.updateItem(
-				{ ...subSidyByItem },
-				(response) => {
-					return { ...response.data.result };
-				},
-				(err) => {
-					console.log(err);
-				}
+	const updateSubsidyByItem = async () => {
+		try {
+			const updatedDataPromises = subSidyByItems.map(
+				(subSidyByItem) =>
+					new Promise((resolve, reject) => {
+						subsidyByItemController.updateItem(
+							{ ...subSidyByItem },
+							(res) => {
+								resolve(res.data.result);
+							},
+							(err) => {
+								reject(new Error('업데이트에 실패했습니다.'));
+							}
+						);
+					})
 			);
-			return subSidyByItem; // 각 요소를 그대로 반환하여 새로운 배열 생성
-		});
-		console.log(updatedData);
 
-		// 모든 요소를 처리한 후에 상태 업데이트
-		setSubSidyByItems(updatedData);
-		setIsEditMode(false);
+			const updatedData = await Promise.all(updatedDataPromises);
+
+			console.log(updatedData);
+
+			// 모든 요소를 처리한 후에 상태 업데이트
+			setSubSidyByItems(updatedData);
+			setIsEditMode(false);
+		} catch (error) {
+			// 에러 처리
+			alert(error.message);
+		}
 	};
 
 	//* Hooks
