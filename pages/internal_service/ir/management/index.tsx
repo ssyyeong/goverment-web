@@ -257,11 +257,14 @@ const Page: NextPage = () => {
 				INVEST_INFO: JSON.stringify(investInfo),
 			},
 			(res) => {
-				if (res.data.result) {
-					alert('성공적으로 등록되었습니다.');
-					setIsUpdate(true);
-					setIsEdit(false);
-				}
+				// if (res.data.result) {
+				// 	alert('성공적으로 등록되었습니다.');
+				// 	setIsUpdate(true);
+				// 	setIsEdit(false);
+				// }
+				alert('성공적으로 등록되었습니다.');
+				setIsEdit(false);
+				getUserIrInfo();
 			},
 			(err) => {}
 		);
@@ -298,7 +301,9 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
-	console.log(JSON.parse(JSON.stringify('string')));
+	console.log(userIrInfo, 'userIrInfo');
+	console.log(isUpdate, 'isUpdate');
+
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
