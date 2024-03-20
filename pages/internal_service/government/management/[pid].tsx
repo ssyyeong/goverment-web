@@ -17,6 +17,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import SubsidyByItemTable from '../../../../src/views/local/internal_service/supportBusiness/SubsidyByItemTable/SubsidyByItemTable';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
 import dayjs from 'dayjs';
+import SupportBusinessModal from '../../../../src/views/local/internal_service/supportBusiness/SupportBusinessModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -36,6 +37,14 @@ const Page: NextPage = () => {
 	 * 수정모드
 	 */
 	const [editMode, setEditMode] = React.useState<boolean>(false);
+	/**
+	 * 디테일 모달
+	 */
+	const [detailModal, setDetailModal] = React.useState<boolean>(false);
+	/**
+	 * 디테일 데이터
+	 */
+	const [detailData, setDetailData] = React.useState<any>();
 	//* Constants
 	const dataConfig = [
 		{
@@ -198,13 +207,24 @@ const Page: NextPage = () => {
 									>
 										{supportBusinessManagement?.TITLE}
 									</Typography>
-									{supportBusinessManagement.data && (
+									{supportBusinessManagement.DATA && (
 										<Box
 											border={'1px solid black'}
 											display={'flex'}
 											borderRadius={2}
 											alignItems={'center'}
 											p={0.3}
+											onClick={() => {
+												setDetailData(
+													JSON.parse(
+														supportBusinessManagement.DATA
+													)
+												);
+												setDetailModal(true);
+											}}
+											sx={{
+												cursor: 'pointer',
+											}}
 										>
 											<InsertLinkOutlinedIcon fontSize="small" />
 										</Box>
@@ -352,13 +372,22 @@ const Page: NextPage = () => {
 								))}
 							</Box>
 							{/* 항목별 지원금 */}
-
 							<SubsidyByItemTable
 								subsidyTab={subsidyTab}
 								supportBusinessManagement={
 									supportBusinessManagement
 								}
 								handleSubsidyTabChange={handleSubsidyTabChange}
+							/>
+						</Box>
+					)}
+					{/* 디테일 모달 */}
+					{detailData && (
+						<Box key={detailModal.toString()}>
+							<SupportBusinessModal
+								modalOpen={detailModal}
+								setModalOpen={setDetailModal}
+								supportBusiness={detailData}
 							/>
 						</Box>
 					)}

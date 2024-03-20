@@ -63,9 +63,7 @@ const SupportiModal = (props: ISupportiModalProps) => {
 	return (
 		<React.Fragment>
 			{/* 모달 열기 버튼 */}
-			<Box width={'100%'} height={'100%'}>
-				{props.modalButtonElement}
-			</Box>
+			<Box>{props.modalButtonElement}</Box>
 
 			{/* 모달 */}
 			<Modal

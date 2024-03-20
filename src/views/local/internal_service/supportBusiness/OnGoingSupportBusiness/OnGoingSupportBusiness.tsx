@@ -35,6 +35,7 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 					props.type === 'MID_DEAD_LINE_DATE' ? 'blue' : 'error.main'
 				}
 				fontWeight={'700'}
+				width={'40px'}
 			>
 				{props.type === 'MID_DEAD_LINE_DATE' ? '[중간]' : '[최종]'}
 			</Typography>
@@ -56,6 +57,8 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 							: 'error.main',
 					borderWidth: 1,
 					borderStyle: 'solid',
+					minWidth: '60px',
+					textAlign: 'center',
 				}}
 			>
 				D-
@@ -68,7 +71,9 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 					.diff(moment(), 'days') + 1}
 				일
 			</Typography>
-			<Typography fontWeight={'500'}>{props.title}</Typography>
+			<Typography fontWeight={'500'} width={'80%'}>
+				{props.title}
+			</Typography>
 		</Box>
 	);
 };

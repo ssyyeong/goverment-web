@@ -19,6 +19,7 @@ import SupportiTable, {
 import { usePagination } from '../../../../src/hooks/usePagination';
 import OnGoingSupportBusiness from '../../../../src/views/local/internal_service/supportBusiness/OnGoingSupportBusiness/OnGoingSupportBusiness';
 import SupportiPagination from '../../../../src/views/global/SupportiPagination';
+import CalculateModal from '../../../../src/views/local/internal_service/government/CalculateModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -153,6 +154,7 @@ const Page: NextPage = () => {
 						display={'flex'}
 						justifyContent={'space-between'}
 						alignItems={'center'}
+						width={'100%'}
 					>
 						<Box>
 							<Typography
@@ -163,14 +165,10 @@ const Page: NextPage = () => {
 								지원 사업 관리
 							</Typography>
 							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
-								{/* 현금, 현물/인건비 계상, */}
-								지원사업 관리를 한눈에!
+								현금, 현물/인건비 계상, 지원사업 관리를 한눈에!
 							</Typography>
 						</Box>
-						{/* <SupportiButton
-							contents={'현금,현물/인건비 계상하기'}
-							onClick={() => {}}
-						/> */}
+						<CalculateModal />
 					</Box>
 					{/* 진행중 지원사업 */}
 					<Box

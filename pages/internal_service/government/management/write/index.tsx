@@ -20,6 +20,7 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { SubsidyByItemController } from '../../../../../src/controller/SubsidyByItemController';
+import SupportSearchModal from '../../../../../src/views/local/internal_service/government/SupportSearchModal/SupportSearchModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -343,12 +344,10 @@ const Page: NextPage = () => {
 							<Typography fontWeight={'700'} variant="h6" mb={2}>
 								지원사업
 							</Typography>
-							{/* <SupportiButton
-								contents={'검색하기'}
-								onClick={() => {}}
-								variant="contained"
-								isGradient
-							/> */}
+							<SupportSearchModal
+								setSupportBusiness={setSupportBusiness}
+								supportBusiness={supportBusiness}
+							/>
 						</Box>
 						<Grid container gap={1}>
 							{supportBusinessManagementData

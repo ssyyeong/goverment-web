@@ -2,7 +2,15 @@ import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Grid, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	FormControlLabel,
+	Grid,
+	IconButton,
+	Switch,
+	Typography,
+} from '@mui/material';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
@@ -17,6 +25,8 @@ import dynamic from 'next/dynamic';
 import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/MultiImageUploader/MultiImageUploader';
 import dayjs from 'dayjs';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import CommentIcon from '@mui/icons-material/Comment';
+import Nodata from '../../../../src/views/global/NoData/NoData';
 
 interface IInvestInfoType {
 	DATE?: any;
@@ -31,6 +41,7 @@ const Page: NextPage = () => {
 	const userIrInformationController = new DefaultController(
 		'UserIrInformation'
 	);
+	const irCommentController = new DefaultController('IrComment');
 	//* Modules
 	const { memberId } = useAppMember();
 	//* Constants
@@ -190,6 +201,8 @@ const Page: NextPage = () => {
 	 */
 	const [userIrInfo, setUserIrInfo] = React.useState<IUserIRData>({
 		HOPE_INVEST_ROUND: '사업화지원 단계 (예비창업자)',
+		OPEN_YN: 'N',
+		ALIMTALK_YN: 'Y',
 	});
 	/**
 	 * 투자 연혁
@@ -214,6 +227,14 @@ const Page: NextPage = () => {
 	 */
 	const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
 	console.log(newInvestInfo);
+	/**
+	 * 코멘트 확인하기
+	 */
+	const [commentView, setCommentView] = React.useState<boolean>(false);
+	/**
+	 * 코멘트 리스트
+	 */
+	const [commentList, setCommentList] = React.useState<any[]>([]);
 
 	//* Functions
 	/**
@@ -294,12 +315,34 @@ const Page: NextPage = () => {
 		);
 	};
 
+	/**
+	 * 코멘트 리스트 가져오기
+	 */
+	const getCommentList = () => {
+		irCommentController.findAllItems(
+			{
+				USER_IR_INFORMATION_IDENTIFICATION_CODE:
+					userIrInfo.USER_IR_INFORMATION_IDENTIFICATION_CODE,
+			},
+			(res) => {
+				setCommentList(res.data.result.rows);
+			},
+			(err) => {}
+		);
+	};
+
 	//* Hooks
 	useEffect(() => {
 		if (memberId) {
 			getUserIrInfo();
 		}
 	}, [memberId]);
+
+	// useEffect(() => {
+	// 	if (isUpdate) {
+	// 		getCommentList();
+	// 	}
+	// }, [isUpdate]);
 
 	console.log(userIrInfo, 'userIrInfo');
 	console.log(isUpdate, 'isUpdate');
@@ -341,711 +384,1033 @@ const Page: NextPage = () => {
 									IR Deck, 기업 정보를 관리할 수 있습니다.
 								</Typography>
 							</Box>
-							<SupportiButton
-								variant="outlined"
-								contents={
-									<Box
-										display={'flex'}
-										alignItems={'center'}
-										gap={1}
-									>
-										<CreateOutlinedIcon fontSize="small" />
-										<Typography
-											fontWeight={'bold'}
-											color={'primary'}
+							<Box display={'flex'} alignItems={'center'} gap={2}>
+								<SupportiButton
+									variant="outlined"
+									contents={
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={1}
 										>
-											{isEdit ? '저장하기' : '수정하기'}
-										</Typography>
-									</Box>
-								}
-								onClick={() => {
-									if (isEdit) {
-										if (isUpdate) {
-											updateUserIrInfo();
-										} else {
-											createUserIrInfo();
-										}
-									} else {
-										setIsEdit(!isEdit);
+											<CreateOutlinedIcon fontSize="small" />
+											<Typography
+												fontWeight={'bold'}
+												color={'primary'}
+											>
+												{isEdit
+													? '저장하기'
+													: '수정하기'}
+											</Typography>
+										</Box>
 									}
-								}}
-								disabledGutters
-								style={{
-									px: 2,
-									py: 1,
-									bgcolor: 'white',
-								}}
-							/>
+									onClick={() => {
+										if (isEdit) {
+											if (isUpdate) {
+												updateUserIrInfo();
+											} else {
+												createUserIrInfo();
+											}
+										} else {
+											setIsEdit(!isEdit);
+											setCommentView(false);
+										}
+									}}
+									disabledGutters
+									style={{
+										px: 2,
+										py: 1,
+										bgcolor: 'white',
+									}}
+								/>
+							</Box>
 						</Box>
 						{/* 본문 */}
-						<Box
-							bgcolor={'white'}
-							width={'100%'}
-							borderRadius={3}
-							p={4}
-						>
-							{/* IR deck */}
-							<Box
-								display={'flex'}
-								flexDirection={'column'}
-								gap={2}
-							>
-								<Typography fontWeight={'600'} display={'flex'}>
-									IR자료 또는 사업 계획서{' '}
-									{isEdit && (
+						<Grid container gap={1}>
+							<Grid item xs={12} sm={commentView ? 8 : 12}>
+								<Box
+									bgcolor={'white'}
+									width={'100%'}
+									borderRadius={3}
+									p={4}
+								>
+									{/* 공개여부, 알림톡 여부 */}
+									{/* <Box
+										display={'flex'}
+										flexDirection={'column'}
+									>
 										<Typography
 											fontWeight={'600'}
-											color={'primary'}
+											display={'flex'}
+											mb={0.5}
 										>
-											(필수)
+											공개여부, 알림톡 여부
 										</Typography>
-									)}
-								</Typography>
-								{isEdit ? (
-									<Box>
-										<SupportiInput
-											type="fileinput"
-											value={irDeckFile}
-											setValue={setIrDeckFile}
-											fileTypeInputName
-											fileTypeInputNameMaxSize={{
-												unit: 'MB',
-												size: 200,
-											}}
-											additionalProps={{
-												inputProps: {
-													accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
-												},
-											}}
-										/>
 										<Typography
 											variant="caption"
-											fontWeight={'600'}
 											color={'grey'}
+											fontWeight={'600'}
 										>
-											제작년도 / 기업명 / 파일형식 /
-											페이지 수 형식으로 업로드
-											부탁드립니다. (예시 :
-											2024/린온컴퍼니/PDF/25)
+											지금 대표님의 IR자료를 공개하고
+											투자자분들에게 투자받을 기회를
+											얻어보세요! 아쉽게 투자를 받지
+											못했더라도 IR데이터에 대한 피드백
+											코멘트를 받으실 수 있습니다. (알림톡
+											수신 동의시 코멘트가 달리면 알림톡이
+											발송 됩니다.)
 										</Typography>
-									</Box>
-								) : irDeckFile.FILE_URL == '' ? (
-									<Box
-										p={2}
-										boxShadow={
-											'rgb(219, 219, 219) 0px 4px 10px'
-										}
-										borderRadius={2}
-									>
-										<Typography>
-											업로드된 파일이 없습니다.
-										</Typography>
-									</Box>
-								) : (
-									<Box
-										p={2}
-										boxShadow={
-											'rgb(219, 219, 219) 0px 4px 10px'
-										}
-										borderRadius={2}
-										justifyContent={'space-between'}
-										display={'flex'}
-										alignItems={'center'}
-									>
-										<Typography fontWeight={'600'}>
-											{irDeckFile.FILE_NAME}
-										</Typography>
-										<DownloadForOfflineIcon
-											onClick={() => {
-												window.open(
-													irDeckFile.FILE_URL,
-													'_blank'
-												);
-											}}
-											sx={{
-												cursor: 'pointer',
-											}}
-										/>
-									</Box>
-								)}
-							</Box>
-							{/* 기업 정보 */}
-							<Box mt={2}>
-								<Typography fontWeight={'600'}>
-									기업 정보
-								</Typography>
-								<Grid container display={'flex'} gap={1} mt={2}>
-									{companyInfoConfig.map((item, index) => {
-										return (
-											<Grid
-												item
-												key={index}
-												sm={5.9}
-												xs={12}
-											>
-												<Typography
-													fontWeight={'600'}
-													color={'grey'}
-													variant="caption"
-												>
-													{item.label}
-												</Typography>
-												{isEdit ? (
-													<SupportiInput
-														type={
-															item.type
-																? item.type
-																: 'text'
-														}
-														value={
-															userIrInfo[
-																item.value
-															]
-														}
-														setValue={(value) => {
-															setUserIrInfo({
-																...userIrInfo,
-																[item.value]:
-																	item.type ===
-																	'datepicker'
-																		? dayjs(
-																				value
-																		  ).format(
-																				'YYYY-MM-DD'
-																		  )
-																		: value,
-															});
-														}}
-														additionalProps={{
-															placeholder:
-																item.placeholder
-																	? item.placeholder
-																	: `${item.label}을 입력해주세요.`,
-														}}
-													/>
-												) : (
-													<Typography
-														fontWeight={'600'}
-														color={
-															userIrInfo[
-																item.value
-															]
-																? 'black'
-																: 'grey'
-														}
-														py={1}
-													>
-														{userIrInfo[item.value]
-															? userIrInfo[
-																	item.value
-															  ]
-															: '없음'}
-													</Typography>
-												)}
-											</Grid>
-										);
-									})}
-								</Grid>
-							</Box>
-							{/* 사업 소개 */}
-							<Box mt={2}>
-								<Typography fontWeight={'600'}>
-									사업 소개
-								</Typography>
-								<Grid container display={'flex'} gap={1} mt={2}>
-									{businessIntroductionConfig.map(
-										(item, index) => {
-											return (
-												<Grid
-													item
-													key={index}
-													xs={12}
-													display={'flex'}
-													gap={4}
-												>
-													<Typography
-														fontWeight={'600'}
-														color={'grey'}
-														variant="caption"
-														width={'100px'}
-													>
-														{item.label}
-													</Typography>
-													{isEdit ? (
-														<Box width={'100%'}>
-															<SupportiInput
-																type="text"
-																value={
-																	userIrInfo[
-																		item
-																			.value
-																	]
-																}
-																setValue={(
-																	value
-																) => {
+										<Box
+											display={'flex'}
+											mt={1}
+											justifyContent={'space-between'}
+											alignItems={'center'}
+										>
+											<Box display={'flex'}>
+												<FormControlLabel
+													value="end"
+													control={
+														<Switch
+															checked={
+																userIrInfo.OPEN_YN ===
+																'Y'
+															}
+															onChange={(e) => {
+																isEdit &&
 																	setUserIrInfo(
 																		{
 																			...userIrInfo,
-																			[item.value]:
-																				value,
+																			OPEN_YN:
+																				e
+																					.target
+																					.checked
+																					? 'Y'
+																					: 'N',
 																		}
 																	);
-																}}
-																additionalProps={{
-																	placeholder: `${item.label}을 입력해주세요.`,
-																	...item.additionalProps,
-																	fullWidth:
-																		true,
-																}}
-																style={{
-																	width: '100% !important',
-																}}
-															/>
-														</Box>
-													) : (
-														<Typography
-															fontWeight={'600'}
-															color={
-																userIrInfo[
-																	item.value
-																]
-																	? 'black'
-																	: 'grey'
+															}}
+														/>
+													}
+													label="자료 공개"
+													labelPlacement="start"
+												/>
+												<FormControlLabel
+													value="end"
+													control={
+														<Switch
+															checked={
+																userIrInfo.COMMENT_ALIMTALK_YN ===
+																'Y'
 															}
-														>
-															{userIrInfo[
-																item.value
-															]
-																? userIrInfo[
-																		item
-																			.value
-																  ]
-																		.split(
-																			'\n'
-																		)
-																		.map(
-																			(
-																				item,
-																				index
-																			) => {
-																				return (
-																					<Typography
-																						sx={{
-																							wordBreak:
-																								'keep-all',
-																							lineHeight:
-																								'20px',
-																						}}
-																						fontWeight={
-																							'600'
-																						}
-																					>
-																						{
-																							item
-																						}
-																					</Typography>
-																				);
-																			}
-																		)
-																: '없음'}
+															onChange={(e) => {
+																isEdit &&
+																	setUserIrInfo(
+																		{
+																			...userIrInfo,
+																			COMMENT_ALIMTALK_YN:
+																				e
+																					.target
+																					.checked
+																					? 'Y'
+																					: 'N',
+																		}
+																	);
+															}}
+														/>
+													}
+													label="알림톡 수신"
+													labelPlacement="start"
+												/>
+											</Box>
+											{userIrInfo.OPEN_YN === 'Y' &&
+												!isEdit && (
+													<IconButton
+														sx={{
+															display: 'flex',
+															alignItems:
+																'center',
+														}}
+														onClick={() =>
+															setCommentView(
+																!commentView
+															)
+														}
+													>
+														<CommentIcon />
+														<Typography ml={1}>
+															코멘트 확인하기
 														</Typography>
-													)}
-												</Grid>
-											);
-										}
-									)}
-								</Grid>
-								{/* 이미지 */}
-								<Box mt={2} display={'flex'}>
-									<Typography
-										fontWeight={'600'}
-										color={'grey'}
-										variant="caption"
-										width={'130px'}
-									>
-										기업 소개 이미지
-									</Typography>
+													</IconButton>
+												)}
+										</Box>
+									</Box> */}
+
+									{/* IR deck */}
 									<Box
 										display={'flex'}
+										flexDirection={'column'}
 										gap={2}
-										flexWrap={'wrap'}
+										mt={2}
 									>
-										{isEdit ? (
-											<MultiImageUploader
-												imagePreviewUrlList={
-													companyIntroductionImages
-												}
-												setImagePreviewUrlList={
-													setCompanyIntroductionImages
-												}
-												numOfUploader={3}
-												label="이미지"
-												inputStatus={{
-													status: 'default',
-												}}
-											/>
-										) : (
-											companyIntroductionImages.map(
-												(item, index) => {
-													return (
-														<Box
-															width={'150px'}
-															height={'150px'}
-															bgcolor={'grey'}
-															borderRadius={3}
-															sx={{
-																backgroundImage: `url(${item})`,
-																backgroundSize:
-																	'cover',
-															}}
-															onClick={() =>
-																window.open(
-																	item,
-																	'_blank'
-																)
-															}
-														/>
-													);
-												}
-											)
-										)}
-									</Box>
-								</Box>
-							</Box>
-							{/* 투자 정보 */}
-							<Box mt={2}>
-								<Typography fontWeight={'600'}>
-									투자 정보
-								</Typography>
-								<Grid
-									container
-									display={'flex'}
-									gap={1}
-									mt={2}
-									mb={2}
-								>
-									{investInfoConfig.map((item, index) => {
-										return (
-											<Grid
-												item
-												key={index}
-												sm={5.9}
-												xs={12}
-											>
+										<Typography
+											fontWeight={'600'}
+											display={'flex'}
+										>
+											IR자료 또는 사업 계획서{' '}
+											{isEdit && (
 												<Typography
 													fontWeight={'600'}
-													color={'grey'}
-													variant="caption"
+													color={'primary'}
 												>
-													{item.label}
+													(필수)
 												</Typography>
-												{isEdit ? (
-													<SupportiInput
-														type={item.type}
-														value={
-															userIrInfo[
-																item.value
-															]
-														}
-														setValue={(value) => {
-															setUserIrInfo({
-																...userIrInfo,
-																[item.value]:
-																	value,
-															});
-														}}
-														additionalProps={{
-															placeholder: `${item.label}을 입력해주세요.`,
-														}}
-														dataList={item.options}
-													/>
-												) : (
-													<Typography
-														fontWeight={'600'}
-														color={
-															userIrInfo[
-																item.value
-															]
-																? 'black'
-																: 'grey'
-														}
-														py={1}
-													>
-														{userIrInfo[item.value]
-															? item.value ==
-															  'HOPE_INVEST_MONEY'
-																? `${
+											)}
+										</Typography>
+										{isEdit ? (
+											<Box>
+												<SupportiInput
+													type="fileinput"
+													value={irDeckFile}
+													setValue={setIrDeckFile}
+													fileTypeInputName
+													fileTypeInputNameMaxSize={{
+														unit: 'MB',
+														size: 200,
+													}}
+													additionalProps={{
+														inputProps: {
+															accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
+														},
+													}}
+												/>
+												<Typography
+													variant="caption"
+													fontWeight={'600'}
+													color={'grey'}
+												>
+													제작년도 / 기업명 / 파일형식
+													/ 페이지 수 형식으로 업로드
+													부탁드립니다. (예시 :
+													2024/린온컴퍼니/PDF/25)
+												</Typography>
+											</Box>
+										) : irDeckFile.FILE_URL == '' ? (
+											<Box
+												p={2}
+												boxShadow={
+													'rgb(219, 219, 219) 0px 4px 10px'
+												}
+												borderRadius={2}
+											>
+												<Typography>
+													업로드된 파일이 없습니다.
+												</Typography>
+											</Box>
+										) : (
+											<Box
+												p={2}
+												boxShadow={
+													'rgb(219, 219, 219) 0px 4px 10px'
+												}
+												borderRadius={2}
+												justifyContent={'space-between'}
+												display={'flex'}
+												alignItems={'center'}
+											>
+												<Typography fontWeight={'600'}>
+													{irDeckFile.FILE_NAME}
+												</Typography>
+												<DownloadForOfflineIcon
+													onClick={() => {
+														window.open(
+															irDeckFile.FILE_URL,
+															'_blank'
+														);
+													}}
+													sx={{
+														cursor: 'pointer',
+													}}
+												/>
+											</Box>
+										)}
+									</Box>
+									{/* 기업 정보 */}
+									<Box mt={2}>
+										<Typography fontWeight={'600'}>
+											기업 정보
+										</Typography>
+										<Grid
+											container
+											display={'flex'}
+											gap={1}
+											mt={2}
+										>
+											{companyInfoConfig.map(
+												(item, index) => {
+													return (
+														<Grid
+															item
+															key={index}
+															sm={5.9}
+															xs={12}
+														>
+															<Typography
+																fontWeight={
+																	'600'
+																}
+																color={'grey'}
+																variant="caption"
+															>
+																{item.label}
+															</Typography>
+															{isEdit ? (
+																<SupportiInput
+																	type={
+																		item.type
+																			? item.type
+																			: 'text'
+																	}
+																	value={
 																		userIrInfo[
 																			item
 																				.value
 																		]
-																  }억원`
-																: userIrInfo[
+																	}
+																	setValue={(
+																		value
+																	) => {
+																		setUserIrInfo(
+																			{
+																				...userIrInfo,
+																				[item.value]:
+																					item.type ===
+																					'datepicker'
+																						? dayjs(
+																								value
+																						  ).format(
+																								'YYYY-MM-DD'
+																						  )
+																						: value,
+																			}
+																		);
+																	}}
+																	additionalProps={{
+																		placeholder:
+																			item.placeholder
+																				? item.placeholder
+																				: `${item.label}을 입력해주세요.`,
+																	}}
+																/>
+															) : (
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	color={
+																		userIrInfo[
+																			item
+																				.value
+																		]
+																			? 'black'
+																			: 'grey'
+																	}
+																	py={1}
+																>
+																	{userIrInfo[
 																		item
 																			.value
-																  ]
-															: '없음'}
-													</Typography>
+																	]
+																		? userIrInfo[
+																				item
+																					.value
+																		  ]
+																		: '없음'}
+																</Typography>
+															)}
+														</Grid>
+													);
+												}
+											)}
+										</Grid>
+									</Box>
+									{/* 사업 소개 */}
+									<Box mt={2}>
+										<Typography fontWeight={'600'}>
+											사업 소개
+										</Typography>
+										<Grid
+											container
+											display={'flex'}
+											gap={1}
+											mt={2}
+										>
+											{businessIntroductionConfig.map(
+												(item, index) => {
+													return (
+														<Grid
+															item
+															key={index}
+															xs={12}
+															display={'flex'}
+															gap={4}
+														>
+															<Typography
+																fontWeight={
+																	'600'
+																}
+																color={'grey'}
+																variant="caption"
+																width={'100px'}
+															>
+																{item.label}
+															</Typography>
+															{isEdit ? (
+																<Box
+																	width={
+																		'100%'
+																	}
+																>
+																	<SupportiInput
+																		type="text"
+																		value={
+																			userIrInfo[
+																				item
+																					.value
+																			]
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					[item.value]:
+																						value,
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			placeholder: `${item.label}을 입력해주세요.`,
+																			...item.additionalProps,
+																			fullWidth:
+																				true,
+																		}}
+																		style={{
+																			width: '100% !important',
+																		}}
+																	/>
+																</Box>
+															) : (
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	color={
+																		userIrInfo[
+																			item
+																				.value
+																		]
+																			? 'black'
+																			: 'grey'
+																	}
+																>
+																	{userIrInfo[
+																		item
+																			.value
+																	]
+																		? userIrInfo[
+																				item
+																					.value
+																		  ]
+																				.split(
+																					'\n'
+																				)
+																				.map(
+																					(
+																						item,
+																						index
+																					) => {
+																						return (
+																							<Typography
+																								sx={{
+																									wordBreak:
+																										'keep-all',
+																									lineHeight:
+																										'20px',
+																								}}
+																								fontWeight={
+																									'600'
+																								}
+																							>
+																								{
+																									item
+																								}
+																							</Typography>
+																						);
+																					}
+																				)
+																		: '없음'}
+																</Typography>
+															)}
+														</Grid>
+													);
+												}
+											)}
+										</Grid>
+										{/* 이미지 */}
+										<Box mt={2} display={'flex'}>
+											<Typography
+												fontWeight={'600'}
+												color={'grey'}
+												variant="caption"
+												width={'130px'}
+											>
+												기업 소개 이미지
+											</Typography>
+											<Box
+												display={'flex'}
+												gap={2}
+												flexWrap={'wrap'}
+											>
+												{isEdit ? (
+													<MultiImageUploader
+														imagePreviewUrlList={
+															companyIntroductionImages
+														}
+														setImagePreviewUrlList={
+															setCompanyIntroductionImages
+														}
+														numOfUploader={3}
+														label="이미지"
+														inputStatus={{
+															status: 'default',
+														}}
+													/>
+												) : (
+													companyIntroductionImages.map(
+														(item, index) => {
+															return (
+																<Box
+																	width={
+																		'150px'
+																	}
+																	height={
+																		'150px'
+																	}
+																	bgcolor={
+																		'grey'
+																	}
+																	borderRadius={
+																		3
+																	}
+																	sx={{
+																		backgroundImage: `url(${item})`,
+																		backgroundSize:
+																			'cover',
+																	}}
+																	onClick={() =>
+																		window.open(
+																			item,
+																			'_blank'
+																		)
+																	}
+																/>
+															);
+														}
+													)
 												)}
+											</Box>
+										</Box>
+									</Box>
+									{/* 투자 정보 */}
+									<Box mt={2}>
+										<Typography fontWeight={'600'}>
+											투자 정보
+										</Typography>
+										<Grid
+											container
+											display={'flex'}
+											gap={1}
+											mt={2}
+											mb={2}
+										>
+											{investInfoConfig.map(
+												(item, index) => {
+													return (
+														<Grid
+															item
+															key={index}
+															sm={5.9}
+															xs={12}
+														>
+															<Typography
+																fontWeight={
+																	'600'
+																}
+																color={'grey'}
+																variant="caption"
+															>
+																{item.label}
+															</Typography>
+															{isEdit ? (
+																<SupportiInput
+																	type={
+																		item.type
+																	}
+																	value={
+																		userIrInfo[
+																			item
+																				.value
+																		]
+																	}
+																	setValue={(
+																		value
+																	) => {
+																		setUserIrInfo(
+																			{
+																				...userIrInfo,
+																				[item.value]:
+																					value,
+																			}
+																		);
+																	}}
+																	additionalProps={{
+																		placeholder: `${item.label}을 입력해주세요.`,
+																	}}
+																	dataList={
+																		item.options
+																	}
+																/>
+															) : (
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	color={
+																		userIrInfo[
+																			item
+																				.value
+																		]
+																			? 'black'
+																			: 'grey'
+																	}
+																	py={1}
+																>
+																	{userIrInfo[
+																		item
+																			.value
+																	]
+																		? item.value ==
+																		  'HOPE_INVEST_MONEY'
+																			? `${
+																					userIrInfo[
+																						item
+																							.value
+																					]
+																			  }억원`
+																			: userIrInfo[
+																					item
+																						.value
+																			  ]
+																		: '없음'}
+																</Typography>
+															)}
+														</Grid>
+													);
+												}
+											)}
+										</Grid>
+										{/* 투자 연혁 */}
+										<Box
+											display={'flex'}
+											justifyContent={'space-between'}
+											alignItems={'center'}
+										>
+											{' '}
+											<Typography
+												fontWeight={'600'}
+												color={'grey'}
+												variant="caption"
+											>
+												투자 연혁
+											</Typography>
+											<Box display={'flex'}></Box>
+										</Box>
+										{isEdit ? (
+											<Grid
+												container
+												display={'flex'}
+												gap={1}
+												my={1}
+												bgcolor={'primary.light'}
+												p={2}
+												borderRadius={3}
+												position={'relative'}
+											>
+												{investHistoryConfig.map(
+													(item, index) => {
+														return (
+															<Grid
+																item
+																key={index}
+																display={'flex'}
+																alignItems={
+																	'center'
+																}
+																gap={1}
+																sm={5.9}
+																xs={12}
+															>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	color={
+																		'grey'
+																	}
+																	variant="caption"
+																	width={
+																		'50px'
+																	}
+																>
+																	{item.label}
+																</Typography>
+																<SupportiInput
+																	type={
+																		item.type
+																			? 'datepicker'
+																			: 'text'
+																	}
+																	value={
+																		newInvestInfo[
+																			item
+																				.value
+																		]
+																	}
+																	setValue={(
+																		value
+																	) => {
+																		setNewInvestInfo(
+																			{
+																				...newInvestInfo,
+																				[item.value]:
+																					item.type ===
+																					'datepicker'
+																						? dayjs(
+																								value
+																						  ).format(
+																								'YYYY-MM-DD'
+																						  )
+																						: value,
+																			}
+																		);
+																	}}
+																	additionalProps={{
+																		placeholder: `${item.label}을 입력해주세요.`,
+																	}}
+																/>
+															</Grid>
+														);
+													}
+												)}
+												<ControlPointIcon
+													onClick={() => {
+														if (
+															newInvestInfo.INVEST_AMOUNT ===
+																'' ||
+															newInvestInfo.INVESTOR ===
+																'' ||
+															newInvestInfo.INVEST_LEVEL ===
+																'' ||
+															newInvestInfo.VALUE ===
+																''
+														) {
+															alert(
+																'모든 항목을 입력해주세요.'
+															);
+															return;
+														}
+
+														setInvestInfo([
+															...investInfo,
+															newInvestInfo,
+														]);
+														setNewInvestInfo({
+															DATE: dayjs().format(
+																'YYYY-MM-DD'
+															),
+															INVEST_AMOUNT: '',
+															INVESTOR: '',
+															INVEST_LEVEL: '',
+															VALUE: '',
+														});
+													}}
+													sx={{
+														cursor: 'pointer',
+														position: 'absolute',
+														right: '10px',
+														top: '10px',
+													}}
+												/>
 											</Grid>
-										);
-									})}
-								</Grid>
-								{/* 투자 연혁 */}
-								<Box
-									display={'flex'}
-									justifyContent={'space-between'}
-									alignItems={'center'}
-								>
-									{' '}
-									<Typography
-										fontWeight={'600'}
-										color={'grey'}
-										variant="caption"
-									>
-										투자 연혁
-									</Typography>
-									<Box display={'flex'}></Box>
+										) : null}
+
+										<Box mt={1} display={'flex'}>
+											<Box
+												display={'flex'}
+												gap={1}
+												sx={{
+													overflowX: 'auto',
+												}}
+											>
+												{investInfo.map(
+													(item, index) => {
+														return (
+															<Box
+																key={index}
+																display={'flex'}
+																flexDirection={
+																	'column'
+																}
+																gap={1}
+																bgcolor={
+																	'primary.light'
+																}
+																p={2}
+																borderRadius={3}
+																width={'200px'}
+																minWidth={
+																	'200px'
+																}
+																position={
+																	'relative'
+																}
+															>
+																{isEdit && (
+																	<RemoveCircleOutlineIcon
+																		onClick={() => {
+																			setInvestInfo(
+																				investInfo.filter(
+																					(
+																						_,
+																						filterIndex
+																					) => {
+																						return (
+																							filterIndex !==
+																							index
+																						);
+																					}
+																				)
+																			);
+																		}}
+																		sx={{
+																			cursor: 'pointer',
+																			position:
+																				'absolute',
+																			right: '10px',
+																			top: '10px',
+																		}}
+																	/>
+																)}
+																{investHistoryConfig.map(
+																	(
+																		historyItem,
+																		historyIndex
+																	) => {
+																		return (
+																			<Box
+																				display={
+																					'flex'
+																				}
+																				gap={
+																					1
+																				}
+																				alignItems={
+																					'center'
+																				}
+																			>
+																				{!historyItem.nolabel && (
+																					<Typography
+																						fontWeight={
+																							'600'
+																						}
+																						color={
+																							'grey'
+																						}
+																						variant="caption"
+																						width={
+																							'50px'
+																						}
+																					>
+																						{
+																							historyItem.label
+																						}
+																					</Typography>
+																				)}
+																				<Typography
+																					fontWeight={
+																						historyItem.fontWeight
+																							? historyItem.fontWeight
+																							: '600'
+																					}
+																					color={
+																						item[
+																							historyItem
+																								.value
+																						]
+																							? historyItem.color
+																								? historyItem.color
+																								: 'black'
+																							: 'grey'
+																					}
+																					variant={
+																						historyItem.variant ===
+																							'h6' ||
+																						historyItem.variant ===
+																							'body2'
+																							? historyItem.variant
+																							: 'body1'
+																					}
+																				>
+																					{historyItem.isMoney
+																						? `${Number(
+																								item[
+																									historyItem
+																										.value
+																								]
+																						  ).toLocaleString()}원`
+																						: item[
+																								historyItem
+																									.value
+																						  ]}
+																				</Typography>
+																			</Box>
+																		);
+																	}
+																)}
+															</Box>
+														);
+													}
+												)}
+											</Box>
+										</Box>
+									</Box>
 								</Box>
-								{isEdit ? (
-									<Grid
-										container
+							</Grid>
+							<Grid
+								item
+								xs={12}
+								sm={commentView ? 3.9 : 0}
+								display={commentView ? 'block' : 'none'}
+							>
+								<Box
+									bgcolor={'white'}
+									width={'100%'}
+									borderRadius={3}
+									p={4}
+									minHeight={{ sm: '814px', xs: '0px' }}
+									sx={{
+										overflowY: 'auto',
+									}}
+								>
+									<Box
 										display={'flex'}
-										gap={1}
-										my={1}
-										bgcolor={'primary.light'}
-										p={2}
-										borderRadius={3}
-										position={'relative'}
+										alignItems={'center'}
+										justifyContent={'space-between'}
+										mb={2}
 									>
-										{investHistoryConfig.map(
-											(item, index) => {
-												return (
-													<Grid
-														item
-														key={index}
+										<Typography
+											fontWeight={'600'}
+											display={'flex'}
+											mb={0.5}
+										>
+											코멘트 리스트
+										</Typography>
+										<Typography>
+											총 {commentList.length}개
+										</Typography>
+									</Box>
+									<Box>
+										{commentList.length === 0 && <Nodata />}
+										{commentList.map((item, index) => {
+											return (
+												<Box
+													p={2}
+													borderRadius={3}
+													bgcolor={'white'}
+													boxShadow={
+														'0px 4px 10px rgb(219 219 219)'
+													}
+												>
+													<Box
 														display={'flex'}
+														justifyContent={
+															'space-between'
+														}
 														alignItems={'center'}
-														gap={1}
-														sm={5.9}
-														xs={12}
+														mb={1.5}
 													>
 														<Typography
 															fontWeight={'600'}
-															color={'grey'}
-															variant="caption"
-															width={'50px'}
 														>
-															{item.label}
+															{
+																item
+																	.PartnerMember
+																	?.FULL_NAME
+															}
 														</Typography>
-														<SupportiInput
-															type={
-																item.type
-																	? 'datepicker'
-																	: 'text'
-															}
-															value={
-																newInvestInfo[
-																	item.value
-																]
-															}
-															setValue={(
-																value
-															) => {
-																setNewInvestInfo(
-																	{
-																		...newInvestInfo,
-																		[item.value]:
-																			item.type ===
-																			'datepicker'
-																				? dayjs(
-																						value
-																				  ).format(
-																						'YYYY-MM-DD'
-																				  )
-																				: value,
-																	}
-																);
-															}}
-															additionalProps={{
-																placeholder: `${item.label}을 입력해주세요.`,
-															}}
-														/>
-													</Grid>
-												);
-											}
-										)}
-										<ControlPointIcon
-											onClick={() => {
-												if (
-													newInvestInfo.INVEST_AMOUNT ===
-														'' ||
-													newInvestInfo.INVESTOR ===
-														'' ||
-													newInvestInfo.INVEST_LEVEL ===
-														'' ||
-													newInvestInfo.VALUE === ''
-												) {
-													alert(
-														'모든 항목을 입력해주세요.'
-													);
-													return;
-												}
-
-												setInvestInfo([
-													...investInfo,
-													newInvestInfo,
-												]);
-												setNewInvestInfo({
-													DATE: dayjs().format(
-														'YYYY-MM-DD'
-													),
-													INVEST_AMOUNT: '',
-													INVESTOR: '',
-													INVEST_LEVEL: '',
-													VALUE: '',
-												});
-											}}
-											sx={{
-												cursor: 'pointer',
-												position: 'absolute',
-												right: '10px',
-												top: '10px',
-											}}
-										/>
-									</Grid>
-								) : null}
-
-								<Box mt={1} display={'flex'}>
-									<Box
-										display={'flex'}
-										gap={1}
-										sx={{
-											overflowX: 'auto',
-										}}
-									>
-										{investInfo.map((item, index) => {
-											return (
-												<Box
-													key={index}
-													display={'flex'}
-													flexDirection={'column'}
-													gap={1}
-													bgcolor={'primary.light'}
-													p={2}
-													borderRadius={3}
-													width={'200px'}
-													minWidth={'200px'}
-													position={'relative'}
-												>
-													{isEdit && (
-														<RemoveCircleOutlineIcon
-															onClick={() => {
-																setInvestInfo(
-																	investInfo.filter(
-																		(
-																			_,
-																			filterIndex
-																		) => {
-																			return (
-																				filterIndex !==
-																				index
-																			);
+														<Typography
+															fontWeight={'600'}
+															color={'grey'}
+															variant="body2"
+														>
+															3분전
+														</Typography>
+													</Box>
+													<Box
+														display={'flex'}
+														gap={1}
+													>
+														{/* {item.CONTENTS &&
+															JSON.parse(
+																item.CONTENTS
+															)?.map(
+																(
+																	content,
+																	index
+																) => (
+																	<Typography
+																		display={
+																			'flex'
 																		}
-																	)
-																);
-															}}
-															sx={{
-																cursor: 'pointer',
-																position:
-																	'absolute',
-																right: '10px',
-																top: '10px',
-															}}
-														/>
-													)}
-													{investHistoryConfig.map(
-														(
-															historyItem,
-															historyIndex
-														) => {
-															return (
-																<Box
-																	display={
-																		'flex'
-																	}
-																	gap={1}
-																	alignItems={
-																		'center'
-																	}
-																>
-																	{!historyItem.nolabel && (
+																		flexWrap={
+																			'wrap'
+																		}
+																	>
 																		<Typography
 																			fontWeight={
 																				'600'
 																			}
-																			color={
-																				'grey'
-																			}
-																			variant="caption"
-																			width={
-																				'50px'
-																			}
 																		>
+																			[
 																			{
-																				historyItem.label
+																				content.type
 																			}
-																		</Typography>
-																	)}
-																	<Typography
-																		fontWeight={
-																			historyItem.fontWeight
-																				? historyItem.fontWeight
-																				: '600'
-																		}
-																		color={
-																			item[
-																				historyItem
-																					.value
 																			]
-																				? historyItem.color
-																					? historyItem.color
-																					: 'black'
-																				: 'grey'
+																		</Typography>
+																		{
+																			content.content
 																		}
-																		variant={
-																			historyItem.variant ===
-																				'h6' ||
-																			historyItem.variant ===
-																				'body2'
-																				? historyItem.variant
-																				: 'body1'
-																		}
-																	>
-																		{historyItem.isMoney
-																			? `${Number(
-																					item[
-																						historyItem
-																							.value
-																					]
-																			  ).toLocaleString()}원`
-																			: item[
-																					historyItem
-																						.value
-																			  ]}
 																	</Typography>
-																</Box>
-															);
-														}
-													)}
+																)
+															)} */}
+													</Box>
 												</Box>
 											);
 										})}
 									</Box>
 								</Box>
-							</Box>
-						</Box>
+							</Grid>
+						</Grid>
 					</Box>
 				</InternalServiceLayout>
 			</Box>

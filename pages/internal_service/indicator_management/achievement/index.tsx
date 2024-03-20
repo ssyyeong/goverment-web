@@ -14,6 +14,7 @@ import { InternalServiceLayout } from '../../../../src/views/layout/InternalServ
 import GuidelineModal from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/GuidelineModal/GuidelineModal';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import RenewalKpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/RenewalKpiCard/RenewalKpiCard';
+import GuideLine from '../../../../src/views/local/common/GuideLine/GuideLine';
 
 type TSelectableIndicator = {
 	name: string;
@@ -208,26 +209,7 @@ const Page: NextPage = () => {
 									)}
 								</Box>
 
-								<Box
-									display="flex"
-									alignItems={'center'}
-									gap={0.5}
-								>
-									<Typography fontWeight={500}>
-										가이드라인
-									</Typography>
-									<HelpOutlineIcon
-										sx={{
-											color: 'secondary.dark',
-											width: '20px',
-											height: '20px',
-											cursor: 'pointer',
-										}}
-										onClick={() => {
-											setOpenGuideline(true);
-										}}
-									/>
-								</Box>
+								{/* <GuideLine link={'https://www.naver.com'} /> */}
 							</Box>
 							<Typography
 								color={'secondary.dark'}
@@ -255,11 +237,6 @@ const Page: NextPage = () => {
 						</InternalServiceLayout>
 					)}
 				</Box>
-				{/* 가이드라인 모달 */}
-				<GuidelineModal
-					modalOpen={openGuideline}
-					setModalOpen={setOpenGuideline}
-				/>
 			</InternalServiceDrawer>
 		)
 	);

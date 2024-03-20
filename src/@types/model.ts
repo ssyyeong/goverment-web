@@ -174,6 +174,8 @@ interface IUserIRData {
 	INVEST_INFO?: string;
 	HOPE_INVEST_ROUND?: string;
 	HOPE_INVEST_MONEY?: string;
+	OPEN_YN?: 'Y' | 'N';
+	ALIMTALK_YN?: 'Y' | 'N';
 	[key: string]: any;
 }
 
