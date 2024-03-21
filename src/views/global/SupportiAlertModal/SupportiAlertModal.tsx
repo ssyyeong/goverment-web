@@ -43,6 +43,7 @@ interface ISupportiAlertModalProps {
 		| 'successDeleteAxios'
 		| 'failAxios'
 		| 'seminarApply'
+		| 'seminarApplySuccess'
 		| 'paymentSuccess'
 		| 'unAccess'
 		| 'coffeechatprofilemissing'
@@ -310,6 +311,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		seminarApply: {
 			type: 'success',
 			title: '이 세미나를 신청하시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		seminarApplySuccess: {
+			type: 'success',
+			title: '신청완료 되었습니다.(추후 결제 링크를  전송해드립니다.)',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();

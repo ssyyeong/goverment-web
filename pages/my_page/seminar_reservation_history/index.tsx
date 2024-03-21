@@ -41,9 +41,9 @@ const Page: NextPage = () => {
 		},
 		{
 			label: '금액',
-			value: 'SeminarProduct.PRICE',
+			value: 'SeminarProduct.REAL_PRICE',
 			customValue: (value) => {
-				return value.SeminarProduct.PRICE;
+				return value.SeminarProduct.REAL_PRICE;
 			},
 			align: 'center',
 			format: (value) => {
@@ -61,18 +61,34 @@ const Page: NextPage = () => {
 			},
 			align: 'center',
 		},
+		{
+			label: '결제여부',
+			value: 'PAYMENT_YN',
+			format: (value) => {
+				return value == 'Y' ? '결제완료' : '미결제';
+			},
+			align: 'center',
+		},
 	];
 	const cancelSeminarHeaderData: TableHeaderProps = {
 		label: '취소',
 		value: 'SEMINAR_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
 		customValue: (value) => {
+			console.log(value.PAYMENT_YN == 'Y');
 			return value.CANCELED_YN === 'N'
-				? value.SEMINAR_APPLICATION_IDENTIFICATION_CODE
+				? value.PAYMENT_YN == 'Y'
+					? '결제완료'
+					: value.SEMINAR_APPLICATION_IDENTIFICATION_CODE
 				: '취소됨';
 		},
 		customView: (value) => {
-			return value !== '취소됨' ? (
+			console.log(value);
+			return value == '취소됨' ? (
+				<Typography>취소됨</Typography>
+			) : value == '결제완료' ? (
+				<Typography>취소불가</Typography>
+			) : (
 				<Button
 					variant="contained"
 					onClick={() => {
@@ -86,8 +102,6 @@ const Page: NextPage = () => {
 				>
 					취소
 				</Button>
-			) : (
-				<Typography>취소됨</Typography>
 			);
 		},
 	};
@@ -165,12 +179,12 @@ const Page: NextPage = () => {
 					setTotalDataCount(res.data.result.count);
 					setSeminarDataList(res.data.result.rows);
 					if (tab === 0) {
-						setSeminarHeaderData(seminarGenralHeaderData);
-					} else {
 						setSeminarHeaderData([
 							...seminarGenralHeaderData,
 							cancelSeminarHeaderData,
 						]);
+					} else {
+						setSeminarHeaderData(seminarGenralHeaderData);
 					}
 				},
 				(err) => {}

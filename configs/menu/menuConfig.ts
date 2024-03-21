@@ -124,11 +124,11 @@ const mypageMenu: IMenu[] = [
 	// 	path: '/my_page/point_history',
 	// 	icon: '/images/icons/point.png',
 	// },
-	// {
-	// 	label: '세미나 히스토리',
-	// 	path: '/my_page/seminar_reservation_history',
-	// 	icon: '/images/icons/seminar-reservation.png',
-	// },
+	{
+		label: '세미나 히스토리',
+		path: '/my_page/seminar_reservation_history',
+		icon: '/images/icons/seminar-reservation.png',
+	},
 	// {
 	// 	label: 'IR 신청내역',
 	// 	path: '/my_page/ir_history',

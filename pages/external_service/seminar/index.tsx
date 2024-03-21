@@ -91,7 +91,7 @@ const Page: NextPage = () => {
 			{
 				LIMIT: 10,
 				PAGE: page,
-				PRICE: tab === 0 ? 0 : undefined,
+				FREE_YN: tab === 0 ? 'Y' : 'N',
 				PERIOD_TARGET_KEY: tab === 1 ? 'PRICE' : undefined,
 				PERIOD_START: tab === 1 ? 1 : undefined,
 				SORT_KEY: 'SEMINAR_DATE',
@@ -146,11 +146,11 @@ const Page: NextPage = () => {
 				<SupportiToggle
 					chipDataList={[
 						{
-							label: '모든 회원 세미나',
+							label: '무료 세미나',
 							value: 0,
 						},
 						{
-							label: '유료 회원 세미나',
+							label: '유료 세미나',
 							value: 1,
 						},
 					]}

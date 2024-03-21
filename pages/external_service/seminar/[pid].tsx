@@ -10,6 +10,7 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -35,14 +36,14 @@ const Page: NextPage = () => {
 	 * 알럿 모달 타입
 	 */
 	const [alertModalType, setAlertModalType] = React.useState<
-		| 'success'
+		| 'seminarApplySuccess'
 		| 'login'
 		| 'subscribe'
 		| 'point'
 		| 'already'
 		| 'seminarexceed'
 		| 'seminarApply'
-	>('success');
+	>('seminarApplySuccess');
 
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
@@ -87,18 +88,10 @@ const Page: NextPage = () => {
 						},
 						(res) => {
 							setAlertModal(true);
-							setAlertModalType('success');
+							setAlertModalType('seminarApplySuccess');
 						},
 						(err) => {
 							console.log(err.response);
-							// if (
-							// 	err.response.data.message ===
-							// 	'구독 회원만 이용 가능합니다.'
-							// ) {
-							// 	setAlertModal(true);
-							// 	setAlertModalType('subscribe');
-							// 	return;
-							// }
 							if (
 								err.response.data.message ===
 								'신청 내역이 존재합니다.'
@@ -188,6 +181,25 @@ const Page: NextPage = () => {
 				height={'auto'}
 				position={'relative'}
 			>
+				{/* 소개글 */}
+				{seminarData.DESCRIPTION && (
+					<Box
+						width={'100%'}
+						p={3}
+						bgcolor={'#cccccc60'}
+						borderRadius={2}
+						mb={3}
+						display={'flex'}
+						// alignItems={'center'}
+						gap={2}
+					>
+						<LightbulbOutlinedIcon />
+						<Typography variant={'subtitle2'} lineHeight={1.6}>
+							{seminarData.DESCRIPTION}
+						</Typography>
+					</Box>
+				)}
+
 				{seminarData.PRODUCT_DETAIL_IMAGE_LIST &&
 					JSON.parse(seminarData.PRODUCT_DETAIL_IMAGE_LIST).map(
 						(item, index) => {

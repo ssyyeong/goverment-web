@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { NextPage } from 'next';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,20 +16,46 @@ import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useRouter } from 'next/router';
 import SupportiInput from '../../src/views/global/SupportiInput';
 import SupportiButton from '../../src/views/global/SupportiButton';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
-	const { orderName, amount } = useRouter().query;
+	const { linkid } = useRouter().query;
 	const router = useRouter();
 	//* Constants
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
 	const orderId = uuidv4();
 	//* States
 	const [customerName, setCustomerName] = useState<string>('');
+	const [amount, setAmount] = useState<number>(0);
+	const [orderName, setOrderName] = useState<string>('');
+	const [caution, setCaution] = useState<string>('');
 	const [paymentMethod, setPaymentMethod] = useState<'카드' | '가상계좌'>(
 		'카드'
 	);
+	//* Controller
+	const paymentLinkController = new DefaultController('PaymentLink');
 	//* Functions
+	/**
+	 * 결제 정보 가져오기
+	 */
+	const getPaymentLinkData = () => {
+		paymentLinkController.getOneItem(
+			{
+				PAYMENT_LINK_IDENTIFICATION_CODE: linkid,
+			},
+			(res) => {
+				if (res.data.result) {
+					setAmount(res.data.result.PRICE);
+					setOrderName(res.data.result.PAYMENT_LOG);
+					setCaution(res.data.result.NOTICE);
+				} else {
+					alert('올바르지 않은 접근 방법입니다.');
+					router.push('/');
+				}
+			}
+		);
+	};
 	/**
 	 * 토스 결제 실행
 	 */
@@ -58,6 +84,9 @@ const Page: NextPage = () => {
 		});
 	};
 	//* Hooks
+	useEffect(() => {
+		if (linkid) getPaymentLinkData();
+	}, [linkid]);
 	return (
 		<Box
 			width={'100%'}
@@ -147,6 +176,17 @@ const Page: NextPage = () => {
 						입력해주세요!
 					</Typography>
 				</Box>
+				{caution !== '' && (
+					<Box display={'flex'} alignItems={'center'} gap={5}>
+						<Typography variant="h6" fontWeight={'bold'}>
+							주의사항!!!
+						</Typography>
+						<Typography fontWeight={'600'} color={'error.main'}>
+							{caution}
+						</Typography>
+					</Box>
+				)}
+
 				<Box
 					width={'100%'}
 					alignItems={'center'}
