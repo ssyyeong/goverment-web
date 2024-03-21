@@ -27,6 +27,7 @@ import dayjs from 'dayjs';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CommentIcon from '@mui/icons-material/Comment';
 import Nodata from '../../../../src/views/global/NoData/NoData';
+import moment from 'moment';
 
 interface IInvestInfoType {
 	DATE?: any;
@@ -1307,7 +1308,7 @@ const Page: NextPage = () => {
 									width={'100%'}
 									borderRadius={3}
 									p={4}
-									minHeight={{ sm: '814px', xs: '0px' }}
+									minHeight={{ sm: '700px', xs: '0px' }}
 									sx={{
 										overflowY: 'auto',
 									}}
@@ -1329,7 +1330,11 @@ const Page: NextPage = () => {
 											총 {commentList.length}개
 										</Typography>
 									</Box>
-									<Box>
+									<Box
+										display={'flex'}
+										flexDirection={'column'}
+										gap={2}
+									>
 										{commentList.length === 0 && <Nodata />}
 										{commentList.map((item, index) => {
 											return (
@@ -1352,57 +1357,69 @@ const Page: NextPage = () => {
 														<Typography
 															fontWeight={'600'}
 														>
-															{
-																item
-																	.PartnerMember
-																	?.FULL_NAME
-															}
+															{item.PartnerMember
+																? item
+																		.PartnerMember
+																		?.FULL_NAME
+																: '린온컴퍼니'}
 														</Typography>
 														<Typography
 															fontWeight={'600'}
 															color={'grey'}
 															variant="body2"
 														>
-															3분전
+															{moment(
+																item.CREATED_AT
+															).format(
+																'YY/MM/DD hh:mm'
+															)}
 														</Typography>
 													</Box>
 													<Box
 														display={'flex'}
 														gap={1}
+														flexDirection={'column'}
 													>
-														{/* {item.CONTENTS &&
-															JSON.parse(
-																item.CONTENTS
-															)?.map(
-																(
-																	content,
-																	index
-																) => (
-																	<Typography
-																		display={
-																			'flex'
-																		}
-																		flexWrap={
-																			'wrap'
-																		}
-																	>
-																		<Typography
-																			fontWeight={
-																				'600'
-																			}
-																		>
-																			[
-																			{
-																				content.type
-																			}
-																			]
-																		</Typography>
-																		{
-																			content.content
-																		}
-																	</Typography>
-																)
-															)} */}
+														{item.IR_DECK_COMMENT && (
+															<Typography
+																display={'flex'}
+																flexWrap={
+																	'wrap'
+																}
+																gap={1}
+															>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	[IR deck]
+																</Typography>
+																{
+																	item.IR_DECK_COMMENT
+																}
+															</Typography>
+														)}
+														{item.INVEST_INFO_COMMENT && (
+															<Typography
+																display={'flex'}
+																flexWrap={
+																	'wrap'
+																}
+																gap={1}
+															>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	[투자정보]
+																</Typography>
+																{
+																	item.INVEST_INFO_COMMENT
+																}
+															</Typography>
+														)}
 													</Box>
 												</Box>
 											);

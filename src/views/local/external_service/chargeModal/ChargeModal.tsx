@@ -53,6 +53,7 @@ const ChargeModal = (props: IChargeModalProps) => {
 			});
 		});
 	};
+
 	return (
 		<SupportiModal
 			open={props.open}
