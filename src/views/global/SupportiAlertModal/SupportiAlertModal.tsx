@@ -320,7 +320,7 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		},
 		seminarApplySuccess: {
 			type: 'success',
-			title: '신청완료 되었습니다.(추후 결제 링크를  전송해드립니다.)',
+			title: '신청완료 되었습니다.(페이지 상단에 기재된 결제 링크로 결제 바랍니다.)',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();

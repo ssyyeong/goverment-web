@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -162,13 +163,25 @@ const Page: NextPage = () => {
 				<Typography variant={'h4'} fontWeight={'600'}>
 					{seminarData.PRODUCT_NAME}
 				</Typography>
-				<Box display={'flex'} gap={3}>
+				<Box
+					display={'flex'}
+					gap={3}
+					mt={{
+						xs: 2,
+						md: 0,
+					}}
+				>
 					<Typography variant={'body1'}>
 						{moment(seminarData.SEMINAR_DATE).format('YYYY-MM-DD')}
 					</Typography>
 					<Typography variant={'body1'}>
 						정원 : {seminarData.PERSONNEL}명
 					</Typography>
+					{seminarData.REAL_PRICE && (
+						<Typography variant={'body1'}>
+							가격 : {seminarData.REAL_PRICE?.toLocaleString()}원
+						</Typography>
+					)}
 				</Box>
 			</Box>
 			{/* 세미나 내용 */}
@@ -199,7 +212,45 @@ const Page: NextPage = () => {
 						</Typography>
 					</Box>
 				)}
-
+				{/* 결제 안내 */}
+				{seminarData.PAYMENT_LINK && (
+					<Box
+						width={'100%'}
+						p={3}
+						bgcolor={'#cccccc60'}
+						borderRadius={2}
+						mb={3}
+						display={'flex'}
+						// alignItems={'center'}
+						flexDirection={'column'}
+						gap={2}
+					>
+						<Box display={'flex'} alignItems={'center'} gap={2}>
+							{' '}
+							<CreditScoreIcon />
+							<Typography variant={'subtitle2'} lineHeight={1.6}>
+								결제 안내
+							</Typography>
+						</Box>
+						<Typography variant={'subtitle2'} lineHeight={1.6}>
+							결제 링크 :{' '}
+							<a
+								href={seminarData.PAYMENT_LINK}
+								style={{
+									color: 'blue',
+									textDecoration: 'underline',
+								}}
+							>
+								{seminarData.PAYMENT_LINK}
+							</a>
+						</Typography>
+						<Typography lineHeight={1.6}>
+							신청을 모두 완료 한 후 위의 결제 링크로 결제 진행
+							부탁드립니다. 결제후 결제 완료 처리는 순차적으로
+							진행되오니 참고 부탁드립니다.
+						</Typography>
+					</Box>
+				)}
 				{seminarData.PRODUCT_DETAIL_IMAGE_LIST &&
 					JSON.parse(seminarData.PRODUCT_DETAIL_IMAGE_LIST).map(
 						(item, index) => {

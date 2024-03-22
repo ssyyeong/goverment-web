@@ -339,11 +339,11 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
-	// useEffect(() => {
-	// 	if (isUpdate) {
-	// 		getCommentList();
-	// 	}
-	// }, [isUpdate]);
+	useEffect(() => {
+		if (isUpdate) {
+			getCommentList();
+		}
+	}, [isUpdate]);
 
 	console.log(userIrInfo, 'userIrInfo');
 	console.log(isUpdate, 'isUpdate');

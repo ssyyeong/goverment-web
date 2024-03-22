@@ -48,10 +48,11 @@ const Page: NextPage = () => {
 
 	const chargedSeminarHeaderData: TableHeaderProps = {
 		label: '금액',
-		value: 'PRICE',
+		value: 'REAL_PRICE',
 		format: (value) => {
-			return value == 0 ? '무료' : `${value.toLocaleString()} P`;
+			return value == 0 ? '무료' : `${value.toLocaleString()} 원`;
 		},
+		align: 'center',
 	};
 	//* States
 	/**
