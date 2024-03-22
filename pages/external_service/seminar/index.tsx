@@ -93,8 +93,6 @@ const Page: NextPage = () => {
 				LIMIT: 10,
 				PAGE: page,
 				FREE_YN: tab === 0 ? 'Y' : 'N',
-				PERIOD_TARGET_KEY: tab === 1 ? 'PRICE' : undefined,
-				PERIOD_START: tab === 1 ? 1 : undefined,
 				SORT_KEY: 'SEMINAR_DATE',
 				SORT_DIRECTION: 'ASC',
 				PURCHASE_AVAILABLE_YN: 'Y',

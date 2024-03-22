@@ -207,9 +207,23 @@ const Page: NextPage = () => {
 						gap={2}
 					>
 						<LightbulbOutlinedIcon />
-						<Typography variant={'subtitle2'} lineHeight={1.6}>
-							{seminarData.DESCRIPTION}
-						</Typography>
+						<Box>
+							{seminarData.DESCRIPTION.split('\n').map(
+								(item, index) => {
+									return (
+										<Typography
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+											variant={'subtitle2'}
+											lineHeight={1.6}
+										>
+											{item}
+										</Typography>
+									);
+								}
+							)}
+						</Box>
 					</Box>
 				)}
 				{/* 결제 안내 */}
