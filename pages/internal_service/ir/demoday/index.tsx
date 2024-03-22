@@ -140,6 +140,8 @@ const Page: NextPage = () => {
 			getDemoDayData();
 		}
 	}, [memberId]);
+
+	console.log(demoDayData)
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
@@ -178,6 +180,71 @@ const Page: NextPage = () => {
 									소개하고 투자자들과의 소통을 통해 투자유치를
 									목표로 하는 행사입니다.
 								</Typography>
+							</Box>
+						</Box>
+						{/** 합격률, 참여율 */}
+						<Box mt={2} display="flex" width="100%" gap={2} 	flexWrap='wrap'>
+							<Box
+								bgcolor={'white'}
+								p={4}
+								borderRadius={3}
+								width="49%"
+								display="flex"
+								justifyContent='space-between'
+								flexWrap='wrap'
+							>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h6"
+										fontWeight={'600'}
+										mb={2}
+									>
+										총 참여율
+									</Typography>
+									<Typography
+										variant="body2"
+										fontWeight={'500'}
+										color="secondary.main"
+										mt={0.5}
+									>
+										총 신청 개수 / 총 데모데이 개수
+									</Typography>
+								</Box>
+<Typography 	variant="h1"
+										fontWeight={'700'} color='primary.main'>
+											{demoDayData.participationRate}%
+</Typography>
+							</Box>
+							<Box
+								bgcolor={'white'}
+								p={4}
+								borderRadius={3}
+								width="49%"
+								display="flex"
+								justifyContent='space-between'
+								flexWrap='wrap'
+							>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h6"
+										fontWeight={'600'}
+										mb={2}
+									>
+										총 합격률
+									</Typography>
+									<Typography
+										variant="body2"
+										fontWeight={'500'}
+										color="secondary.main"
+										mt={0.5}
+									>
+										총 선정 개수 / 총 신청 개수
+									</Typography>
+								</Box>
+<Typography 	variant="h1"
+										fontWeight={'700'} color='primary.main'>
+											{demoDayData.passedRate}%
+</Typography>
 							</Box>
 						</Box>
 						{/* 본문 */}
