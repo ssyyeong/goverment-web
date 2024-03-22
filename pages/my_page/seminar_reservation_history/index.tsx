@@ -265,7 +265,9 @@ const Page: NextPage = () => {
 								colums={[
 									{
 										label: '금액',
-										value: item.SeminarProduct.PRICE + '원',
+										value:
+											item.SeminarProduct.REAL_PRICE +
+											'원',
 									},
 									{
 										label: '일정',
@@ -274,27 +276,42 @@ const Page: NextPage = () => {
 										).format('YYYY-MM-DD'),
 									},
 									{
+										label: '결제여부',
+										value:
+											item.PAYMENT_YN == 'Y'
+												? '결제완료'
+												: '미결제',
+									},
+									{
 										label: '취소',
 										value:
 											item.CANCELED_YN === 'N' ? (
 												tab == 0 ? (
-													<Button
-														variant="contained"
-														onClick={() => {
-															setSelectedSeminarId(
-																item.SEMINAR_APPLICATION_IDENTIFICATION_CODE
-															);
-															setCancelModal(
-																true
-															);
-														}}
-														sx={{
-															fontWeight: '400',
-															fontSize: '12px',
-														}}
-													>
-														취소
-													</Button>
+													item.PAYMENT_YN == 'Y' ? (
+														<Typography>
+															취소불가
+														</Typography>
+													) : (
+														<Button
+															variant="contained"
+															onClick={() => {
+																setSelectedSeminarId(
+																	item.SEMINAR_APPLICATION_IDENTIFICATION_CODE
+																);
+																setCancelModal(
+																	true
+																);
+															}}
+															sx={{
+																fontWeight:
+																	'400',
+																fontSize:
+																	'12px',
+															}}
+														>
+															취소
+														</Button>
+													)
 												) : (
 													<Typography>
 														완료됨

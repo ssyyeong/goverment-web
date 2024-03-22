@@ -215,9 +215,9 @@ const Page: NextPage = () => {
 								{
 									label: '금액',
 									value:
-										data.PRICE == 0
+										data.REAL_PRICE == 0
 											? '무료'
-											: `${data.PRICE.toLocaleString()} P`,
+											: `${data.REAL_PRICE.toLocaleString()} 원`,
 								},
 							]}
 						/>
