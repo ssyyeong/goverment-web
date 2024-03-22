@@ -73,7 +73,7 @@ const Page: NextPage = () => {
 				customerName: customerName.toString(), // 판매자, 판매처 이름
 				successUrl:
 					process.env.NEXT_PUBLIC_WEB_HOST +
-					`/toss/success` +
+					`/toss/link_success` +
 					`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
 				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
 				validHours: 24, // 유효시간
