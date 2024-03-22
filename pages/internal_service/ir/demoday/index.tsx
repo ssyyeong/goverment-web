@@ -141,7 +141,7 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
-	console.log(demoDayData)
+	console.log(demoDayData);
 	return (
 		<InternalServiceDrawer type="dashboard">
 			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
@@ -183,15 +183,21 @@ const Page: NextPage = () => {
 							</Box>
 						</Box>
 						{/** 합격률, 참여율 */}
-						<Box mt={2} display="flex" width="100%" gap={2} 	flexWrap='wrap'>
+						<Box
+							mt={2}
+							display="flex"
+							width="100%"
+							gap={2}
+							flexWrap="wrap"
+						>
 							<Box
 								bgcolor={'white'}
 								p={4}
 								borderRadius={3}
 								width="49%"
 								display="flex"
-								justifyContent='space-between'
-								flexWrap='wrap'
+								justifyContent="space-between"
+								flexWrap="wrap"
 							>
 								<Box display="flex" gap={1}>
 									<Typography
@@ -210,10 +216,13 @@ const Page: NextPage = () => {
 										총 신청 개수 / 총 데모데이 개수
 									</Typography>
 								</Box>
-<Typography 	variant="h1"
-										fontWeight={'700'} color='primary.main'>
-											{demoDayData.participationRate}%
-</Typography>
+								<Typography
+									variant="h1"
+									fontWeight={'700'}
+									color="primary.main"
+								>
+									{demoDayData?.participationRate}%
+								</Typography>
 							</Box>
 							<Box
 								bgcolor={'white'}
@@ -221,8 +230,8 @@ const Page: NextPage = () => {
 								borderRadius={3}
 								width="49%"
 								display="flex"
-								justifyContent='space-between'
-								flexWrap='wrap'
+								justifyContent="space-between"
+								flexWrap="wrap"
 							>
 								<Box display="flex" gap={1}>
 									<Typography
@@ -241,10 +250,13 @@ const Page: NextPage = () => {
 										총 선정 개수 / 총 신청 개수
 									</Typography>
 								</Box>
-<Typography 	variant="h1"
-										fontWeight={'700'} color='primary.main'>
-											{demoDayData.passedRate}%
-</Typography>
+								<Typography
+									variant="h1"
+									fontWeight={'700'}
+									color="primary.main"
+								>
+									{demoDayData?.passedRate}%
+								</Typography>
 							</Box>
 						</Box>
 						{/* 본문 */}
