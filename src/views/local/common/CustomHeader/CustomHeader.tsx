@@ -41,10 +41,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/rate_plan/theBlack',
 		},
 
-		// {
-		// 	label: '세미나',
-		// 	path: '/external_service/seminar',
-		// },
+		{
+			label: '세미나',
+			path: '/external_service/seminar',
+		},
 		// {
 		// 	label: '컨설팅',
 		// 	path: '/external_service/consulting',
@@ -66,10 +66,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '대시보드',
 			path: '/internal_service/financial_solution/account_manage',
 		},
-		// {
-		// 	label: '세미나',
-		// 	path: '/external_service/seminar',
-		// },
+		{
+			label: '세미나',
+			path: '/external_service/seminar',
+		},
 		// {
 		// 	label: '컨설팅',
 		// 	path: '/external_service/consulting',
@@ -88,10 +88,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '로그인',
 			path: '/auth/sign_in',
 		},
-		// {
-		// 	label: '세미나',
-		// 	path: '/external_service/seminar',
-		// },
+		{
+			label: '세미나',
+			path: '/external_service/seminar',
+		},
 		// {
 		// 	label: '컨설팅',
 		// 	path: '/external_service/consulting',
