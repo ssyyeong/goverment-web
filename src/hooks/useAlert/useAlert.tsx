@@ -41,6 +41,7 @@ const useAlert = (props: IuseAlertProps) => {
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
 		| 'noAccount'
+		| 'irApply'
 	>();
 
 	const renderAlert = () => {

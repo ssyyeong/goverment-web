@@ -29,7 +29,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Nodata from '../../../../src/views/global/NoData/NoData';
 import moment from 'moment';
 
-interface IInvestInfoType {
+export interface IInvestInfoType {
 	DATE?: any;
 	INVEST_AMOUNT?: string;
 	INVESTOR?: string;

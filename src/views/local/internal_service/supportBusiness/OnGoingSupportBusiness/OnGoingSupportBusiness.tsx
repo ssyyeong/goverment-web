@@ -68,7 +68,7 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 						: props.deadline
 				)
 					.startOf('days')
-					.diff(moment(), 'days') + 1}
+					.diff(moment(), 'days')}
 				일
 			</Typography>
 			<Typography fontWeight={'500'} width={'80%'}>

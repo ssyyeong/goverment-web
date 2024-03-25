@@ -90,11 +90,11 @@ const dashboardMenu: IMenu[] = [
 		path: '/internal_service/coffeechat',
 		icon: '/images/icons/coffee.png',
 	},
-	{
-		label: '컨설팅',
-		path: '/external_service/consulting',
-		icon: '/images/icons/consulting.png',
-	},
+	// {
+	// 	label: '컨설팅',
+	// 	path: '/external_service/consulting',
+	// 	icon: '/images/icons/consulting.png',
+	// },
 	{
 		label: '파트너스',
 		path: '/partners',

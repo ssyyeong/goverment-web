@@ -11,6 +11,9 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
 import { useAppMember } from '../../../../src/hooks/useAppMember';
+import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
+import useAlert from '../../../../src/hooks/useAlert/useAlert';
+import IrDataModal from '../../../../src/views/local/internal_service/ir/IrDataModal/IrDataModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -39,6 +42,10 @@ const Page: NextPage = () => {
 	 * 유저 전화번호
 	 */
 	const [irContactNum, setIrContactNum] = React.useState<string>('');
+	/**
+	 * ir 데이터 모달
+	 */
+	const [irDataModal, setIrDataModal] = React.useState<boolean>(false);
 
 	//* Functions
 	/**
@@ -96,7 +103,7 @@ const Page: NextPage = () => {
 	/**
 	 * 데모데이 신청
 	 */
-	const irApply = (demodayId, duedate) => {
+	const irApplyCheck = (duedate) => {
 		if (!userIrData) {
 			let noIrData = confirm('IR 정보를 먼저 등록해주세요.');
 			if (noIrData) {
@@ -111,6 +118,10 @@ const Page: NextPage = () => {
 			return;
 		}
 
+		setOpen(true);
+	};
+
+	const irApply = (demodayId) => {
 		irApplicationController.createItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -119,6 +130,7 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				alert('신청이 완료되었습니다.');
+				setOpen(false);
 				getDemoDayData();
 			},
 			(err) => {
@@ -133,7 +145,13 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+
 	//* Hooks
+	/**
+	 * 알러트
+	 */
+	const { open, setOpen, setType, type } = useAlert({});
+
 	React.useEffect(() => {
 		if (memberId) {
 			checkIrData();
@@ -308,7 +326,11 @@ const Page: NextPage = () => {
 													variant="body2"
 													color={
 														moment(
-															demoday.DUE_DATE
+															moment(
+																demoday.DUE_DATE
+															).format(
+																'YYYY-MM-DD 17:00'
+															)
 														).isAfter(moment())
 															? 'primary'
 															: 'grey'
@@ -316,7 +338,11 @@ const Page: NextPage = () => {
 													p={0.5}
 													borderColor={
 														moment(
-															demoday.DUE_DATE
+															moment(
+																demoday.DUE_DATE
+															).format(
+																'YYYY-MM-DD 17:00'
+															)
 														).isAfter(moment())
 															? 'primary.light'
 															: 'grey'
@@ -325,7 +351,11 @@ const Page: NextPage = () => {
 													border={1}
 												>
 													{moment(
-														demoday.DUE_DATE
+														moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD 17:00'
+														)
 													).isAfter(moment())
 														? '모집중'
 														: '마감'}
@@ -551,13 +581,53 @@ const Page: NextPage = () => {
 																			: '미선정'}
 																	</Typography>
 																</Box>
+																<Box
+																	display={
+																		'flex'
+																	}
+																	gap={2}
+																>
+																	<Typography
+																		color={
+																			'grey'
+																		}
+																		fontWeight={
+																			'600'
+																		}
+																	>
+																		제출한
+																		IR
+																		데이터
+																	</Typography>
+																	<Typography
+																		fontWeight={
+																			'600'
+																		}
+																		sx={{
+																			textDecoration:
+																				'underline',
+																			cursor: 'pointer',
+																		}}
+																		onClick={() => {
+																			setIrDataModal(
+																				true
+																			);
+																		}}
+																	>
+																		확인하기
+																	</Typography>
+																</Box>
 															</Box>
 														)}
 													</Box>
 													{demoday.IrApplications
 														.length === 0 &&
 														moment(
-															demoday.DUE_DATE
+															moment(
+																demoday.DUE_DATE
+															).format(
+																'YYYY-MM-DD 17:00'
+															)
 														).isAfter(moment()) && (
 															<Box
 																justifyContent={
@@ -571,8 +641,7 @@ const Page: NextPage = () => {
 																		'신청하기'
 																	}
 																	onClick={() => {
-																		irApply(
-																			demoday.IR_PRODUCT_IDENTIFICATION_CODE,
+																		irApplyCheck(
 																			demoday.DUE_DATE
 																		);
 																	}}
@@ -587,6 +656,42 @@ const Page: NextPage = () => {
 															</Box>
 														)}
 												</Box>
+												<SupportiAlertModal
+													open={open}
+													type="irApply"
+													handleClose={() =>
+														setOpen(false)
+													}
+													customHandleClose={() => {
+														irApply(
+															demoday.IR_PRODUCT_IDENTIFICATION_CODE
+														);
+													}}
+												/>
+												<IrDataModal
+													irApplicationId={
+														demoday
+															.IrApplications[0]
+															?.IR_APPLICATION_IDENTIFICATION_CODE
+													}
+													modalOpen={irDataModal}
+													setModalOpen={
+														setIrDataModal
+													}
+													canNotBeModified={
+														demoday
+															.IrApplications[0]
+															?.ADOPTED_YN ===
+															'Y' ||
+														moment(
+															moment(
+																demoday.DUE_DATE
+															).format(
+																'YYYY-MM-DD 17:00'
+															)
+														).isBefore(moment())
+													}
+												/>
 											</Box>
 										}
 									/>

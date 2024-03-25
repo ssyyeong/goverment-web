@@ -50,6 +50,7 @@ interface ISupportiAlertModalProps {
 		| 'coffeechatalready'
 		| 'coffeechatapplysuccess'
 		| 'irFinish'
+		| 'irApply'
 		| 'noAccount'
 		| 'unReady';
 
@@ -404,6 +405,16 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.handleClose();
 			},
 			cancelButtonAvailable: false,
+		},
+		irApply: {
+			type: 'success',
+			title: '이 데모데이를 신청하시겠습니까? IR데이터는 신청시점의 데이터로 신청 됩니다.',
+			content: '확인',
+			onclick: () => {
+				// props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
 		},
 	};
 

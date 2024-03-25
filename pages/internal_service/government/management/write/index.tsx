@@ -261,6 +261,7 @@ const Page: NextPage = () => {
 			{
 				...supportBusiness,
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				ALIMTALK_YN: isAlimTalk ? 'Y' : 'N',
 			},
 			(res) => {
 				setOpen(true);
