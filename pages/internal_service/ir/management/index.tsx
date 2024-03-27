@@ -436,7 +436,7 @@ const Page: NextPage = () => {
 									p={4}
 								>
 									{/* 공개여부, 알림톡 여부 */}
-									{/* <Box
+									<Box
 										display={'flex'}
 										flexDirection={'column'}
 									>
@@ -543,7 +543,7 @@ const Page: NextPage = () => {
 													</IconButton>
 												)}
 										</Box>
-									</Box> */}
+									</Box>
 
 									{/* IR deck */}
 									<Box
