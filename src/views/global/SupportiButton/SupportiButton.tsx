@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, SxProps } from '@mui/material';
+import { Button, ButtonProps, SxProps } from '@mui/material';
 
 interface ISupportiButtonProps {
 	/**
@@ -55,6 +55,10 @@ interface ISupportiButtonProps {
 	 * 버튼 뒷쪽 아이콘
 	 */
 	endIcon?: any;
+	/**
+	 * mui 버튼 속성
+	 */
+	muiButtonProps?: ButtonProps;
 }
 
 const SupportiButton = (props: ISupportiButtonProps) => {
@@ -75,6 +79,7 @@ const SupportiButton = (props: ISupportiButtonProps) => {
 				...props.style,
 			}}
 			disabled={props.disabled}
+			{...props.muiButtonProps}
 		>
 			{props.contents}
 		</Button>
