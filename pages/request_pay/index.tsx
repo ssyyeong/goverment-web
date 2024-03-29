@@ -110,7 +110,7 @@ const Page: NextPage = () => {
 				orderName: content.toString(), // 결제 이름
 				customerName: name.toString(), // 판매자, 판매처 이름
 				successUrl:
-					process.env.NEXT_PUBLIC_WEB_HOST + `/toss/requset_pay`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+					process.env.NEXT_PUBLIC_WEB_HOST + `/toss/request_pay`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
 				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
 				validHours: 24, // 유효시간
 				cashReceipt: {
@@ -124,7 +124,7 @@ const Page: NextPage = () => {
 	 */
 	const sendAlimTalkRequsetPay = () => {
 		sendAlimTalk(
-			'SJT_100169',
+			'SJT_102954',
 			`${customerName}|${requesterName}|${orderName}|${orderAmount}|${orderName}|${customerName}|${orderAmount}`,
 			phoneNumber,
 			() => {
