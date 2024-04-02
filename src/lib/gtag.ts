@@ -25,7 +25,7 @@ export const gTagEvent = ({
 }: GTagEventProps) => {
 	if (window.location.hostname.includes('localhost')) {
 		console.log('로컬이얀');
-		// return;
+		return;
 	}
 	window.gtag('event', action, {
 		event_category: category,
