@@ -22,6 +22,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { gTagEvent } from '../../../../lib/gtag';
 
 interface ICustomHeaderProps {}
 
@@ -44,6 +45,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '세미나',
 			path: '/external_service/seminar',
+			additionalOnclickFunction: () => {
+				gTagEvent({
+					action: 'seminar',
+					category: 'seminar',
+					label: 'seminar',
+					value: 1,
+				});
+			},
 		},
 		// {
 		// 	label: '컨설팅',
@@ -65,10 +74,26 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '대시보드',
 			path: '/internal_service/financial_solution/account_manage',
+			additionalOnclickFunction: () => {
+				gTagEvent({
+					action: 'dashboard',
+					category: 'dashboard',
+					label: 'dashboard',
+					value: 1,
+				});
+			},
 		},
 		{
 			label: '세미나',
 			path: '/external_service/seminar',
+			additionalOnclickFunction: () => {
+				gTagEvent({
+					action: 'seminar',
+					category: 'seminar',
+					label: 'seminar',
+					value: 1,
+				});
+			},
 		},
 		// {
 		// 	label: '컨설팅',
@@ -91,6 +116,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '세미나',
 			path: '/external_service/seminar',
+			additionalOnclickFunction: () => {
+				gTagEvent({
+					action: 'seminar',
+					category: 'seminar',
+					label: 'seminar',
+					value: 1,
+				});
+			},
 		},
 		// {
 		// 	label: '컨설팅',
@@ -367,6 +400,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											<MenuItem
 												key={page.label}
 												onClick={() => {
+													page.additionalOnclickFunction &&
+														page.additionalOnclickFunction();
 													router.push(page.path);
 													handleCloseNavMenu();
 												}}
@@ -387,6 +422,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											<MenuItem
 												key={page.label}
 												onClick={() => {
+													page.additionalOnclickFunction &&
+														page.additionalOnclickFunction();
 													router.push(page.path);
 													handleCloseNavMenu();
 												}}
@@ -430,7 +467,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							{pages.map((page) => (
 								<Button
 									key={page.label}
-									onClick={() => router.push(page.path)}
+									onClick={() => {
+										if (page.additionalOnclickFunction) {
+											page.additionalOnclickFunction();
+										}
+										router.push(page.path);
+									}}
 									sx={{
 										my: 2,
 										// color: 'white',
@@ -499,11 +541,17 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									alignContent={'center'}
 								>
 									<Button
-										onClick={() =>
+										onClick={() => {
+											gTagEvent({
+												action: 'dashboard',
+												category: 'dashboard',
+												label: 'dashboard',
+												value: 1,
+											});
 											router.push(
 												'/internal_service/financial_solution/account_manage'
-											)
-										}
+											);
+										}}
 										sx={{
 											my: 1,
 											ml: 2,

@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import { businessSector } from '../../../../../configs/data/BusinessConfig';
+import { gTagEvent } from '../../../../lib/gtag';
 
 interface IAppMemberUpdateModalProps {
 	open: boolean;
@@ -163,6 +164,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				COMPANY_NAME: businessData.COMPANY_NAME,
 			},
 			(res) => {
+				gTagEvent({
+					action: 'social_sign_up_complete',
+					category: tabs,
+					label: tabs,
+					value: 1,
+				});
 				cookie.setItemInCookies('ACCESS_TOKEN', props.accessToken, {
 					path: '/',
 					maxAge: 3600 * 24 * 30,
@@ -189,6 +196,12 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				},
 			},
 			(res) => {
+				gTagEvent({
+					action: 'social_sign_up_complete',
+					category: tabs,
+					label: tabs,
+					value: 1,
+				});
 				cookie.setItemInCookies('ACCESS_TOKEN', props.accessToken, {
 					path: '/',
 					maxAge: 3600 * 24 * 30,

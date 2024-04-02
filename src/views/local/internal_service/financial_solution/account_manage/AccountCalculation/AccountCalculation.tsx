@@ -25,6 +25,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import dayjs from 'dayjs';
+import { gTagEvent } from '../../../../../../lib/gtag';
 
 export interface IAccountCalculationResultProps {
 	monthlyIncome: { [key: string]: any };
@@ -132,6 +133,12 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 				),
 			},
 			(res) => {
+				gTagEvent({
+					action: 'internal_service_load',
+					category: 'internal_service_load',
+					label: 'internal_service_load',
+					value: 1,
+				});
 				props.setRecomputeTriggerKey(uuidv4());
 			},
 			(err) => {}

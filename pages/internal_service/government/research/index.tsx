@@ -29,6 +29,7 @@ import PersonalFilterModal from '../../../../src/views/local/internal_service/su
 import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
+import { gTagEvent } from '../../../../src/lib/gtag';
 
 export interface ISupportBusinessFilter {
 	biz_pbanc_nm?: string;
@@ -173,7 +174,13 @@ const Page: NextPage = () => {
 	 * 창업진흥원 지원 사업 조회
 	 */
 	const getSupportBusiness = async (filter, setData, page) => {
-		console.log(filter);
+		// console.log(filter);
+		gTagEvent({
+			action: 'support_business_search',
+			category: 'support_business_search',
+			label: 'support_business_search',
+			value: 1,
+		});
 		//filter 중에 value가 전체가 아닌 것만 필터링
 		const filterKeys = Object.keys(filter);
 		const filteredFilter: ISupportBusinessFilter = filterKeys.reduce(

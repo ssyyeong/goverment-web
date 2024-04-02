@@ -26,6 +26,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { businessSector } from '../../../configs/data/BusinessConfig';
 import CheckIcon from '@mui/icons-material/Check';
+import { gTagEvent } from '../../../src/lib/gtag';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -165,6 +166,12 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result) {
+					gTagEvent({
+						action: 'sign_up_complete',
+						category: 'sign_up_complete',
+						label: tabs,
+						value: 1,
+					});
 					setActiveStep(1);
 				}
 			},

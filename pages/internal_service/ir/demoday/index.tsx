@@ -14,6 +14,7 @@ import { useAppMember } from '../../../../src/hooks/useAppMember';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import IrDataModal from '../../../../src/views/local/internal_service/ir/IrDataModal/IrDataModal';
+import { gTagEvent } from '../../../../src/lib/gtag';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -285,6 +286,14 @@ const Page: NextPage = () => {
 							{demoDayData?.rows.map((demoday) => {
 								return (
 									<AccordianBox
+										additionalOpenFunction={() => {
+											gTagEvent({
+												action: 'ir_demo_day',
+												category: 'ir_demo_day',
+												label: 'ir_demo_day',
+												value: 1,
+											});
+										}}
 										title={
 											<Box
 												display={'flex'}

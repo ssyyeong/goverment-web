@@ -28,6 +28,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CommentIcon from '@mui/icons-material/Comment';
 import Nodata from '../../../../src/views/global/NoData/NoData';
 import moment from 'moment';
+import { gTagEvent } from '../../../../src/lib/gtag';
 
 export interface IInvestInfoType {
 	DATE?: any;
@@ -284,6 +285,12 @@ const Page: NextPage = () => {
 				// 	setIsUpdate(true);
 				// 	setIsEdit(false);
 				// }
+				gTagEvent({
+					action: 'ir_modify',
+					category: '생성',
+					label: '생성',
+					value: 1,
+				});
 				alert('성공적으로 등록되었습니다.');
 				setIsEdit(false);
 				getUserIrInfo();
@@ -308,6 +315,12 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result) {
+					gTagEvent({
+						action: 'ir_modify',
+						category: '수정',
+						label: '수정',
+						value: 1,
+					});
 					alert('성공적으로 업데이트되었습니다.');
 					setIsEdit(false);
 				}

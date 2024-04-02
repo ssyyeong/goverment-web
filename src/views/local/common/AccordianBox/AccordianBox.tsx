@@ -13,6 +13,7 @@ interface IAccordianBoxProps {
 	additional?: string;
 	notAQna?: boolean;
 	additionalComponent?: React.ReactNode;
+	additionalOpenFunction?: any;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
@@ -47,7 +48,12 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						alignItems: 'center',
 						cursor: 'pointer',
 					}}
-					onClick={() => setOpen(!open)}
+					onClick={() => {
+						props.additionalOpenFunction &&
+							!open &&
+							props.additionalOpenFunction();
+						setOpen(!open);
+					}}
 				>
 					{' '}
 					<Typography color={'primary'} fontWeight={'500'}>

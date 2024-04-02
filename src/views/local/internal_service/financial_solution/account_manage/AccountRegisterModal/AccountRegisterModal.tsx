@@ -13,6 +13,7 @@ import { BankController } from '../../../../../../controller/BankController';
 import { useAppMember } from '../../../../../../hooks/useAppMember';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
+import { gTagEvent } from '../../../../../../lib/gtag';
 
 interface IAccountRegisterModalProps {
 	accountRegisterModalOpen: boolean;
@@ -283,6 +284,12 @@ const AccountRegisterModal = (props: IAccountRegisterModalProps) => {
 				...userAccountInfo,
 			},
 			(response: any) => {
+				gTagEvent({
+					action: 'internal_service_bank_add',
+					category: 'internal_service_bank_add',
+					label: 'internal_service_bank_add',
+					value: 1,
+				});
 				props.setAccountTriggerKey(response.data.result);
 				alert('등록 완료!');
 				setLoading(false);

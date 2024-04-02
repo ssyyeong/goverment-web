@@ -17,6 +17,7 @@ import { usePagination } from '../../../src/hooks/usePagination';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { A2eController } from '../../../src/controller/A2EController';
 import moment from 'moment';
+import { gTagEvent } from '../../../src/lib/gtag';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -617,6 +618,13 @@ const Page: NextPage = () => {
 															);
 															setAlertModal(true);
 														} else {
+															gTagEvent({
+																action: 'a2e_question',
+																category:
+																	'a2e_question',
+																label: 'a2e_question',
+																value: 1,
+															});
 															router.push(
 																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
 															);

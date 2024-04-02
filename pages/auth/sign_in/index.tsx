@@ -18,6 +18,7 @@ import { AppMemberController } from '../../../src/controller/AppMemberController
 import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { gTagEvent } from '../../../src/lib/gtag';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -58,6 +59,12 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result !== null) {
+					gTagEvent({
+						action: 'local_login',
+						category: 'local_login',
+						label: 'local_login',
+						value: 1,
+					});
 					cookie.setItemInCookies(
 						'ACCESS_TOKEN',
 						res.data.result.accessToken,
@@ -250,6 +257,12 @@ const Page: NextPage = () => {
 					contents={'회원가입하고 서포티 무료로 이용하기'}
 					variant="outlined"
 					onClick={() => {
+						gTagEvent({
+							action: 'sign_up',
+							category: 'sign_up',
+							label: 'sign_up',
+							value: 1,
+						});
 						router.push('/auth/sign_up');
 					}}
 					fullWidth
