@@ -92,7 +92,7 @@ const Page: NextPage = () => {
 					{virtualAccount !== null ? '결제가 완료되었습니다!' : ''}
 				</span>
 			</LoadingButton>
-			{virtualAccount !== null ? (
+			{virtualAccount !== null || virtualAccount !== undefined ? (
 				<Box display={'flex'} flexDirection={'column'} gap={2}>
 					<Typography
 						variant="h3"
@@ -101,7 +101,7 @@ const Page: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{virtualAccount.bank} {virtualAccount.accountNumber}
+						{virtualAccount?.bank} {virtualAccount?.accountNumber}
 					</Typography>
 					<Typography
 						variant="h3"
@@ -110,7 +110,7 @@ const Page: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{dayjs(virtualAccount.dueDate).format(
+						{dayjs(virtualAccount?.dueDate).format(
 							'YYYY.MM.DD(ddd) hh:mm'
 						)}{' '}
 						까지 입금 바랍니다.
