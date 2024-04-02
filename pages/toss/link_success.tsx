@@ -89,11 +89,19 @@ const Page: NextPage = () => {
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
-					{virtualAccount !== null ? '결제가 완료되었습니다!' : ''}
+					{virtualAccount !== null || virtualAccount !== undefined
+						? ''
+						: '결제가 완료되었습니다!'}
 				</span>
 			</LoadingButton>
 			{virtualAccount !== null || virtualAccount !== undefined ? (
-				<Box display={'flex'} flexDirection={'column'} gap={2}>
+				<Box
+					display={'flex'}
+					flexDirection={'column'}
+					gap={2}
+					justifyContent={'center'}
+					alignItems={'center'}
+				>
 					<Typography
 						variant="h3"
 						fontWeight={'bold'}
@@ -103,19 +111,13 @@ const Page: NextPage = () => {
 					>
 						{virtualAccount?.bank} {virtualAccount?.accountNumber}
 					</Typography>
-					<Typography
-						variant="h3"
-						fontWeight={'bold'}
-						sx={{
-							mt: 3,
-						}}
-					>
+					<Typography variant="h3" fontWeight={'bold'}>
 						{dayjs(virtualAccount?.dueDate).format(
 							'YYYY.MM.DD(ddd) hh:mm'
 						)}{' '}
 						까지 입금 바랍니다.
 					</Typography>
-					<Typography>
+					<Typography color={'red'}>
 						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인후
 						페이지를 벗어나주세요!
 					</Typography>
