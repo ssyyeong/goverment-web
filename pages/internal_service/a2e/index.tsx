@@ -111,9 +111,8 @@ const Page: NextPage = () => {
 	 *  알럿 오픈 타입
 	 */
 
-	const [alertType, setAlertType] = React.useState<
-		'unAccess' | 'subscribe' | undefined
-	>(undefined);
+	const [alertType, setAlertType] =
+		React.useState<'unAccess' | 'subscribe' | undefined>(undefined);
 
 	/**
 	 * 페이징 관련
@@ -148,6 +147,49 @@ const Page: NextPage = () => {
 	 */
 	React.useEffect(() => {
 		setPage(0);
+
+		let eventName = undefined;
+		// 이벤트 네임 설정
+		switch (selectedTabCategory) {
+			case '특허':
+				eventName = 'patent_participation_time';
+				break;
+			case '노무':
+				eventName = 'labor_participation_time';
+				break;
+			case '세무':
+				eventName = 'tax_participation_time';
+				break;
+			case '법무':
+				eventName = 'law_participation_time';
+				break;
+		}
+
+		// 체류 시간 측정
+		let startTime = undefined;
+		let stayTime = undefined;
+
+		// 전체 탭이 아닐 경우 타이머 시작
+		if (selectedTabCategory !== '전체') {
+			startTime = Date.now();
+		}
+
+		// selectedTabCategory가 바뀌면 타이머 종료
+		return () => {
+			let endTime = Date.now();
+				stayTime = (endTime - startTime) / 1000;
+
+			// gtag에 이벤트 전송
+			if (
+				startTime !== undefined &&
+				eventName !== undefined &&
+				stayTime !== undefined
+			) {
+				gtag('event', eventName, {
+					stayTime: stayTime,
+				});
+			}
+		};
 	}, [selectedTabCategory]);
 
 	/**
