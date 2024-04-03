@@ -8,6 +8,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAppMember } from '../../src/hooks/useAppMember';
+import dayjs from 'dayjs';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -20,6 +21,10 @@ const Page: NextPage = () => {
 	 * 로딩 상태
 	 */
 	const [loading, setLoading] = React.useState<boolean>(false);
+	/**
+	 * 가상계좌 데이터
+	 */
+	const [virtualAccount, setVirtualAccount] = React.useState<any>();
 	//* Functions
 
 	/**
@@ -48,8 +53,12 @@ const Page: NextPage = () => {
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
-				window.alert('결제가 완료되었습니다!');
-				router.push('/');
+				if (response.data.method === '가상계좌') {
+					setVirtualAccount(response.data.virtualAccount);
+				} else {
+					window.alert('결제가 완료되었습니다!');
+					router.push('/');
+				}
 			});
 	};
 	//* Hooks
@@ -76,17 +85,52 @@ const Page: NextPage = () => {
 			}}
 		>
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
-				<span> 결제가 완료되었습니다!</span>
+				<span>
+					{' '}
+					{virtualAccount !== null || virtualAccount !== undefined
+						? ''
+						: '결제가 완료되었습니다!'}
+				</span>
 			</LoadingButton>
-			<Typography
-				variant="h3"
-				fontWeight={'bold'}
-				sx={{
-					mt: 3,
-				}}
-			>
-				결제가 진행중입니다!
-			</Typography>
+			{virtualAccount !== null || virtualAccount !== undefined ? (
+				<Box
+					display={'flex'}
+					flexDirection={'column'}
+					gap={2}
+					justifyContent={'center'}
+					alignItems={'center'}
+				>
+					<Typography
+						variant="h3"
+						fontWeight={'bold'}
+						sx={{
+							mt: 3,
+						}}
+					>
+						{virtualAccount?.bank} {virtualAccount?.accountNumber}
+					</Typography>
+					<Typography variant="h3" fontWeight={'bold'}>
+						{dayjs(virtualAccount?.dueDate).format(
+							'YYYY.MM.DD(ddd) hh:mm'
+						)}{' '}
+						까지 입금 바랍니다.
+					</Typography>
+					<Typography color={'red'}>
+						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인후
+						페이지를 벗어나주세요!
+					</Typography>
+				</Box>
+			) : (
+				<Typography
+					variant="h3"
+					fontWeight={'bold'}
+					sx={{
+						mt: 3,
+					}}
+				>
+					결제가 진행중입니다!
+				</Typography>
+			)}
 		</Box>
 	);
 };
