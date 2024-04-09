@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePagination } from '../../../src/hooks/usePagination';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import SupportiTable from '../../../src/views/global/SupportiTable';
@@ -63,22 +63,19 @@ const Page: NextPage = () => {
 		label: '변경',
 		value: 'CONSULTING_APPLICATION_IDENTIFICATION_CODE',
 		align: 'center',
-
+		customValue: (value) => {
+			return value;
+		},
 		customView: (value) => {
-			console.log(value);
-			const selectedData = consultingApplicationList.find(
-				(item) =>
-					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
-			);
-			return selectedData?.CANCELED_YN === 'Y' ? (
+			return value?.CANCELED_YN === 'Y' ? (
 				<Typography>취소됨</Typography>
-			) : selectedData?.CAN_BE_CANCELED === 'N' ? (
+			) : value?.CAN_BE_CANCELED === 'N' ? (
 				<Typography>변경불가</Typography>
 			) : (
 				<Button
 					variant="contained"
 					onClick={() => {
-						setUpdateModalData(selectedData);
+						setUpdateModalData(value);
 						setUpdateModal(true);
 					}}
 					sx={{
@@ -115,6 +112,7 @@ const Page: NextPage = () => {
 	 * 업데이트 모달 데이터
 	 */
 	const [updateModalData, setUpdateModalData] = React.useState<any>();
+	const [loading, setLoading] = useState(true);
 	/**
 	 * 헤더 데이터
 	 */
