@@ -154,11 +154,11 @@ const mypageMenu: IMenu[] = [
 			},
 		],
 	},
-	{
-		label: '대시보드',
-		path: '/internal_service/indicator_management/achievement',
-		icon: '/images/icons/business.svg',
-	},
+	// {
+	// 	label: '대시보드',
+	// 	path: '/internal_service/indicator_management/achievement',
+	// 	icon: '/images/icons/business.svg',
+	// },
 ];
 
 export { dashboardMenu, mypageMenu };
