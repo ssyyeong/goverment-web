@@ -25,6 +25,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../src/views/global/SupportiInput';
 import CloseIcon from '@mui/icons-material/Close';
+import Image from 'next/image';
 
 type Props = {};
 
@@ -923,10 +924,11 @@ const Page: NextPage = () => {
 						gap={3}
 					>
 						<Box display={'flex'}>
-							<img
+							<Image
 								src={'/images/main/Hime_IR.svg'}
 								alt={'notice'}
-								width={'400px'}
+								width={400}
+								height={700}
 							/>
 
 							<CloseIcon
@@ -971,7 +973,7 @@ const Page: NextPage = () => {
 							<Typography
 								mt="auto"
 								mb="auto"
-								ml={-0.5}
+								ml={-2.5}
 								fontWeight={500}
 								variant="body1"
 							>
