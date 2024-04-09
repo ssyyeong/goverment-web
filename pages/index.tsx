@@ -21,6 +21,10 @@ import { useAppMember } from '../src/hooks/useAppMember';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import EastIcon from '@mui/icons-material/East';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../src/views/global/SupportiInput';
+import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {};
 
@@ -28,64 +32,16 @@ const Page: NextPage = () => {
 	const router = useRouter();
 	const { memberId } = useAppMember();
 
-	const motion = keyframes`
-  0% {
-    margin-top: 0px;
-		
-  }
-	50% {
-		margin-top: 5px;
-	}
-  100% {
-    margin-top: 10px;
-  }
-`;
+	//* Controller
+	const userIrInformationController = new DefaultController(
+		'UserIrInformation'
+	);
 
-	useEffect(() => {}, []);
+	//* States
+	const [openPopUp, setOpenPopUp] = React.useState(false);
+	const [isTodayNotShow, setIsTodayNotShow] = React.useState(false);
 
-	const [tab, setTab] = React.useState(0);
-	const [open, setOpen] = React.useState(false);
-	// const [Typography, setTypography] = React.useState('');
-
-	const images = [
-		{
-			label: 'San Francisco – Oakland Bay Bridge, United States',
-			imgPath:
-				'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-		},
-		{
-			label: 'Bird',
-			imgPath:
-				'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-		},
-		{
-			label: 'Bali, Indonesia',
-			imgPath:
-				'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-		},
-		{
-			label: 'Goč, Serbia',
-			imgPath:
-				'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-		},
-	];
-
-	const theme = useTheme();
-	const [activeStep, setActiveStep] = React.useState(0);
-	const maxSteps = images.length;
-
-	const handleNext = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep + 1);
-	};
-
-	const handleBack = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep - 1);
-	};
-
-	const handleStepChange = (step: number) => {
-		setActiveStep(step);
-	};
-
+	//* Constants
 	const data = [
 		{
 			srcPath: '/images/logo/partners/신용보증기금.svg',
@@ -121,81 +77,6 @@ const Page: NextPage = () => {
 		},
 	];
 
-	const data2 = [
-		{
-			logo: '',
-			reBoxTypography:
-				'초기 스타트업이다보니 여러 가지 신경써야 할 것이 많은데 재무와 경영 지표 관리에 대해서만큼은 큰 신경을 안 써도 되어 좋습니다.',
-			reBoxer: '최00 AI 스타트업 대표',
-			organization: '',
-		},
-		{
-			logo: '',
-			reBoxTypography:
-				'아는 대표님의 추천으로 써봤는데 실제로 쓰는 과정이 간편하다보니 사용하기 편리합니다. 저희는 아무래도 인원이 있다보니 모든 인원이 지표를 보고 써야해서 지표 관리가 무엇보다 중요한데 서포티를 쓰니 일이 1/3로 줄었어요!',
-			reBoxer: '홍00 커머스 스타트업 대표',
-			organization: '',
-		},
-		{
-			logo: '',
-			reBoxTypography:
-				'초기 스타트업에 딱 필요한 서비스 인 것 같습니다. 실제 여러 데이터를 비교할 수 있고 지표를 한 눈에 볼 수 있어 편리합니다. 무엇보다 투자사에게 바로 링크를 공유해 전달 드릴 수 있으니 시간이 많이 단축되었어요!',
-			reBoxer: '김00 SaaS 스타트업 대표',
-			organization: '',
-		},
-		{
-			logo: '',
-			reBoxTypography:
-				'초기 스타트업에서 실무를 총괄하는 입장에서 편리한 서비스 인 것 같아요 아직 많은 기능들이 있지는 않지만 재무, 경영 지표 관리의 차원에서는 꼭 필요한 서비스 인 것 같습니다.',
-			reBoxer: '노00 헬스케어 스타트업 이사',
-			organization: '',
-		},
-	];
-
-	const data3 = [
-		{
-			text1: '투자를 받을 예정이거나',
-			text2: '받고 있는 창업가들',
-			imgPath: '/images/main/mainCardImg1.png',
-		},
-		{
-			text1: '초기 스타트업을',
-			text2: '운영하는 대표님',
-			imgPath: '/images/main/mainCardImg2.png',
-		},
-	];
-
-	const data3_1 = [
-		{
-			text1: '직접 회사의 재무를',
-			text2: '관리하는 소규모 창업가',
-			imgPath: '/images/main/mainCardImg3.png',
-		},
-		{
-			text1: '매출과 서비스에',
-			text2: '고민이 있는 창업가',
-			imgPath: '/images/main/mainCardImg4.png',
-		},
-	];
-
-	const data4 = [
-		{
-			text1: '매번 복잡한 스프레드시트에',
-			text2: '재무를 관리하는',
-			target: '대표님',
-		},
-		{
-			text1: 'IR, 지표, 월간보고에',
-			text2: '시간 소모가 큰',
-			target: '창업가',
-		},
-		{
-			text1: '데이터 기반의 빠른 의사결정을',
-			text2: '하고자 하는',
-			target: '경영 전문가',
-		},
-	];
-
 	const data1 = [
 		{
 			text1: 'IR 경험은 어디서 쌓아야 하나?',
@@ -212,6 +93,7 @@ const Page: NextPage = () => {
 		},
 	];
 
+	//* Functions
 	function SamplePrevArrow(props) {
 		const { className, style, onClick } = props;
 		return (
@@ -247,6 +129,51 @@ const Page: NextPage = () => {
 		nextArrow: <SampleNextArrow />,
 		prevArrow: <SamplePrevArrow />,
 	};
+
+	/**
+	 * 유저 ir 정보 가져오기
+	 */
+	const getUserIrInfo = () => {
+		userIrInformationController.getOneItemByKey(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				if (res.data.result) {
+					setOpenPopUp(false);
+				} else {
+					setOpenPopUp(true);
+				}
+			},
+			(err) => {}
+		);
+	};
+
+	function setCookie(name, value, exp) {
+		const date = new Date();
+		date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+		document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+	}
+
+	useEffect(() => {
+		// 팝업창이 닫혔을 시점에 오늘 하루 보지 않기에 체크가 되어 있다면 쿠키에 셋팅
+		if (!openPopUp) {
+			if (isTodayNotShow) {
+				setCookie('isTodayNotShow', 'true', 1);
+			}
+		}
+	}, [openPopUp, isTodayNotShow]);
+
+	useEffect(() => {
+		// 쿠키에 오늘 하루 보지 않기에 체크가 되어 있다면 팝업창을 닫는다.
+		if (memberId) {
+			if (document.cookie.includes('isTodayNotShow=true')) {
+				setOpenPopUp(false);
+			} else {
+				getUserIrInfo();
+			}
+		}
+	}, [memberId]);
 
 	return (
 		<Grid container width={'100%'}>
@@ -983,6 +910,77 @@ const Page: NextPage = () => {
 					alt="img"
 				/>
 			</Grid>
+
+			<PopUpModal
+				modalOpen={openPopUp}
+				setModalOpen={setOpenPopUp}
+				uiData={
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						gap={3}
+					>
+						<Box display={'flex'}>
+							<img
+								src={'/images/main/Hime_IR.svg'}
+								alt={'notice'}
+								width={'400px'}
+							/>
+
+							<CloseIcon
+								sx={{ cursor: 'pointer' }}
+								onClick={() => setOpenPopUp(false)}
+							/>
+						</Box>
+
+						<Box display={'flex'} gap={2}>
+							<SupportiButton
+								contents={'등록하러가기'}
+								variant="contained"
+								onClick={() =>
+									router.push(
+										'/internal_service/ir/management'
+									)
+								}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+							<SupportiButton
+								contents={'닫기'}
+								variant="outlined"
+								onClick={() => setOpenPopUp(false)}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+						</Box>
+
+						<Box display="flex">
+							<SupportiInput
+								type="checkbox"
+								value={isTodayNotShow}
+								setValue={setIsTodayNotShow}
+							/>
+							<Typography
+								mt="auto"
+								mb="auto"
+								ml={-0.5}
+								fontWeight={500}
+								variant="body1"
+							>
+								오늘 하루 보지 않기
+							</Typography>
+						</Box>
+					</Box>
+				}
+			/>
 		</Grid>
 	);
 };

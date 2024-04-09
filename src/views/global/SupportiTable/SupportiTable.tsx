@@ -148,7 +148,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 					<Box my={0.5}></Box>
 					{/* 테이블 바디 */}
 					<TableBody>
-						{props.rowData.map((row, idx) => {
+						{props.rowData?.map((row, idx) => {
 							return (
 								<TableRow
 									hover
