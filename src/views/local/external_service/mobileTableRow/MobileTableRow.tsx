@@ -5,6 +5,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 interface IMobileTableRowProps {
 	index: number;
 	title: string;
+	selected?: boolean;
 	onClick?: () => void;
 	colums: {
 		label: string;
@@ -20,10 +21,11 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 			display={'flex'}
 			flexDirection={'column'}
 			p={2}
-			bgcolor={'white'}
+			bgcolor={props.selected && props.selected ? 'lightgray' : 'white'}
 			borderRadius={1}
 			gap={2}
 			width={'100%'}
+			border={props.selected && '2px solid #0022ff'}
 			mb={1}
 			onClick={props.onClick}
 			sx={{

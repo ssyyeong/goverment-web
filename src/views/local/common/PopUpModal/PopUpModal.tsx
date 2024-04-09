@@ -21,17 +21,13 @@ const PopUpModal = (props: IPopUpModalProps) => {
 				}}
 				activeHeader={false}
 				title={''}
-				style={{
-					width: { xs: '100%', md: '500px' },
-					// padding: { xs: '10px', md: '0' },
-				}}
 				children={
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
 						gap={2}
-						maxHeight={'70vh'}
-						minHeight={'60vh'}
+						maxHeight={'73vh'}
+						// minHeight={'60vh'}
 						overflow={'auto'}
 						sx={{
 							width: '100%',
@@ -47,8 +43,6 @@ const PopUpModal = (props: IPopUpModalProps) => {
 								backgroundColor: '#b0b5c2',
 								borderRadius: '20px',
 							},
-							pt: 2,
-							pr: 1,
 						}}
 					>
 						{/** 상위 목표 작성 */}

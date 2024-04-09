@@ -140,7 +140,7 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
-				if (res.data.result) {
+				if (res.data.result !== null) {
 					setOpenPopUp(false);
 				} else {
 					setOpenPopUp(true);
@@ -921,14 +921,14 @@ const Page: NextPage = () => {
 						justifyContent={'space-between'}
 						flexDirection={'column'}
 						alignItems={'center'}
-						gap={3}
+						gap={1}
 					>
 						<Box display={'flex'}>
 							<Image
 								src={'/images/main/Hime_IR.svg'}
 								alt={'notice'}
 								width={400}
-								height={700}
+								height={600}
 							/>
 
 							<CloseIcon

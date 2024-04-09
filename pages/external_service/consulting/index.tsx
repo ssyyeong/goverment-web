@@ -126,14 +126,14 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지 접근 권한 체크
 	 */
-	useEffect(() => {
-		if (!pageAccess) {
-			alert(
-				'THE PREMIUM PRO 요금제 구독 회원만 접근 가능한 페이지입니다.'
-			);
-			router.back();
-		}
-	}, [pageAccess]);
+	// useEffect(() => {
+	// 	if (!pageAccess) {
+	// 		alert(
+	// 			'THE PREMIUM PRO 요금제 구독 회원만 접근 가능한 페이지입니다.'
+	// 		);
+	// 		router.back();
+	// 	}
+	// }, [pageAccess]);
 
 	return (
 		<Box

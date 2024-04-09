@@ -289,7 +289,7 @@ let themeConfig = createTheme({
 		h3: {
 			fontWeight: 700,
 			fontSize: '22px !important',
-			lineHeight: 1.167,
+			lineHeight: 1.1,
 			'@media (min-width:0px)': {
 				fontSize: '22px !important',
 			},

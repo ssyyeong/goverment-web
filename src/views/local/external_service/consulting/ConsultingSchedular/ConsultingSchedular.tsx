@@ -19,6 +19,10 @@ import ConsultingQna from '../ConsultingQna/ConsultingQna';
 import { ConsultingAnswerController } from '../../../../../controller/ConsultingAnswerController';
 import { SupportiAlertModal } from '../../../../global/SupportiAlertModal';
 import { useAppMember } from '../../../../../hooks/useAppMember';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { UserTicketController } from '../../../../../controller/UserTicketController';
+import MobileTableRow from '../../mobileTableRow/MobileTableRow';
+import Nodata from '../../../../global/NoData/NoData';
 
 interface IConsultingSchedularProps {
 	open: boolean;
@@ -71,6 +75,14 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 페이지
 	 */
 	const [page, setPage] = React.useState<number>(0);
+	/**
+	 * 티켓 리스트
+	 */
+	const [userTicketList, setUserTicketList] = React.useState([]);
+	/**
+	 * 사용 티켓 아이디
+	 */
+	const [ticketId, setTicketId] = React.useState<number>();
 	//* Controller
 	/**
 	 * 컨설팅 신청 컨트롤러
@@ -81,8 +93,33 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 컨설팅 답변 컨트롤러
 	 */
 	const consultingAnswerController = new ConsultingAnswerController();
+	/**
+	 * 티켓 컨트롤러
+	 */
+	const userTicketController = new UserTicketController();
 
 	//* Functions
+	/**
+	 * 티켓 가져오기
+	 */
+	const getTicket = () => {
+		userTicketController.findAllItems(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				const rows = res.data.result.rows;
+				const categoryFilter = rows.filter(
+					(row, idx) =>
+						row.Ticket.CATEGORY === '컨설팅' && row.isPossibleUsing
+				);
+				setUserTicketList(categoryFilter);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
 	/**
 	 * 매 월 일정을 가져오기
 	 */
@@ -129,6 +166,23 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 	 * 컨설팅 신청하기
 	 */
 	const applyConsulting = () => {
+		//Y로 바꿔야됨
+		if (page === 2) {
+			if (props.consultingData.ALLOW_TICKET == 'Y') {
+				// 티켓가져오기
+				getTicket();
+				setPage(3);
+				return;
+			}
+		}
+		if (page === 3) {
+			if (!ticketId) {
+				alert(
+					'티켓으로만 예약 가능한 컨설팅입니다. 티켓을 선택해주세요!'
+				);
+				return;
+			}
+		}
 		// 필수 질문 답변 체크
 		if (!checkConsultingAnswer()) {
 			alert('필수 질문에 답변해주세요.');
@@ -143,6 +197,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				RESERVATION_END_TIME: selectedTime.END,
 				STATUS: 'WAITING',
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				TICKET_ID: ticketId,
 			},
 			(res) => {
 				/**
@@ -604,6 +659,65 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							fullWidth
 						/>
 					</Box>
+				</Box>
+			)}
+			{/* 컨설팅 상품 쿠폰 사용 가능시 쿠폰 있으면(사용 가능, 컨설팅 쿠폰)리스트 노출 */}
+			{page === 3 && (
+				<Box width={'100%'} minWidth={'313px'}>
+					<Box
+						width={'100%'}
+						sx={{
+							overflowY: 'auto',
+						}}
+						maxHeight={'400px'}
+					>
+						{userTicketList.map((item, idx) => {
+							return (
+								<MobileTableRow
+									index={idx}
+									selected={
+										ticketId ===
+										item.USER_TICKET_IDENTIFICATION_CODE
+									}
+									title={item.Ticket.TICKET_NAME}
+									onClick={() => {
+										if (
+											ticketId ===
+											item.USER_TICKET_IDENTIFICATION_CODE
+										) {
+											setTicketId(undefined);
+										} else {
+											setTicketId(
+												item.USER_TICKET_IDENTIFICATION_CODE
+											);
+										}
+									}}
+									colums={[
+										{
+											label: '서비스',
+											value: item.Ticket.CATEGORY,
+										},
+										{
+											label: '만료일',
+											value: moment(
+												item.EXPIRED_DATE
+											).format('YYYY-MM-DD'),
+										},
+									]}
+								/>
+							);
+						})}
+						{userTicketList.length === 0 && <Nodata />}
+					</Box>
+					{/* 제출버튼 */}
+					<SupportiButton
+						contents={'예약하기'}
+						onClick={() => {
+							applyConsulting();
+						}}
+						variant="contained"
+						fullWidth
+					/>
 				</Box>
 			)}
 			<SupportiAlertModal

@@ -625,13 +625,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											>
 												{memberName}님
 											</Typography>
-											<Typography
+											{/* <Typography
 												fontWeight={'600'}
 												color={'secondary.dark'}
 											>
 												{memberPoint?.toLocaleString()}
 												포인트
-											</Typography>
+											</Typography> */}
 										</Box>
 										{mypage.map((setting) => (
 											<MenuItem

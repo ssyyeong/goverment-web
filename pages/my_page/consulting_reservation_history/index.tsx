@@ -65,6 +65,7 @@ const Page: NextPage = () => {
 		align: 'center',
 
 		customView: (value) => {
+			console.log(value);
 			const selectedData = consultingApplicationList.find(
 				(item) =>
 					item.CONSULTING_APPLICATION_IDENTIFICATION_CODE === value
