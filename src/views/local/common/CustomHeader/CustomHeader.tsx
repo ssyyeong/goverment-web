@@ -442,7 +442,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			<>
 				{/* 메인 메뉴 버튼 */}
 				<Button
-					onClick={() =>
+					onClick={(event) =>
 						handleOpenUserMenu(
 							event,
 							menu.label,
