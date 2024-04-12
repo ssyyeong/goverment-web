@@ -118,12 +118,14 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 					}}
 					gap={1}
 					onClick={() => {
+						if(memberId) {
+
 						// 구독회원 체크
-						if (isSubscription.access !== true) {
-							setOpen(true);
-							setType('subscribe');
-							return;
-						}
+						// if (isSubscription.access !== true) {
+						// 	setOpen(true);
+						// 	setType('subscribe');
+						// 	return;
+						// }
 						// 커피챗 프로필 유무 체크
 						if (isCoffeeChat.access !== true) {
 							setOpen(true);
@@ -131,6 +133,8 @@ const GeneralCoffeeChat = (props: IGeneralCoffeeChatProps) => {
 							return;
 						}
 						router.push(`/internal_service/coffeechat/${memberId}`);
+
+					}else alert("로그인이 필요합니다!")
 					}}
 				>
 					<Image

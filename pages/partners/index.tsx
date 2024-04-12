@@ -218,17 +218,19 @@ const Page: NextPage = () => {
 							height: '35px',
 						}}
 						onClick={() => {
-							if (
-								subscriptionInfo?.SubscriptionProduct?.TYPE ===
-									'BLACK' ||
-								subscriptionInfo?.SubscriptionProduct?.TYPE ===
-									'PRODUCT'
-							) {
-								setRegisterModalOpen(true);
-							} else {
-								setAlertType('subscribe');
-								setAlertModal(true);
-							}
+							if (memberId) {
+								if (
+									subscriptionInfo?.SubscriptionProduct
+										?.TYPE === 'BLACK' ||
+									subscriptionInfo?.SubscriptionProduct
+										?.TYPE === 'PRODUCT'
+								) {
+									setRegisterModalOpen(true);
+								} else {
+									setAlertType('subscribe');
+									setAlertModal(true);
+								}
+							} else alert('로그인이 필요합니다.');
 						}}
 					/>
 				</Box>

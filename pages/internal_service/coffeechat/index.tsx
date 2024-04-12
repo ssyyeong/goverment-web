@@ -16,6 +16,7 @@ import CoffeeChatRecommendModal from '../../../src/views/local/internal_service/
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CoffeeChatOpenEventModal from '../../../src/views/local/internal_service/coffeechat/CoffeeChatOpenEventModal/CoffeeChatOpenEventModal';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -48,6 +49,7 @@ const Page: NextPage = () => {
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
 	 */
 	// const isSubscription = useUserAccess('SUBSCRIPTION');
+	const { memberId } = useAppMember();
 
 	/**
 	 * 알러트
@@ -115,7 +117,10 @@ const Page: NextPage = () => {
 							display={'flex'}
 							onClick={() => {
 								// if (isSubscription.access === true) {
-								setProfileModal(true);
+								if (memberId) setProfileModal(true);
+								else {
+									alert('로그인이 필요합니다.');
+								}
 								// } else {
 								// 	setOpen(true);
 								// 	setType('subscribe');
