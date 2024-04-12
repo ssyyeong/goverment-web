@@ -33,6 +33,15 @@ interface ICustomHeaderProps {}
 
 const CustomHeader = (props: ICustomHeaderProps) => {
 	const cookie = new CookieManager();
+
+	//* States
+	const [anchorElNav, setAnchorElNav] = React.useState(null);
+	const [anchorElMypage, setAnchorElMypage] = React.useState(null);
+	const [anchorElUser, setAnchorElUser] = React.useState(null); // 고객센터 메뉴
+	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 커뮤니티 메뉴
+	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
+	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
+
 	//* Constants
 
 	/**
@@ -294,14 +303,29 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '커뮤니티',
 			subMenus: community,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElCommunity(event.currentTarget);
+				else setAnchorElCommunity(null);
+			},
+			target: anchorElCommunity,
 		},
 		{
 			label: '지원사업',
 			subMenus: government,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElGovernment(event.currentTarget);
+				else setAnchorElGovernment(null);
+			},
+			target: anchorElGovernment,
 		},
 		{
 			label: '지표관리',
 			subMenus: indication,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElIndicator(event.currentTarget);
+				else setAnchorElIndicator(null);
+			},
+			target: anchorElIndicator,
 		},
 		{
 			label: '파트너스',
@@ -314,6 +338,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '고객센터',
 			subMenus: customercenter,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElUser(event.currentTarget);
+				else setAnchorElUser(null);
+			},
+			target: anchorElUser,
 		},
 	];
 
@@ -325,6 +354,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '커뮤니티',
 			subMenus: community,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElCommunity(event.currentTarget);
+				else setAnchorElCommunity(null);
+			},
 		},
 		{
 			label: '파트너스',
@@ -337,6 +370,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '고객센터',
 			subMenus: customercenter,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElUser(event.currentTarget);
+				else setAnchorElUser(null);
+			},
+			target: anchorElUser,
 		},
 	];
 
@@ -360,10 +398,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			},
 		},
 	];
-	//* States
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElMypage, setAnchorElMypage] = React.useState(null);
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
+
 	const [title, setTitle] = React.useState(undefined);
 
 	//* Modules
@@ -378,8 +413,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	/**
 	 * 고객 센터 메뉴 오픈
 	 */
-	const handleOpenUserMenu = (event, title) => {
-		setAnchorElUser(event.currentTarget);
+	const handleOpenUserMenu = (event, title, eventHandler) => {
+		eventHandler(event);
 		setTitle(title);
 	};
 	/**
@@ -401,19 +436,19 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
-	/**
-	 * 고객 센터 메뉴 닫기
-	 */
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	};
 
 	const handleOpenMenu = (menu, idx) => {
 		return (
 			<>
 				{/* 메인 메뉴 버튼 */}
 				<Button
-					onClick={() => handleOpenUserMenu(event, menu.label)}
+					onClick={() =>
+						handleOpenUserMenu(
+							event,
+							menu.label,
+							menu.subMenuHandler
+						)
+					}
 					sx={{
 						display: 'block',
 						position: 'relative',
@@ -427,11 +462,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					sx={{
 						mt: '45px',
 						visibility: title !== menu.label && 'hidden',
-						ml: '20%',
-						position: 'absolute',
 					}}
 					id="menu-appbar"
-					anchorEl={anchorElUser}
+					anchorEl={menu.target}
 					anchorOrigin={{
 						vertical: 'top',
 						horizontal: 'center',
@@ -441,8 +474,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						vertical: 'top',
 						horizontal: 'center',
 					}}
-					open={Boolean(anchorElUser)}
-					onClose={handleCloseUserMenu}
+					open={Boolean(menu?.target)}
+					onClose={() => menu?.subMenuHandler(null)}
 					PaperProps={{
 						sx: {
 							bgcolor: 'primary.light',
@@ -479,7 +512,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	useEffect(() => {
 		handleCloseMypageMenu();
 		handleCloseNavMenu();
-		handleCloseUserMenu();
+		// handleCloseUserMenu();
+		setAnchorElCommunity(null);
+		setAnchorElGovernment(null);
+		setAnchorElIndicator(null);
+		setAnchorElUser(null);
 	}, [router]);
 
 	return (
