@@ -266,4 +266,18 @@ export class AppMemberController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	//* profile
+	public getProfile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	) {
+		this.getData(
+			{},
+			`${this.mergedPath}/profile`,
+			successCallback,
+			failCallback
+		);
+	}
 }

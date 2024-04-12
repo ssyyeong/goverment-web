@@ -42,7 +42,7 @@ const Page: NextPage = () => {
 	/**
 	 * 오픈 이벤트 모달
 	 */
-	const [openEventModal, setOpenEventModal] = React.useState<boolean>(true);
+	const [openEventModal, setOpenEventModal] = React.useState<boolean>(false);
 	//* Hooks
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)

@@ -15,6 +15,7 @@ import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertMo
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import IrDataModal from '../../../../src/views/local/internal_service/ir/IrDataModal/IrDataModal';
 import { gTagEvent } from '../../../../src/lib/gtag';
+import { AppMemberController } from '../../../../src/controller/AppMemberController';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -24,12 +25,24 @@ const Page: NextPage = () => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+
 	//* Controller
 	const irProductController = new DefaultController('IrProduct');
 	const userIrDataController = new DefaultController('UserIrInformation');
 	const irApplicationController = new DefaultController('IrApplication');
-	const appMemberController = new DefaultController('AppMember');
+	const appMemberController = new AppMemberController();
 	//* Constants
+	const selectableIndicatorList = [
+		{
+			name: '데모데이',
+			path: '/internal_service/ir/demoday',
+		},
+		{
+			name: 'IR 데이터',
+			path: '/internal_service/ir/management',
+			loginRequired: true,
+		},
+	];
 	//* States
 	/**
 	 * 데모데이 데이터
@@ -52,11 +65,11 @@ const Page: NextPage = () => {
 	/**
 	 * 데모데이 데이터 조회
 	 */
-	const getDemoDayData = () => {
+	const getDemoDayData = (id?: number) => {
 		irProductController.getData(
 			{
 				FIND_OPTION_KEY_LIST: {
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					APP_MEMBER_IDENTIFICATION_CODE: id,
 				},
 			},
 			`${irProductController.mergedPath}/find_all`,
@@ -71,10 +84,10 @@ const Page: NextPage = () => {
 	/**
 	 * IR 정보 여부 확인
 	 */
-	const checkIrData = () => {
+	const checkIrData = (id?: number) => {
 		userIrDataController.getOneItemByKey(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				APP_MEMBER_IDENTIFICATION_CODE: id,
 			},
 			(res) => {
 				if (res.data.result === null) {
@@ -86,25 +99,18 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
-	/**
-	 * 유저 정보 가져오기
-	 */
-	React.useEffect(() => {
-		appMemberController.getData(
-			{},
-			`${appMemberController.mergedPath}/profile`,
-			(res) => {
-				if (res.data.result !== null) {
-					setIrContactNum(res.data.result.PHONE_NUMBER);
-				}
-			}
-		);
-	}, []);
 
 	/**
 	 * 데모데이 신청
 	 */
 	const irApplyCheck = (duedate) => {
+		if (!memberId) {
+			let notLogin = confirm('로그인 후 이용 가능합니다.');
+			if (notLogin) {
+				router.push('/auth/sign_in');
+			}
+			return;
+		}
 		if (!userIrData) {
 			let noIrData = confirm('IR 정보를 먼저 등록해주세요.');
 			if (noIrData) {
@@ -132,7 +138,7 @@ const Page: NextPage = () => {
 			(res) => {
 				alert('신청이 완료되었습니다.');
 				setOpen(false);
-				getDemoDayData();
+				getDemoDayData(memberId);
 			},
 			(err) => {
 				if (err.response.data.message === '이미 신청한 IR입니다.') {
@@ -154,11 +160,24 @@ const Page: NextPage = () => {
 	const { open, setOpen, setType, type } = useAlert({});
 
 	React.useEffect(() => {
-		if (memberId) {
-			checkIrData();
-			getDemoDayData();
-		}
-	}, [memberId]);
+		appMemberController.getProfile(
+			{},
+			(res) => {
+				if (res.data.result !== null) {
+					setIrContactNum(res.data.result.PHONE_NUMBER);
+					checkIrData(res.data.result.APP_MEMBER_IDENTIFICATION_CODE);
+					getDemoDayData(
+						res.data.result.APP_MEMBER_IDENTIFICATION_CODE
+					);
+				} else {
+				}
+			},
+			(err) => {
+				getDemoDayData();
+				checkIrData();
+			}
+		);
+	}, []);
 
 	console.log(demoDayData);
 	return (
@@ -171,6 +190,34 @@ const Page: NextPage = () => {
 				image="/images/main/supportbusiness.png"
 				mobileImage="/images/main/supportbusinessmobile.png"
 			>
+				{/* 지표 (재무지표/법인계좌관리) 선택 영역 */}
+				<Box display={'flex'} gap={3} mb={2}>
+					{selectableIndicatorList.map((selectableIndicator) => (
+						<Typography
+							variant="h5"
+							fontWeight={'700'}
+							onClick={() => {
+								if (
+									selectableIndicator.loginRequired &&
+									!memberId
+								) {
+									alert('로그인 후 이용 가능합니다.');
+									return;
+								}
+								router.push(selectableIndicator.path);
+							}}
+							sx={{
+								color:
+									router.pathname === selectableIndicator.path
+										? 'primary.main'
+										: 'grey',
+								cursor: 'pointer',
+							}}
+						>
+							{selectableIndicator.name}
+						</Typography>
+					))}
+				</Box>
 				{/* 컨텐츠 */}
 				<Box display={'flex'} flexDirection={'column'} width={'100%'}>
 					{/* 타이틀 */}
@@ -180,13 +227,13 @@ const Page: NextPage = () => {
 						alignItems={'center'}
 					>
 						<Box>
-							<Typography
+							{/* <Typography
 								variant="h3"
 								fontWeight={'bold'}
 								sx={{ mb: 2 }}
 							>
 								데모데이
-							</Typography>
+							</Typography> */}
 							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
 								데모데이는 기업의 제품, 서비스, 기술 등을
 								소개하고 투자자들과의 소통을 통해 투자유치를

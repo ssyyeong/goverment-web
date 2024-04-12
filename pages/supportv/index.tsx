@@ -10,6 +10,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import { usePagination } from '../../src/hooks/usePagination';
 import SupportiPagination from '../../src/views/global/SupportiPagination';
 import YouTube from 'react-youtube';
+import Nodata from '../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -112,7 +113,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		getContents();
-	}, [page]);
+	}, [page, tab]);
 	/**
 	 * 탭 변경시 페이지 초기화
 	 */
@@ -223,58 +224,58 @@ const Page: NextPage = () => {
 					))}
 				</Tabs>
 				<Grid container spacing={2} mt={3}>
-					{Array(3)
-						.fill(0)
-						.map((item, idx) => {
-							return (
-								<Grid
-									item
-									xs={12}
-									md={4}
-									sx={{
-										cursor: 'pointer',
-									}}
-									onClick={() => {
-										router.push(`/supportv/${idx}`);
-									}}
+					{contentsDataList.map((item: any, idx) => {
+						return (
+							<Grid
+								item
+								xs={12}
+								md={4}
+								sx={{
+									cursor: 'pointer',
+								}}
+								onClick={() => {
+									router.push(
+										`/supportv/${item.CONTENTS_IDENTIFICATION_CODE}`
+									);
+								}}
+							>
+								<Box
+									display={'flex'}
+									flexDirection={'column'}
+									bgcolor={'white'}
+									borderRadius={1}
 								>
-									<Box
-										display={'flex'}
-										flexDirection={'column'}
-										bgcolor={'white'}
-										borderRadius={1}
-									>
-										<Thumbnail
-											src={
-												'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWhZMo1-a_A2hfPhlxnO97zjTDyUfZDwznAKQfxF1V5g&s'
-											}
-											width={'100%'}
-											backgroundSize="cover"
-											borderRadius={3}
-											ratio="16:9"
-										/>
-										<Box my={3}>
-											<Typography
-												variant="h6"
-												fontWeight={'600'}
-											>
-												영상 제목 소개
-											</Typography>
-											<Typography
-												variant="subtitle2"
-												mt={1}
-												color={'gray'}
-												lineHeight={1.5}
-											>
-												영상 내용 소개 영상 내용
-												소개영상 내용 소개영상 내용
-												소개영상 내용 소개
-											</Typography>
-										</Box>
+									<Thumbnail
+										src={
+											item.THUMBNAIL &&
+											JSON.parse(item.THUMBNAIL)[0]
+										}
+										width={'100%'}
+										backgroundSize="cover"
+										borderRadius={3}
+										ratio="16:9"
+									/>
+									<Box my={3}>
+										<Typography
+											variant="h6"
+											fontWeight={'600'}
+										>
+											{item.TITLE}
+										</Typography>
+										<Typography
+											variant="subtitle2"
+											mt={1}
+											color={'gray'}
+											lineHeight={1.5}
+										>
+											{item.SHORT_DESCRIPTION}
+										</Typography>
 									</Box>
-								</Grid>
-							);
-						})}
+								</Box>
+							</Grid>
+						);
+					})}
+					{contentsDataList.length === 0 && <Nodata />}
 				</Grid>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>

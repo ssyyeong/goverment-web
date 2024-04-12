@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 
 import { NextPage } from 'next';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 import {
 	Box,
@@ -9,6 +10,7 @@ import {
 	Grid,
 	IconButton,
 	Switch,
+	Tooltip,
 	Typography,
 } from '@mui/material';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
@@ -29,6 +31,9 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Nodata from '../../../../src/views/global/NoData/NoData';
 import moment from 'moment';
 import { gTagEvent } from '../../../../src/lib/gtag';
+import SupportiModal from '../../../../src/views/global/SupportiModal';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export interface IInvestInfoType {
 	DATE?: any;
@@ -46,7 +51,18 @@ const Page: NextPage = () => {
 	const irCommentController = new DefaultController('IrComment');
 	//* Modules
 	const { memberId } = useAppMember();
+	const router = useRouter();
 	//* Constants
+	const selectableIndicatorList = [
+		{
+			name: '데모데이',
+			path: '/internal_service/ir/demoday',
+		},
+		{
+			name: 'IR 데이터',
+			path: '/internal_service/ir/management',
+		},
+	];
 	// 투자 라운드
 	const hopeInvestRound = [
 		{
@@ -237,6 +253,14 @@ const Page: NextPage = () => {
 	 * 코멘트 리스트
 	 */
 	const [commentList, setCommentList] = React.useState<any[]>([]);
+	/**
+	 * 딥테크 여부
+	 */
+	const [deepTech, setDeepTech] = React.useState<'Y' | 'N'>('N');
+	/**
+	 * 딥테크 설명 모달
+	 */
+	const [deepTechModal, setDeepTechModal] = React.useState<boolean>(false);
 
 	//* Functions
 	/**
@@ -255,6 +279,7 @@ const Page: NextPage = () => {
 						JSON.parse(res.data.result.IMAGE_LIST)
 					);
 					setInvestInfo(JSON.parse(res.data.result.INVEST_INFO));
+					setDeepTech(res.data.result.DEEP_TECH_YN);
 					setIsUpdate(true);
 				} else {
 					setIsUpdate(false);
@@ -278,6 +303,7 @@ const Page: NextPage = () => {
 				IR_FILE: JSON.stringify(irDeckFile),
 				IMAGE_LIST: JSON.stringify(companyIntroductionImages),
 				INVEST_INFO: JSON.stringify(investInfo),
+				DEEP_TECH_YN: deepTech,
 			},
 			(res) => {
 				// if (res.data.result) {
@@ -312,6 +338,7 @@ const Page: NextPage = () => {
 				IR_FILE: JSON.stringify(irDeckFile),
 				IMAGE_LIST: JSON.stringify(companyIntroductionImages),
 				INVEST_INFO: JSON.stringify(investInfo),
+				DEEP_TECH_YN: deepTech,
 			},
 			(res) => {
 				if (res.data.result) {
@@ -368,6 +395,27 @@ const Page: NextPage = () => {
 				image="/images/main/supportbusiness.png"
 				mobileImage="/images/main/supportbusinessmobile.png"
 			>
+				{/* 지표 (재무지표/법인계좌관리) 선택 영역 */}
+				<Box display={'flex'} gap={3} mb={2}>
+					{selectableIndicatorList.map((selectableIndicator) => (
+						<Typography
+							variant="h5"
+							fontWeight={'700'}
+							onClick={() => {
+								router.push(selectableIndicator.path);
+							}}
+							sx={{
+								color:
+									router.pathname === selectableIndicator.path
+										? 'primary.main'
+										: 'grey',
+								cursor: 'pointer',
+							}}
+						>
+							{selectableIndicator.name}
+						</Typography>
+					))}
+				</Box>
 				{/* 컨텐츠 */}
 				<Box display={'flex'} flexDirection={'column'} width={'100%'}>
 					{/* 타이틀 */}
@@ -375,15 +423,16 @@ const Page: NextPage = () => {
 						display={'flex'}
 						justifyContent={'space-between'}
 						alignItems={'center'}
+						mb={1}
 					>
 						<Box>
-							<Typography
+							{/* <Typography
 								variant="h3"
 								fontWeight={'bold'}
 								sx={{ mb: 2 }}
 							>
 								IR 관리
-							</Typography>
+							</Typography> */}
 							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
 								IR Deck, 기업 정보를 관리할 수 있습니다.
 							</Typography>
@@ -407,6 +456,10 @@ const Page: NextPage = () => {
 									</Box>
 								}
 								onClick={() => {
+									if (!memberId) {
+										alert('로그인 후 이용해주세요.');
+										return;
+									}
 									if (isEdit) {
 										if (isUpdate) {
 											updateUserIrInfo();
@@ -636,6 +689,41 @@ const Page: NextPage = () => {
 										gap={1}
 										mt={2}
 									>
+										<Grid
+											item
+											sm={5.9}
+											display={'flex'}
+											xs={12}
+											flexDirection={'column'}
+										>
+											<Typography
+												fontWeight={'600'}
+												color={'grey'}
+												variant="caption"
+											>
+												딥테크여부
+												<IconButton
+													size="small"
+													onClick={() =>
+														setDeepTechModal(true)
+													}
+												>
+													<HelpOutlineIcon fontSize="small" />
+												</IconButton>
+											</Typography>
+											<Switch
+												checked={deepTech === 'Y'}
+												onChange={(e) => {
+													isEdit &&
+														setDeepTech(
+															e.target.checked
+																? 'Y'
+																: 'N'
+														);
+												}}
+											/>
+										</Grid>
+
 										{companyInfoConfig.map(
 											(item, index) => {
 												return (
@@ -1371,8 +1459,22 @@ const Page: NextPage = () => {
 					</Grid>
 				</Box>
 			</InternalServiceLayout>
+
+			<SupportiModal
+				open={deepTechModal}
+				handleClose={() => setDeepTechModal(false)}
+				title="딥테크란?"
+				activeHeader
+				children={
+					<Image
+						src={'/images/main/deeptech.jpg'}
+						width={900}
+						height={900}
+						alt="deeptech"
+					/>
+				}
+			/>
 		</Box>
-		// </InternalServiceDrawer>
 	);
 };
 

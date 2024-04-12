@@ -75,6 +75,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
+			label: '데모데이',
+			path: '/internal_service/ir/demoday',
+		},
+		{
 			label: '지원사업 조회',
 			path: '/internal_service/government/research',
 			onclick: () => {
@@ -228,6 +232,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				});
 			},
 		},
+		{
+			label: '데모데이',
+			path: '/internal_service/ir/demoday',
+		},
 	];
 
 	/**
@@ -297,7 +305,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	// 메뉴
 	const loginPages = [
 		{
-			label: '컨텐츠',
+			label: 'supporTV',
 			path: '/supportv',
 		},
 		{
@@ -348,7 +356,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	const logoutPages = [
 		{
-			label: '컨텐츠',
+			label: 'supporTV',
 			path: '/supportv',
 		},
 		{
@@ -358,6 +366,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				if (event) setAnchorElCommunity(event.currentTarget);
 				else setAnchorElCommunity(null);
 			},
+			target: anchorElCommunity,
 		},
 		{
 			label: '파트너스',
