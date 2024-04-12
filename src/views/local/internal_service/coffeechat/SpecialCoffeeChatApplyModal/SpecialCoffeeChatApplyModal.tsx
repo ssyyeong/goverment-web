@@ -187,12 +187,12 @@ const SpecialCoffeeChatApplyModal = (
 					setAlertModal(true);
 					setAlertModalType('point');
 				}
-				if (
-					err.response.data.message === '구독 회원만 이용 가능합니다.'
-				) {
-					setAlertModal(true);
-					setAlertModalType('subscribe');
-				}
+				// if (
+				// 	err.response.data.message === '구독 회원만 이용 가능합니다.'
+				// ) {
+				// 	setAlertModal(true);
+				// 	setAlertModalType('subscribe');
+				// }
 			}
 		);
 	};

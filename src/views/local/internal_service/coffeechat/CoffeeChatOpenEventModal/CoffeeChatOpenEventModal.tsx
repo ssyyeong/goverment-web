@@ -92,16 +92,16 @@ const CoffeeChatOpenEventModal = (props: ICoffeeChatOpenEventModalProps) => {
 					fullWidth
 					contents={'참여 신청'}
 					onClick={() => {
-						if (props.subscription === true) {
-							window.open(
-								'https://jober.io/wall-write-document/cc935fd9-a388-4ff3-a9c5-a45dab221db0'
-							);
-							closeToday();
-							props.handleClose();
-						} else {
-							props.alertSetOpen(true);
-							props.alertSetType('subscribe');
-						}
+						// if (props.subscription === true) {
+						window.open(
+							'https://jober.io/wall-write-document/cc935fd9-a388-4ff3-a9c5-a45dab221db0'
+						);
+						closeToday();
+						props.handleClose();
+						// } else {
+						// 	props.alertSetOpen(true);
+						// 	props.alertSetType('subscribe');
+						// }
 					}}
 					style={{
 						width: '80%',

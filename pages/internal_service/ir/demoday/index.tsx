@@ -138,11 +138,11 @@ const Page: NextPage = () => {
 				if (err.response.data.message === '이미 신청한 IR입니다.') {
 					alert('이미 신청한 데모데이입니다.');
 				}
-				if (
-					err.response.data.message === '구독 회원만 이용 가능합니다.'
-				) {
-					alert('구독 회원만 이용 가능합니다.');
-				}
+				// if (
+				// 	err.response.data.message === '구독 회원만 이용 가능합니다.'
+				// ) {
+				// 	alert('구독 회원만 이용 가능합니다.');
+				// }
 			}
 		);
 	};
@@ -162,555 +162,519 @@ const Page: NextPage = () => {
 
 	console.log(demoDayData);
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
-				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout
-					title="IR"
-					subTitle="서포티를 통해 IR deck,기업 정보를 관리하고 직접 투자활동에 참여해보세요."
-					image="/images/main/supportbusiness.png"
-					mobileImage="/images/main/supportbusinessmobile.png"
-				>
-					{/* 컨텐츠 */}
+		// <InternalServiceDrawer type="dashboard">
+		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
+			{/* 컨텐츠 레이아웃 */}
+			<InternalServiceLayout
+				title="IR"
+				subTitle="서포티를 통해 IR deck,기업 정보를 관리하고 직접 투자활동에 참여해보세요."
+				image="/images/main/supportbusiness.png"
+				mobileImage="/images/main/supportbusinessmobile.png"
+			>
+				{/* 컨텐츠 */}
+				<Box display={'flex'} flexDirection={'column'} width={'100%'}>
+					{/* 타이틀 */}
 					<Box
 						display={'flex'}
-						flexDirection={'column'}
-						width={'100%'}
+						justifyContent={'space-between'}
+						alignItems={'center'}
 					>
-						{/* 타이틀 */}
-						<Box
-							display={'flex'}
-							justifyContent={'space-between'}
-							alignItems={'center'}
-						>
-							<Box>
-								<Typography
-									variant="h3"
-									fontWeight={'bold'}
-									sx={{ mb: 2 }}
-								>
-									데모데이
-								</Typography>
-								<Typography
-									color={'secondary.dark'}
-									sx={{ mb: 2 }}
-								>
-									데모데이는 기업의 제품, 서비스, 기술 등을
-									소개하고 투자자들과의 소통을 통해 투자유치를
-									목표로 하는 행사입니다.
-								</Typography>
-							</Box>
+						<Box>
+							<Typography
+								variant="h3"
+								fontWeight={'bold'}
+								sx={{ mb: 2 }}
+							>
+								데모데이
+							</Typography>
+							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+								데모데이는 기업의 제품, 서비스, 기술 등을
+								소개하고 투자자들과의 소통을 통해 투자유치를
+								목표로 하는 행사입니다.
+							</Typography>
 						</Box>
-						{/** 합격률, 참여율 */}
+					</Box>
+					{/** 합격률, 참여율 */}
+					<Box
+						mt={2}
+						display="flex"
+						width="100%"
+						gap={2}
+						flexWrap="wrap"
+					>
 						<Box
-							mt={2}
+							bgcolor={'white'}
+							p={4}
+							borderRadius={3}
+							width="49%"
 							display="flex"
-							width="100%"
-							gap={2}
+							justifyContent="space-between"
 							flexWrap="wrap"
 						>
-							<Box
-								bgcolor={'white'}
-								p={4}
-								borderRadius={3}
-								width="49%"
-								display="flex"
-								justifyContent="space-between"
-								flexWrap="wrap"
-							>
-								<Box display="flex" gap={1}>
-									<Typography
-										variant="h6"
-										fontWeight={'600'}
-										mb={2}
-									>
-										총 참여율
-									</Typography>
-									<Typography
-										variant="body2"
-										fontWeight={'500'}
-										color="secondary.main"
-										mt={0.5}
-									>
-										총 신청 개수 / 총 데모데이 개수
-									</Typography>
-								</Box>
+							<Box display="flex" gap={1}>
 								<Typography
-									variant="h1"
-									fontWeight={'700'}
-									color="primary.main"
+									variant="h6"
+									fontWeight={'600'}
+									mb={2}
 								>
-									{demoDayData?.participationRate}%
+									총 참여율
+								</Typography>
+								<Typography
+									variant="body2"
+									fontWeight={'500'}
+									color="secondary.main"
+									mt={0.5}
+								>
+									총 신청 개수 / 총 데모데이 개수
 								</Typography>
 							</Box>
-							<Box
-								bgcolor={'white'}
-								p={4}
-								borderRadius={3}
-								width="49%"
-								display="flex"
-								justifyContent="space-between"
-								flexWrap="wrap"
+							<Typography
+								variant="h1"
+								fontWeight={'700'}
+								color="primary.main"
 							>
-								<Box display="flex" gap={1}>
-									<Typography
-										variant="h6"
-										fontWeight={'600'}
-										mb={2}
-									>
-										총 합격률
-									</Typography>
-									<Typography
-										variant="body2"
-										fontWeight={'500'}
-										color="secondary.main"
-										mt={0.5}
-									>
-										총 선정 개수 / 총 신청 개수
-									</Typography>
-								</Box>
-								<Typography
-									variant="h1"
-									fontWeight={'700'}
-									color="primary.main"
-								>
-									{demoDayData?.passedRate}%
-								</Typography>
-							</Box>
-						</Box>
-						{/* 본문 */}
-						<Box mt={2} bgcolor={'white'} p={4} borderRadius={3}>
-							<Typography variant="h6" fontWeight={'600'} mb={2}>
-								데모데이 리스트
+								{demoDayData?.participationRate}%
 							</Typography>
-							{demoDayData?.rows.map((demoday) => {
-								return (
-									<AccordianBox
-										additionalOpenFunction={() => {
-											gTagEvent({
-												action: 'ir_demo_day',
-												category: 'ir_demo_day',
-												label: 'ir_demo_day',
-												value: 1,
-											});
-										}}
-										title={
-											<Box
-												display={'flex'}
-												alignItems={'center'}
-												gap={1}
+						</Box>
+						<Box
+							bgcolor={'white'}
+							p={4}
+							borderRadius={3}
+							width="49%"
+							display="flex"
+							justifyContent="space-between"
+							flexWrap="wrap"
+						>
+							<Box display="flex" gap={1}>
+								<Typography
+									variant="h6"
+									fontWeight={'600'}
+									mb={2}
+								>
+									총 합격률
+								</Typography>
+								<Typography
+									variant="body2"
+									fontWeight={'500'}
+									color="secondary.main"
+									mt={0.5}
+								>
+									총 선정 개수 / 총 신청 개수
+								</Typography>
+							</Box>
+							<Typography
+								variant="h1"
+								fontWeight={'700'}
+								color="primary.main"
+							>
+								{demoDayData?.passedRate}%
+							</Typography>
+						</Box>
+					</Box>
+					{/* 본문 */}
+					<Box mt={2} bgcolor={'white'} p={4} borderRadius={3}>
+						<Typography variant="h6" fontWeight={'600'} mb={2}>
+							데모데이 리스트
+						</Typography>
+						{demoDayData?.rows.map((demoday) => {
+							return (
+								<AccordianBox
+									additionalOpenFunction={() => {
+										gTagEvent({
+											action: 'ir_demo_day',
+											category: 'ir_demo_day',
+											label: 'ir_demo_day',
+											value: 1,
+										});
+									}}
+									title={
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={1}
+										>
+											<Typography fontWeight={'bold'}>
+												{demoday.TITLE}
+											</Typography>
+											<Typography
+												variant="body2"
+												sx={{
+													textDecoration: 'underline',
+													cursor: 'pointer',
+												}}
+												onClick={() => {
+													window.open(
+														JSON.parse(
+															demoday.IMAGE_LIST
+														)[0],
+														'_blank'
+													);
+												}}
 											>
-												<Typography fontWeight={'bold'}>
-													{demoday.TITLE}
-												</Typography>
-												<Typography
-													variant="body2"
-													sx={{
-														textDecoration:
-															'underline',
-														cursor: 'pointer',
-													}}
-													onClick={() => {
-														window.open(
-															JSON.parse(
-																demoday.IMAGE_LIST
-															)[0],
-															'_blank'
-														);
-													}}
-												>
-													자세히 보기
-												</Typography>
-											</Box>
-										}
-										content={'답변이 등록되지 않았습니다.'}
-										additional={demoday.CONTENT}
-										type={
-											<Box
-												display={'flex'}
-												alignItems={'center'}
-												gap={0.6}
-											>
-												<Typography
-													variant="body2"
-													color={
-														moment(
-															moment(
-																demoday.DUE_DATE
-															).format(
-																'YYYY-MM-DD 17:00'
-															)
-														).isAfter(moment())
-															? 'primary'
-															: 'grey'
-													}
-													p={0.5}
-													borderColor={
-														moment(
-															moment(
-																demoday.DUE_DATE
-															).format(
-																'YYYY-MM-DD 17:00'
-															)
-														).isAfter(moment())
-															? 'primary.light'
-															: 'grey'
-													}
-													borderRadius={3}
-													border={1}
-												>
-													{moment(
+												자세히 보기
+											</Typography>
+										</Box>
+									}
+									content={'답변이 등록되지 않았습니다.'}
+									additional={demoday.CONTENT}
+									type={
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={0.6}
+										>
+											<Typography
+												variant="body2"
+												color={
+													moment(
 														moment(
 															demoday.DUE_DATE
 														).format(
 															'YYYY-MM-DD 17:00'
 														)
 													).isAfter(moment())
-														? '모집중'
-														: '마감'}
-												</Typography>
-												<Typography
-													color={'primary'}
-													fontWeight={'bold'}
+														? 'primary'
+														: 'grey'
+												}
+												p={0.5}
+												borderColor={
+													moment(
+														moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD 17:00'
+														)
+													).isAfter(moment())
+														? 'primary.light'
+														: 'grey'
+												}
+												borderRadius={3}
+												border={1}
+											>
+												{moment(
+													moment(
+														demoday.DUE_DATE
+													).format('YYYY-MM-DD 17:00')
+												).isAfter(moment())
+													? '모집중'
+													: '마감'}
+											</Typography>
+											<Typography
+												color={'primary'}
+												fontWeight={'bold'}
+											>
+												{demoday.IrApplications
+													.length === 0
+													? '미신청'
+													: demoday.IrApplications[0]
+															.ADOPTED_YN === 'Y'
+													? '선정'
+													: '미선정'}
+											</Typography>
+										</Box>
+									}
+									notAQna
+									additionalComponent={
+										<Box width={'100%'}>
+											{/* 마감일, 개최일 */}
+											<Grid container mb={2} p={1}>
+												<Grid
+													sm={4}
+													display={'flex'}
+													gap={2}
 												>
-													{demoday.IrApplications
-														.length === 0
-														? '미신청'
-														: demoday
-																.IrApplications[0]
-																.ADOPTED_YN ===
-														  'Y'
-														? '선정'
-														: '미선정'}
-												</Typography>
-											</Box>
-										}
-										notAQna
-										additionalComponent={
-											<Box width={'100%'}>
-												{/* 마감일, 개최일 */}
-												<Grid container mb={2} p={1}>
-													<Grid
-														sm={4}
-														display={'flex'}
-														gap={2}
-													>
-														<Typography
-															fontWeight={'600'}
-														>
-															신청마감일
-														</Typography>
-														<Typography>
-															{moment(
-																demoday.DUE_DATE
-															).format(
-																'YYYY-MM-DD'
-															)}{' '}
-															17:00
-														</Typography>
-													</Grid>
-													<Grid
-														sm={4}
-														display={'flex'}
-														gap={2}
-													>
-														<Typography
-															fontWeight={'600'}
-														>
-															선정 마감일
-														</Typography>
-														<Typography>
-															{moment(
-																demoday.ADOPTION_DATE
-															).format(
-																'YYYY-MM-DD'
-															)}{' '}
-															18:00
-														</Typography>
-													</Grid>
-													<Grid
-														sm={4}
-														display={'flex'}
-														gap={2}
-													>
-														<Typography
-															fontWeight={'600'}
-														>
-															데모데이 개최일
-														</Typography>
-														<Typography>
-															{moment(
-																demoday.IR_DATE
-															).format(
-																'YYYY-MM-DD'
-															)}
-														</Typography>
-													</Grid>
-												</Grid>
-												<Box
-													sx={{
-														height: '400px',
-														overflowY: 'auto',
-													}}
-												>
-													<img
-														src={
-															JSON.parse(
-																demoday.IMAGE_LIST
-															)[0]
-														}
-														style={{
-															width: '100%',
-															objectFit: 'cover',
-															overflowY: 'auto',
-														}}
-													/>
-												</Box>
-												<Box mt={2}>
 													<Typography
 														fontWeight={'600'}
 													>
-														신청내역
+														신청마감일
 													</Typography>
-													<Box
-														mt={1}
-														bgcolor={'white'}
-														borderRadius={3}
-														width={'100%'}
-														p={2}
+													<Typography>
+														{moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD'
+														)}{' '}
+														17:00
+													</Typography>
+												</Grid>
+												<Grid
+													sm={4}
+													display={'flex'}
+													gap={2}
+												>
+													<Typography
+														fontWeight={'600'}
 													>
-														{demoday.IrApplications
-															.length === 0 ? (
-															<Typography
-																variant="body1"
-																fontWeight={
-																	'600'
-																}
-																p={2}
-																textAlign={
-																	'center'
-																}
-															>
-																신청내역이
-																없습니다.
-															</Typography>
-														) : (
-															<Box
-																display={'flex'}
-																flexDirection={
-																	'column'
-																}
-																gap={2}
-															>
-																<Box
-																	display={
-																		'flex'
-																	}
-																	gap={2}
-																>
-																	<Typography
-																		color={
-																			'grey'
-																		}
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		신청
-																		일자
-																	</Typography>
-																	<Typography
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		{moment(
-																			demoday
-																				.IrApplications[0]
-																				.CREATED_AT
-																		).format(
-																			'YYYY-MM-DD'
-																		)}
-																	</Typography>
-																</Box>
-																<Box
-																	display={
-																		'flex'
-																	}
-																	gap={2}
-																>
-																	<Typography
-																		color={
-																			'grey'
-																		}
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		연락처
-																	</Typography>
-																	<Typography
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		{
-																			demoday
-																				.IrApplications[0]
-																				.CONTACT_NUMBER
-																		}
-																	</Typography>
-																</Box>
-																<Box
-																	display={
-																		'flex'
-																	}
-																	gap={2}
-																>
-																	<Typography
-																		color={
-																			'grey'
-																		}
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		선정여부
-																	</Typography>
-																	<Typography
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		{demoday
-																			.IrApplications[0]
-																			.ADOPTED_YN ===
-																		'Y'
-																			? '선정'
-																			: '미선정'}
-																	</Typography>
-																</Box>
-																<Box
-																	display={
-																		'flex'
-																	}
-																	gap={2}
-																>
-																	<Typography
-																		color={
-																			'grey'
-																		}
-																		fontWeight={
-																			'600'
-																		}
-																	>
-																		제출한
-																		IR
-																		데이터
-																	</Typography>
-																	<Typography
-																		fontWeight={
-																			'600'
-																		}
-																		sx={{
-																			textDecoration:
-																				'underline',
-																			cursor: 'pointer',
-																		}}
-																		onClick={() => {
-																			setIrDataModal(
-																				true
-																			);
-																		}}
-																	>
-																		확인하기
-																	</Typography>
-																</Box>
-															</Box>
-														)}
-													</Box>
-													{demoday.IrApplications
-														.length === 0 &&
-														moment(
-															moment(
-																demoday.DUE_DATE
-															).format(
-																'YYYY-MM-DD 17:00'
-															)
-														).isAfter(moment()) && (
-															<Box
-																justifyContent={
-																	'flex-end'
-																}
-																display={'flex'}
-																mt={2}
-															>
-																<SupportiButton
-																	contents={
-																		'신청하기'
-																	}
-																	onClick={() => {
-																		irApplyCheck(
-																			demoday.DUE_DATE
-																		);
-																	}}
-																	variant="contained"
-																	isGradient
-																	disabledGutters
-																	style={{
-																		width: '100px',
-																		height: '30px',
-																	}}
-																/>
-															</Box>
-														)}
-												</Box>
-												<SupportiAlertModal
-													open={open}
-													type="irApply"
-													handleClose={() =>
-														setOpen(false)
+														선정 마감일
+													</Typography>
+													<Typography>
+														{moment(
+															demoday.ADOPTION_DATE
+														).format(
+															'YYYY-MM-DD'
+														)}{' '}
+														18:00
+													</Typography>
+												</Grid>
+												<Grid
+													sm={4}
+													display={'flex'}
+													gap={2}
+												>
+													<Typography
+														fontWeight={'600'}
+													>
+														데모데이 개최일
+													</Typography>
+													<Typography>
+														{moment(
+															demoday.IR_DATE
+														).format('YYYY-MM-DD')}
+													</Typography>
+												</Grid>
+											</Grid>
+											<Box
+												sx={{
+													height: '400px',
+													overflowY: 'auto',
+												}}
+											>
+												<img
+													src={
+														JSON.parse(
+															demoday.IMAGE_LIST
+														)[0]
 													}
-													customHandleClose={() => {
-														irApply(
-															demoday.IR_PRODUCT_IDENTIFICATION_CODE
-														);
+													style={{
+														width: '100%',
+														objectFit: 'cover',
+														overflowY: 'auto',
 													}}
 												/>
-												<IrDataModal
-													irApplicationId={
-														demoday
-															.IrApplications[0]
-															?.IR_APPLICATION_IDENTIFICATION_CODE
-													}
-													modalOpen={irDataModal}
-													setModalOpen={
-														setIrDataModal
-													}
-													canNotBeModified={
-														demoday
-															.IrApplications[0]
-															?.ADOPTED_YN ===
-															'Y' ||
-														moment(
-															moment(
-																demoday.DUE_DATE
-															).format(
-																'YYYY-MM-DD 17:00'
-															)
-														).isBefore(moment())
-													}
-												/>
 											</Box>
-										}
-									/>
-								);
-							})}
-						</Box>
+											<Box mt={2}>
+												<Typography fontWeight={'600'}>
+													신청내역
+												</Typography>
+												<Box
+													mt={1}
+													bgcolor={'white'}
+													borderRadius={3}
+													width={'100%'}
+													p={2}
+												>
+													{demoday.IrApplications
+														.length === 0 ? (
+														<Typography
+															variant="body1"
+															fontWeight={'600'}
+															p={2}
+															textAlign={'center'}
+														>
+															신청내역이 없습니다.
+														</Typography>
+													) : (
+														<Box
+															display={'flex'}
+															flexDirection={
+																'column'
+															}
+															gap={2}
+														>
+															<Box
+																display={'flex'}
+																gap={2}
+															>
+																<Typography
+																	color={
+																		'grey'
+																	}
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	신청 일자
+																</Typography>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	{moment(
+																		demoday
+																			.IrApplications[0]
+																			.CREATED_AT
+																	).format(
+																		'YYYY-MM-DD'
+																	)}
+																</Typography>
+															</Box>
+															<Box
+																display={'flex'}
+																gap={2}
+															>
+																<Typography
+																	color={
+																		'grey'
+																	}
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	연락처
+																</Typography>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	{
+																		demoday
+																			.IrApplications[0]
+																			.CONTACT_NUMBER
+																	}
+																</Typography>
+															</Box>
+															<Box
+																display={'flex'}
+																gap={2}
+															>
+																<Typography
+																	color={
+																		'grey'
+																	}
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	선정여부
+																</Typography>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	{demoday
+																		.IrApplications[0]
+																		.ADOPTED_YN ===
+																	'Y'
+																		? '선정'
+																		: '미선정'}
+																</Typography>
+															</Box>
+															<Box
+																display={'flex'}
+																gap={2}
+															>
+																<Typography
+																	color={
+																		'grey'
+																	}
+																	fontWeight={
+																		'600'
+																	}
+																>
+																	제출한 IR
+																	데이터
+																</Typography>
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	sx={{
+																		textDecoration:
+																			'underline',
+																		cursor: 'pointer',
+																	}}
+																	onClick={() => {
+																		setIrDataModal(
+																			true
+																		);
+																	}}
+																>
+																	확인하기
+																</Typography>
+															</Box>
+														</Box>
+													)}
+												</Box>
+												{demoday.IrApplications
+													.length === 0 &&
+													moment(
+														moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD 17:00'
+														)
+													).isAfter(moment()) && (
+														<Box
+															justifyContent={
+																'flex-end'
+															}
+															display={'flex'}
+															mt={2}
+														>
+															<SupportiButton
+																contents={
+																	'신청하기'
+																}
+																onClick={() => {
+																	irApplyCheck(
+																		demoday.DUE_DATE
+																	);
+																}}
+																variant="contained"
+																isGradient
+																disabledGutters
+																style={{
+																	width: '100px',
+																	height: '30px',
+																}}
+															/>
+														</Box>
+													)}
+											</Box>
+											<SupportiAlertModal
+												open={open}
+												type="irApply"
+												handleClose={() =>
+													setOpen(false)
+												}
+												customHandleClose={() => {
+													irApply(
+														demoday.IR_PRODUCT_IDENTIFICATION_CODE
+													);
+												}}
+											/>
+											<IrDataModal
+												irApplicationId={
+													demoday.IrApplications[0]
+														?.IR_APPLICATION_IDENTIFICATION_CODE
+												}
+												modalOpen={irDataModal}
+												setModalOpen={setIrDataModal}
+												canNotBeModified={
+													demoday.IrApplications[0]
+														?.ADOPTED_YN === 'Y' ||
+													moment(
+														moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD 17:00'
+														)
+													).isBefore(moment())
+												}
+											/>
+										</Box>
+									}
+								/>
+							);
+						})}
 					</Box>
-				</InternalServiceLayout>
-			</Box>
-		</InternalServiceDrawer>
+				</Box>
+			</InternalServiceLayout>
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

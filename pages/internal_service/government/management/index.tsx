@@ -140,8 +140,8 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
+		// <InternalServiceDrawer type="dashboard">
+		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
 				{/* 컨텐츠 레이아웃 */}
 				<InternalServiceLayout
 					title="지원 사업"
@@ -273,7 +273,7 @@ const Page: NextPage = () => {
 					)}
 				</InternalServiceLayout>
 			</Box>
-		</InternalServiceDrawer>
+		// </InternalServiceDrawer>
 	);
 };
 

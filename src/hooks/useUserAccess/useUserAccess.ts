@@ -111,11 +111,11 @@ const useUserAccess = (checkTarget: TCheckTarget) => {
 	/**
 	 * 구독 권한 체크
 	 */
-	useEffect(() => {
-		if (isSubscribed !== undefined && checkTarget == 'SUBSCRIPTION') {
-			setAccess(isSubscribed);
-		}
-	}, [isSubscribed]);
+	// useEffect(() => {
+	// 	if (isSubscribed !== undefined && checkTarget == 'SUBSCRIPTION') {
+	// 		setAccess(isSubscribed);
+	// 	}
+	// }, [isSubscribed]);
 
 	/**
 	 * 로그인 권한 체크

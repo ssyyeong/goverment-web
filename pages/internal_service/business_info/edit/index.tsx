@@ -209,300 +209,282 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					width: '100%',
-					p: { xs: 2, md: 10 },
-				}}
-			>
-				{/* 컨텐츠 레이아웃 */}
-				{access === true && (
-					<InternalServiceLayout
-						title="기업 정보"
-						subTitle="기업 정보를 수정 / 확인할 수 있습니다."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
-					>
-						{/* 컨트롤러 */}
-						<Box mb={2}>
-							<Grid container>
-								{/* 데이터 편집 및 추출 */}
-								<Grid item xs={8} md={6}>
-									<Typography
-										variant="h3"
-										fontWeight={'bold'}
-										sx={{ mb: 2 }}
-									>
-										기업 정보
-									</Typography>
-									<Typography
-										color={'secondary.dark'}
-										sx={{ mb: 2 }}
-									>
-										기업 정보를 확인할 수 있습니다.
-									</Typography>
-								</Grid>
-								<Grid item xs={4} md={6}>
-									<Box
-										display={'flex'}
-										justifyContent={'flex-end'}
-									>
-										{/* 편집 페이지로 이동 */}
-										<Box>
-											<Button
-												variant="contained"
+		// <InternalServiceDrawer type="dashboard">
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				p: { xs: 2, md: 10 },
+			}}
+		>
+			{/* 컨텐츠 레이아웃 */}
+			{access === true && (
+				<InternalServiceLayout
+					title="기업 정보"
+					subTitle="기업 정보를 수정 / 확인할 수 있습니다."
+					image="/images/main/business.png"
+					mobileImage="/images/main/businessMoblie.png"
+				>
+					{/* 컨트롤러 */}
+					<Box mb={2}>
+						<Grid container>
+							{/* 데이터 편집 및 추출 */}
+							<Grid item xs={8} md={6}>
+								<Typography
+									variant="h3"
+									fontWeight={'bold'}
+									sx={{ mb: 2 }}
+								>
+									기업 정보
+								</Typography>
+								<Typography
+									color={'secondary.dark'}
+									sx={{ mb: 2 }}
+								>
+									기업 정보를 확인할 수 있습니다.
+								</Typography>
+							</Grid>
+							<Grid item xs={4} md={6}>
+								<Box
+									display={'flex'}
+									justifyContent={'flex-end'}
+								>
+									{/* 편집 페이지로 이동 */}
+									<Box>
+										<Button
+											variant="contained"
+											sx={{
+												bgcolor: 'primary',
+												px: {
+													xs: 0,
+													md: 3,
+												},
+												borderRadius: 2,
+											}}
+											onClick={saveBusiness}
+										>
+											<SaveOutlinedIcon fontSize="small" />
+											<Typography
+												variant={'subtitle1'}
+												fontWeight={'600'}
+												color={'white'}
 												sx={{
-													bgcolor: 'primary',
-													px: {
-														xs: 0,
-														md: 3,
-													},
-													borderRadius: 2,
+													ml: 0.5,
 												}}
-												onClick={saveBusiness}
+												display={{
+													xs: 'none',
+													md: 'block',
+												}}
 											>
-												<SaveOutlinedIcon fontSize="small" />
-												<Typography
-													variant={'subtitle1'}
-													fontWeight={'600'}
-													color={'white'}
+												저장하기
+											</Typography>
+										</Button>
+									</Box>
+								</Box>
+							</Grid>
+						</Grid>
+					</Box>
+					{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
+					{business && businessHistory && (
+						<Box>
+							{/* 테이블  */}
+							<Box>
+								{/* 각 비즈니스 개요 항목 맵핑 */}
+								{businessConfig.map((businessMapping, idx) => (
+									<Box key={idx}>
+										<Grid container>
+											{/* 각 비즈니스 개요 라벨 */}
+											<Grid item xs={6} md={6}>
+												<Box
 													sx={{
-														ml: 0.5,
+														backgroundColor:
+															'#5575cd',
+														borderTopLeftRadius:
+															idx == 0 && 10,
+														borderBottomLeftRadius:
+															idx ===
+																businessConfig.length -
+																	1 && 10,
 													}}
-													display={{
-														xs: 'none',
-														md: 'block',
+													border={0.5}
+													py={2}
+													borderColor={'#bebebe'}
+												>
+													<Typography
+														variant={'h6'}
+														textAlign={'center'}
+														fontWeight={'500'}
+														color={'white'}
+													>
+														{businessMapping.label}
+													</Typography>
+												</Box>
+											</Grid>
+
+											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
+											<Grid item xs={6} md={6}>
+												<Box
+													bgcolor={'white'}
+													sx={{
+														borderTopRightRadius:
+															idx == 0 && 10,
+														borderBottomRightRadius:
+															idx ===
+																businessConfig.length -
+																	1 && 10,
 													}}
 												>
-													저장하기
-												</Typography>
-											</Button>
-										</Box>
-									</Box>
-								</Grid>
-							</Grid>
-						</Box>
-						{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
-						{business && businessHistory && (
-							<Box>
-								{/* 테이블  */}
-								<Box>
-									{/* 각 비즈니스 개요 항목 맵핑 */}
-									{businessConfig.map(
-										(businessMapping, idx) => (
-											<Box key={idx}>
-												<Grid container>
-													{/* 각 비즈니스 개요 라벨 */}
-													<Grid item xs={6} md={6}>
-														<Box
-															sx={{
-																backgroundColor:
-																	'#5575cd',
-																borderTopLeftRadius:
-																	idx == 0 &&
-																	10,
-																borderBottomLeftRadius:
-																	idx ===
-																		businessConfig.length -
-																			1 &&
-																	10,
-															}}
-															border={0.5}
-															py={2}
-															borderColor={
-																'#bebebe'
+													{businessMapping.label ==
+														'업종' ||
+													businessMapping.label ==
+														'투자라운드' ? (
+														<Autocomplete
+															options={
+																businessMapping.label ==
+																'업종'
+																	? businessSector
+																	: investSector
 															}
-														>
-															<Typography
-																variant={'h6'}
-																textAlign={
-																	'center'
-																}
-																fontWeight={
-																	'500'
-																}
-																color={'white'}
-															>
-																{
-																	businessMapping.label
-																}
-															</Typography>
-														</Box>
-													</Grid>
-
-													{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
-													<Grid item xs={6} md={6}>
-														<Box
-															bgcolor={'white'}
-															sx={{
-																borderTopRightRadius:
-																	idx == 0 &&
-																	10,
-																borderBottomRightRadius:
-																	idx ===
-																		businessConfig.length -
-																			1 &&
-																	10,
-															}}
-														>
-															{businessMapping.label ==
-																'업종' ||
-															businessMapping.label ==
-																'투자라운드' ? (
-																<Autocomplete
-																	options={
-																		businessMapping.label ==
-																		'업종'
-																			? businessSector
-																			: investSector
-																	}
-																	fullWidth
-																	onChange={(
-																		e,
-																		newValue
-																	) => {
-																		if (
-																			businessMapping.isFromBusinessHistory ==
-																			true
-																		) {
-																			// 비즈니스 로그에서 가져온 데이터일 경우
-																			setCopiedBusinessHistory(
-																				{
-																					...copiedBusinessHistory,
-																					[businessMapping.key]:
-																						newValue,
-																				}
-																			);
-																		} else {
-																			// 비즈니스 개요에서 가져온 데이터일 경우
-																			setBusiness(
-																				{
-																					...business,
-																					[businessMapping.key]:
-																						newValue,
-																				}
-																			);
-																		}
-																	}}
-																	value={
-																		businessMapping.isFromBusinessHistory ==
-																		true
-																			? copiedBusinessHistory[
-																					businessMapping
-																						.key
-																			  ]
-																			: business[
-																					businessMapping
-																						.key
-																			  ]
-																	}
-																	renderInput={(
-																		params
-																	) => (
-																		<TextField
-																			{...params}
-																			sx={{
-																				'& .MuiAutocomplete-input':
-																					{
-																						height: '13px',
-																					},
-																			}}
-																		/>
-																	)}
-																/>
-															) : (
-																<SupportiInput
-																	width={
-																		'100%'
-																	}
-																	type={
-																		businessMapping.type
-																	}
-																	maxDate={
-																		new Date()
-																	}
-																	minDate={moment(
-																		now()
-																	)
-																		.subtract(
-																			'10',
-																			'y'
-																		)
-																		.format(
-																			'YYYY-MM-DD'
-																		)}
-																	style={{
-																		height: '100%',
-																	}}
-																	value={
-																		businessMapping.isFromBusinessHistory ==
-																		true
-																			? copiedBusinessHistory[
-																					businessMapping
-																						.key
-																			  ]
-																			: business[
-																					businessMapping
-																						.key
-																			  ]
-																	}
-																	setValue={(
-																		value
-																	) => {
-																		if (
-																			businessMapping.isFromBusinessHistory ==
-																			true
-																		) {
-																			// 비즈니스 로그에서 가져온 데이터일 경우
-																			setCopiedBusinessHistory(
-																				{
-																					...copiedBusinessHistory,
-																					[businessMapping.key]:
-																						value,
-																				}
-																			);
-																		} else {
-																			// 비즈니스 개요에서 가져온 데이터일 경우
-																			setBusiness(
-																				{
-																					...business,
-																					[businessMapping.key]:
-																						value,
-																				}
-																			);
-																		}
-																	}}
-																	additionalProps={Object.assign(
+															fullWidth
+															onChange={(
+																e,
+																newValue
+															) => {
+																if (
+																	businessMapping.isFromBusinessHistory ==
+																	true
+																) {
+																	// 비즈니스 로그에서 가져온 데이터일 경우
+																	setCopiedBusinessHistory(
 																		{
-																			sx: {
-																				width: '100%',
-																				height: '100%',
-																				py: 0.8,
+																			...copiedBusinessHistory,
+																			[businessMapping.key]:
+																				newValue,
+																		}
+																	);
+																} else {
+																	// 비즈니스 개요에서 가져온 데이터일 경우
+																	setBusiness(
+																		{
+																			...business,
+																			[businessMapping.key]:
+																				newValue,
+																		}
+																	);
+																}
+															}}
+															value={
+																businessMapping.isFromBusinessHistory ==
+																true
+																	? copiedBusinessHistory[
+																			businessMapping
+																				.key
+																	  ]
+																	: business[
+																			businessMapping
+																				.key
+																	  ]
+															}
+															renderInput={(
+																params
+															) => (
+																<TextField
+																	{...params}
+																	sx={{
+																		'& .MuiAutocomplete-input':
+																			{
+																				height: '13px',
 																			},
-																		},
-																		businessMapping.additionalProps !==
-																			undefined
-																			? businessMapping.additionalProps
-																			: {}
-																	)}
+																	}}
 																/>
 															)}
-														</Box>
-													</Grid>
-												</Grid>
-											</Box>
-										)
-									)}
-								</Box>
+														/>
+													) : (
+														<SupportiInput
+															width={'100%'}
+															type={
+																businessMapping.type
+															}
+															maxDate={new Date()}
+															minDate={moment(
+																now()
+															)
+																.subtract(
+																	'10',
+																	'y'
+																)
+																.format(
+																	'YYYY-MM-DD'
+																)}
+															style={{
+																height: '100%',
+															}}
+															value={
+																businessMapping.isFromBusinessHistory ==
+																true
+																	? copiedBusinessHistory[
+																			businessMapping
+																				.key
+																	  ]
+																	: business[
+																			businessMapping
+																				.key
+																	  ]
+															}
+															setValue={(
+																value
+															) => {
+																if (
+																	businessMapping.isFromBusinessHistory ==
+																	true
+																) {
+																	// 비즈니스 로그에서 가져온 데이터일 경우
+																	setCopiedBusinessHistory(
+																		{
+																			...copiedBusinessHistory,
+																			[businessMapping.key]:
+																				value,
+																		}
+																	);
+																} else {
+																	// 비즈니스 개요에서 가져온 데이터일 경우
+																	setBusiness(
+																		{
+																			...business,
+																			[businessMapping.key]:
+																				value,
+																		}
+																	);
+																}
+															}}
+															additionalProps={Object.assign(
+																{
+																	sx: {
+																		width: '100%',
+																		height: '100%',
+																		py: 0.8,
+																	},
+																},
+																businessMapping.additionalProps !==
+																	undefined
+																	? businessMapping.additionalProps
+																	: {}
+															)}
+														/>
+													)}
+												</Box>
+											</Grid>
+										</Grid>
+									</Box>
+								))}
 							</Box>
-						)}
-					</InternalServiceLayout>
-				)}
-			</Box>
-		</InternalServiceDrawer>
+						</Box>
+					)}
+				</InternalServiceLayout>
+			)}
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

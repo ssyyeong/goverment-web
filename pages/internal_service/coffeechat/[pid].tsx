@@ -53,7 +53,7 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
 	 */
-	const { access } = useUserAccess('SUBSCRIPTION');
+	// const { access } = useUserAccess('SUBSCRIPTION');
 
 	/**
 	 * 유저 아이디
@@ -115,7 +115,7 @@ const Page: NextPage = () => {
 				);
 			}
 		}
-	}, [pid, special, access]);
+	}, [pid, special]);
 
 	//* Functions
 	/**
@@ -123,11 +123,11 @@ const Page: NextPage = () => {
 	 */
 	const handleCoffeeChatApply = () => {
 		// 구독 검사
-		if (access == false) {
-			setOpen(true);
-			setType('subscribe');
-			return;
-		}
+		// if (access == false) {
+		// 	setOpen(true);
+		// 	setType('subscribe');
+		// 	return;
+		// }
 		if (memberId == coffeeChatProfile.APP_MEMBER_IDENTIFICATION_CODE) {
 			alert('본인의 커피챗은 신청할 수 없습니다.');
 			return;
@@ -159,13 +159,13 @@ const Page: NextPage = () => {
 								}
 							},
 							(err) => {
-								if (
-									err.response.data.message ===
-									'구독자만 커피챗 신청이 가능합니다.'
-								) {
-									setOpen(true);
-									setType('subscribe');
-								}
+								// if (
+								// 	err.response.data.message ===
+								// 	'구독자만 커피챗 신청이 가능합니다.'
+								// ) {
+								// 	setOpen(true);
+								// 	setType('subscribe');
+								// }
 								if (
 									err.response.data.message ===
 									'신청 내역이 존재합니다.'
@@ -202,13 +202,13 @@ const Page: NextPage = () => {
 									setType('coffeechatalready');
 									setOpen(true);
 								}
-								if (
-									err.response.data.message ===
-									'구독자만 커피챗 신청이 가능합니다.'
-								) {
-									setOpen(true);
-									setType('subscribe');
-								}
+								// if (
+								// 	err.response.data.message ===
+								// 	'구독자만 커피챗 신청이 가능합니다.'
+								// ) {
+								// 	setOpen(true);
+								// 	setType('subscribe');
+								// }
 
 								return;
 							}
@@ -223,7 +223,8 @@ const Page: NextPage = () => {
 	};
 
 	return (
-		<InternalServiceDrawer type="dashboard">
+		// <InternalServiceDrawer type="dashboard">
+		<>
 			<Box
 				width={'100%'}
 				p={{ xs: 2, md: 10 }}
@@ -485,7 +486,8 @@ const Page: NextPage = () => {
 				handleClose={() => setOpen(false)}
 				type={type}
 			/>
-		</InternalServiceDrawer>
+			{/* </InternalServiceDrawer> */}
+		</>
 	);
 };
 

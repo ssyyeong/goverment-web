@@ -111,8 +111,9 @@ const Page: NextPage = () => {
 	 *  알럿 오픈 타입
 	 */
 
-	const [alertType, setAlertType] =
-		React.useState<'unAccess' | 'subscribe' | undefined>(undefined);
+	const [alertType, setAlertType] = React.useState<
+		'unAccess' | 'subscribe' | undefined
+	>(undefined);
 
 	/**
 	 * 페이징 관련
@@ -177,7 +178,7 @@ const Page: NextPage = () => {
 		// selectedTabCategory가 바뀌면 타이머 종료
 		return () => {
 			let endTime = Date.now();
-				stayTime = (endTime - startTime) / 1000;
+			stayTime = (endTime - startTime) / 1000;
 
 			// gtag에 이벤트 전송
 			if (
@@ -248,7 +249,7 @@ const Page: NextPage = () => {
 	/**
 	 * 구독권 정보 가져오기
 	 */
-	const { subscriptionInfo } = useSubscription({ memberId: memberId });
+	// const { subscriptionInfo } = useSubscription({ memberId: memberId });
 
 	React.useEffect(() => {
 		//* 초기 데이터 셋팅
@@ -293,453 +294,99 @@ const Page: NextPage = () => {
 	}, []);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					width: '100%',
-					p: { xs: 2, md: 10 },
-				}}
-			>
-				{/* 컨텐츠 레이아웃 */}
-				{access === true && (
-					<InternalServiceLayout
-						title="A2E(Ask to Experts)"
-						subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
+		// <InternalServiceDrawer type="dashboard">
+		<Box
+			bgcolor={'primary.light'}
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				p: { xs: 2, md: 10 },
+			}}
+		>
+			{/* 컨텐츠 레이아웃 */}
+			{access === true && (
+				<InternalServiceLayout
+					title="A2E(Ask to Experts)"
+					subTitle="부담없이 전문가에게 질문해보세요. 	평소에 전문가들에게 묻고 싶었던 질문을 자유롭게
             질문하고 다른 사업가 분들의 답변도 확인하세요."
-						image="/images/main/A2E.png"
-						mobileImage="/images/main/A2EMobile.png"
-					>
-						<Box p={1}>
-							<Typography variant="h5" fontWeight={700} mb={1}>
-								서포티 유저들이 많이 궁금해하는 질문
+					image="/images/main/A2E.png"
+					mobileImage="/images/main/A2EMobile.png"
+				>
+					<Box p={1}>
+						<Typography variant="h5" fontWeight={700} mb={1}>
+							서포티 유저들이 많이 궁금해하는 질문
+						</Typography>
+						<Box
+							display={'flex'}
+							justifyContent={'space-between'}
+							flexWrap={'wrap'}
+						>
+							<Typography mb={2} color={'secondary.main'}>
+								서포티 유저들이 가장 많이 궁금해하는 질문을
+								확인해보세요.
 							</Typography>
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-								flexWrap={'wrap'}
-							>
-								<Typography mb={2} color={'secondary.main'}>
-									서포티 유저들이 가장 많이 궁금해하는 질문을
-									확인해보세요.
-								</Typography>
-								<Typography mb={2} color={'secondary.main'}>
-									{moment().format('YYYY-MM-DD HH:mm')} 기준
-								</Typography>
-							</Box>
-							<Box
-								display={'flex'}
-								pl={{ md: 0.5, xs: '5%' }}
-								sx={{
-									overflowX: 'auto',
-									'-ms-overflow-style': 'none',
-									'&::-webkit-scrollbar': {
-										height: '5px !important',
-										backgroundColor: 'white !important',
-										padding: '0.5px',
-										borderRadius: '20px',
-									},
-									'&::-webkit-scrollbar-thumb': {
-										backgroundColor: '#305edccc',
-										borderRadius: '20px',
-									},
-								}}
-								p={1}
-							>
-								<Box display="flex" gap={2} width={'100%'}>
-									{fixedQuestion.length !== 0 &&
-										fixedQuestion.map((item, index) => {
-											return (
-												<Box
-													borderRadius={'10px'}
-													p={3}
-													bgcolor="white"
-													sx={{
-														boxShadow:
-															'0 3px 15px 0 #e1eaff',
-														minHeight: '150px',
-														width: '220px',
-														minWidth: '220px',
-														cursor: 'pointer',
-														border: '1px solid',
-														borderColor:
-															'secondary.light',
-													}}
-													display="flex"
-													flexDirection={'column'}
-													justifyContent="space-between"
-													onClick={() => {
-														if (
-															subscriptionInfo
-																?.SubscriptionProduct
-																?.TYPE ===
-																'BLACK' ||
-															subscriptionInfo
-																?.SubscriptionProduct
-																?.TYPE ===
-																'PRODUCT'
-														) {
-															router.push(
-																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-															);
-														} else {
-															setAlertType(
-																'subscribe'
-															);
-															setAlertModal(true);
-														}
-													}}
-												>
-													<Box
-														display="flex"
-														gap={0.5}
-														flexWrap="wrap"
-													>
-														<Typography
-															color="primary.main"
-															fontWeight={600}
-														>
-															[
-															{
-																item.A2eCategory
-																	.CONTENT
-															}
-															]
-														</Typography>
-														<Typography
-															fontWeight={600}
-															sx={{
-																wordBreak:
-																	'keep-all',
-															}}
-														>
-															{item.TITLE}
-														</Typography>
-													</Box>
-
-													<Box textAlign={'right'}>
-														<Typography color="secondary.dark">
-															{
-																item.UPDATED_AT.split(
-																	'T'
-																)[0]
-															}
-														</Typography>
-													</Box>
-												</Box>
-											);
-										})}
-									{fixedQuestion.length === 0 && (
-										<Box
-											width={'100%'}
-											display={'flex'}
-											justifyContent={'center'}
-										>
-											<Nodata />
-										</Box>
-									)}
-								</Box>
-							</Box>
-							{/** 검색창 */}
-							<Box mt={3}>
-								<Typography
-									variant="h5"
-									mb={2}
-									fontWeight={700}
-								>
-									모든 질문
-								</Typography>
-								<Box
-									display="flex"
-									justifyContent={'space-between'}
-									mt={2}
-									mb={1}
-									flexWrap="wrap"
-									gap={2}
-								>
-									<SupportiInput
-										type="search"
-										value={keyword}
-										setValue={setKeyword}
-										style={{ width: '320px' }}
-										additionalProps={{
-											placeholder:
-												'궁금한 것을 검색해보세요.',
-										}}
-									/>
-									<SupportiButton
-										contents="질문하러 가기"
-										variant="contained"
-										style={{
-											color: 'common.white',
-											height: 40,
-										}}
-										isGradient={true}
-										onClick={() => {
-											if (
-												subscriptionInfo
-													?.SubscriptionProduct
-													?.TYPE === 'BLACK' ||
-												subscriptionInfo
-													?.SubscriptionProduct
-													?.TYPE === 'PRODUCT'
-											) {
-												router.push(
-													'/internal_service/a2e/write'
-												);
-											} else {
-												setAlertType('subscribe');
-												setAlertModal(true);
-											}
-										}}
-									/>
-								</Box>
-							</Box>
-
-							<Box
-								display="flex"
-								justifyContent={'space-between'}
-							>
-								<Box></Box>
-								<Box display="flex" mr="-20px">
-									<Box display="flex" flexWrap="wrap">
-										<Typography
-											mt="auto"
-											mb="auto"
-											ml="auto"
-											mr={0.5}
-											fontWeight={500}
-											variant="body2"
-										>
-											비밀글 제외
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={exceptSecret}
-											setValue={setExceptSecret}
-										/>
-									</Box>
-									<Box display="flex">
-										<Typography
-											mt="auto"
-											mb="auto"
-											ml="-15px"
-											mr={0.5}
-											fontWeight={500}
-											variant="body2"
-										>
-											답변완료 글
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isAnswerExist}
-											setValue={setIsAnswerExist}
-										/>
-									</Box>
-									<Box display="flex">
-										<Typography
-											mt="auto"
-											mb="auto"
-											ml="-15px"
-											mr={0.5}
-											fontWeight={500}
-											variant="body2"
-										>
-											내가 쓴 글
-										</Typography>
-										<SupportiInput
-											type="checkbox"
-											value={isReadMine}
-											setValue={setIsReadMine}
-										/>
-									</Box>
-								</Box>
-							</Box>
-							<Box
-								display="flex"
-								justifyContent={'space-between'}
-							>
-								{/** 탭 */}
-								<Box display="flex">
-									{selectableTabCategory !== undefined &&
-										selectableTabCategory.map(
-											(item, index) => {
-												return (
-													<Box
-														key={index}
-														p={2}
-														sx={{
-															borderTopLeftRadius: 10,
-															borderTopRightRadius: 10,
-															color:
-																selectedTabCategory ===
-																item['CONTENT']
-																	? 'common.white'
-																	: 'primary.main',
-															bgcolor:
-																selectedTabCategory ===
-																item['CONTENT']
-																	? '#e7eeff'
-																	: 'common.white',
-															width: {
-																md: '130px',
-																xs: '60px',
-															},
-															textAlign: 'center',
-															cursor: 'pointer',
-															boxShadow:
-																'0 3px 15px 0 #e1eaff',
-														}}
-														onClick={() => {
-															setSelectedTabCategory(
-																item['CONTENT']
-															);
-
-															setSelectedCategoryNum(
-																item[
-																	'A2E_CATEGORY_IDENTIFICATION_CODE'
-																]
-															);
-														}}
-													>
-														<Typography
-															color="primary.main"
-															fontWeight={600}
-														>
-															{item['CONTENT']}
-														</Typography>
-													</Box>
-												);
-											}
-										)}
-								</Box>
-							</Box>
-
-							<Box
-								bgcolor="#e7eeff"
-								width="100%"
-								height="100%"
-								p={3}
-								sx={{
-									borderTopRightRadius: '5px',
-									borderBottomRightRadius: '5px',
-									borderBottomLeftRadius: '5px',
-								}}
-							>
-								{allQuestion !== undefined &&
-									allQuestion.length !== 0 &&
-									allQuestion.map((item, index) => {
+							<Typography mb={2} color={'secondary.main'}>
+								{moment().format('YYYY-MM-DD HH:mm')} 기준
+							</Typography>
+						</Box>
+						<Box
+							display={'flex'}
+							pl={{ md: 0.5, xs: '5%' }}
+							sx={{
+								overflowX: 'auto',
+								'-ms-overflow-style': 'none',
+								'&::-webkit-scrollbar': {
+									height: '5px !important',
+									backgroundColor: 'white !important',
+									padding: '0.5px',
+									borderRadius: '20px',
+								},
+								'&::-webkit-scrollbar-thumb': {
+									backgroundColor: '#305edccc',
+									borderRadius: '20px',
+								},
+							}}
+							p={1}
+						>
+							<Box display="flex" gap={2} width={'100%'}>
+								{fixedQuestion.length !== 0 &&
+									fixedQuestion.map((item, index) => {
 										return (
 											<Box
+												borderRadius={'10px'}
 												p={3}
-												borderRadius={1}
 												bgcolor="white"
-												mb={2}
 												sx={{
+													boxShadow:
+														'0 3px 15px 0 #e1eaff',
+													minHeight: '150px',
+													width: '220px',
+													minWidth: '220px',
 													cursor: 'pointer',
+													border: '1px solid',
+													borderColor:
+														'secondary.light',
 												}}
+												display="flex"
+												flexDirection={'column'}
+												justifyContent="space-between"
 												onClick={() => {
-													if (
-														subscriptionInfo
-															?.SubscriptionProduct
-															?.TYPE ===
-															'BLACK' ||
-														subscriptionInfo
-															?.SubscriptionProduct
-															?.TYPE === 'PRODUCT'
-													) {
-														if (
-															memberId !==
-																item.APP_MEMBER_IDENTIFICATION_CODE &&
-															item.PRIVATE_YN ===
-																'Y'
-														) {
-															setAlertType(
-																'unAccess'
-															);
-															setAlertModal(true);
-														} else {
-															gTagEvent({
-																action: 'a2e_question',
-																category:
-																	'a2e_question',
-																label: 'a2e_question',
-																value: 1,
-															});
-															router.push(
-																`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-															);
-														}
-													} else {
-														setAlertType(
-															'subscribe'
+													if (access)
+														router.push(
+															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
 														);
-														setAlertModal(true);
+													else {
+														alert(
+															'로그인 후 답변을 확인하실 수 있습니다!'
+														);
 													}
-
-													// if (
-													// 	memberId !==
-													// 		item.APP_MEMBER_IDENTIFICATION_CODE &&
-													// 	item.PRIVATE_YN === 'Y'
-													// ) {
-													// 	setAlertModal(true);
-													// } else {
-													// 	router.push(
-													// 		`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
-													// 	);
-													// }
 												}}
 											>
 												<Box
 													display="flex"
-													justifyContent={
-														'space-between'
-													}
-													mb={2}
-												>
-													<Box
-														borderRadius={20}
-														border="1px solid"
-														borderColor={
-															item.ANSWERED_YN ===
-															'N'
-																? 'secondary.dark'
-																: 'primary.main'
-														}
-														px={1.5}
-														py={0.8}
-													>
-														<Typography
-															color={
-																item.ANSWERED_YN ===
-																'N'
-																	? 'secondary.dark'
-																	: 'primary.main'
-															}
-															variant="body2"
-														>
-															{item.ANSWERED_YN ===
-															'N'
-																? '답변 전'
-																: '답변 완료'}
-														</Typography>
-													</Box>
-													<Typography
-														color={'secondary.dark'}
-													>
-														{
-															item.UPDATED_AT.split(
-																'T'
-															)[0]
-														}
-													</Typography>
-												</Box>
-
-												<Box
-													display="flex"
 													gap={0.5}
-													m={0.5}
+													flexWrap="wrap"
 												>
 													<Typography
 														color="primary.main"
@@ -754,55 +401,359 @@ const Page: NextPage = () => {
 													</Typography>
 													<Typography
 														fontWeight={600}
+														sx={{
+															wordBreak:
+																'keep-all',
+														}}
 													>
 														{item.TITLE}
 													</Typography>
-													{item.PRIVATE_YN ===
-														'Y' && (
-														<LockIcon
-															sx={{
-																width: '15px',
-																height: '15px',
+												</Box>
 
-																mt: 'auto',
-																mb: 'auto',
-															}}
-														/>
-													)}
+												<Box textAlign={'right'}>
+													<Typography color="secondary.dark">
+														{
+															item.UPDATED_AT.split(
+																'T'
+															)[0]
+														}
+													</Typography>
 												</Box>
 											</Box>
 										);
 									})}
-								{allQuestion !== undefined &&
-									allQuestion.length === 0 && <Nodata />}
+								{fixedQuestion.length === 0 && (
+									<Box
+										width={'100%'}
+										display={'flex'}
+										justifyContent={'center'}
+									>
+										<Nodata />
+									</Box>
+								)}
 							</Box>
-							{/* 컨텐츠 레이아웃
+						</Box>
+						{/** 검색창 */}
+						<Box mt={3}>
+							<Typography variant="h5" mb={2} fontWeight={700}>
+								모든 질문
+							</Typography>
+							<Box
+								display="flex"
+								justifyContent={'space-between'}
+								mt={2}
+								mb={1}
+								flexWrap="wrap"
+								gap={2}
+							>
+								<SupportiInput
+									type="search"
+									value={keyword}
+									setValue={setKeyword}
+									style={{ width: '320px' }}
+									additionalProps={{
+										placeholder:
+											'궁금한 것을 검색해보세요.',
+									}}
+								/>
+								<SupportiButton
+									contents="질문하러 가기"
+									variant="contained"
+									style={{
+										color: 'common.white',
+										height: 40,
+									}}
+									isGradient={true}
+									onClick={() => {
+										if (access)
+											router.push(
+												'/internal_service/a2e/write'
+											);
+										else
+											alert(
+												'로그인 후 작성하실 수 있습니다!'
+											);
+									}}
+								/>
+							</Box>
+						</Box>
+
+						<Box display="flex" justifyContent={'space-between'}>
+							<Box></Box>
+							<Box display="flex" mr="-20px">
+								<Box display="flex" flexWrap="wrap">
+									<Typography
+										mt="auto"
+										mb="auto"
+										ml="auto"
+										mr={0.5}
+										fontWeight={500}
+										variant="body2"
+									>
+										비밀글 제외
+									</Typography>
+									<SupportiInput
+										type="checkbox"
+										value={exceptSecret}
+										setValue={setExceptSecret}
+									/>
+								</Box>
+								<Box display="flex">
+									<Typography
+										mt="auto"
+										mb="auto"
+										ml="-15px"
+										mr={0.5}
+										fontWeight={500}
+										variant="body2"
+									>
+										답변완료 글
+									</Typography>
+									<SupportiInput
+										type="checkbox"
+										value={isAnswerExist}
+										setValue={setIsAnswerExist}
+									/>
+								</Box>
+								<Box display="flex">
+									<Typography
+										mt="auto"
+										mb="auto"
+										ml="-15px"
+										mr={0.5}
+										fontWeight={500}
+										variant="body2"
+									>
+										내가 쓴 글
+									</Typography>
+									<SupportiInput
+										type="checkbox"
+										value={isReadMine}
+										setValue={setIsReadMine}
+									/>
+								</Box>
+							</Box>
+						</Box>
+						<Box display="flex" justifyContent={'space-between'}>
+							{/** 탭 */}
+							<Box display="flex">
+								{selectableTabCategory !== undefined &&
+									selectableTabCategory.map((item, index) => {
+										return (
+											<Box
+												key={index}
+												p={2}
+												sx={{
+													borderTopLeftRadius: 10,
+													borderTopRightRadius: 10,
+													color:
+														selectedTabCategory ===
+														item['CONTENT']
+															? 'common.white'
+															: 'primary.main',
+													bgcolor:
+														selectedTabCategory ===
+														item['CONTENT']
+															? '#e7eeff'
+															: 'common.white',
+													width: {
+														md: '130px',
+														xs: '60px',
+													},
+													textAlign: 'center',
+													cursor: 'pointer',
+													boxShadow:
+														'0 3px 15px 0 #e1eaff',
+												}}
+												onClick={() => {
+													setSelectedTabCategory(
+														item['CONTENT']
+													);
+
+													setSelectedCategoryNum(
+														item[
+															'A2E_CATEGORY_IDENTIFICATION_CODE'
+														]
+													);
+												}}
+											>
+												<Typography
+													color="primary.main"
+													fontWeight={600}
+												>
+													{item['CONTENT']}
+												</Typography>
+											</Box>
+										);
+									})}
+							</Box>
+						</Box>
+
+						<Box
+							bgcolor="#e7eeff"
+							width="100%"
+							height="100%"
+							p={3}
+							sx={{
+								borderTopRightRadius: '5px',
+								borderBottomRightRadius: '5px',
+								borderBottomLeftRadius: '5px',
+							}}
+						>
+							{allQuestion !== undefined &&
+								allQuestion.length !== 0 &&
+								allQuestion.map((item, index) => {
+									return (
+										<Box
+											p={3}
+											borderRadius={1}
+											bgcolor="white"
+											mb={2}
+											sx={{
+												cursor: 'pointer',
+											}}
+											onClick={() => {
+												if (access) {
+													if (
+														memberId !==
+															item.APP_MEMBER_IDENTIFICATION_CODE &&
+														item.PRIVATE_YN === 'Y'
+													) {
+														setAlertType(
+															'unAccess'
+														);
+														setAlertModal(true);
+													} else {
+														gTagEvent({
+															action: 'a2e_question',
+															category:
+																'a2e_question',
+															label: 'a2e_question',
+															value: 1,
+														});
+														router.push(
+															`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+														);
+													}
+												} else
+													alert(
+														'로그인 후 이용 가능합니다.'
+													);
+
+												// if (
+												// 	memberId !==
+												// 		item.APP_MEMBER_IDENTIFICATION_CODE &&
+												// 	item.PRIVATE_YN === 'Y'
+												// ) {
+												// 	setAlertModal(true);
+												// } else {
+												// 	router.push(
+												// 		`/internal_service/a2e/${item.A2E_QUESTION_IDENTIFICATION_CODE}`
+												// 	);
+												// }
+											}}
+										>
+											<Box
+												display="flex"
+												justifyContent={'space-between'}
+												mb={2}
+											>
+												<Box
+													borderRadius={20}
+													border="1px solid"
+													borderColor={
+														item.ANSWERED_YN === 'N'
+															? 'secondary.dark'
+															: 'primary.main'
+													}
+													px={1.5}
+													py={0.8}
+												>
+													<Typography
+														color={
+															item.ANSWERED_YN ===
+															'N'
+																? 'secondary.dark'
+																: 'primary.main'
+														}
+														variant="body2"
+													>
+														{item.ANSWERED_YN ===
+														'N'
+															? '답변 전'
+															: '답변 완료'}
+													</Typography>
+												</Box>
+												<Typography
+													color={'secondary.dark'}
+												>
+													{
+														item.UPDATED_AT.split(
+															'T'
+														)[0]
+													}
+												</Typography>
+											</Box>
+
+											<Box
+												display="flex"
+												gap={0.5}
+												m={0.5}
+											>
+												<Typography
+													color="primary.main"
+													fontWeight={600}
+												>
+													[{item.A2eCategory.CONTENT}]
+												</Typography>
+												<Typography fontWeight={600}>
+													{item.TITLE}
+												</Typography>
+												{item.PRIVATE_YN === 'Y' && (
+													<LockIcon
+														sx={{
+															width: '15px',
+															height: '15px',
+
+															mt: 'auto',
+															mb: 'auto',
+														}}
+													/>
+												)}
+											</Box>
+										</Box>
+									);
+								})}
+							{allQuestion !== undefined &&
+								allQuestion.length === 0 && <Nodata />}
+						</Box>
+						{/* 컨텐츠 레이아웃
 				{access === true && (
           
 				)} */}
-						</Box>
-						{/* 페이지 네이션 */}
-						<Box width={'100%'} p={2}>
-							<SupportiPagination
-								limit={limit}
-								setLimit={setLimit}
-								page={page}
-								handlePageChange={handlePageChange}
-								count={totalDataCount}
-								useLimit={false}
-							/>
-						</Box>
-						<SupportiAlertModal
-							open={alertModal}
-							handleClose={() => {
-								setAlertModal(false);
-							}}
-							type={alertType}
+					</Box>
+					{/* 페이지 네이션 */}
+					<Box width={'100%'} p={2}>
+						<SupportiPagination
+							limit={limit}
+							setLimit={setLimit}
+							page={page}
+							handlePageChange={handlePageChange}
+							count={totalDataCount}
+							useLimit={false}
 						/>
-					</InternalServiceLayout>
-				)}
-			</Box>
-		</InternalServiceDrawer>
+					</Box>
+					<SupportiAlertModal
+						open={alertModal}
+						handleClose={() => {
+							setAlertModal(false);
+						}}
+						type={alertType}
+					/>
+				</InternalServiceLayout>
+			)}
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

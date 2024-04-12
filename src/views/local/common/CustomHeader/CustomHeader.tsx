@@ -6,11 +6,16 @@ import {
 	Box,
 	BoxProps,
 	Button,
+	ClickAwayListener,
 	Container,
 	CssBaseline,
+	Grow,
 	IconButton,
 	Menu,
 	MenuItem,
+	MenuList,
+	Paper,
+	Popper,
 	Toolbar,
 	Tooltip,
 	Typography,
@@ -29,58 +34,23 @@ interface ICustomHeaderProps {}
 const CustomHeader = (props: ICustomHeaderProps) => {
 	const cookie = new CookieManager();
 	//* Constants
-	/**
-	 * 메뉴
-	 */
-	const pages = [
-		// {
-		// 	label: 'IR',
-		// 	path: '/external_service/ir/landing',
-		// },
-		{
-			label: '더블랙',
-			path: '/rate_plan/theBlack',
-		},
 
-		{
-			label: '세미나',
-			path: '/external_service/seminar',
-			additionalOnclickFunction: () => {
-				gTagEvent({
-					action: 'seminar',
-					category: 'seminar',
-					label: 'seminar',
-					value: 1,
-				});
-			},
-		},
-		// {
-		// 	label: '컨설팅',
-		// 	path: '/external_service/consulting',
-		// },
-		{
-			label: '요금제 안내',
-			path: '/rate_plan',
-		},
-	];
 	/**
 	 * 모바일 메뉴
 	 */
 	const mobileMenu = [
 		{
-			label: '더블랙',
-			path: '/rate_plan/theBlack',
+			label: 'A2E',
+			path: '/internal_service/a2e',
+			onclick: () => {
+				router.push('/internal_service/a2e');
+			},
 		},
 		{
-			label: '대시보드',
-			path: '/internal_service/financial_solution/account_manage',
-			additionalOnclickFunction: () => {
-				gTagEvent({
-					action: 'dashboard',
-					category: 'dashboard',
-					label: 'dashboard',
-					value: 1,
-				});
+			label: '커피챗',
+			path: '/internal_service/coffeechat',
+			onclick: () => {
+				router.push('/internal_service/coffeechat');
 			},
 		},
 		{
@@ -95,10 +65,60 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				});
 			},
 		},
+		{
+			label: '지원사업 조회',
+			path: '/internal_service/government/research',
+			onclick: () => {
+				router.push('/internal_service/government/research');
+			},
+		},
+		{
+			label: '지원사업 관리',
+			path: '/internal_service/government/management',
+			onclick: () => {
+				router.push('/internal_service/government/management');
+			},
+		},
+		{
+			label: '성과 지표',
+			path: '/internal_service/indicator_management/achievement',
+			onclick: () => {
+				router.push(
+					'/internal_service/indicator_management/achievement'
+				);
+			},
+		},
+		{
+			label: '재무 지표',
+			path: '/internal_service/indicator_management/financial',
+			onclick: () => {
+				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+		{
+			label: 'FAQ',
+			path: '/customer_service/faq',
+		},
+		{
+			label: '공지사항',
+			path: '/customer_service/notice',
+		},
+		{
+			label: '문의하기',
+			path: '/customer_service/qna',
+		},
+		{
+			label: '이벤트',
+			path: '/customer_service/event',
+		},
 		// {
 		// 	label: '컨설팅',
 		// 	path: '/external_service/consulting',
 		// },
+		{
+			label: '파트너스',
+			path: '/partners',
+		},
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
@@ -114,6 +134,24 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/auth/sign_in',
 		},
 		{
+			label: '컨텐츠',
+			path: '/supportv',
+		},
+		{
+			label: 'A2E',
+			path: '/internal_service/a2e',
+			onclick: () => {
+				router.push('/internal_service/a2e');
+			},
+		},
+		{
+			label: '커피챗',
+			path: '/internal_service/coffeechat',
+			onclick: () => {
+				router.push('/internal_service/coffeechat');
+			},
+		},
+		{
 			label: '세미나',
 			path: '/external_service/seminar',
 			additionalOnclickFunction: () => {
@@ -125,15 +163,106 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				});
 			},
 		},
-		// {
-		// 	label: '컨설팅',
-		// 	path: '/external_service/consulting',
-		// },
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
 		},
+		{
+			label: 'FAQ',
+			path: '/customer_service/faq',
+		},
+		{
+			label: '공지사항',
+			path: '/customer_service/notice',
+		},
+		{
+			label: '문의하기',
+			path: '/customer_service/qna',
+		},
+		{
+			label: '이벤트',
+			path: '/customer_service/event',
+		},
+		// {
+		// 	label: '컨설팅',
+		// 	path: '/external_service/consulting',
+		// },
 	];
+
+	/**
+	 * 커뮤니티
+	 */
+	const community = [
+		{
+			label: 'A2E',
+			path: '/internal_service/a2e',
+			onclick: () => {
+				router.push('/internal_service/a2e');
+			},
+		},
+		{
+			label: '커피챗',
+			path: '/internal_service/coffeechat',
+			onclick: () => {
+				router.push('/internal_service/coffeechat');
+			},
+		},
+		{
+			label: '세미나',
+			path: '/external_service/seminar',
+			additionalOnclickFunction: () => {
+				gTagEvent({
+					action: 'seminar',
+					category: 'seminar',
+					label: 'seminar',
+					value: 1,
+				});
+			},
+		},
+	];
+
+	/**
+	 * 지원사업
+	 */
+	const government = [
+		{
+			label: '지원사업 조회',
+			path: '/internal_service/government/research',
+			onclick: () => {
+				router.push('/internal_service/government/research');
+			},
+		},
+		{
+			label: '지원사업 관리',
+			path: '/internal_service/government/management',
+			onclick: () => {
+				router.push('/internal_service/government/management');
+			},
+		},
+	];
+
+	/**
+	 * 지원사업
+	 */
+	const indication = [
+		{
+			label: '성과 지표',
+			path: '/internal_service/indicator_management/achievement',
+			onclick: () => {
+				router.push(
+					'/internal_service/indicator_management/achievement'
+				);
+			},
+		},
+		{
+			label: '재무 지표',
+			path: '/internal_service/indicator_management/financial',
+			onclick: () => {
+				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+	];
+
 	/**
 	 * 고객 센터
 	 */
@@ -155,6 +284,62 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/customer_service/event',
 		},
 	];
+
+	// 메뉴
+	const loginPages = [
+		{
+			label: '컨텐츠',
+			path: '/supportv',
+		},
+		{
+			label: '커뮤니티',
+			subMenus: community,
+		},
+		{
+			label: '지원사업',
+			subMenus: government,
+		},
+		{
+			label: '지표관리',
+			subMenus: indication,
+		},
+		{
+			label: '파트너스',
+			path: '/partners',
+		},
+		{
+			label: '요금제 안내',
+			path: '/rate_plan',
+		},
+		{
+			label: '고객센터',
+			subMenus: customercenter,
+		},
+	];
+
+	const logoutPages = [
+		{
+			label: '컨텐츠',
+			path: '/supportv',
+		},
+		{
+			label: '커뮤니티',
+			subMenus: community,
+		},
+		{
+			label: '파트너스',
+			path: '/partners',
+		},
+		{
+			label: '요금제 안내',
+			path: '/rate_plan',
+		},
+		{
+			label: '고객센터',
+			subMenus: customercenter,
+		},
+	];
+
 	/**
 	 * 마이페이지
 	 */
@@ -179,6 +364,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElMypage, setAnchorElMypage] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
+	const [title, setTitle] = React.useState(undefined);
 
 	//* Modules
 	const router = useRouter();
@@ -192,8 +378,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	/**
 	 * 고객 센터 메뉴 오픈
 	 */
-	const handleOpenUserMenu = (event) => {
+	const handleOpenUserMenu = (event, title) => {
 		setAnchorElUser(event.currentTarget);
+		setTitle(title);
 	};
 	/**
 	 * 마이페이지 메뉴 오픈
@@ -221,6 +408,71 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		setAnchorElUser(null);
 	};
 
+	const handleOpenMenu = (menu, idx) => {
+		return (
+			<>
+				{/* 메인 메뉴 버튼 */}
+				<Button
+					onClick={() => handleOpenUserMenu(event, menu.label)}
+					sx={{
+						display: 'block',
+						position: 'relative',
+					}}
+				>
+					{menu.label}
+				</Button>
+				{/*  버튼 하위 메뉴 */}
+
+				<Menu
+					sx={{
+						mt: '45px',
+						visibility: title !== menu.label && 'hidden',
+						ml: '20%',
+						position: 'absolute',
+					}}
+					id="menu-appbar"
+					anchorEl={anchorElUser}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					keepMounted
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					open={Boolean(anchorElUser)}
+					onClose={handleCloseUserMenu}
+					PaperProps={{
+						sx: {
+							bgcolor: 'primary.light',
+							boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
+							borderRadius: 2,
+							textAlign: 'center',
+						},
+					}}
+					key={idx}
+				>
+					{menu.subMenus.map((setting) => (
+						<MenuItem
+							key={setting.label}
+							onClick={() => router.push(setting.path)}
+						>
+							<Typography
+								textAlign="center"
+								color={'primary'}
+								fontWeight={'600'}
+								sx={{ px: 1 }}
+							>
+								{setting.label}
+							</Typography>
+						</MenuItem>
+					))}
+				</Menu>
+			</>
+		);
+	};
+
 	//* Hooks
 	const { memberName, memberPoint } = useAppMember();
 
@@ -231,7 +483,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	}, [router]);
 
 	return (
-		!router.asPath.includes('/internal_service') &&
 		!router.asPath.includes('/my_page') && (
 			<AppBar
 				position="static"
@@ -339,6 +590,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										X
 									</Typography>
 								</Box>
+
 								{memberName && (
 									<Box
 										bgcolor={'secondary.light'}
@@ -464,75 +716,54 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								display: { xs: 'none', md: 'flex' },
 							}}
 						>
-							{pages.map((page) => (
-								<Button
-									key={page.label}
-									onClick={() => {
-										if (page.additionalOnclickFunction) {
-											page.additionalOnclickFunction();
-										}
-										router.push(page.path);
-									}}
-									sx={{
-										my: 2,
-										// color: 'white',
-										display: 'block',
-									}}
-								>
-									{page.label}
-								</Button>
-							))}
-							{/* 고객 센터 */}
-							<Button
-								onClick={handleOpenUserMenu}
-								sx={{
-									display: 'block',
-								}}
-							>
-								고객 센터
-							</Button>
-							{/* 고객센터 버튼 메뉴 */}
-							<Menu
-								sx={{ mt: '45px' }}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'center',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'center',
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
-								PaperProps={{
-									sx: {
-										bgcolor: 'primary.light',
-										boxShadow: 'inset 0px -1px 1px #f5f5f5',
-										borderRadius: 2,
-									},
-								}}
-							>
-								{customercenter.map((setting) => (
-									<MenuItem
-										key={setting.label}
-										onClick={() =>
-											router.push(setting.path)
-										}
-									>
-										<Typography
-											textAlign="center"
-											color={'primary'}
-											fontWeight={'600'}
-											sx={{ px: 1 }}
+							{memberName &&
+								loginPages.map((menu, idx) => {
+									return menu.subMenus ? (
+										handleOpenMenu(menu, idx)
+									) : (
+										<Button
+											key={menu.label}
+											onClick={() => {
+												// if (page?.additionalOnclickFunction) {
+												// 	page?.additionalOnclickFunction();
+												// }
+												router.push(menu.path);
+											}}
+											sx={{
+												my: 2,
+												// color: 'white',
+												display: 'block',
+											}}
 										>
-											{setting.label}
-										</Typography>
-									</MenuItem>
-								))}
-							</Menu>
+											{menu.label}
+										</Button>
+									);
+								})}
+
+							{!memberName &&
+								logoutPages.map((menu, idx) => {
+									return menu.subMenus ? (
+										handleOpenMenu(menu, idx)
+									) : (
+										<Button
+											key={menu.label}
+											onClick={() => {
+												// if (page?.additionalOnclickFunction) {
+												// 	page?.additionalOnclickFunction();
+												// }
+												router.push(menu.path);
+											}}
+											sx={{
+												my: 2,
+												// color: 'white',
+												display: 'block',
+											}}
+										>
+											{menu.label}
+										</Button>
+									);
+								})}
+
 							{/* 로그인 & 비로그인 대응 */}
 							{memberName ? (
 								<Box
@@ -540,7 +771,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									justifyContent={'center'}
 									alignContent={'center'}
 								>
-									<Button
+									{/* <Button
 										onClick={() => {
 											gTagEvent({
 												action: 'dashboard',
@@ -570,6 +801,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											대시보드
 										</Typography>
 									</Button>
+									*/}
 									<IconButton
 										size="large"
 										aria-label="account of current user"
@@ -625,13 +857,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											>
 												{memberName}님
 											</Typography>
-											{/* <Typography
+											<Typography
 												fontWeight={'600'}
 												color={'secondary.dark'}
 											>
 												{memberPoint?.toLocaleString()}
 												포인트
-											</Typography> */}
+											</Typography>
 										</Box>
 										{mypage.map((setting) => (
 											<MenuItem

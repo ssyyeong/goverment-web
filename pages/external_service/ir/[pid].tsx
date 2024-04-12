@@ -22,9 +22,6 @@ const Page: NextPage = () => {
 	const irController = new DefaultController('IrProduct');
 	const irApplicationController = new DefaultController('IrApplication');
 	const appMemberController = new DefaultController('AppMember');
-	const userSubscriptionController = new DefaultController(
-		'UserSubscription'
-	);
 
 	//* Constants
 
@@ -36,8 +33,8 @@ const Page: NextPage = () => {
 	/**
 	 * 구독 알럿 모달
 	 */
-	const [subscriptionAlertModal, setSubscriptionAlertModal] =
-		React.useState<boolean>(false);
+	// const [subscriptionAlertModal, setSubscriptionAlertModal] =
+	// 	React.useState<boolean>(false);
 
 	/**
 	 * 신청 기간 알럿 모달
@@ -64,13 +61,12 @@ const Page: NextPage = () => {
 	/**
 	 * 구독권 정보 가져오기
 	 */
-	const { subscriptionInfo } = useSubscription({ memberId: memberId });
+	// const { subscriptionInfo } = useSubscription({ memberId: memberId });
 
 	/**
 	 * IR 신청 버튼 클릭시
 	 */
 	const handleApplyir = () => {
-		// TODO :: 알럿 모달로 바꾸기
 		if (!access) {
 			alert('로그인이 필요합니다!');
 			return;
@@ -83,26 +79,26 @@ const Page: NextPage = () => {
 		}
 
 		// 구독권이 없을 시
-		if (subscriptionInfo === undefined) {
-			setSubscriptionAlertModal(true);
+		// if (subscriptionInfo === undefined) {
+		// 	setSubscriptionAlertModal(true);
 
-			if (
-				subscriptionInfo !== undefined &&
-				Object.keys(subscriptionInfo).length !== 0
-			) {
-				if (
-					!(
-						subscriptionInfo?.SubscriptionProduct?.TYPE ===
-							'BLACK' ||
-						subscriptionInfo?.SubscriptionProduct?.TYPE ===
-							'PRODUCT'
-					)
-				) {
-					alert('구독권 구매 권장');
-					return;
-				}
-			}
-		}
+		// 	if (
+		// 		subscriptionInfo !== undefined &&
+		// 		Object.keys(subscriptionInfo).length !== 0
+		// 	) {
+		// 		if (
+		// 			!(
+		// 				subscriptionInfo?.SubscriptionProduct?.TYPE ===
+		// 					'BLACK' ||
+		// 				subscriptionInfo?.SubscriptionProduct?.TYPE ===
+		// 					'PRODUCT'
+		// 			)
+		// 		) {
+		// 			alert('구독권 구매 권장');
+		// 			return;
+		// 		}
+		// 	}
+		// }
 
 		setOpenApplicationModal(true);
 	};
@@ -418,11 +414,11 @@ const Page: NextPage = () => {
 				</Box>
 				{/* </Box> */}
 
-				<SupportiAlertModal
+				{/* <SupportiAlertModal
 					type={'subscribe'}
 					open={subscriptionAlertModal}
 					handleClose={() => setSubscriptionAlertModal(false)}
-				/>
+				/> */}
 				<SupportiAlertModal
 					type={'irFinish'}
 					open={irFinishAlertModal}

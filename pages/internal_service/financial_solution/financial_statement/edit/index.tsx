@@ -212,255 +212,247 @@ const Page: NextPage = () => {
 	}, [access, memberId]);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'space-between',
-					flexDirection: 'column',
-					p: { sm: 10, xs: 2 },
-				}}
-			>
-				{access === true && (
-					<InternalServiceLayout
-						title="재무 정보"
-						subTitle="재무제표 등록을 통해 재무정보를 관리할 수 있습니다."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
+		// <InternalServiceDrawer type="dashboard">
+		<Box
+			sx={{
+				display: 'flex',
+				alignItems: 'space-between',
+				flexDirection: 'column',
+				p: { xs: 2, md: 10 },
+			}}
+		>
+			{access === true && (
+				<InternalServiceLayout
+					title="재무 정보"
+					subTitle="재무제표 등록을 통해 재무정보를 관리할 수 있습니다."
+					image="/images/main/business.png"
+					mobileImage="/images/main/businessMoblie.png"
+				>
+					<Typography variant="h3" fontWeight={'bold'} sx={{ mb: 2 }}>
+						재무제표
+					</Typography>
+					<Typography
+						color={'secondary.dark'}
+						sx={{ mb: 2 }}
+						lineHeight={1.5}
 					>
-						<Typography
-							variant="h3"
-							fontWeight={'bold'}
-							sx={{ mb: 2 }}
-						>
-							재무제표
-						</Typography>
-						<Typography
-							color={'secondary.dark'}
-							sx={{ mb: 2 }}
-							lineHeight={1.5}
-						>
-							재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
-							있습니다.
-							<br />
-							* 한 번에 하나의 년도만 편집가능합니다.
-							<br />* 작성 후 저장하기 버튼을 클릭하지 않고 이전
-							또는 다음 버튼 클릭 시 작성하신 데이터가 사라집니다.
-						</Typography>
+						재무제표를 등록하여 보다 쉽게 재무제표를 관리할 수
+						있습니다.
+						<br />
+						* 한 번에 하나의 년도만 편집가능합니다.
+						<br />* 작성 후 저장하기 버튼을 클릭하지 않고 이전 또는
+						다음 버튼 클릭 시 작성하신 데이터가 사라집니다.
+					</Typography>
 
-						<Grid container alignItems={'center'}>
-							{/* 데이터 편집 및 추출 */}
+					<Grid container alignItems={'center'}>
+						{/* 데이터 편집 및 추출 */}
+						<Grid item xs={6} md={3}>
+							<Box display={'flex'}>
+								{/* 저장하기 */}
+								<Box>
+									<SupportiButton
+										contents="저장하기"
+										isGradient={true}
+										onClick={saveFinancialStatement}
+										style={{
+											color: 'white',
+											py: 1.3,
+											mb: 1,
+										}}
+									/>
+								</Box>
+							</Box>
+						</Grid>
+
+						{/* 페이징 버튼 */}
+						<Grid item xs={6} md={3}>
+							<Box
+								display={'flex'}
+								justifyContent={'center'}
+								alignItems={'center'}
+								mb={1}
+								gap={1}
+							>
+								{/* 이전 페이지 */}
+								<ArrowBackIosNewIcon
+									fontSize="small"
+									onClick={() => {
+										changeTargetDate('previous');
+									}}
+									color="primary"
+									sx={{
+										cursor: 'pointer',
+									}}
+								/>
+								{/* 현재 연도 */}
+								<Typography
+									variant={'h6'}
+									fontWeight={'500'}
+									color={'primary'}
+								>
+									{targetDate.format('YYYY년')}
+								</Typography>
+								{/* 다음 페이지 */}
+								<ArrowForwardIosIcon
+									fontSize="small"
+									onClick={() => {
+										changeTargetDate('next');
+									}}
+									color="primary"
+									sx={{
+										cursor: 'pointer',
+									}}
+								/>
+							</Box>
+						</Grid>
+					</Grid>
+
+					{/* 테이블 */}
+					<Box>
+						<Grid container>
+							{/* 각 재무제표 항목 */}
 							<Grid item xs={6} md={3}>
-								<Box display={'flex'}>
-									{/* 저장하기 */}
-									<Box>
-										<SupportiButton
-											contents="저장하기"
-											isGradient={true}
-											onClick={saveFinancialStatement}
-											style={{
-												color: 'white',
-												py: 1.3,
-												mb: 1,
-											}}
-										/>
-									</Box>
+								<Box
+									border={0.5}
+									borderColor={'rgba(185, 197, 255, 1)'}
+									sx={{
+										backgroundColor: '#305ddc',
+										borderTopLeftRadius: 10,
+										py: 1,
+										px: 4,
+									}}
+								>
+									<Typography
+										textAlign={'center'}
+										variant={'h6'}
+										fontWeight={'500'}
+										color={'white'}
+										pt={1}
+										pb={1}
+									>
+										항목
+									</Typography>
 								</Box>
 							</Grid>
 
-							{/* 페이징 버튼 */}
+							{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
 							<Grid item xs={6} md={3}>
 								<Box
-									display={'flex'}
-									justifyContent={'center'}
-									alignItems={'center'}
-									mb={1}
-									gap={1}
+									border={0.5}
+									borderColor={'rgba(185, 197, 255, 1)'}
+									sx={{
+										backgroundColor: '#305ddc',
+										borderTopRightRadius: 10,
+									}}
+									py={1}
+									px={4}
 								>
-									{/* 이전 페이지 */}
-									<ArrowBackIosNewIcon
-										fontSize="small"
-										onClick={() => {
-											changeTargetDate('previous');
-										}}
-										color="primary"
-										sx={{
-											cursor: 'pointer',
-										}}
-									/>
-									{/* 현재 연도 */}
 									<Typography
+										textAlign={'center'}
 										variant={'h6'}
 										fontWeight={'500'}
-										color={'primary'}
+										color={'white'}
+										pt={1}
+										pb={1}
 									>
-										{targetDate.format('YYYY년')}
+										{targetDate.format('YYYY.MM.DD')}
 									</Typography>
-									{/* 다음 페이지 */}
-									<ArrowForwardIosIcon
-										fontSize="small"
-										onClick={() => {
-											changeTargetDate('next');
-										}}
-										color="primary"
-										sx={{
-											cursor: 'pointer',
-										}}
-									/>
 								</Box>
 							</Grid>
 						</Grid>
 
-						{/* 테이블 */}
+						{/* 테이블 바디 */}
 						<Box>
-							<Grid container>
-								{/* 각 재무제표 항목 */}
-								<Grid item xs={6} md={3}>
-									<Box
-										border={0.5}
-										borderColor={'rgba(185, 197, 255, 1)'}
-										sx={{
-											backgroundColor: '#305ddc',
-											borderTopLeftRadius: 10,
-											py: 1,
-											px: 4,
-										}}
-									>
-										<Typography
-											textAlign={'center'}
-											variant={'h6'}
-											fontWeight={'500'}
-											color={'white'}
-											pt={1}
-											pb={1}
-										>
-											항목
-										</Typography>
-									</Box>
-								</Grid>
-
-								{/* 연도별 헤더 (PC 에서는 3개까지, 모바일에서는 1개까지 뷰) */}
-								<Grid item xs={6} md={3}>
-									<Box
-										border={0.5}
-										borderColor={'rgba(185, 197, 255, 1)'}
-										sx={{
-											backgroundColor: '#305ddc',
-											borderTopRightRadius: 10,
-										}}
-										py={1}
-										px={4}
-									>
-										<Typography
-											textAlign={'center'}
-											variant={'h6'}
-											fontWeight={'500'}
-											color={'white'}
-											pt={1}
-											pb={1}
-										>
-											{targetDate.format('YYYY.MM.DD')}
-										</Typography>
-									</Box>
-								</Grid>
-							</Grid>
-
-							{/* 테이블 바디 */}
 							<Box>
-								<Box>
-									{/* 각 재무제표 항목 맵핑 */}
-									{financialStatementConfig.map(
-										(financialStatementMapping) => (
-											<Box>
-												<Grid container>
-													{/* 각 재무제표 라벨 */}
-													<Grid item xs={6} md={3}>
-														<Box
-															sx={{
-																backgroundColor:
-																	'rgba(241, 243, 251, 1)',
-															}}
-															border={0.5}
-															borderColor={
-																'rgba(185, 197, 255, 1)'
+								{/* 각 재무제표 항목 맵핑 */}
+								{financialStatementConfig.map(
+									(financialStatementMapping) => (
+										<Box>
+											<Grid container>
+												{/* 각 재무제표 라벨 */}
+												<Grid item xs={6} md={3}>
+													<Box
+														sx={{
+															backgroundColor:
+																'rgba(241, 243, 251, 1)',
+														}}
+														border={0.5}
+														borderColor={
+															'rgba(185, 197, 255, 1)'
+														}
+														pl={
+															financialStatementMapping.isHighlighted
+																? 3
+																: 1
+														}
+														pr={2}
+														height={'100%'}
+														display={'flex'}
+														alignItems={'center'}
+													>
+														<Typography
+															variant={
+																'subtitle2'
 															}
-															pl={
+															fontWeight={
 																financialStatementMapping.isHighlighted
-																	? 3
-																	: 1
+																	? '700'
+																	: '500'
 															}
-															pr={2}
-															height={'100%'}
-															display={'flex'}
-															alignItems={
-																'center'
+															color={
+																'rgba(60, 82, 187, 1)'
 															}
 														>
-															<Typography
-																variant={
-																	'subtitle2'
-																}
-																fontWeight={
-																	financialStatementMapping.isHighlighted
-																		? '700'
-																		: '500'
-																}
-																color={
-																	'rgba(60, 82, 187, 1)'
-																}
-															>
-																{
-																	financialStatementMapping.label
-																}
-															</Typography>
-														</Box>
-													</Grid>
-
-													{/* 각 재무제표 값 */}
-													<Grid item xs={6} md={3}>
-														<Box
-															border={0.5}
-															borderColor={
-																'rgba(185, 197, 255, 1)'
+															{
+																financialStatementMapping.label
 															}
-															bgcolor={'white'}
-														>
-															<TextField
-																type={'number'}
-																value={
-																	financialStatement[
-																		financialStatementMapping
-																			.key
-																	]
-																}
-																onChange={(
-																	e
-																) => {
-																	setFinancialStatement(
-																		{
-																			...financialStatement,
-																			[financialStatementMapping.key]:
-																				e
-																					.target
-																					.value,
-																		}
-																	);
-																}}
-																fullWidth
-															/>
-														</Box>
-													</Grid>
+														</Typography>
+													</Box>
 												</Grid>
-											</Box>
-										)
-									)}
-								</Box>
+
+												{/* 각 재무제표 값 */}
+												<Grid item xs={6} md={3}>
+													<Box
+														border={0.5}
+														borderColor={
+															'rgba(185, 197, 255, 1)'
+														}
+														bgcolor={'white'}
+													>
+														<TextField
+															type={'number'}
+															value={
+																financialStatement[
+																	financialStatementMapping
+																		.key
+																]
+															}
+															onChange={(e) => {
+																setFinancialStatement(
+																	{
+																		...financialStatement,
+																		[financialStatementMapping.key]:
+																			e
+																				.target
+																				.value,
+																	}
+																);
+															}}
+															fullWidth
+														/>
+													</Box>
+												</Grid>
+											</Grid>
+										</Box>
+									)
+								)}
 							</Box>
 						</Box>
-					</InternalServiceLayout>
-				)}
-			</Box>
-		</InternalServiceDrawer>
+					</Box>
+				</InternalServiceLayout>
+			)}
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

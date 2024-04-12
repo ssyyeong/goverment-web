@@ -39,7 +39,6 @@ const Page: NextPage = () => {
 	const [alertModalType, setAlertModalType] = React.useState<
 		| 'seminarApplySuccess'
 		| 'login'
-		| 'subscribe'
 		| 'point'
 		| 'already'
 		| 'seminarexceed'

@@ -151,11 +151,11 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 				if (err.response.data.message === '이미 신청한 IR입니다.') {
 					alert('이미 신청한 IR입니다.');
 				}
-				if (
-					err.response.data.message === '구독 회원만 이용 가능합니다.'
-				) {
-					alert('구독 회원만 이용 가능합니다.');
-				}
+				// if (
+				// 	err.response.data.message === '구독 회원만 이용 가능합니다.'
+				// ) {
+				// 	alert('구독 회원만 이용 가능합니다.');
+				// }
 			}
 		);
 	};
@@ -384,10 +384,16 @@ const IrApplicationModal = (props: IIrApplicationModalProps) => {
 									fontWeight={600}
 								>
 									IR은 더블랙 회원에게만 제공되며,{' '}
-									{props.irDate?.split('T')[0]?.split('-')[1]?.replace('0', '')}월
-									IR은
+									{props.irDate
+										?.split('T')[0]
+										?.split('-')[1]
+										?.replace('0', '')}
+									월 IR은
 									{' ' +
-										props.irDate?.split('T')[0]?.split('-')[1]?.replace('0', '')}
+										props.irDate
+											?.split('T')[0]
+											?.split('-')[1]
+											?.replace('0', '')}
 									월{' '}
 									{props.irDate?.split('T')[0]?.split('-')[2]}
 									일에 개최됩니다. 심사역, 투자자 3~4분이

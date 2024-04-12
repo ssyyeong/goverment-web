@@ -176,224 +176,210 @@ const Page: NextPage = () => {
 	}, [pid]);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
-				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout
-					title="지원 사업"
-					subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
-					image="/images/main/supportbusiness.png"
-					mobileImage="/images/main/supportbusinessmobile.png"
-				>
-					{supportBusinessManagement && (
-						<Box display={'flex'} flexDirection={'column'}>
-							{/* 타이틀 */}
-							<Typography color={'primary'} fontWeight={'600'}>
-								{supportBusinessManagement.FIELD}
-							</Typography>
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-								alignItems={'center'}
-							>
+		// <InternalServiceDrawer type="dashboard">
+		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
+			{/* 컨텐츠 레이아웃 */}
+			<InternalServiceLayout
+				title="지원 사업"
+				subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
+				image="/images/main/supportbusiness.png"
+				mobileImage="/images/main/supportbusinessmobile.png"
+			>
+				{supportBusinessManagement && (
+					<Box display={'flex'} flexDirection={'column'}>
+						{/* 타이틀 */}
+						<Typography color={'primary'} fontWeight={'600'}>
+							{supportBusinessManagement.FIELD}
+						</Typography>
+						<Box
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+						>
+							<Box display={'flex'} alignItems={'center'} gap={1}>
+								<Typography variant="h3" fontWeight={'bold'}>
+									{supportBusinessManagement?.TITLE}
+								</Typography>
+								{supportBusinessManagement.DATA && (
+									<Box
+										border={'1px solid black'}
+										display={'flex'}
+										borderRadius={2}
+										alignItems={'center'}
+										p={0.3}
+										onClick={() => {
+											setDetailData(
+												JSON.parse(
+													supportBusinessManagement.DATA
+												)
+											);
+											setDetailModal(true);
+										}}
+										sx={{
+											cursor: 'pointer',
+										}}
+									>
+										<InsertLinkOutlinedIcon fontSize="small" />
+									</Box>
+								)}
+								<Typography
+									color={'#b9b9b9'}
+									fontWeight={'600'}
+								>
+									{moment(
+										supportBusinessManagement.START_DATE
+									).format('YY.MM.DD')}
+									~
+									{moment(
+										supportBusinessManagement.END_DATE
+									).format('YY.MM.DD')}
+								</Typography>
+							</Box>
+							<Box display={'flex'} gap={1}>
+								<SupportiButton
+									variant="outlined"
+									contents={
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={1}
+										>
+											<CreateOutlinedIcon fontSize="small" />
+											<Typography
+												fontWeight={'bold'}
+												color={'primary'}
+											>
+												수정하기
+											</Typography>
+										</Box>
+									}
+									onClick={() => {
+										editMode
+											? updateSupportBusiness()
+											: setEditMode(true);
+									}}
+									disabledGutters
+									style={{
+										px: 2,
+										py: 1,
+										bgcolor: 'white',
+									}}
+								/>{' '}
+								<SupportiButton
+									variant="outlined"
+									contents={
+										<Box
+											display={'flex'}
+											alignItems={'center'}
+											gap={1}
+										>
+											<DeleteOutlineOutlinedIcon fontSize="small" />
+											<Typography
+												fontWeight={'bold'}
+												color={'primary'}
+											>
+												삭제하기
+											</Typography>
+										</Box>
+									}
+									onClick={() => {
+										deleteSupportBusiness();
+									}}
+									disabledGutters
+									style={{
+										px: 2,
+										py: 1,
+										bgcolor: 'white',
+									}}
+								/>
+							</Box>
+						</Box>
+						{/* 내용 */}
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							gap={2}
+							mt={2}
+							p={3}
+							bgcolor={'white'}
+							borderRadius={2}
+							width={'100%'}
+						>
+							{dataConfig.map((item, index) => (
 								<Box
 									display={'flex'}
+									key={index}
 									alignItems={'center'}
-									gap={1}
 								>
-									<Typography
-										variant="h3"
-										fontWeight={'bold'}
-									>
-										{supportBusinessManagement?.TITLE}
-									</Typography>
-									{supportBusinessManagement.DATA && (
-										<Box
-											border={'1px solid black'}
-											display={'flex'}
-											borderRadius={2}
-											alignItems={'center'}
-											p={0.3}
-											onClick={() => {
-												setDetailData(
-													JSON.parse(
-														supportBusinessManagement.DATA
-													)
-												);
-												setDetailModal(true);
-											}}
-											sx={{
-												cursor: 'pointer',
-											}}
-										>
-											<InsertLinkOutlinedIcon fontSize="small" />
-										</Box>
-									)}
+									<Typography>✔</Typography>
 									<Typography
 										color={'#b9b9b9'}
 										fontWeight={'600'}
+										width={'100px'}
+										ml={1}
 									>
-										{moment(
-											supportBusinessManagement.START_DATE
-										).format('YY.MM.DD')}
-										~
-										{moment(
-											supportBusinessManagement.END_DATE
-										).format('YY.MM.DD')}
+										{item.label}
 									</Typography>
-								</Box>
-								<Box display={'flex'} gap={1}>
-									<SupportiButton
-										variant="outlined"
-										contents={
-											<Box
-												display={'flex'}
-												alignItems={'center'}
-												gap={1}
-											>
-												<CreateOutlinedIcon fontSize="small" />
-												<Typography
-													fontWeight={'bold'}
-													color={'primary'}
-												>
-													수정하기
-												</Typography>
-											</Box>
-										}
-										onClick={() => {
-											editMode
-												? updateSupportBusiness()
-												: setEditMode(true);
-										}}
-										disabledGutters
-										style={{
-											px: 2,
-											py: 1,
-											bgcolor: 'white',
-										}}
-									/>{' '}
-									<SupportiButton
-										variant="outlined"
-										contents={
-											<Box
-												display={'flex'}
-												alignItems={'center'}
-												gap={1}
-											>
-												<DeleteOutlineOutlinedIcon fontSize="small" />
-												<Typography
-													fontWeight={'bold'}
-													color={'primary'}
-												>
-													삭제하기
-												</Typography>
-											</Box>
-										}
-										onClick={() => {
-											deleteSupportBusiness();
-										}}
-										disabledGutters
-										style={{
-											px: 2,
-											py: 1,
-											bgcolor: 'white',
-										}}
-									/>
-								</Box>
-							</Box>
-							{/* 내용 */}
-							<Box
-								display={'flex'}
-								flexDirection={'column'}
-								gap={2}
-								mt={2}
-								p={3}
-								bgcolor={'white'}
-								borderRadius={2}
-								width={'100%'}
-							>
-								{dataConfig.map((item, index) => (
-									<Box
-										display={'flex'}
-										key={index}
-										alignItems={'center'}
-									>
-										<Typography>✔</Typography>
-										<Typography
-											color={'#b9b9b9'}
-											fontWeight={'600'}
-											width={'100px'}
-											ml={1}
-										>
-											{item.label}
-										</Typography>
-										{editMode ? (
-											<SupportiInput
-												value={
-													supportBusinessManagement[
-														item.key
-													]
-												}
-												setValue={(value) => {
-													setSupportBusinessManagement(
-														{
-															...supportBusinessManagement,
-															[item.key]:
-																item.type
-																	? dayjs(
-																			value
-																	  ).format(
-																			'YYYY-MM-DD'
-																	  )
-																	: value,
-														}
-													);
-												}}
-												type={
-													item.type
-														? item.type
-														: 'text'
-												}
-											/>
-										) : (
-											<Typography fontWeight={'500'}>
-												{item.format
-													? item.format(
-															supportBusinessManagement[
-																item.key
-															]
-													  )
-													: supportBusinessManagement[
+									{editMode ? (
+										<SupportiInput
+											value={
+												supportBusinessManagement[
+													item.key
+												]
+											}
+											setValue={(value) => {
+												setSupportBusinessManagement({
+													...supportBusinessManagement,
+													[item.key]: item.type
+														? dayjs(value).format(
+																'YYYY-MM-DD'
+														  )
+														: value,
+												});
+											}}
+											type={
+												item.type ? item.type : 'text'
+											}
+										/>
+									) : (
+										<Typography fontWeight={'500'}>
+											{item.format
+												? item.format(
+														supportBusinessManagement[
 															item.key
-													  ]}
-											</Typography>
-										)}
-									</Box>
-								))}
-							</Box>
-							{/* 항목별 지원금 */}
-							<SubsidyByItemTable
-								subsidyTab={subsidyTab}
-								supportBusinessManagement={
-									supportBusinessManagement
-								}
-								handleSubsidyTabChange={handleSubsidyTabChange}
-							/>
+														]
+												  )
+												: supportBusinessManagement[
+														item.key
+												  ]}
+										</Typography>
+									)}
+								</Box>
+							))}
 						</Box>
-					)}
-					{/* 디테일 모달 */}
-					{detailData && (
-						<Box key={detailModal.toString()}>
-							<SupportBusinessModal
-								modalOpen={detailModal}
-								setModalOpen={setDetailModal}
-								supportBusiness={detailData}
-							/>
-						</Box>
-					)}
-				</InternalServiceLayout>
-			</Box>
-		</InternalServiceDrawer>
+						{/* 항목별 지원금 */}
+						<SubsidyByItemTable
+							subsidyTab={subsidyTab}
+							supportBusinessManagement={
+								supportBusinessManagement
+							}
+							handleSubsidyTabChange={handleSubsidyTabChange}
+						/>
+					</Box>
+				)}
+				{/* 디테일 모달 */}
+				{detailData && (
+					<Box key={detailModal.toString()}>
+						<SupportBusinessModal
+							modalOpen={detailModal}
+							setModalOpen={setDetailModal}
+							supportBusiness={detailData}
+						/>
+					</Box>
+				)}
+			</InternalServiceLayout>
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

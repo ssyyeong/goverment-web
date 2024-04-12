@@ -105,7 +105,7 @@ const Page: NextPage = () => {
 	}, []);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
+		// <InternalServiceDrawer type="dashboard">
 			<Box
 				sx={{
 					display: 'flex',
@@ -309,7 +309,7 @@ const Page: NextPage = () => {
 					</InternalServiceLayout>
 				)}
 			</Box>
-		</InternalServiceDrawer>
+		// </InternalServiceDrawer>
 	);
 };
 

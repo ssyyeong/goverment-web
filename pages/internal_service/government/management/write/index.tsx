@@ -318,287 +318,266 @@ const Page: NextPage = () => {
 	}, [isSelf]);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
-				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout
-					title="지원 사업"
-					subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
-					image="/images/main/supportbusiness.png"
-					mobileImage="/images/main/supportbusinessmobile.png"
-				>
-					<Typography variant="h3" fontWeight={'bold'} sx={{ mb: 2 }}>
-						지원 사업 등록
-					</Typography>
-					{/* 지원사업 선택 및 입력 */}
+		// <InternalServiceDrawer type="dashboard">
+		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
+			{/* 컨텐츠 레이아웃 */}
+			<InternalServiceLayout
+				title="지원 사업"
+				subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
+				image="/images/main/supportbusiness.png"
+				mobileImage="/images/main/supportbusinessmobile.png"
+			>
+				<Typography variant="h3" fontWeight={'bold'} sx={{ mb: 2 }}>
+					지원 사업 등록
+				</Typography>
+				{/* 지원사업 선택 및 입력 */}
+				<Box width={'100%'} bgcolor={'white'} borderRadius={3} p={4}>
 					<Box
-						width={'100%'}
+						display={'flex'}
+						justifyContent={'space-between'}
+						alignItems={'center'}
+					>
+						<Typography fontWeight={'700'} variant="h6" mb={2}>
+							지원사업
+						</Typography>
+						<SupportSearchModal
+							setSupportBusiness={setSupportBusiness}
+							supportBusiness={supportBusiness}
+						/>
+					</Box>
+					<Grid container gap={1}>
+						{supportBusinessManagementData
+							.slice(0, 2)
+							.map((item, index) => {
+								return (
+									<Grid
+										item
+										xs={item.grid.xs}
+										sm={item.grid.sm}
+									>
+										<Typography
+											fontWeight={'700'}
+											sx={{ mb: 1 }}
+										>
+											{item.label}
+										</Typography>
+										<SupportiInput
+											value={item.value}
+											setValue={item.setValue}
+											type={item.type}
+											dataList={item.data}
+											additionalProps={
+												item.additionalProps
+											}
+										/>
+									</Grid>
+								);
+							})}
+					</Grid>
+				</Box>
+				{/* 사업, 마감일 설정 */}
+				<Grid container gap={3} mt={3}>
+					{/* 사업 */}
+					<Grid
+						item
+						xs={12}
+						sm={5.9}
 						bgcolor={'white'}
-						borderRadius={3}
 						p={4}
+						borderRadius={3}
 					>
 						<Box
 							display={'flex'}
-							justifyContent={'space-between'}
 							alignItems={'center'}
+							justifyContent={'space-between'}
+							mb={2}
 						>
-							<Typography fontWeight={'700'} variant="h6" mb={2}>
-								지원사업
+							<Typography fontWeight={'700'} variant="h6">
+								사업
 							</Typography>
-							<SupportSearchModal
-								setSupportBusiness={setSupportBusiness}
-								supportBusiness={supportBusiness}
+							<SupportiInput
+								type="checkbox"
+								value={isSelf}
+								setValue={setIsSelf}
+								label="책임자가 본인입니다."
 							/>
 						</Box>
-						<Grid container gap={1}>
+
+						<Box gap={1} display={'flex'} flexDirection={'column'}>
 							{supportBusinessManagementData
-								.slice(0, 2)
+								.slice(2, 7)
 								.map((item, index) => {
 									return (
 										<Grid
 											item
-											xs={item.grid.xs}
-											sm={item.grid.sm}
+											display={'flex'}
+											alignItems={'center'}
 										>
-											<Typography
-												fontWeight={'700'}
-												sx={{ mb: 1 }}
+											<Grid item xs={2} sm={2}>
+												<Typography fontWeight={'700'}>
+													{item.label}
+												</Typography>
+											</Grid>
+											<Grid
+												item
+												xs={item.grid.xs}
+												sm={item.grid.sm}
 											>
-												{item.label}
-											</Typography>
-											<SupportiInput
-												value={item.value}
-												setValue={item.setValue}
-												type={item.type}
-												dataList={item.data}
-												additionalProps={
-													item.additionalProps
-												}
-											/>
+												<SupportiInput
+													value={item.value}
+													setValue={item.setValue}
+													type={item.type}
+													dataList={item.data}
+													additionalProps={
+														item.additionalProps
+													}
+													style={{
+														width: '100%',
+													}}
+												/>
+											</Grid>
 										</Grid>
 									);
 								})}
-						</Grid>
-					</Box>
-					{/* 사업, 마감일 설정 */}
-					<Grid container gap={3} mt={3}>
-						{/* 사업 */}
-						<Grid
-							item
-							xs={12}
-							sm={5.9}
-							bgcolor={'white'}
-							p={4}
-							borderRadius={3}
-						>
-							<Box
-								display={'flex'}
-								alignItems={'center'}
-								justifyContent={'space-between'}
-								mb={2}
-							>
-								<Typography fontWeight={'700'} variant="h6">
-									사업
-								</Typography>
-								<SupportiInput
-									type="checkbox"
-									value={isSelf}
-									setValue={setIsSelf}
-									label="책임자가 본인입니다."
-								/>
-							</Box>
-
-							<Box
-								gap={1}
-								display={'flex'}
-								flexDirection={'column'}
-							>
-								{supportBusinessManagementData
-									.slice(2, 7)
-									.map((item, index) => {
-										return (
-											<Grid
-												item
-												display={'flex'}
-												alignItems={'center'}
-											>
-												<Grid item xs={2} sm={2}>
-													<Typography
-														fontWeight={'700'}
-													>
-														{item.label}
-													</Typography>
-												</Grid>
-												<Grid
-													item
-													xs={item.grid.xs}
-													sm={item.grid.sm}
-												>
-													<SupportiInput
-														value={item.value}
-														setValue={item.setValue}
-														type={item.type}
-														dataList={item.data}
-														additionalProps={
-															item.additionalProps
-														}
-														style={{
-															width: '100%',
-														}}
-													/>
-												</Grid>
-											</Grid>
-										);
-									})}
-							</Box>
-						</Grid>
-
-						{/* 마감일 */}
-						<Grid
-							item
-							xs={12}
-							sm={5.8}
-							bgcolor={'white'}
-							p={4}
-							borderRadius={3}
-						>
-							<Typography fontWeight={'700'} variant="h6" mb={3}>
-								마감일 설정
-							</Typography>
-							<Box
-								gap={1}
-								display={'flex'}
-								flexDirection={'column'}
-							>
-								{supportBusinessManagementData
-									.slice(7, 9)
-									.map((item, index) => {
-										return (
-											<Grid
-												item
-												display={'flex'}
-												alignItems={'center'}
-											>
-												<Grid item xs={2} sm={2}>
-													<Typography
-														fontWeight={'700'}
-													>
-														{item.label}
-													</Typography>
-												</Grid>
-												<Grid
-													item
-													xs={item.grid.xs}
-													sm={item.grid.sm}
-												>
-													<SupportiInput
-														value={item.value}
-														setValue={item.setValue}
-														type={item.type}
-														dataList={item.data}
-														additionalProps={
-															item.additionalProps
-														}
-														style={{
-															width: '100%',
-														}}
-														minDate={item.minDate}
-														maxDate={item.maxDate}
-													/>
-												</Grid>
-											</Grid>
-										);
-									})}
-								<Typography lineHeight={1.4} mt={2}>
-									현재 서포티에서는 위에서 설정하신 중간
-									보고일, 최종 보고일 전에 알림톡을 발송해
-									드리는 서비스를 진행하고 있습니다. 담당자의
-									연락처로 마감일 알림을 받아보시겠습니까?
-								</Typography>
-								<SupportiInput
-									type="checkbox"
-									value={isAlimTalk}
-									setValue={setIsAlimTalk}
-									label="네, 알림톡을 받겠습니다."
-								/>
-								{isAlimTalk &&
-									supportBusinessManagementData
-										.slice(9, 10)
-										.map((item, index) => {
-											return (
-												<Grid
-													item
-													display={'flex'}
-													alignItems={'center'}
-													mt={2}
-													sx={{}}
-												>
-													<Grid item xs={2} sm={2}>
-														<Typography
-															fontWeight={'700'}
-														>
-															{item.label}
-														</Typography>
-													</Grid>
-													<Grid
-														item
-														xs={item.grid.xs}
-														sm={item.grid.sm}
-													>
-														<SupportiInput
-															value={item.value}
-															setValue={
-																item.setValue
-															}
-															type={item.type}
-															dataList={item.data}
-															additionalProps={
-																item.additionalProps
-															}
-															style={{
-																width: '100%',
-															}}
-														/>
-													</Grid>
-												</Grid>
-											);
-										})}
-							</Box>
-						</Grid>
+						</Box>
 					</Grid>
-					<Box
-						width={'100%'}
-						display={'flex'}
-						justifyContent={'center'}
-						alignItems={'center'}
-						mt={3}
+
+					{/* 마감일 */}
+					<Grid
+						item
+						xs={12}
+						sm={5.8}
+						bgcolor={'white'}
+						p={4}
+						borderRadius={3}
 					>
-						<SupportiButton
-							contents={'등록하기'}
-							onClick={createSupportBusinessManagement}
-							variant="contained"
-							isGradient
-							style={{
-								width: '60%',
-								m: 'auto',
-							}}
-						/>
-					</Box>
-					<SupportiAlertModal
-						open={open}
-						handleClose={() => {
-							setOpen(false);
-						}}
-						type={type}
-						customHandleClose={() => {
-							router.push(
-								'/internal_service/government/management'
-							);
+						<Typography fontWeight={'700'} variant="h6" mb={3}>
+							마감일 설정
+						</Typography>
+						<Box gap={1} display={'flex'} flexDirection={'column'}>
+							{supportBusinessManagementData
+								.slice(7, 9)
+								.map((item, index) => {
+									return (
+										<Grid
+											item
+											display={'flex'}
+											alignItems={'center'}
+										>
+											<Grid item xs={2} sm={2}>
+												<Typography fontWeight={'700'}>
+													{item.label}
+												</Typography>
+											</Grid>
+											<Grid
+												item
+												xs={item.grid.xs}
+												sm={item.grid.sm}
+											>
+												<SupportiInput
+													value={item.value}
+													setValue={item.setValue}
+													type={item.type}
+													dataList={item.data}
+													additionalProps={
+														item.additionalProps
+													}
+													style={{
+														width: '100%',
+													}}
+													minDate={item.minDate}
+													maxDate={item.maxDate}
+												/>
+											</Grid>
+										</Grid>
+									);
+								})}
+							<Typography lineHeight={1.4} mt={2}>
+								현재 서포티에서는 위에서 설정하신 중간 보고일,
+								최종 보고일 전에 알림톡을 발송해 드리는 서비스를
+								진행하고 있습니다. 담당자의 연락처로 마감일
+								알림을 받아보시겠습니까?
+							</Typography>
+							<SupportiInput
+								type="checkbox"
+								value={isAlimTalk}
+								setValue={setIsAlimTalk}
+								label="네, 알림톡을 받겠습니다."
+							/>
+							{isAlimTalk &&
+								supportBusinessManagementData
+									.slice(9, 10)
+									.map((item, index) => {
+										return (
+											<Grid
+												item
+												display={'flex'}
+												alignItems={'center'}
+												mt={2}
+												sx={{}}
+											>
+												<Grid item xs={2} sm={2}>
+													<Typography
+														fontWeight={'700'}
+													>
+														{item.label}
+													</Typography>
+												</Grid>
+												<Grid
+													item
+													xs={item.grid.xs}
+													sm={item.grid.sm}
+												>
+													<SupportiInput
+														value={item.value}
+														setValue={item.setValue}
+														type={item.type}
+														dataList={item.data}
+														additionalProps={
+															item.additionalProps
+														}
+														style={{
+															width: '100%',
+														}}
+													/>
+												</Grid>
+											</Grid>
+										);
+									})}
+						</Box>
+					</Grid>
+				</Grid>
+				<Box
+					width={'100%'}
+					display={'flex'}
+					justifyContent={'center'}
+					alignItems={'center'}
+					mt={3}
+				>
+					<SupportiButton
+						contents={'등록하기'}
+						onClick={createSupportBusinessManagement}
+						variant="contained"
+						isGradient
+						style={{
+							width: '60%',
+							m: 'auto',
 						}}
 					/>
-				</InternalServiceLayout>
-			</Box>
-		</InternalServiceDrawer>
+				</Box>
+				<SupportiAlertModal
+					open={open}
+					handleClose={() => {
+						setOpen(false);
+					}}
+					type={type}
+					customHandleClose={() => {
+						router.push('/internal_service/government/management');
+					}}
+				/>
+			</InternalServiceLayout>
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

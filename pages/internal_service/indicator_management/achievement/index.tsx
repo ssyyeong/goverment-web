@@ -163,8 +163,8 @@ const Page: NextPage = () => {
 
 	return (
 		memberId && (
-			<InternalServiceDrawer type="dashboard" loading={loading}>
-				<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
+				// <InternalServiceDrawer type="dashboard" loading={loading}>
+				<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
 					{/* 컨텐츠 레이아웃 */}
 					{userAccess === true && (
 						<InternalServiceLayout
@@ -237,7 +237,7 @@ const Page: NextPage = () => {
 						</InternalServiceLayout>
 					)}
 				</Box>
-			</InternalServiceDrawer>
+			// </InternalServiceDrawer>
 		)
 	);
 };

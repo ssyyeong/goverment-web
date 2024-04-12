@@ -300,7 +300,7 @@ const Page: NextPage = () => {
 	/**
 	 * 구독 체크
 	 */
-	const { access } = useUserAccess('SUBSCRIPTION');
+	// const { access } = useUserAccess('SUBSCRIPTION');
 	/**
 	 * 알러트
 	 */
@@ -331,315 +331,301 @@ const Page: NextPage = () => {
 
 	console.log(recommendBusiness, 'recommendBusiness');
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box bgcolor={'primary.light'} sx={{ p: { sm: 5, xs: '0' } }}>
-				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout
-					title="지원 사업"
-					subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
-					image="/images/main/supportbusiness.png"
-					mobileImage="/images/main/supportbusinessmobile.png"
-				>
-					{/* 컨텐츠 */}
-					<Box display={'flex'} flexDirection={'column'}>
+		// <InternalServiceDrawer type="dashboard">
+		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
+			{/* 컨텐츠 레이아웃 */}
+			<InternalServiceLayout
+				title="지원 사업"
+				subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
+				image="/images/main/supportbusiness.png"
+				mobileImage="/images/main/supportbusinessmobile.png"
+			>
+				{/* 컨텐츠 */}
+				<Box display={'flex'} flexDirection={'column'}>
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						alignItems={'center'}
+					>
+						<Box>
+							<Typography
+								variant="h3"
+								fontWeight={'bold'}
+								sx={{ mb: 2 }}
+							>
+								지원 사업 조회
+							</Typography>
+							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+								지원사업을 조회하고 관리할 수 있습니다.
+							</Typography>
+						</Box>
+						<SupportiButton
+							contents={'개인 필터 설정하기'}
+							onClick={() => {
+								// if (access) {
+								setPersonalFilterModal(true);
+								// } else {
+								// 	setOpen(true);
+								// 	setType('subscribe');
+								// 	return;
+								// }
+							}}
+						/>
+					</Box>
+					{/* 추천 지원 사업 */}
+					{personalFilterExist && (
+						<Typography
+							fontWeight={'600'}
+							variant="subtitle2"
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							추천 지원 사업{' '}
+							<Tooltip
+								title={
+									'개인 필터 설정을 통해 추천받은 지원사업입니다.'
+								}
+								arrow
+								placement="top"
+								slotProps={{
+									popper: {
+										modifiers: [
+											{
+												name: 'offset',
+												options: {
+													offset: [0, -14],
+												},
+											},
+										],
+									},
+								}}
+							>
+								<IconButton size="small">
+									<HelpOutlineIcon fontSize="small" />
+								</IconButton>
+							</Tooltip>
+						</Typography>
+					)}
+					{personalFilterExist && (
 						<Box
 							display={'flex'}
-							justifyContent={'space-between'}
-							alignItems={'center'}
+							sx={{
+								overflowX: 'auto',
+								'-ms-overflow-style': 'none',
+								'&::-webkit-scrollbar': {
+									height: '5px !important',
+									backgroundColor: 'white !important',
+									padding: '0.5px',
+									borderRadius: '20px',
+								},
+								'&::-webkit-scrollbar-thumb': {
+									backgroundColor: '#305edccc',
+									borderRadius: '20px',
+								},
+							}}
+							gap={1}
+							pb={1}
+							my={1}
 						>
-							<Box>
-								<Typography
-									variant="h3"
-									fontWeight={'bold'}
-									sx={{ mb: 2 }}
-								>
-									지원 사업 조회
-								</Typography>
-								<Typography
-									color={'secondary.dark'}
-									sx={{ mb: 2 }}
-								>
-									지원사업을 조회하고 관리할 수 있습니다.
-								</Typography>
-							</Box>
-							<SupportiButton
-								contents={'개인 필터 설정하기'}
-								onClick={() => {
-									if (access) {
-										setPersonalFilterModal(true);
-									} else {
-										setOpen(true);
-										setType('subscribe');
-										return;
-									}
-								}}
-							/>
-						</Box>
-						{/* 추천 지원 사업 */}
-						{personalFilterExist && (
-							<Typography
-								fontWeight={'600'}
-								variant="subtitle2"
-								sx={{
-									display: 'flex',
-									alignItems: 'center',
-								}}
-							>
-								추천 지원 사업{' '}
-								<Tooltip
-									title={
-										'개인 필터 설정을 통해 추천받은 지원사업입니다.'
-									}
-									arrow
-									placement="top"
-									slotProps={{
-										popper: {
-											modifiers: [
-												{
-													name: 'offset',
-													options: {
-														offset: [0, -14],
-													},
-												},
-											],
-										},
-									}}
-								>
-									<IconButton size="small">
-										<HelpOutlineIcon fontSize="small" />
-									</IconButton>
-								</Tooltip>
-							</Typography>
-						)}
-						{personalFilterExist && (
-							<Box
-								display={'flex'}
-								sx={{
-									overflowX: 'auto',
-									'-ms-overflow-style': 'none',
-									'&::-webkit-scrollbar': {
-										height: '5px !important',
-										backgroundColor: 'white !important',
-										padding: '0.5px',
-										borderRadius: '20px',
-									},
-									'&::-webkit-scrollbar-thumb': {
-										backgroundColor: '#305edccc',
-										borderRadius: '20px',
-									},
-								}}
-								gap={1}
-								pb={1}
-								my={1}
-							>
-								{recommendBusiness?.data.map((item, index) => {
-									return (
-										<Box
-											key={index}
-											onClick={() => {
-												setDetailData(item);
-												setDetailModal(true);
-											}}
-										>
-											<RecommendSupportBusinessCard
-												supportBusiness={item}
-											/>
-										</Box>
-									);
-								})}
-								{
-									// 추천 지원 사업이 없을 경우
-									recommendBusiness?.data.length === 0 && (
-										<Typography color={'gray'} py={1}>
-											필터와 일치하는 지원사업이
-											없습니다.(너무 자세한 필터 설정은
-											추천 지원사업이 없을 수 있습니다.)
-										</Typography>
-									)
-								}
-							</Box>
-						)}
-
-						{/* 필터 선택 */}
-						<Box display={'flex'} flexWrap={'wrap'} gap={1} mt={2}>
-							{selectableConfig.map((item, index) => {
+							{recommendBusiness?.data.map((item, index) => {
 								return (
 									<Box
-										display={'flex'}
-										flexDirection={'column'}
-										width={{ xs: '100%', md: '49%' }}
-										gap={1}
+										key={index}
+										onClick={() => {
+											setDetailData(item);
+											setDetailModal(true);
+										}}
 									>
-										<Typography
-											color={'gray'}
-											fontWeight={500}
-										>
-											{item.label}
-										</Typography>
-										<SupportiInput
-											dataList={item.dataList}
-											value={item.value}
-											setValue={item.setValue}
-											type="select"
-											width={'100%'}
+										<RecommendSupportBusinessCard
+											supportBusiness={item}
 										/>
 									</Box>
 								);
 							})}
+							{
+								// 추천 지원 사업이 없을 경우
+								recommendBusiness?.data.length === 0 && (
+									<Typography color={'gray'} py={1}>
+										필터와 일치하는 지원사업이
+										없습니다.(너무 자세한 필터 설정은 추천
+										지원사업이 없을 수 있습니다.)
+									</Typography>
+								)
+							}
 						</Box>
-						{/* 검색창 */}
-						<Box
-							mt={1}
-							display={'flex'}
-							flexDirection={'column'}
-							gap={1}
-						>
-							<Typography color={'gray'} fontWeight={500}>
-								지원사업명
-							</Typography>
-							<SupportiInput
-								type="input"
-								value={filter.biz_pbanc_nm}
-								setValue={(e) => {
-									setFilter({ ...filter, biz_pbanc_nm: e });
-								}}
-								additionalProps={{
-									placeholder: '지원사업명을 검색하세요',
-								}}
-								width={'99%'}
-								style={{ bgcolor: 'white' }}
-							/>
-						</Box>
-						{/* 검색 */}
-						<SupportiButton
-							contents={'검색하기'}
-							onClick={() => {
-								setOnlySaved(false);
-								getSupportBusiness(
-									filter,
-									setSupportBusiness,
-									1
-								);
-								if (page !== 1) {
-									handlePageChange(1);
-								}
+					)}
+
+					{/* 필터 선택 */}
+					<Box display={'flex'} flexWrap={'wrap'} gap={1} mt={2}>
+						{selectableConfig.map((item, index) => {
+							return (
+								<Box
+									display={'flex'}
+									flexDirection={'column'}
+									width={{ xs: '100%', md: '49%' }}
+									gap={1}
+								>
+									<Typography color={'gray'} fontWeight={500}>
+										{item.label}
+									</Typography>
+									<SupportiInput
+										dataList={item.dataList}
+										value={item.value}
+										setValue={item.setValue}
+										type="select"
+										width={'100%'}
+									/>
+								</Box>
+							);
+						})}
+					</Box>
+					{/* 검색창 */}
+					<Box
+						mt={1}
+						display={'flex'}
+						flexDirection={'column'}
+						gap={1}
+					>
+						<Typography color={'gray'} fontWeight={500}>
+							지원사업명
+						</Typography>
+						<SupportiInput
+							type="input"
+							value={filter.biz_pbanc_nm}
+							setValue={(e) => {
+								setFilter({ ...filter, biz_pbanc_nm: e });
 							}}
-							variant="contained"
-							isGradient
-							style={{ width: '20% ', margin: 'auto', mt: 2 }}
+							additionalProps={{
+								placeholder: '지원사업명을 검색하세요',
+							}}
+							width={'99%'}
+							style={{ bgcolor: 'white' }}
 						/>
 					</Box>
-					{supportBusiness === undefined && (
-						<Box
+					{/* 검색 */}
+					<SupportiButton
+						contents={'검색하기'}
+						onClick={() => {
+							setOnlySaved(false);
+							getSupportBusiness(filter, setSupportBusiness, 1);
+							if (page !== 1) {
+								handlePageChange(1);
+							}
+						}}
+						variant="contained"
+						isGradient
+						style={{ width: '20% ', margin: 'auto', mt: 2 }}
+					/>
+				</Box>
+				{supportBusiness === undefined && (
+					<Box
+						width={'100%'}
+						display={'flex'}
+						flexDirection={'column'}
+						gap={2}
+						mt={3}
+					>
+						<Skeleton
+							variant="rounded"
 							width={'100%'}
-							display={'flex'}
-							flexDirection={'column'}
-							gap={2}
-							mt={3}
-						>
-							<Skeleton
-								variant="rounded"
-								width={'100%'}
-								height={350}
-							/>
-						</Box>
-					)}
-					{/* 테이블 */}
-
-					{supportBusiness && (
-						<Box width={'100%'} mt={2}>
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-								alignItems={'center'}
-								mb={1}
-							>
-								<Typography color={'gray'}>
-									{' '}
-									총 {supportBusiness?.matchCount}건
-								</Typography>
-								<SupportiInput
-									type="checkbox"
-									value={onlySaved}
-									setValue={(e) => {
-										if (access) {
-											setOnlySaved(e);
-											setPage(0);
-										} else {
-											setOpen(true);
-											setType('subscribe');
-											return;
-										}
-									}}
-									label={'내가 저장한 것만 보기'}
-								/>
-							</Box>
-							<SupportiTable
-								rowData={supportBusiness?.data}
-								headerData={supportBusinessHeaderData}
-								onClick={(row) => {
-									setDetailData(row);
-									setDetailModal(true);
-								}}
-								style={{
-									tablecell: {
-										sx: {
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											whiteSpace: 'nowrap',
-										},
-									},
-								}}
-							/>
-						</Box>
-					)}
-					{/* 페이지 네이션 */}
-					{supportBusiness && (
-						<Box width={'100%'} p={2}>
-							<SupportiPagination
-								limit={10}
-								setLimit={setLimit}
-								page={page}
-								handlePageChange={handlePageChange}
-								count={supportBusiness?.matchCount}
-								useLimit={false}
-							/>
-						</Box>
-					)}
-				</InternalServiceLayout>
-				{/* 디테일 모달 */}
-				{detailData && (
-					<Box key={detailModal.toString()}>
-						<SupportBusinessModal
-							modalOpen={detailModal}
-							setModalOpen={setDetailModal}
-							supportBusiness={detailData}
+							height={350}
 						/>
 					</Box>
 				)}
-				{/* 개인 필터 설정 모달 */}
-				<Box key={personalFilterModal.toString()}>
-					<PersonalFilterModal
-						modalOpen={personalFilterModal}
-						setModalOpen={setPersonalFilterModal}
-						additionalFunction={(newFilter) => {
-							getSupportBusiness(
-								newFilter,
-								setRecommendBusiness,
-								0
-							);
-						}}
-						setPersonalFilterExist={setPersonalFilterExist}
+				{/* 테이블 */}
+
+				{supportBusiness && (
+					<Box width={'100%'} mt={2}>
+						<Box
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+							mb={1}
+						>
+							<Typography color={'gray'}>
+								{' '}
+								총 {supportBusiness?.matchCount}건
+							</Typography>
+							<SupportiInput
+								type="checkbox"
+								value={onlySaved}
+								setValue={(e) => {
+									// if (access) {
+									setOnlySaved(e);
+									setPage(0);
+									// } else {
+									// 	setOpen(true);
+									// 	setType('subscribe');
+									// 	return;
+									// }
+								}}
+								label={'내가 저장한 것만 보기'}
+							/>
+						</Box>
+						<SupportiTable
+							rowData={supportBusiness?.data}
+							headerData={supportBusinessHeaderData}
+							onClick={(row) => {
+								setDetailData(row);
+								setDetailModal(true);
+							}}
+							style={{
+								tablecell: {
+									sx: {
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										whiteSpace: 'nowrap',
+									},
+								},
+							}}
+						/>
+					</Box>
+				)}
+				{/* 페이지 네이션 */}
+				{supportBusiness && (
+					<Box width={'100%'} p={2}>
+						<SupportiPagination
+							limit={10}
+							setLimit={setLimit}
+							page={page}
+							handlePageChange={handlePageChange}
+							count={supportBusiness?.matchCount}
+							useLimit={false}
+						/>
+					</Box>
+				)}
+			</InternalServiceLayout>
+			{/* 디테일 모달 */}
+			{detailData && (
+				<Box key={detailModal.toString()}>
+					<SupportBusinessModal
+						modalOpen={detailModal}
+						setModalOpen={setDetailModal}
+						supportBusiness={detailData}
 					/>
 				</Box>
-				{/* 알림창 */}
-				<SupportiAlertModal
-					open={open}
-					handleClose={() => setOpen(false)}
-					type={type}
+			)}
+			{/* 개인 필터 설정 모달 */}
+			<Box key={personalFilterModal.toString()}>
+				<PersonalFilterModal
+					modalOpen={personalFilterModal}
+					setModalOpen={setPersonalFilterModal}
+					additionalFunction={(newFilter) => {
+						getSupportBusiness(newFilter, setRecommendBusiness, 0);
+					}}
+					setPersonalFilterExist={setPersonalFilterExist}
 				/>
 			</Box>
-		</InternalServiceDrawer>
+			{/* 알림창 */}
+			<SupportiAlertModal
+				open={open}
+				handleClose={() => setOpen(false)}
+				type={type}
+			/>
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

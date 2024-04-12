@@ -199,7 +199,8 @@ const Page: NextPage = () => {
 	const theme = useTheme();
 
 	return (
-		<InternalServiceDrawer type={'dashboard'} loading={loading}>
+		// <InternalServiceDrawer type={'dashboard'} loading={loading}>
+		<>
 			<Box
 				position={'relative'}
 				bgcolor={theme.palette.primary.light}
@@ -551,51 +552,53 @@ const Page: NextPage = () => {
 					</Box>
 				</InternalServiceLayout>
 			</Box>
-			{!openDrawer && (
-				<Box
-					sx={{
-						position: 'fixed',
-						bottom: 0,
-						borderTopLeftRadius: 15,
-						borderTopRightRadius: 15,
-						visibility: 'visible',
-						right: 0,
-						left: 0,
-						// bgcolor: 'red',
-						backgroundImage: `linear-gradient(to bottom, #26262695, #00000083)`,
-						backdropFilter: 'blur(10px)',
-						'-webkit-backdrop-filter': 'blur(10px)',
-						height: '50px',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						px: 2,
-					}}
-					display={{ md: 'none', xs: 'flex' }}
+
+			<Box
+				sx={{
+					position: 'fixed',
+					bottom: 0,
+					borderTopLeftRadius: 15,
+					borderTopRightRadius: 15,
+					visibility: 'visible',
+					right: 0,
+					left: 0,
+					// bgcolor: 'red',
+					backgroundImage: `linear-gradient(to bottom, #26262695, #00000083)`,
+					backdropFilter: 'blur(10px)',
+					'-webkit-backdrop-filter': 'blur(10px)',
+					height: '50px',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					px: 2,
+				}}
+				display={{ md: 'none', xs: 'flex' }}
+			>
+				<Box></Box>
+				<Typography
+					sx={{ p: 2, color: 'white' }}
+					fontWeight={'bold'}
+					variant="subtitle1"
+					textAlign={'center'}
 				>
-					<Box></Box>
-					<Typography
-						sx={{ p: 2, color: 'white' }}
-						fontWeight={'bold'}
-						variant="subtitle1"
-						textAlign={'center'}
-					>
-						분석하기
-					</Typography>
-					<KeyboardDoubleArrowUpIcon
-						sx={{ color: 'white' }}
-						onClick={() => {
-							setOpenDrawer(true);
-						}}
-					/>
-				</Box>
-			)}
+					분석하기
+				</Typography>
+				<KeyboardDoubleArrowUpIcon
+					sx={{ color: 'white' }}
+					onClick={() => {
+						setOpenDrawer(true);
+					}}
+				/>
+			</Box>
+
 			<LinkedCategoryListModal
 				modalOpen={openCategoryList}
 				setModalOpen={setOpenCategoryList}
 				setRecomputeTriggerKey={setAccountHistoryTriggerKey}
 			/>
-		</InternalServiceDrawer>
+		</>
+
+		// </InternalServiceDrawer>
 	);
 };
 

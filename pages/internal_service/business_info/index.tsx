@@ -135,193 +135,175 @@ const Page: NextPage = () => {
 	}, [business]);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					width: '100%',
-					p: { xs: 2, md: 10 },
-				}}
-			>
-				{/* 컨텐츠 레이아웃 */}
-				{access === true && (
-					<InternalServiceLayout
-						title="기업 정보"
-						subTitle="기업 정보를 수정 / 확인할 수 있습니다."
-						image="/images/main/business.png"
-						mobileImage="/images/main/businessMoblie.png"
-					>
-						{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
-						{business && businessHistory && (
-							<Box>
-								{/* 컨트롤러 */}
-								<Box mb={2}>
-									<Grid container>
-										{/* 데이터 편집 및 추출 */}
-										<Grid item xs={8} md={6}>
-											<Typography
-												variant="h3"
-												fontWeight={'bold'}
-												sx={{ mb: 2 }}
-											>
-												기업 정보
-											</Typography>
-											<Typography
-												color={'secondary.dark'}
-												sx={{ mb: 2 }}
-											>
-												기업 정보를 확인할 수 있습니다.
-											</Typography>
-										</Grid>
-										<Grid item xs={4} md={6}>
-											<Box
-												display={'flex'}
-												justifyContent={'flex-end'}
-											>
-												{/* 편집 페이지로 이동 */}
-												<Box>
-													<Button
-														variant="contained"
+		// <InternalServiceDrawer type="dashboard">
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				p: { xs: 2, md: 10 },
+			}}
+		>
+			{/* 컨텐츠 레이아웃 */}
+			{access === true && (
+				<InternalServiceLayout
+					title="기업 정보"
+					subTitle="기업 정보를 수정 / 확인할 수 있습니다."
+					image="/images/main/business.png"
+					mobileImage="/images/main/businessMoblie.png"
+				>
+					{/* 필요한 값들이 로드 되었을 경우 랜더링 */}
+					{business && businessHistory && (
+						<Box>
+							{/* 컨트롤러 */}
+							<Box mb={2}>
+								<Grid container>
+									{/* 데이터 편집 및 추출 */}
+									<Grid item xs={8} md={6}>
+										<Typography
+											variant="h3"
+											fontWeight={'bold'}
+											sx={{ mb: 2 }}
+										>
+											기업 정보
+										</Typography>
+										<Typography
+											color={'secondary.dark'}
+											sx={{ mb: 2 }}
+										>
+											기업 정보를 확인할 수 있습니다.
+										</Typography>
+									</Grid>
+									<Grid item xs={4} md={6}>
+										<Box
+											display={'flex'}
+											justifyContent={'flex-end'}
+										>
+											{/* 편집 페이지로 이동 */}
+											<Box>
+												<Button
+													variant="contained"
+													sx={{
+														bgcolor: 'primary',
+														px: {
+															xs: 0,
+															md: 3,
+														},
+														borderRadius: 2,
+													}}
+													onClick={() => {
+														router.push(
+															'/internal_service/business_info/edit'
+														);
+													}}
+												>
+													<ModeEditOutlineOutlinedIcon fontSize="small" />
+													<Typography
+														variant={'subtitle1'}
+														fontWeight={'600'}
+														color={'white'}
 														sx={{
-															bgcolor: 'primary',
-															px: {
-																xs: 0,
-																md: 3,
-															},
-															borderRadius: 2,
+															ml: 0.5,
 														}}
-														onClick={() => {
-															router.push(
-																'/internal_service/business_info/edit'
-															);
+														display={{
+															xs: 'none',
+															md: 'block',
 														}}
 													>
-														<ModeEditOutlineOutlinedIcon fontSize="small" />
-														<Typography
-															variant={
-																'subtitle1'
-															}
-															fontWeight={'600'}
-															color={'white'}
-															sx={{
-																ml: 0.5,
-															}}
-															display={{
-																xs: 'none',
-																md: 'block',
-															}}
-														>
-															편집하기
-														</Typography>
-													</Button>
-												</Box>
+														편집하기
+													</Typography>
+												</Button>
 											</Box>
-										</Grid>
+										</Box>
 									</Grid>
-								</Box>
-
-								{/* 테이블 */}
-								<Box>
-									{/* 각 비즈니스 개요 항목 맵핑 */}
-									{businessConfig.map(
-										(businessMapping, idx) => (
-											<Box key={idx}>
-												<Grid container>
-													{/* 각 비즈니스 개요 라벨 */}
-													<Grid item xs={6} md={6}>
-														<Box
-															sx={{
-																backgroundColor:
-																	'#5575cd',
-																borderTopLeftRadius:
-																	idx == 0 &&
-																	10,
-																borderBottomLeftRadius:
-																	idx ===
-																		businessConfig.length -
-																			1 &&
-																	10,
-															}}
-															border={0.5}
-															py={2}
-															borderColor={
-																'rgba(185, 197, 255, 1)'
-															}
-														>
-															<Typography
-																textAlign={
-																	'center'
-																}
-																variant={'h6'}
-																fontWeight={
-																	'500'
-																}
-																color={'white'}
-															>
-																{
-																	businessMapping.label
-																}
-															</Typography>
-														</Box>
-													</Grid>
-
-													{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
-													<Grid item xs={6} md={6}>
-														<Box
-															border={0.5}
-															py={2}
-															borderColor={
-																'rgba(185, 197, 255, 1)'
-															}
-															height={'100%'}
-															bgcolor={'#ffffff'}
-															sx={{
-																borderTopRightRadius:
-																	idx == 0 &&
-																	10,
-																borderBottomRightRadius:
-																	idx ===
-																		businessConfig.length -
-																			1 &&
-																	10,
-															}}
-														>
-															<Typography
-																variant={'h6'}
-																textAlign={
-																	'center'
-																}
-																pl={1}
-																noWrap={true}
-																overflow={
-																	'hidden'
-																}
-															>
-																{businessMapping.isFromBusinessHistory ==
-																true
-																	? businessHistory[
-																			businessMapping
-																				.key
-																	  ]
-																	: business[
-																			businessMapping
-																				.key
-																	  ]}
-															</Typography>
-														</Box>
-													</Grid>
-												</Grid>
-											</Box>
-										)
-									)}
-								</Box>
+								</Grid>
 							</Box>
-						)}
-					</InternalServiceLayout>
-				)}
-			</Box>
-		</InternalServiceDrawer>
+
+							{/* 테이블 */}
+							<Box>
+								{/* 각 비즈니스 개요 항목 맵핑 */}
+								{businessConfig.map((businessMapping, idx) => (
+									<Box key={idx}>
+										<Grid container>
+											{/* 각 비즈니스 개요 라벨 */}
+											<Grid item xs={6} md={6}>
+												<Box
+													sx={{
+														backgroundColor:
+															'#5575cd',
+														borderTopLeftRadius:
+															idx == 0 && 10,
+														borderBottomLeftRadius:
+															idx ===
+																businessConfig.length -
+																	1 && 10,
+													}}
+													border={0.5}
+													py={2}
+													borderColor={
+														'rgba(185, 197, 255, 1)'
+													}
+												>
+													<Typography
+														textAlign={'center'}
+														variant={'h6'}
+														fontWeight={'500'}
+														color={'white'}
+													>
+														{businessMapping.label}
+													</Typography>
+												</Box>
+											</Grid>
+
+											{/* 각 비즈니스 개요 데이터 (isFromBusinessHistory 값에 따라, 비즈니스 개요 정보로부터 데이터를 가져올 지, 비즈니스 로그로부터 데이터를 가져올 지 결정) */}
+											<Grid item xs={6} md={6}>
+												<Box
+													border={0.5}
+													py={2}
+													borderColor={
+														'rgba(185, 197, 255, 1)'
+													}
+													height={'100%'}
+													bgcolor={'#ffffff'}
+													sx={{
+														borderTopRightRadius:
+															idx == 0 && 10,
+														borderBottomRightRadius:
+															idx ===
+																businessConfig.length -
+																	1 && 10,
+													}}
+												>
+													<Typography
+														variant={'h6'}
+														textAlign={'center'}
+														pl={1}
+														noWrap={true}
+														overflow={'hidden'}
+													>
+														{businessMapping.isFromBusinessHistory ==
+														true
+															? businessHistory[
+																	businessMapping
+																		.key
+															  ]
+															: business[
+																	businessMapping
+																		.key
+															  ]}
+													</Typography>
+												</Box>
+											</Grid>
+										</Grid>
+									</Box>
+								))}
+							</Box>
+						</Box>
+					)}
+				</InternalServiceLayout>
+			)}
+		</Box>
+		// </InternalServiceDrawer>
 	);
 };
 

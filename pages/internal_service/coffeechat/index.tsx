@@ -47,7 +47,7 @@ const Page: NextPage = () => {
 	/**
 	 * 페이지 진입 시 유저 권한 검사 (구독검사)
 	 */
-	const isSubscription = useUserAccess('SUBSCRIPTION');
+	// const isSubscription = useUserAccess('SUBSCRIPTION');
 
 	/**
 	 * 알러트
@@ -77,10 +77,11 @@ const Page: NextPage = () => {
 				}
 			}
 		);
-	}, [isSubscription]);
+	}, []);
 
 	return (
-		<InternalServiceDrawer type="dashboard">
+		// <InternalServiceDrawer type="dashboard">
+		<>
 			<Box
 				sx={{
 					display: 'flex',
@@ -113,12 +114,12 @@ const Page: NextPage = () => {
 							gap={0.5}
 							display={'flex'}
 							onClick={() => {
-								if (isSubscription.access === true) {
-									setProfileModal(true);
-								} else {
-									setOpen(true);
-									setType('subscribe');
-								}
+								// if (isSubscription.access === true) {
+								setProfileModal(true);
+								// } else {
+								// 	setOpen(true);
+								// 	setType('subscribe');
+								// }
 							}}
 						>
 							<Image
@@ -140,14 +141,14 @@ const Page: NextPage = () => {
 							ml={1}
 							display={'flex'}
 							onClick={() => {
-								if (isSubscription.access === true) {
-									window.open(
-										'https://jober.io/wall-write-document/cc935fd9-a388-4ff3-a9c5-a45dab221db0'
-									);
-								} else {
-									setOpen(true);
-									setType('subscribe');
-								}
+								// if (isSubscription.access === true) {
+								window.open(
+									'https://jober.io/wall-write-document/cc935fd9-a388-4ff3-a9c5-a45dab221db0'
+								);
+								// } else {
+								// 	setOpen(true);
+								// 	setType('subscribe');
+								// }
 							}}
 						>
 							<Typography fontWeight={'600'}>
@@ -184,9 +185,11 @@ const Page: NextPage = () => {
 				handleClose={() => setOpenEventModal(false)}
 				alertSetOpen={setOpen}
 				alertSetType={setType}
-				subscription={isSubscription.access}
+				// subscription={isSubscription.access}
 			/>
-		</InternalServiceDrawer>
+
+			{/* </InternalServiceDrawer> */}
+		</>
 	);
 };
 
