@@ -38,7 +38,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElMypage, setAnchorElMypage] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null); // 고객센터 메뉴
-	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 커뮤니티 메뉴
+	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 소셜링 메뉴
 	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
 	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
 
@@ -203,9 +203,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	];
 
 	/**
-	 * 커뮤니티
+	 * 소셜링
 	 */
-	const community = [
+	const socialing = [
 		{
 			label: 'A2E',
 			path: '/internal_service/a2e',
@@ -309,8 +309,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/supportv',
 		},
 		{
-			label: '커뮤니티',
-			subMenus: community,
+			label: '소셜링',
+			subMenus: socialing,
 			subMenuHandler: (event) => {
 				if (event) setAnchorElCommunity(event.currentTarget);
 				else setAnchorElCommunity(null);
@@ -360,8 +360,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/supportv',
 		},
 		{
-			label: '커뮤니티',
-			subMenus: community,
+			label: '소셜링',
+			subMenus: socialing,
 			subMenuHandler: (event) => {
 				if (event) setAnchorElCommunity(event.currentTarget);
 				else setAnchorElCommunity(null);
@@ -748,10 +748,18 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								display: { xs: 'none', md: 'flex' },
 							}}
 						>
-							<Box onClick={() => router.push('/')}>
+							<Box>
 								<img
-									src="/images/logo/Suppor-T1.png"
-									alt="logo"
+									src={'/images/logo/Suppor-TFulllogo.svg'}
+									alt="Logo"
+									width={'145px'}
+									height={'45px'}
+									style={{
+										cursor: 'pointer',
+										marginLeft: 'auto',
+										marginRight: 'auto',
+									}}
+									onClick={() => router.push('/')}
 								/>
 							</Box>
 						</Box>
