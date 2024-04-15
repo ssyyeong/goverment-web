@@ -48,7 +48,6 @@ const CustomFooter = (props: ICustomFooterProps) => {
 	];
 
 	return (
-		!router.asPath.includes('/internal_service') &&
 		!router.asPath.includes('/my_page') && (
 			<Box pb={4}>
 				<Box
