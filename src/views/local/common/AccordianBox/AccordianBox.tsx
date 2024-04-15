@@ -93,7 +93,8 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 							width: '100%',
 							my: 2,
 						}}
-						fontWeight={'500'}
+						fontWeight={'400'}
+						lineHeight={1.5}
 					>
 						{props.notAQna ? '' : 'A)'}
 						{props.content}

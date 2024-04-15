@@ -143,7 +143,12 @@ const Page: NextPage = () => {
 					justifyContent={'center'}
 					width={'50%'}
 				>
-					<Typography variant="h5" color={'white'} ml={1.8}>
+					<Typography
+						variant="h5"
+						color={'white'}
+						ml={1.8}
+						fontWeight={'400'}
+					>
 						실제 투자자가 알려주는
 					</Typography>
 					<Typography variant="h3" color={'white'} p={2}>
@@ -174,7 +179,12 @@ const Page: NextPage = () => {
 					>
 						사업 시작을 위한 길잡이가 되는 영상 콘텐츠 SupporTV
 					</Typography>
-					<Typography textAlign={'center'} color={'white'} mt={2}>
+					<Typography
+						textAlign={'center'}
+						color={'white'}
+						mt={2}
+						fontWeight={'400'}
+					>
 						실제 투자자, 노무사, 세무사가 알려주는 유익한 영상
 					</Typography>
 
@@ -267,6 +277,7 @@ const Page: NextPage = () => {
 											mt={1}
 											color={'gray'}
 											lineHeight={1.5}
+											fontWeight={'400'}
 										>
 											{item.SHORT_DESCRIPTION}
 										</Typography>
