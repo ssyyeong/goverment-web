@@ -622,7 +622,7 @@ const Page: NextPage = () => {
 			<SupportiAlertModal
 				open={open}
 				handleClose={() => setOpen(false)}
-				type={type}
+				type={'login'}
 			/>
 		</Box>
 		// </InternalServiceDrawer>

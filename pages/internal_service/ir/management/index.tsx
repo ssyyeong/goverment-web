@@ -1467,7 +1467,7 @@ const Page: NextPage = () => {
 				activeHeader
 				children={
 					<Image
-						src={'/images/main/deeptech.jpg'}
+						src={'/images/main/deeptech.png'}
 						width={900}
 						height={900}
 						alt="deeptech"
