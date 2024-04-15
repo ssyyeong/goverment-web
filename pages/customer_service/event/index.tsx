@@ -48,6 +48,7 @@ const Page: NextPage = () => {
 							content={notice.CONTENT}
 							created_at={notice.CREATED_AT}
 							type="이벤트"
+							notAQna
 						/>
 					);
 				})}

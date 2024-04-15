@@ -51,6 +51,7 @@ const Page: NextPage = () => {
 							content={notice.CONTENT}
 							created_at={notice.CREATED_AT}
 							type="공지"
+							notAQna
 						/>
 					);
 				})}
