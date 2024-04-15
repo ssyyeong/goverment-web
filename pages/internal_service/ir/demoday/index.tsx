@@ -37,11 +37,11 @@ const Page: NextPage = () => {
 			name: '데모데이',
 			path: '/internal_service/ir/demoday',
 		},
-		{
-			name: 'IR 데이터',
-			path: '/internal_service/ir/management',
-			loginRequired: true,
-		},
+		// {
+		// 	name: 'IR 데이터',
+		// 	path: '/internal_service/ir/management',
+		// 	loginRequired: true,
+		// },
 	];
 	//* States
 	/**
@@ -197,13 +197,13 @@ const Page: NextPage = () => {
 							variant="h5"
 							fontWeight={'700'}
 							onClick={() => {
-								if (
-									selectableIndicator.loginRequired &&
-									!memberId
-								) {
-									alert('로그인 후 이용 가능합니다.');
-									return;
-								}
+								// if (
+								// 	selectableIndicator?.loginRequired &&
+								// 	!memberId
+								// ) {
+								// 	alert('로그인 후 이용 가능합니다.');
+								// 	return;
+								// }
 								router.push(selectableIndicator.path);
 							}}
 							sx={{

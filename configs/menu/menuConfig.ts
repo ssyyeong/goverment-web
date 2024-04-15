@@ -134,6 +134,11 @@ const mypageMenu: IMenu[] = [
 		path: '/my_page/my_cupon',
 		icon: '/images/icons/cupon.png',
 	},
+	{
+		label: 'IR 데이터',
+		path: '/my_page/ir_data',
+		icon: '/images/icons/ir.png',
+	},
 	// {
 	// 	label: 'IR 신청내역',
 	// 	path: '/my_page/ir_history',
