@@ -32,11 +32,10 @@ import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertMo
 import { gTagEvent } from '../../../../src/lib/gtag';
 
 export interface ISupportBusinessFilter {
-	biz_pbanc_nm?: string;
-	supt_biz_clsfc?: string;
-	supt_regin?: string;
-	aply_trgt?: string;
-	biz_enyy?: string;
+	BUSINESS_TITLE?: string;
+	FIELD?: string;
+	REGION?: string;
+	TARGET?: string;
 }
 
 const Page: NextPage = () => {
@@ -54,11 +53,10 @@ const Page: NextPage = () => {
 	 * 필터
 	 */
 	const [filter, setFilter] = React.useState<ISupportBusinessFilter>({
-		biz_pbanc_nm: '',
-		supt_biz_clsfc: '전체',
-		supt_regin: '전체',
-		aply_trgt: '전체',
-		biz_enyy: '전체',
+		BUSINESS_TITLE: '',
+		FIELD: '전체',
+		REGION: '전체',
+		TARGET: '전체',
 	});
 	/**
 	 *개별 필터
@@ -95,36 +93,36 @@ const Page: NextPage = () => {
 	const selectableConfig = [
 		{
 			label: '지원 분야',
-			value: filter.supt_biz_clsfc,
+			value: filter.FIELD,
 			setValue: (e) => {
-				setFilter({ ...filter, supt_biz_clsfc: e });
+				setFilter({ ...filter, FIELD: e });
 			},
 			dataList: supportField,
 		},
 		{
 			label: '지원 지역',
-			value: filter.supt_regin,
+			value: filter.REGION,
 			setValue: (e) => {
-				setFilter({ ...filter, supt_regin: e });
+				setFilter({ ...filter, REGION: e });
 			},
 			dataList: region,
 		},
 		{
 			label: '지원 대상',
-			value: filter.aply_trgt,
+			value: filter.TARGET,
 			setValue: (e) => {
-				setFilter({ ...filter, aply_trgt: e });
+				setFilter({ ...filter, TARGET: e });
 			},
 			dataList: applicationTarget,
 		},
-		{
-			label: '기업 업력',
-			value: filter.biz_enyy,
-			setValue: (e) => {
-				setFilter({ ...filter, biz_enyy: e });
-			},
-			dataList: startUpPeriod,
-		},
+		// {
+		// 	label: '기업 업력',
+		// 	value: filter.biz_enyy,
+		// 	setValue: (e) => {
+		// 		setFilter({ ...filter, biz_enyy: e });
+		// 	},
+		// 	dataList: startUpPeriod,
+		// },
 	];
 
 	const supportBusinessHeaderData: TableHeaderProps[] = [
@@ -138,27 +136,22 @@ const Page: NextPage = () => {
 		},
 		{
 			label: '제목',
-			value: 'biz_pbanc_nm',
-			align: 'center',
-		},
-		{
-			label: '업력',
-			value: 'biz_enyy',
+			value: 'BUSINESS_TITLE',
 			align: 'center',
 		},
 		{
 			label: '지원분야',
-			value: 'supt_biz_clsfc',
+			value: 'FIELD',
 			align: 'center',
 		},
 		{
 			label: '운영기관',
-			value: 'pbanc_ntrp_nm',
+			value: 'COMPETENT_AGENCY',
 			align: 'center',
 		},
 		{
 			label: '지역',
-			value: 'supt_regin',
+			value: 'REGION',
 			align: 'center',
 		},
 	];
@@ -169,12 +162,13 @@ const Page: NextPage = () => {
 	const supportBusinessConfigController = new DefaultController(
 		'SupportBusinessConfig'
 	);
+
+	const supportBusinessController = new DefaultController('SupportBusiness');
 	//* Functions
 	/**
 	 * 창업진흥원 지원 사업 조회
 	 */
 	const getSupportBusiness = async (filter, setData, page) => {
-		// console.log(filter);
 		gTagEvent({
 			action: 'support_business_search',
 			category: 'support_business_search',
@@ -183,46 +177,22 @@ const Page: NextPage = () => {
 		});
 		//filter 중에 value가 전체가 아닌 것만 필터링
 		const filterKeys = Object.keys(filter);
-		const filteredFilter: ISupportBusinessFilter = filterKeys.reduce(
-			(acc, cur) => {
-				if (filter[cur] !== '전체') {
-					return { ...acc, [cur]: filter[cur] };
-				} else {
-					return { ...acc, [cur]: '' };
-				}
+		const filteredFilter = filterKeys.reduce((acc, cur) => {
+			if (filter[cur] !== '전체' && filter[cur] !== '') {
+				acc[cur] = filter[cur];
+			}
+			return acc;
+		}, {});
+		supportBusinessController.findAllItems(
+			{
+				...filteredFilter,
+				LIMIT: 10,
+				PAGE: page,
 			},
-			{}
+			(res) => {
+				setData(res.data.result);
+			}
 		);
-		// console.log(filteredFilter);
-		const url = `https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation?serviceKey=${key}&page=${page}&perPage=10&returnType=json`;
-
-		const encodingRegion = encodeURI(
-			`cond[supt_regin::LIKE]=${filteredFilter?.supt_regin}`
-		);
-		const encodingField = encodeURI(
-			`cond[supt_biz_clsfc::LIKE]=${filteredFilter?.supt_biz_clsfc}`
-		);
-		const encodingTarget = encodeURI(
-			`cond[aply_trgt::LIKE]=${filteredFilter?.aply_trgt}`
-		);
-		const encodingName = encodeURI(
-			`cond[biz_pbanc_nm::LIKE]=${filteredFilter?.biz_pbanc_nm}`
-		);
-		const encodingYear = encodeURI(
-			`cond[biz_enyy::LIKE]=${filteredFilter?.biz_enyy}`
-		);
-		const done = encodeURI(`cond[rcrt_prgs_yn::EQ]=Y`);
-		const encoding = `${encodingRegion}&${encodingField}&${encodingTarget}&${encodingName}&${encodingYear}&${done}`;
-
-		await axios
-			.get(url + '&' + encoding)
-			.then((res) => {
-				console.log(res);
-				setData(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
 	};
 
 	/**
@@ -271,11 +241,10 @@ const Page: NextPage = () => {
 					setPersonalFilterExist(true);
 					getSupportBusiness(
 						{
-							supt_biz_clsfc: res.data.result.FIELD,
-							supt_regin: res.data.result.REGION,
-							aply_trgt: res.data.result.TARGET,
-							biz_enyy: res.data.result.BUSINESS_HISTORY,
-							biz_pbanc_nm: '',
+							FIELD: res.data.result.FIELD,
+							REGION: res.data.result.REGION,
+							TARGET: res.data.result.TARGET,
+							BUSINESS_TITLE: '',
 						},
 						setRecommendBusiness,
 						0
@@ -311,11 +280,10 @@ const Page: NextPage = () => {
 	React.useEffect(() => {
 		if (onlySaved) {
 			setFilter({
-				biz_pbanc_nm: '',
-				supt_biz_clsfc: '전체',
-				supt_regin: '전체',
-				aply_trgt: '전체',
-				biz_enyy: '전체',
+				BUSINESS_TITLE: '',
+				FIELD: '전체',
+				REGION: '전체',
+				TARGET: '전체',
 			});
 			getSavedSupportBusiness();
 		} else {
@@ -429,7 +397,7 @@ const Page: NextPage = () => {
 							pb={1}
 							my={1}
 						>
-							{recommendBusiness?.data.map((item, index) => {
+							{recommendBusiness?.rows.map((item, index) => {
 								return (
 									<Box
 										key={index}
@@ -446,7 +414,7 @@ const Page: NextPage = () => {
 							})}
 							{
 								// 추천 지원 사업이 없을 경우
-								recommendBusiness?.data.length === 0 && (
+								recommendBusiness?.rows.length === 0 && (
 									<Typography color={'gray'} py={1}>
 										필터와 일치하는 지원사업이
 										없습니다.(너무 자세한 필터 설정은 추천
@@ -493,9 +461,9 @@ const Page: NextPage = () => {
 						</Typography>
 						<SupportiInput
 							type="input"
-							value={filter.biz_pbanc_nm}
+							value={filter.BUSINESS_TITLE}
 							setValue={(e) => {
-								setFilter({ ...filter, biz_pbanc_nm: e });
+								setFilter({ ...filter, BUSINESS_TITLE: e });
 							}}
 							additionalProps={{
 								placeholder: '지원사업명을 검색하세요',
@@ -546,7 +514,7 @@ const Page: NextPage = () => {
 						>
 							<Typography color={'gray'}>
 								{' '}
-								총 {supportBusiness?.matchCount}건
+								총 {supportBusiness?.count}건
 							</Typography>
 							<SupportiInput
 								type="checkbox"
@@ -565,7 +533,7 @@ const Page: NextPage = () => {
 							/>
 						</Box>
 						<SupportiTable
-							rowData={supportBusiness?.data}
+							rowData={supportBusiness?.rows}
 							headerData={supportBusinessHeaderData}
 							onClick={(row) => {
 								setDetailData(row);
@@ -591,7 +559,7 @@ const Page: NextPage = () => {
 							setLimit={setLimit}
 							page={page}
 							handlePageChange={handlePageChange}
-							count={supportBusiness?.matchCount}
+							count={supportBusiness?.count}
 							useLimit={false}
 						/>
 					</Box>

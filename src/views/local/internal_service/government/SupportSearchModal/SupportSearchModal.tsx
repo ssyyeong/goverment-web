@@ -9,6 +9,7 @@ import SupportiPagination from '../../../../global/SupportiPagination';
 import SupportiInput from '../../../../global/SupportiInput';
 import SupportiTable from '../../../../global/SupportiTable';
 import { TableHeaderProps } from '../../../../global/SupportiTable/SupportiTable';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 interface ISupportSearchModalProps {
 	supportBusiness: any;
@@ -16,6 +17,8 @@ interface ISupportSearchModalProps {
 }
 
 const SupportSearchModal = (props: ISupportSearchModalProps) => {
+	//* Modules
+	const supportBusinessController = new DefaultController('SupportBusiness');
 	//* States
 	const [modalOpen, setModalOpen] = useState(false);
 	const [title, setTitle] = useState('');
@@ -38,52 +41,56 @@ const SupportSearchModal = (props: ISupportSearchModalProps) => {
 		},
 		{
 			label: '제목',
-			value: 'biz_pbanc_nm',
-			align: 'center',
-		},
-		{
-			label: '업력',
-			value: 'biz_enyy',
+			value: 'BUSINESS_TITLE',
 			align: 'center',
 		},
 		{
 			label: '지원분야',
-			value: 'supt_biz_clsfc',
+			value: 'FIELD',
 			align: 'center',
 		},
 		{
 			label: '운영기관',
-			value: 'pbanc_ntrp_nm',
+			value: 'COMPETENT_AGENCY',
 			align: 'center',
 		},
 		{
 			label: '지역',
-			value: 'supt_regin',
+			value: 'REGION',
 			align: 'center',
 		},
 	];
 	//* Functions
 	/**
-	 * 창업진흥원 지원 사업 조회
+	 * 지원 사업 조회
 	 */
 	const getSupportBusiness = async (filter, setData, page) => {
 		console.log(filter);
 		// console.log(filteredFilter);
-		const url = `https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation?serviceKey=${key}&page=${page}&perPage=7&returnType=json`;
+		// const url = `https://apis.data.go.kr/B552735/kisedKstartupService/getAnnouncementInformation?serviceKey=${key}&page=${page}&perPage=7&returnType=json`;
 
-		const encodingName = encodeURI(`cond[biz_pbanc_nm::LIKE]=${filter}`);
+		// const encodingName = encodeURI(`cond[biz_pbanc_nm::LIKE]=${filter}`);
 
-		const encoding = `${encodingName}`;
+		// const encoding = `${encodingName}`;
 
-		await axios
-			.get(url + '&' + encoding)
-			.then((res) => {
-				console.log(res);
-				setData(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		// await axios
+		// 	.get(url + '&' + encoding)
+		// 	.then((res) => {
+		// 		console.log(res);
+		// 		setData(res.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
+		await supportBusinessController.findAllItems(
+			{},
+			(res) => {
+				console.log('ddddddd');
+				setData(res.data.result);
+				console.log('searchData', searchData);
+			},
+			(err) => console.log(err)
+		);
 	};
 
 	/**
@@ -157,18 +164,19 @@ const SupportSearchModal = (props: ISupportSearchModalProps) => {
 						>
 							<Typography color={'gray'}>
 								{' '}
-								총 {searchData?.matchCount}건
+								총 {searchData?.count}건
 							</Typography>
 						</Box>
 						<SupportiTable
-							rowData={searchData?.data}
+							rowData={searchData?.rows}
 							headerData={supportBusinessHeaderData}
 							onClick={(row) => {
+								console.log('row', row);
 								props.setSupportBusiness({
 									...props.supportBusiness,
 									DATA: JSON.stringify(row),
-									TITLE: row.biz_pbanc_nm,
-									FIELD: row.supt_biz_clsfc,
+									TITLE: row.BUSINESS_TITLE,
+									FIELD: row.FIELD,
 								});
 								setModalOpen(false);
 							}}

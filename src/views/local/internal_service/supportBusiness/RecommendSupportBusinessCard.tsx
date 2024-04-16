@@ -34,7 +34,7 @@ const RecommendSupportBusinessCard = (
 					mb={1.5}
 				>
 					<Typography color={'primary'} fontWeight={'700'}>
-						{props.supportBusiness.supt_biz_clsfc}
+						{props.supportBusiness.FIELD}
 					</Typography>
 					<Typography
 						color={'error.main'}
@@ -52,7 +52,7 @@ const RecommendSupportBusinessCard = (
 						}}
 					>
 						D-
-						{moment(props.supportBusiness.pbanc_rcpt_end_dt).diff(
+						{moment(props.supportBusiness.END_DATE).diff(
 							moment(),
 							'days'
 						)}
@@ -66,7 +66,7 @@ const RecommendSupportBusinessCard = (
 					alignItems={'center'}
 				>
 					<Typography variant="h6" fontWeight={'700'}>
-						{props.supportBusiness.biz_pbanc_nm}
+						{props.supportBusiness.BUSINESS_TITLE}
 					</Typography>
 				</Box>
 			</Box>
@@ -84,7 +84,12 @@ const RecommendSupportBusinessCard = (
 						WebkitBoxOrient: 'vertical',
 					}}
 				>
-					{props.supportBusiness.aply_trgt_ctnt}
+					{props.supportBusiness.BUSINESS_DESCRIPTION.replace(
+						/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
+						''
+					)
+						.replace(/&nbsp;/gi, ' ')
+						.replace(/&apos;/gi, ' ')}
 				</Typography>
 			</Box>
 		</Box>

@@ -170,9 +170,10 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 								}}
 							>
 								D-
-								{moment(
-									props.supportBusiness.pbanc_rcpt_end_dt
-								).diff(moment(), 'days')}
+								{moment(props.supportBusiness.END_DATE).diff(
+									moment(),
+									'days'
+								)}
 								일
 							</Typography>
 						</Box>
@@ -207,7 +208,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 									lineHeight: 1.5,
 								}}
 							>
-								{props.supportBusiness.pbanc_ntrp_nm}
+								{props.supportBusiness.COMPETENT_AGENCY}
 							</Typography>
 						</Box>
 					</Grid>
@@ -223,8 +224,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 									lineHeight: 1.5,
 								}}
 							>
-								{props.supportBusiness.sprv_inst}(Tel.
-								{props.supportBusiness.prch_cnpl_no})
+								{props.supportBusiness.IMPLEMENTING_AGENCY}
 							</Typography>
 						</Box>
 					</Grid>
@@ -240,7 +240,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 									lineHeight: 1.5,
 								}}
 							>
-								{props.supportBusiness.supt_regin}
+								{props.supportBusiness.REGION}
 							</Typography>
 						</Box>
 					</Grid>
@@ -256,13 +256,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 									lineHeight: 1.5,
 								}}
 							>
-								{moment(
-									props.supportBusiness.pbanc_rcpt_bgng_dt
-								).format('YYYY.MM.DD')}
-								-
-								{moment(
-									props.supportBusiness.pbanc_rcpt_end_dt
-								).format('YYYY.MM.DD')}
+								{props.supportBusiness.REQUEST_DATE}
 							</Typography>
 						</Box>
 					</Grid>
@@ -278,23 +272,7 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 									lineHeight: 1.5,
 								}}
 							>
-								{props.supportBusiness.aply_trgt}
-							</Typography>
-						</Box>
-					</Grid>
-					<Grid item xs={12} md={12} mb={2}>
-						<Box display={'flex'} flexDirection={'column'} gap={1}>
-							<Typography color={'gray'} fontWeight={500}>
-								개요
-							</Typography>
-							<Typography
-								lineHeight={1.5}
-								sx={{
-									wordBreak: 'keep-all',
-									letterSpacing: 0.5,
-								}}
-							>
-								{props.supportBusiness.pbanc_ctnt}
+								{props.supportBusiness.TARGET}
 							</Typography>
 						</Box>
 					</Grid>
@@ -303,26 +281,38 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 							<Typography color={'gray'} fontWeight={500}>
 								모집내용
 							</Typography>
-							<Typography lineHeight={1.5}>
-								{props.supportBusiness.aply_trgt_ctnt}
+							<Typography
+								lineHeight={1.5}
+								sx={{
+									wordBreak: 'keep-all',
+									letterSpacing: 0.5,
+								}}
+							>
+								{props.supportBusiness.BUSINESS_DESCRIPTION.replace(
+									/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
+									''
+								).replace(/&nbsp;/gi, ' ')}
 							</Typography>
 						</Box>
 					</Grid>
+					{/* <Grid item xs={12} md={12} mb={2}>
+						<Box display={'flex'} flexDirection={'column'} gap={1}>
+							<Typography color={'gray'} fontWeight={500}>
+								모집내용
+							</Typography>
+							<Typography lineHeight={1.5}>
+								{props.supportBusiness.BUSINESS_DESCRIPTION}
+							</Typography>
+						</Box>
+					</Grid> */}
 				</Grid>
 				{/* 이동 */}
 				<SupportiButton
 					contents={'자세히 보러가기'}
 					onClick={() => {
-						props.supportBusiness.aply_mthd_onli_rcpt_istc
-							? window.open(
-									props.supportBusiness
-										.aply_mthd_onli_rcpt_istc,
-									'_blank'
-							  )
-							: window.open(
-									props.supportBusiness.detl_pg_url,
-									'_blank'
-							  );
+						props.supportBusiness.LINK
+							? window.open(props.supportBusiness.LINK, '_blank')
+							: window.open(props.supportBusiness.LINK, '_blank');
 					}}
 					variant="contained"
 					isGradient

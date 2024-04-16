@@ -42,11 +42,10 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 	 * 필터
 	 */
 	const [filter, setFilter] = React.useState<ISupportBusinessFilter>({
-		biz_pbanc_nm: '',
-		supt_biz_clsfc: '전체',
-		supt_regin: '전체',
-		aply_trgt: '전체',
-		biz_enyy: '전체',
+		BUSINESS_TITLE: '',
+		FIELD: '전체',
+		REGION: '전체',
+		TARGET: '전체',
 	});
 	/**
 	 * 알림톡 여부
@@ -56,36 +55,36 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 	const selectableConfig = [
 		{
 			label: '지원 분야',
-			value: filter.supt_biz_clsfc,
+			value: filter.FIELD,
 			setValue: (e) => {
-				setFilter({ ...filter, supt_biz_clsfc: e });
+				setFilter({ ...filter, FIELD: e });
 			},
 			dataList: supportField,
 		},
 		{
 			label: '지원 지역',
-			value: filter.supt_regin,
+			value: filter.REGION,
 			setValue: (e) => {
-				setFilter({ ...filter, supt_regin: e });
+				setFilter({ ...filter, REGION: e });
 			},
 			dataList: region,
 		},
 		{
 			label: '지원 대상',
-			value: filter.aply_trgt,
+			value: filter.TARGET,
 			setValue: (e) => {
-				setFilter({ ...filter, aply_trgt: e });
+				setFilter({ ...filter, TARGET: e });
 			},
 			dataList: applicationTarget,
 		},
-		{
-			label: '기업 업력',
-			value: filter.biz_enyy,
-			setValue: (e) => {
-				setFilter({ ...filter, biz_enyy: e });
-			},
-			dataList: startUpPeriod,
-		},
+		// {
+		// 	label: '기업 업력',
+		// 	value: filter.biz_enyy,
+		// 	setValue: (e) => {
+		// 		setFilter({ ...filter, biz_enyy: e });
+		// 	},
+		// 	dataList: startUpPeriod,
+		// },
 	];
 	//* Functions
 	/**
@@ -95,10 +94,9 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 		supportBusinessConfigController.createItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				FIELD: filter.supt_biz_clsfc,
-				REGION: filter.supt_regin,
-				TARGET: filter.aply_trgt,
-				BUSINESS_HISTORY: filter.biz_enyy,
+				FIELD: filter.FIELD,
+				REGION: filter.REGION,
+				TARGET: filter.TARGET,
 				ALIMTALK_YN: alimTalk ? 'Y' : 'N',
 			},
 			(res) => {
@@ -119,10 +117,9 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 		supportBusinessConfigController.updateItem(
 			{
 				SUPPORT_BUSINESS_CONFIG_IDENTIFICATION_CODE: update,
-				FIELD: filter.supt_biz_clsfc,
-				REGION: filter.supt_regin,
-				TARGET: filter.aply_trgt,
-				BUSINESS_HISTORY: filter.biz_enyy,
+				FIELD: filter.FIELD,
+				REGION: filter.REGION,
+				TARGET: filter.TARGET,
 				ALIMTALK_YN: alimTalk ? 'Y' : 'N',
 			},
 			(res) => {
@@ -150,11 +147,10 @@ const PersonalFilterModal = (props: ISupportBusinessModalProps) => {
 							.SUPPORT_BUSINESS_CONFIG_IDENTIFICATION_CODE
 					);
 					setFilter({
-						supt_biz_clsfc: res.data.result.FIELD,
-						supt_regin: res.data.result.REGION,
-						aply_trgt: res.data.result.TARGET,
-						biz_enyy: res.data.result.BUSINESS_HISTORY,
-						biz_pbanc_nm: '',
+						FIELD: res.data.result.FIELD,
+						REGION: res.data.result.REGION,
+						TARGET: res.data.result.TARGET,
+						BUSINESS_TITLE: '',
 					});
 					setAlimTalk(
 						res.data.result.ALIMTALK_YN === 'Y' ? true : false
