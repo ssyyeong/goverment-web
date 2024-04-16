@@ -941,11 +941,7 @@ const Page: NextPage = () => {
 							<SupportiButton
 								contents={'등록하러가기'}
 								variant="contained"
-								onClick={() =>
-									router.push(
-										'/internal_service/ir/management'
-									)
-								}
+								onClick={() => router.push('/my_page/ir_data')}
 								style={{
 									width: '150px',
 									marginRight: 'auto',

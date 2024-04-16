@@ -58,10 +58,10 @@ const Page: NextPage = () => {
 			name: '데모데이',
 			path: '/internal_service/ir/demoday',
 		},
-		{
-			name: 'IR 데이터',
-			path: '/internal_service/ir/management',
-		},
+		// {
+		// 	name: 'IR 데이터',
+		// 	path: '/internal_service/ir/management',
+		// },
 	];
 	// 투자 라운드
 	const hopeInvestRound = [
@@ -1467,7 +1467,7 @@ const Page: NextPage = () => {
 				activeHeader
 				children={
 					<Image
-						src={'/images/main/deeptech.jpg'}
+						src={'/images/main/deeptech.png'}
 						width={900}
 						height={900}
 						alt="deeptech"
