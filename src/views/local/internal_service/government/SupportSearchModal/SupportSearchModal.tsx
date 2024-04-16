@@ -155,7 +155,27 @@ const SupportSearchModal = (props: ISupportSearchModalProps) => {
 
 				{/* 테이블 */}
 				{searchData && (
-					<Box width={'100%'} mt={2}>
+					<Box
+						width={'100%'}
+						mt={2}
+						maxHeight={'50vh'}
+						overflow={'auto'}
+						sx={{
+							width: { xs: '100%', md: '98%' },
+							'-ms-overflow-style': 'none',
+							'&::-webkit-scrollbar': {
+								width: '6px',
+								height: '5px !important',
+								backgroundColor: 'white !important',
+								padding: '1px',
+								borderRadius: '20px',
+							},
+							'&::-webkit-scrollbar-thumb': {
+								backgroundColor: '#b0b5c2',
+								borderRadius: '20px',
+							},
+						}}
+					>
 						<Box
 							display={'flex'}
 							justifyContent={'space-between'}
@@ -200,7 +220,7 @@ const SupportSearchModal = (props: ISupportSearchModalProps) => {
 							setLimit={setLimit}
 							page={page}
 							handlePageChange={handlePageChange}
-							count={searchData?.matchCount}
+							count={searchData?.count}
 							useLimit={false}
 						/>
 					</Box>
