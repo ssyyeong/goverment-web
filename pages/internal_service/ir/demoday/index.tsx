@@ -264,7 +264,7 @@ const Page: NextPage = () => {
 									fontWeight={'600'}
 									mb={2}
 								>
-									총 참여율
+									총 선정률
 								</Typography>
 								<Typography
 									variant="body2"
@@ -272,7 +272,7 @@ const Page: NextPage = () => {
 									color="secondary.main"
 									mt={0.5}
 								>
-									총 신청 개수 / 총 데모데이 개수
+									총 선정 개수 / 총 지원 개수
 								</Typography>
 							</Box>
 							<Typography
@@ -280,7 +280,7 @@ const Page: NextPage = () => {
 								fontWeight={'700'}
 								color="primary.main"
 							>
-								{demoDayData?.participationRate}%
+								{demoDayData?.passedRate}%
 							</Typography>
 						</Box>
 						<Box
@@ -298,7 +298,7 @@ const Page: NextPage = () => {
 									fontWeight={'600'}
 									mb={2}
 								>
-									총 합격률
+									총 참여율
 								</Typography>
 								<Typography
 									variant="body2"
@@ -306,7 +306,7 @@ const Page: NextPage = () => {
 									color="secondary.main"
 									mt={0.5}
 								>
-									총 선정 개수 / 총 신청 개수
+									총 신청 개수 / 총 데모데이 개수
 								</Typography>
 							</Box>
 							<Typography
@@ -314,7 +314,7 @@ const Page: NextPage = () => {
 								fontWeight={'700'}
 								color="primary.main"
 							>
-								{demoDayData?.passedRate}%
+								{demoDayData?.participationRate}%
 							</Typography>
 						</Box>
 					</Box>
@@ -343,7 +343,7 @@ const Page: NextPage = () => {
 											<Typography fontWeight={'bold'}>
 												{demoday.TITLE}
 											</Typography>
-											<Typography
+											{/* <Typography
 												variant="body2"
 												sx={{
 													textDecoration: 'underline',
@@ -359,7 +359,7 @@ const Page: NextPage = () => {
 												}}
 											>
 												자세히 보기
-											</Typography>
+											</Typography> */}
 										</Box>
 									}
 									content={'답변이 등록되지 않았습니다.'}
@@ -481,10 +481,12 @@ const Page: NextPage = () => {
 												</Grid>
 											</Grid>
 											<Box
-												sx={{
-													height: '400px',
-													overflowY: 'auto',
-												}}
+												sx={
+													{
+														// height: '400px',
+														// overflowY: 'auto',
+													}
+												}
 											>
 												<img
 													src={
