@@ -61,6 +61,12 @@ const Page: NextPage = () => {
 	 */
 	const [irDataModal, setIrDataModal] = React.useState<boolean>(false);
 
+	/**
+		유저 가입 날짜
+	*/
+	const [userCreatedDate, setUserCreatedDate] =
+		React.useState<string>(undefined);
+
 	//* Functions
 	/**
 	 * 데모데이 데이터 조회
@@ -153,6 +159,25 @@ const Page: NextPage = () => {
 		);
 	};
 
+	/**
+	 *  가입 이후 진행된 데모데이 갯수 계산
+	 */
+	const calcDemoday = () => {
+		let totalCount = 0;
+
+		demoDayData?.rows.map((demoday) => {
+			if (
+				moment(moment(demoday.DUE_DATE).format('YYYY-MM-DD')).isAfter(
+					userCreatedDate
+				)
+			) {
+				totalCount++;
+			}
+		});
+
+		return totalCount;
+	};
+
 	//* Hooks
 	/**
 	 * 알러트
@@ -169,6 +194,7 @@ const Page: NextPage = () => {
 					getDemoDayData(
 						res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 					);
+					setUserCreatedDate(res.data.result.CREATED_AT);
 				} else {
 				}
 			},
@@ -194,7 +220,7 @@ const Page: NextPage = () => {
 				<Box display={'flex'} gap={3} mb={2}>
 					{selectableIndicatorList.map((selectableIndicator) => (
 						<Typography
-							variant="h5"
+							variant="h3"
 							fontWeight={'700'}
 							onClick={() => {
 								// if (
@@ -209,7 +235,7 @@ const Page: NextPage = () => {
 							sx={{
 								color:
 									router.pathname === selectableIndicator.path
-										? 'primary.main'
+										? 'black'
 										: 'grey',
 								cursor: 'pointer',
 							}}
@@ -242,82 +268,84 @@ const Page: NextPage = () => {
 						</Box>
 					</Box>
 					{/** 합격률, 참여율 */}
-					<Box
-						mt={2}
-						display="flex"
-						width="100%"
-						gap={2}
-						flexWrap="wrap"
-					>
+					{memberId && (
 						<Box
-							bgcolor={'white'}
-							p={4}
-							borderRadius={3}
-							width="49%"
+							mt={2}
 							display="flex"
-							justifyContent="space-between"
+							width="100%"
+							gap={2}
 							flexWrap="wrap"
 						>
-							<Box display="flex" gap={1}>
+							<Box
+								bgcolor={'white'}
+								p={4}
+								borderRadius={3}
+								width="49%"
+								display="flex"
+								justifyContent="space-between"
+								flexWrap="wrap"
+							>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h6"
+										fontWeight={'600'}
+										mb={2}
+									>
+										총 선정률
+									</Typography>
+									<Typography
+										variant="body2"
+										fontWeight={'500'}
+										color="secondary.main"
+										mt={0.5}
+									>
+										총 선정 개수 / 총 지원 개수
+									</Typography>
+								</Box>
 								<Typography
-									variant="h6"
-									fontWeight={'600'}
-									mb={2}
+									variant="h1"
+									fontWeight={'700'}
+									color="primary.main"
 								>
-									총 선정률
-								</Typography>
-								<Typography
-									variant="body2"
-									fontWeight={'500'}
-									color="secondary.main"
-									mt={0.5}
-								>
-									총 선정 개수 / 총 지원 개수
+									{demoDayData?.passedRate}%
 								</Typography>
 							</Box>
-							<Typography
-								variant="h1"
-								fontWeight={'700'}
-								color="primary.main"
+							<Box
+								bgcolor={'white'}
+								p={4}
+								borderRadius={3}
+								width="49%"
+								display="flex"
+								justifyContent="space-between"
+								flexWrap="wrap"
 							>
-								{demoDayData?.passedRate}%
-							</Typography>
-						</Box>
-						<Box
-							bgcolor={'white'}
-							p={4}
-							borderRadius={3}
-							width="49%"
-							display="flex"
-							justifyContent="space-between"
-							flexWrap="wrap"
-						>
-							<Box display="flex" gap={1}>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h6"
+										fontWeight={'600'}
+										mb={2}
+									>
+										데모데이 수
+									</Typography>
+									<Typography
+										variant="body2"
+										fontWeight={'500'}
+										color="secondary.main"
+										mt={0.5}
+									>
+										가입이후 진행된 데모데이
+									</Typography>
+								</Box>
 								<Typography
-									variant="h6"
-									fontWeight={'600'}
-									mb={2}
+									variant="h1"
+									fontWeight={'700'}
+									color="primary.main"
 								>
-									총 참여율
-								</Typography>
-								<Typography
-									variant="body2"
-									fontWeight={'500'}
-									color="secondary.main"
-									mt={0.5}
-								>
-									총 신청 개수 / 총 데모데이 개수
+									{`${calcDemoday()}`}개
 								</Typography>
 							</Box>
-							<Typography
-								variant="h1"
-								fontWeight={'700'}
-								color="primary.main"
-							>
-								{demoDayData?.participationRate}%
-							</Typography>
 						</Box>
-					</Box>
+					)}
 					{/* 본문 */}
 					<Box mt={2} bgcolor={'white'} p={4} borderRadius={3}>
 						<Typography variant="h6" fontWeight={'600'} mb={2}>
@@ -337,12 +365,68 @@ const Page: NextPage = () => {
 									title={
 										<Box
 											display={'flex'}
-											alignItems={'center'}
-											gap={1}
+											gap={2}
+											p={1}
+											flexDirection="column"
 										>
 											<Typography fontWeight={'bold'}>
 												{demoday.TITLE}
 											</Typography>
+											<Box display={'flex'} gap={2}>
+												<Box display={'flex'} gap={2}>
+													<Typography
+														fontWeight={'600'}
+													>
+														개최일
+													</Typography>
+													<Typography>
+														{moment(
+															demoday.IR_DATE
+														).format('YYYY-MM-DD')}
+													</Typography>
+												</Box>
+												<Typography fontWeight={'600'}>
+													장소
+												</Typography>
+												<Typography>
+													{moment(
+														demoday.DUE_DATE
+													).format('YYYY-MM-DD')}{' '}
+													17:00
+												</Typography>
+												<Box display={'flex'} gap={2}>
+													<Typography
+														fontWeight={'600'}
+													>
+														시간
+													</Typography>
+													<Typography>
+														{moment(
+															demoday.DUE_DATE
+														).format(
+															'YYYY-MM-DD'
+														)}{' '}
+														17:00
+													</Typography>
+												</Box>
+											</Box>
+											{demoday?.PRIVATE_YN === 'Y' && (
+												<Typography
+													sx={{
+														letterSpacing: 0.3,
+														wordBreak: 'keep-all',
+														lineHeight: 1.5,
+													}}
+												>
+													[안내] 해당 데모데이는
+													투자사와의 협약으로 진행되는
+													프라이빗 데모데이입니다.
+													일부 투자사와 일부 고객사
+													소수인원으로 진행됩니다.
+													다음 정기 데모데이때 만나요
+													:)
+												</Typography>
+											)}
 											{/* <Typography
 												variant="body2"
 												sx={{
@@ -368,7 +452,7 @@ const Page: NextPage = () => {
 										<Box
 											display={'flex'}
 											alignItems={'center'}
-											gap={0.6}
+											gap={1}
 										>
 											<Typography
 												variant="body2"
@@ -383,7 +467,9 @@ const Page: NextPage = () => {
 														? 'primary'
 														: 'grey'
 												}
-												p={0.5}
+												px={0.8}
+												py={0.5}
+												ml={1}
 												borderColor={
 													moment(
 														moment(
@@ -395,7 +481,7 @@ const Page: NextPage = () => {
 														? 'primary.light'
 														: 'grey'
 												}
-												borderRadius={3}
+												borderRadius={2}
 												border={1}
 											>
 												{moment(
@@ -433,7 +519,7 @@ const Page: NextPage = () => {
 													<Typography
 														fontWeight={'600'}
 													>
-														신청마감일
+														신청 마감일
 													</Typography>
 													<Typography>
 														{moment(
@@ -463,22 +549,6 @@ const Page: NextPage = () => {
 														18:00
 													</Typography>
 												</Grid>
-												<Grid
-													sm={4}
-													display={'flex'}
-													gap={2}
-												>
-													<Typography
-														fontWeight={'600'}
-													>
-														데모데이 개최일
-													</Typography>
-													<Typography>
-														{moment(
-															demoday.IR_DATE
-														).format('YYYY-MM-DD')}
-													</Typography>
-												</Grid>
 											</Grid>
 											<Box
 												sx={
@@ -501,6 +571,7 @@ const Page: NextPage = () => {
 													}}
 												/>
 											</Box>
+											{demoday?.PRIVATE_YN === 'N' && 
 											<Box mt={2}>
 												<Typography fontWeight={'600'}>
 													신청내역
@@ -682,7 +753,7 @@ const Page: NextPage = () => {
 															/>
 														</Box>
 													)}
-											</Box>
+											</Box>}
 											<SupportiAlertModal
 												open={open}
 												type="irApply"
