@@ -11,6 +11,7 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiModal from '../../../../global/SupportiModal';
+import SupportiButton from '../../../../global/SupportiButton';
 
 interface IIrDataModalProps {
 	irApplicationId: any;
