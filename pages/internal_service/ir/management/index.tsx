@@ -503,7 +503,7 @@ const Page: NextPage = () => {
 										color={'grey'}
 										fontWeight={'600'}
 									>
-										지금 대표님의 IR자료를 공개하고
+										지금 대표님의 IR자료를 통해
 										투자자분들에게 투자받을 기회를
 										얻어보세요! 아쉽게 투자를 받지
 										못했더라도 IR데이터에 대한 피드백
@@ -518,7 +518,7 @@ const Page: NextPage = () => {
 										alignItems={'center'}
 									>
 										<Box display={'flex'}>
-											<FormControlLabel
+											{/* <FormControlLabel
 												value="end"
 												control={
 													<Switch
@@ -541,7 +541,7 @@ const Page: NextPage = () => {
 												}
 												label="자료 공개"
 												labelPlacement="start"
-											/>
+											/> */}
 											<FormControlLabel
 												value="end"
 												control={

@@ -97,24 +97,29 @@ const Page: NextPage = () => {
 		{
 			label: '사업자등록번호',
 			value: 'BUSINESS_NUMBER',
+			required: true,
 		},
 		{
 			label: '대표자명',
 			value: 'CEO_NAME',
+			required: true,
 		},
 		{
 			label: '기업명',
 			value: 'COMPANY_NAME',
+			required: true,
 		},
 		{
 			label: '업종/업태',
 			value: 'BUSINESS_SECTOR',
 			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
+			required: true,
 		},
 		{
 			label: '설립일자',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
+			required: true,
 		},
 		{
 			label: '회사주소',
@@ -127,6 +132,7 @@ const Page: NextPage = () => {
 		{
 			label: '연락처',
 			value: 'CONTACT_NUMBER',
+			required: true,
 		},
 	];
 
@@ -135,6 +141,7 @@ const Page: NextPage = () => {
 		{
 			label: '한줄 설명',
 			value: 'BUSINESS_TITLE',
+			required: true,
 		},
 		{
 			label: '설명',
@@ -217,7 +224,7 @@ const Page: NextPage = () => {
 	 */
 	const [userIrInfo, setUserIrInfo] = React.useState<IUserIRData>({
 		HOPE_INVEST_ROUND: '사업화지원 단계 (예비창업자)',
-		OPEN_YN: 'N',
+		OPEN_YN: 'Y',
 		ALIMTALK_YN: 'Y',
 	});
 	/**
@@ -287,11 +294,29 @@ const Page: NextPage = () => {
 		);
 	};
 	/**
+	 * 필수 입력 항목 체크
+	 */
+	const checkRequired = () => {
+		if (
+			irDeckFile.FILE_URL == '' ||
+			!userIrInfo.BUSINESS_NUMBER ||
+			!userIrInfo.CEO_NAME ||
+			!userIrInfo.COMPANY_NAME ||
+			!userIrInfo.BUSINESS_SECTOR ||
+			!userIrInfo.ESTABLISHMENT_DATE ||
+			!userIrInfo.CONTACT_NUMBER ||
+			!userIrInfo.BUSINESS_TITLE
+		) {
+			alert('필수 입력 항목을 입력해주세요.');
+			return false;
+		}
+		return true;
+	};
+	/**
 	 * 유저 ir 정보 등록하기
 	 */
 	const createUserIrInfo = () => {
-		if (irDeckFile.FILE_URL == '') {
-			alert('IR Deck혹은 사업계획서는 필수입니다.');
+		if (checkRequired() === false) {
 			return;
 		}
 		userIrInformationController.createItem(
@@ -326,8 +351,8 @@ const Page: NextPage = () => {
 	 * 유저 ir 정보 업데이트하기
 	 */
 	const updateUserIrInfo = () => {
-		if (irDeckFile.FILE_URL == '') {
-			alert('IR Deck혹은 사업계획서는 필수입니다.');
+		if (checkRequired() === false) {
+			return;
 		}
 		userIrInformationController.updateItem(
 			{
@@ -516,11 +541,11 @@ const Page: NextPage = () => {
 											공개여부, 알림톡 여부
 										</Typography>
 										<Typography
-											variant="caption"
+											variant="body2"
 											color={'grey'}
 											fontWeight={'600'}
 										>
-											지금 대표님의 IR자료를 공개하고
+											지금 대표님의 IR자료를 통해
 											투자자분들에게 투자받을 기회를
 											얻어보세요! 아쉽게 투자를 받지
 											못했더라도 IR데이터에 대한 피드백
@@ -535,7 +560,7 @@ const Page: NextPage = () => {
 											alignItems={'center'}
 										>
 											<Box display={'flex'}>
-												<FormControlLabel
+												{/* <FormControlLabel
 													value="end"
 													control={
 														<Switch
@@ -561,7 +586,7 @@ const Page: NextPage = () => {
 													}
 													label="자료 공개"
 													labelPlacement="start"
-												/>
+												/> */}
 												<FormControlLabel
 													value="end"
 													control={
@@ -766,7 +791,16 @@ const Page: NextPage = () => {
 																color={'grey'}
 																variant="caption"
 															>
-																{item.label}
+																{item.label}{' '}
+																{item.required && (
+																	<span
+																		style={{
+																			color: 'blue',
+																		}}
+																	>
+																		(필수)
+																	</span>
+																)}
 															</Typography>
 															{isEdit ? (
 																<SupportiInput
@@ -867,7 +901,16 @@ const Page: NextPage = () => {
 																variant="caption"
 																width={'100px'}
 															>
-																{item.label}
+																{item.label}{' '}
+																{item.required && (
+																	<span
+																		style={{
+																			color: 'blue',
+																		}}
+																	>
+																		(필수)
+																	</span>
+																)}
 															</Typography>
 															{isEdit ? (
 																<Box

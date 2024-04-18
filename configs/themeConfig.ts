@@ -469,22 +469,22 @@ let themeConfig = createTheme({
 		},
 		caption: {
 			fontWeight: 400,
-			fontSize: '12px',
+			fontSize: '12px !important',
 			lineHeight: 1.66,
 			'@media (min-width:0px)': {
-				fontSize: '12px',
+				fontSize: '12px !important',
 			},
 			'@media (min-width:600px)': {
-				fontSize: '12px',
+				fontSize: '12px !important',
 			},
 			'@media (min-width:900px)': {
-				fontSize: '12px',
+				fontSize: '12px !important',
 			},
 			'@media (min-width:1260px)': {
-				fontSize: '12px',
+				fontSize: '12px !important',
 			},
 			'@media (min-width:1536px)': {
-				fontSize: '7px',
+				fontSize: '7px !important',
 			},
 		},
 		overline: {
