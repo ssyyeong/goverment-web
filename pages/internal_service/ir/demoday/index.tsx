@@ -220,7 +220,6 @@ const Page: NextPage = () => {
 		);
 	}, []);
 
-	
 	return (
 		// <InternalServiceDrawer type="dashboard">
 		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
@@ -384,9 +383,26 @@ const Page: NextPage = () => {
 											p={1}
 											flexDirection="column"
 										>
-											<Typography fontWeight={'bold'}>
-												{demoday.TITLE}
-											</Typography>
+											<Box display="flex" gap={1}>
+												{demoday.PRIVATE_YN === 'Y' ? (
+													<Typography
+														fontWeight={600}
+														color={'primary.main'}
+													>
+														[프라이빗]
+													</Typography>
+												) : (
+													<Typography
+														fontWeight={600}
+													>
+														[정기]
+													</Typography>
+												)}
+
+												<Typography fontWeight={'bold'}>
+													{demoday.TITLE}
+												</Typography>
+											</Box>
 											<Box display={'flex'} gap={2}>
 												<Box display={'flex'} gap={2}>
 													<Typography
@@ -400,6 +416,12 @@ const Page: NextPage = () => {
 														).format('YYYY-MM-DD')}
 													</Typography>
 												</Box>
+												<Typography fontWeight={'600'}>
+													주제
+												</Typography>
+												<Typography>
+													{demoday.SUBJECT}
+												</Typography>
 												<Typography fontWeight={'600'}>
 													장소
 												</Typography>
@@ -572,8 +594,8 @@ const Page: NextPage = () => {
 														)[0]
 													}
 													style={{
-														width: '100%',
-														objectFit: 'cover',
+														width: 'auto',
+														height: '90vh',
 														overflowY: 'auto',
 													}}
 												/>
@@ -763,9 +785,11 @@ const Page: NextPage = () => {
 																				);
 																				return;
 																			} else {
-																				cancelDemoday(demoday
-																					.IrApplications[0].IR_APPLICATION_IDENTIFICATION_CODE)
-																				
+																				cancelDemoday(
+																					demoday
+																						.IrApplications[0]
+																						.IR_APPLICATION_IDENTIFICATION_CODE
+																				);
 																			}
 																		}}
 																		variant="contained"
