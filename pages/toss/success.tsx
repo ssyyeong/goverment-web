@@ -24,40 +24,21 @@ const Page: NextPage = () => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const { route } = router.query;
 	//* Functions
-	/**
-	 * 포인트 충전 내역 생성
-	 */
-	const createPointHistory = () => {
-		pointHistoryController.createItem(
-			{
-				TYPE: 'CHARGED',
-				DESCRIPTION: `포인트 단건결제 : ${amount}포인트`,
-				AMOUNT: amount,
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				console.log('포인트 내역 생성 성공');
-				createPaymentHistory();
-			},
-			(err) => {
-				alert('포인트 내역 생성 실패');
-			}
-		);
-	};
+
 	/**
 	 * 결제 내역 생성
 	 */
 	const createPaymentHistory = () => {
-		paymentHistoryController.createItem(
+		paymentHistoryController.putData(
 			{
-				DESCRIPTION: `포인트 단건결제 : ${amount}포인트`,
-				AMOUNT: amount,
-				ORDER_ID: orderId,
-				APPROVED_DATE: new Date(),
-				PAY_METHOD: 'CARD',
-				STATUS: 'COMPLETED',
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				UPDATE_OPTION_KEY_LIST: {
+					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
+					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
+					ORDER_ID: orderId, //주문ID
+					PAY_METHOD: '카드', //결제방식
+				},
 			},
+			`${paymentHistoryController.mergedPath}/update`,
 			(res) => {
 				console.log('결제 내역 생성 성공');
 				console.log('결제 성공');
@@ -95,7 +76,7 @@ const Page: NextPage = () => {
 			.then((response) => {
 				console.log(response);
 				console.log('결제 성공');
-				createPointHistory();
+				createPaymentHistory();
 			});
 	};
 	//* Hooks

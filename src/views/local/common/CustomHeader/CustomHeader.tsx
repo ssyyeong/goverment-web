@@ -637,7 +637,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									</Typography>
 								</Box>
 
-								{memberName && (
+								{cookie.getItemInCookies('ACCESS_TOKEN') && (
 									<Box
 										bgcolor={'secondary.light'}
 										sx={{
@@ -693,7 +693,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										</Typography>
 									</Box>
 								)}
-								{memberName
+								{cookie.getItemInCookies('ACCESS_TOKEN')
 									? mobileMenu.map((page) => (
 											<MenuItem
 												key={page.label}
@@ -770,7 +770,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								display: { xs: 'none', md: 'flex' },
 							}}
 						>
-							{memberName &&
+							{cookie.getItemInCookies('ACCESS_TOKEN') &&
 								loginPages.map((menu, idx) => {
 									return menu.subMenus ? (
 										handleOpenMenu(menu, idx)
@@ -794,7 +794,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									);
 								})}
 
-							{!memberName &&
+							{!cookie.getItemInCookies('ACCESS_TOKEN') &&
 								logoutPages.map((menu, idx) => {
 									return menu.subMenus ? (
 										handleOpenMenu(menu, idx)
@@ -819,7 +819,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								})}
 
 							{/* 로그인 & 비로그인 대응 */}
-							{memberName ? (
+							{cookie.getItemInCookies('ACCESS_TOKEN') ? (
 								<Box
 									display={'flex'}
 									justifyContent={'center'}

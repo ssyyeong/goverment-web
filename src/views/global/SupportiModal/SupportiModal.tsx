@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Box, BoxProps, Grid, Modal, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
 export interface ISupportiModalProps {
 	/**

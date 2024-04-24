@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { gTagEvent } from '../../../src/lib/gtag';
+import { memory } from '../../_app';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -73,6 +74,7 @@ const Page: NextPage = () => {
 							maxAge: autoLogin ? 3600 * 24 * 30 : 3600 * 24,
 						}
 					);
+					memory.setData('memberName', res.data.result.FULL_NAME);
 					router.push('/');
 				} else {
 					setAlertModal(true);
