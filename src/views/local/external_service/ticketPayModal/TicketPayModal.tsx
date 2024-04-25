@@ -81,6 +81,14 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 				minWidth: '30%',
 			}}
 		>
+			<Box p={3}>
+				<Typography variant="body1" style={{ marginBottom: '1rem' }}>
+					{props.ticketName}을 구매하시겠습니까?
+				</Typography>
+				<Typography variant="body1" style={{ marginBottom: '1rem' }}>
+					{props.ticketPrice}원이 결제됩니다.
+				</Typography>
+			</Box>
 			<SupportiButton
 				contents={'티켓 구매하기'}
 				isGradient={true}
