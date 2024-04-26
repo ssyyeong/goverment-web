@@ -105,6 +105,17 @@ const managementPoint: string[] = [
 	'제조',
 ];
 
+/**
+ * 지원금 범위
+ */
+const cashRange = [
+	{ label: '0 ~ 1000만원', value: '0 ~ 1000만원' },
+	{ label: '1천만원 ~ 3천만원', value: '1천만원 ~ 3천만원' },
+	{ label: '3천만원 ~ 5천만원', value: '3천만원 ~ 5천만원' },
+	{ label: '5천만원 ~ 1억원', value: '5천만원 ~ 1억원' },
+	{ label: '1억원 이상', value: '1억원 이상' },
+];
+
 export {
 	supportField,
 	supportRoute,
@@ -113,4 +124,5 @@ export {
 	applicationTarget,
 	supportContent,
 	managementPoint,
+	cashRange,
 };
