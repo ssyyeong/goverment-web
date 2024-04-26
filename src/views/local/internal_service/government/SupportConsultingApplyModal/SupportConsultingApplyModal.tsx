@@ -194,7 +194,7 @@ const SupportConsultingApplyModal = (
 				}),
 			grid: {
 				xs: 12,
-				sm: 5.8,
+				sm: 12,
 			},
 		},
 		{
@@ -221,7 +221,7 @@ const SupportConsultingApplyModal = (
 			},
 			grid: {
 				xs: 12,
-				sm: 5.8,
+				sm: 12,
 			},
 		},
 		{
@@ -278,10 +278,6 @@ const SupportConsultingApplyModal = (
 			},
 		},
 	];
-
-	console.log(
-		supportContentData?.map((row) => row.SUPPORT_DESCRIPTION_TITLE)
-	);
 
 	return (
 		<SupportiModal
@@ -353,7 +349,7 @@ const SupportConsultingApplyModal = (
 							consultingApplication.SUPPORT_BUSINESS_TITLE ===
 								'' ||
 							consultingApplication.SUPPORT_BUSINESS_DESCRIPTION
-								.length !== 0 ||
+								.length === 0 ||
 							consultingApplication.SUPPORT_SCALE === ''
 						) {
 							alert('필수 입력 항목을 입력해주세요');
