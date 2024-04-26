@@ -49,6 +49,7 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 					ORDER_ID: orderId,
 				},
 			},
+
 			`${paymentHistoryController.mergedPath}/create`,
 			(res) => {
 				loadTossPayments(clientKey).then((tossPayments) => {

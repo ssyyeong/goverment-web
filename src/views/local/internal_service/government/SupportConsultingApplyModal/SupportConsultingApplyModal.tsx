@@ -90,6 +90,9 @@ const SupportConsultingApplyModal = (
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				...consultingApplication,
+				SUPPORT_BUSINESS_DESCRIPTION: JSON.stringify(
+					consultingApplication.SUPPORT_BUSINESS_DESCRIPTION
+				),
 				FILE: JSON.stringify(fileList),
 			},
 			(res) => {
