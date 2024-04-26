@@ -192,7 +192,7 @@ const Schedule = (props: IScheduleProps) => {
 									>
 										{item.MID_DEAD_LINE_DATE
 											? '중간 보고일'
-											: '최종 보고일'}
+											: '마감일'}
 									</Typography>
 									<Typography>Dday</Typography>
 									<Typography fontWeight={'500'}>

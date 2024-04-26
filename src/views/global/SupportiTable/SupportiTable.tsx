@@ -110,7 +110,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 		mounted && (
 			<TableContainer
 				sx={{
-					p: 2,
+					p: 1,
 					width: '100%',
 					bgcolor: 'white',
 					borderRadius: 1,

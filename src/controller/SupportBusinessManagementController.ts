@@ -52,4 +52,21 @@ export class SupportBusinessManagementController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	public update(
+		args: { [key: string]: any },
+		args2: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.putData(
+			{
+				FIND_OPTION_KEY_LIST: args,
+				UPDATE_OPTION_KEY_LIST: args2,
+			},
+			`${this.mergedPath}/update`,
+			successCallback,
+			failCallback
+		);
+	}
 }

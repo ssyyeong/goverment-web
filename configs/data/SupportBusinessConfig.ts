@@ -15,6 +15,17 @@ const supportField = [
 	{ value: '판로ㆍ해외진출', label: '판로ㆍ해외진출' },
 	{ value: '정책자금', label: '정책자금' },
 ];
+
+/**
+ *
+ * 지원루트
+ */
+const supportRoute = [
+	{ value: 'HOMEPAGE', label: '홈페이지' },
+	{ value: 'EMAIL', label: '이메일' },
+	{ value: 'FORM', label: '설문지 형식' },
+	{ value: 'ONFOOT', label: '서면' },
+];
 /**
  * 지역
  */
@@ -52,6 +63,7 @@ const startUpPeriod = [
 	{ value: '7년미만', label: '7년미만' },
 	{ value: '10년미만', label: '10년미만' },
 ];
+
 /**
  * 신청 대상
  */
@@ -66,4 +78,39 @@ const applicationTarget = [
 	{ value: '1인 창조기업', label: '1인 창조기업' },
 ];
 
-export { supportField, region, startUpPeriod, applicationTarget };
+/**
+ *
+ * 지원 내용
+ */
+
+const supportContent: string[] = [
+	'자금지원',
+	'멘토링/컨설팅',
+	'오픈이노베이션',
+	'마케팅',
+	'IR/데모데이',
+	'R&D, 기술개발지원',
+	'공간지원',
+	'인건비 지원',
+];
+
+/**
+ * 업종별
+ */
+const managementPoint: string[] = [
+	'플랫폼',
+	'웹/앱서비스',
+	'IT',
+	'ICT',
+	'제조',
+];
+
+export {
+	supportField,
+	supportRoute,
+	region,
+	startUpPeriod,
+	applicationTarget,
+	supportContent,
+	managementPoint,
+};

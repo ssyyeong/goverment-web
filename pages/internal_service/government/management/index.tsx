@@ -20,6 +20,7 @@ import { usePagination } from '../../../../src/hooks/usePagination';
 import OnGoingSupportBusiness from '../../../../src/views/local/internal_service/supportBusiness/OnGoingSupportBusiness/OnGoingSupportBusiness';
 import SupportiPagination from '../../../../src/views/global/SupportiPagination';
 import CalculateModal from '../../../../src/views/local/internal_service/government/CalculateModal';
+import SupportAddModal from '../../../../src/views/local/internal_service/government/SupportAddModal/SupportAddModal';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -53,7 +54,7 @@ const Page: NextPage = () => {
 			align: 'center',
 		},
 		{
-			label: '사업 시작일',
+			label: '시작일',
 			value: 'START_DATE',
 			align: 'center',
 			format: (value) => {
@@ -61,7 +62,7 @@ const Page: NextPage = () => {
 			},
 		},
 		{
-			label: '사업 마감일',
+			label: '마감일',
 			value: 'END_DATE',
 			align: 'center',
 			format: (value) => {
@@ -86,6 +87,11 @@ const Page: NextPage = () => {
 	 */
 	const [managementSupportBusiness, setManagementSupportBusiness] =
 		React.useState<any>();
+
+	/**
+	 * 관리 지원사업 추가 단계 선택 모달 오픈 여부
+	 */
+	const [openAddModal, setOpenAddModal] = React.useState<boolean>(false);
 
 	//* Functions
 	/**
@@ -142,137 +148,133 @@ const Page: NextPage = () => {
 	return (
 		// <InternalServiceDrawer type="dashboard">
 		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
-				{/* 컨텐츠 레이아웃 */}
-				<InternalServiceLayout
-					title="지원 사업"
-					subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
-					image="/images/main/supportbusiness.png"
-					mobileImage="/images/main/supportbusinessmobile.png"
+			{/* 컨텐츠 레이아웃 */}
+			<InternalServiceLayout
+				title="지원 사업"
+				subTitle="서포티를 통해 나에게 맞는 지원 사업을 조회하고 확인해보세요."
+				image="/images/main/supportbusiness.png"
+				mobileImage="/images/main/supportbusinessmobile.png"
+			>
+				{/* 타이틀 */}
+				<Box
+					display={'flex'}
+					justifyContent={'space-between'}
+					alignItems={'center'}
+					width={'100%'}
 				>
-					{/* 타이틀 */}
-					<Box
-						display={'flex'}
-						justifyContent={'space-between'}
-						alignItems={'center'}
-						width={'100%'}
-					>
-						<Box>
-							<Typography
-								variant="h3"
-								fontWeight={'bold'}
-								sx={{ mb: 2 }}
-							>
-								지원 사업 관리
-							</Typography>
-							<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
-								현금, 현물/인건비 계상, 지원사업 관리를 한눈에!
-							</Typography>
-						</Box>
-						<CalculateModal />
+					<Box>
+						<Typography
+							variant="h3"
+							fontWeight={'bold'}
+							sx={{ mb: 2 }}
+						>
+							지원 사업 관리
+						</Typography>
+						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+							현금, 현물/인건비 계상, 지원사업 관리를 한눈에!
+						</Typography>
 					</Box>
-					{/* 진행중 지원사업 */}
+					<CalculateModal />
+				</Box>
+				{/* 진행중 지원사업 */}
+				<Box width={'100%'} bgcolor={'white'} borderRadius={3} p={4}>
+					<Typography fontWeight={'700'}>진행중 지원사업</Typography>
+					<Box
+						mt={2}
+						maxHeight={'250px'}
+						sx={{
+							overflowY: 'auto',
+						}}
+					>
+						{onGoingManagementSupportBusiness?.map(
+							(item: any, index: number) => {
+								return (
+									<OnGoingSupportBusiness
+										title={item.TITLE}
+										mid_deadline={item.MID_DEAD_LINE_DATE}
+										deadline={item.DEAD_LINE_DATE}
+										type={item.ORDER}
+										id={
+											item.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE
+										}
+									/>
+								);
+							}
+						)}
+						{onGoingManagementSupportBusiness?.length === 0 && (
+							<Nodata disabledGutter imgWidth="5%" />
+						)}
+					</Box>
+				</Box>
+				{/* 달력, 일별 일정 */}
+				<Schedule />
+				{/* 총 진행사업 */}
+				{managementSupportBusiness && (
 					<Box
 						width={'100%'}
 						bgcolor={'white'}
 						borderRadius={3}
 						p={4}
 					>
-						<Typography fontWeight={'700'}>
-							진행중 지원사업
-						</Typography>
 						<Box
-							mt={2}
-							maxHeight={'250px'}
-							sx={{
-								overflowY: 'auto',
-							}}
+							display={'flex'}
+							justifyContent={'space-between'}
+							alignItems={'center'}
+							mb={2}
 						>
-							{onGoingManagementSupportBusiness?.map(
-								(item: any, index: number) => {
-									return (
-										<OnGoingSupportBusiness
-											title={item.TITLE}
-											mid_deadline={
-												item.MID_DEAD_LINE_DATE
-											}
-											deadline={item.DEAD_LINE_DATE}
-											type={item.ORDER}
-											id={
-												item.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE
-											}
-										/>
-									);
-								}
-							)}
-							{onGoingManagementSupportBusiness?.length === 0 && (
-								<Nodata disabledGutter imgWidth="5%" />
-							)}
+							<Typography variant="h6" fontWeight={'bold'}>
+								총 지원사업
+							</Typography>
+							<SupportiButton
+								contents={'지원 사업 추가하기'}
+								onClick={() => {
+									setOpenAddModal(true);
+									// router.push(
+									// 	'/internal_service/government/management/write'
+									// );
+								}}
+								disabledGutters
+							/>
 						</Box>
-					</Box>
-					{/* 달력, 일별 일정 */}
-					<Schedule />
-					{/* 총 진행사업 */}
-					{managementSupportBusiness && (
-						<Box
-							width={'100%'}
-							bgcolor={'white'}
-							borderRadius={3}
-							p={4}
-						>
-							<Box
-								display={'flex'}
-								justifyContent={'space-between'}
-								alignItems={'center'}
-								mb={2}
-							>
-								<Typography variant="h6" fontWeight={'bold'}>
-									총 지원사업
-								</Typography>
-								<SupportiButton
-									contents={'지원 사업 추가하기'}
-									onClick={() => {
-										router.push(
-											'/internal_service/government/management/write'
-										);
-									}}
-									disabledGutters
+						<SupportiTable
+							rowData={managementSupportBusiness.rows}
+							headerData={supportBusinessManagementHeaderData}
+							onClick={(row) => {
+								router.push(
+									`/internal_service/government/management/${row.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE}`
+								);
+							}}
+							style={{
+								tablecell: {
+									sx: {
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										whiteSpace: 'nowrap',
+									},
+								},
+							}}
+						/>{' '}
+						{/* 페이지 네이션 */}
+						{managementSupportBusiness && (
+							<Box width={'100%'}>
+								<SupportiPagination
+									limit={10}
+									setLimit={setLimit}
+									page={page}
+									handlePageChange={handlePageChange}
+									count={managementSupportBusiness?.count}
+									useLimit={false}
 								/>
 							</Box>
-							<SupportiTable
-								rowData={managementSupportBusiness.rows}
-								headerData={supportBusinessManagementHeaderData}
-								onClick={(row) => {
-									router.push(
-										`/internal_service/government/management/${row.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE}`
-									);
-								}}
-								style={{
-									tablecell: {
-										sx: {
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											whiteSpace: 'nowrap',
-										},
-									},
-								}}
-							/>{' '}
-							{/* 페이지 네이션 */}
-							{managementSupportBusiness && (
-								<Box width={'100%'}>
-									<SupportiPagination
-										limit={10}
-										setLimit={setLimit}
-										page={page}
-										handlePageChange={handlePageChange}
-										count={managementSupportBusiness?.count}
-										useLimit={false}
-									/>
-								</Box>
-							)}
-						</Box>
-					)}
-				</InternalServiceLayout>
-			</Box>
+						)}
+						<SupportAddModal
+							open={openAddModal}
+							handleClose={() => setOpenAddModal(false)}
+						/>
+					</Box>
+				)}
+			</InternalServiceLayout>
+		</Box>
 		// </InternalServiceDrawer>
 	);
 };

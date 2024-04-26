@@ -30,7 +30,7 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 				cursor: 'pointer',
 			}}
 		>
-			<Typography
+			{/* <Typography
 				color={
 					props.type === 'MID_DEAD_LINE_DATE' ? 'blue' : 'error.main'
 				}
@@ -38,7 +38,7 @@ const OnGoingSupportBusiness = (props: IOnGoingSupportBusinessProps) => {
 				width={'40px'}
 			>
 				{props.type === 'MID_DEAD_LINE_DATE' ? '[중간]' : '[최종]'}
-			</Typography>
+			</Typography> */}
 			<Typography
 				color={
 					props.type === 'MID_DEAD_LINE_DATE' ? 'blue' : 'error.main'

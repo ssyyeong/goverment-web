@@ -93,6 +93,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
+			label: '지원사업 컨설팅',
+			path: '/internal_service/government/consulting',
+			onclick: () => {
+				router.push('/internal_service/government/consulting');
+			},
+		},
+		{
 			label: '성과 지표',
 			path: '/internal_service/indicator_management/achievement',
 			onclick: () => {
@@ -254,6 +261,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/internal_service/government/management',
 			onclick: () => {
 				router.push('/internal_service/government/management');
+			},
+		},
+		{
+			label: '지원사업 컨설팅',
+			path: '/internal_service/government/consulting',
+			onclick: () => {
+				router.push('/internal_service/government/consulting');
 			},
 		},
 	];

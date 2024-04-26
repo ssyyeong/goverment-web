@@ -282,7 +282,7 @@ const SupportiInput = React.forwardRef(
 									alignItems: 'center',
 									display: 'flex',
 								}}
-								labelPlacement="end"
+								labelPlacement={props.label ? 'end' : 'bottom'}
 								{...props.additionalProps}
 								label={props.label ? props.label : ''}
 							/>

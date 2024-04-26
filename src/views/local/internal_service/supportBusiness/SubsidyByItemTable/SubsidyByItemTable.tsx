@@ -7,16 +7,20 @@ import SupportiButton from '../../../../global/SupportiButton';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import SupportiInput from '../../../../global/SupportiInput';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { SubsidyByItemController } from '../../../../../controller/SubsidyByItemController';
 
 interface ISubsidyByItemTableProps {
 	supportBusinessManagement: any;
 	handleSubsidyTabChange: (type: string) => void;
 	subsidyTab: string;
+	getSupportBusiness: () => void;
 }
 
 const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	//* Controller
 	const subsidyByItemController = new DefaultController('SubsidyByItem');
+
+	const cashUpdateController = new SubsidyByItemController();
 	//* State
 	/**
 	 * 항목별 지원금
@@ -27,61 +31,181 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	 */
 	const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
 
-	//* Constants
+	/**
+	 * 수정할 아이템
+	 */
+	const [targetItem, setTargetItem] = React.useState({
+		id: undefined,
+		// managementId:
+		// 	props.supportBusinessManagement
+		// 		.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
+		rate: undefined,
+		cost: undefined,
+	});
+
+	// const subsidyConfig = [
+	// 	{
+	// 		label: '재료비',
+	// 		key: '재료비',
+	// 	},
+	// 	{
+	// 		label: '외주용역비',
+	// 		key: '외주용역비',
+	// 	},
+	// 	{
+	// 		label: '기계장치비',
+	// 		key: '기계장치비',
+	// 	},
+	// 	{
+	// 		label: '무형자산취득비',
+	// 		key: '무형자산취득비',
+	// 	},
+	// 	{
+	// 		label: '보수',
+	// 		key: '인건비-보수',
+	// 	},
+	// 	{
+	// 		label: '일용임금',
+	// 		key: '인건비-일용임금',
+	// 	},
+	// 	{
+	// 		label: '일반수용비',
+	// 		key: '지급수수료-일반수용비',
+	// 	},
+	// 	{
+	// 		label: '임차료',
+	// 		key: '지급수수료-임차료',
+	// 	},
+	// 	{
+	// 		label: '국내여비',
+	// 		key: '여비-국내여비',
+	// 	},
+	// 	{
+	// 		label: '국외여비',
+	// 		key: '여비-국외여비',
+	// 	},
+	// 	{
+	// 		label: '교육훈련비',
+	// 		key: '교육훈련비',
+	// 	},
+	// 	{
+	// 		label: '일반수용비',
+	// 		key: '광고선전비-일반수용비',
+	// 	},
+	// 	{
+	// 		label: '일반용역비',
+	// 		key: '광고선전비-일반용역비',
+	// 	},
+	// ];
 	const subsidyConfig = [
 		{
 			label: '재료비',
 			key: '재료비',
+			group: '지원금',
+		},
+		{
+			label: '재료비',
+			key: '재료비',
+			group: '기업부담금',
 		},
 		{
 			label: '외주용역비',
 			key: '외주용역비',
+			group: '지원금',
+		},
+		{
+			label: '외주용역비',
+			key: '외주용역비',
+			group: '기업부담금',
 		},
 		{
 			label: '기계장치비',
 			key: '기계장치비',
+			group: '지원금',
+		},
+		{
+			label: '기계장치비',
+			key: '기계장치비',
+			group: '기업부담금',
+		},
+		{
+			label: '인건비',
+			key: '인건비',
+			group: '지원금',
+		},
+		{
+			label: '인건비',
+			key: '인건비',
+			group: '기업부담금',
 		},
 		{
 			label: '무형자산취득비',
-			key: '무형자산취득비',
+			key: '특허권/무형자산비',
+			group: '지원금',
 		},
 		{
-			label: '보수',
-			key: '인건비-보수',
+			label: '무형자산취득비',
+			key: '특허권/무형자산비',
+			group: '기업부담금',
 		},
 		{
-			label: '일용임금',
-			key: '인건비-일용임금',
+			label: '여비',
+			key: '여비',
+			group: '지원금',
 		},
 		{
-			label: '일반수용비',
-			key: '지급수수료-일반수용비',
+			label: '여비',
+			key: '여비',
+			group: '기업부담금',
+		},
+
+		{
+			label: '지급수수료',
+			key: '지급수수료',
+			group: '지원금',
 		},
 		{
-			label: '임차료',
-			key: '지급수수료-임차료',
+			label: '지급수수료',
+			key: '지급수수료',
+			group: '기업부담금',
 		},
+
 		{
-			label: '국내여비',
-			key: '여비-국내여비',
-		},
-		{
-			label: '국외여비',
-			key: '여비-국외여비',
+			label: '교육훈련비',
+			key: '교육훈련비',
+			group: '지원금',
 		},
 		{
 			label: '교육훈련비',
 			key: '교육훈련비',
+			group: '기업부담금',
 		},
 		{
-			label: '일반수용비',
-			key: '광고선전비-일반수용비',
+			label: '광고선전비',
+			key: '광고선전비',
+			group: '지원금',
 		},
 		{
-			label: '일반용역비',
-			key: '광고선전비-일반용역비',
+			label: '광고선전비',
+			key: '광고선전비',
+			group: '기업부담금',
 		},
 	];
+
+	const temp = subsidyConfig.map((item, index) => {
+		return {
+			data: JSON.parse(
+				props.supportBusinessManagement.SubsidyByItems.filter(
+					(data) => data.NAME === item.key
+				)[0]?.SUPPORT_COST
+			)[0][item.group][props.subsidyTab],
+			key: item.key,
+			id: props.supportBusinessManagement.SubsidyByItems.filter(
+				(data) => data.NAME === item.key
+			)[0].SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
+			group: item.group,
+		};
+	});
 
 	const subsidyMenu = [
 		{
@@ -94,20 +218,21 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 			label: '기계장치(공구,기구,비품,SW 등)',
 		},
 		{
+			label: '인건비',
+			occupyDouble: true,
+		},
+		{
 			label: '특허권 등 무형자산 취득비',
 		},
 		{
-			label: '인건비',
+			label: '여비',
 			occupyDouble: true,
 		},
 		{
 			label: '지급수수료',
 			occupyDouble: true,
 		},
-		{
-			label: '여비',
-			occupyDouble: true,
-		},
+
 		{
 			label: '교육훈련비',
 		},
@@ -116,21 +241,22 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 			occupyDouble: true,
 		},
 	];
+
 	const tabConfig = [
 		{
-			label: '총액(원)',
+			label: '총 금액',
 			key: 'TOTAL_AMOUNT',
 		},
 		{
-			label: '사용액',
+			label: '사용금액',
 			key: 'USED_AMOUNT',
 		},
 		{
-			label: '잔여액',
+			label: '남은 금액',
 			key: 'REMAIN_AMOUNT',
 		},
 	];
-	console.log(subSidyByItems);
+
 	//* Functions
 	/**
 	 * 항목별 지원금 수정하기
@@ -169,176 +295,346 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	useEffect(() => {
 		setSubSidyByItems(props.supportBusinessManagement.SubsidyByItems);
 	}, [props.supportBusinessManagement]);
+
 	return (
-		<Box
-			display={'flex'}
-			flexDirection={'column'}
-			mt={4}
-			// bgcolor={'white'}
-			borderRadius={2}
-			width={'100%'}
-		>
+		subSidyByItems.length !== 0 && (
 			<Box
 				display={'flex'}
-				justifyContent={'space-between'}
-				mb={1}
-				alignItems={'center'}
+				flexDirection={'column'}
+				mt={4}
+				// bgcolor={'white'}
+				borderRadius={2}
+				width={'100%'}
 			>
-				<Typography fontWeight={'600'}>✔ 항목별 지원금</Typography>
-				<SupportiButton
-					variant="outlined"
-					contents={
-						<Box display={'flex'} alignItems={'center'} gap={1}>
-							<CreateOutlinedIcon fontSize="small" />
-							<Typography fontWeight={'bold'} color={'primary'}>
-								수정하기
-							</Typography>
-						</Box>
-					}
-					onClick={() => {
-						if (isEditMode) {
-							updateSubsidyByItem();
-						} else {
-							setIsEditMode(true);
-						}
-					}}
-					disabledGutters
-					style={{
-						px: 2,
-						py: 1,
-						bgcolor: 'white',
-					}}
-				/>
-			</Box>
-
-			<Grid container>
-				<Grid
-					container
-					sm={9}
-					xs={6}
-					sx={{
-						overflowX: 'auto',
-					}}
-					flexWrap={'nowrap'}
+				<Box
+					display={'flex'}
+					justifyContent={'space-between'}
+					mb={1}
+					alignItems={'center'}
 				>
-					{/* 비목 */}
+					<Typography fontWeight={'600'}>✔ 항목별 지원금</Typography>
+					{/* <SupportiButton
+						variant="outlined"
+						contents={
+							<Box display={'flex'} alignItems={'center'} gap={1}>
+								<CreateOutlinedIcon fontSize="small" />
+								<Typography
+									fontWeight={'bold'}
+									color={'primary'}
+								>
+									수정하기
+								</Typography>
+							</Box>
+						}
+						onClick={() => {
+							if (isEditMode) {
+								updateSubsidyByItem();
+							} else {
+								setIsEditMode(true);
+							}
+						}}
+						disabledGutters
+						style={{
+							px: 2,
+							py: 1,
+							bgcolor: 'white',
+						}}
+					/> */}
+				</Box>
+
+				<Grid container>
 					<Grid
 						container
-						flexDirection={'column'}
-						sm={4}
-						display={{ xs: 'none', sm: 'flex' }}
+						sm={9}
+						xs={6}
+						sx={{
+							overflowX: 'auto',
+						}}
+						flexWrap={'nowrap'}
 					>
+						{/* 비목 */}
 						<Grid
-							item
-							sx={{
-								borderTopLeftRadius: 10,
-							}}
-							bgcolor={'primary.main'}
-							py={2}
-							px={1}
-							alignItems={'center'}
+							container
+							flexDirection={'column'}
+							sm={4}
+							display={{ xs: 'none', sm: 'flex' }}
 						>
-							<Typography
-								fontWeight={'600'}
-								textAlign={'center'}
-								color={'white'}
-							>
-								비목
-							</Typography>
-						</Grid>
-						{subsidyMenu.map((item, index) => (
 							<Grid
 								item
-								display={'flex'}
-								justifyContent={'center'}
-								alignItems={'center'}
+								sx={{
+									borderTopLeftRadius: 10,
+								}}
+								bgcolor={'primary.main'}
+								py={2}
 								px={1}
-								borderBottom={'0.5px solid #ccc'}
-								borderRight={'0.5px solid #ccc'}
-								borderLeft={'0.5px solid #ccc'}
-								key={index}
-								py={item.occupyDouble ? 4.95 : 2}
+								alignItems={'center'}
 							>
 								<Typography
-									color={'primary.main'}
 									fontWeight={'600'}
+									textAlign={'center'}
+									color={'white'}
 								>
-									{item.label}
+									비목
 								</Typography>
 							</Grid>
-						))}
-					</Grid>
-					{/* 세목 */}
-					<Grid
-						container
-						flexDirection={'column'}
-						sm={4}
-						xs={12}
-						display={{ xs: 'none', sm: 'flex' }}
-					>
-						<Grid
-							item
-							bgcolor={'primary.main'}
-							py={2}
-							px={1}
-							alignItems={'center'}
-						>
-							<Typography
-								fontWeight={'600'}
-								textAlign={'center'}
-								color={'white'}
-							>
-								세목
-							</Typography>
+							{subsidyMenu.map((item, index) => (
+								<Grid
+									item
+									display={'flex'}
+									justifyContent={'center'}
+									alignItems={'center'}
+									px={1}
+									borderBottom={'0.5px solid #ccc'}
+									borderRight={'0.5px solid #ccc'}
+									borderLeft={'0.5px solid #ccc'}
+									key={index}
+									// py={item.occupyDouble ? 4.95 : 2}
+									py={4.95}
+								>
+									<Typography
+										color={'primary.main'}
+										fontWeight={'600'}
+									>
+										{item.label}
+									</Typography>
+									<CreateOutlinedIcon
+										fontSize="small"
+										sx={{
+											color: 'lightGrey',
+											cursor: 'pointer',
+										}}
+										onClick={() => {
+											setIsEditMode(!isEditMode);
+											console.log(subSidyByItems[index]);
+											setTargetItem({
+												id: subSidyByItems[index]
+													.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
+												rate: subSidyByItems[index]
+													.RATE,
+												cost: subSidyByItems[index]
+													.SUPPORT_COST,
+											});
+										}}
+									/>
+									{/* <Box
+										sx={{
+											width: '28px',
+											height: '18px',
+											borderRadius: '3px',
+											backgroundColor: 'primary.main',
+											p: '2px',
+										}}
+									>
+										<Typography color="white">
+											수정
+										</Typography>
+									</Box> */}
+								</Grid>
+							))}
 						</Grid>
-						{subsidyMenu.map((item, index) => (
+						{/* 세목 */}
+						<Grid
+							container
+							flexDirection={'column'}
+							sm={4}
+							xs={12}
+							display={{ xs: 'none', sm: 'flex' }}
+						>
 							<Grid
 								item
-								display={'flex'}
-								justifyContent={'center'}
-								alignItems={'center'}
+								bgcolor={'primary.main'}
+								py={2}
 								px={1}
-								borderBottom={'0.5px solid #ccc'}
-								borderRight={'0.5px solid #ccc'}
-								key={index}
-								py={item.occupyDouble ? 4.95 : 2}
+								alignItems={'center'}
 							>
 								<Typography
-									color={'primary.main'}
 									fontWeight={'600'}
+									textAlign={'center'}
+									color={'white'}
 								>
-									{item.label}
+									비율
 								</Typography>
 							</Grid>
-						))}
+							{subSidyByItems.map((item, index) => (
+								<Grid
+									item
+									display={'flex'}
+									justifyContent={'center'}
+									alignItems={'center'}
+									px={1}
+									borderBottom={'0.5px solid #ccc'}
+									borderRight={'0.5px solid #ccc'}
+									key={index}
+									// py={item.occupyDouble ? 4.95 : 2}
+									py={
+										isEditMode &&
+										targetItem.id ===
+											item.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE
+											? 4.65
+											: 5.306
+									}
+								>
+									{isEditMode &&
+									targetItem.id ===
+										item.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE ? (
+										<Box display="flex" gap={1}>
+											<SupportiInput
+												type="text"
+												value={targetItem.rate}
+												setValue={(value) => {
+													setTargetItem({
+														...targetItem,
+														rate: value,
+													});
+												}}
+												style={{
+													height: '25px',
+													width: '80px',
+												}}
+											/>
+											<Typography my="auto">%</Typography>
+											<Box
+												sx={{
+													width: '30px',
+													height: '20px',
+													borderRadius: '3px',
+													backgroundColor:
+														'secondary.dark',
+													p: '3px',
+													my: 'auto',
+													cursor: 'pointer',
+												}}
+												onClick={() => {
+													setIsEditMode(false);
+													// 업데이트 치기
+													cashUpdateController.updateCash(
+														{
+															SUBSIDY_BY_ITEM_IDENTIFICATION_CODE:
+																targetItem.id,
+														},
+														{
+															SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE:
+																props
+																	.supportBusinessManagement
+																	.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
+															RATE: targetItem.rate,
+															SUPPORT_COST:
+																targetItem.cost,
+														},
+
+														(res) => {
+															props.getSupportBusiness();
+															console.log(res);
+														},
+														(err) => {
+															console.log(err);
+														}
+													);
+												}}
+											>
+												<Typography color="white">
+													완료
+												</Typography>
+											</Box>
+										</Box>
+									) : (
+										<Typography
+											color={'primary.main'}
+											fontWeight={'600'}
+										>
+											{item.RATE}%
+										</Typography>
+									)}
+								</Grid>
+							))}
+						</Grid>
+						{/* 세세목 */}
+						<Grid
+							container
+							flexDirection={'column'}
+							sm={4}
+							xs={12}
+							bgcolor={'white'}
+						>
+							<Grid
+								item
+								bgcolor={'primary.main'}
+								py={2}
+								px={1}
+								alignItems={'center'}
+								sx={{
+									borderTopLeftRadius: { xs: 10, sm: 0 },
+								}}
+							>
+								<Typography
+									fontWeight={'600'}
+									textAlign={'center'}
+									color={'white'}
+								>
+									세목
+								</Typography>
+							</Grid>
+							{subsidyConfig.map((item, index) => (
+								<Grid
+									item
+									display={'flex'}
+									justifyContent={'center'}
+									alignItems={'center'}
+									px={1}
+									borderBottom={'0.5px solid #ccc'}
+									borderRight={'0.5px solid #ccc'}
+									key={index}
+									py={2.192}
+								>
+									<Typography fontWeight={'500'}>
+										{item.group}
+									</Typography>
+								</Grid>
+							))}
+						</Grid>
 					</Grid>
-					{/* 세세목 */}
+					{/* 금액 */}
 					<Grid
 						container
 						flexDirection={'column'}
-						sm={4}
-						xs={12}
+						xs={6}
+						sm={3}
 						bgcolor={'white'}
 					>
 						<Grid
 							item
-							bgcolor={'primary.main'}
-							py={2}
-							px={1}
-							alignItems={'center'}
 							sx={{
-								borderTopLeftRadius: { xs: 10, sm: 0 },
+								borderTopRightRadius: 10,
 							}}
+							bgcolor={'primary.main'}
+							py={1.4}
+							px={1}
+							display={'flex'}
+							alignItems={'center'}
+							justifyContent={'space-between'}
 						>
+							<ArrowCircleLeftIcon
+								sx={{ color: 'white' }}
+								onClick={() => {
+									props.handleSubsidyTabChange('prev');
+								}}
+							/>
 							<Typography
 								fontWeight={'600'}
-								textAlign={'center'}
 								color={'white'}
+								textAlign={'center'}
 							>
-								세세목
+								{props.subsidyTab}
 							</Typography>
+							<ArrowCircleRightIcon
+								sx={{ color: 'white' }}
+								onClick={() => {
+									props.handleSubsidyTabChange('next');
+								}}
+							/>
 						</Grid>
-						{subsidyConfig.map((item, index) => (
+
+						{temp.map((item, index) => (
 							<Grid
 								item
 								display={'flex'}
@@ -348,199 +644,144 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 								borderBottom={'0.5px solid #ccc'}
 								borderRight={'0.5px solid #ccc'}
 								key={index}
-								py={2}
+								py={
+									isEditMode &&
+									props.subsidyTab === '사용금액' &&
+									targetItem.id === item.id
+										? 1.52
+										: 2.192
+								}
 							>
-								<Typography fontWeight={'500'}>
-									{item.label}
-								</Typography>
+								{isEditMode &&
+								props.subsidyTab === '사용금액' &&
+								targetItem.id === item.id ? (
+									<Box display="flex" gap={1}>
+										<SupportiInput
+											type="text"
+											value={
+												JSON.parse(
+													targetItem.cost
+												)[0]?.[item.group].사용금액
+											}
+											setValue={(value) => {
+												let temp = JSON.parse(
+													targetItem.cost
+												)[0];
+												temp[item.group].사용금액 =
+													value;
+												setTargetItem({
+													...targetItem,
+													cost: JSON.stringify([
+														temp,
+													]),
+												});
+											}}
+											style={{
+												height: '25px',
+												width: '80px',
+											}}
+										/>
+										<Box
+											sx={{
+												width: '30px',
+												height: '20px',
+												borderRadius: '3px',
+												backgroundColor:
+													'secondary.dark',
+												p: '3px',
+												my: 'auto',
+												cursor: 'pointer',
+											}}
+											onClick={() => {
+												setIsEditMode(false);
+
+												// 업데이트 치기
+												cashUpdateController.updateCash(
+													{
+														SUBSIDY_BY_ITEM_IDENTIFICATION_CODE:
+															targetItem.id,
+													},
+													{
+														SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE:
+															props
+																.supportBusinessManagement
+																.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
+														RATE: targetItem.rate,
+														SUPPORT_COST:
+															targetItem.cost,
+													},
+
+													(res) => {
+														props.getSupportBusiness();
+														console.log(res);
+													},
+													(err) => {
+														console.log(err);
+													}
+												);
+											}}
+										>
+											<Typography color="white">
+												완료
+											</Typography>
+										</Box>
+									</Box>
+								) : (
+									<Typography>{item.data}</Typography>
+								)}
 							</Grid>
 						))}
 					</Grid>
 				</Grid>
-				{/* 금액 */}
+				{/* 총액 */}
 				<Grid
 					container
-					flexDirection={'column'}
-					xs={6}
-					sm={3}
-					bgcolor={'white'}
+					display={'flex'}
+					justifyContent={'center'}
+					borderTop={'1px solid #ccc'}
 				>
 					<Grid
 						item
+						xs={6}
+						sm={9}
+						bgcolor={'primary.dark'}
+						py={2}
 						sx={{
-							borderTopRightRadius: 10,
+							borderBottomLeftRadius: 10,
 						}}
-						bgcolor={'primary.main'}
-						py={1.4}
-						px={1}
-						display={'flex'}
-						alignItems={'center'}
-						justifyContent={'space-between'}
 					>
-						<ArrowCircleLeftIcon
-							sx={{ color: 'white' }}
-							onClick={() => {
-								props.handleSubsidyTabChange('prev');
-							}}
-						/>
 						<Typography
-							fontWeight={'600'}
 							color={'white'}
+							fontWeight={'600'}
 							textAlign={'center'}
 						>
-							{props.subsidyTab}
+							총액
 						</Typography>
-						<ArrowCircleRightIcon
-							sx={{ color: 'white' }}
-							onClick={() => {
-								props.handleSubsidyTabChange('next');
-							}}
-						/>
 					</Grid>
-					{subSidyByItems.map((item, index) => (
-						<Grid
-							item
-							display={'flex'}
-							justifyContent={'center'}
-							alignItems={'center'}
-							px={isEditMode ? 0 : 1}
-							borderBottom={'0.5px solid #ccc'}
-							borderRight={'0.5px solid #ccc'}
-							key={index}
-							py={
-								isEditMode && props.subsidyTab !== '잔여액'
-									? 0.036
-									: 2
-							}
-						>
-							{isEditMode && props.subsidyTab !== '잔여액' ? (
-								<SupportiInput
-									type="number"
-									value={
-										item[
-											tabConfig[
-												tabConfig.findIndex(
-													(tab) =>
-														tab.label ===
-														props.subsidyTab
-												)
-											].key
-										]
-									}
-									setValue={(e) => {
-										const newSubSidyByItems = [
-											...subSidyByItems,
-										]; // 새로운 배열 생성
-										newSubSidyByItems[index][
-											tabConfig.find(
-												(tab) =>
-													tab.label ===
-													props.subsidyTab
-											).key
-										] = Number(e);
-										setSubSidyByItems(newSubSidyByItems); // 새로운 배열로 상태 업데이트
-									}}
-									inputType="number"
-									style={{
-										width: '100%',
-									}}
-									additionalProps={{
-										type: 'number',
-									}}
-									outLineInputProps={{
-										type: 'number',
-										inputProps: {
-											typeof: 'number',
-										},
-									}}
-								/>
-							) : (
-								<Typography>
-									{Number(
-										item[
-											tabConfig[
-												tabConfig.findIndex(
-													(tab) =>
-														tab.label ===
-														props.subsidyTab
-												)
-											].key
-										]
-									)?.toLocaleString()}
-								</Typography>
-							)}
-						</Grid>
-					))}
-				</Grid>
-			</Grid>
-			{/* 총액 */}
-			<Grid
-				container
-				display={'flex'}
-				justifyContent={'center'}
-				borderTop={'1px solid #ccc'}
-			>
-				<Grid
-					item
-					xs={6}
-					sm={9}
-					bgcolor={'primary.dark'}
-					py={2}
-					sx={{
-						borderBottomLeftRadius: 10,
-					}}
-				>
-					<Typography
-						color={'white'}
-						fontWeight={'600'}
-						textAlign={'center'}
+					<Grid
+						item
+						sm={3}
+						xs={6}
+						display={'flex'}
+						justifyContent={'center'}
+						alignItems={'center'}
+						py={2.012}
+						bgcolor={'#C4CDED'}
+						borderBottom={'0.5px solid #ccc'}
+						borderRight={'0.5px solid #ccc'}
+						sx={{
+							borderBottomRightRadius: 10,
+						}}
 					>
-						총액
-					</Typography>
+						<Typography>
+							{temp.reduce((accumulator, currentValue) => {
+								return accumulator + Number(currentValue.data);
+							}, 0)}
+						</Typography>
+					</Grid>
 				</Grid>
-				<Grid
-					item
-					sm={3}
-					xs={6}
-					display={'flex'}
-					justifyContent={'center'}
-					alignItems={'center'}
-					py={2}
-					bgcolor={'#C4CDED'}
-					borderBottom={'0.5px solid #ccc'}
-					borderRight={'0.5px solid #ccc'}
-					sx={{
-						borderBottomRightRadius: 10,
-					}}
-				>
-					<Typography>
-						{props.subsidyTab === '총액(원)' &&
-							subSidyByItems
-								.reduce(
-									(acc, cur) =>
-										acc + Number(cur.TOTAL_AMOUNT),
-									0
-								)
-								.toLocaleString()}
-						{props.subsidyTab === '사용액' &&
-							subSidyByItems
-								.reduce(
-									(acc, cur) => acc + Number(cur.USED_AMOUNT),
-									0
-								)
-								.toLocaleString()}
-						{props.subsidyTab === '잔여액' &&
-							subSidyByItems
-								.reduce(
-									(acc, cur) =>
-										acc + Number(cur.REMAIN_AMOUNT),
-									0
-								)
-								.toLocaleString()}
-					</Typography>
-				</Grid>
-			</Grid>
-		</Box>
+			</Box>
+		)
 	);
 };
 
