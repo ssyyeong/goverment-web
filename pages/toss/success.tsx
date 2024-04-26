@@ -37,6 +37,7 @@ const Page: NextPage = () => {
 					ORDER_ID: orderId, //주문ID
 					PAY_METHOD: '카드', //결제방식
 				},
+				FIND_OPTION_KEY_LIST: {},
 			},
 			`${paymentHistoryController.mergedPath}/update`,
 			(res) => {
