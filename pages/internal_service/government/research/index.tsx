@@ -30,6 +30,7 @@ import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 import useAlert from '../../../../src/hooks/useAlert/useAlert';
 import { SupportiAlertModal } from '../../../../src/views/global/SupportiAlertModal';
 import { gTagEvent } from '../../../../src/lib/gtag';
+import Image from 'next/image';
 
 export interface ISupportBusinessFilter {
 	BUSINESS_TITLE?: string;
@@ -215,13 +216,13 @@ const Page: NextPage = () => {
 						};
 					});
 					setSupportBusiness({
-						data: convertedData,
-						matchCount: res.data.result.count,
+						rows: convertedData,
+						count: res.data.result.count,
 					});
 				} else {
 					setSupportBusiness({
-						data: [],
-						matchCount: 0,
+						rows: [],
+						count: 0,
 					});
 				}
 			}
@@ -564,6 +565,36 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 				)}
+				{/* api 통합 사이트 */}
+				<Box
+					width={'100%'}
+					display={'flex'}
+					justifyContent={'center'}
+					alignItems={'center'}
+					gap={5}
+					mt={3}
+				>
+					<Image
+						src={'/images/logo/jinheung.svg'}
+						width={100}
+						height={100}
+						alt="산업진흥원"
+					/>
+					<Image
+						src={
+							'https://www.bizinfo.go.kr/images/bizinfo/common/logo.png'
+						}
+						width={100}
+						height={100}
+						alt="기업마당"
+					/>
+					<Image
+						src={'/images/logo/venture.png'}
+						width={100}
+						height={100}
+						alt="중소벤처"
+					/>
+				</Box>
 			</InternalServiceLayout>
 			{/* 디테일 모달 */}
 			{detailData && (
