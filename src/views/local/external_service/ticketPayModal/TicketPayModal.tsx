@@ -39,31 +39,36 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 	 */
 	const tossPay = () => {
 		// 히스토리 생성
-		paymentHistoryController.createItem({
-			APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			DESCRIPTION: props.ticketName,
-			AMOUNT: props.ticketPrice,
-			TYPE: 'TICKET',
-			ORDER_ID: orderId,
-		});
-		loadTossPayments(clientKey).then((tossPayments) => {
-			// 카드 결제 메서드 실행
-			tossPayments.requestPayment('카드', {
-				amount: props.ticketPrice, // 가격
-				orderId: orderId, // 주문 id
-				orderName: `${props.ticketName} 결제`, // 결제 이름
-				customerName: `서포티`, // 판매자, 판매처 이름
-				successUrl:
-					process.env.NEXT_PUBLIC_WEB_HOST +
-					`/toss/success` +
-					`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
-				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
-				validHours: 24, // 유효시간
-				cashReceipt: {
-					type: '소득공제',
-				},
-			});
-		});
+		paymentHistoryController.createItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				DESCRIPTION: props.ticketName,
+				AMOUNT: props.ticketPrice,
+				TYPE: 'TICKET',
+				ORDER_ID: orderId,
+			},
+			(res) => {
+				loadTossPayments(clientKey).then((tossPayments) => {
+					// 카드 결제 메서드 실행
+					tossPayments.requestPayment('카드', {
+						amount: props.ticketPrice, // 가격
+						orderId: orderId, // 주문 id
+						orderName: `${props.ticketName} 결제`, // 결제 이름
+						customerName: `서포티`, // 판매자, 판매처 이름
+						successUrl:
+							process.env.NEXT_PUBLIC_WEB_HOST +
+							`/toss/success` +
+							`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+						failUrl:
+							process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
+						validHours: 24, // 유효시간
+						cashReceipt: {
+							type: '소득공제',
+						},
+					});
+				});
+			}
+		);
 	};
 
 	return (
