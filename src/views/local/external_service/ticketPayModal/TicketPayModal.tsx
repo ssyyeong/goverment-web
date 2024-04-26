@@ -29,7 +29,7 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 
 	//* Modules
 	const router = useRouter();
-	const { memberId } = useAppMember();
+	const { memberId, memberName } = useAppMember();
 
 	//* Controller
 	const paymentHistoryController = new DefaultController('PaymentHistory');
@@ -57,7 +57,7 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 						amount: props.ticketPrice, // 가격
 						orderId: orderId, // 주문 id
 						orderName: `${props.ticketName} 결제`, // 결제 이름
-						customerName: `서포티`, // 판매자, 판매처 이름
+						customerName: memberName, // 판매자, 판매처 이름
 						successUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST +
 							`/toss/success` +
