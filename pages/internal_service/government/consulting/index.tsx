@@ -155,6 +155,9 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				setManagementSupportBusiness(res.data.result);
+				setConsultingCheckList(
+					res.data.result.UserSupportBusinessConsultingCheckLists
+				);
 			},
 			(err) => {
 				console.log(err);
@@ -169,6 +172,8 @@ const Page: NextPage = () => {
 		userCheckListController.findAllItems(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				// SUPPORT_BUSINESS_CONSULTING_IDENTIFICATION_CODE:
+				// 	managementSupportBusiness.SUPPORT_BUSINESS_CONSULTING_IDENTIFICATION_CODE,
 			},
 			(res) => {
 				setConsultingCheckList(res.data.result.rows);
@@ -189,9 +194,11 @@ const Page: NextPage = () => {
 	React.useEffect(() => {
 		if (memberId) {
 			getManagementSupportBusiness();
-			getUserCheckList();
+			// getUserCheckList();
 		}
 	}, [memberId]);
+
+	console.log(managementSupportBusiness);
 
 	return (
 		// <InternalServiceDrawer type="dashboard">

@@ -147,7 +147,7 @@ const SupportConsultingApplyModal = (
 
 			setConsultingApplication({
 				SUPPORT_BUSINESS_TITLE: undefined,
-				SUPPORT_BUSINESS_DESCRIPTION: undefined,
+				SUPPORT_BUSINESS_DESCRIPTION: [],
 				SUPPORT_SCALE: undefined,
 				IMPLEMENTING_AGENCY: undefined,
 				PROGRESS_STAGE: '1',
