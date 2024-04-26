@@ -39,14 +39,17 @@ const TicketPayModal = (props: ITicketPayModalProps) => {
 	 */
 	const tossPay = () => {
 		// 히스토리 생성
-		paymentHistoryController.createItem(
+		paymentHistoryController.postData(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				DESCRIPTION: props.ticketName,
-				AMOUNT: props.ticketPrice,
-				TYPE: 'TICKET',
-				ORDER_ID: orderId,
+				CREATE_OPTION_KEY_LIST: {
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					DESCRIPTION: props.ticketName,
+					AMOUNT: props.ticketPrice,
+					TYPE: 'TICKET',
+					ORDER_ID: orderId,
+				},
 			},
+			`${paymentHistoryController.mergedPath}/create`,
 			(res) => {
 				loadTossPayments(clientKey).then((tossPayments) => {
 					// 카드 결제 메서드 실행
