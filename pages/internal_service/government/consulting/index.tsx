@@ -147,11 +147,11 @@ const Page: NextPage = () => {
 	 * 관리 지원사업 데이터 가져오기
 	 */
 	const getManagementSupportBusiness = () => {
-		supportBusinessConsultingController.getOneItem(
+		supportBusinessConsultingController.getOneItemByKey(
 			{
-				FIND_OPTION_KEY_LIST: {
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
+				// FIND_OPTION_KEY_LIST: {
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				// },
 			},
 			(res) => {
 				setManagementSupportBusiness(res.data.result);
