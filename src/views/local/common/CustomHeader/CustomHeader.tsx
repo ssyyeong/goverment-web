@@ -444,6 +444,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 * 마이페이지 메뉴 오픈
 	 */
 	const handleOpenMypageMenu = (event) => {
+		setTitle('마이페이지');
 		setAnchorElMypage(event.currentTarget);
 	};
 	/**
@@ -465,6 +466,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			<>
 				{/* 메인 메뉴 버튼 */}
 				<Button
+					onMouseEnter={(event) => {
+						handleCloseMypageMenu();
+						handleOpenUserMenu(
+							event,
+							menu.label,
+							menu.subMenuHandler
+						);
+					}}
 					onClick={(event) =>
 						handleOpenUserMenu(
 							event,
@@ -472,16 +481,13 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							menu.subMenuHandler
 						)
 					}
-					sx={{
-						display: 'block',
-						position: 'relative',
-					}}
 				>
 					{menu.label}
 				</Button>
 				{/*  버튼 하위 메뉴 */}
 
 				<Menu
+					hideBackdrop={true}
 					sx={{
 						mt: '45px',
 						visibility: title !== menu.label && 'hidden',
@@ -508,6 +514,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						},
 					}}
 					key={idx}
+					MenuListProps={{
+						onMouseLeave: () => {
+							menu?.subMenuHandler(null);
+						},
+					}}
 				>
 					{menu.subMenus.map((setting) => (
 						<MenuItem
@@ -643,7 +654,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										onClick={handleCloseNavMenu}
 										sx={{
 											cursor: 'pointer',
-
 											fontWeight: '600',
 										}}
 									>
@@ -771,19 +781,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									style={{
 										cursor: 'pointer',
 										marginLeft: 'auto',
-										marginRight: 'auto',
+										marginRight: '15px',
+										marginTop: '15px',
 									}}
 									onClick={() => router.push('/')}
 								/>
 							</Box>
-						</Box>
-
-						<Box
-							sx={{
-								flexGrow: 0,
-								display: { xs: 'none', md: 'flex' },
-							}}
-						>
 							{cookie.getItemInCookies('ACCESS_TOKEN') &&
 								loginPages.map((menu, idx) => {
 									return menu.subMenus ? (
@@ -791,6 +794,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									) : (
 										<Button
 											key={menu.label}
+											onMouseEnter={(evnet) => {
+												setTitle(menu.label);
+												handleCloseMypageMenu();
+											}}
 											onClick={() => {
 												// if (page?.additionalOnclickFunction) {
 												// 	page?.additionalOnclickFunction();
@@ -814,6 +821,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										handleOpenMenu(menu, idx)
 									) : (
 										<Button
+											onMouseEnter={(evnet) => {
+												setTitle(menu.label);
+												handleCloseMypageMenu();
+											}}
 											key={menu.label}
 											onClick={() => {
 												// if (page?.additionalOnclickFunction) {
@@ -831,7 +842,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										</Button>
 									);
 								})}
+						</Box>
 
+						<Box
+							sx={{
+								flexGrow: 0,
+								display: { xs: 'none', md: 'flex' },
+							}}
+						>
 							{/* 로그인 & 비로그인 대응 */}
 							{cookie.getItemInCookies('ACCESS_TOKEN') ? (
 								<Box
@@ -876,6 +894,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										aria-controls="menu-appbar"
 										aria-haspopup="true"
 										onClick={handleOpenMypageMenu}
+										onMouseEnter={handleOpenMypageMenu}
 										color="inherit"
 									>
 										<MoreVertIcon color="primary" />
@@ -889,6 +908,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											vertical: 'top',
 											horizontal: 'center',
 										}}
+										hideBackdrop={true}
 										keepMounted
 										transformOrigin={{
 											vertical: 'top',
