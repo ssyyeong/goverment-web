@@ -23,7 +23,7 @@ const Page: NextPage = () => {
 			Title: '투자',
 			Companies: [
 				{
-					logoPath: '/images/logo/partners/주식회사 린온컴퍼니.png',
+					logoPath: '/images/logo/partners/박대성대표님.webp',
 					name: ['박대성 대표님'],
 					description: ['하임벤처투자 대표'],
 					etc: [

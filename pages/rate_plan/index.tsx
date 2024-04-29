@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Stack, Switch, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
@@ -120,6 +120,11 @@ const Page: NextPage = () => {
 	 */
 	const [subscriptionInfo, setSubscriptionInfo] = React.useState<any>({});
 
+	/**
+	 * 연결제
+	 */
+	const [isYear, setIsYear] = React.useState<boolean>(false);
+
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
 
@@ -159,6 +164,8 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	}, []);
+
+	const label = { inputProps: { 'aria-label': 'Color switch demo' } };
 
 	return (
 		<Box
@@ -283,6 +290,22 @@ const Page: NextPage = () => {
 				</Box>
 			</Box>
 
+			<Stack
+				direction="row"
+				spacing={0.5}
+				alignItems="center"
+				mt={10}
+				ml="auto"
+				mr={5}
+			>
+				<Typography>월결제</Typography>
+				<Switch
+					{...label}
+					checked={isYear}
+					onChange={() => setIsYear(!isYear)}
+				/>
+				<Typography>연결제</Typography>
+			</Stack>
 			<Box
 				display={'flex'}
 				// alignItems={'center'}
@@ -290,7 +313,7 @@ const Page: NextPage = () => {
 				flexWrap={'wrap'}
 				justifyContent={'center'}
 				width={'100%'}
-				mt={10}
+				// mt={10}
 			>
 				<Box
 					sx={{
@@ -488,7 +511,13 @@ const Page: NextPage = () => {
 										}
 										sx={{ mt: 1 }}
 									>
-										{ratePlan.DISCOUNT_PRICE.toLocaleString()}
+										{!isYear
+											? ratePlan.DISCOUNT_PRICE.toLocaleString()
+											: (
+													Number(
+														ratePlan.DISCOUNT_PRICE
+													) * 10
+											  ).toLocaleString()}
 										원
 									</Typography>
 								}
