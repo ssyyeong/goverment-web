@@ -182,7 +182,7 @@ const Page: NextPage = () => {
 			<Box
 				width="100vw"
 				sx={{
-					height: { sm: '650px', xs: '1050px' },
+					height: { sm: '680px', xs: '1050px' },
 				}}
 			>
 				<img
@@ -199,7 +199,7 @@ const Page: NextPage = () => {
 						position: 'absolute',
 						top: '60px',
 						zIndex: 30,
-						height: { sm: '650px', xs: '1050px' },
+						height: { sm: '680px', xs: '1050px' },
 						textAlign: 'center',
 						width: '99.5vw',
 						bgcolor: 'rgba(0, 0, 0, 0.7)',
@@ -226,7 +226,7 @@ const Page: NextPage = () => {
 						display="flex"
 						justifyContent={'space-around'}
 						gap={2}
-						mt={{ sm: 13, xs: 8 }}
+						mt={{ sm: 10, xs: 8 }}
 						width="85vw"
 						mx="auto"
 						flexWrap="wrap"
@@ -238,8 +238,8 @@ const Page: NextPage = () => {
 										borderRadius: '15px',
 										bgcolor: 'white',
 										padding: { sm: '20px', xs: '5px' },
-										width: '370px',
-										height: { sm: '270px', xs: '230px' },
+										width: { sm: '30%', xs: '290px' },
+										height: { sm: 'auto', xs: '240px' },
 									}}
 								>
 									<Box

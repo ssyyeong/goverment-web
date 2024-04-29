@@ -529,7 +529,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				{/*  버튼 하위 메뉴 */}
 
 				<Menu
-					hideBackdrop={true}
+					// hideBackdrop={true}
 					sx={{
 						mt: '45px',
 						visibility: title !== menu.label && 'hidden',
@@ -558,6 +558,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					key={idx}
 					MenuListProps={{
 						onMouseLeave: () => {
+							console.log('ddd');
 							menu?.subMenuHandler(null);
 						},
 					}}
@@ -592,6 +593,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		setAnchorElCommunity(null);
 		setAnchorElGovernment(null);
 		setAnchorElIndicator(null);
+		setAnchorElPartners(null);
 		setAnchorElUser(null);
 	}, [router]);
 
@@ -950,7 +952,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											vertical: 'top',
 											horizontal: 'center',
 										}}
-										hideBackdrop={true}
+										// hideBackdrop={true}
 										keepMounted
 										transformOrigin={{
 											vertical: 'top',
