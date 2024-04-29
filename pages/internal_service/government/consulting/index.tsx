@@ -21,9 +21,6 @@ import { useRouter } from 'next/router';
 import SupportiTable, {
 	TableHeaderProps,
 } from '../../../../src/views/global/SupportiTable/SupportiTable';
-import OnGoingSupportBusiness from '../../../../src/views/local/internal_service/supportBusiness/OnGoingSupportBusiness/OnGoingSupportBusiness';
-import CalculateModal from '../../../../src/views/local/internal_service/government/CalculateModal';
-import SupportAddModal from '../../../../src/views/local/internal_service/government/SupportAddModal/SupportAddModal';
 import Image from 'next/image';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportConsultingApplyModal from '../../../../src/views/local/internal_service/government/SupportConsultingApplyModal/SupportConsultingApplyModal';
@@ -35,10 +32,6 @@ const Page: NextPage = () => {
 	//* Controller
 	const supportBusinessConsultingController = new DefaultController(
 		'SupportBusinessConsulting'
-	);
-
-	const userCheckListController = new DefaultController(
-		'UserSupportBusinessConsultingCheckList'
 	);
 
 	//* Constants
@@ -147,36 +140,17 @@ const Page: NextPage = () => {
 	 * 관리 지원사업 데이터 가져오기
 	 */
 	const getManagementSupportBusiness = () => {
-		supportBusinessConsultingController.getOneItemByKey(
+		supportBusinessConsultingController.findAllItems(
 			{
 				// FIND_OPTION_KEY_LIST: {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				// },
 			},
 			(res) => {
-				setManagementSupportBusiness(res.data.result);
+				setManagementSupportBusiness(res.data.result.rows);
 				setConsultingCheckList(
 					res.data.result.UserSupportBusinessConsultingCheckLists
 				);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	};
-
-	/**
-	 * 유저 체크리스트 데이터 가져오기
-	 */
-	const getUserCheckList = () => {
-		userCheckListController.findAllItems(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				// SUPPORT_BUSINESS_CONSULTING_IDENTIFICATION_CODE:
-				// 	managementSupportBusiness.SUPPORT_BUSINESS_CONSULTING_IDENTIFICATION_CODE,
-			},
-			(res) => {
-				setConsultingCheckList(res.data.result.rows);
 			},
 			(err) => {
 				console.log(err);
@@ -280,246 +254,252 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 				</Box>
-				{managementSupportBusiness && (
-					<Box
-						width={'100%'}
-						bgcolor={'white'}
-						borderRadius={3}
-						p={4}
-						my={2}
-					>
-						<Typography fontWeight={'600'} variant="h5" mb={2}>
-							컨설팅 내역
-						</Typography>
-						<Box
-							width={'100%'}
-							bgcolor={'primary.light'}
-							borderRadius={3}
-							p={4}
-						>
-							<Box
-								display="flex"
-								justifyContent={'space-between'}
-							>
-								{/** 신청 날짜 */}
-								<Typography color="secondary.dark">
-									{managementSupportBusiness.CREATED_AT.split(
-										'T'
-									)[0].replaceAll('-', '/')}{' '}
-									신청
-								</Typography>
-
-								{/** 자세히 보기 버튼 */}
-								{managementSupportBusiness.PROGRESS_STAGE ==
-									3 && (
-									<SupportiButton
-										contents={
-											openDetail ? '닫기' : '자세히 보기'
-										}
-										onClick={() => {
-											setOpenDetail(!openDetail);
-										}}
-									/>
-								)}
-							</Box>
-
-							{/** 프로그레스 현황  */}
-							<Stepper
-								activeStep={
-									managementSupportBusiness.PROGRESS_STAGE ==
-									1
-										? 0
-										: managementSupportBusiness.PROGRESS_STAGE ==
-										  2
-										? 1
-										: 2
-								}
-								alternativeLabel
-								sx={{ mt: 3, mb: 5 }}
-							>
-								{steps.map((label) => (
-									<Step key={label}>
-										<StepLabel>{label}</StepLabel>
-									</Step>
-								))}
-							</Stepper>
-
-							{/** 지원사업 내용 */}
-							<Typography fontWeight={'700'} my={2}>
-								신청 내용
-							</Typography>
+				{managementSupportBusiness?.length !== 0 &&
+					managementSupportBusiness?.map((item, index) => {
+						return (
 							<Box
 								width={'100%'}
 								bgcolor={'white'}
 								borderRadius={3}
 								p={4}
-								mb={5}
+								my={2}
 							>
-								{supportBusinessConsultingData.map(
-									(data, index) => {
-										return (
-											<Box
-												display="flex"
-												gap={3.5}
-												my={0.5}
-											>
-												<Typography
-													fontWeight={'600'}
-													lineHeight={'150%'}
-												>
-													{data.label}
-												</Typography>
-												<Typography
-													fontWeight={'500'}
-													lineHeight={'150%'}
-												>
-													{data.customValue
-														? JSON.parse(
-																managementSupportBusiness[
-																	data.key
-																]
-														  ).join(', ')
-														: managementSupportBusiness[
-																data.key
-														  ]}
-												</Typography>
-											</Box>
-										);
-									}
-								)}
-								{/** 메모 */}
-								<Typography lineHeight={'160%'} my={3}>
-									{managementSupportBusiness.MEMO}
+								<Typography
+									fontWeight={'600'}
+									variant="h5"
+									mb={2}
+								>
+									컨설팅 내역
 								</Typography>
-
-								{/** 파일 */}
-								<Box display="flex" gap={0.5}>
-									<FilePresentIcon fontSize="small" />
-									<Typography
-										sx={{
-											textDecoration: 'underline',
-											my: 'auto',
-											cursor: 'pointer',
-										}}
-										onClick={() =>
-											window.open(
-												JSON.parse(
-													managementSupportBusiness.FILE
-												)[0].FILE_URL
-											)
-										}
+								<Box
+									width={'100%'}
+									bgcolor={'primary.light'}
+									borderRadius={3}
+									p={4}
+								>
+									<Box
+										display="flex"
+										justifyContent={'space-between'}
 									>
-										{
-											JSON.parse(
-												managementSupportBusiness.FILE
-											)[0].FILE_NAME
-										}
-									</Typography>
-								</Box>
-							</Box>
-							{openDetail &&
-								managementSupportBusiness.PROGRESS_STAGE ==
-									3 && (
-									<>
-										{/** 컨설팅 내용 */}
-										<Typography fontWeight={'700'}>
-											컨설팅 내용
+										{/** 신청 날짜 */}
+										<Typography color="secondary.dark">
+											{item.CREATED_AT.split(
+												'T'
+											)[0].replaceAll('-', '/')}{' '}
+											신청
 										</Typography>
-										<Box
-											width={'100%'}
-											bgcolor={'white'}
-											borderRadius={3}
-											p={4}
-											my={2}
-										>
-											{/** 코멘트 */}
+
+										{/** 자세히 보기 버튼 */}
+										{item.PROGRESS_STAGE == 3 && (
+											<SupportiButton
+												contents={
+													openDetail
+														? '닫기'
+														: '자세히 보기'
+												}
+												onClick={() => {
+													setOpenDetail(!openDetail);
+												}}
+											/>
+										)}
+									</Box>
+
+									{/** 프로그레스 현황  */}
+									<Stepper
+										activeStep={
+											item.PROGRESS_STAGE == 1
+												? 0
+												: item.PROGRESS_STAGE == 2
+												? 1
+												: 2
+										}
+										alternativeLabel
+										sx={{ mt: 3, mb: 5 }}
+									>
+										{steps.map((label) => (
+											<Step key={label}>
+												<StepLabel>{label}</StepLabel>
+											</Step>
+										))}
+									</Stepper>
+
+									{/** 지원사업 내용 */}
+									<Typography fontWeight={'700'} my={2}>
+										신청 내용
+									</Typography>
+									<Box
+										width={'100%'}
+										bgcolor={'white'}
+										borderRadius={3}
+										p={4}
+										mb={5}
+									>
+										{supportBusinessConsultingData.map(
+											(data, index) => {
+												return (
+													<Box
+														display="flex"
+														gap={3.5}
+														my={0.5}
+													>
+														<Typography
+															fontWeight={'600'}
+															lineHeight={'150%'}
+														>
+															{data.label}
+														</Typography>
+														<Typography
+															fontWeight={'500'}
+															lineHeight={'150%'}
+														>
+															{data.customValue
+																? JSON.parse(
+																		item[
+																			data
+																				.key
+																		]
+																  ).join(', ')
+																: item[
+																		data.key
+																  ]}
+														</Typography>
+													</Box>
+												);
+											}
+										)}
+										{/** 메모 */}
+										<Typography lineHeight={'160%'} my={3}>
+											{item.MEMO}
+										</Typography>
+
+										{/** 파일 */}
+										<Box display="flex" gap={0.5}>
+											<FilePresentIcon fontSize="small" />
 											<Typography
-												fontWeight={'500'}
-												mb={2}
+												sx={{
+													textDecoration: 'underline',
+													my: 'auto',
+													cursor: 'pointer',
+												}}
+												onClick={() =>
+													window.open(
+														JSON.parse(item.FILE)[0]
+															.FILE_URL
+													)
+												}
 											>
 												{
-													managementSupportBusiness.COMMENT
+													JSON.parse(item.FILE)[0]
+														.FILE_NAME
 												}
 											</Typography>
 										</Box>
+									</Box>
+									{openDetail && item.PROGRESS_STAGE == 3 && (
+										<>
+											{/** 컨설팅 내용 */}
+											<Typography fontWeight={'700'}>
+												컨설팅 내용
+											</Typography>
+											<Box
+												width={'100%'}
+												bgcolor={'white'}
+												borderRadius={3}
+												p={4}
+												my={2}
+											>
+												{/** 코멘트 */}
+												<Typography
+													fontWeight={'500'}
+													mb={2}
+												>
+													{item.COMMENT}
+												</Typography>
+											</Box>
 
-										{/*모바일 테이블 */}
-										<Box
-											width={'100%'}
-											py={2}
-											display={{
-												sm: 'none',
-												xs: 'block',
-											}}
-										>
-											{consultingCheckList &&
-												consultingCheckList?.map(
-													(item, idx) => {
-														return (
-															<MobileTableRow
-																index={idx}
-																title={
-																	item.DESCRIPTION
-																}
-																colums={[
-																	{
-																		label: '체크항목',
-																		value: item.DESCRIPTION,
-																	},
-																	{
-																		label: '좋아요',
-																		value:
-																			item.CHECK_RESULT ===
-																			'좋아요' ? (
-																				<CheckIcon fontSize="small" />
-																			) : null,
-																	},
-																	{
-																		label: '괜찮아요',
-																		value:
-																			item.CHECK_RESULT ===
-																			'괜찮아요' ? (
-																				<CheckIcon fontSize="small" />
-																			) : null,
-																	},
-																	{
-																		label: '개선필요',
-																		value:
-																			item.CHECK_RESULT ===
-																			'개선필요' ? (
-																				<CheckIcon fontSize="small" />
-																			) : null,
-																	},
-																]}
-															/>
-														);
+											{/*모바일 테이블 */}
+											<Box
+												width={'100%'}
+												py={2}
+												display={{
+													sm: 'none',
+													xs: 'block',
+												}}
+											>
+												{item.UserSupportBusinessConsultingCheckLists &&
+													item.UserSupportBusinessConsultingCheckLists?.map(
+														(item, idx) => {
+															return (
+																<MobileTableRow
+																	index={idx}
+																	title={
+																		item.DESCRIPTION
+																	}
+																	colums={[
+																		{
+																			label: '체크항목',
+																			value: item.DESCRIPTION,
+																		},
+																		{
+																			label: '좋아요',
+																			value:
+																				item.CHECK_RESULT ===
+																				'좋아요' ? (
+																					<CheckIcon fontSize="small" />
+																				) : null,
+																		},
+																		{
+																			label: '괜찮아요',
+																			value:
+																				item.CHECK_RESULT ===
+																				'괜찮아요' ? (
+																					<CheckIcon fontSize="small" />
+																				) : null,
+																		},
+																		{
+																			label: '개선필요',
+																			value:
+																				item.CHECK_RESULT ===
+																				'개선필요' ? (
+																					<CheckIcon fontSize="small" />
+																				) : null,
+																		},
+																	]}
+																/>
+															);
+														}
+													)}
+												{item.UserSupportBusinessConsultingCheckLists &&
+													item
+														.UserSupportBusinessConsultingCheckLists
+														?.length === 0 && (
+														<Nodata />
+													)}
+											</Box>
+											{/* 테이블 */}
+											<Box
+												width={'100%'}
+												mt={2}
+												display={{
+													sm: 'block',
+													xs: 'none',
+												}}
+											>
+												<SupportiTable
+													rowData={
+														item.UserSupportBusinessConsultingCheckLists
 													}
-												)}
-											{consultingCheckList &&
-												consultingCheckList?.length ===
-													0 && <Nodata />}
-										</Box>
-										{/* 테이블 */}
-										<Box
-											width={'100%'}
-											mt={2}
-											display={{
-												sm: 'block',
-												xs: 'none',
-											}}
-										>
-											<SupportiTable
-												rowData={consultingCheckList}
-												headerData={
-													consultingHeaderData
-												}
-											/>
-										</Box>
-									</>
-								)}
-						</Box>
-					</Box>
-				)}
+													headerData={
+														consultingHeaderData
+													}
+												/>
+											</Box>
+										</>
+									)}
+								</Box>
+							</Box>
+						);
+					})}
 				<SupportConsultingApplyModal
 					open={openConsultingModal}
 					handleClose={() => {

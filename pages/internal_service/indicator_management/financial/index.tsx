@@ -558,7 +558,7 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		if (memberId !== undefined) {
 			setLoading(true);
-			bankAccountController.updateItem(
+			bankAccountController.findAllItems(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
@@ -804,7 +804,7 @@ const Page: NextPage = () => {
 		if (memberId !== undefined) {
 			setFirstLoading(false);
 			setLoading(true);
-			bankAccountController.updateItem(
+			bankAccountController.findAllItems(
 				{
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				},
