@@ -197,11 +197,11 @@ const Page: NextPage = () => {
 				<Box
 					sx={{
 						position: 'absolute',
-						top: '60px',
+						top: '78px',
 						zIndex: 30,
 						height: { sm: '680px', xs: '1050px' },
 						textAlign: 'center',
-						width: '99.5vw',
+						width: '100vw',
 						bgcolor: 'rgba(0, 0, 0, 0.7)',
 						pt: { sm: 15, xs: 10 },
 					}}
@@ -260,6 +260,14 @@ const Page: NextPage = () => {
 											혜택 {index + 1}
 										</Typography>
 									</Box>
+									<Typography
+										color="common.black"
+										variant="h6"
+										fontWeight={700}
+										mb={1.5}
+									>
+										{item.title}
+									</Typography>
 									<Box>
 										{item.description.map((desc, idx) => {
 											return (

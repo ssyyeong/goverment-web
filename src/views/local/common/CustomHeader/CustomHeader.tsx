@@ -523,13 +523,25 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							menu.subMenuHandler
 						)
 					}
+					sx={{
+						my: 3,
+						mr: 2,
+						// color: 'white',
+						display: 'block',
+					}}
 				>
-					{menu.label}
+					<Typography
+						variant="h6"
+						color="primary.main"
+						fontWeight={600}
+					>
+						{menu.label}
+					</Typography>
 				</Button>
 				{/*  버튼 하위 메뉴 */}
 
 				<Menu
-					// hideBackdrop={true}
+					hideBackdrop={true}
 					sx={{
 						mt: '45px',
 						visibility: title !== menu.label && 'hidden',
@@ -567,12 +579,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						<MenuItem
 							key={setting.label}
 							onClick={() => router.push(setting.path)}
+							sx={{ width: '121px', textAlign: 'center' }}
 						>
 							<Typography
 								textAlign="center"
 								color={'primary'}
+								// variant="h6"
 								fontWeight={'600'}
-								sx={{ px: 1 }}
+								sx={{ px: 0.5, mx: 'auto' }}
 							>
 								{setting.label}
 							</Typography>
@@ -826,7 +840,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										cursor: 'pointer',
 										marginLeft: 'auto',
 										marginRight: '15px',
-										marginTop: '15px',
+										marginTop: '20px',
 									}}
 									onClick={() => router.push('/')}
 								/>
@@ -849,12 +863,19 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 												router.push(menu.path);
 											}}
 											sx={{
-												my: 2,
+												my: 3,
+												mr: 2,
 												// color: 'white',
 												display: 'block',
 											}}
 										>
-											{menu.label}
+											<Typography
+												variant="h6"
+												color="primary.main"
+												fontWeight={600}
+											>
+												{menu.label}
+											</Typography>
 										</Button>
 									);
 								})}
@@ -865,11 +886,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										handleOpenMenu(menu, idx)
 									) : (
 										<Button
+											key={menu.label}
 											onMouseEnter={(evnet) => {
 												setTitle(menu.label);
 												handleCloseMypageMenu();
 											}}
-											key={menu.label}
 											onClick={() => {
 												// if (page?.additionalOnclickFunction) {
 												// 	page?.additionalOnclickFunction();
@@ -877,12 +898,19 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 												router.push(menu.path);
 											}}
 											sx={{
-												my: 2,
+												my: 3,
+												mr: 2,
 												// color: 'white',
 												display: 'block',
 											}}
 										>
-											{menu.label}
+											<Typography
+												variant="h6"
+												color="primary.main"
+												fontWeight={600}
+											>
+												{menu.label}
+											</Typography>
 										</Button>
 									);
 								})}
