@@ -41,7 +41,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 소셜링 메뉴
 	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
 	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
-
+	const [anchorElPartners, setAnchorElPartners] = React.useState(null); //파트너스 메뉴
 	//* Constants
 
 	/**
@@ -140,6 +140,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/partners',
 		},
 		{
+			label: '비즈니스 멘토',
+			path: '/mentor',
+		},
+		{
 			label: '요금제 안내',
 			path: '/rate_plan',
 		},
@@ -186,6 +190,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
+		},
+		{
+			label: '파트너스',
+			path: '/partners',
+		},
+		{
+			label: '비즈니스 멘토',
+			path: '/mentor',
 		},
 		{
 			label: 'FAQ',
@@ -273,7 +285,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	];
 
 	/**
-	 * 지원사업
+	 * 지표관리
 	 */
 	const indication = [
 		{
@@ -290,6 +302,26 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/internal_service/indicator_management/financial',
 			onclick: () => {
 				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+	];
+
+	/**
+	 * 파트너스
+	 */
+	const partners = [
+		{
+			label: '파트너스',
+			path: '/partners',
+			onclick: () => {
+				router.push('/partners');
+			},
+		},
+		{
+			label: '비즈니스 멘토',
+			path: '/mentor',
+			onclick: () => {
+				router.push('/mentor');
 			},
 		},
 	];
@@ -351,7 +383,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '파트너스',
-			path: '/partners',
+			subMenus: partners,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElPartners(event.currentTarget);
+				else setAnchorElPartners(null);
+			},
+			target: anchorElPartners,
 		},
 		{
 			label: '요금제 안내',
@@ -384,7 +421,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '파트너스',
-			path: '/partners',
+			subMenus: partners,
+			subMenuHandler: (event) => {
+				if (event) setAnchorElPartners(event.currentTarget);
+				else setAnchorElPartners(null);
+			},
+			target: anchorElPartners,
 		},
 		{
 			label: '요금제 안내',

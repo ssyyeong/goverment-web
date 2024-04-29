@@ -10,6 +10,7 @@ import { useUserAccess } from '../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
 import SupportiTheBlack from '../../src/modules/SupportiTheBlack/SupportiTheBlack';
 import { useAppMember } from '../../src/hooks/useAppMember';
+import Image from 'next/image';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -22,6 +23,39 @@ const Page: NextPage = () => {
 
 	//* Constants
 	/**
+	 * 상단 고정 컨텐트
+	 */
+	const topContents = [
+		{
+			title: '파트너사 제공 서비스 이용',
+			description: [
+				'AWS $5000 크레딧',
+				'세무기장 서비스 3개월 무료',
+				'세무 법무 특허 노무 24시간 Q&A',
+			],
+		},
+		{
+			title: '사업, 투자전략 코칭 혜택',
+			description: [
+				'투자자 1:1 IR Deck 코칭 (60분)',
+				'투자전략, 사업전략 전문가 커피챗 2회 (각 1시간) / 월',
+				'월1회 프리미엄 강의 / 세미나 진행',
+				'주1회 사업, 투자전략 온라인 Open Discussion 진행',
+			],
+		},
+		{
+			title: '서포티에서만 이용할 수 있는 부가 서비스',
+			description: [
+				'투자전략, 사업전략 24시간 Q&A',
+				'투자자 매칭 서비스 (1회) : 단건 주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
+				'CEO 사업 Todo, 루틴관리 서비스',
+				'마케팅 컨설팅 서비스 (1회)',
+			],
+			add: '* 해당서비스는 유료서비스입니다.',
+		},
+	];
+
+	/**
 	 * 서포티 블랙 모듈
 	 */
 	const supportiTheBlack = SupportiTheBlack({ memberId });
@@ -29,7 +63,34 @@ const Page: NextPage = () => {
 	/**
 	 * 무료 구독권 상세 내용
 	 */
-	const contentsDetail = '계좌 서비스, 성과 지표 관리 서비스, 뉴스레터 이용';
+	const contentsDetail =
+		'투자유치 IR Deck 등록 및 투자자 열람, 성과 지표 관리 서비스, 뉴스레터 이용';
+
+	/**
+	 * 부가 서비스
+	 */
+	const additionalService = [
+		{
+			title: '투자전략, 사업전략 24시간 Q&A',
+			cost: '월 100,000원',
+		},
+		{
+			title: '투자자 매칭 서비스 (1회)',
+			cost: '단건 300,000원',
+		},
+		{
+			title: '주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
+			cost: '월 100,000원',
+		},
+		{
+			title: 'CEO 사업 Todo, 루틴관리 서비스',
+			cost: '월 100,000원',
+		},
+		{
+			title: '마케팅 컨설팅 서비스 (1회)',
+			cost: '단건 300,000원',
+		},
+	];
 
 	//* States
 	const [ratePlanList, setRatePlanList] = React.useState([]);
@@ -107,19 +168,121 @@ const Page: NextPage = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '100%',
-				p: { sm: 10, xs: 2 },
+				px: { sm: 5, xs: 2 },
 				bgcolor: 'primary.light',
 			}}
 		>
-			<Typography
-				variant="h2"
-				fontWeight={'bold'}
+			<Box
+				width="100vw"
 				sx={{
-					mb: 6,
+					height: { sm: '650px', xs: '1050px' },
 				}}
 			>
-				요금제
-			</Typography>
+				<img
+					style={{
+						zIndex: 10,
+						width: '100%',
+						height: '100%',
+					}}
+					src={'/images/main/mainBackgroundImg.jpg'}
+					alt="img"
+				/>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '60px',
+						zIndex: 30,
+						height: { sm: '650px', xs: '1050px' },
+						textAlign: 'center',
+						width: '99.5vw',
+						bgcolor: 'rgba(0, 0, 0, 0.7)',
+						pt: { sm: 15, xs: 10 },
+					}}
+				>
+					<Typography
+						variant="h1"
+						zIndex={100}
+						color={'white'}
+						sx={{ wordBreak: 'keep-all' }}
+					>
+						가장 합리적인 요금제를 확인하세요 !
+					</Typography>
+					<Typography
+						variant="h6"
+						zIndex={100}
+						color={'white'}
+						my={2.5}
+					>
+						Suppor-T는 스타트업의 성장을 위해 지원합니다.
+					</Typography>
+					<Box
+						display="flex"
+						justifyContent={'space-around'}
+						gap={2}
+						mt={{ sm: 13, xs: 8 }}
+						width="85vw"
+						mx="auto"
+						flexWrap="wrap"
+					>
+						{topContents.map((item, index) => {
+							return (
+								<Box
+									sx={{
+										borderRadius: '15px',
+										bgcolor: 'white',
+										padding: { sm: '20px', xs: '5px' },
+										width: '370px',
+										height: { sm: '270px', xs: '230px' },
+									}}
+								>
+									<Box
+										sx={{
+											borderRadius: 4,
+											bgcolor: 'primary.light',
+											width: '70px',
+											mx: 'auto',
+											p: 1,
+											mb: 2,
+											mt: 1.5,
+										}}
+									>
+										<Typography
+											color="primary.main"
+											variant="h6"
+										>
+											혜택 {index + 1}
+										</Typography>
+									</Box>
+									<Box>
+										{item.description.map((desc, idx) => {
+											return (
+												<Typography
+													variant="subtitle1"
+													mb={0.2}
+													sx={{
+														wordBreak: 'keep-all',
+													}}
+												>
+													{desc}
+												</Typography>
+											);
+										})}
+										{/* <CheckIcon /> */}
+									</Box>
+									<Typography
+										variant="body1"
+										mb={0.2}
+										color="secondary.dark"
+									>
+										{item.add}
+									</Typography>
+								</Box>
+							);
+						})}
+					</Box>
+				</Box>
+			</Box>
+
 			<Box
 				display={'flex'}
 				// alignItems={'center'}
@@ -127,6 +290,7 @@ const Page: NextPage = () => {
 				flexWrap={'wrap'}
 				justifyContent={'center'}
 				width={'100%'}
+				mt={10}
 			>
 				<Box
 					sx={{
@@ -517,14 +681,115 @@ const Page: NextPage = () => {
 						</Box>
 					);
 				})}
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						width: '100%',
+						boxShadow:
+							'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
+						borderRadius: '20px',
+						marginTop: '20px',
+						maxWidth: '300px',
+						minHeight: 696,
+						bgcolor: 'white',
+					}}
+				>
+					<Box
+						sx={{
+							borderTopLeftRadius: '20px',
+							borderTopRightRadius: '20px',
+							padding: 4,
+							maxWidth: '300px',
+							bgcolor: 'common.white',
+							width: '100%',
+							textAlign: 'center',
+							mb: 2,
+							height: '175px',
+							pt: 8,
+						}}
+					>
+						{/** 구독권 이름 */}
+						<Typography
+							variant="h5"
+							fontWeight={600}
+							color={'common.black'}
+							sx={{ mb: 2, wordBreak: 'break-all' }}
+						>
+							부가서비스
+						</Typography>
+
+						{/** 금액 */}
+						{
+							// <Typography
+							// 	variant="h2"
+							// 	fontWeight={'bold'}
+							// 	color={'primary'}
+							// 	sx={{ mt: 1 }}
+							// >
+							// 	0 원
+							// </Typography>
+						}
+					</Box>
+
+					<Box
+						sx={{
+							padding: 2,
+							maxWidth: '300px',
+							width: '100%',
+						}}
+					>
+						{/** 구독권 상세 내용 */}
+
+						<Box>
+							{additionalService.map((item, idx) => {
+								return (
+									<Box mb={2}>
+										<Typography
+											sx={{
+												wordBreak: 'break-all',
+											}}
+											color={'secondary.dark'}
+										>
+											{idx + 1 + ') '}
+											{item.title}
+										</Typography>
+										<Typography
+											sx={{
+												wordBreak: 'break-all',
+											}}
+											color={'primary.main'}
+											variant="subtitle1"
+											fontWeight={600}
+											mt="2px"
+										>
+											{item.cost}
+										</Typography>
+									</Box>
+								);
+							})}
+
+							{/** 구분선 */}
+							<Box
+								sx={{
+									width: '270px',
+									height: '1px',
+									backgroundColor: 'secondary.light',
+									mb: 2,
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
 			</Box>
 
 			<SupportiButton
 				variant="outlined"
 				style={{
 					width: '40%',
-					marginTop: '30px',
-					marginBottom: '16px',
+					marginTop: '60px',
+					marginBottom: '150px',
 					backgroundColor: 'white',
 					color: 'primary.main',
 					cursor: 'pointer',

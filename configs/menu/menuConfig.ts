@@ -99,6 +99,16 @@ const dashboardMenu: IMenu[] = [
 		label: '파트너스',
 		path: '/partners',
 		icon: '/images/icons/seminar.png',
+		submenu: [
+			{
+				label: '파트너스',
+				path: '/partners',
+			},
+			{
+				label: '비즈니스 멘토',
+				path: '/mentor',
+			},
+		],
 	},
 
 	{
