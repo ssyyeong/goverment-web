@@ -42,6 +42,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
 	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
 	const [anchorElPartners, setAnchorElPartners] = React.useState(null); //파트너스 메뉴
+	const [target, setTarget] = React.useState(null);
 	//* Constants
 
 	/**
@@ -358,6 +359,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '소셜링',
 			subMenus: socialing,
 			subMenuHandler: (event) => {
+				console.log(event, '소셜링');
+
 				if (event) setAnchorElCommunity(event.currentTarget);
 				else setAnchorElCommunity(null);
 			},
@@ -367,6 +370,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '지원사업',
 			subMenus: government,
 			subMenuHandler: (event) => {
+				console.log(event, '지원사업');
+
 				if (event) setAnchorElGovernment(event.currentTarget);
 				else setAnchorElGovernment(null);
 			},
@@ -376,6 +381,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '지표관리',
 			subMenus: indication,
 			subMenuHandler: (event) => {
+				console.log(event, '지표관리');
+
 				if (event) setAnchorElIndicator(event.currentTarget);
 				else setAnchorElIndicator(null);
 			},
@@ -385,6 +392,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '파트너스',
 			subMenus: partners,
 			subMenuHandler: (event) => {
+				console.log(event, '파트너스');
+
 				if (event) setAnchorElPartners(event.currentTarget);
 				else setAnchorElPartners(null);
 			},
@@ -398,6 +407,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '고객센터',
 			subMenus: customercenter,
 			subMenuHandler: (event) => {
+				console.log(event, '고객센터');
 				if (event) setAnchorElUser(event.currentTarget);
 				else setAnchorElUser(null);
 			},
@@ -515,6 +525,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							menu.label,
 							menu.subMenuHandler
 						);
+						setTarget(menu.label);
 					}}
 					onClick={(event) =>
 						handleOpenUserMenu(
@@ -523,6 +534,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							menu.subMenuHandler
 						)
 					}
+					// onMouseMove={() => {
+					// 	if (Boolean(menu?.target)) setTarget(null);
+					// }}
 					sx={{
 						my: 3,
 						mr: 2,
@@ -544,7 +558,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					hideBackdrop={true}
 					sx={{
 						mt: '45px',
-						visibility: title !== menu.label && 'hidden',
+						visibility: target !== menu.label && 'hidden',
 					}}
 					id="menu-appbar"
 					anchorEl={menu.target}
@@ -552,12 +566,12 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						vertical: 'top',
 						horizontal: 'center',
 					}}
-					keepMounted
+					// keepMounted
 					transformOrigin={{
 						vertical: 'top',
 						horizontal: 'center',
 					}}
-					open={Boolean(menu?.target)}
+					open={target === menu.label && Boolean(menu?.target)}
 					onClose={() => menu?.subMenuHandler(null)}
 					PaperProps={{
 						sx: {
@@ -570,10 +584,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					key={idx}
 					MenuListProps={{
 						onMouseLeave: () => {
-							console.log('ddd');
 							menu?.subMenuHandler(null);
 						},
 					}}
+					autoFocus={false}
 				>
 					{menu.subMenus.map((setting) => (
 						<MenuItem

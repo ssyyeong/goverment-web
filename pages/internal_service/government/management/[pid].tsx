@@ -34,6 +34,7 @@ import { useAppMember } from '../../../../src/hooks/useAppMember';
 import SupportFileAddModal from '../../../../src/views/local/internal_service/government/SupportFileAddModal/SupportFileAddModal';
 import { TableHeaderProps } from '../../../../src/views/global/SupportiTable/SupportiTable';
 import { supportRoute } from '../../../../configs/data/SupportBusinessConfig';
+import addCommaToNumber from '../../../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -545,6 +546,14 @@ const Page: NextPage = () => {
 			label: '부담금 비율(%)',
 			key: 'BUSINESS_CONTRIBUTION_RATE',
 		},
+		{
+			label: '현금 비율(%)',
+			key: 'CASH_RATE',
+		},
+		{
+			label: '현물 비율(%)',
+			key: 'VIRTUAL_CASH_RATE',
+		},
 	];
 	console.log(
 		supportContentData?.map((row) => row?.SUPPORT_DESCRIPTION_TITLE)
@@ -996,11 +1005,13 @@ const Page: NextPage = () => {
 												>
 													{supportBusinessManagement.OPERATING_COST !=
 													0
-														? supportBusinessManagement.OPERATING_COST *
-														  0.01 *
-														  supportBusinessManagement[
-																item.key
-														  ]
+														? addCommaToNumber(
+																supportBusinessManagement.OPERATING_COST *
+																	0.01 *
+																	supportBusinessManagement[
+																		item.key
+																	]
+														  )
 														: 0}{' '}
 													원
 												</Typography>
@@ -1008,11 +1019,15 @@ const Page: NextPage = () => {
 										</Box>
 									) : (
 										<Typography fontWeight={'500'}>
-											{
-												supportBusinessManagement[
-													item.key
-												]
-											}
+											{item.key === 'OPERATING_COST'
+												? addCommaToNumber(
+														supportBusinessManagement[
+															item.key
+														]
+												  )
+												: supportBusinessManagement[
+														item.key
+												  ]}
 										</Typography>
 									)}
 								</Box>
@@ -1021,6 +1036,9 @@ const Page: NextPage = () => {
 
 						{/* 항목별 지원금 */}
 						<SubsidyByItemTable
+							useCalculation={
+								phaseType === 'PHASE1' ? false : true
+							}
 							subsidyTab={subsidyTab}
 							supportBusinessManagement={
 								supportBusinessManagement

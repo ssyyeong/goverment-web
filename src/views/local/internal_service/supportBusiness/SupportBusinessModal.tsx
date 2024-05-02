@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../global/SupportiAlertModal';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { useAppMember } from '../../../../hooks/useAppMember';
 import { useUserAccess } from '../../../../hooks/useUserAccess';
+import router from 'next/router';
 
 interface ISupportBusinessModalProps {
 	modalOpen: boolean;
@@ -178,21 +179,39 @@ const SupportBusinessModal = (props: ISupportBusinessModalProps) => {
 							</Typography>
 						</Box>
 					</Box>
-					{saved ? (
-						<TurnedInIcon
-							sx={{
-								cursor: 'pointer',
+					<Box display="flex" gap={1}>
+						<SupportiButton
+							contents={`Phase1으로 관리`}
+							onClick={() => {
+								router.push(
+									`/internal_service/government/management/write?phase=PHASE1`
+								);
 							}}
-							onClick={() => bookmarkSupportBusiness('N')}
-						/>
-					) : (
-						<TurnedInNotIcon
-							sx={{
-								cursor: 'pointer',
+							style={{
+								width: '140px',
+								mx: 'auto',
+								height: '22px',
 							}}
-							onClick={() => bookmarkSupportBusiness('Y')}
+							variant="outlined"
 						/>
-					)}
+						{saved ? (
+							<TurnedInIcon
+								sx={{
+									cursor: 'pointer',
+									my: 'auto',
+								}}
+								onClick={() => bookmarkSupportBusiness('N')}
+							/>
+						) : (
+							<TurnedInNotIcon
+								sx={{
+									cursor: 'pointer',
+									my: 'auto',
+								}}
+								onClick={() => bookmarkSupportBusiness('Y')}
+							/>
+						)}
+					</Box>
 				</Box>
 				{/* 내용 */}
 				<Grid container>

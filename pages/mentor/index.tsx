@@ -60,7 +60,7 @@ const Page: NextPage = () => {
 			sx={{
 				width: '100%',
 				height: '100%',
-				p: { xs: 0.5, sm: 20 },
+				p: { xs: 5, sm: 20 },
 				bgcolor: 'white',
 				alignItems: 'center',
 			}}
@@ -73,10 +73,15 @@ const Page: NextPage = () => {
 					멘토링을 통해 기업가정신을 키우고, 성공적인 창업을 돕습니다.
 				</Typography>
 			</Box>
-			<Box display={'flex'} gap={2} justifyContent={'space-between'}>
+			<Box
+				display={'flex'}
+				gap={2}
+				justifyContent={'space-between'}
+				flexWrap={'wrap'}
+			>
 				{CardConfig.map((item, index) => {
 					return (
-						<Box display={'flex'} gap={5}>
+						<Box display={'flex'} gap={5} flexWrap={'wrap'}>
 							<Image
 								src={item.Companies[0].logoPath}
 								alt={item.Title}

@@ -113,6 +113,8 @@ const Page: NextPage = () => {
 			BUSINESS_SECTOR: null,
 			OPERATING_COST: null,
 			SUPPORT_COST_RATE: null,
+			CASH_RATE: null,
+			VIRTUAL_CASH_RATE: null,
 			BUSINESS_CONTRIBUTION_RATE: null,
 			BUSINESS_DESCRIPTION: [],
 		});
@@ -652,6 +654,68 @@ const Page: NextPage = () => {
 			),
 		},
 		{
+			label: '기업부담 현금 비율(%)',
+			value: supportBusiness.CASH_RATE,
+			additionalProps: {
+				placeholder: '기업부담 현금 비율을 입력해주세요',
+			},
+			essential: true,
+			setValue: (value: string) =>
+				setSupportBusiness({
+					...supportBusiness,
+					CASH_RATE: value,
+				}),
+			grid: {
+				xs: 12,
+				sm: 5.8,
+			},
+			// additionalComponent: (
+			// 	<Typography
+			// 		my="auto"
+			// 		color="primary.main"
+			// 		sx={{ mt: 1, ml: '80%' }}
+			// 	>
+			// 		{supportBusiness.OPERATING_COST != 0
+			// 			? supportBusiness.OPERATING_COST *
+			// 			  0.01 *
+			// 			  supportBusiness.BUSINESS_CONTRIBUTION_RATE
+			// 			: 0}{' '}
+			// 		원
+			// 	</Typography>
+			// ),
+		},
+		{
+			label: '기업부담 현물 비율(%)',
+			value: supportBusiness.VIRTUAL_CASH_RATE,
+			additionalProps: {
+				placeholder: '기업부담 현물 비율을 입력해주세요',
+			},
+			essential: true,
+			setValue: (value: string) =>
+				setSupportBusiness({
+					...supportBusiness,
+					VIRTUAL_CASH_RATE: value,
+				}),
+			grid: {
+				xs: 12,
+				sm: 5.8,
+			},
+			// additionalComponent: (
+			// 	<Typography
+			// 		my="auto"
+			// 		color="primary.main"
+			// 		sx={{ mt: 1, ml: '80%' }}
+			// 	>
+			// 		{supportBusiness.OPERATING_COST != 0
+			// 			? supportBusiness.OPERATING_COST *
+			// 			  0.01 *
+			// 			  supportBusiness.BUSINESS_CONTRIBUTION_RATE
+			// 			: 0}{' '}
+			// 		원
+			// 	</Typography>
+			// ),
+		},
+		{
 			label: '제출 마감일',
 			value: supportBusiness.DEAD_LINE_DATE,
 			phase: 'PHASE1',
@@ -916,7 +980,7 @@ const Page: NextPage = () => {
 					>
 						<Grid container gap={1}>
 							{supportBusinessManagementData
-								.slice(16, 19)
+								.slice(16, 21)
 								.map((item, index) => {
 									return (
 										<Grid
