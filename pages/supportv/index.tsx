@@ -11,12 +11,17 @@ import { usePagination } from '../../src/hooks/usePagination';
 import SupportiPagination from '../../src/views/global/SupportiPagination';
 import YouTube from 'react-youtube';
 import Nodata from '../../src/views/global/NoData/NoData';
+import SupportiInput from '../../src/views/global/SupportiInput';
+import ContentsCard from '../../src/views/local/internal_service/contents/ContentsCard/ContentsCard';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	//* Controller
 	const contentsController = new DefaultController('Contents');
+	const contentsCategoryController = new DefaultController(
+		'ContentsCategory'
+	);
 	//* Constants
 	/**
 	 * 탭 리스트
@@ -56,10 +61,21 @@ const Page: NextPage = () => {
 	 * 추천 컨텐츠 데이터
 	 */
 	const [recommendedContent, setRecommendedContent] = useState<[]>([]);
+
+	/**
+	 * 컨텐츠 카테고리 데이터
+	 */
+	const [contentsCategoryList, setContentsCategoryList] = useState<[]>([]);
 	/**
 	 * 데이터 총 길이
 	 */
 	const [totalDataCount, setTotalDataCount] = useState<number>();
+
+	/**
+	 *
+	 * 검색어
+	 */
+	const [keyword, setKeyword] = useState<string>('');
 	//* Functions
 	/**
 	 * 컨텐츠 가져오기
@@ -96,6 +112,19 @@ const Page: NextPage = () => {
 			}
 		);
 	};
+	/**
+	 * 카테고리 리스트 조회
+	 */
+	const getCategoryList = () => {
+		contentsCategoryController.findAllItems(
+			{},
+			(res) => {
+				setContentsCategoryList(res.data.result.rows);
+			},
+			(err) => console.log(err)
+		);
+	};
+
 	//* Hooks
 
 	/**
@@ -107,6 +136,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		getRecommendedContentsList();
+		// getCategoryList();
 	}, []);
 	/**
 	 * 컨텐츠
@@ -120,6 +150,7 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		handlePageChange(1);
 	}, [tab]);
+
 	return (
 		<Box
 			width={'100%'}
@@ -222,8 +253,49 @@ const Page: NextPage = () => {
 				</Box>
 			</Box>
 			{/* 영상 리스트 */}
-			<Box mt={4} width={'80%'}>
-				<Tabs
+			<Box mt={4} width={'95%'}>
+				<Grid container mt={3}>
+					{/** 카테고리 영역 */}
+					<Grid item xs={4} md={2}>
+						<Typography variant="h6" fontWeight={'600'}>
+							카테고리 바로가기
+						</Typography>
+						<Box
+							sx={{
+								borderRadius: 1,
+								border: '1px solid #c8c8c8',
+								p: 0.6,
+								width: 'fit-content',
+								my: 2,
+							}}
+						>
+							<Typography variant="subtitle2" color={'gray'}>
+								전체
+							</Typography>
+							{contentsCategoryList?.map((item, index) => {
+								return (
+									<Typography
+										variant="subtitle2"
+										color={'gray'}
+									>
+										{item}
+									</Typography>
+								);
+							})}
+						</Box>
+					</Grid>
+					{/** 콘텐츠 리스트 영역 */}
+					<Grid
+						item
+						xs={12}
+						md={8}
+						sx={{ maxWidth: { md: '80vw', xs: '100vw' } }}
+					>
+						<Typography variant="h3" fontWeight={'700'} mb={8}>
+							금주 핫한 콘텐츠
+						</Typography>
+
+						{/* <Tabs
 					value={tab}
 					onChange={(e, newValue) => setTab(newValue)}
 					textColor="primary"
@@ -232,61 +304,50 @@ const Page: NextPage = () => {
 					{tabList.map((item, idx) => (
 						<Tab label={item.title} key={idx} value={item.title} />
 					))}
-				</Tabs>
-				<Grid container spacing={2} mt={3}>
-					{contentsDataList.map((item: any, idx) => {
-						return (
-							<Grid
-								item
-								xs={12}
-								md={4}
-								sx={{
-									cursor: 'pointer',
+				</Tabs> */}
+						<Box
+							overflow={'auto'}
+							maxWidth={'60vw'}
+							display={'flex'}
+							gap={2.5}
+							sx={{
+								'-ms-overflow-style': 'none',
+								'&::-webkit-scrollbar': {
+									width: '6px',
+									height: '5px !important',
+									backgroundColor: 'white !important',
+									padding: '1px',
+									borderRadius: '20px',
+								},
+								'&::-webkit-scrollbar-thumb': {
+									backgroundColor: '#b0b5c2',
+									borderRadius: '20px',
+								},
+							}}
+						>
+							{contentsDataList.map((item: any, idx) => {
+								return <ContentsCard key={idx} data={item} />;
+							})}
+
+							{contentsDataList.length === 0 && <Nodata />}
+						</Box>
+					</Grid>
+					{/** 검색 영역 */}
+					<Grid item xs={4} md={2}>
+						{/** 검색창 */}
+						<Box mt={3}>
+							<SupportiInput
+								type="search"
+								value={keyword}
+								setValue={setKeyword}
+								style={{ width: '260px' }}
+								additionalProps={{
+									placeholder:
+										'관심있는 컨텐츠를 검색해보세요.',
 								}}
-								onClick={() => {
-									router.push(
-										`/supportv/${item.CONTENTS_IDENTIFICATION_CODE}`
-									);
-								}}
-							>
-								<Box
-									display={'flex'}
-									flexDirection={'column'}
-									bgcolor={'white'}
-									borderRadius={1}
-								>
-									<Thumbnail
-										src={
-											item.THUMBNAIL &&
-											JSON.parse(item.THUMBNAIL)[0]
-										}
-										width={'100%'}
-										backgroundSize="cover"
-										borderRadius={3}
-										ratio="16:9"
-									/>
-									<Box my={3}>
-										<Typography
-											variant="h6"
-											fontWeight={'600'}
-										>
-											{item.TITLE}
-										</Typography>
-										<Typography
-											variant="subtitle2"
-											mt={1}
-											color={'gray'}
-											lineHeight={1.5}
-											fontWeight={'400'}
-										>
-											{item.SHORT_DESCRIPTION}
-										</Typography>
-									</Box>
-								</Box>
-							</Grid>
-						);
-					})}
-					{contentsDataList.length === 0 && <Nodata />}
+							/>
+						</Box>
+					</Grid>
 				</Grid>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>
