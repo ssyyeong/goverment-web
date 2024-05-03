@@ -54,7 +54,7 @@ const Page: NextPage = () => {
 			align: 'center',
 			value: 'APPROVED_DATE',
 			format: (value) => {
-				return value.split('T')[0];
+				return value != null ? value.split('T')[0] : '취소';
 			},
 		},
 	];
@@ -124,7 +124,11 @@ const Page: NextPage = () => {
 									{
 										label: '결제일',
 										value: `${
-											item.APPROVED_DATE.split('T')[0]
+											item.APPROVED_DATE != null
+												? item.APPROVED_DATE.split(
+														'T'
+												  )[0]
+												: '취소'
 										} 원`,
 									},
 								]}
