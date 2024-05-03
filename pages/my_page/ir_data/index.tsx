@@ -98,6 +98,7 @@ const Page: NextPage = () => {
 			label: '사업자등록번호',
 			value: 'BUSINESS_NUMBER',
 			required: true,
+			placeholder: '-를 제외한 숫자만 입력해주세요.',
 		},
 		{
 			label: '대표자명',
@@ -112,8 +113,8 @@ const Page: NextPage = () => {
 		{
 			label: '업종/업태',
 			value: 'BUSINESS_SECTOR',
-			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 			required: true,
+			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 		},
 		{
 			label: '설립일자',
@@ -133,6 +134,7 @@ const Page: NextPage = () => {
 			label: '연락처',
 			value: 'CONTACT_NUMBER',
 			required: true,
+			placeholder: '-를 제외한 숫자만 입력해주세요.',
 		},
 	];
 
@@ -729,7 +731,10 @@ const Page: NextPage = () => {
 									</Box>
 									{/* 기업 정보 */}
 									<Box mt={2}>
-										<Typography fontWeight={'600'}>
+										<Typography
+											fontWeight={'600'}
+											variant="subtitle1"
+										>
 											기업 정보
 										</Typography>
 										<Grid
@@ -748,7 +753,7 @@ const Page: NextPage = () => {
 												<Typography
 													fontWeight={'600'}
 													color={'grey'}
-													variant="caption"
+													variant="body1"
 												>
 													딥테크여부
 													<IconButton
@@ -789,7 +794,7 @@ const Page: NextPage = () => {
 																	'600'
 																}
 																color={'grey'}
-																variant="caption"
+																variant="body1"
 															>
 																{item.label}{' '}
 																{item.required && (
@@ -874,7 +879,10 @@ const Page: NextPage = () => {
 									</Box>
 									{/* 사업 소개 */}
 									<Box mt={2}>
-										<Typography fontWeight={'600'}>
+										<Typography
+											fontWeight={'600'}
+											variant="subtitle1"
+										>
 											사업 소개
 										</Typography>
 										<Grid
@@ -898,7 +906,7 @@ const Page: NextPage = () => {
 																	'600'
 																}
 																color={'grey'}
-																variant="caption"
+																variant="body1"
 																width={'100px'}
 															>
 																{item.label}{' '}
@@ -1010,7 +1018,7 @@ const Page: NextPage = () => {
 											<Typography
 												fontWeight={'600'}
 												color={'grey'}
-												variant="caption"
+												variant="body1"
 												width={'130px'}
 											>
 												기업 소개 이미지
@@ -1072,7 +1080,10 @@ const Page: NextPage = () => {
 									</Box>
 									{/* 투자 정보 */}
 									<Box mt={2}>
-										<Typography fontWeight={'600'}>
+										<Typography
+											fontWeight={'600'}
+											variant="subtitle1"
+										>
 											투자 정보
 										</Typography>
 										<Grid
@@ -1096,7 +1107,7 @@ const Page: NextPage = () => {
 																	'600'
 																}
 																color={'grey'}
-																variant="caption"
+																variant="body1"
 															>
 																{item.label}
 															</Typography>
@@ -1178,7 +1189,7 @@ const Page: NextPage = () => {
 											<Typography
 												fontWeight={'600'}
 												color={'grey'}
-												variant="caption"
+												variant="body1"
 											>
 												투자 연혁
 											</Typography>
@@ -1216,7 +1227,7 @@ const Page: NextPage = () => {
 																	color={
 																		'grey'
 																	}
-																	variant="caption"
+																	variant="body1"
 																	width={
 																		'50px'
 																	}
@@ -1385,7 +1396,7 @@ const Page: NextPage = () => {
 																						color={
 																							'grey'
 																						}
-																						variant="caption"
+																						variant="body1"
 																						width={
 																							'50px'
 																						}
