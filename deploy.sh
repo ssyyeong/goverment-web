@@ -3,7 +3,7 @@ export NVM_DIR=/root/.nvm
 export JAVA_HOME=/opt/java/openjdk
 
 echo 'npm install'
-npm install
+npm install --legacy-peer-deps
 
 echo 'build'
 npm run build
