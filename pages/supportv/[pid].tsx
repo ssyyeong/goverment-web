@@ -8,13 +8,26 @@ import YouTube from 'react-youtube';
 import Image from 'next/image';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import ContentsCard from '../../src/views/local/internal_service/contents/ContentsCard/ContentsCard';
+import dynamic from 'next/dynamic';
 
 const Page: NextPage = () => {
 	//* Modules
 	const { pid } = useRouter().query;
+
+	const SupportiViewer = dynamic(
+		() =>
+			import(
+				'../../src/views/local/internal_service/contents/ToastViewer/ToastViewer'
+			),
+		{
+			ssr: false,
+		}
+	);
+
 	//* Controller
 	const contentsController = new DefaultController('Contents');
 	//* Constants
+
 	//* States
 	/**
 	 * 컨텐츠 데이터
@@ -177,14 +190,27 @@ const Page: NextPage = () => {
 								>
 									영상 소개
 								</Typography>
-								<Typography
-									variant="h6"
-									fontWeight={'600'}
-									color="gray"
-									mb={4}
-								>
-									작성자 {contentsData.WRITER} 님
-								</Typography>
+								<Box display="flex">
+									<Typography
+										variant="h6"
+										fontWeight={'600'}
+										color="grey"
+										mb={4}
+									>
+										작성자 {contentsData.WRITER} 님
+									</Typography>
+									<Typography
+										variant="subtitle2"
+										fontWeight={'400'}
+										color="grey"
+										mb={4}
+										ml={1}
+									>
+										{contentsData.CREATED_AT?.split(
+											'T'
+										)[0].replaceAll('-', '.')}
+									</Typography>
+								</Box>
 							</Box>
 
 							{contentsData.DESCRIPTION.split('\n').map(
@@ -209,32 +235,30 @@ const Page: NextPage = () => {
 				{contentsData.TYPE === 'NEWSLETTER' && (
 					<Box width={'100%'}>
 						<Box p={5} mx={'10%'}>
-							<Box display="flex" justifyContent="space-between">
+							<Box display="flex">
 								<Typography
 									variant="h6"
 									fontWeight={'600'}
-									color="gray"
+									color="grey"
 									mb={4}
+									ml="auto"
 								>
 									작성자 {contentsData.WRITER} 님
 								</Typography>
+								<Typography
+									variant="subtitle2"
+									fontWeight={'400'}
+									color="grey"
+									mb={4}
+									ml={1}
+								>
+									{contentsData.CREATED_AT?.split(
+										'T'
+									)[0].replaceAll('-', '.')}
+								</Typography>
 							</Box>
 
-							{contentsData.DESCRIPTION.split('\n').map(
-								(item, index) => {
-									return (
-										<Typography
-											sx={{
-												wordBreak: 'keep-all',
-											}}
-											variant={'subtitle2'}
-											lineHeight={1.6}
-										>
-											{item}
-										</Typography>
-									);
-								}
-							)}
+							<SupportiViewer data={contentsData.DESCRIPTION} />
 						</Box>
 					</Box>
 				)}

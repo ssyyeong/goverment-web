@@ -13,6 +13,7 @@ import YouTube from 'react-youtube';
 import Nodata from '../../src/views/global/NoData/NoData';
 import SupportiInput from '../../src/views/global/SupportiInput';
 import ContentsCard from '../../src/views/local/internal_service/contents/ContentsCard/ContentsCard';
+import { ContentsController } from '../../src/controller/ContentsController';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -22,6 +23,7 @@ const Page: NextPage = () => {
 	const contentsCategoryController = new DefaultController(
 		'ContentsCategory'
 	);
+	const contentPeriodController = new ContentsController();
 	//* Constants
 	/**
 	 * 탭 리스트
@@ -83,7 +85,9 @@ const Page: NextPage = () => {
 	const getContents = () => {
 		contentsController.findAllItems(
 			{
-				CATEGORY: tab === '전체' ? undefined : tab,
+				CONTENTS_CATEGORY_IDENTIFICATION_CODE:
+					tab === '전체' ? undefined : tab,
+				KEYWORD: { columnKey: 'TITLE', keyword: keyword },
 				PAGE: page,
 				LIMIT: 9,
 			},
@@ -99,14 +103,14 @@ const Page: NextPage = () => {
 	 * 추천 컨텐츠 가져오기
 	 */
 	const getRecommendedContentsList = () => {
-		contentsController.findAllItems(
+		contentPeriodController.findAllItems(
 			{
-				RECOMMENDED_YN: 'Y',
 				PAGE: 0,
 				LIMIT: 3,
 			},
 			(res) => {
 				if (res.data.result) {
+					console.log(res)
 					setRecommendedContent(res.data.result.rows);
 				}
 			}
@@ -136,14 +140,14 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		getRecommendedContentsList();
-		// getCategoryList();
+		getCategoryList();
 	}, []);
 	/**
 	 * 컨텐츠
 	 */
 	useEffect(() => {
 		getContents();
-	}, [page, tab]);
+	}, [page, tab, keyword]);
 	/**
 	 * 탭 변경시 페이지 초기화
 	 */
@@ -195,7 +199,7 @@ const Page: NextPage = () => {
 			</Box>
 
 			{/* 메인 영상3개 */}
-			<Box
+			{/* <Box
 				display={'flex'}
 				width={'100%'}
 				bgcolor={'#bbbbbb'}
@@ -251,7 +255,7 @@ const Page: NextPage = () => {
 						))}
 					</Grid>
 				</Box>
-			</Box>
+			</Box> */}
 			{/* 영상 리스트 */}
 			<Box mt={4} width={'95%'}>
 				<Grid container mt={3}>
@@ -264,12 +268,18 @@ const Page: NextPage = () => {
 							sx={{
 								borderRadius: 1,
 								border: '1px solid #c8c8c8',
-								p: 0.6,
+								p: 2,
 								width: 'fit-content',
 								my: 2,
+								minWidth: '110px',
 							}}
 						>
-							<Typography variant="subtitle2" color={'gray'}>
+							<Typography
+								variant="subtitle2"
+								color={'gray'}
+								sx={{ cursor: 'pointer' }}
+								onClick={() => setTab('전체')}
+							>
 								전체
 							</Typography>
 							{contentsCategoryList?.map((item, index) => {
@@ -277,8 +287,15 @@ const Page: NextPage = () => {
 									<Typography
 										variant="subtitle2"
 										color={'gray'}
+										mt={1.2}
+										sx={{ cursor: 'pointer' }}
+										onClick={() =>
+											setTab(
+												item?.CONTENTS_CATEGORY_IDENTIFICATION_CODE
+											)
+										}
 									>
-										{item}
+										{item?.CONTENT}
 									</Typography>
 								);
 							})}
@@ -325,11 +342,11 @@ const Page: NextPage = () => {
 								},
 							}}
 						>
-							{contentsDataList.map((item: any, idx) => {
+							{recommendedContent.map((item: any, idx) => {
 								return <ContentsCard key={idx} data={item} />;
 							})}
 
-							{contentsDataList.length === 0 && <Nodata />}
+							{recommendedContent.length === 0 && <Nodata />}
 						</Box>
 					</Grid>
 					{/** 검색 영역 */}
@@ -349,6 +366,29 @@ const Page: NextPage = () => {
 						</Box>
 					</Grid>
 				</Grid>
+				<Box width={'850px'} mx="auto" my={10}>
+					<Typography variant="h3" fontWeight={'700'} mb={8}>
+						전체 콘텐츠
+					</Typography>
+
+					{/* <Tabs
+					value={tab}
+					onChange={(e, newValue) => setTab(newValue)}
+					textColor="primary"
+					indicatorColor="primary"
+				>
+					{tabList.map((item, idx) => (
+						<Tab label={item.title} key={idx} value={item.title} />
+					))}
+				</Tabs> */}
+					<Box display={'flex'} gap={2.5} flexWrap={'wrap'}>
+						{contentsDataList.map((item: any, idx) => {
+							return <ContentsCard key={idx} data={item} />;
+						})}
+
+						{contentsDataList.length === 0 && <Nodata />}
+					</Box>
+				</Box>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>
 					<SupportiPagination

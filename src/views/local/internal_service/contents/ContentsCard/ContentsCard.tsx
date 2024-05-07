@@ -42,15 +42,16 @@ const ContentsCard = (props: IContentsCardProps) => {
 				/>
 				<Box
 					sx={{
-						borderRadius: 2,
-						border: '1px solid #c8c8c8',
-						p: 0.6,
+						borderRadius: 1.5,
+						border: '1px solid #305DDC',
+						py: 0.7,
+						px: 1,
 						width: 'fit-content',
-						my: 2,
+						my: 1.5,
 					}}
 				>
-					<Typography variant="subtitle2" color={'gray'}>
-						카테고리
+					<Typography variant="subtitle2" color={'primary.main'}>
+						{props.data.ContentsCategory.CONTENT}
 					</Typography>
 				</Box>
 				<Box my={2}>
