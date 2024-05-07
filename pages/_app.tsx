@@ -56,6 +56,15 @@ function App({
 			ssr: false,
 		}
 	);
+	const CustomHeaderLandingNoSSR = dynamic(
+		() =>
+			import(
+				'../src/views/local/common/CustomHeader/CustomHeaderLanding'
+			),
+		{
+			ssr: false,
+		}
+	);
 	const CustomFooterNoSSR = dynamic(
 		() => import('../src/views/local/common/CustomFooter/CustomFooter'),
 		{
@@ -97,40 +106,77 @@ function App({
 				strategy="afterInteractive"
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
-			<Entry
-				disableBreadCrumb={true}
-				memory={memory}
-				customHeader={<CustomHeaderNoSSR />}
-				configs={{
-					sidebar: {
-						...sideBarConfig,
-						...{
-							signIn: {
-								tokenExpireHours: 1,
-								signInSuccessLink: '/login',
+			{router.pathname.includes('landing') ? (
+				<Entry
+					disableBreadCrumb={true}
+					memory={memory}
+					customHeader={<CustomHeaderLandingNoSSR />}
+					configs={{
+						sidebar: {
+							...sideBarConfig,
+							...{
+								signIn: {
+									tokenExpireHours: 1,
+									signInSuccessLink: '/login',
+								},
+								plugin: [],
 							},
-							plugin: [],
 						},
-					},
-					head: { title: '서포티' },
-					header: navigatorConfig,
-					footer: footerConfig,
-					useFooter: true,
-				}}
-				cache={{
-					emotion: emotionCache,
-					theme: themeConfig,
-				}}
-				Component={Component}
-				useAuthCheck={false}
-				pageProps={pageProps}
-				disableSideBar={true}
-				disableGutturs={true}
-				containerPaddingX={'0'}
-				containerMaxWidth={'3000px !important'}
-				router={router}
-				anotherFooter={<CustomFooterNoSSR />}
-			/>
+						head: { title: '서포티' },
+						header: navigatorConfig,
+						footer: footerConfig,
+						useFooter: true,
+					}}
+					cache={{
+						emotion: emotionCache,
+						theme: themeConfig,
+					}}
+					Component={Component}
+					useAuthCheck={false}
+					pageProps={pageProps}
+					disableSideBar={true}
+					disableGutturs={true}
+					containerPaddingX={'0'}
+					containerMaxWidth={'3000px !important'}
+					router={router}
+					anotherFooter={<CustomFooterNoSSR />}
+				/>
+			) : (
+				<Entry
+					disableBreadCrumb={true}
+					memory={memory}
+					customHeader={<CustomHeaderNoSSR />}
+					configs={{
+						sidebar: {
+							...sideBarConfig,
+							...{
+								signIn: {
+									tokenExpireHours: 1,
+									signInSuccessLink: '/login',
+								},
+								plugin: [],
+							},
+						},
+						head: { title: '서포티' },
+						header: navigatorConfig,
+						footer: footerConfig,
+						useFooter: true,
+					}}
+					cache={{
+						emotion: emotionCache,
+						theme: themeConfig,
+					}}
+					Component={Component}
+					useAuthCheck={false}
+					pageProps={pageProps}
+					disableSideBar={true}
+					disableGutturs={true}
+					containerPaddingX={'0'}
+					containerMaxWidth={'3000px !important'}
+					router={router}
+					anotherFooter={<CustomFooterNoSSR />}
+				/>
+			)}
 		</React.Fragment>
 	);
 }
