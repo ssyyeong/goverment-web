@@ -67,7 +67,7 @@ const Page: NextPage = () => {
 	/**
 	 * 컨텐츠 카테고리 데이터
 	 */
-	const [contentsCategoryList, setContentsCategoryList] = useState<[]>([]);
+	const [contentsCategoryList, setContentsCategoryList] = useState<any[]>([]);
 	/**
 	 * 데이터 총 길이
 	 */
