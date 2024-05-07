@@ -212,9 +212,6 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 		};
 	});
 
-	console.log(temp);
-	console.log(props.supportBusinessManagement);
-
 	const subsidyMenu = [
 		{
 			label: '재료비',
@@ -254,9 +251,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 
 	// const temp2 = subsidyMenu.map((item, index) => {
 	// 	return {
-	// 		data:
-	// 			props.supportBusinessManagement.SubsidyByItems &&
-	// 			JSON.parse(
+	// 		data:		JSON.parse(
 	// 				props.supportBusinessManagement.SubsidyByItems.filter(
 	// 					(data) => data.NAME === item.label
 	// 				)[0]?.SUPPORT_COST
@@ -320,6 +315,9 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	useEffect(() => {
 		setSubSidyByItems(props.supportBusinessManagement.SubsidyByItems);
 	}, [props.supportBusinessManagement]);
+
+	console.log(temp)
+	console.log(subSidyByItems)
 
 	return (
 		subSidyByItems.length !== 0 && (
@@ -401,7 +399,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									textAlign={'center'}
 									color={'white'}
 								>
-									비목
+									항목
 								</Typography>
 							</Grid>
 							{subsidyMenu.map((item, index) => (
@@ -595,7 +593,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									textAlign={'center'}
 									color={'white'}
 								>
-									비목별 금액
+									항목별 금액
 								</Typography>
 							</Grid>
 							{subSidyByItems.map((item, index) => (
@@ -690,9 +688,9 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									)}
 								</Grid>
 							))}
-						</Grid> */}
+						</Grid>
 
-						{/* <Grid
+						<Grid
 							container
 							flexDirection={'column'}
 							sm={4}
@@ -737,9 +735,9 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									)
 								);
 							})}
-						</Grid> */}
+						</Grid>
 
-						{/* <Grid
+						<Grid
 							container
 							flexDirection={'column'}
 							sm={4}
@@ -781,9 +779,9 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									</Typography>
 								</Grid>
 							))}
-						</Grid> */}
+						</Grid>
 
-						{/* <Grid
+						<Grid
 							container
 							flexDirection={'column'}
 							sm={4}
