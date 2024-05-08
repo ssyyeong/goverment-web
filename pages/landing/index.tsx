@@ -1,9 +1,19 @@
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
+import Slider from 'react-slick';
 
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
+import MessageTwoToneIcon from '@mui/icons-material/MessageTwoTone';
+import HandshakeTwoToneIcon from '@mui/icons-material/HandshakeTwoTone';
+import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone';
+import PeopleTwoToneIcon from '@mui/icons-material/PeopleTwoTone';
+
 import CloseIcon from '@mui/icons-material/Close';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
@@ -59,6 +69,45 @@ const Page: NextPage = () => {
 		},
 	];
 
+	//* Functions
+	//BurnRate 섹션 화살표 커스텀
+	//* Functions
+	function SamplePrevArrow(props) {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{ ...style, display: 'block', color: 'black' }}
+				onClick={onClick}
+			>
+				<ArrowBackIosNewIcon />
+			</div>
+		);
+	}
+
+	function SampleNextArrow(props) {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{ ...style, display: 'block', color: 'black' }}
+				onClick={onClick}
+			>
+				<ArrowForwardIosIcon />
+			</div>
+		);
+	}
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		arrows: true,
+		nextArrow: <SampleNextArrow />,
+		prevArrow: <SamplePrevArrow />,
+	};
+
 	// 문의 데이터 초기화
 	const resetInquiryData = () => {
 		setName('');
@@ -112,7 +161,7 @@ const Page: NextPage = () => {
 				src="/images/main/container.jpg"
 				width={'100%'}
 				height={'100%'}
-			></img>
+			/>
 			{/* 메인 이미지 텍스트 섹션 */}
 			<Box
 				top={'50%'}
@@ -121,7 +170,16 @@ const Page: NextPage = () => {
 				left={'auto'}
 				textAlign={'center'}
 			>
-				<Typography variant={'h1'} fontWeight={'400'} color={'white'}>
+				<Typography
+					variant={'h1'}
+					fontWeight={'400'}
+					color={'white'}
+					sx={{
+						bgcolor: 'rgba(0, 0, 255, 0.7)',
+						display: 'inline',
+						padding: '5px 20px',
+					}}
+				>
 					It makes your company’s dream come true
 				</Typography>
 				<Typography
@@ -152,6 +210,330 @@ const Page: NextPage = () => {
 					함께 성장하는 동행자입니다.
 				</Typography>
 			</Box>
+
+			{/* BurnRate 섹션 */}
+			<Grid container justifyContent={'center'}>
+				<Box
+					pt={5}
+					pb={10}
+					display="flex"
+					width="70%"
+					flexDirection={'column'}
+				>
+					<Box mb={5}>
+						<Typography fontWeight={600} mb={1}>
+							법인계좌 연동으로 한눈에 보는
+						</Typography>
+						<Typography color="primary.main" variant="h3">
+							RunWay BurnRate
+						</Typography>
+					</Box>
+					<Box
+						display={'flex'}
+						mb={5}
+						justifyContent={'center'}
+						flexWrap={'wrap'}
+					>
+						<img
+							src={'/images/main/runwayPC.png'}
+							alt={'runwayPC'}
+							width={'70%'}
+						/>
+						<img
+							src={'/images/main/runwayMobile.png'}
+							alt={'runwayMobile'}
+							width={'20%'}
+							style={{
+								position: 'absolute',
+								right: '20%',
+								top: '155%',
+							}}
+						/>
+					</Box>
+				</Box>
+			</Grid>
+			{/* 제공하는 서비스 소개 섹션 */}
+			<Box display="flex" flexDirection={'column'} pb={10}>
+				<img
+					src="/images/main/graph.jpg"
+					width={'100%'}
+					height={'100%'}
+					style={{
+						padding: '5%',
+					}}
+				/>
+				<Box
+					display="flex"
+					justifyContent={'center'}
+					gap={2}
+					flexWrap="wrap"
+					mb={3}
+				>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<AutoGraphIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								효율적인 지표관리
+							</Typography>
+						</Box>
+					</Box>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<ApartmentTwoToneIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								투자심사역의 IR 코칭
+							</Typography>
+						</Box>
+					</Box>
+				</Box>
+				<Box
+					display="flex"
+					justifyContent={'center'}
+					gap={2}
+					flexWrap="wrap"
+					mb={3}
+				>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<MessageTwoToneIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								다양한 분야의 전문가 멘토링
+							</Typography>
+						</Box>
+					</Box>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<HandshakeTwoToneIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								데모데이, 투자자 매칭 등 다양한 투자 유치 기회
+							</Typography>
+						</Box>
+					</Box>
+				</Box>
+				<Box
+					display="flex"
+					justifyContent={'center'}
+					gap={2}
+					flexWrap="wrap"
+					mb={3}
+				>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<PeopleTwoToneIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								전문가들과의 네트워킹, 24시간 내 답변
+							</Typography>
+						</Box>
+					</Box>
+					<Box display="flex" flexDirection={'row'} width={'40%'}>
+						<LibraryBooksTwoToneIcon
+							sx={{
+								color: 'primary.main',
+								fontSize: '40px',
+								marginRight: '20px',
+								marginTop: '15px',
+							}}
+						/>
+						<Box
+							border={'1px solid'}
+							borderColor={'primary.main'}
+							alignContent={'center'}
+							textAlign={'center'}
+							width={'80%'}
+							py={3}
+						>
+							<Typography variant="h4" fontWeight={'400'}>
+								파트너사 프로그램 지원
+							</Typography>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+			{/* 제공하는 서비스 소개 섹션2 */}
+			{
+				<Box
+					sx={{
+						display: { xs: 'none', md: 'block' },
+						width: '100%',
+					}}
+				>
+					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/경영.png'}
+								alt={'경영'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/투자.png'}
+								alt={'투자'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+						<Box
+							display="flex"
+							gap={10}
+							height={'145px'}
+							justifyContent={'center'}
+						>
+							<img
+								src={'/images/main/변호사.png'}
+								alt={'변호사'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<Box textAlign={'center'} mt="auto" mb="auto">
+								<Typography variant="h5" fontWeight={'600'}>
+									경영, 투자, 마케팅, 세무, 노무, 변호사 등
+								</Typography>
+								<Typography variant="h5" fontWeight={'600'}>
+									다양한 분야에서의
+								</Typography>
+								<Box display="flex" gap={1}>
+									<Typography
+										variant="h5"
+										color="primary.main"
+										fontWeight={'600'}
+									>
+										세미나, 컨설팅, 멘토링, QA
+									</Typography>
+									<Typography variant="h5" fontWeight={'600'}>
+										서비스 제공
+									</Typography>
+								</Box>
+							</Box>
+							<img
+								src={'/images/main/세무.png'}
+								alt={'세무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+						<Box display="flex" gap={20} justifyContent={'center'}>
+							<img
+								src={'/images/main/마케팅.png'}
+								alt={'마케팅'}
+								width={'145px'}
+								height={'145px'}
+							/>
+							<img
+								src={'/images/main/노무.png'}
+								alt={'노무'}
+								width={'145px'}
+								height={'145px'}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			}
+			{
+				<Box
+					sx={{
+						display: { md: 'none', xs: 'block' },
+						width: '100%',
+					}}
+				>
+					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
+						<Box textAlign={'center'} mt="auto" mb="auto">
+							<Typography variant="h5" fontWeight={'600'}>
+								경영, 투자, 마케팅, 세무, 노무, 변호사 등
+							</Typography>
+							<Typography variant="h5" fontWeight={'600'}>
+								다양한 분야에서의
+							</Typography>
+							<Box
+								display="flex"
+								gap={1}
+								width="100%"
+								justifyContent={'center'}
+							>
+								<Typography
+									variant="h5"
+									color="primary.main"
+									fontWeight={'600'}
+								>
+									세미나, 컨설팅, 멘토링, QA
+								</Typography>
+								<Typography variant="h5" fontWeight={'600'}>
+									서비스 제공
+								</Typography>
+							</Box>
+						</Box>
+					</Box>
+				</Box>
+			}
 			{/* 연혁 섹션 */}
 			<Box display="flex">
 				<img
@@ -178,7 +560,7 @@ const Page: NextPage = () => {
 					서포티의 파트너가 제공하는
 				</Typography>
 				<Typography variant="h3">
-					혜택 제공 & 파트너사 서비스 할인 제공
+					혜택 제공 & 파트너사 서비스 할인
 				</Typography>
 				<Box
 					display="flex"
@@ -279,7 +661,11 @@ const Page: NextPage = () => {
 						/>
 					</Box>
 					<img
-						style={{ zIndex: -100, width: '100%', height: '400px' }}
+						style={{
+							zIndex: -100,
+							width: '100%',
+							height: '400px',
+						}}
 						src={'/images/main/mainBackgroundImg.jpg'}
 						alt="img"
 					/>

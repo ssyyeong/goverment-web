@@ -29,13 +29,28 @@ interface ICustomHeaderProps {}
 const CustomHeader = (props: ICustomHeaderProps) => {
 	//* States
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
+	const [anchorElSupporti, setAnchorSupporti] = React.useState(null); // 고객센터 메뉴
+	const [target, setTarget] = React.useState(null);
 
 	//* Constants
 	// 메뉴
 	const menu = [
 		{
 			label: 'ABOUT SUPPOR-T',
-			path: '/',
+			subMenus: [
+				{
+					label: '서포티 바로가기 ->',
+					path: '/',
+					onclick: () => {
+						router.push('/');
+					},
+				},
+			],
+			subMenuHandler: (event) => {
+				if (event) setAnchorSupporti(event.currentTarget);
+				else setAnchorSupporti(null);
+			},
+			target: anchorElSupporti,
 		},
 	];
 
@@ -55,13 +70,23 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
+	const handleOpenUserMenu = (event, title, eventHandler) => {
+		eventHandler(event);
+	};
 
 	const handleOpenMenu = (menu, idx) => {
 		return (
 			<>
 				{/* 메인 메뉴 버튼 */}
 				<Button
-					onClick={(event) => router.push(menu.path)}
+					onClick={(event) => {
+						handleOpenUserMenu(
+							event,
+							menu.label,
+							menu.subMenuHandler
+						);
+						setTarget(menu.label);
+					}}
 					sx={{
 						display: 'block',
 						position: 'relative',
@@ -70,6 +95,60 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				>
 					{menu.label}
 				</Button>
+				{/*  버튼 하위 메뉴 */}
+
+				<Menu
+					sx={{
+						mt: '45px',
+						visibility: target !== menu.label && 'hidden',
+					}}
+					id="menu-appbar"
+					anchorEl={menu.target}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					// keepMounted
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					open={target === menu.label && Boolean(menu?.target)}
+					onClose={() => menu?.subMenuHandler(null)}
+					PaperProps={{
+						sx: {
+							bgcolor: 'primary.light',
+							boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
+							borderRadius: 2,
+							textAlign: 'center',
+						},
+					}}
+					key={idx}
+					MenuListProps={{
+						onMouseLeave: () => {
+							menu?.subMenuHandler(null);
+						},
+					}}
+					autoFocus={false}
+				>
+					{menu.subMenus.map((setting) => (
+						<MenuItem
+							key={setting.label}
+							onClick={() => router.push(setting.path)}
+							sx={{ width: '130px', textAlign: 'center' }}
+						>
+							<Typography
+								textAlign="center"
+								color={'primary'}
+								// variant="h6"
+								fontWeight={'600'}
+								sx={{ px: 0.5, mx: 'auto' }}
+							>
+								{setting.label}
+							</Typography>
+						</MenuItem>
+					))}
+				</Menu>
 			</>
 		);
 	};
@@ -189,13 +268,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								</Typography>
 							</Box>
 
-							{menu.map((page) => (
+							{menu.map((page, idx) => (
 								<MenuItem
 									key={page.label}
 									onClick={() => {
-										// page.additionalOnclickFunction &&
-										// 	page.additionalOnclickFunction();
-										router.push(page.path);
+										handleOpenMenu(menu, idx);
 										handleCloseNavMenu();
 									}}
 									sx={{}}
