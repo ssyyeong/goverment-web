@@ -140,8 +140,7 @@ const Page: NextPage = () => {
 										},
 									],
 								},
-							}}
-						>
+							}} children={undefined}						>
 							<IconButton
 								size="small"
 								onClick={() => console.log(value, key, idx)}

@@ -9,6 +9,7 @@ import SupportiInput from '../../../../global/SupportiInput';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { SubsidyByItemController } from '../../../../../controller/SubsidyByItemController';
 import addCommaToNumber from '../../../../../function/DataFormatter/addCommaToNumber';
+import UpdateCashModal from '../UpdateCashModal/UpdateCashModal';
 
 interface ISubsidyByItemTableProps {
 	supportBusinessManagement: any;
@@ -43,6 +44,10 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 		// 		.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
 		rate: undefined,
 		cost: undefined,
+		name: undefined,
+		support_cost_rate: props.supportBusinessManagement.SUPPORT_COST_RATE,
+		business_contribution_rate:
+			props.supportBusinessManagement.BUSINESS_CONTRIBUTION_RATE,
 	});
 
 	// const subsidyConfig = [
@@ -281,34 +286,58 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	/**
 	 * 항목별 지원금 수정하기
 	 */
-	const updateSubsidyByItem = async () => {
-		try {
-			const updatedDataPromises = subSidyByItems.map(
-				(subSidyByItem) =>
-					new Promise((resolve, reject) => {
-						subsidyByItemController.updateItem(
-							{ ...subSidyByItem },
-							(res) => {
-								resolve(res.data.result);
-							},
-							(err) => {
-								reject(new Error('업데이트에 실패했습니다.'));
-							}
-						);
-					})
-			);
+	// const updateSubsidyByItem = async () => {
+	// 	try {
+	// 		const updatedDataPromises = subSidyByItems.map(
+	// 			(subSidyByItem) =>
+	// 				new Promise((resolve, reject) => {
+	// 					subsidyByItemController.updateItem(
+	// 						{ ...subSidyByItem },
+	// 						(res) => {
+	// 							resolve(res.data.result);
+	// 						},
+	// 						(err) => {
+	// 							reject(new Error('업데이트에 실패했습니다.'));
+	// 						}
+	// 					);
+	// 				})
+	// 		);
 
-			const updatedData = await Promise.all(updatedDataPromises);
+	// 		const updatedData = await Promise.all(updatedDataPromises);
 
-			console.log(updatedData);
+	// 		console.log(updatedData);
 
-			// 모든 요소를 처리한 후에 상태 업데이트
-			setSubSidyByItems(updatedData);
-			setIsEditMode(false);
-		} catch (error) {
-			// 에러 처리
-			alert(error.message);
-		}
+	// 		// 모든 요소를 처리한 후에 상태 업데이트
+	// 		setSubSidyByItems(updatedData);
+	// 		setIsEditMode(false);
+	// 	} catch (error) {
+	// 		// 에러 처리
+	// 		alert(error.message);
+	// 	}
+	// };
+
+	const updateSubsidyByItem = () => {
+		// 업데이트 치기
+		cashUpdateController.updateCash(
+			{
+				SUBSIDY_BY_ITEM_IDENTIFICATION_CODE: targetItem.id,
+			},
+			{
+				SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE:
+					props.supportBusinessManagement
+						.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
+				RATE: targetItem.rate,
+				SUPPORT_COST: targetItem.cost,
+			},
+
+			(res) => {
+				props.getSupportBusiness();
+				console.log(res);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
 	};
 
 	//* Hooks
@@ -316,8 +345,10 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 		setSubSidyByItems(props.supportBusinessManagement.SubsidyByItems);
 	}, [props.supportBusinessManagement]);
 
-	console.log(temp)
-	console.log(subSidyByItems)
+	useEffect(() => {
+		setIsEditMode(false);
+	}, [props.subsidyTab]);
+
 
 	return (
 		subSidyByItems.length !== 0 && (
@@ -422,25 +453,32 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									>
 										{item.label}
 									</Typography>
-									<CreateOutlinedIcon
-										fontSize="small"
-										sx={{
-											color: 'lightGrey',
-											cursor: 'pointer',
-										}}
-										onClick={() => {
-											setIsEditMode(!isEditMode);
-											console.log(subSidyByItems[index]);
-											setTargetItem({
-												id: subSidyByItems[index]
-													.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
-												rate: subSidyByItems[index]
-													.RATE,
-												cost: subSidyByItems[index]
-													.SUPPORT_COST,
-											});
-										}}
-									/>
+									{
+										<CreateOutlinedIcon
+											fontSize="small"
+											sx={{
+												color: 'lightGrey',
+												cursor: 'pointer',
+											}}
+											onClick={() => {
+												setIsEditMode(!isEditMode);
+												console.log(
+													subSidyByItems[index]
+												);
+												setTargetItem({
+													...targetItem,
+													id: subSidyByItems[index]
+														.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
+													rate: subSidyByItems[index]
+														.RATE,
+													cost: subSidyByItems[index]
+														.SUPPORT_COST,
+													name: subSidyByItems[index]
+														.NAME,
+												});
+											}}
+										/>
+									}
 									{/* <Box
 										sx={{
 											width: '28px',
@@ -458,7 +496,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 							))}
 						</Grid>
 						{/* 세목 */}
-						<Grid
+						{/* <Grid
 							container
 							flexDirection={'column'}
 							sm={4}
@@ -572,7 +610,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									)}
 								</Grid>
 							))}
-						</Grid>
+						</Grid> */}
 
 						{/* <Grid
 							container
@@ -688,36 +726,92 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 									)}
 								</Grid>
 							))}
-						</Grid>
+						</Grid> */}
 
-						<Grid
-							container
-							flexDirection={'column'}
-							sm={4}
-							xs={12}
-							bgcolor={'white'}
-						>
+						{props.supportBusinessManagement.PHASE === 'PHASE1' && (
 							<Grid
-								item
-								bgcolor={'primary.main'}
-								py={2}
-								px={1}
-								alignItems={'center'}
-								sx={{
-									borderTopLeftRadius: { xs: 10, sm: 0 },
-								}}
+								container
+								flexDirection={'column'}
+								sm={4}
+								xs={12}
+								bgcolor={'white'}
 							>
-								<Typography
-									fontWeight={'600'}
-									textAlign={'center'}
-									color={'white'}
+								<Grid
+									item
+									bgcolor={'primary.main'}
+									py={2}
+									px={1}
+									alignItems={'center'}
+									sx={{
+										borderTopLeftRadius: { xs: 10, sm: 0 },
+									}}
 								>
-									지원금
-								</Typography>
+									<Typography
+										fontWeight={'600'}
+										textAlign={'center'}
+										color={'white'}
+									>
+										지원금
+									</Typography>
+								</Grid>
+								{temp.map((item, index) => {
+									return (
+										item.group === '지원금' && (
+											<Grid
+												item
+												display={'flex'}
+												justifyContent={'center'}
+												alignItems={'center'}
+												px={1}
+												borderBottom={
+													'0.5px solid #ccc'
+												}
+												borderRight={'0.5px solid #ccc'}
+												py={5.306}
+											>
+												<Typography fontWeight={'400'}>
+													{addCommaToNumber(
+														item.data
+													)}
+												</Typography>
+											</Grid>
+										)
+									);
+								})}
 							</Grid>
-							{temp.map((item, index) => {
-								return (
-									item.group === '지원금' && (
+						)}
+
+						{props.supportBusinessManagement.PHASE === 'PHASE1' && (
+							<Grid
+								container
+								flexDirection={'column'}
+								sm={4}
+								xs={12}
+								bgcolor={'white'}
+							>
+								<Grid
+									item
+									bgcolor={'primary.main'}
+									py={2}
+									px={1}
+									alignItems={'center'}
+									sx={{
+										borderTopLeftRadius: { xs: 10, sm: 0 },
+									}}
+								>
+									<Typography
+										fontWeight={'600'}
+										textAlign={'center'}
+										color={'white'}
+									>
+										기업부담 현금
+									</Typography>
+								</Grid>
+								{temp
+									.filter(
+										(item) => item.group === '기업부담금'
+									)
+									.map((item, index) => (
 										<Grid
 											item
 											display={'flex'}
@@ -726,148 +820,181 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 											px={1}
 											borderBottom={'0.5px solid #ccc'}
 											borderRight={'0.5px solid #ccc'}
+											key={index}
 											py={5.306}
 										>
-											<Typography fontWeight={'500'}>
-												{item.data}
+											<Typography fontWeight={'400'}>
+												{addCommaToNumber(
+													Math.round(
+														(item.data *
+															props
+																.supportBusinessManagement
+																.CASH_RATE) /
+															100
+													)
+												)}
 											</Typography>
 										</Grid>
+									))}
+							</Grid>
+						)}
+
+						{props.supportBusinessManagement.PHASE === 'PHASE1' && (
+							<Grid
+								container
+								flexDirection={'column'}
+								sm={4}
+								xs={12}
+								bgcolor={'white'}
+							>
+								<Grid
+									item
+									bgcolor={'primary.main'}
+									py={2}
+									px={1}
+									alignItems={'center'}
+									sx={{
+										borderTopLeftRadius: { xs: 10, sm: 0 },
+									}}
+								>
+									<Typography
+										fontWeight={'600'}
+										textAlign={'center'}
+										color={'white'}
+									>
+										기업부담 현물
+									</Typography>
+								</Grid>
+								{temp
+									.filter(
+										(item) => item.group === '기업부담금'
 									)
-								);
-							})}
-						</Grid>
-
-						<Grid
-							container
-							flexDirection={'column'}
-							sm={4}
-							xs={12}
-							bgcolor={'white'}
-						>
-							<Grid
-								item
-								bgcolor={'primary.main'}
-								py={2}
-								px={1}
-								alignItems={'center'}
-								sx={{
-									borderTopLeftRadius: { xs: 10, sm: 0 },
-								}}
-							>
-								<Typography
-									fontWeight={'600'}
-									textAlign={'center'}
-									color={'white'}
-								>
-									기업부담 현금
-								</Typography>
+									.map((item, index) => (
+										<Grid
+											item
+											display={'flex'}
+											justifyContent={'center'}
+											alignItems={'center'}
+											px={1}
+											borderBottom={'0.5px solid #ccc'}
+											borderRight={'0.5px solid #ccc'}
+											key={index}
+											py={5.306}
+										>
+											<Typography fontWeight={'400'}>
+												{addCommaToNumber(
+													Math.round(
+														(item.data *
+															props
+																.supportBusinessManagement
+																.VIRTUAL_CASH_RATE) /
+															100
+													)
+												)}
+											</Typography>
+										</Grid>
+									))}
 							</Grid>
-							{subsidyMenu.map((item, index) => (
-								<Grid
-									item
-									display={'flex'}
-									justifyContent={'center'}
-									alignItems={'center'}
-									px={1}
-									borderBottom={'0.5px solid #ccc'}
-									borderRight={'0.5px solid #ccc'}
-									key={index}
-									py={5.306}
-								>
-									<Typography fontWeight={'500'}>
-										?
-									</Typography>
-								</Grid>
-							))}
-						</Grid>
-
-						<Grid
-							container
-							flexDirection={'column'}
-							sm={4}
-							xs={12}
-							bgcolor={'white'}
-						>
-							<Grid
-								item
-								bgcolor={'primary.main'}
-								py={2}
-								px={1}
-								alignItems={'center'}
-								sx={{
-									borderTopLeftRadius: { xs: 10, sm: 0 },
-								}}
-							>
-								<Typography
-									fontWeight={'600'}
-									textAlign={'center'}
-									color={'white'}
-								>
-									기업부담 현물
-								</Typography>
-							</Grid>
-							{subsidyMenu.map((item, index) => (
-								<Grid
-									item
-									display={'flex'}
-									justifyContent={'center'}
-									alignItems={'center'}
-									px={1}
-									borderBottom={'0.5px solid #ccc'}
-									borderRight={'0.5px solid #ccc'}
-									key={index}
-									py={5.306}
-								>
-									<Typography fontWeight={'500'}>
-										?
-									</Typography>
-								</Grid>
-							))}
-						</Grid> */}
+						)}
 						{/* 세세목 */}
-						<Grid
-							container
-							flexDirection={'column'}
-							sm={4}
-							xs={12}
-							bgcolor={'white'}
-						>
+						{props.supportBusinessManagement.PHASE === 'PHASE2' && (
 							<Grid
-								item
-								bgcolor={'primary.main'}
-								py={2}
-								px={1}
-								alignItems={'center'}
-								sx={{
-									borderTopLeftRadius: { xs: 10, sm: 0 },
-								}}
+								container
+								flexDirection={'column'}
+								sm={4}
+								xs={12}
+								bgcolor={'white'}
 							>
-								<Typography
-									fontWeight={'600'}
-									textAlign={'center'}
-									color={'white'}
-								>
-									세목
-								</Typography>
-							</Grid>
-							{subsidyConfig.map((item, index) => (
 								<Grid
 									item
-									display={'flex'}
-									justifyContent={'center'}
-									alignItems={'center'}
+									bgcolor={'primary.main'}
+									py={2}
 									px={1}
-									borderBottom={'0.5px solid #ccc'}
-									borderRight={'0.5px solid #ccc'}
-									key={index}
-									py={2.192}
+									alignItems={'center'}
+									sx={{
+										borderTopLeftRadius: { xs: 10, sm: 0 },
+									}}
 								>
-									<Typography fontWeight={'500'}>
-										{item.group}
+									<Typography
+										fontWeight={'600'}
+										textAlign={'center'}
+										color={'white'}
+									>
+										세목
 									</Typography>
 								</Grid>
-							))}
-						</Grid>
+								{subsidyConfig.map((item, index) => (
+									<Grid
+										item
+										display={'flex'}
+										justifyContent={'center'}
+										alignItems={'center'}
+										px={1}
+										borderBottom={'0.5px solid #ccc'}
+										borderRight={'0.5px solid #ccc'}
+										key={index}
+										py={2.192}
+									>
+										<Typography fontWeight={'500'}>
+											{item.group}
+										</Typography>
+									</Grid>
+								))}
+							</Grid>
+						)}
+
+{props.supportBusinessManagement.PHASE === 'PHASE2' && (
+							<Grid
+								container
+								flexDirection={'column'}
+								sm={4}
+								xs={12}
+								bgcolor={'white'}
+							>
+								<Grid
+									item
+									bgcolor={'primary.main'}
+									py={2}
+									px={1}
+									alignItems={'center'}
+									sx={{
+										borderTopLeftRadius: { xs: 10, sm: 0 },
+									}}
+								>
+									<Typography
+										fontWeight={'600'}
+										textAlign={'center'}
+										color={'white'}
+									>
+										
+										각 {props.subsidyTab}
+									</Typography>
+								</Grid>
+								{temp.map((item, index) => {
+									return (
+											<Grid
+												item
+												display={'flex'}
+												justifyContent={'center'}
+												alignItems={'center'}
+												px={1}
+												borderBottom={
+													'0.5px solid #ccc'
+												}
+												borderRight={'0.5px solid #ccc'}
+												py={2.192}
+											>
+												<Typography fontWeight={'400'}>
+													{addCommaToNumber(
+														item.data
+													)}
+												</Typography>
+											</Grid>
+										
+									);
+								})}
+							</Grid>
+						)}
 					</Grid>
 					{/* 금액 */}
 					<Grid
@@ -934,7 +1061,86 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 								</Typography>
 							</Grid>
 						)}
-						{temp.map((item, index) => (
+						{subSidyByItems.map((item, index) => (
+							// <Grid
+							// 	item
+							// 	display={'flex'}
+							// 	justifyContent={'center'}
+							// 	alignItems={'center'}
+							// 	px={1}
+							// 	borderBottom={'0.5px solid #ccc'}
+							// 	borderRight={'0.5px solid #ccc'}
+							// 	key={index}
+							// 	py={
+							// 		isEditMode &&
+							// 		props.subsidyTab === '사용금액' &&
+							// 		targetItem.id === item.id
+							// 			? 1.52
+							// 			: 2.192
+							// 	}
+							// >
+							// 	{isEditMode &&
+							// 	props.subsidyTab === '사용금액' &&
+							// 	targetItem.id === item.id ? (
+							// 		<Box display="flex" gap={1}>
+							// 			<SupportiInput
+							// 				type="text"
+							// 				value={
+							// 					JSON.parse(
+							// 						targetItem.cost
+							// 					)[0]?.[item.group].사용금액
+							// 				}
+							// 				setValue={(value) => {
+							// 					let temp = JSON.parse(
+							// 						targetItem.cost
+							// 					)[0];
+							// 					temp[item.group].사용금액 =
+							// 						value;
+							// 					setTargetItem({
+							// 						...targetItem,
+							// 						cost: JSON.stringify([
+							// 							temp,
+							// 						]),
+							// 					});
+							// 				}}
+							// 				style={{
+							// 					height: '25px',
+							// 					width: '80px',
+							// 				}}
+							// 			/>
+							// 			<Box
+							// 				sx={{
+							// 					width: '30px',
+							// 					height: '20px',
+							// 					borderRadius: '3px',
+							// 					backgroundColor:
+							// 						'secondary.dark',
+							// 					p: '3px',
+							// 					my: 'auto',
+							// 					cursor: 'pointer',
+							// 				}}
+							// 				onClick={() => {
+							// 					setIsEditMode(false);
+							// 				}}
+							// 			>
+							// 				<Typography color="white">
+							// 					완료
+							// 				</Typography>
+							// 			</Box>
+							// 		</Box>
+							// 	) : (
+							// 		<Typography py={3.118}>
+							// 			{addCommaToNumber(
+							// 				JSON.parse(item.SUPPORT_COST)[0]?.[
+							// 					'지원금'
+							// 				]?.[props.subsidyTab] +
+							// 					JSON.parse(
+							// 						item.SUPPORT_COST
+							// 					)[0]?.['기업부담금']?.[props.subsidyTab]
+							// 			)}
+							// 		</Typography>
+							// 	)}
+							// </Grid>
 							<Grid
 								item
 								display={'flex'}
@@ -952,86 +1158,17 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 										: 2.192
 								}
 							>
-								{isEditMode &&
-								props.subsidyTab === '사용금액' &&
-								targetItem.id === item.id ? (
-									<Box display="flex" gap={1}>
-										<SupportiInput
-											type="text"
-											value={
-												JSON.parse(
-													targetItem.cost
-												)[0]?.[item.group].사용금액
-											}
-											setValue={(value) => {
-												let temp = JSON.parse(
-													targetItem.cost
-												)[0];
-												temp[item.group].사용금액 =
-													value;
-												setTargetItem({
-													...targetItem,
-													cost: JSON.stringify([
-														temp,
-													]),
-												});
-											}}
-											style={{
-												height: '25px',
-												width: '80px',
-											}}
-										/>
-										<Box
-											sx={{
-												width: '30px',
-												height: '20px',
-												borderRadius: '3px',
-												backgroundColor:
-													'secondary.dark',
-												p: '3px',
-												my: 'auto',
-												cursor: 'pointer',
-											}}
-											onClick={() => {
-												setIsEditMode(false);
-
-												// 업데이트 치기
-												cashUpdateController.updateCash(
-													{
-														SUBSIDY_BY_ITEM_IDENTIFICATION_CODE:
-															targetItem.id,
-													},
-													{
-														SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE:
-															props
-																.supportBusinessManagement
-																.SUPPORT_BUSINESS_MANAGEMENT_IDENTIFICATION_CODE,
-														RATE: targetItem.rate,
-														SUPPORT_COST:
-															targetItem.cost,
-													},
-
-													(res) => {
-														props.getSupportBusiness();
-														console.log(res);
-													},
-													(err) => {
-														console.log(err);
-													}
-												);
-											}}
-										>
-											<Typography color="white">
-												완료
-											</Typography>
-										</Box>
-									</Box>
-								) : (
-									<Typography>
-										{addCommaToNumber(item.data)}
-									</Typography>
-								)}
-							</Grid>
+							<Typography py={3.118}>
+							{addCommaToNumber(
+								Number(JSON.parse(item.SUPPORT_COST)[0]?.[
+									'지원금'
+								]?.[props.subsidyTab]) +
+								Number(JSON.parse(
+										item.SUPPORT_COST
+									)[0]?.['기업부담금']?.[props.subsidyTab])
+							)}
+						</Typography>
+						</Grid>
 						))}
 					</Grid>
 				</Grid>
@@ -1086,6 +1223,21 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 						</Typography>
 					</Grid>
 				</Grid>
+				<UpdateCashModal
+					open={
+						(props.subsidyTab === '총 금액' ||
+							props.subsidyTab === '사용금액') &&
+						isEditMode
+					}
+					handleClose={() => {
+						setIsEditMode(false);
+					}}
+					updateHandler={updateSubsidyByItem}
+					targetItem={targetItem}
+					setTargetItem={setTargetItem}
+					subsidyTab={props.subsidyTab}
+					phase={props.supportBusinessManagement.PHASE}
+				/>
 			</Box>
 		)
 	);
