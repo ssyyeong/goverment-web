@@ -1,22 +1,18 @@
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import { NextPage } from 'next';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
-import SupportiButton from '../../src/views/global/SupportiButton';
-import SupportiModal from '../../src/views/global/SupportiModal';
-import CloseIcon from '@mui/icons-material/Close';
-import { useAppMember } from '../../src/hooks/useAppMember';
-import { useSubscription } from '../../src/hooks/useSubscription';
-import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
-import { useRouter } from 'next/router';
-import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../../src/views/global/SupportiInput';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import CloseIcon from '@mui/icons-material/Close';
+
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
+import SupportiButton from '../../src/views/global/SupportiButton';
+import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../../src/views/global/SupportiInput';
+
 const Page: NextPage = () => {
-	const router = useRouter();
 	const partnerShipInquiryController = new DefaultController(
 		'PartnerShipInquiry'
 	);
@@ -63,6 +59,14 @@ const Page: NextPage = () => {
 		},
 	];
 
+	// 문의 데이터 초기화
+	const resetInquiryData = () => {
+		setName('');
+		setEmail('');
+		setPhoneNumber('');
+	};
+
+	// 문의 생성
 	const createInquiry = async () => {
 		partnerShipInquiryController.createItem(
 			{
@@ -78,6 +82,7 @@ const Page: NextPage = () => {
 	};
 
 	useEffect(() => {
+		//파트너스 로고 스크롤 이벤트
 		const timer = setInterval(() => {
 			containerRef?.current?.scrollBy({
 				left: 300,
@@ -102,11 +107,13 @@ const Page: NextPage = () => {
 				alignItems: 'center',
 			}}
 		>
+			{/* 메인 이미지 섹션 */}
 			<img
 				src="/images/main/container.jpg"
 				width={'100%'}
 				height={'100%'}
 			></img>
+			{/* 메인 이미지 텍스트 섹션 */}
 			<Box
 				top={'50%'}
 				position={'absolute'}
@@ -260,6 +267,7 @@ const Page: NextPage = () => {
 						<SupportiButton
 							contents="제휴 문의"
 							onClick={() => {
+								resetInquiryData();
 								setOpenPopUp(true);
 							}}
 							variant="contained"

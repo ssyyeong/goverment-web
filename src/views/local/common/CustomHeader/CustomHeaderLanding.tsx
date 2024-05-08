@@ -230,8 +230,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								style={{
 									cursor: 'pointer',
 									marginLeft: 'auto',
-									marginRight: '15px',
-									marginTop: '20px',
 								}}
 								onClick={() => router.push('/landing')}
 							/>
