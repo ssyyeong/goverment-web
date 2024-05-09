@@ -221,8 +221,8 @@ const Page: NextPage = () => {
 					flexDirection={'column'}
 				>
 					<Box mb={5}>
-						<Typography fontWeight={600} mb={1}>
-							법인계좌 연동으로 한눈에 보는
+						<Typography variant="h5" fontWeight={600} mb={1}>
+							View at a glance by linking corporate account
 						</Typography>
 						<Typography color="primary.main" variant="h3">
 							RunWay BurnRate
@@ -265,12 +265,13 @@ const Page: NextPage = () => {
 				/>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<AutoGraphIcon
 							sx={{
 								color: 'primary.main',
@@ -284,15 +285,15 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								효율적인 지표관리
+								Efficient Metric Management
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<ApartmentTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -306,23 +307,27 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								투자심사역의 IR 코칭
+								IR Coaching
+							</Typography>
+							<Typography variant="h4" fontWeight={'400'}>
+								by Investment Evaluation Professionals
 							</Typography>
 						</Box>
 					</Box>
 				</Box>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<MessageTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -336,15 +341,15 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								다양한 분야의 전문가 멘토링
+								Mentorship from Experts in Various Fields
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<HandshakeTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -358,23 +363,25 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								데모데이, 투자자 매칭 등 다양한 투자 유치 기회
+								Diverse Investment Attraction Opportunities such
+								as Demo Days, Investor Matching, etc.
 							</Typography>
 						</Box>
 					</Box>
 				</Box>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<PeopleTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -388,15 +395,18 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								전문가들과의 네트워킹, 24시간 내 답변
+								Networking with Experts,
+							</Typography>
+							<Typography variant="h4" fontWeight={'400'}>
+								Responses within 24 Hours
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<LibraryBooksTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -410,11 +420,11 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'400px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								파트너사 프로그램 지원
+								Support for Partner Programs
 							</Typography>
 						</Box>
 					</Box>
@@ -456,22 +466,21 @@ const Page: NextPage = () => {
 								height={'145px'}
 							/>
 							<Box textAlign={'center'} mt="auto" mb="auto">
-								<Typography variant="h5" fontWeight={'600'}>
-									경영, 투자, 마케팅, 세무, 노무, 변호사 등
+								<Typography
+									variant="h5"
+									fontWeight={'600'}
+									color="primary.main"
+								>
+									Seminars, Consulting, Mentorship, QA
+									Services
 								</Typography>
 								<Typography variant="h5" fontWeight={'600'}>
-									다양한 분야에서의
+									in Various Fields such as Management,
 								</Typography>
 								<Box display="flex" gap={1}>
-									<Typography
-										variant="h5"
-										color="primary.main"
-										fontWeight={'600'}
-									>
-										세미나, 컨설팅, 멘토링, QA
-									</Typography>
 									<Typography variant="h5" fontWeight={'600'}>
-										서비스 제공
+										Investment, Marketing, Taxation, Human
+										Resources, Legal Affairs, etc.
 									</Typography>
 								</Box>
 							</Box>
@@ -525,10 +534,15 @@ const Page: NextPage = () => {
 									color="primary.main"
 									fontWeight={'600'}
 								>
-									세미나, 컨설팅, 멘토링, QA
+									Seminars, Consulting, Mentorship, QA
+									Services
 								</Typography>
 								<Typography variant="h5" fontWeight={'600'}>
-									서비스 제공
+									in Various Fields such as Management,
+								</Typography>
+								<Typography variant="h5" fontWeight={'600'}>
+									Investment, Marketing, Taxation, Human
+									Resources, Legal Affairs, etc.
 								</Typography>
 							</Box>
 						</Box>
@@ -645,13 +659,13 @@ const Page: NextPage = () => {
 							variant="h4"
 							fontWeight={'500'}
 						>
-							여러분의 사업을 편리하게 관리하세요
+							Effortlessly manage your business with Suppor-T
 						</Typography>
 						<Typography color={'white'} variant="subtitle1">
-							서포티에서 최적의 솔루션을 제안합니다.
+							Suppor-T offers the optimal solutions
 						</Typography>
 						<SupportiButton
-							contents="제휴 문의"
+							contents="Affiliate inquiry"
 							onClick={() => {
 								resetInquiryData();
 								setOpenPopUp(true);
@@ -692,7 +706,7 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									문의하기
+									Affiliate inquiry
 								</Typography>
 								<CloseIcon
 									sx={{
@@ -716,7 +730,7 @@ const Page: NextPage = () => {
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이름을 입력하세요.',
+										placeholder: 'Enter your name.',
 									}}
 									value={name}
 									setValue={setName}
@@ -735,7 +749,7 @@ const Page: NextPage = () => {
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이메일을 입력하세요.',
+										placeholder: 'Enter your email.',
 									}}
 									value={email}
 									setValue={setEmail}
@@ -754,7 +768,8 @@ const Page: NextPage = () => {
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '연락처를 입력하세요.',
+										placeholder:
+											'Enter your contact number.',
 									}}
 									value={phoneNumber}
 									setValue={setPhoneNumber}
@@ -764,7 +779,7 @@ const Page: NextPage = () => {
 
 							<Box display={'flex'} gap={2}>
 								<SupportiButton
-									contents={'문의하기'}
+									contents={'Affiliate inquiry'}
 									variant="contained"
 									onClick={() => createInquiry()}
 									style={{

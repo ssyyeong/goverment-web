@@ -265,12 +265,13 @@ const Page: NextPage = () => {
 				/>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<AutoGraphIcon
 							sx={{
 								color: 'primary.main',
@@ -284,15 +285,15 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								効率的な指標管理
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<ApartmentTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -306,8 +307,8 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								投資審査役のIRコーチング
@@ -317,12 +318,13 @@ const Page: NextPage = () => {
 				</Box>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<MessageTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -336,15 +338,15 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								多様な分野からの専門家によるメンタリング
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<HandshakeTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -358,8 +360,8 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								様々な投資誘致機会（デモデイ、投資者マッチングなど）
@@ -369,12 +371,13 @@ const Page: NextPage = () => {
 				</Box>
 				<Box
 					display="flex"
-					justifyContent={'center'}
-					gap={2}
 					flexWrap="wrap"
 					mb={3}
+					flexDirection={'row'}
+					justifyContent={'center'}
+					gap={10}
 				>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<PeopleTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -388,15 +391,15 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								専門家とのネットワーキング、24時間以内に返事
 							</Typography>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'} width={'40%'}>
+					<Box display="flex" flexDirection={'row'}>
 						<LibraryBooksTwoToneIcon
 							sx={{
 								color: 'primary.main',
@@ -410,8 +413,8 @@ const Page: NextPage = () => {
 							borderColor={'primary.main'}
 							alignContent={'center'}
 							textAlign={'center'}
-							width={'80%'}
-							py={3}
+							height={'80px'}
+							width={'330px'}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
 								パートナー企業プログラム支援
