@@ -2,23 +2,16 @@ import React, { useEffect } from 'react';
 
 import {
 	AppBar,
-	Avatar,
 	Box,
-	BoxProps,
 	Button,
-	ClickAwayListener,
 	Container,
-	CssBaseline,
-	Grow,
 	IconButton,
 	Menu,
 	MenuItem,
-	MenuList,
-	Paper,
-	Popper,
 	Toolbar,
-	Tooltip,
 	Typography,
+	ToggleButtonGroup,
+	ToggleButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/router';
@@ -31,6 +24,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElSupporti, setAnchorSupporti] = React.useState(null); // 고객센터 메뉴
 	const [target, setTarget] = React.useState(null);
+
+	const [toLocale, setToLocale] = React.useState('ko');
+
+	const cookie = new CookieManager();
 
 	//* Constants
 	// 메뉴
@@ -96,7 +93,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 					{menu.label}
 				</Button>
 				{/*  버튼 하위 메뉴 */}
-
 				<Menu
 					sx={{
 						mt: '45px',
@@ -155,6 +151,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	useEffect(() => {
 		handleCloseNavMenu();
+		setToLocale(cookie.getItemInCookies('locale') || 'ko');
 	}, [router]);
 
 	return (
@@ -323,6 +320,62 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							return handleOpenMenu(menu, idx);
 						})}
 					</Box>
+					<ToggleButtonGroup
+						value={toLocale}
+						exclusive
+						onChange={(event, value) => {
+							if (value == null) return;
+							setToLocale(value);
+							cookie.setItemInCookies('locale', value);
+							if (value == 'ko') {
+								router.push('/landing');
+							} else if (value == 'en') {
+								router.push('/landing/en');
+							} else router.push('/landing/jp');
+						}}
+						color="primary"
+						aria-label="text alignment"
+						sx={{
+							display: { xs: 'none', md: 'flex' },
+						}}
+					>
+						<ToggleButton
+							value="ko"
+							sx={{
+								color: 'white',
+								border:
+									toLocale == 'ko'
+										? '1px solid primary.main'
+										: '1px solid white',
+							}}
+						>
+							KO
+						</ToggleButton>
+						<ToggleButton
+							value="en"
+							sx={{
+								color: 'white',
+								border:
+									toLocale == 'en'
+										? '1px solid primary.main'
+										: '1px solid white',
+							}}
+						>
+							English
+						</ToggleButton>
+						<ToggleButton
+							value="jp"
+							sx={{
+								color: 'white',
+								border:
+									toLocale == 'jp'
+										? '1px solid primary.main'
+										: '1px solid white',
+							}}
+						>
+							日本語
+						</ToggleButton>
+					</ToggleButtonGroup>
 				</Toolbar>
 			</Container>
 		</AppBar>

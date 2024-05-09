@@ -18,9 +18,9 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
-import SupportiButton from '../../src/views/global/SupportiButton';
-import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../../src/views/global/SupportiInput';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../../../src/views/global/SupportiInput';
 
 const Page: NextPage = () => {
 	const partnerShipInquiryController = new DefaultController(
@@ -188,10 +188,10 @@ const Page: NextPage = () => {
 					color={'white'}
 					mt={1}
 				>
-					고객님의 하나뿐인,
+					貴社の夢が実現される
 				</Typography>
 				<Typography variant={'h1'} color={'white'} mt={1}>
-					스타트업 성장 관리 솔루션
+					お客様にとって唯一無二のスタートアップ成長管理ソリューション
 				</Typography>
 				<Typography
 					variant={'h2'}
@@ -199,16 +199,16 @@ const Page: NextPage = () => {
 					color={'white'}
 					mt={1}
 				>
-					서포티는 스타트업과
+					Support-Tは、スタートアップと一緒に成長していくパートナーです。
 				</Typography>
-				<Typography
+				{/* <Typography
 					variant={'h2'}
 					fontWeight={'400'}
 					color={'white'}
 					mt={1}
 				>
 					함께 성장하는 동행자입니다.
-				</Typography>
+				</Typography> */}
 			</Box>
 
 			{/* BurnRate 섹션 */}
@@ -222,7 +222,7 @@ const Page: NextPage = () => {
 				>
 					<Box mb={5}>
 						<Typography fontWeight={600} mb={1}>
-							법인계좌 연동으로 한눈에 보는
+							法人口座と連携し一目でわかる
 						</Typography>
 						<Typography color="primary.main" variant="h3">
 							RunWay BurnRate
@@ -287,7 +287,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								효율적인 지표관리
+								効率的な指標管理
 							</Typography>
 						</Box>
 					</Box>
@@ -309,7 +309,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								투자심사역의 IR 코칭
+								投資審査役のIRコーチング
 							</Typography>
 						</Box>
 					</Box>
@@ -339,7 +339,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								다양한 분야의 전문가 멘토링
+								多様な分野からの専門家によるメンタリング
 							</Typography>
 						</Box>
 					</Box>
@@ -361,7 +361,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								데모데이, 투자자 매칭 등 다양한 투자 유치 기회
+								様々な投資誘致機会（デモデイ、投資者マッチングなど）
 							</Typography>
 						</Box>
 					</Box>
@@ -391,7 +391,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								전문가들과의 네트워킹, 24시간 내 답변
+								専門家とのネットワーキング、24時間以内に返事
 							</Typography>
 						</Box>
 					</Box>
@@ -413,7 +413,7 @@ const Page: NextPage = () => {
 							py={3}
 						>
 							<Typography variant="h4" fontWeight={'400'}>
-								파트너사 프로그램 지원
+								パートナー企業プログラム支援
 							</Typography>
 						</Box>
 					</Box>
@@ -456,10 +456,10 @@ const Page: NextPage = () => {
 							/>
 							<Box textAlign={'center'} mt="auto" mb="auto">
 								<Typography variant="h5" fontWeight={'600'}>
-									경영, 투자, 마케팅, 세무, 노무, 변호사 등
+									経営、投資、マーケティング、税務、労務、弁護士など
 								</Typography>
 								<Typography variant="h5" fontWeight={'600'}>
-									다양한 분야에서의
+									様々な分野からの
 								</Typography>
 								<Box display="flex" gap={1}>
 									<Typography
@@ -467,10 +467,10 @@ const Page: NextPage = () => {
 										color="primary.main"
 										fontWeight={'600'}
 									>
-										세미나, 컨설팅, 멘토링, QA
+										セミナー、コンサルティング、メンタリング、QA
 									</Typography>
 									<Typography variant="h5" fontWeight={'600'}>
-										서비스 제공
+										サービス
 									</Typography>
 								</Box>
 							</Box>
@@ -508,10 +508,10 @@ const Page: NextPage = () => {
 					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
 						<Box textAlign={'center'} mt="auto" mb="auto">
 							<Typography variant="h5" fontWeight={'600'}>
-								경영, 투자, 마케팅, 세무, 노무, 변호사 등
+								経営、投資、マーケティング、税務、労務、弁護士など
 							</Typography>
 							<Typography variant="h5" fontWeight={'600'}>
-								다양한 분야에서의
+								様々な分野からの
 							</Typography>
 							<Box
 								display="flex"
@@ -524,10 +524,10 @@ const Page: NextPage = () => {
 									color="primary.main"
 									fontWeight={'600'}
 								>
-									세미나, 컨설팅, 멘토링, QA
+									セミナー、コンサルティング、メンタリング、QA
 								</Typography>
 								<Typography variant="h5" fontWeight={'600'}>
-									서비스 제공
+									サービス
 								</Typography>
 							</Box>
 						</Box>
@@ -537,7 +537,7 @@ const Page: NextPage = () => {
 			{/* 연혁 섹션 */}
 			<Box display="flex">
 				<img
-					src="/images/main/history.svg"
+					src="/images/main/history_jp.svg"
 					width={'100%'}
 					height={'100%'}
 					style={{
@@ -557,10 +557,10 @@ const Page: NextPage = () => {
 				width={'100%'}
 			>
 				<Typography variant="h3" fontWeight={'400'}>
-					서포티의 파트너가 제공하는
+					Support-Tのパートナーが提供する
 				</Typography>
 				<Typography variant="h3">
-					혜택 제공 & 파트너사 서비스 할인
+					特典＆パートナー企業サービス割引
 				</Typography>
 				<Box
 					display="flex"
@@ -647,7 +647,8 @@ const Page: NextPage = () => {
 							서포티에서 최적의 솔루션을 제안합니다.
 						</Typography>
 						<SupportiButton
-							contents="제휴 문의"
+							contents="提携お問い合わせ
+							"
 							onClick={() => {
 								resetInquiryData();
 								setOpenPopUp(true);
@@ -688,7 +689,7 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									문의하기
+									提携お問い合わせ
 								</Typography>
 								<CloseIcon
 									sx={{
@@ -707,12 +708,12 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									이름
+									お名前
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이름을 입력하세요.',
+										placeholder: 'お名前を入力してください',
 									}}
 									value={name}
 									setValue={setName}
@@ -726,12 +727,13 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									이메일
+									Eメール
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이메일을 입력하세요.',
+										placeholder:
+											'Eメールを入力してください',
 									}}
 									value={email}
 									setValue={setEmail}
@@ -745,12 +747,13 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									연락처
+									携帯番号
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '연락처를 입력하세요.',
+										placeholder:
+											'携帯番号を入力してください',
 									}}
 									value={phoneNumber}
 									setValue={setPhoneNumber}
@@ -760,7 +763,7 @@ const Page: NextPage = () => {
 
 							<Box display={'flex'} gap={2}>
 								<SupportiButton
-									contents={'문의하기'}
+									contents={'提携お問い合わせ'}
 									variant="contained"
 									onClick={() => createInquiry()}
 									style={{
@@ -770,7 +773,7 @@ const Page: NextPage = () => {
 									}}
 								/>
 								<SupportiButton
-									contents={'닫기'}
+									contents={'閉じる'}
 									variant="outlined"
 									onClick={() => setOpenPopUp(false)}
 									style={{

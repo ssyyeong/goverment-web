@@ -18,9 +18,9 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
-import SupportiButton from '../../src/views/global/SupportiButton';
-import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../../src/views/global/SupportiInput';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../../../src/views/global/SupportiInput';
 
 const Page: NextPage = () => {
 	const partnerShipInquiryController = new DefaultController(
@@ -188,10 +188,10 @@ const Page: NextPage = () => {
 					color={'white'}
 					mt={1}
 				>
-					고객님의 하나뿐인,
+					Your One and Only,
 				</Typography>
 				<Typography variant={'h1'} color={'white'} mt={1}>
-					스타트업 성장 관리 솔루션
+					Startup Growth Management Solution
 				</Typography>
 				<Typography
 					variant={'h2'}
@@ -199,7 +199,7 @@ const Page: NextPage = () => {
 					color={'white'}
 					mt={1}
 				>
-					서포티는 스타트업과
+					Suppor-T is a companion for startups
 				</Typography>
 				<Typography
 					variant={'h2'}
@@ -207,7 +207,7 @@ const Page: NextPage = () => {
 					color={'white'}
 					mt={1}
 				>
-					함께 성장하는 동행자입니다.
+					to grow together.
 				</Typography>
 			</Box>
 
@@ -537,7 +537,7 @@ const Page: NextPage = () => {
 			{/* 연혁 섹션 */}
 			<Box display="flex">
 				<img
-					src="/images/main/history.svg"
+					src="/images/main/history_en.svg"
 					width={'100%'}
 					height={'100%'}
 					style={{
@@ -557,10 +557,13 @@ const Page: NextPage = () => {
 				width={'100%'}
 			>
 				<Typography variant="h3" fontWeight={'400'}>
-					서포티의 파트너가 제공하는
+					The benefits offered by
 				</Typography>
 				<Typography variant="h3">
-					혜택 제공 & 파트너사 서비스 할인
+					Suppor-T's partners & discounts
+				</Typography>
+				<Typography variant="h3" fontWeight={'400'}>
+					on partner services
 				</Typography>
 				<Box
 					display="flex"
@@ -707,7 +710,7 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									이름
+									Name
 								</Typography>
 								<SupportiInput
 									type="input"
@@ -726,7 +729,7 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									이메일
+									Email
 								</Typography>
 								<SupportiInput
 									type="input"
@@ -745,7 +748,7 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									연락처
+									Cotact
 								</Typography>
 								<SupportiInput
 									type="input"
@@ -770,7 +773,7 @@ const Page: NextPage = () => {
 									}}
 								/>
 								<SupportiButton
-									contents={'닫기'}
+									contents={'Close'}
 									variant="outlined"
 									onClick={() => setOpenPopUp(false)}
 									style={{
