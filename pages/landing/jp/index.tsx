@@ -641,10 +641,10 @@ const Page: NextPage = () => {
 							variant="h4"
 							fontWeight={'500'}
 						>
-							여러분의 사업을 편리하게 관리하세요
+							あなたのビジネスを簡単に管理する方法
 						</Typography>
 						<Typography color={'white'} variant="subtitle1">
-							서포티에서 최적의 솔루션을 제안합니다.
+							Suppor-Tは、最適なソリューションを提案します。
 						</Typography>
 						<SupportiButton
 							contents="提携お問い合わせ
