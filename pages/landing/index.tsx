@@ -256,10 +256,11 @@ const Page: NextPage = () => {
 			<Box display="flex" flexDirection={'column'} pb={10}>
 				<img
 					src="/images/main/graph.jpg"
-					width={'100%'}
+					width="70%"
 					height={'100%'}
 					style={{
 						padding: '5%',
+						alignSelf: 'center',
 					}}
 				/>
 				<Box
