@@ -256,8 +256,8 @@ const Page: NextPage = () => {
 			<Box
 				display="flex"
 				flexDirection={'row'}
-				pb={10}
-				mx={10}
+				py={10}
+				mx={5}
 				my={5}
 				borderTop={'2px solid #f2f6ff'}
 			>
@@ -279,11 +279,10 @@ const Page: NextPage = () => {
 				>
 					<Box
 						display="flex"
-						flexWrap="wrap"
 						mb={3}
 						flexDirection={'row'}
 						justifyContent={'center'}
-						gap={10}
+						gap={5}
 					>
 						<Box display="flex" flexDirection={'row'}>
 							<AutoGraphIcon
@@ -332,11 +331,10 @@ const Page: NextPage = () => {
 					</Box>
 					<Box
 						display="flex"
-						flexWrap="wrap"
 						mb={3}
 						flexDirection={'row'}
 						justifyContent={'center'}
-						gap={10}
+						gap={5}
 					>
 						<Box display="flex" flexDirection={'row'}>
 							<MessageTwoToneIcon
@@ -389,7 +387,7 @@ const Page: NextPage = () => {
 						mb={3}
 						flexDirection={'row'}
 						justifyContent={'center'}
-						gap={10}
+						gap={5}
 					>
 						<Box display="flex" flexDirection={'row'}>
 							<PeopleTwoToneIcon
