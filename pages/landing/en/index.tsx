@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
-import Slider from 'react-slick';
 
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -253,179 +252,194 @@ const Page: NextPage = () => {
 				</Box>
 			</Grid>
 			{/* 제공하는 서비스 소개 섹션 */}
-			<Box display="flex" flexDirection={'column'} pb={10}>
+			<Box
+				display="flex"
+				flexDirection={'row'}
+				pb={10}
+				mx={10}
+				my={5}
+				borderTop={'2px solid #f2f6ff'}
+			>
 				<img
 					src="/images/main/graph.jpg"
-					width={'70%'}
+					width={'40%'}
 					height={'100%'}
 					style={{
-						padding: '5%',
+						padding: '3%',
 						alignSelf: 'center',
 					}}
 				/>
 				<Box
 					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
+					flexDirection={'column'}
 					justifyContent={'center'}
-					gap={10}
+					width="60%"
+					gap={5}
 				>
-					<Box display="flex" flexDirection={'row'}>
-						<AutoGraphIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								Efficient Metric Management
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<AutoGraphIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									Efficient Metric Management
+								</Typography>
+							</Box>
+						</Box>
+						<Box display="flex" flexDirection={'row'}>
+							<ApartmentTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									IR Coaching
+								</Typography>
+								<Typography variant="h4" fontWeight={'400'}>
+									by Investment Evaluation Professionals
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<ApartmentTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								IR Coaching
-							</Typography>
-							<Typography variant="h4" fontWeight={'400'}>
-								by Investment Evaluation Professionals
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<MessageTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									Mentorship from Experts in Various Fields
+								</Typography>
+							</Box>
+						</Box>
+						<Box display="flex" flexDirection={'row'}>
+							<HandshakeTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									Diverse Investment Attraction Opportunities
+									such as Demo Days, Investor Matching, etc.
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
-				</Box>
-				<Box
-					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
-					justifyContent={'center'}
-					gap={10}
-				>
-					<Box display="flex" flexDirection={'row'}>
-						<MessageTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								Mentorship from Experts in Various Fields
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<PeopleTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									Networking with Experts,
+								</Typography>
+								<Typography variant="h4" fontWeight={'400'}>
+									Responses within 24 Hours
+								</Typography>
+							</Box>
 						</Box>
-					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<HandshakeTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								Diverse Investment Attraction Opportunities such
-								as Demo Days, Investor Matching, etc.
-							</Typography>
-						</Box>
-					</Box>
-				</Box>
-				<Box
-					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
-					justifyContent={'center'}
-					gap={10}
-				>
-					<Box display="flex" flexDirection={'row'}>
-						<PeopleTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								Networking with Experts,
-							</Typography>
-							<Typography variant="h4" fontWeight={'400'}>
-								Responses within 24 Hours
-							</Typography>
-						</Box>
-					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<LibraryBooksTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'400px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								Support for Partner Programs
-							</Typography>
+						<Box display="flex" flexDirection={'row'}>
+							<LibraryBooksTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									Support for Partner Programs
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 				</Box>

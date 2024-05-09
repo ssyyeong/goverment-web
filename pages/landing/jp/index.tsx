@@ -253,172 +253,187 @@ const Page: NextPage = () => {
 				</Box>
 			</Grid>
 			{/* 제공하는 서비스 소개 섹션 */}
-			<Box display="flex" flexDirection={'column'} pb={10}>
+			<Box
+				display="flex"
+				flexDirection={'row'}
+				pb={10}
+				mx={10}
+				my={5}
+				borderTop={'2px solid #f2f6ff'}
+			>
 				<img
 					src="/images/main/graph.jpg"
-					width={'70%'}
+					width={'40%'}
 					height={'100%'}
 					style={{
-						padding: '5%',
+						padding: '3%',
 						alignSelf: 'center',
 					}}
 				/>
 				<Box
 					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
+					flexDirection={'column'}
 					justifyContent={'center'}
-					gap={10}
+					width="60%"
+					gap={5}
 				>
-					<Box display="flex" flexDirection={'row'}>
-						<AutoGraphIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								効率的な指標管理
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<AutoGraphIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									効率的な指標管理
+								</Typography>
+							</Box>
+						</Box>
+						<Box display="flex" flexDirection={'row'}>
+							<ApartmentTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									投資審査役のIRコーチング
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<ApartmentTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								投資審査役のIRコーチング
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<MessageTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									多様な分野からの専門家によるメンタリング
+								</Typography>
+							</Box>
+						</Box>
+						<Box display="flex" flexDirection={'row'}>
+							<HandshakeTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									様々な投資誘致機会（デモデイ、投資者マッチングなど）
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
-				</Box>
-				<Box
-					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
-					justifyContent={'center'}
-					gap={10}
-				>
-					<Box display="flex" flexDirection={'row'}>
-						<MessageTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								多様な分野からの専門家によるメンタリング
-							</Typography>
+					<Box
+						display="flex"
+						flexWrap="wrap"
+						mb={3}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						gap={10}
+					>
+						<Box display="flex" flexDirection={'row'}>
+							<PeopleTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									専門家とのネットワーキング、24時間以内に返事
+								</Typography>
+							</Box>
 						</Box>
-					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<HandshakeTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								様々な投資誘致機会（デモデイ、投資者マッチングなど）
-							</Typography>
-						</Box>
-					</Box>
-				</Box>
-				<Box
-					display="flex"
-					flexWrap="wrap"
-					mb={3}
-					flexDirection={'row'}
-					justifyContent={'center'}
-					gap={10}
-				>
-					<Box display="flex" flexDirection={'row'}>
-						<PeopleTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								専門家とのネットワーキング、24時間以内に返事
-							</Typography>
-						</Box>
-					</Box>
-					<Box display="flex" flexDirection={'row'}>
-						<LibraryBooksTwoToneIcon
-							sx={{
-								color: 'primary.main',
-								fontSize: '40px',
-								marginRight: '20px',
-								marginTop: '15px',
-							}}
-						/>
-						<Box
-							border={'1px solid'}
-							borderColor={'primary.main'}
-							alignContent={'center'}
-							textAlign={'center'}
-							height={'80px'}
-							width={'330px'}
-						>
-							<Typography variant="h4" fontWeight={'400'}>
-								パートナー企業プログラム支援
-							</Typography>
+						<Box display="flex" flexDirection={'row'}>
+							<LibraryBooksTwoToneIcon
+								sx={{
+									color: 'primary.main',
+									fontSize: '40px',
+									marginRight: '20px',
+									marginTop: '15px',
+								}}
+							/>
+							<Box
+								border={'1px solid'}
+								borderColor={'primary.main'}
+								alignContent={'center'}
+								textAlign={'center'}
+								height={'80px'}
+								width={'330px'}
+							>
+								<Typography variant="h4" fontWeight={'400'}>
+									パートナー企業プログラム支援
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
