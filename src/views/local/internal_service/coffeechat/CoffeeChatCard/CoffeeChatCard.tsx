@@ -26,11 +26,12 @@ const CoffeeChatCard = (props: ICoffeeChatCardProps) => {
 			p={3}
 			bgcolor={'white'}
 			borderRadius={5}
-			minWidth={props.isExpand ? 780 : 0}
-			width={props.isExpand ? 780 : 'auto'}
+			minWidth={props.isExpand ? 760 : 0}
+			width={props.isExpand ? 760 : 'auto'}
 			height={props.isExpand ? 'auto' : 350}
 			maxHeight={350}
 			sx={{
+				border: '1px solid #c8c8c8',
 				transition: 'all 0.3s ease-in-out',
 				'&:hover': {
 					cursor: props.disabledHover === true ? null : 'pointer',

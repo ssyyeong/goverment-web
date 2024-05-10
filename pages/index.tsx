@@ -37,10 +37,12 @@ const Page: NextPage = () => {
 	const userIrInformationController = new DefaultController(
 		'UserIrInformation'
 	);
+	const businessInfoController = new DefaultController('Business'); // 유저 정보 최초 입력 컨트롤러 (비즈니스 정보)
 
 	//* States
-	const [openPopUp, setOpenPopUp] = React.useState(false);
-	const [isTodayNotShow, setIsTodayNotShow] = React.useState(false);
+	const [openPopUp, setOpenPopUp] = React.useState(false); //하임 코칭권 모달
+	const [isTodayNotShow, setIsTodayNotShow] = React.useState(false); //오늘 그만 보기
+	const [openFirstInfoPopUp, setOpenFirstInfoPopUp] = React.useState(false);
 
 	//* Constants
 	const data = [
@@ -156,6 +158,26 @@ const Page: NextPage = () => {
 		document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
 	}
 
+	/**
+	 * 유저 비즈니스 정보 가져오기
+	 */
+	const getUserBusinessInfo = () => {
+		businessInfoController.getOneItemByKey(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+			},
+			(res) => {
+				console.log(res.data.result);
+				if (res.data.result !== null) {
+					setOpenFirstInfoPopUp(false);
+				} else {
+					setOpenFirstInfoPopUp(true);
+				}
+			},
+			(err) => {}
+		);
+	};
+
 	useEffect(() => {
 		// 팝업창이 닫혔을 시점에 오늘 하루 보지 않기에 체크가 되어 있다면 쿠키에 셋팅
 		if (!openPopUp) {
@@ -173,6 +195,8 @@ const Page: NextPage = () => {
 			} else {
 				getUserIrInfo();
 			}
+
+			getUserBusinessInfo();
 		}
 	}, [memberId]);
 
@@ -975,6 +999,55 @@ const Page: NextPage = () => {
 							>
 								오늘 하루 보지 않기
 							</Typography>
+						</Box>
+					</Box>
+				}
+			/>
+
+			<PopUpModal
+				modalOpen={openFirstInfoPopUp}
+				setModalOpen={setOpenFirstInfoPopUp}
+				uiData={
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						gap={1}
+					>
+						<Box display={'flex'}>
+							<Typography variant='subtitle1'>
+								비즈니스 정보 입력 후 다양한 서비스를
+								이용해보세요!
+							</Typography>
+
+							<CloseIcon
+								sx={{ cursor: 'pointer' }}
+								onClick={() => setOpenFirstInfoPopUp(false)}
+							/>
+						</Box>
+
+						<Box display={'flex'} gap={2}>
+							<SupportiButton
+								contents={'등록하러가기'}
+								variant="contained"
+								onClick={() => router.push('/my_page/ir_data')}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+							<SupportiButton
+								contents={'닫기'}
+								variant="outlined"
+								onClick={() => setOpenFirstInfoPopUp(false)}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
 						</Box>
 					</Box>
 				}
