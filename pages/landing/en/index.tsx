@@ -180,26 +180,26 @@ const Page: NextPage = () => {
 					flexDirection={'column'}
 				>
 					<Typography
-						variant={'h1'}
+						variant={'h2'}
 						fontWeight={'400'}
 						color={'white'}
 						sx={{
-							bgcolor: 'rgba(0, 0, 255, 0.7)',
 							display: 'inline',
+							bgcolor: 'rgba(0, 0, 255, 0.7)',
 							padding: '5px 20px',
 						}}
 					>
 						It makes your company’s dream come true
 					</Typography>
 					<Typography
-						variant={'h2'}
+						variant={'h3'}
 						fontWeight={'400'}
 						color={'white'}
-						mt={1}
+						mt={2}
 					>
 						Your One and Only,
 					</Typography>
-					<Typography variant={'h1'} color={'white'} mt={1}>
+					<Typography variant={'h2'} color={'white'} mt={1}>
 						Startup Growth Management Solution
 					</Typography>
 					<Typography
@@ -211,7 +211,7 @@ const Page: NextPage = () => {
 						Suppor-T is a companion for startups
 					</Typography>
 					<Typography
-						variant={'h2'}
+						variant={'h3'}
 						fontWeight={'400'}
 						color={'white'}
 						mt={1}

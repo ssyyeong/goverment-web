@@ -181,7 +181,7 @@ const Page: NextPage = () => {
 					flexDirection={'column'}
 				>
 					<Typography
-						variant={'h1'}
+						variant={'h2'}
 						fontWeight={'400'}
 						color={'white'}
 						sx={{
@@ -193,18 +193,18 @@ const Page: NextPage = () => {
 						It makes your company’s dream come true
 					</Typography>
 					<Typography
-						variant={'h2'}
+						variant={'h3'}
 						fontWeight={'400'}
 						color={'white'}
-						mt={1}
+						mt={3}
 					>
 						貴社の夢が実現される
 					</Typography>
-					<Typography variant={'h1'} color={'white'} mt={1}>
+					<Typography variant={'h2'} color={'white'} mt={1}>
 						お客様にとって唯一無二のスタートアップ成長管理ソリューション
 					</Typography>
 					<Typography
-						variant={'h2'}
+						variant={'h3'}
 						fontWeight={'400'}
 						color={'white'}
 						mt={1}
@@ -321,7 +321,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									効率的な指標管理
 								</Typography>
 							</Box>
@@ -343,7 +346,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									投資審査役のIRコーチング
 								</Typography>
 							</Box>
@@ -373,7 +379,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									多様な分野からの専門家によるメンタリング
 								</Typography>
 							</Box>
@@ -395,7 +404,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									様々な投資誘致機会（デモデイ、投資者マッチングなど）
 								</Typography>
 							</Box>
@@ -412,9 +424,9 @@ const Page: NextPage = () => {
 							<PeopleTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -425,7 +437,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									専門家とのネットワーキング、24時間以内に返事
 								</Typography>
 							</Box>
@@ -447,7 +462,10 @@ const Page: NextPage = () => {
 								height={'80px'}
 								width={'280px'}
 							>
-								<Typography variant="h4" fontWeight={'400'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'400'}
+								>
 									パートナー企業プログラム支援
 								</Typography>
 							</Box>
@@ -543,10 +561,10 @@ const Page: NextPage = () => {
 				>
 					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
 						<Box textAlign={'center'} mt="auto" mb="auto">
-							<Typography variant="h5" fontWeight={'600'}>
+							<Typography variant="subtitle1" fontWeight={'600'}>
 								経営、投資、マーケティング、税務、労務、弁護士など
 							</Typography>
-							<Typography variant="h5" fontWeight={'600'}>
+							<Typography variant="subtitle1" fontWeight={'600'}>
 								様々な分野からの
 							</Typography>
 							<Box
@@ -554,15 +572,19 @@ const Page: NextPage = () => {
 								gap={1}
 								width="100%"
 								justifyContent={'center'}
+								flexDirection={'column'}
 							>
 								<Typography
-									variant="h5"
+									variant="subtitle1"
 									color="primary.main"
 									fontWeight={'600'}
 								>
 									セミナー、コンサルティング、メンタリング、QA
 								</Typography>
-								<Typography variant="h5" fontWeight={'600'}>
+								<Typography
+									variant="subtitle1"
+									fontWeight={'600'}
+								>
 									サービス
 								</Typography>
 							</Box>

@@ -200,7 +200,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								src="/images/logo/Suppor-TFulllogo.svg"
 								alt="logo"
 								height="40px"
-								width={'145px'}
+								width={'130px'}
 							/>
 						</Box>
 					</Box>
@@ -318,7 +318,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							<ToggleButton
 								value="ko"
 								sx={{
-									color: 'white',
+									color: 'black',
 									border:
 										toLocale == 'ko'
 											? '1px solid primary.main'
@@ -330,23 +330,26 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							<ToggleButton
 								value="en"
 								sx={{
-									color: 'white',
+									color: 'black',
+									fontWeight: '600',
+
 									border:
 										toLocale == 'en'
 											? '1px solid primary.main'
-											: '1px solid white',
+											: '1px solid black',
 								}}
 							>
-								English
+								EN
 							</ToggleButton>
 							<ToggleButton
 								value="jp"
 								sx={{
-									color: 'white',
+									color: 'black',
+									fontWeight: '600',
 									border:
 										toLocale == 'jp'
 											? '1px solid primary.main'
-											: '1px solid white',
+											: '1px solid black',
 								}}
 							>
 								日本語
