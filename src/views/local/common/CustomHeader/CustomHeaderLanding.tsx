@@ -30,6 +30,16 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const cookie = new CookieManager();
 
 	//* Constants
+	//모바일 메뉴
+	const mobileMenu = [
+		{
+			label: 'ABOUT SUPPOR-T',
+			path: '/',
+			onclick: () => {
+				router.push('/');
+			},
+		},
+	];
 	// 메뉴
 	const menu = [
 		{
@@ -198,7 +208,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						sx={{
 							flexGrow: 0,
 							display: { xs: 'flex', md: 'none' },
-							overflowY: 'scroll',
 						}}
 					>
 						<IconButton
@@ -211,6 +220,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 						>
 							<MenuIcon />
 						</IconButton>
+
 						<Menu
 							id="menu-appbar"
 							anchorEl={anchorElNav}
@@ -249,7 +259,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								mb={2}
 							>
 								<img
-									src="/images/logo/Suppor-TFulllogo.png"
+									src="/images/logo/Suppor-TFulllogo.svg"
 									height="40px"
 									width={'145px'}
 								/>
@@ -257,7 +267,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									onClick={handleCloseNavMenu}
 									sx={{
 										cursor: 'pointer',
-
 										fontWeight: '600',
 									}}
 								>
@@ -265,11 +274,11 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								</Typography>
 							</Box>
 
-							{menu.map((page, idx) => (
+							{mobileMenu.map((page: any) => (
 								<MenuItem
 									key={page.label}
 									onClick={() => {
-										handleOpenMenu(menu, idx);
+										router.push(page.path);
 										handleCloseNavMenu();
 									}}
 									sx={{}}
@@ -286,6 +295,63 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								</MenuItem>
 							))}
 						</Menu>
+						<ToggleButtonGroup
+							value={toLocale}
+							exclusive
+							onChange={(event, value) => {
+								if (value == null) return;
+								setToLocale(value);
+								cookie.setItemInCookies('locale', value);
+								if (value == 'ko') {
+									router.push('/landing');
+								} else if (value == 'en') {
+									router.push('/landing/en');
+								} else router.push('/landing/jp');
+							}}
+							color="primary"
+							aria-label="text alignment"
+							sx={{
+								display: { xs: 'flex', md: 'none' },
+								height: '45px',
+							}}
+						>
+							<ToggleButton
+								value="ko"
+								sx={{
+									color: 'white',
+									border:
+										toLocale == 'ko'
+											? '1px solid primary.main'
+											: '1px solid white',
+								}}
+							>
+								KO
+							</ToggleButton>
+							<ToggleButton
+								value="en"
+								sx={{
+									color: 'white',
+									border:
+										toLocale == 'en'
+											? '1px solid primary.main'
+											: '1px solid white',
+								}}
+							>
+								English
+							</ToggleButton>
+							<ToggleButton
+								value="jp"
+								sx={{
+									color: 'white',
+									border:
+										toLocale == 'jp'
+											? '1px solid primary.main'
+											: '1px solid white',
+								}}
+							>
+								日本語
+							</ToggleButton>
+						</ToggleButtonGroup>
 					</Box>
 
 					{/* 웹 */}

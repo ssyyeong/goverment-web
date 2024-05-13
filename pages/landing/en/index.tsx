@@ -151,73 +151,90 @@ const Page: NextPage = () => {
 		<Box
 			sx={{
 				width: '100%',
-				height: '100%',
-				alignItems: 'center',
+				display: 'flex',
+				flexDirection: 'column',
 			}}
 		>
-			{/* 메인 이미지 섹션 */}
-			<img
+			<Box
+				sx={{
+					backgroundImage: `url(/images/main/container.jpg)`,
+					backgroundSize: 'cover',
+				}}
+				width={'100%'}
+				height={'100vh'}
+			>
+				{/* 메인 이미지 섹션 */}
+				{/* <img
 				src="/images/main/container.jpg"
 				width={'100%'}
 				height={'100%'}
-			/>
-			{/* 메인 이미지 텍스트 섹션 */}
-			<Box
-				top={'50%'}
-				position={'absolute'}
-				width={'100%'}
-				left={'auto'}
-				textAlign={'center'}
-			>
-				<Typography
-					variant={'h1'}
-					fontWeight={'400'}
-					color={'white'}
-					sx={{
-						bgcolor: 'rgba(0, 0, 255, 0.7)',
-						display: 'inline',
-						padding: '5px 20px',
-					}}
+			/> */}
+				{/* 메인 이미지 텍스트 섹션 */}
+				<Box
+					top={'50%'}
+					position={'absolute'}
+					width={'100%'}
+					left={'auto'}
+					textAlign={'center'}
+					display={'flex'}
+					flexDirection={'column'}
 				>
-					It makes your company’s dream come true
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					Your One and Only,
-				</Typography>
-				<Typography variant={'h1'} color={'white'} mt={1}>
-					Startup Growth Management Solution
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					Suppor-T is a companion for startups
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					to grow together.
-				</Typography>
+					<Typography
+						variant={'h1'}
+						fontWeight={'400'}
+						color={'white'}
+						sx={{
+							bgcolor: 'rgba(0, 0, 255, 0.7)',
+							display: 'inline',
+							padding: '5px 20px',
+						}}
+					>
+						It makes your company’s dream come true
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						Your One and Only,
+					</Typography>
+					<Typography variant={'h1'} color={'white'} mt={1}>
+						Startup Growth Management Solution
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						Suppor-T is a companion for startups
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						to grow together.
+					</Typography>
+				</Box>
 			</Box>
 
 			{/* BurnRate 섹션 */}
-			<Grid container justifyContent={'center'}>
+			<Grid
+				container
+				justifyContent={'center'}
+				display="flex"
+				flexWrap={'wrap'}
+			>
 				<Box
 					pt={5}
 					pb={10}
 					display="flex"
 					width="70%"
 					flexDirection={'column'}
+					flexWrap={'wrap'}
 				>
 					<Box mb={5}>
 						<Typography variant="h5" fontWeight={600} mb={1}>
@@ -245,7 +262,7 @@ const Page: NextPage = () => {
 							style={{
 								position: 'absolute',
 								right: '20%',
-								top: '155%',
+								top: '130%',
 							}}
 						/>
 					</Box>
@@ -254,18 +271,20 @@ const Page: NextPage = () => {
 			{/* 제공하는 서비스 소개 섹션 */}
 			<Box
 				display="flex"
-				flexDirection={'row'}
+				flexDirection={'column'}
 				py={10}
 				mx={5}
 				my={5}
 				borderTop={'2px solid #f2f6ff'}
+				justifyContent={'center'}
+				alignItems={'center'}
 			>
 				<img
 					src="/images/main/graph.jpg"
 					width={'40%'}
 					height={'100%'}
 					style={{
-						padding: '3%',
+						padding: '1%',
 						alignSelf: 'center',
 					}}
 				/>
@@ -273,23 +292,24 @@ const Page: NextPage = () => {
 					display="flex"
 					flexDirection={'column'}
 					justifyContent={'center'}
-					width="60%"
 					gap={5}
+					alignItems={'center'}
+					mt={5}
 				>
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display={'flex'} flexDirection={'row'} mx={5}>
 							<AutoGraphIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -298,20 +318,20 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									Efficient Metric Management
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<ApartmentTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -320,7 +340,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									IR Coaching
@@ -334,17 +354,17 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<MessageTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -353,20 +373,20 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									Mentorship from Experts in Various Fields
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<HandshakeTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -375,7 +395,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									Diverse Investment Attraction Opportunities
@@ -387,17 +407,17 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<PeopleTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -406,7 +426,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									Networking with Experts,
@@ -416,13 +436,13 @@ const Page: NextPage = () => {
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<LibraryBooksTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -431,7 +451,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									Support for Partner Programs
@@ -477,22 +497,26 @@ const Page: NextPage = () => {
 								height={'145px'}
 							/>
 							<Box textAlign={'center'} mt="auto" mb="auto">
-								<Typography
-									variant="h5"
-									fontWeight={'600'}
-									color="primary.main"
-								>
-									Seminars, Consulting, Mentorship, QA
-									Services
-								</Typography>
 								<Typography variant="h5" fontWeight={'600'}>
-									in Various Fields such as Management,
+									Investment, Marketing, Taxation, Human
+									Resources, Legal Affairs, etc.{' '}
 								</Typography>
+								{/* <Typography variant="h5" fontWeight={'600'}>
+									다양한 분야에서의
+								</Typography> */}
 								<Box display="flex" gap={1}>
-									<Typography variant="h5" fontWeight={'600'}>
-										Investment, Marketing, Taxation, Human
-										Resources, Legal Affairs, etc.
+									<Typography
+										variant="h5"
+										color="primary.main"
+										fontWeight={'600'}
+									>
+										Seminars, Consulting, Mentorship, QA
+										Services in Various Fields such as
+										Management,
 									</Typography>
+									{/* <Typography variant="h5" fontWeight={'600'}>
+										서비스 제공
+									</Typography> */}
 								</Box>
 							</Box>
 							<img
@@ -528,12 +552,13 @@ const Page: NextPage = () => {
 				>
 					<Box width="100%" bgcolor={'primary.light'} pt={8} pb={8}>
 						<Box textAlign={'center'} mt="auto" mb="auto">
-							<Typography variant="h5" fontWeight={'600'}>
-								경영, 투자, 마케팅, 세무, 노무, 변호사 등
+							<Typography variant="subtitle1" fontWeight={'600'}>
+								Investment, Marketing, Taxation, Human
+								Resources, Legal Affairs, etc.
 							</Typography>
-							<Typography variant="h5" fontWeight={'600'}>
+							{/* <Typography variant="h5" fontWeight={'600'}>
 								다양한 분야에서의
-							</Typography>
+							</Typography> */}
 							<Box
 								display="flex"
 								gap={1}
@@ -541,20 +566,17 @@ const Page: NextPage = () => {
 								justifyContent={'center'}
 							>
 								<Typography
-									variant="h5"
+									variant="subtitle1"
 									color="primary.main"
 									fontWeight={'600'}
 								>
 									Seminars, Consulting, Mentorship, QA
-									Services
+									Services in Various Fields such as
+									Management,
 								</Typography>
-								<Typography variant="h5" fontWeight={'600'}>
-									in Various Fields such as Management,
-								</Typography>
-								<Typography variant="h5" fontWeight={'600'}>
-									Investment, Marketing, Taxation, Human
-									Resources, Legal Affairs, etc.
-								</Typography>
+								{/* <Typography variant="h5" fontWeight={'600'}>
+									서비스 제공
+								</Typography> */}
 							</Box>
 						</Box>
 					</Box>

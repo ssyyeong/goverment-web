@@ -152,73 +152,90 @@ const Page: NextPage = () => {
 		<Box
 			sx={{
 				width: '100%',
-				height: '100%',
-				alignItems: 'center',
+				display: 'flex',
+				flexDirection: 'column',
 			}}
 		>
-			{/* 메인 이미지 섹션 */}
-			<img
+			<Box
+				sx={{
+					backgroundImage: `url(/images/main/container.jpg)`,
+					backgroundSize: 'cover',
+				}}
+				width={'100%'}
+				height={'100vh'}
+			>
+				{/* 메인 이미지 섹션 */}
+				{/* <img
 				src="/images/main/container.jpg"
 				width={'100%'}
 				height={'100%'}
-			/>
-			{/* 메인 이미지 텍스트 섹션 */}
-			<Box
-				top={'50%'}
-				position={'absolute'}
-				width={'100%'}
-				left={'auto'}
-				textAlign={'center'}
-			>
-				<Typography
-					variant={'h1'}
-					fontWeight={'400'}
-					color={'white'}
-					sx={{
-						bgcolor: 'rgba(0, 0, 255, 0.7)',
-						display: 'inline',
-						padding: '5px 20px',
-					}}
+			/> */}
+				{/* 메인 이미지 텍스트 섹션 */}
+				<Box
+					top={'50%'}
+					position={'absolute'}
+					width={'100%'}
+					left={'auto'}
+					textAlign={'center'}
+					display={'flex'}
+					flexDirection={'column'}
 				>
-					It makes your company’s dream come true
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					고객님의 하나뿐인,
-				</Typography>
-				<Typography variant={'h1'} color={'white'} mt={1}>
-					스타트업 성장 관리 솔루션
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					서포티는 스타트업과
-				</Typography>
-				<Typography
-					variant={'h2'}
-					fontWeight={'400'}
-					color={'white'}
-					mt={1}
-				>
-					함께 성장하는 동행자입니다.
-				</Typography>
+					<Typography
+						variant={'h1'}
+						fontWeight={'400'}
+						color={'white'}
+						sx={{
+							bgcolor: 'rgba(0, 0, 255, 0.7)',
+							display: 'inline',
+							padding: '5px 20px',
+						}}
+					>
+						It makes your company’s dream come true
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						고객님의 하나뿐인,
+					</Typography>
+					<Typography variant={'h1'} color={'white'} mt={1}>
+						스타트업 성장 관리 솔루션
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						서포티는 스타트업과
+					</Typography>
+					<Typography
+						variant={'h2'}
+						fontWeight={'400'}
+						color={'white'}
+						mt={1}
+					>
+						함께 성장하는 동행자입니다.
+					</Typography>
+				</Box>
 			</Box>
 
 			{/* BurnRate 섹션 */}
-			<Grid container justifyContent={'center'}>
+			<Grid
+				container
+				justifyContent={'center'}
+				display="flex"
+				flexWrap={'wrap'}
+			>
 				<Box
 					pt={5}
 					pb={10}
 					display="flex"
 					width="70%"
 					flexDirection={'column'}
+					flexWrap={'wrap'}
 				>
 					<Box mb={5}>
 						<Typography fontWeight={600} mb={1}>
@@ -246,7 +263,7 @@ const Page: NextPage = () => {
 							style={{
 								position: 'absolute',
 								right: '20%',
-								top: '155%',
+								top: '130%',
 							}}
 						/>
 					</Box>
@@ -255,18 +272,20 @@ const Page: NextPage = () => {
 			{/* 제공하는 서비스 소개 섹션 */}
 			<Box
 				display="flex"
-				flexDirection={'row'}
+				flexDirection={'column'}
 				py={10}
 				mx={5}
 				my={5}
 				borderTop={'2px solid #f2f6ff'}
+				justifyContent={'center'}
+				alignItems={'center'}
 			>
 				<img
 					src="/images/main/graph.jpg"
-					width={'40%'}
+					width={'60%'}
 					height={'100%'}
 					style={{
-						padding: '3%',
+						padding: '1%',
 						alignSelf: 'center',
 					}}
 				/>
@@ -274,23 +293,24 @@ const Page: NextPage = () => {
 					display="flex"
 					flexDirection={'column'}
 					justifyContent={'center'}
-					width="60%"
 					gap={5}
+					alignItems={'center'}
+					mt={5}
 				>
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display={'flex'} flexDirection={'row'} mx={5}>
 							<AutoGraphIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -299,20 +319,20 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									효율적인 지표관리
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<ApartmentTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -321,7 +341,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									투자심사역의 IR 코칭
@@ -329,20 +349,21 @@ const Page: NextPage = () => {
 							</Box>
 						</Box>
 					</Box>
+
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<MessageTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -351,20 +372,20 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									다양한 분야의 전문가 멘토링
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<HandshakeTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -373,7 +394,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									데모데이, 투자자 매칭 등
@@ -387,17 +408,17 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						mb={3}
-						flexDirection={'row'}
+						flexDirection={{ xs: 'column', md: 'row' }}
 						justifyContent={'center'}
 						gap={5}
 					>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<PeopleTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -406,20 +427,20 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									전문가들과의 네트워킹, 24시간 내 답변
 								</Typography>
 							</Box>
 						</Box>
-						<Box display="flex" flexDirection={'row'}>
+						<Box display="flex" flexDirection={'row'} mx={5}>
 							<LibraryBooksTwoToneIcon
 								sx={{
 									color: 'primary.main',
-									fontSize: '40px',
+									fontSize: '30px',
 									marginRight: '20px',
-									marginTop: '15px',
+									marginTop: '20px',
 								}}
 							/>
 							<Box
@@ -428,7 +449,7 @@ const Page: NextPage = () => {
 								alignContent={'center'}
 								textAlign={'center'}
 								height={'80px'}
-								width={'330px'}
+								width={'280px'}
 							>
 								<Typography variant="h4" fontWeight={'400'}>
 									파트너사 프로그램 지원
