@@ -140,7 +140,11 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
-				if (res.data.result !== null) {
+				//유저 ir 정보 중 투자연혁(필수정보) 체크
+				if (
+					res.data.result !== null &&
+					JSON.parse(res.data.result.INVEST_INFO).length > 0
+				) {
 					setOpenPopUp(false);
 				} else {
 					setOpenPopUp(true);

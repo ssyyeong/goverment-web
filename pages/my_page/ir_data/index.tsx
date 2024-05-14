@@ -160,6 +160,7 @@ const Page: NextPage = () => {
 		{
 			label: '희망 투자 유치 단계',
 			value: 'HOPE_INVEST_ROUND',
+			required: true,
 			type: 'select',
 			options: hopeInvestRound,
 		},
@@ -307,7 +308,8 @@ const Page: NextPage = () => {
 			!userIrInfo.BUSINESS_SECTOR ||
 			!userIrInfo.ESTABLISHMENT_DATE ||
 			!userIrInfo.CONTACT_NUMBER ||
-			!userIrInfo.BUSINESS_TITLE
+			!userIrInfo.BUSINESS_TITLE ||
+			investHistoryConfig.length === 0
 		) {
 			alert('필수 입력 항목을 입력해주세요.');
 			return false;
@@ -1182,7 +1184,6 @@ const Page: NextPage = () => {
 										{/* 투자 연혁 */}
 										<Box
 											display={'flex'}
-											justifyContent={'space-between'}
 											alignItems={'center'}
 										>
 											{' '}
@@ -1192,6 +1193,12 @@ const Page: NextPage = () => {
 												variant="body1"
 											>
 												투자 연혁
+											</Typography>
+											<Typography
+												fontWeight={'600'}
+												color={'primary'}
+											>
+												(필수)
 											</Typography>
 											<Box display={'flex'}></Box>
 										</Box>

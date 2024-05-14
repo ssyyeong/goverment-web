@@ -111,7 +111,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 				const rows = res.data.result.rows;
 				const categoryFilter = rows.filter(
 					(row, idx) =>
-						row.Ticket.CATEGORY === '컨설팅' && row.isPossibleUsing
+						row.Ticket.CATEGORY === '코칭' && row.isPossibleUsing
 				);
 				setUserTicketList(categoryFilter);
 			},
@@ -613,25 +613,40 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 					</Box>
 					{/* 컨설팅 사전 질문 */}
 					<Box width={'100%'}>
-						<Box
-							display={'flex'}
-							justifyContent={'space-between'}
-							mb={1}
-							alignItems={'center'}
-						>
-							<Typography variant="h5" fontWeight={'700'}>
-								컨설팅 사전 질문
-							</Typography>
-							<Typography color={'red'} fontWeight={'300'}>
-								* 필수 입력
-							</Typography>
-						</Box>
-						<Typography color={'secondary.main'} lineHeight={1.5}>
-							대답이 불가능한 답변은 없음 또는 X를 입력해주세요
-						</Typography>
-						<Typography color={'secondary.main'} lineHeight={1.5}>
-							파일이 없다면 파일없음에 체크해주세요
-						</Typography>
+						{props.consultingData.ConsultingQuestions.length >
+							0 && (
+							<Box>
+								<Box
+									display={'flex'}
+									justifyContent={'space-between'}
+									mb={1}
+									alignItems={'center'}
+								>
+									<Typography variant="h5" fontWeight={'700'}>
+										컨설팅 사전 질문
+									</Typography>
+									<Typography
+										color={'red'}
+										fontWeight={'300'}
+									>
+										* 필수 입력
+									</Typography>
+								</Box>
+								<Typography
+									color={'secondary.main'}
+									lineHeight={1.5}
+								>
+									대답이 불가능한 답변은 없음 또는 X를
+									입력해주세요
+								</Typography>
+								<Typography
+									color={'secondary.main'}
+									lineHeight={1.5}
+								>
+									파일이 없다면 파일없음에 체크해주세요
+								</Typography>
+							</Box>
+						)}
 						{/* 질문 */}
 						<Box mb={2}>
 							{props.consultingData.ConsultingQuestions?.map(
