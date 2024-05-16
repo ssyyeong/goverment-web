@@ -137,19 +137,23 @@ const Page: NextPage = () => {
 	 * 유저 ir 정보 가져오기
 	 */
 	const getUserIrInfo = () => {
-		userIrInformationController.getOneItemByKey(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				if (res.data.result !== null) {
-					setOpenPopUp(false);
-				} else {
-					setOpenPopUp(true);
-				}
-			},
-			(err) => {}
-		);
+		//임시 처리
+		setOpenPopUp(true);
+		// userIrInformationController.getOneItemByKey(
+		// 	{
+		// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
+		// 	},
+		// 	(res) => {
+		// 		//유저 ir 정보 중 투자연혁(필수정보) 체크
+		// 		if (
+		// 			res.data.result !== null &&
+		// 			JSON.parse(res.data.result.INVEST_INFO).length > 0
+		// 		) {
+		// 			setOpenPopUp(true);
+		// 		}
+		// 	},
+		// 	(err) => {}
+		// );
 	};
 
 	function setCookie(name, value, exp) {
@@ -167,7 +171,6 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
-				console.log(res.data.result);
 				if (res.data.result !== null) {
 					setOpenFirstInfoPopUp(false);
 				} else {
