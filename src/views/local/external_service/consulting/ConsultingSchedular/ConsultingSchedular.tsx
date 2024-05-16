@@ -287,7 +287,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 			style={{
 				width: { sm: 'fit-content', xs: '100%' },
 				maxWidth: { sm: '400px', xs: '100%' },
-				maxHeight: { sm: '90%', xs: '100%' },
+				maxHeight: { sm: '100%', xs: '100%' },
 			}}
 		>
 			{/* 컨설팅 설명 및 캘린더 / 페이지 0*/}

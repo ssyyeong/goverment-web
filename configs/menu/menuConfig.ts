@@ -140,7 +140,7 @@ const mypageMenu: IMenu[] = [
 		icon: '/images/icons/seminar-reservation.png',
 	},
 	{
-		label: '마이쿠폰',
+		label: '마이티켓',
 		path: '/my_page/my_cupon',
 		icon: '/images/icons/cupon.png',
 	},
