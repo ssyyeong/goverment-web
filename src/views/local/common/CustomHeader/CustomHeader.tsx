@@ -36,12 +36,15 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	//* States
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElMypage, setAnchorElMypage] = React.useState(null);
+	const [anchorElMypage, setAnchorElMypage] = React.useState(null); //마이페이지 메뉴
 	const [anchorElUser, setAnchorElUser] = React.useState(null); // 고객센터 메뉴
 	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 소셜링 메뉴
 	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
 	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
 	const [anchorElPartners, setAnchorElPartners] = React.useState(null); //파트너스 메뉴
+	const [anchorElSupporti, setAnchorElSupporti] = React.useState(null); //서포티 메뉴
+	const [anchorElExtraService, setAnchorElExtraService] =
+		React.useState(null); //부가서비스 메뉴
 	const [target, setTarget] = React.useState(null);
 	//* Constants
 
@@ -153,73 +156,23 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/my_page/edit_profile',
 		},
 	];
+
 	const unLoginMenu = [
-		{
-			label: '로그인',
-			path: '/auth/sign_in',
-		},
-		{
-			label: '컨텐츠',
-			path: '/supportv',
-		},
-		{
-			label: 'A2E',
-			path: '/internal_service/a2e',
-			onclick: () => {
-				router.push('/internal_service/a2e');
-			},
-		},
-		{
-			label: '커피챗',
-			path: '/internal_service/coffeechat',
-			onclick: () => {
-				router.push('/internal_service/coffeechat');
-			},
-		},
-		{
-			label: '세미나',
-			path: '/external_service/seminar',
-			additionalOnclickFunction: () => {
-				gTagEvent({
-					action: 'seminar',
-					category: 'seminar',
-					label: 'seminar',
-					value: 1,
-				});
-			},
-		},
+		{ label: '서포티 소개', path: '/introduction/supporti' },
+		{ label: '서포티 기능', path: '/introduction/supporti/function' },
+		{ label: '소셜링', path: '/introduction/socialing' },
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
 		},
 		{
-			label: '파트너스',
-			path: '/partners',
-		},
-		{
-			label: '비즈니스 멘토',
-			path: '/mentor',
-		},
-		{
-			label: 'FAQ',
-			path: '/customer_service/faq',
+			label: '부가기능 소개',
+			path: '/introduction/extra_service',
 		},
 		{
 			label: '공지사항',
 			path: '/customer_service/notice',
 		},
-		{
-			label: '문의하기',
-			path: '/customer_service/qna',
-		},
-		{
-			label: '이벤트',
-			path: '/customer_service/event',
-		},
-		// {
-		// 	label: '컨설팅',
-		// 	path: '/external_service/consulting',
-		// },
 	];
 
 	/**
@@ -349,6 +302,34 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 	];
 
+	/**
+	 * 서포티
+	 */
+	const supporti = [
+		{
+			label: '서포티 소개',
+			path: '/introduction/supporti',
+		},
+		{
+			label: '서포티 기능',
+			path: '/introduction/supporti/function',
+		},
+		{
+			label: '소셜링',
+			path: '/introduction/socialing',
+		},
+	];
+
+	/**
+	 * 부가서비스
+	 */
+	const extraService = [
+		{
+			label: '부가기능 소개',
+			path: '/introduction/extra_service',
+		},
+	];
+
 	// 메뉴
 	const loginPages = [
 		{
@@ -417,39 +398,30 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	const logoutPages = [
 		{
-			label: 'supporTV',
-			path: '/supportv',
-		},
-		{
-			label: '소셜링',
-			subMenus: socialing,
+			label: '서포티',
+			subMenus: supporti,
 			subMenuHandler: (event) => {
-				if (event) setAnchorElCommunity(event.currentTarget);
-				else setAnchorElCommunity(null);
+				if (event) setAnchorElSupporti(event.currentTarget);
+				else setAnchorElSupporti(null);
 			},
-			target: anchorElCommunity,
-		},
-		{
-			label: '파트너스',
-			subMenus: partners,
-			subMenuHandler: (event) => {
-				if (event) setAnchorElPartners(event.currentTarget);
-				else setAnchorElPartners(null);
-			},
-			target: anchorElPartners,
+			target: anchorElSupporti,
 		},
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
 		},
 		{
-			label: '고객센터',
-			subMenus: customercenter,
+			label: '부가서비스',
+			subMenus: extraService,
 			subMenuHandler: (event) => {
-				if (event) setAnchorElUser(event.currentTarget);
-				else setAnchorElUser(null);
+				if (event) setAnchorElExtraService(event.currentTarget);
+				else setAnchorElExtraService(null);
 			},
-			target: anchorElUser,
+			target: anchorElExtraService,
+		},
+		{
+			label: '공지사항',
+			path: '/customer_service/notice',
 		},
 	];
 
@@ -623,6 +595,8 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		setAnchorElIndicator(null);
 		setAnchorElPartners(null);
 		setAnchorElUser(null);
+		setAnchorElSupporti(null);
+		setAnchorElExtraService(null);
 	}, [router]);
 
 	return (
@@ -816,8 +790,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											<MenuItem
 												key={page.label}
 												onClick={() => {
-													page.additionalOnclickFunction &&
-														page.additionalOnclickFunction();
 													router.push(page.path);
 													handleCloseNavMenu();
 												}}

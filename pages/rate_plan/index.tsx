@@ -63,31 +63,51 @@ const Page: NextPage = () => {
 	/**
 	 * 무료 구독권 상세 내용
 	 */
-	const contentsDetail =
-		'투자유치 IR Deck 등록 및 투자자 열람, 성과 지표 관리 서비스, 뉴스레터 이용';
+	const contentsDetail = [
+		{
+			title: 'Suppor-T TV',
+			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
+		},
+		{
+			title: '서버지원',
+			description: 'AWS 서버 무상지원 (5천불 상당)',
+		},
+		{
+			title: '지표관리',
+			description: '재무/성과지표 관리 서비스',
+		},
+		{
+			title: '소셜링',
+			description: '무료 세미나, 커뮤니티 등록',
+		},
+		{
+			title: 'IR 피드백',
+			description: 'IR Deck 등록시 심사역 무료 피드백 제공',
+		},
+	];
 
 	/**
 	 * 부가 서비스
 	 */
 	const additionalService = [
-		{
-			title: '투자전략, 사업전략 24시간 Q&A',
-			cost: '월 100,000원',
-		},
+		// {
+		// 	title: '투자전략, 사업전략 24시간 Q&A',
+		// 	cost: '월 100,000원',
+		// },
 		{
 			title: '투자자 매칭 서비스 (1회)',
 			cost: '단건 300,000원',
 		},
+		// {
+		// 	title: '주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
+		// 	cost: '월 100,000원',
+		// },
+		// {
+		// 	title: 'CEO 사업 Todo, 루틴관리 서비스',
+		// 	cost: '월 100,000원',
+		// },
 		{
-			title: '주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
-			cost: '월 100,000원',
-		},
-		{
-			title: 'CEO 사업 Todo, 루틴관리 서비스',
-			cost: '월 100,000원',
-		},
-		{
-			title: '마케팅 컨설팅 서비스 (1회)',
+			title: '멘토링 서비스 (1회)',
 			cost: '단건 300,000원',
 		},
 	];
@@ -357,19 +377,23 @@ const Page: NextPage = () => {
 							color={'primary'}
 							sx={{ mb: 2, wordBreak: 'break-all' }}
 						>
-							Free
+							FREE
 						</Typography>
 
 						{/** 금액 */}
 						{
-							<Typography
-								variant="h2"
-								fontWeight={'bold'}
-								color={'primary'}
-								sx={{ mt: 1 }}
-							>
-								0 원
-							</Typography>
+							<Box display="flex" gap={1} justifyContent="center">
+								<Typography
+									variant="h2"
+									fontWeight={'bold'}
+									color={'primary'}
+								>
+									0 원
+								</Typography>
+								<Typography mt="auto">
+									/ {isYear ? '연' : '월'}
+								</Typography>
+							</Box>
 						}
 					</Box>
 
@@ -381,60 +405,80 @@ const Page: NextPage = () => {
 						}}
 					>
 						{/** 구독권 상세 내용 */}
-
-						<Box>
-							<Typography
-								variant="subtitle1"
-								sx={{
-									mb: 2,
-									wordBreak: 'break-all',
-								}}
-								fontWeight={600}
-							>
-								서포티 웹 자체 기능 제공
-							</Typography>
-							{contentsDetail.split(',').map((item, idx) => {
-								return (
-									<Box
-										display="flex"
-										justifyContent={'space-between'}
-										mb={2}
+						<Typography
+							variant="subtitle1"
+							sx={{
+								mb: 3,
+								px: 2,
+								wordBreak: 'break-all',
+							}}
+							fontWeight={500}
+						>
+							서포티 도입을 고민하시는 분들에게 추천합니다.
+						</Typography>
+						{contentsDetail.map((item, idx) => {
+							return (
+								<Box>
+									<Typography
+										variant="subtitle1"
+										sx={{
+											mb: 2,
+											wordBreak: 'break-all',
+										}}
+										fontWeight={600}
 									>
-										<Typography
-											sx={{
-												wordBreak: 'break-all',
-											}}
-											color={'secondary.dark'}
-										>
-											{idx + 1 + ') '}
-											{item}
-										</Typography>
-										<img
-											src={
-												'/images/icons/ratePlanChecked.svg'
-											}
-											alt={'check'}
-											style={{
-												width: '16px',
-												height: '16px',
-											}}
-										/>
-									</Box>
-								);
-							})}
+										{item.title}
+									</Typography>
+									{item.description
+										.split(',')
+										.map((item, idx) => {
+											return (
+												<Box
+													display="flex"
+													justifyContent={
+														'space-between'
+													}
+													mb={1}
+												>
+													<Typography
+														sx={{
+															wordBreak:
+																'break-all',
+														}}
+														color={'secondary.dark'}
+													>
+														{idx + 1 + ') '}
+														{item}
+													</Typography>
+													<img
+														src={
+															'/images/icons/ratePlanChecked.svg'
+														}
+														alt={'check'}
+														style={{
+															width: '16px',
+															height: '16px',
+														}}
+													/>
+												</Box>
+											);
+										})}
 
-							{/** 구분선 */}
-							<Box
-								sx={{
-									width: '270px',
-									height: '1px',
-									backgroundColor: 'secondary.light',
-									mb: 2,
-								}}
-							/>
-						</Box>
+									{/** 구분선 */}
+									<Box
+										sx={{
+											width: '270px',
+											height: '1px',
+											backgroundColor: 'secondary.light',
+											mb: 1.5,
+										}}
+									/>
+								</Box>
+							);
+						})}
 					</Box>
 				</Box>
+
 				{ratePlanList.map((ratePlan, id) => {
 					return (
 						<Box
@@ -467,7 +511,7 @@ const Page: NextPage = () => {
 											: 'common.white',
 									width: '100%',
 									textAlign: 'center',
-									mb: 2,
+									mb: 1,
 								}}
 							>
 								{/** 구독권 이름 */}
@@ -507,27 +551,40 @@ const Page: NextPage = () => {
 								)}
 								{/** 할인 적용된 금액 */}
 								{
-									<Typography
-										variant="h2"
-										fontWeight={'bold'}
-										color={
-											ratePlan.TYPE === 'BLACK'
-												? 'white'
-												: ratePlan.TYPE === 'PRODUCT'
-												? 'white'
-												: 'primary'
-										}
-										sx={{ mt: 1 }}
+									<Box
+										display="flex"
+										gap={1}
+										justifyContent="center"
 									>
-										{!isYear
-											? ratePlan.DISCOUNT_PRICE.toLocaleString()
-											: (
-													Number(
-														ratePlan.DISCOUNT_PRICE
-													) * 10
-											  ).toLocaleString()}
-										원
-									</Typography>
+										<Typography
+											variant="h2"
+											fontWeight={'bold'}
+											color={
+												ratePlan.TYPE === 'BLACK'
+													? 'white'
+													: ratePlan.TYPE ===
+													  'PRODUCT'
+													? 'white'
+													: 'primary'
+											}
+											sx={{ mt: 1 }}
+										>
+											{!isYear
+												? ratePlan.DISCOUNT_PRICE.toLocaleString()
+												: (
+														Number(
+															ratePlan.DISCOUNT_PRICE
+														) *
+														12 *
+														0.8
+												  ).toLocaleString()}
+											원
+										</Typography>
+
+										<Typography mt="auto" color="white">
+											/ {isYear ? '연' : '월'}
+										</Typography>
+									</Box>
 								}
 							</Box>
 
@@ -563,7 +620,7 @@ const Page: NextPage = () => {
 												<Typography
 													variant="subtitle1"
 													sx={{
-														mb: 2,
+														mb: 1,
 														wordBreak: 'break-all',
 													}}
 													fontWeight={600}
@@ -578,7 +635,7 @@ const Page: NextPage = () => {
 																justifyContent={
 																	'space-between'
 																}
-																mb={2}
+																mb={1}
 															>
 																<Typography
 																	sx={{
@@ -618,7 +675,7 @@ const Page: NextPage = () => {
 														height: '1px',
 														backgroundColor:
 															'secondary.light',
-														mb: 2,
+														mb: 1.5,
 													}}
 												/>
 											</Box>
@@ -821,6 +878,164 @@ const Page: NextPage = () => {
 				</Box>
 			</Box>
 
+			{/** 플랜별 상세 기능 비교 헤더 영역 */}
+			<Box
+				display="flex"
+				sx={{
+					borderRadius: 2,
+					bgcolor: 'white',
+					width: '80%',
+					height: '50px',
+					p: 2,
+					mt: 5,
+					justifyContent: 'space-around',
+					boxShadow:
+						'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
+				}}
+			>
+				<Typography fontWeight={500}>플랜별 상세 기능</Typography>
+				<Typography fontWeight={500}>FREE</Typography>
+				{ratePlanList.map((ratePlan, index) => {
+					return (
+						<Typography fontWeight={500}>
+							{ratePlan.NAME}
+						</Typography>
+					);
+				})}
+			</Box>
+
+			{/** 플랜별 상세 기능 비교 체크 테이블 영역 */}
+			<Box
+				sx={{
+					borderRadius: 2,
+					bgcolor: 'white',
+					minWidth: '80%',
+					minHeight: '700px',
+					boxShadow:
+						'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
+					mt: 2,
+				}}
+				display="flex"
+				justifyContent="space-around"
+			>
+				<Box
+					display="flex"
+					sx={{
+						justifyContent: 'space-around',
+						flexDirection: 'column',
+						textAlign: 'center',
+						minHeight: '700px',
+					}}
+				>
+					{ratePlanList
+						.filter((item) => item.TYPE === 'BLACK')
+						.map((ratePlan, index) => {
+							return ratePlan.SubscriptionProductContents.map(
+								(item, index) => {
+									return (
+										<Box>
+											<Typography fontWeight={500}>
+												{item.TITLE}
+											</Typography>
+										</Box>
+									);
+								}
+							);
+						})}
+				</Box>
+				<Box
+					display="flex"
+					sx={{
+						justifyContent: 'space-around',
+						flexDirection: 'column',
+						textAlign: 'center',
+						minHeight: '700px',
+					}}
+				>
+					{ratePlanList
+						.filter((item) => item.TYPE === 'BLACK')
+						.map((ratePlan, index) => {
+							return ratePlan.SubscriptionProductContents.map(
+								(item, index) => {
+									return (
+										<CheckIcon
+											sx={{
+												mr: 2,
+												color:
+													index <
+													ratePlan
+														.SubscriptionProductContents
+														.length -
+														4
+														? 'primary.main'
+														: 'secondary.main',
+											}}
+										/>
+									);
+								}
+							);
+						})}
+				</Box>
+				<Box
+					display="flex"
+					sx={{
+						justifyContent: 'space-around',
+						flexDirection: 'column',
+						textAlign: 'center',
+						minHeight: '700px',
+					}}
+				>
+					{ratePlanList
+						.filter((item) => item.TYPE === 'BLACK')
+						.map((ratePlan, idx) => {
+							return ratePlan.SubscriptionProductContents.map(
+								(item, index) => {
+									return (
+										<CheckIcon
+											sx={{
+												mr: 4,
+												color:
+													index <
+													ratePlan
+														.SubscriptionProductContents
+														.length -
+														2
+														? 'primary.main'
+														: 'secondary.main',
+											}}
+										/>
+									);
+								}
+							);
+						})}
+				</Box>
+				<Box
+					display="flex"
+					sx={{
+						justifyContent: 'space-around',
+						flexDirection: 'column',
+						textAlign: 'center',
+						minHeight: '700px',
+					}}
+				>
+					{ratePlanList
+						.filter((item) => item.TYPE === 'BLACK')
+						.map((ratePlan, index) => {
+							return ratePlan.SubscriptionProductContents.map(
+								(item, index) => {
+									return (
+										<CheckIcon
+											sx={{
+												color: 'primary.main',
+												mr: 5,
+											}}
+										/>
+									);
+								}
+							);
+						})}
+				</Box>
+			</Box>
 			<SupportiButton
 				variant="outlined"
 				style={{
