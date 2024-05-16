@@ -398,30 +398,66 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	const logoutPages = [
 		{
-			label: '서포티',
-			subMenus: supporti,
+			label: 'supporTV',
+			path: '/supportv',
+		},
+		{
+			label: '소셜링',
+			subMenus: socialing,
 			subMenuHandler: (event) => {
-				if (event) setAnchorElSupporti(event.currentTarget);
-				else setAnchorElSupporti(null);
+				console.log(event, '소셜링');
+
+				if (event) setAnchorElCommunity(event.currentTarget);
+				else setAnchorElCommunity(null);
 			},
-			target: anchorElSupporti,
+			target: anchorElCommunity,
+		},
+		{
+			label: '지원사업',
+			subMenus: government,
+			subMenuHandler: (event) => {
+				console.log(event, '지원사업');
+
+				if (event) setAnchorElGovernment(event.currentTarget);
+				else setAnchorElGovernment(null);
+			},
+			target: anchorElGovernment,
+		},
+		{
+			label: '지표관리',
+			subMenus: indication,
+			subMenuHandler: (event) => {
+				console.log(event, '지표관리');
+
+				if (event) setAnchorElIndicator(event.currentTarget);
+				else setAnchorElIndicator(null);
+			},
+			target: anchorElIndicator,
+		},
+		{
+			label: '파트너스',
+			subMenus: partners,
+			subMenuHandler: (event) => {
+				console.log(event, '파트너스');
+
+				if (event) setAnchorElPartners(event.currentTarget);
+				else setAnchorElPartners(null);
+			},
+			target: anchorElPartners,
 		},
 		{
 			label: '요금제 안내',
 			path: '/rate_plan',
 		},
 		{
-			label: '부가서비스',
-			subMenus: extraService,
+			label: '고객센터',
+			subMenus: customercenter,
 			subMenuHandler: (event) => {
-				if (event) setAnchorElExtraService(event.currentTarget);
-				else setAnchorElExtraService(null);
+				console.log(event, '고객센터');
+				if (event) setAnchorElUser(event.currentTarget);
+				else setAnchorElUser(null);
 			},
-			target: anchorElExtraService,
-		},
-		{
-			label: '공지사항',
-			path: '/customer_service/notice',
+			target: anchorElUser,
 		},
 	];
 
