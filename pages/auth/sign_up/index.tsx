@@ -184,7 +184,7 @@ const Page: NextPage = () => {
 		{
 			label: '이메일',
 			type: 'email',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.USER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -238,7 +238,7 @@ const Page: NextPage = () => {
 		{
 			label: '이름',
 			type: 'text',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.FULL_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -250,7 +250,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호',
 			type: 'password',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.PASSWORD,
 			placeholder:
 				'비밀번호 (8~16자의 영문 대소문자, 숫자, 특수문자 조합)',
@@ -270,7 +270,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호 확인',
 			placeholder: '비밀번호 재확인',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			type: 'password',
 			value: passwordConfirm,
 			onChange: (e) => {
@@ -333,7 +333,7 @@ const Page: NextPage = () => {
 		{
 			label: '회사명',
 			type: 'text',
-			for: 'BUSINESS',
+			for: ['BUSINESS', 'INVESTOR'],
 			value: signupData.COMPANY_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -345,7 +345,7 @@ const Page: NextPage = () => {
 		{
 			label: '직책',
 			type: 'text',
-			for: 'BUSINESS',
+			for: ['BUSINESS', 'INVESTOR'],
 			value: signupData.ROLE,
 			onChange: (e) => {
 				setSignupData({
@@ -357,7 +357,7 @@ const Page: NextPage = () => {
 		{
 			label: '전화번호',
 			type: 'phone',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			endAdornment: (
 				<Button
 					variant="contained"
@@ -388,7 +388,7 @@ const Page: NextPage = () => {
 		{
 			label: '인증번호',
 			type: 'text',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			nolabel: true,
 			isVerified: isVerified,
 			endAdornment: (
@@ -448,6 +448,10 @@ const Page: NextPage = () => {
 							label: '일반',
 							value: 'GENERAL',
 						},
+						// {
+						// 	label: '투자자',
+						// 	value: 'INVESTOR',
+						// },
 					]}
 					value={tabs}
 					setValue={(value) => {

@@ -1,4 +1,12 @@
-import { Box, Grid, Stack, Switch, Typography } from '@mui/material';
+import {
+	Box,
+	Grid,
+	Stack,
+	Switch,
+	Typography,
+	IconButton,
+	Tooltip,
+} from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
@@ -8,6 +16,8 @@ import SupportiButton from '../../src/views/global/SupportiButton';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
 import { useUserAccess } from '../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+
 import SupportiTheBlack from '../../src/modules/SupportiTheBlack/SupportiTheBlack';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import Image from 'next/image';
@@ -65,7 +75,7 @@ const Page: NextPage = () => {
 	 */
 	const contentsDetail = [
 		{
-			title: 'Suppor-T TV',
+			title: 'SUPPORTV',
 			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
 		},
 		{
@@ -318,6 +328,14 @@ const Page: NextPage = () => {
 				</Box>
 			</Box>
 
+			<Box display="flex" gap={1} my={2} mt={20}>
+				<Typography variant="h3"> 비즈니스에 적합한 </Typography>
+				<Typography variant="h3" color="primary.main">
+					프리권
+				</Typography>
+				<Typography variant="h3">을 알아보세요! </Typography>
+			</Box>
+
 			<Stack
 				direction="row"
 				spacing={0.5}
@@ -326,13 +344,13 @@ const Page: NextPage = () => {
 				ml="auto"
 				mr={5}
 			>
-				<Typography>월결제</Typography>
+				<Typography>월 결제</Typography>
 				<Switch
 					{...label}
 					checked={isYear}
 					onChange={() => setIsYear(!isYear)}
 				/>
-				<Typography>연결제</Typography>
+				<Typography>연 결제</Typography>
 			</Stack>
 			<Box
 				display={'flex'}
@@ -390,7 +408,7 @@ const Page: NextPage = () => {
 								>
 									0 원
 								</Typography>
-								<Typography mt="auto">
+								<Typography mt="auto" color={'primary'}>
 									/ {isYear ? '연' : '월'}
 								</Typography>
 							</Box>
@@ -410,7 +428,8 @@ const Page: NextPage = () => {
 							sx={{
 								mb: 3,
 								px: 2,
-								wordBreak: 'break-all',
+								wordBreak: 'keep-all',
+								textAlign: 'center',
 							}}
 							fontWeight={500}
 						>
@@ -450,6 +469,7 @@ const Page: NextPage = () => {
 														{idx + 1 + ') '}
 														{item}
 													</Typography>
+
 													<img
 														src={
 															'/images/icons/ratePlanChecked.svg'
@@ -504,9 +524,9 @@ const Page: NextPage = () => {
 									padding: 4,
 									maxWidth: '300px',
 									bgcolor:
-										ratePlan.TYPE === 'BLACK'
-											? 'secondary.dark'
-											: ratePlan.TYPE === 'PRODUCT'
+										ratePlan.TYPE === 'PRODUCT'
+											? '#6659EE'
+											: ratePlan.TYPE === 'BLACK'
 											? 'primary.main'
 											: 'common.white',
 									width: '100%',
@@ -519,9 +539,9 @@ const Page: NextPage = () => {
 									variant="h5"
 									fontWeight={500}
 									color={
-										ratePlan.TYPE === 'BLACK'
+										ratePlan.TYPE === 'PRODUCT'
 											? 'white'
-											: ratePlan.TYPE === 'PRODUCT'
+											: ratePlan.TYPE === 'BLACK'
 											? 'white'
 											: 'primary'
 									}
@@ -535,9 +555,9 @@ const Page: NextPage = () => {
 									<Typography
 										variant="h6"
 										color={
-											ratePlan.TYPE === 'BLACK'
+											ratePlan.TYPE === 'PRODUCT'
 												? 'white'
-												: ratePlan.TYPE === 'PRODUCT'
+												: ratePlan.TYPE === 'BLACK'
 												? 'white'
 												: 'primary'
 										}
@@ -610,6 +630,20 @@ const Page: NextPage = () => {
 										<Typography>제공</Typography>
 									</Box>
 								)} */}
+								<Typography
+									variant="subtitle1"
+									sx={{
+										mb: 3,
+										px: 2,
+										wordBreak: 'keep-all',
+										textAlign: 'center',
+									}}
+									fontWeight={500}
+								>
+									{ratePlan.TYPE === 'PRODUCT'
+										? '합리적인 지표 관리를 통해 성장하고 싶으신 분들에게 추천합니다.'
+										: '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'}
+								</Typography>
 
 								{/** 구독권 상세 내용 */}
 
@@ -637,20 +671,64 @@ const Page: NextPage = () => {
 																}
 																mb={1}
 															>
-																<Typography
-																	sx={{
-																		wordBreak:
-																			'break-all',
-																	}}
-																	color={
-																		'secondary.dark'
-																	}
-																>
-																	{idx +
-																		1 +
-																		') '}
-																	{item}
-																</Typography>
+																<Box display="flex">
+																	<Typography
+																		sx={{
+																			wordBreak:
+																				'break-all',
+																		}}
+																		color={
+																			'secondary.dark'
+																		}
+																	>
+																		{idx +
+																			1 +
+																			') '}
+																		{item}
+																	</Typography>
+																	{item.includes(
+																		'시드권'
+																	) && (
+																		<Tooltip
+																			title={
+																				'확인'
+																			}
+																			arrow
+																			placement="top"
+																			slotProps={{
+																				popper: {
+																					modifiers:
+																						[
+																							{
+																								name: 'offset',
+																								options:
+																									{
+																										offset: [
+																											0,
+																											-14,
+																										],
+																									},
+																							},
+																						],
+																				},
+																			}}
+																		>
+																			<IconButton
+																				sx={{
+																					mt: -1,
+																				}}
+																				size="small"
+																				onClick={() =>
+																					console.log(
+																						idx
+																					)
+																				}
+																			>
+																				<HelpOutlineIcon fontSize="small" />
+																			</IconButton>
+																		</Tooltip>
+																	)}
+																</Box>
 																<img
 																	src={
 																		'/images/icons/ratePlanChecked.svg'
@@ -694,15 +772,15 @@ const Page: NextPage = () => {
 										marginBottom: '16px',
 										backgroundImage:
 											ratePlan.TYPE === 'PRODUCT'
-												? 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)'
-												: 'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+												? 'linear-gradient(99deg, #6659EE 9%,#6659EE  89%)'
+												: 'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
 									}}
 									isGradient={
 										ratePlan.TYPE === 'PRODUCT'
 											? true
 											: false
 									}
-									contents={'결제하기'}
+									contents={'시작하기'}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
@@ -723,13 +801,13 @@ const Page: NextPage = () => {
 										marginTop: 'auto',
 										marginBottom: '16px',
 										backgroundImage:
-											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
+											'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
 									}}
 									contents={
 										subscriptionInfo?.SubscriptionProduct
 											?.TYPE === 'BLACK'
 											? '구독중'
-											: '결제하기'
+											: '시작하기'
 									}
 									onClick={() => {
 										if (!access) {
@@ -775,110 +853,16 @@ const Page: NextPage = () => {
 						</Box>
 					);
 				})}
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						width: '100%',
-						boxShadow:
-							'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
-						borderRadius: '20px',
-						marginTop: '20px',
-						maxWidth: '300px',
-						minHeight: 696,
-						bgcolor: 'white',
-					}}
-				>
-					<Box
-						sx={{
-							borderTopLeftRadius: '20px',
-							borderTopRightRadius: '20px',
-							padding: 4,
-							maxWidth: '300px',
-							bgcolor: 'common.white',
-							width: '100%',
-							textAlign: 'center',
-							mb: 2,
-							height: '175px',
-							pt: 8,
-						}}
-					>
-						{/** 구독권 이름 */}
-						<Typography
-							variant="h5"
-							fontWeight={600}
-							color={'common.black'}
-							sx={{ mb: 2, wordBreak: 'break-all' }}
-						>
-							부가서비스
-						</Typography>
-
-						{/** 금액 */}
-						{
-							// <Typography
-							// 	variant="h2"
-							// 	fontWeight={'bold'}
-							// 	color={'primary'}
-							// 	sx={{ mt: 1 }}
-							// >
-							// 	0 원
-							// </Typography>
-						}
-					</Box>
-
-					<Box
-						sx={{
-							padding: 2,
-							maxWidth: '300px',
-							width: '100%',
-						}}
-					>
-						{/** 구독권 상세 내용 */}
-
-						<Box>
-							{additionalService.map((item, idx) => {
-								return (
-									<Box mb={2}>
-										<Typography
-											sx={{
-												wordBreak: 'break-all',
-											}}
-											color={'secondary.dark'}
-										>
-											{idx + 1 + ') '}
-											{item.title}
-										</Typography>
-										<Typography
-											sx={{
-												wordBreak: 'break-all',
-											}}
-											color={'primary.main'}
-											variant="subtitle1"
-											fontWeight={600}
-											mt="2px"
-										>
-											{item.cost}
-										</Typography>
-									</Box>
-								);
-							})}
-
-							{/** 구분선 */}
-							<Box
-								sx={{
-									width: '270px',
-									height: '1px',
-									backgroundColor: 'secondary.light',
-									mb: 2,
-								}}
-							/>
-						</Box>
-					</Box>
-				</Box>
 			</Box>
 
 			{/** 플랜별 상세 기능 비교 헤더 영역 */}
+
+			<Box display="flex" gap={1} my={10} mt={30}>
+				<Typography variant="h3"> 비즈니스를 위한 </Typography>
+				<Typography variant="h3">프리권</Typography>
+				<Typography variant="h3">서비스 확인하기 </Typography>
+			</Box>
+
 			<Box
 				display="flex"
 				sx={{
@@ -893,11 +877,18 @@ const Page: NextPage = () => {
 						'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
 				}}
 			>
-				<Typography fontWeight={500}>플랜별 상세 기능</Typography>
-				<Typography fontWeight={500}>FREE</Typography>
+				<Typography fontWeight={600}>프리권별 기능</Typography>
+				<Typography fontWeight={600}>FREE</Typography>
 				{ratePlanList.map((ratePlan, index) => {
 					return (
-						<Typography fontWeight={500}>
+						<Typography
+							fontWeight={600}
+							color={
+								ratePlan.NAME === 'PREMIUM'
+									? '#6659EE'
+									: 'primary.main'
+							}
+						>
 							{ratePlan.NAME}
 						</Typography>
 					);
@@ -960,13 +951,13 @@ const Page: NextPage = () => {
 									return (
 										<CheckIcon
 											sx={{
-												mr: 2,
+												mr: 7,
 												color:
 													index <
 													ratePlan
 														.SubscriptionProductContents
 														.length -
-														4
+														6
 														? 'primary.main'
 														: 'secondary.main',
 											}}
@@ -993,7 +984,7 @@ const Page: NextPage = () => {
 									return (
 										<CheckIcon
 											sx={{
-												mr: 4,
+												mr: 8,
 												color:
 													index <
 													ratePlan
@@ -1051,6 +1042,8 @@ const Page: NextPage = () => {
 					router.push('/rate_plan/theBlack');
 				}}
 			/>
+
+			{/** 모달들 */}
 			<BillingModal
 				open={payModal}
 				handleClose={() => {
