@@ -21,6 +21,7 @@ import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { AlimTalkController } from '../../../src/controller/AlimTalkController';
+import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/MultiImageUploader/MultiImageUploader';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -47,6 +48,12 @@ const Page: NextPage = () => {
 		React.useState<boolean>(undefined);
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
+	/**
+	 * 명함 이미지 리스트
+	 */
+	const [businessCardImages, setBusinessCardImages] = React.useState<
+		string[]
+	>([]);
 
 	console.log(signupData);
 	//*Functions
@@ -163,6 +170,7 @@ const Page: NextPage = () => {
 				...signupData,
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
+				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
 			},
 			(res) => {
 				if (res.data.result) {
@@ -415,6 +423,37 @@ const Page: NextPage = () => {
 				setVerifyNumber(e.target.value);
 			},
 		},
+		{
+			label: '명함 이미지',
+			type: 'image',
+			for: ['INVESTOR'],
+		},
+		{
+			label: '서비스명',
+			type: 'text',
+			optional: true,
+			for: ['BUSINESS'],
+			value: signupData.MAIN_PRODUCT,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					MAIN_PRODUCT: e.target.value,
+				});
+			},
+		},
+		{
+			label: '사업 분류',
+			for: 'BUSINESS',
+			type: 'select',
+			optional: true,
+			value: signupData.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
+		},
 	];
 
 	//* Functions
@@ -536,6 +575,22 @@ const Page: NextPage = () => {
 												/>
 											)}
 										/>
+									) : item.type === 'image' ? (
+										<Box mt={2}>
+											<MultiImageUploader
+												imagePreviewUrlList={
+													businessCardImages
+												}
+												setImagePreviewUrlList={
+													setBusinessCardImages
+												}
+												numOfUploader={3}
+												label="이미지"
+												inputStatus={{
+													status: 'default',
+												}}
+											/>
+										</Box>
 									) : (
 										<TextField
 											type={item.type}
