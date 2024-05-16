@@ -39,6 +39,7 @@ const SupportiTab = (props: ISupportiTabProps) => {
 				flexDirection={'row'}
 				justifyContent={'space-between'}
 				gap={2}
+				p={{ xs: 2, sm: 5 }}
 			>
 				{props.imagePath != '' && props.imagePosition == 'left' && (
 					<img src={props.imagePath} alt={'runwayPC'} width={'50%'} />

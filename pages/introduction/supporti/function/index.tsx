@@ -26,8 +26,6 @@ import { useAppMember } from '../../../../src/hooks/useAppMember';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
 import PopUpModal from '../../../../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../../../../src/views/global/SupportiInput';
-import { format } from 'date-fns/format';
-import { parse } from 'date-fns';
 
 type Props = {};
 
