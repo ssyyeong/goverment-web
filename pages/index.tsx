@@ -9,12 +9,7 @@ import { NextPage } from 'next';
 import { useAppMember } from '../src/hooks/useAppMember';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import EastIcon from '@mui/icons-material/East';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../src/views/global/SupportiInput';
-import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image';
 import SupportiTab from '../src/views/global/SupportiTab';
 import AccordianBox from '../src/views/local/common/AccordianBox/AccordianBox';
 import { reviewConfig } from '../configs/data/ReviewConfig';
@@ -278,6 +273,7 @@ const Page: NextPage = () => {
 					width: '100%',
 					alignItems: 'center',
 					gap: 2,
+					p: 5,
 				}}
 			>
 				<Typography variant={'h1'} color="primary.main">
@@ -348,6 +344,8 @@ const Page: NextPage = () => {
 					width: '100%',
 					alignItems: 'center',
 					gap: 2,
+					bgcolor: 'primary.light',
+					p: 5,
 				}}
 			>
 				<Typography variant={'h1'} color="primary.main">
@@ -427,6 +425,7 @@ const Page: NextPage = () => {
 					width: '100%',
 					alignItems: 'center',
 					gap: 2,
+					p: 5,
 				}}
 			>
 				<Typography variant={'h1'} color="primary.main">
@@ -516,6 +515,8 @@ const Page: NextPage = () => {
 					width: '100%',
 					alignItems: 'center',
 					gap: 2,
+					bgcolor: 'primary.light',
+					p: 5,
 				}}
 			>
 				<Typography variant={'h1'} color="primary.main">
@@ -565,6 +566,7 @@ const Page: NextPage = () => {
 					width: '100%',
 					alignItems: 'center',
 					gap: 2,
+					p: 5,
 				}}
 			>
 				<Typography variant={'h1'} color="primary.main">
@@ -630,10 +632,11 @@ const Page: NextPage = () => {
 				display="flex"
 				gap={3}
 				flexDirection={'column'}
-				m="auto"
+				mb={5}
 				pt={10}
 				pb={10}
 				width={'100%'}
+				bgcolor={'primary.light'}
 			>
 				<Typography variant="h3" fontWeight={'400'}>
 					성공한 창업가들의 Secret
