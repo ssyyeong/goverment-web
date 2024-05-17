@@ -140,23 +140,25 @@ const Page: NextPage = () => {
 	 * 유저 ir 정보 가져오기
 	 */
 	const getUserIrInfo = () => {
-		userIrInformationController.getOneItemByKey(
-			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				//유저 ir 정보 중 투자연혁(필수정보) 체크
-				if (
-					res.data.result !== null &&
-					JSON.parse(res.data.result.INVEST_INFO).length > 0
-				) {
-					setOpenPopUp(false);
-				} else {
-					setOpenPopUp(true);
-				}
-			},
-			(err) => {}
-		);
+		//임시 처리
+		setOpenPopUp(true);
+		// userIrInformationController.getOneItemByKey(
+		// 	{
+		// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
+		// 	},
+		// 	(res) => {
+		// 		//유저 ir 정보 중 투자연혁(필수정보) 체크
+		// 		if (
+		// 			res.data.result !== null &&
+		// 			JSON.parse(res.data.result.INVEST_INFO).length > 0
+		// 		) {
+		// 			setOpenPopUp(false);
+		// 		} else {
+		// 			setOpenPopUp(true);
+		// 		}
+		// 	},
+		// 	(err) => {}
+		// );
 	};
 
 	function setCookie(name, value, exp) {
@@ -195,6 +197,7 @@ const Page: NextPage = () => {
 	}, [openPopUp, isTodayNotShow]);
 
 	useEffect(() => {
+		getUserIrInfo();
 		// 쿠키에 오늘 하루 보지 않기에 체크가 되어 있다면 팝업창을 닫는다.
 		if (memberId) {
 			if (document.cookie.includes('isTodayNotShow=true')) {
@@ -802,6 +805,73 @@ const Page: NextPage = () => {
 					alt="img"
 				/>
 			</Grid>
+			<PopUpModal
+				modalOpen={openPopUp}
+				setModalOpen={setOpenPopUp}
+				uiData={
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						gap={1}
+					>
+						<Box display={'flex'}>
+							<Image
+								src={'/images/main/Hime_IR.svg'}
+								alt={'notice'}
+								width={400}
+								height={600}
+							/>
+
+							<CloseIcon
+								sx={{ cursor: 'pointer' }}
+								onClick={() => setOpenPopUp(false)}
+							/>
+						</Box>
+
+						<Box display={'flex'} gap={2}>
+							<SupportiButton
+								contents={'등록하러가기'}
+								variant="contained"
+								onClick={() => router.push('/my_page/ir_data')}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+							<SupportiButton
+								contents={'닫기'}
+								variant="outlined"
+								onClick={() => setOpenPopUp(false)}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+						</Box>
+
+						<Box display="flex">
+							<SupportiInput
+								type="checkbox"
+								value={isTodayNotShow}
+								setValue={setIsTodayNotShow}
+							/>
+							<Typography
+								mt="auto"
+								mb="auto"
+								ml={-2.5}
+								fontWeight={500}
+								variant="body1"
+							>
+								오늘 하루 보지 않기
+							</Typography>
+						</Box>
+					</Box>
+				}
+			/>
 		</Grid>
 
 		// {/* 추후 서포티 기능 페이지로 이동 */}
