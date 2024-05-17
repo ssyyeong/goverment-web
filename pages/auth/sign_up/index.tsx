@@ -25,7 +25,13 @@ import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/u
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { businessSector } from '../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	businessType,
+	companyHistory,
+	investSector,
+	lastYearSales,
+} from '../../../configs/data/BusinessConfig';
 import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
 
@@ -293,18 +299,6 @@ const Page: NextPage = () => {
 					: '',
 		},
 		{
-			label: '사업 분류',
-			for: 'BUSINESS',
-			type: 'select',
-			value: signupData.BUSINESS_SECTOR,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					BUSINESS_SECTOR: e.target.value,
-				});
-			},
-		},
-		{
 			label: '사업자 등록번호',
 			type: 'text',
 			for: 'BUSINESS',
@@ -337,6 +331,124 @@ const Page: NextPage = () => {
 					: isBusinessNumOk === 'OK'
 					? '인증되었습니다.'
 					: '',
+		},
+		{
+			label: '사업 분류',
+			for: 'BUSINESS',
+			config: businessSector,
+			key: 'BUSINESS_SECTOR',
+			type: 'select',
+			value: signupData.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
+		},
+		{
+			label: '사업자 유형',
+			for: 'BUSINESS',
+			config: businessType,
+			key: 'CORPORATE_TYPE',
+			type: 'select',
+			optional: true,
+			value: signupData.CORPORATE_TYPE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					CORPORATE_TYPE: e.target.value,
+				});
+			},
+		},
+		{
+			label: '서비스명',
+			type: 'text',
+			optional: true,
+			for: ['BUSINESS'],
+			value: signupData.MAIN_PRODUCT,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					MAIN_PRODUCT: e.target.value,
+				});
+			},
+		},
+		{
+			label: '최근 투자라운드/금액',
+			for: 'BUSINESS',
+			config: investSector,
+			key: 'INVESTMENT_ROUND',
+			type: 'select',
+			optional: true,
+			value: signupData.INVESTMENT_ROUND,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					INVESTMENT_ROUND: e.target.value,
+				});
+			},
+		},
+		{
+			label: '최근 투자사',
+			type: 'text',
+			optional: true,
+			for: ['BUSINESS'],
+			placeholder: 'ex) 비공개, xx 투자',
+			value: signupData.INVESTMENT_COMPANY,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					INVESTMENT_COMPANY: e.target.value,
+				});
+			},
+		},
+		{
+			label: '업력',
+			for: 'BUSINESS',
+			config: companyHistory,
+			key: 'COMPANY_HISTORY',
+			optional: true,
+			type: 'select',
+			value: signupData.COMPANY_HISTORY,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					COMPANY_HISTORY: e.target.value,
+				});
+			},
+		},
+		{
+			label: '전년도 매출',
+			for: 'BUSINESS',
+			config: lastYearSales,
+			key: 'REVENUE',
+			optional: true,
+			type: 'select',
+			value: signupData.REVENUE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					REVENUE: e.target.value,
+				});
+			},
+		},
+		{
+			label: '회사 소개',
+			type: 'text',
+			for: ['BUSINESS'],
+			placeholder:
+				'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
+
+			helperText:
+				'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
+			value: signupData.DESCRIPTION,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					DESCRIPTION: e.target.value,
+				});
+			},
 		},
 		{
 			label: '회사명',
@@ -427,32 +539,6 @@ const Page: NextPage = () => {
 			label: '명함 이미지',
 			type: 'image',
 			for: ['INVESTOR'],
-		},
-		{
-			label: '서비스명',
-			type: 'text',
-			optional: true,
-			for: ['BUSINESS'],
-			value: signupData.MAIN_PRODUCT,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					MAIN_PRODUCT: e.target.value,
-				});
-			},
-		},
-		{
-			label: '사업 분류',
-			for: 'BUSINESS',
-			type: 'select',
-			optional: true,
-			value: signupData.BUSINESS_SECTOR,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					BUSINESS_SECTOR: e.target.value,
-				});
-			},
 		},
 	];
 
@@ -549,15 +635,15 @@ const Page: NextPage = () => {
 										{!item.nolabel && item.label}
 									</Typography>
 
-									{item.label == '사업 분류' ? (
+									{item.type == 'select' ? (
 										<Autocomplete
 											size="small"
-											options={businessSector}
+											options={item.config}
 											fullWidth
 											onChange={(e, newValue) => {
 												setSignupData({
 													...signupData,
-													BUSINESS_SECTOR: newValue,
+													[item.key]: newValue,
 												});
 											}}
 											value={item.value}
