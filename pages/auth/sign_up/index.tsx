@@ -34,6 +34,7 @@ import {
 } from '../../../configs/data/BusinessConfig';
 import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
+import SupportiInput from '../../../src/views/global/SupportiInput';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -61,7 +62,26 @@ const Page: NextPage = () => {
 		string[]
 	>([]);
 
-	console.log(signupData);
+	/**
+	 *
+	 * 필요 서비스
+	 */
+	const [needService, setNeedService] = React.useState<string[]>([]);
+
+	const dataList = [
+		'경영 지표 관리',
+		'사업계획서',
+		'소프트웨어 개발',
+		'AI 노코드',
+		'정부지원사업',
+		'투자 유치',
+		'마케팅/브랜딩',
+		'HR',
+		'글로벌 진출',
+		'세무/노무/특허/법률',
+	];
+
+	console.log(needService);
 	//*Functions
 	/**
 	 * 알림톡 발송
@@ -177,6 +197,7 @@ const Page: NextPage = () => {
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
 				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
+				NEEDED_SERVICE: JSON.stringify(needService),
 			},
 			(res) => {
 				if (res.data.result) {
@@ -475,6 +496,45 @@ const Page: NextPage = () => {
 			},
 		},
 		{
+			label: '필요 서비스',
+			type: 'text',
+			helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+			for: ['BUSINESS'],
+			dataList: dataList,
+			value: needService,
+		},
+		// {
+		// 	label: '필요 서비스',
+		// 	helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+		// 	for: ['BUSINESS'],
+		// 	key: 'NEEDED_SERVICE',
+		// 	type: 'multiselect',
+		// 	format: (value) => {
+		// 		return value && JSON.parse(value).join();
+		// 	},
+		// 	dataList: [
+		// 		'경영 지표 관리',
+		// 		'사업계획서',
+		// 		'소프트웨어 개발',
+		// 		'AI 노코드',
+		// 		'정부지원사업',
+		// 		'투자 유치',
+		// 		'마케팅/브랜딩',
+		// 		'HR',
+		// 		'글로벌 진출',
+		// 		'세무/노무/특허/법률',
+		// 	],
+		// 	handleChange: (event) => {
+		// 		const {
+		// 			target: { value },
+		// 		} = event;
+		// 		setSignupData({
+		// 			...signupData,
+		// 			NEEDED_SERVICE: JSON.stringify(value),
+		// 		});
+		// 	},
+		// },
+		{
 			label: '전화번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
@@ -676,6 +736,65 @@ const Page: NextPage = () => {
 													status: 'default',
 												}}
 											/>
+										</Box>
+									) : item.label === '필요 서비스' ? (
+										<Box>
+											{/* <Typography my={2}>
+												선택 : {needService}
+											</Typography> */}
+											<Box
+												display={'flex'}
+												gap={2}
+												flexWrap="wrap"
+												my={2}
+											>
+												{item.dataList.map(
+													(item, index) => {
+														return (
+															<Typography
+																mr={2}
+																sx={{
+																	cursor: 'pointer',
+																	color: needService.includes(
+																		item
+																	)
+																		? 'primary.main'
+																		: 'common.black',
+																}}
+																onClick={() => {
+																	if (
+																		needService.includes(
+																			item
+																		)
+																	) {
+																		setNeedService(
+																			needService.filter(
+																				(
+																					data
+																				) =>
+																					data !==
+																					item
+																			)
+																		);
+																	} else {
+																		setNeedService(
+																			[
+																				...needService,
+																				item,
+																			]
+																		);
+																	}
+																}}
+															>
+																{item}
+															</Typography>
+														);
+													}
+												)}
+												<Typography color="secondary.main">
+													({item.helperText})
+												</Typography>
+											</Box>
 										</Box>
 									) : (
 										<TextField

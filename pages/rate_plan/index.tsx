@@ -209,7 +209,7 @@ const Page: NextPage = () => {
 				bgcolor: 'primary.light',
 			}}
 		>
-			<Box
+			{/* <Box
 				width="100vw"
 				sx={{
 					height: { sm: '680px', xs: '1050px' },
@@ -312,7 +312,6 @@ const Page: NextPage = () => {
 												</Typography>
 											);
 										})}
-										{/* <CheckIcon /> */}
 									</Box>
 									<Typography
 										variant="body1"
@@ -326,7 +325,7 @@ const Page: NextPage = () => {
 						})}
 					</Box>
 				</Box>
-			</Box>
+			</Box> */}
 
 			<Box display="flex" gap={1} my={2} mt={20}>
 				<Typography variant="h3"> 비즈니스에 적합한 </Typography>
@@ -384,6 +383,7 @@ const Page: NextPage = () => {
 							maxWidth: '300px',
 							bgcolor: 'common.white',
 							width: '100%',
+							// height: '175px',
 							textAlign: 'center',
 							mb: 2,
 						}}
@@ -399,6 +399,19 @@ const Page: NextPage = () => {
 						</Typography>
 
 						{/** 금액 */}
+
+						<Typography
+							variant="h6"
+							color={'primary'}
+							sx={{
+								textDecoration: 'line-through',
+								mt: 4,
+								mb: 1,
+							}}
+						>
+							{0}
+						</Typography>
+
 						{
 							<Box display="flex" gap={1} justifyContent="center">
 								<Typography
@@ -951,7 +964,7 @@ const Page: NextPage = () => {
 									return (
 										<CheckIcon
 											sx={{
-												mr: 7,
+												mr: 5,
 												color:
 													index <
 													ratePlan
@@ -990,7 +1003,7 @@ const Page: NextPage = () => {
 													ratePlan
 														.SubscriptionProductContents
 														.length -
-														2
+														3
 														? 'primary.main'
 														: 'secondary.main',
 											}}
@@ -1018,7 +1031,7 @@ const Page: NextPage = () => {
 										<CheckIcon
 											sx={{
 												color: 'primary.main',
-												mr: 5,
+												mr: 7,
 											}}
 										/>
 									);

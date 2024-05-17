@@ -215,7 +215,10 @@ const Page: NextPage = () => {
 								}}
 							>
 								<Typography
-									sx={{ wordBreak: 'keep-all' }}
+									sx={{
+										wordBreak: 'keep-all',
+										mb: index === 0 && 5,
+									}}
 									variant="subtitle1"
 									fontWeight={600}
 								>
@@ -315,7 +318,8 @@ const Page: NextPage = () => {
 										color="primary.main"
 										mr="auto"
 									>
-										￦{addCommaToNumber(item.perPrice)} /장당
+										￦{addCommaToNumber(item.perPrice)}{' '}
+										/장당
 									</Typography>
 								</Box>
 								<SupportiButton
