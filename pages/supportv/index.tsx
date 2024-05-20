@@ -110,7 +110,7 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result) {
-					console.log(res)
+					console.log(res);
 					setRecommendedContent(res.data.result.rows);
 				}
 			}
@@ -322,7 +322,14 @@ const Page: NextPage = () => {
 						<Tab label={item.title} key={idx} value={item.title} />
 					))}
 				</Tabs> */}
-						<Box
+						<Box textAlign="center" my={5}>
+							<Typography color="secondary.main" variant="h4">
+								준비중입니다.
+							</Typography>
+						</Box>
+						{/* <Nodata /> */}
+
+						{/* <Box
 							overflow={'auto'}
 							maxWidth={'60vw'}
 							display={'flex'}
@@ -347,7 +354,7 @@ const Page: NextPage = () => {
 							})}
 
 							{recommendedContent.length === 0 && <Nodata />}
-						</Box>
+						</Box> */}
 					</Grid>
 					{/** 검색 영역 */}
 					<Grid item xs={4} md={2}>
@@ -381,13 +388,19 @@ const Page: NextPage = () => {
 						<Tab label={item.title} key={idx} value={item.title} />
 					))}
 				</Tabs> */}
-					<Box display={'flex'} gap={2.5} flexWrap={'wrap'}>
+					{/* <Box display={'flex'} gap={2.5} flexWrap={'wrap'}>
 						{contentsDataList.map((item: any, idx) => {
 							return <ContentsCard key={idx} data={item} />;
 						})}
 
 						{contentsDataList.length === 0 && <Nodata />}
+					</Box> */}
+					<Box textAlign="center" my={5}>
+						<Typography color="secondary.main" variant="h4" my={5}>
+							준비중입니다.
+						</Typography>
 					</Box>
+					{/* <Nodata /> */}
 				</Box>
 				{/* 페이지 네이션 */}
 				<Box width={'100%'} p={2}>
