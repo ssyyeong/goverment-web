@@ -15,6 +15,11 @@ import AccordianBox from '../src/views/local/common/AccordianBox/AccordianBox';
 import { reviewConfig } from '../configs/data/ReviewConfig';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../src/views/global/SupportiInput';
+import CloseIcon from '@mui/icons-material/Close';
+import Image from 'next/image';
+
 type Props = {};
 
 const Page: NextPage = () => {
