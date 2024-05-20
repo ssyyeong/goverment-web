@@ -128,13 +128,18 @@ const Page: NextPage = () => {
 				xs: 2,
 				md: 10,
 			}}
-			bgcolor={'primary.light'}
+			// bgcolor={'primary.light'}
 		>
-			<Typography variant="h4" fontWeight={'bold'}>
+			<Box textAlign="center" my={5}>
+				<Typography color="secondary.main" variant="h4">
+					준비중입니다.
+				</Typography>
+			</Box>
+			{/* <Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 세미나
-			</Typography>
+			</Typography> */}
 			{/* 탭 */}
-			<Box
+			{/* <Box
 				// px={2}
 				pt={4}
 				width={{
@@ -175,10 +180,10 @@ const Page: NextPage = () => {
 						},
 					}}
 				/>
-			</Box>
+			</Box> */}
 
 			{/* 테이블 */}
-			<Box width={'100%'} display={{ xs: 'none', sm: 'block' }}>
+			{/* <Box width={'100%'} display={{ xs: 'none', sm: 'block' }}>
 				<SupportiTable
 					rowData={seminarDataList}
 					headerData={seminarHeaderData}
@@ -188,9 +193,9 @@ const Page: NextPage = () => {
 						);
 					}}
 				/>
-			</Box>
+			</Box> */}
 			{/* 모바일 테이블 */}
-			<Box width={'100%'} mt={2} display={{ xs: 'block', sm: 'none' }}>
+			{/* <Box width={'100%'} mt={2} display={{ xs: 'block', sm: 'none' }}>
 				{seminarDataList.map((data, idx) => {
 					return (
 						<MobileTableRow
@@ -224,9 +229,9 @@ const Page: NextPage = () => {
 					);
 				})}
 				{seminarDataList.length === 0 && <Nodata />}
-			</Box>
+			</Box> */}
 			{/* 페이지 네이션 */}
-			<Box width={'100%'} p={2}>
+			{/* <Box width={'100%'} p={2}>
 				<SupportiPagination
 					limit={limit}
 					setLimit={setLimit}
@@ -235,7 +240,7 @@ const Page: NextPage = () => {
 					count={totalDataCount}
 					useLimit={false}
 				/>
-			</Box>
+			</Box> */}
 		</Box>
 	);
 };
