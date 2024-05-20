@@ -142,7 +142,7 @@ const Page: NextPage = () => {
 	const businessIntroductionConfig = [
 		{
 			label: '한줄 설명',
-			value: 'BUSINESS_TITLE',
+			value: 'SUMMARY',
 			required: true,
 		},
 		{
@@ -308,7 +308,7 @@ const Page: NextPage = () => {
 			!userIrInfo.BUSINESS_SECTOR ||
 			!userIrInfo.ESTABLISHMENT_DATE ||
 			!userIrInfo.CONTACT_NUMBER ||
-			!userIrInfo.BUSINESS_TITLE ||
+			!userIrInfo.SUMMARY ||
 			investHistoryConfig.length === 0
 		) {
 			alert('필수 입력 항목을 입력해주세요.');
@@ -358,6 +358,7 @@ const Page: NextPage = () => {
 		if (checkRequired() === false) {
 			return;
 		}
+		console.log('updateUserIrInfo');
 		userIrInformationController.updateItem(
 			{
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
