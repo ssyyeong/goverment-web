@@ -8,6 +8,7 @@ import { useUserAccess } from '../../src/hooks/useUserAccess';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import Image from 'next/image';
 import SupportiButton from '../../src/views/global/SupportiButton';
+import addCommaToNumber from '../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -25,18 +26,23 @@ const Page: NextPage = () => {
 	const topContents = [
 		{
 			title: '세미나',
+			count: 2,
 		},
 		{
 			title: '1:1 전문가 멘토링',
+			count: 30,
 		},
 		{
 			title: 'MVP 교육 프로그램',
+			count: 15,
 		},
 		{
 			title: '투자자 매칭 서비스',
+			count: 30,
 		},
 		{
 			title: '경영 지원(자금) 대행 서비스',
+			count: 20,
 		},
 		// {
 		// 	title: '파트너사 제공 서비스 이용',
@@ -65,6 +71,35 @@ const Page: NextPage = () => {
 		// 	],
 		// 	add: '* 해당서비스는 유료서비스입니다.',
 		// },
+	];
+
+	/**
+	 * 시드권 가격 정보
+	 */
+	const seedConfig = [
+		{
+			count: 5,
+			price: 50000,
+			perPrice: 10000,
+		},
+		{
+			count: 10,
+			price: 95000,
+			perPrice: 9500,
+			sale: 5,
+		},
+		{
+			count: 20,
+			price: 180000,
+			perPrice: 9000,
+			sale: 10,
+		},
+		{
+			count: 30,
+			price: 24000,
+			perPrice: 8000,
+			sale: 30,
+		},
 	];
 
 	//* States
@@ -129,6 +164,13 @@ const Page: NextPage = () => {
 				bgcolor: 'primary.light',
 			}}
 		>
+			{/** 부가 서비스 섹션 (시드권)) */}
+			<Box display="flex" gap={1} my={10} mt={30}>
+				<Typography variant="h3"> 다양한 서비스를 </Typography>
+				<Typography variant="h3">시드권</Typography>
+				<Typography variant="h3">으로 이용하세요! </Typography>
+			</Box>
+
 			<Box
 				sx={{
 					borderRadius: 3,
@@ -143,8 +185,13 @@ const Page: NextPage = () => {
 					textAlign: 'center',
 				}}
 			>
-				<Typography variant="h6">
-					원하는 부가 서비스를 지금 바로 구매해보세요!
+				<Typography variant="h3" color="primary.main" my={2}>
+					시드권
+				</Typography>
+
+				<Typography variant="subtitle1" mt={5}>
+					시드권 이란? 보유 시드권으로 세미나, 멘토링, 투자자 매칭 등
+					다양한 서비스를 신청하실 수 있습니다!
 				</Typography>
 				<Box
 					display="flex"
@@ -158,7 +205,7 @@ const Page: NextPage = () => {
 								sx={{
 									borderRadius: 2,
 									bgcolor: 'white',
-									minWidth: '18%',
+									width: '150px',
 									minHeight: '150px',
 									boxShadow:
 										'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
@@ -167,15 +214,39 @@ const Page: NextPage = () => {
 									p: 3,
 								}}
 							>
-								<Typography>{item.title}</Typography>
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										mb: index === 0 && 5,
+									}}
+									variant="subtitle1"
+									fontWeight={600}
+								>
+									{item.title}
+								</Typography>
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										color: '#6C60EA',
+									}}
+									variant="subtitle1"
+									mt={2}
+								>
+									시드권 {item.count}장
+								</Typography>
 							</Box>
 						);
 					})}
 				</Box>
-				<Typography variant="body1" color="primary.main">
-					(보다 상세한 프로그램 가격은 부가서비스 상세페이지를 통해
-					확인해주세요!)
+				<Typography variant="body1">
+					상세 프로그램 가격은 부가 서비스 상세페이지를 통해 확인하실
+					수 있습니다.
 				</Typography>
+			</Box>
+
+			<Box display="flex" gap={1} my={5} mt={30}>
+				<Typography variant="h3">시드권</Typography>
+				<Typography variant="h3">구매하기</Typography>
 			</Box>
 
 			{/** 포인트 구매 메뉴 */}
@@ -194,48 +265,63 @@ const Page: NextPage = () => {
 					flexWrap="wrap"
 					justifyContent="center"
 				>
-					{topContents.map((item, index) => {
+					{seedConfig.map((item, index) => {
 						return (
 							<Box
 								sx={{
 									borderRadius: 1,
 									bgcolor: 'white',
-									minWidth: '18%',
+									minWidth: '20%',
 									minHeight: '250px',
 									boxShadow:
 										'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
 									mt: 2,
 									my: 5,
-									pl: 2,
+									pl: 0.5,
 									pb: 3,
-									textAlign: 'left',
+									textAlign: 'center',
 									mx: 'auto',
 								}}
 							>
-								<Box
-									bgcolor="red"
-									sx={{
-										width: '70px',
-										height: '30px',
-										ml: 'auto',
-										mb: 3,
-										justifyContent: 'center',
-										display: 'flex',
-										borderRadius: '1px',
-									}}
-								>
-									<Typography color="white" my="auto">
-										3%
-									</Typography>
-								</Box>
-								<Typography>{item.title}</Typography>
+								{item.sale && (
+									<Box
+										bgcolor="primary.main"
+										sx={{
+											width: '70px',
+											height: '30px',
+											ml: 'auto',
+											mb: 3,
+											justifyContent: 'center',
+											display: 'flex',
+											borderRadius: '1px',
+										}}
+									>
+										<Typography color="white" my="auto">
+											{item.sale}%
+										</Typography>
+									</Box>
+								)}
 								<Typography
 									variant="h3"
 									color="primary.main"
 									mr="auto"
+									mt={!item.sale && '50px'}
 								>
-									10 P
+									{item.count} 장
 								</Typography>
+								<Box textAlign="left" my={3} ml={1}>
+									<Typography variant="h6" mr="auto">
+										￦{addCommaToNumber(item.price)}
+									</Typography>
+									<Typography
+										variant="h5"
+										color="primary.main"
+										mr="auto"
+									>
+										￦{addCommaToNumber(item.perPrice)}{' '}
+										/장당
+									</Typography>
+								</Box>
 								<SupportiButton
 									onClick={() => {
 										router.push('/rate_plan/point');

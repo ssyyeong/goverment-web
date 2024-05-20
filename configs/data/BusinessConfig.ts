@@ -69,21 +69,21 @@ const businessConfig: {
 	},
 ];
 
-const investSector: string[] = [
-	'bootstrapped',
-	'seed',
-	'pre-A',
-	'pre-B',
-	'series A',
-	'series B',
-	'series C',
-	'series D',
-	'series E',
-	'series F',
-	'pre-IPO',
-	'IPO',
-	'M&A',
-];
+// const investSector: string[] = [
+// 	'bootstrapped',
+// 	'seed',
+// 	'pre-A',
+// 	'pre-B',
+// 	'series A',
+// 	'series B',
+// 	'series C',
+// 	'series D',
+// 	'series E',
+// 	'series F',
+// 	'pre-IPO',
+// 	'IPO',
+// 	'M&A',
+// ];
 /**
  * 한국 표준 산업 분류
  */
@@ -958,4 +958,51 @@ const coffeeChatSector: string[] = [
 	'기타',
 ];
 
-export { businessConfig, businessSector, investSector, coffeeChatSector };
+/**
+ *
+ * 투자 라운드/금액
+ */
+const investSector: string[] = [
+	'해당 없음',
+	'Seed(3억원 이하)',
+	'Pre-A(3억원~10억원 이하)',
+	'SeriesA(10억원~100억원 이하)',
+	'SeriesB(100억원~300억원 이하)',
+	'SeriesC이상(300억 이상)',
+];
+
+/**
+ * 사업자 유형
+ *
+ */
+const businessType: string[] = ['법인 사업자', '개인 사업자', '예비 사업자'];
+
+/**
+ * 업력
+ */
+const companyHistory: string[] = [
+	'1년 이하',
+	'1년~3년 이하',
+	'3년~5년 이하',
+	'5년 이상',
+];
+
+/**
+ * 전년도 매출
+ */
+const lastYearSales: string[] = [
+	'5천만원 이하',
+	'5천만원~1억원',
+	'1억원~5억원',
+	'5억원 이상',
+];
+
+export {
+	businessConfig,
+	businessSector,
+	investSector,
+	coffeeChatSector,
+	businessType,
+	companyHistory,
+	lastYearSales,
+};

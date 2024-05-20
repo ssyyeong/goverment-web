@@ -21,12 +21,20 @@ import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { AlimTalkController } from '../../../src/controller/AlimTalkController';
+import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/MultiImageUploader/MultiImageUploader';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { businessSector } from '../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	businessType,
+	companyHistory,
+	investSector,
+	lastYearSales,
+} from '../../../configs/data/BusinessConfig';
 import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
+import SupportiInput from '../../../src/views/global/SupportiInput';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -47,8 +55,33 @@ const Page: NextPage = () => {
 		React.useState<boolean>(undefined);
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
+	/**
+	 * 명함 이미지 리스트
+	 */
+	const [businessCardImages, setBusinessCardImages] = React.useState<
+		string[]
+	>([]);
 
-	console.log(signupData);
+	/**
+	 *
+	 * 필요 서비스
+	 */
+	const [needService, setNeedService] = React.useState<string[]>([]);
+
+	const dataList = [
+		'경영 지표 관리',
+		'사업계획서',
+		'소프트웨어 개발',
+		'AI 노코드',
+		'정부지원사업',
+		'투자 유치',
+		'마케팅/브랜딩',
+		'HR',
+		'글로벌 진출',
+		'세무/노무/특허/법률',
+	];
+
+	console.log(needService);
 	//*Functions
 	/**
 	 * 알림톡 발송
@@ -163,6 +196,8 @@ const Page: NextPage = () => {
 				...signupData,
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
+				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
+				NEEDED_SERVICE: JSON.stringify(needService),
 			},
 			(res) => {
 				if (res.data.result) {
@@ -184,7 +219,7 @@ const Page: NextPage = () => {
 		{
 			label: '이메일',
 			type: 'email',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.USER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -238,7 +273,7 @@ const Page: NextPage = () => {
 		{
 			label: '이름',
 			type: 'text',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.FULL_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -250,7 +285,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호',
 			type: 'password',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.PASSWORD,
 			placeholder:
 				'비밀번호 (8~16자의 영문 대소문자, 숫자, 특수문자 조합)',
@@ -270,7 +305,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호 확인',
 			placeholder: '비밀번호 재확인',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			type: 'password',
 			value: passwordConfirm,
 			onChange: (e) => {
@@ -283,18 +318,6 @@ const Page: NextPage = () => {
 				signupData.PASSWORD && signupData.PASSWORD !== passwordConfirm
 					? '비밀번호가 일치하지 않습니다.'
 					: '',
-		},
-		{
-			label: '사업 분류',
-			for: 'BUSINESS',
-			type: 'select',
-			value: signupData.BUSINESS_SECTOR,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					BUSINESS_SECTOR: e.target.value,
-				});
-			},
 		},
 		{
 			label: '사업자 등록번호',
@@ -331,9 +354,127 @@ const Page: NextPage = () => {
 					: '',
 		},
 		{
+			label: '사업 분류',
+			for: 'BUSINESS',
+			config: businessSector,
+			key: 'BUSINESS_SECTOR',
+			type: 'select',
+			value: signupData.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
+		},
+		// {
+		// 	label: '사업자 유형',
+		// 	for: 'BUSINESS',
+		// 	config: businessType,
+		// 	key: 'CORPORATE_TYPE',
+		// 	type: 'select',
+		// 	optional: true,
+		// 	value: signupData.CORPORATE_TYPE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			CORPORATE_TYPE: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '서비스명',
+		// 	type: 'text',
+		// 	optional: true,
+		// 	for: ['BUSINESS'],
+		// 	value: signupData.MAIN_PRODUCT,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			MAIN_PRODUCT: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '최근 투자라운드/금액',
+		// 	for: 'BUSINESS',
+		// 	config: investSector,
+		// 	key: 'INVESTMENT_ROUND',
+		// 	type: 'select',
+		// 	optional: true,
+		// 	value: signupData.INVESTMENT_ROUND,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			INVESTMENT_ROUND: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '최근 투자사',
+		// 	type: 'text',
+		// 	optional: true,
+		// 	for: ['BUSINESS'],
+		// 	placeholder: 'ex) 비공개, xx 투자',
+		// 	value: signupData.INVESTMENT_COMPANY,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			INVESTMENT_COMPANY: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '업력',
+		// 	for: 'BUSINESS',
+		// 	config: companyHistory,
+		// 	key: 'COMPANY_HISTORY',
+		// 	optional: true,
+		// 	type: 'select',
+		// 	value: signupData.COMPANY_HISTORY,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			COMPANY_HISTORY: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '전년도 매출',
+		// 	for: 'BUSINESS',
+		// 	config: lastYearSales,
+		// 	key: 'REVENUE',
+		// 	optional: true,
+		// 	type: 'select',
+		// 	value: signupData.REVENUE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			REVENUE: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '회사 소개',
+		// 	type: 'text',
+		// 	for: ['BUSINESS'],
+		// 	placeholder:
+		// 		'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
+
+		// 	helperText:
+		// 		'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
+		// 	value: signupData.DESCRIPTION,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			DESCRIPTION: e.target.value,
+		// 		});
+		// 	},
+		// },
+		{
 			label: '회사명',
 			type: 'text',
-			for: 'BUSINESS',
+			for: ['BUSINESS', 'INVESTOR'],
 			value: signupData.COMPANY_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -342,22 +483,30 @@ const Page: NextPage = () => {
 				});
 			},
 		},
+		// {
+		// 	label: '직책',
+		// 	type: 'text',
+		// 	for: ['BUSINESS', 'INVESTOR'],
+		// 	value: signupData.ROLE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			ROLE: e.target.value,
+		// 		});
+		// 	},
+		// },
 		{
-			label: '직책',
+			label: '필요 서비스',
 			type: 'text',
-			for: 'BUSINESS',
-			value: signupData.ROLE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					ROLE: e.target.value,
-				});
-			},
+			helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+			for: ['INVESTOR'],
+			dataList: dataList,
+			value: needService,
 		},
 		{
 			label: '전화번호',
 			type: 'phone',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			endAdornment: (
 				<Button
 					variant="contained"
@@ -388,7 +537,7 @@ const Page: NextPage = () => {
 		{
 			label: '인증번호',
 			type: 'text',
-			for: ['BUSINESS', 'GENERAL'],
+			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			nolabel: true,
 			isVerified: isVerified,
 			endAdornment: (
@@ -414,6 +563,11 @@ const Page: NextPage = () => {
 			onChange: (e) => {
 				setVerifyNumber(e.target.value);
 			},
+		},
+		{
+			label: '명함 이미지',
+			type: 'image',
+			for: ['INVESTOR'],
 		},
 	];
 
@@ -448,6 +602,10 @@ const Page: NextPage = () => {
 							label: '일반',
 							value: 'GENERAL',
 						},
+						// {
+						// 	label: '투자자',
+						// 	value: 'INVESTOR',
+						// },
 					]}
 					value={tabs}
 					setValue={(value) => {
@@ -506,15 +664,15 @@ const Page: NextPage = () => {
 										{!item.nolabel && item.label}
 									</Typography>
 
-									{item.label == '사업 분류' ? (
+									{item.type == 'select' ? (
 										<Autocomplete
 											size="small"
-											options={businessSector}
+											options={item.config}
 											fullWidth
 											onChange={(e, newValue) => {
 												setSignupData({
 													...signupData,
-													BUSINESS_SECTOR: newValue,
+													[item.key]: newValue,
 												});
 											}}
 											value={item.value}
@@ -532,6 +690,88 @@ const Page: NextPage = () => {
 												/>
 											)}
 										/>
+									) : item.type === 'image' ? (
+										<Box mt={2}>
+											<MultiImageUploader
+												imagePreviewUrlList={
+													businessCardImages
+												}
+												setImagePreviewUrlList={
+													setBusinessCardImages
+												}
+												numOfUploader={3}
+												label="이미지"
+												inputStatus={{
+													status: 'default',
+												}}
+											/>
+										</Box>
+									) : item.label === '필요 서비스' ? (
+										<Box>
+											{/* <Typography my={2}>
+												선택 : {needService}
+											</Typography> */}
+											<Box
+												display={'flex'}
+												gap={2}
+												flexWrap="wrap"
+												my={2}
+											>
+												{item?.dataList?.map(
+													(item, index) => {
+														return (
+															<Typography
+																fontWeight={
+																	needService.includes(
+																		item
+																	) && 700
+																}
+																sx={{
+																	p: 1,
+																	borderRadius: 4,
+																	border: '1px solid #d1d1d1',
+																	cursor: 'pointer',
+																	color: needService.includes(
+																		item
+																	)
+																		? 'primary.main'
+																		: 'common.black',
+																}}
+																onClick={() => {
+																	if (
+																		needService.includes(
+																			item
+																		)
+																	) {
+																		setNeedService(
+																			needService.filter(
+																				(
+																					data
+																				) =>
+																					data !==
+																					item
+																			)
+																		);
+																	} else {
+																		setNeedService(
+																			[
+																				...needService,
+																				item,
+																			]
+																		);
+																	}
+																}}
+															>
+																{item}
+															</Typography>
+														);
+													}
+												)}
+												<Typography color="secondary.main">
+													({item.helperText})
+												</Typography>
+											</Box>
+										</Box>
 									) : (
 										<TextField
 											type={item.type}

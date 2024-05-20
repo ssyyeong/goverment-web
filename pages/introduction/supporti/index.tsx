@@ -18,28 +18,16 @@ const Page: NextPage = () => {
 
 	return (
 		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100%',
-				px: { sm: 5, xs: 2 },
+			p={{
+				xs: 2,
+				md: 10,
 			}}
 		>
-			<SupportiTab
-				tabList={['ko', 'en']}
-				setValue={setTab}
-				value={tab}
-				tabContentList={[
-					<Box>
-						<Typography variant="h2">한국어</Typography>
-					</Box>,
-					<Box>
-						<Typography variant="h2">English</Typography>
-					</Box>,
-				]}
-			/>
+			<Box textAlign="center" my={5}>
+				<Typography color="secondary.main" variant="h4">
+					준비중입니다.
+				</Typography>
+			</Box>
 		</Box>
 	);
 };

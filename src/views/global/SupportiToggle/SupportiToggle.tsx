@@ -75,6 +75,7 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 				width={'100%'}
 				display={'flex'}
 				position={'relative'}
+				justifyContent="space-between"
 			>
 				{/* 이동 선택 칩 */}
 				<Box
@@ -82,7 +83,7 @@ const SupportiToggle = (props: ISupportiToggleProps) => {
 					width={`${
 						props.disablePadding
 							? 100 / props.chipDataList.length
-							: 95 / props.chipDataList.length
+							: 98 / props.chipDataList.length
 					}%`}
 					borderRadius={props.angled ? 1 : 5}
 					sx={{
