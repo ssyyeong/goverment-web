@@ -367,110 +367,110 @@ const Page: NextPage = () => {
 				});
 			},
 		},
-		{
-			label: '사업자 유형',
-			for: 'BUSINESS',
-			config: businessType,
-			key: 'CORPORATE_TYPE',
-			type: 'select',
-			optional: true,
-			value: signupData.CORPORATE_TYPE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					CORPORATE_TYPE: e.target.value,
-				});
-			},
-		},
-		{
-			label: '서비스명',
-			type: 'text',
-			optional: true,
-			for: ['BUSINESS'],
-			value: signupData.MAIN_PRODUCT,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					MAIN_PRODUCT: e.target.value,
-				});
-			},
-		},
-		{
-			label: '최근 투자라운드/금액',
-			for: 'BUSINESS',
-			config: investSector,
-			key: 'INVESTMENT_ROUND',
-			type: 'select',
-			optional: true,
-			value: signupData.INVESTMENT_ROUND,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					INVESTMENT_ROUND: e.target.value,
-				});
-			},
-		},
-		{
-			label: '최근 투자사',
-			type: 'text',
-			optional: true,
-			for: ['BUSINESS'],
-			placeholder: 'ex) 비공개, xx 투자',
-			value: signupData.INVESTMENT_COMPANY,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					INVESTMENT_COMPANY: e.target.value,
-				});
-			},
-		},
-		{
-			label: '업력',
-			for: 'BUSINESS',
-			config: companyHistory,
-			key: 'COMPANY_HISTORY',
-			optional: true,
-			type: 'select',
-			value: signupData.COMPANY_HISTORY,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					COMPANY_HISTORY: e.target.value,
-				});
-			},
-		},
-		{
-			label: '전년도 매출',
-			for: 'BUSINESS',
-			config: lastYearSales,
-			key: 'REVENUE',
-			optional: true,
-			type: 'select',
-			value: signupData.REVENUE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					REVENUE: e.target.value,
-				});
-			},
-		},
-		{
-			label: '회사 소개',
-			type: 'text',
-			for: ['BUSINESS'],
-			placeholder:
-				'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
+		// {
+		// 	label: '사업자 유형',
+		// 	for: 'BUSINESS',
+		// 	config: businessType,
+		// 	key: 'CORPORATE_TYPE',
+		// 	type: 'select',
+		// 	optional: true,
+		// 	value: signupData.CORPORATE_TYPE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			CORPORATE_TYPE: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '서비스명',
+		// 	type: 'text',
+		// 	optional: true,
+		// 	for: ['BUSINESS'],
+		// 	value: signupData.MAIN_PRODUCT,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			MAIN_PRODUCT: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '최근 투자라운드/금액',
+		// 	for: 'BUSINESS',
+		// 	config: investSector,
+		// 	key: 'INVESTMENT_ROUND',
+		// 	type: 'select',
+		// 	optional: true,
+		// 	value: signupData.INVESTMENT_ROUND,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			INVESTMENT_ROUND: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '최근 투자사',
+		// 	type: 'text',
+		// 	optional: true,
+		// 	for: ['BUSINESS'],
+		// 	placeholder: 'ex) 비공개, xx 투자',
+		// 	value: signupData.INVESTMENT_COMPANY,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			INVESTMENT_COMPANY: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '업력',
+		// 	for: 'BUSINESS',
+		// 	config: companyHistory,
+		// 	key: 'COMPANY_HISTORY',
+		// 	optional: true,
+		// 	type: 'select',
+		// 	value: signupData.COMPANY_HISTORY,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			COMPANY_HISTORY: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '전년도 매출',
+		// 	for: 'BUSINESS',
+		// 	config: lastYearSales,
+		// 	key: 'REVENUE',
+		// 	optional: true,
+		// 	type: 'select',
+		// 	value: signupData.REVENUE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			REVENUE: e.target.value,
+		// 		});
+		// 	},
+		// },
+		// {
+		// 	label: '회사 소개',
+		// 	type: 'text',
+		// 	for: ['BUSINESS'],
+		// 	placeholder:
+		// 		'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
 
-			helperText:
-				'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
-			value: signupData.DESCRIPTION,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					DESCRIPTION: e.target.value,
-				});
-			},
-		},
+		// 	helperText:
+		// 		'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
+		// 	value: signupData.DESCRIPTION,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			DESCRIPTION: e.target.value,
+		// 		});
+		// 	},
+		// },
 		{
 			label: '회사명',
 			type: 'text',
@@ -483,57 +483,26 @@ const Page: NextPage = () => {
 				});
 			},
 		},
-		{
-			label: '직책',
-			type: 'text',
-			for: ['BUSINESS', 'INVESTOR'],
-			value: signupData.ROLE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					ROLE: e.target.value,
-				});
-			},
-		},
+		// {
+		// 	label: '직책',
+		// 	type: 'text',
+		// 	for: ['BUSINESS', 'INVESTOR'],
+		// 	value: signupData.ROLE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			ROLE: e.target.value,
+		// 		});
+		// 	},
+		// },
 		{
 			label: '필요 서비스',
 			type: 'text',
 			helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
-			for: ['BUSINESS'],
+			for: ['INVESTOR'],
 			dataList: dataList,
 			value: needService,
 		},
-		// {
-		// 	label: '필요 서비스',
-		// 	helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
-		// 	for: ['BUSINESS'],
-		// 	key: 'NEEDED_SERVICE',
-		// 	type: 'multiselect',
-		// 	format: (value) => {
-		// 		return value && JSON.parse(value).join();
-		// 	},
-		// 	dataList: [
-		// 		'경영 지표 관리',
-		// 		'사업계획서',
-		// 		'소프트웨어 개발',
-		// 		'AI 노코드',
-		// 		'정부지원사업',
-		// 		'투자 유치',
-		// 		'마케팅/브랜딩',
-		// 		'HR',
-		// 		'글로벌 진출',
-		// 		'세무/노무/특허/법률',
-		// 	],
-		// 	handleChange: (event) => {
-		// 		const {
-		// 			target: { value },
-		// 		} = event;
-		// 		setSignupData({
-		// 			...signupData,
-		// 			NEEDED_SERVICE: JSON.stringify(value),
-		// 		});
-		// 	},
-		// },
 		{
 			label: '전화번호',
 			type: 'phone',
@@ -748,12 +717,19 @@ const Page: NextPage = () => {
 												flexWrap="wrap"
 												my={2}
 											>
-												{item.dataList.map(
+												{item?.dataList?.map(
 													(item, index) => {
 														return (
 															<Typography
-																mr={2}
+																fontWeight={
+																	needService.includes(
+																		item
+																	) && 700
+																}
 																sx={{
+																	p: 1,
+																	borderRadius: 4,
+																	border: '1px solid #d1d1d1',
 																	cursor: 'pointer',
 																	color: needService.includes(
 																		item
