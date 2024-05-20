@@ -220,7 +220,7 @@ const Page: NextPage = () => {
 			},
 			(err) => console.log(err)
 		);
-	});
+	}, []);
 
 	return (
 		<Grid container width={'100%'}>
