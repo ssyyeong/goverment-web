@@ -394,7 +394,14 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents={'신청하기'}
 						isGradient={true}
-						onClick={() => handleApplySeminar()}
+						onClick={() => {
+							if (
+								seminarData.SeminarGroups.length > 0 &&
+								seminarGroup == 0
+							) {
+								alert('그룹을 선택해주세요.');
+							} else handleApplySeminar();
+						}}
 						style={{
 							color: 'white',
 							width: '200px',
