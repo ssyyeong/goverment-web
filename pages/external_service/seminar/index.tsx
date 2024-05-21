@@ -14,6 +14,7 @@ import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import { useRouter } from 'next/router';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import Nodata from '../../../src/views/global/NoData/NoData';
+import { ServiceListLayout } from '../../../src/views/layout/ServiceListLayout';
 
 const Page: NextPage = () => {
 	//* Constants
@@ -63,6 +64,13 @@ const Page: NextPage = () => {
 	 * 세미나 데이터 리스트
 	 */
 	const [seminarDataList, setSeminarDataList] = React.useState([]);
+
+		/**
+	 * 컨설팅 데이터 리스트
+	 */
+		const [consultingDataList, setConsultingDataList] = React.useState([]);
+
+
 	/**
 	 * 세미나 데이터 총 개수
 	 */
@@ -112,6 +120,20 @@ const Page: NextPage = () => {
 			},
 			(err) => {}
 		);
+
+		const consultingController = new DefaultController('ConsultingProduct');
+		consultingController.findAllItems(
+			{
+				LIMIT: 10,
+				PAGE: page,
+				PURCHASE_AVAILABLE_YN: 'Y',
+			},
+			(res) => {
+				setTotalDataCount(res.data.result.count);
+				setConsultingDataList(res.data.result.rows);
+			},
+			(err) => {}
+		);
 	}, [tab, page]);
 
 	/**
@@ -120,6 +142,8 @@ const Page: NextPage = () => {
 	useEffect(() => {
 		setPage(0);
 	}, [tab]);
+
+	console.log(seminarDataList);
 
 	return (
 		<Box
@@ -130,11 +154,22 @@ const Page: NextPage = () => {
 			}}
 			// bgcolor={'primary.light'}
 		>
-			<Box textAlign="center" my={5}>
-				<Typography color="secondary.main" variant="h4">
-					준비중입니다.
-				</Typography>
-			</Box>
+			<ServiceListLayout
+				title="지금 신청 가능한 세미나"
+				dataList={seminarDataList}
+				useFiltering={true}
+				filterList={['투자 유치', '마케팅', '세무/특허']}
+				type='seminar'
+			/>
+
+			<Box
+				sx={{
+					my: 20,
+				}}
+			></Box>
+
+			<ServiceListLayout title="지금 신청 가능한 컨설팅" dataList={consultingDataList} 
+			type='consulting'/>
 			{/* <Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 세미나
 			</Typography> */}

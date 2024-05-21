@@ -6,10 +6,12 @@ import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { getMonthPickerUtilityClass } from '@mui/x-date-pickers';
 import addCommaToNumber from '../../../src/function/DataFormatter/addCommaToNumber';
+import { useRouter } from 'next/router';
 
 const Page: NextPage = () => {
 	//* Modules
 	const { memberId } = useAppMember();
+	const router = useRouter();
 
 	//* States
 
@@ -46,7 +48,7 @@ const Page: NextPage = () => {
 		},
 		{
 			title: 'a2e서비스',
-			route: '',
+			route: '/internal_service/a2e',
 		},
 	];
 
@@ -109,9 +111,10 @@ const Page: NextPage = () => {
 									justifyContent: 'center',
 									flexDirection: 'column',
 									cursor: 'pointer',
-									gap:2,
+									gap: 2,
 									border: '1px solid #c8c8c8',
 								}}
+								onClick={() => router.push(item.route)}
 							>
 								<Typography
 									variant="h4"
@@ -125,20 +128,26 @@ const Page: NextPage = () => {
 									{item.title}{' '}
 									<OpenInNewIcon
 										sx={{ color: 'primary.main' }}
+										onClick={() => router.push(item.route)}
 									/>
 								</Typography>
 
-								{item.type ? (	<Box>
+								{item.type ? (
+									<Box textAlign='left'>
 										<Typography>
 											W : {addCommaToNumber(item.price)} ~
 											/ {item.type}
 										</Typography>
-									
-									<Typography>
-										S : {item.ticket}장 / {item.type}
-									</Typography>
-								</Box>
-								): <Box><Typography>신청필요</Typography> </Box>}
+
+										<Typography>
+											S : {item.ticket}장 / {item.type}
+										</Typography>
+									</Box>
+								) : (
+									<Box>
+										<Typography>신청필요</Typography>{' '}
+									</Box>
+								)}
 							</Box>
 						);
 					})}
