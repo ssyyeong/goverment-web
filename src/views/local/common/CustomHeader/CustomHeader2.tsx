@@ -37,13 +37,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/introduction/supporti');
 			},
 		},
-		{
-			label: '서포티 TV',
-			path: '/supportv',
-			onclick: () => {
-				router.push('/supportv');
-			},
-		},
+		// {
+		// 	label: '서포티 TV',
+		// 	path: '/supportv',
+		// 	onclick: () => {
+		// 		router.push('/supportv');
+		// 	},
+		// },
 		{
 			label: '지원사업 조회',
 			path: '/internal_service/government/research',
@@ -72,27 +72,27 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/external_service/seminar');
 			},
 		},
-		{
-			label: '멘토링',
-			path: '/mentor',
-			onclick: () => {
-				router.push('/mentor');
-			},
-		},
-		{
-			label: '커피챗',
-			path: '/internal_service/coffeechat',
-			onclick: () => {
-				router.push('/internal_service/coffeechat');
-			},
-		},
-		{
-			label: '부가 서비스',
-			path: '/introduction/extra_service',
-			onclick: () => {
-				router.push('/introduction/extra_service');
-			},
-		},
+		// {
+		// 	label: '멘토링',
+		// 	path: '/mentor',
+		// 	onclick: () => {
+		// 		router.push('/mentor');
+		// 	},
+		// },
+		// {
+		// 	label: '커피챗',
+		// 	path: '/internal_service/coffeechat',
+		// 	onclick: () => {
+		// 		router.push('/internal_service/coffeechat');
+		// 	},
+		// },
+		// {
+		// 	label: '부가 서비스',
+		// 	path: '/introduction/extra_service',
+		// 	onclick: () => {
+		// 		router.push('/introduction/extra_service');
+		// 	},
+		// },
 
 		{
 			label: '프리권',
@@ -101,13 +101,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/rate_plan');
 			},
 		},
-		{
-			label: '시드권',
-			path: '/rate_plan',
-			onclick: () => {
-				router.push('/rate_plan');
-			},
-		},
+		// {
+		// 	label: '시드권',
+		// 	path: '/rate_plan',
+		// 	onclick: () => {
+		// 		router.push('/rate_plan');
+		// 	},
+		// },
 
 		{
 			label: 'FAQ',
@@ -142,13 +142,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/introduction/supporti');
 			},
 		},
-		{
-			label: '서포티 TV',
-			path: '/supportv',
-			onclick: () => {
-				router.push('/supportv');
-			},
-		},
+		// {
+		// 	label: '서포티 TV',
+		// 	path: '/supportv',
+		// 	onclick: () => {
+		// 		router.push('/supportv');
+		// 	},
+		// },
 		{
 			label: '지원사업 조회',
 			path: '/internal_service/government/research',
@@ -177,27 +177,27 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/external_service/seminar');
 			},
 		},
-		{
-			label: '멘토링',
-			path: '/mentor',
-			onclick: () => {
-				router.push('/mentor');
-			},
-		},
-		{
-			label: '커피챗',
-			path: '/internal_service/coffeechat',
-			onclick: () => {
-				router.push('/internal_service/coffeechat');
-			},
-		},
-		{
-			label: '부가 서비스',
-			path: '/introduction/extra_service',
-			onclick: () => {
-				router.push('/introduction/extra_service');
-			},
-		},
+		// {
+		// 	label: '멘토링',
+		// 	path: '/mentor',
+		// 	onclick: () => {
+		// 		router.push('/mentor');
+		// 	},
+		// },
+		// {
+		// 	label: '커피챗',
+		// 	path: '/internal_service/coffeechat',
+		// 	onclick: () => {
+		// 		router.push('/internal_service/coffeechat');
+		// 	},
+		// },
+		// {
+		// 	label: '부가 서비스',
+		// 	path: '/introduction/extra_service',
+		// 	onclick: () => {
+		// 		router.push('/introduction/extra_service');
+		// 	},
+		// },
 
 		{
 			label: '프리권',
@@ -206,13 +206,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/rate_plan');
 			},
 		},
-		{
-			label: '시드권',
-			path: '/rate_plan',
-			onclick: () => {
-				router.push('/rate_plan');
-			},
-		},
+		// {
+		// 	label: '시드권',
+		// 	path: '/rate_plan',
+		// 	onclick: () => {
+		// 		router.push('/rate_plan');
+		// 	},
+		// },
 
 		{
 			label: 'FAQ',
@@ -247,10 +247,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '서포티 소개',
 			path: '/introduction/supporti',
 		},
-		{
-			label: '서포티 TV',
-			path: '/supportv',
-		},
+		// {
+		// 	label: '서포티 TV',
+		// 	path: '/supportv',
+		// },
 	];
 
 	/**
@@ -296,19 +296,19 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				});
 			},
 		},
-		{
-			label: '멘토링',
-			path: '/mentor',
-		},
-		{
-			label: '커피챗',
-			path: '/internal_service/coffeechat',
-		},
+		// {
+		// 	label: '멘토링',
+		// 	path: '/mentor',
+		// },
+		// {
+		// 	label: '커피챗',
+		// 	path: '/internal_service/coffeechat',
+		// },
 
-		{
-			label: '부가 서비스',
-			path: '/introduction/extra_service',
-		},
+		// {
+		// 	label: '부가 서비스',
+		// 	path: '/introduction/extra_service',
+		// },
 	];
 
 	/**
@@ -319,10 +319,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '프리권',
 			path: '/rate_plan',
 		},
-		{
-			label: '시드권',
-			path: '/rate_plan/point',
-		},
+		// {
+		// 	label: '시드권',
+		// 	path: '/rate_plan/point',
+		// },
 	];
 
 	/**

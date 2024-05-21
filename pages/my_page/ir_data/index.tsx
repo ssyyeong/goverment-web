@@ -143,7 +143,7 @@ const Page: NextPage = () => {
 		{
 			label: '한줄 설명',
 			value: 'SUMMARY',
-			required: true,
+			required: false,
 		},
 		{
 			label: '설명',

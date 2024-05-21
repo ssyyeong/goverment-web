@@ -136,7 +136,7 @@ const Page: NextPage = () => {
 	const businessIntroductionConfig = [
 		{
 			label: '한줄 설명',
-			value: 'BUSINESS_TITLE',
+			value: 'SUMMARY',
 		},
 		{
 			label: '설명',
