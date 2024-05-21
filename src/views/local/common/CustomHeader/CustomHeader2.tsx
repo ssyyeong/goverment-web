@@ -66,7 +66,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '세미나',
+			label: '세미나/컨설팅',
 			path: '/external_service/seminar',
 			onclick: () => {
 				router.push('/external_service/seminar');
@@ -171,7 +171,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '세미나',
+			label: '세미나/컨설팅',
 			path: '/external_service/seminar',
 			onclick: () => {
 				router.push('/external_service/seminar');
@@ -285,7 +285,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 */
 	const service = [
 		{
-			label: '세미나',
+			label: '세미나/컨설팅',
 			path: '/external_service/seminar',
 			additionalOnclickFunction: () => {
 				gTagEvent({
