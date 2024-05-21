@@ -506,18 +506,18 @@ const Page: NextPage = () => {
 				});
 			},
 		},
-		{
-			label: '설립일자',
-			type: 'datepicker',
-			for: ['BUSINESS'],
-			value: signupData.ESTABLISHMENT_DATE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					ESTABLISHMENT_DATE: e.target.value,
-				});
-			},
-		},
+		// {
+		// 	label: '설립일자',
+		// 	type: 'datepicker',
+		// 	for: ['BUSINESS'],
+		// 	value: signupData.ESTABLISHMENT_DATE,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			ESTABLISHMENT_DATE: e.target.value,
+		// 		});
+		// 	},
+		// },
 		{
 			label: 'IR자료 또는 사업 계획서',
 			type: 'file',
