@@ -19,6 +19,7 @@ import { emailRegex, passwordRegex } from '../../../configs/regex/regex';
 import SignUpLayout from '../../../src/views/local/sign_up/SignUpLayout';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiButton from '../../../src/views/global/SupportiButton';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/MultiImageUploader/MultiImageUploader';
@@ -35,6 +36,7 @@ import {
 import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
 import SupportiInput from '../../../src/views/global/SupportiInput';
+import dayjs from 'dayjs';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -55,6 +57,14 @@ const Page: NextPage = () => {
 		React.useState<boolean>(undefined);
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
+	/**
+	 * ir deck 파일
+	 */
+	const [irDeckFile, setIrDeckFile] = React.useState<any>({
+		FILE_NAME: 'ppt, pdf, hwp, pcdx, zip (200mb이하)',
+		FILE_URL: '',
+	});
+	/**
 	/**
 	 * 명함 이미지 리스트
 	 */
@@ -197,7 +207,8 @@ const Page: NextPage = () => {
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
 				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
-				NEEDED_SERVICE: JSON.stringify(needService),
+				// NEEDED_SERVICE: JSON.stringify(needService),
+				IR_FILE: JSON.stringify(irDeckFile),
 			},
 			(res) => {
 				if (res.data.result) {
@@ -483,6 +494,42 @@ const Page: NextPage = () => {
 				});
 			},
 		},
+		{
+			label: '대표자명',
+			type: 'text',
+			for: ['BUSINESS'],
+			value: signupData.OWNER_NAME,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					OWNER_NAME: e.target.value,
+				});
+			},
+		},
+		{
+			label: '설립일자',
+			type: 'datepicker',
+			for: ['BUSINESS'],
+			value: signupData.ESTABLISHMENT_DATE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					ESTABLISHMENT_DATE: e.target.value,
+				});
+			},
+		},
+		{
+			label: 'IR자료 또는 사업 계획서',
+			type: 'file',
+			for: ['BUSINESS'],
+			value: signupData.IR_FILE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					IR_FILE: e.target.value,
+				});
+			},
+		},
 		// {
 		// 	label: '직책',
 		// 	type: 'text',
@@ -706,6 +753,62 @@ const Page: NextPage = () => {
 												}}
 											/>
 										</Box>
+									) : item.label ===
+									  'IR자료 또는 사업 계획서' ? (
+										<Box
+											display={'flex'}
+											flexDirection={'column'}
+											gap={2}
+											mt={2}
+										>
+											<Box>
+												<SupportiInput
+													type="fileinput"
+													value={irDeckFile}
+													setValue={setIrDeckFile}
+													fileTypeInputName
+													fileTypeInputNameMaxSize={{
+														unit: 'MB',
+														size: 200,
+													}}
+													additionalProps={{
+														inputProps: {
+															accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
+														},
+													}}
+												/>
+												<Typography
+													variant="caption"
+													fontWeight={'600'}
+													color={'grey'}
+												>
+													PDF 형식을 권장드립니다.
+												</Typography>
+											</Box>
+										</Box>
+									) : item.label === '설립일자' ? (
+										<SupportiInput
+											type={
+												item.type ? item.type : 'text'
+											}
+											value={
+												signupData.ESTABLISHMENT_DATE
+											}
+											setValue={(value) => {
+												setSignupData({
+													...signupData,
+													ESTABLISHMENT_DATE:
+														dayjs(value).format(
+															'YYYY-MM-DD'
+														),
+												});
+											}}
+											additionalProps={{
+												placeholder: item.placeholder
+													? item.placeholder
+													: `${item.label}을 입력해주세요.`,
+											}}
+										/>
 									) : item.label === '필요 서비스' ? (
 										<Box>
 											{/* <Typography my={2}>
