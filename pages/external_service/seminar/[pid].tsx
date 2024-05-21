@@ -2,7 +2,16 @@ import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Typography } from '@mui/material';
+import {
+	Box,
+	BoxProps,
+	FormControl,
+	FormControlLabel,
+	FormLabel,
+	Radio,
+	RadioGroup,
+	Typography,
+} from '@mui/material';
 import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
@@ -29,6 +38,14 @@ const Page: NextPage = () => {
 	 * 세미나 데이터
 	 */
 	const [seminarData, setSeminarData] = React.useState<any>({});
+	/**
+	 * 세미나 그룹
+	 */
+	const [seminarGroup, setSeminarGroup] = React.useState<any>(0);
+	/**
+	 * 세미나 신청 목록 데이터
+	 */
+	const [seminarApplication, setSeminarApplication] = React.useState<any>([]);
 	/**
 	 * 알럿 모달
 	 */
@@ -82,6 +99,7 @@ const Page: NextPage = () => {
 						{
 							SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
 							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							SEMINAR_GROUP_IDENTIFICATION_CODE: seminarGroup,
 							NAME: res.data.result.FULL_NAME,
 							PHONE: res.data.result.PHONE_NUMBER,
 							EMAIL: res.data.result.USER_NAME,
@@ -134,6 +152,7 @@ const Page: NextPage = () => {
 				{ SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid },
 				(res) => {
 					setSeminarData(res.data.result);
+					setSeminarApplication(res.data.result.SeminarApplications);
 				},
 				(err) => {}
 			);
@@ -274,8 +293,93 @@ const Page: NextPage = () => {
 							);
 						}
 					)}
-				{/* 스티키 버튼 */}
-
+				{/* 그룹 신청 가능 인원 및 정보 */}
+				{seminarData?.SeminarGroups?.length > 0 && (
+					<Box
+						display={'flex'}
+						flexDirection={'column'}
+						gap={1}
+						m={3}
+						p={2}
+						bgcolor={'#cccccc60'}
+					>
+						<Typography variant={'subtitle1'}>
+							그룹 신청 가능 인원 및 정보
+						</Typography>
+						{seminarData.SeminarGroups.map((item, index) => {
+							return (
+								<Box
+									key={index.toString()}
+									display={'flex'}
+									flexDirection={'row'}
+									mt={1}
+								>
+									<Typography variant={'body1'} mr={2}>
+										그룹이름: {item.NAME}
+									</Typography>
+									<Typography variant={'body1'} mr={2}>
+										정원: {item.PERSONNEL}명
+									</Typography>
+									<Typography variant={'body1'} mr={2}>
+										현재{' '}
+										{
+											seminarApplication.filter(
+												(data) =>
+													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+													item.SEMINAR_GROUP_IDENTIFICATION_CODE
+											).length
+										}
+										명 신청
+									</Typography>
+									<Typography variant={'body1'}>
+										한줄소개: {item.DESCRIPTION}
+									</Typography>
+								</Box>
+							);
+						})}
+					</Box>
+				)}
+				{/* 그룹 선택 */}
+				{seminarData?.SeminarGroups?.length > 0 && (
+					<FormControl>
+						<FormLabel id="demo-radio-buttons-group-label">
+							그룹 선택(선택 후 신청하기 버튼을 눌러주세요.)
+						</FormLabel>
+						<RadioGroup
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+							}}
+							value={seminarGroup}
+							onChange={(e) => {
+								setSeminarGroup(e.target.value);
+							}}
+						>
+							{seminarData.SeminarGroups.map((item, index) => {
+								return (
+									<FormControlLabel
+										key={index.toString()}
+										value={
+											item.SEMINAR_GROUP_IDENTIFICATION_CODE
+										}
+										control={<Radio />}
+										label={item.NAME}
+										color="primary"
+										disabled={
+											seminarApplication.filter(
+												(data) =>
+													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+													item.SEMINAR_GROUP_IDENTIFICATION_CODE
+											).length == item.PERSONNEL
+										}
+									/>
+								);
+							})}
+						</RadioGroup>
+					</FormControl>
+				)}
+				{/* 신청하기 버튼 */}
 				<Box
 					width={'100%'}
 					justifyContent={'center'}
@@ -290,7 +394,14 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents={'신청하기'}
 						isGradient={true}
-						onClick={() => handleApplySeminar()}
+						onClick={() => {
+							if (
+								seminarData.SeminarGroups.length > 0 &&
+								seminarGroup == 0
+							) {
+								alert('그룹을 선택해주세요.');
+							} else handleApplySeminar();
+						}}
 						style={{
 							color: 'white',
 							width: '200px',
