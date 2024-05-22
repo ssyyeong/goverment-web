@@ -34,10 +34,9 @@ const Page: NextPage = () => {
 	//* Constants
 	const { pid } = router.query;
 
+	const { isApplied } = router.query;
 
-	const {isApplied} = router.query;
-
-	console.log(isApplied)
+	console.log(isApplied);
 	//* States
 	/**
 	 * 세미나 데이터
@@ -411,18 +410,21 @@ const Page: NextPage = () => {
 					height={40}
 				>
 					<SupportiButton
-						contents={isApplied == 'false' ? '신청하기' : '신청완료'}
+						contents={
+							isApplied == 'false' || 'undefined'
+								? '신청하기'
+								: '신청완료'
+						}
 						isGradient={true}
 						onClick={() => {
-							if(isApplied == 'false' ) {
-									if (
-								seminarData?.SeminarGroups.length > 0 &&
-								seminarGroup == 0
-							) {
-								alert('그룹을 선택해주세요.');
-							} else handleApplySeminar();
-							}else alert('이미 신청하셨습니다!')
-						
+							if (isApplied == 'false' || 'undefined') {
+								if (
+									seminarData?.SeminarGroups.length > 0 &&
+									seminarGroup == 0
+								) {
+									alert('그룹을 선택해주세요.');
+								} else handleApplySeminar();
+							} else alert('이미 신청하셨습니다!');
 						}}
 						style={{
 							color: 'white',
