@@ -37,6 +37,20 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 			{/** 필터링 영역 */}
 			{props.useFiltering && (
 				<Box display="flex" gap={1} flexWrap="wrap" my={2}>
+						<Typography
+								sx={{
+									p: 1,
+									border: '1px solid #c8c8c8',
+									borderRadius: 5,
+									cursor: 'pointer',
+									borderColor:
+										tab === undefined ? 'primary.main' : '#c8c8c8',
+										color: tab === undefined && 'primary.main'
+								}}
+								onClick={() => setTab(undefined)}
+							>
+								전체
+							</Typography>
 					{props.filterList?.map((item, index) => {
 						return (
 							<Typography
@@ -45,10 +59,13 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 									border: '1px solid #c8c8c8',
 									borderRadius: 5,
 									cursor: 'pointer',
+									borderColor:
+										tab === item ? 'primary.main' : '#c8c8c8',
+										color: tab === item && 'primary.main'
 								}}
 								onClick={() => setTab(item)}
 							>
-								{item}
+								{item.CONTENT}
 							</Typography>
 						);
 					})}

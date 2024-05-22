@@ -14,14 +14,12 @@ import { useRouter } from 'next/router';
 
 interface ISeminarData {
 	data: any;
-	type: "seminar" | "consulting";
+	type: 'seminar' | 'consulting';
 }
 
 const SeminarCard = (props: ISeminarData) => {
-  const router = useRouter();
+	const router = useRouter();
 
-
-  
 	return (
 		<Box
 			sx={{
@@ -32,17 +30,20 @@ const SeminarCard = (props: ISeminarData) => {
 				display: 'flex',
 				flexDirection: 'column',
 				gap: 2,
-        cursor: "pointer",
-        textAlign: 'center'
+				cursor: 'pointer',
+				textAlign: 'center',
 			}}
-				onClick={() => {
-          // 세미나 상세 페이지로 이동
-          if(props.type === 'seminar')
-          router.push('')
-        else router.push('')
-        
-        }}
-
+			onClick={() => {
+				// 세미나 상세 페이지로 이동
+				if (props.type === 'seminar')
+					router.push(
+						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+					);
+				else
+					router.push(
+						`/external_service/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+					);
+			}}
 		>
 			<Image
 				src={JSON.parse(props.data.PRODUCT_DETAIL_IMAGE_LIST)[0]}
@@ -50,7 +51,23 @@ const SeminarCard = (props: ISeminarData) => {
 				width={240}
 				height={250}
 			/>
-			<Typography variant="h6" fontWeight={600}>{props.data.PRODUCT_NAME}</Typography>
+			{props.data.SeminarCategory && (
+				<Typography
+					sx={{
+						p: 1,
+						border: '1px solid #c8c8c8',
+						borderRadius: 5,
+						cursor: 'pointer',
+						width: 'fit-content',
+						color: 'primary.main',
+					}}
+				>
+					{props.data.SeminarCategory.CONTENT}
+				</Typography>
+			)}
+			<Typography variant="h6" fontWeight={600}>
+				{props.data.PRODUCT_NAME}
+			</Typography>
 			<Typography>{props.data.DESCRIPTION}</Typography>
 			<SupportiButton
 				contents="신청하기"
@@ -58,7 +75,7 @@ const SeminarCard = (props: ISeminarData) => {
 				style={{
 					color: 'common.white',
 					height: '35px',
-          mt: 'auto'
+					mt: 'auto',
 				}}
 				isGradient={true}
 				onClick={() => {}}

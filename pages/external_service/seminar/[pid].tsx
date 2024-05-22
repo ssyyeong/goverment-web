@@ -63,7 +63,8 @@ const Page: NextPage = () => {
 	>('seminarApplySuccess');
 
 	//* Hooks
-	const { access } = useUserAccess('SIGN_IN');
+	// const { access } = useUserAccess('SIGN_IN');
+	const access = true;
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
@@ -179,7 +180,7 @@ const Page: NextPage = () => {
 				borderRadius={2}
 			>
 				<Typography variant={'h4'} fontWeight={'600'}>
-					{seminarData.PRODUCT_NAME}
+					{seminarData?.PRODUCT_NAME}
 				</Typography>
 				<Box
 					display={'flex'}
@@ -188,18 +189,33 @@ const Page: NextPage = () => {
 						xs: 2,
 						md: 0,
 					}}
+					alignItems='center'
 				>
+				
 					<Typography variant={'body1'}>
-						{moment(seminarData.SEMINAR_DATE).format('YYYY-MM-DD')}
+						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
 					</Typography>
 					<Typography variant={'body1'}>
-						정원 : {seminarData.PERSONNEL}명
+						정원 : {seminarData?.PERSONNEL}명
 					</Typography>
-					{seminarData.REAL_PRICE && (
+					{seminarData?.REAL_PRICE && (
 						<Typography variant={'body1'}>
-							가격 : {seminarData.REAL_PRICE?.toLocaleString()}원
+							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원
 						</Typography>
 					)}
+						<Typography
+						sx={{
+							p: 0.8,
+							border: '1px solid #c8c8c8',
+							borderRadius: 5,
+							cursor: 'pointer',
+							borderColor: 'primary.main',
+							color: 'primary.main',
+						
+						}}
+					>
+						{seminarData?.ONLINE_YN === 'Y' ? '온라인' : '오프라인'}
+					</Typography>
 				</Box>
 			</Box>
 			{/* 세미나 내용 */}
@@ -213,7 +229,7 @@ const Page: NextPage = () => {
 				position={'relative'}
 			>
 				{/* 소개글 */}
-				{seminarData.DESCRIPTION && (
+				{seminarData?.DESCRIPTION && (
 					<Box
 						width={'100%'}
 						p={3}
@@ -226,7 +242,7 @@ const Page: NextPage = () => {
 					>
 						<LightbulbOutlinedIcon />
 						<Box>
-							{seminarData.DESCRIPTION.split('\n').map(
+							{seminarData?.DESCRIPTION.split('\n').map(
 								(item, index) => {
 									return (
 										<Typography
@@ -245,7 +261,7 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 				{/* 결제 안내 */}
-				{seminarData.PAYMENT_LINK && (
+				{seminarData?.PAYMENT_LINK && (
 					<Box
 						width={'100%'}
 						p={3}
@@ -267,13 +283,13 @@ const Page: NextPage = () => {
 						<Typography variant={'subtitle2'} lineHeight={1.6}>
 							결제 링크 :{' '}
 							<a
-								href={seminarData.PAYMENT_LINK}
+								href={seminarData?.PAYMENT_LINK}
 								style={{
 									color: 'blue',
 									textDecoration: 'underline',
 								}}
 							>
-								{seminarData.PAYMENT_LINK}
+								{seminarData?.PAYMENT_LINK}
 							</a>
 						</Typography>
 						<Typography lineHeight={1.6}>
@@ -283,8 +299,8 @@ const Page: NextPage = () => {
 						</Typography>
 					</Box>
 				)}
-				{seminarData.PRODUCT_DETAIL_IMAGE_LIST &&
-					JSON.parse(seminarData.PRODUCT_DETAIL_IMAGE_LIST).map(
+				{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+					JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
 						(item, index) => {
 							return (
 								<Box key={index}>
@@ -306,7 +322,7 @@ const Page: NextPage = () => {
 						<Typography variant={'subtitle1'}>
 							그룹 신청 가능 인원 및 정보
 						</Typography>
-						{seminarData.SeminarGroups.map((item, index) => {
+						{seminarData?.SeminarGroups.map((item, index) => {
 							return (
 								<Box
 									key={index.toString()}
@@ -356,7 +372,7 @@ const Page: NextPage = () => {
 								setSeminarGroup(e.target.value);
 							}}
 						>
-							{seminarData.SeminarGroups.map((item, index) => {
+							{seminarData?.SeminarGroups.map((item, index) => {
 								return (
 									<FormControlLabel
 										key={index.toString()}
@@ -396,7 +412,7 @@ const Page: NextPage = () => {
 						isGradient={true}
 						onClick={() => {
 							if (
-								seminarData.SeminarGroups.length > 0 &&
+								seminarData?.SeminarGroups.length > 0 &&
 								seminarGroup == 0
 							) {
 								alert('그룹을 선택해주세요.');
