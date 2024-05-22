@@ -37,7 +37,7 @@ const SeminarCard = (props: ISeminarData) => {
 					return true;
 				} else return false;
 			}
-		}
+		}else return false;
 	};
 
 	return (
