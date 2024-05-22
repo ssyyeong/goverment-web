@@ -104,7 +104,7 @@ const Page: NextPage = () => {
 			{
 				LIMIT: 10,
 				PAGE: page,
-				FREE_YN: tab === 0 ? 'Y' : 'N',
+				// FREE_YN: tab === 0 ? 'Y' : 'N',
 				SORT_KEY: 'SEMINAR_DATE',
 				SORT_DIRECTION: 'ASC',
 				PURCHASE_AVAILABLE_YN: 'Y',

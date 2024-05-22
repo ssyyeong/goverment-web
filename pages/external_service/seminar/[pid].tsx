@@ -33,6 +33,11 @@ const Page: NextPage = () => {
 	const appMemberController = new DefaultController('AppMember');
 	//* Constants
 	const { pid } = router.query;
+
+
+	const {isApplied} = router.query;
+
+	console.log(isApplied)
 	//* States
 	/**
 	 * 세미나 데이터
@@ -189,9 +194,8 @@ const Page: NextPage = () => {
 						xs: 2,
 						md: 0,
 					}}
-					alignItems='center'
+					alignItems="center"
 				>
-				
 					<Typography variant={'body1'}>
 						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
 					</Typography>
@@ -203,7 +207,7 @@ const Page: NextPage = () => {
 							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원
 						</Typography>
 					)}
-						<Typography
+					<Typography
 						sx={{
 							p: 0.8,
 							border: '1px solid #c8c8c8',
@@ -211,7 +215,6 @@ const Page: NextPage = () => {
 							cursor: 'pointer',
 							borderColor: 'primary.main',
 							color: 'primary.main',
-						
 						}}
 					>
 						{seminarData?.ONLINE_YN === 'Y' ? '온라인' : '오프라인'}
@@ -408,15 +411,18 @@ const Page: NextPage = () => {
 					height={40}
 				>
 					<SupportiButton
-						contents={'신청하기'}
+						contents={isApplied == 'false' ? '신청하기' : '신청완료'}
 						isGradient={true}
 						onClick={() => {
-							if (
+							if(isApplied == 'false' ) {
+									if (
 								seminarData?.SeminarGroups.length > 0 &&
 								seminarGroup == 0
 							) {
 								alert('그룹을 선택해주세요.');
 							} else handleApplySeminar();
+							}else alert('이미 신청하셨습니다!')
+						
 						}}
 						style={{
 							color: 'white',
