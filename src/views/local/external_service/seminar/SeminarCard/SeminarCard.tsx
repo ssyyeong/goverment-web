@@ -82,6 +82,7 @@ const SeminarCard = (props: ISeminarData) => {
 						cursor: 'pointer',
 						width: 'fit-content',
 						color: 'primary.main',
+						wordBreak: 'keep-all'
 					}}
 				>
 					{props.data.SeminarCategory.CONTENT}
@@ -90,7 +91,7 @@ const SeminarCard = (props: ISeminarData) => {
 			<Typography variant="h6" fontWeight={600}>
 				{props.data.PRODUCT_NAME}
 			</Typography>
-			<Typography>{props.data.DESCRIPTION}</Typography>
+			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}
 			<SupportiButton
 				contents={checkApplication() ? '신청완료' : '신청하기'}
 				variant="contained"
