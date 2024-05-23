@@ -641,10 +641,10 @@ const Page: NextPage = () => {
 			<Box width={'80%'} mt={4} mb={3}>
 				<SupportiToggle
 					chipDataList={[
-						{
-							label: '사업가',
-							value: 'BUSINESS',
-						},
+						// {
+						// 	label: '사업가',
+						// 	value: 'BUSINESS',
+						// },
 						{
 							label: '일반',
 							value: 'GENERAL',
