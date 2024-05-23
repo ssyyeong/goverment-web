@@ -246,17 +246,65 @@ const Page: NextPage = () => {
 						<Box>
 							{seminarData?.DESCRIPTION.split('\n').map(
 								(item, index) => {
-									return (
-										<Typography
-											sx={{
-												wordBreak: 'keep-all',
-											}}
-											variant={'subtitle2'}
-											lineHeight={1.6}
-										>
-											{item}
-										</Typography>
-									);
+									if (!item.startsWith('링크')) {
+										return (
+											<Typography
+												sx={{
+													wordBreak: 'keep-all',
+												}}
+												variant={'subtitle2'}
+												lineHeight={1.6}
+											>
+												{item.split('링크')[0]}
+											</Typography>
+										);
+									}
+								}
+							)}
+						</Box>
+					</Box>
+				)}
+				{seminarData?.DESCRIPTION && (
+					<Box
+						width={'100%'}
+						p={3}
+						bgcolor={'#cccccc60'}
+						borderRadius={2}
+						mb={3}
+						display={'flex'}
+						// alignItems={'center'}
+						gap={2}
+					>
+						<LightbulbOutlinedIcon />
+						<Box>
+							{seminarData?.DESCRIPTION.split('\n').map(
+								(item, index) => {
+									if (item.startsWith('링크')) {
+										return (
+											<Typography
+												variant={'subtitle2'}
+												lineHeight={1.6}
+											>
+												[2024 Revenue boosting 오프라인
+												MKT 세미나 안내]{' '}
+												<a
+													style={{
+														color: 'blue',
+														textDecoration:
+															'underline',
+													}}
+													onClick={() => {
+														window.open(
+															'https://hongyuri.notion.site/2024-Revenue-boosting-MKT-0039520852f04cabbf1a289feed41b13',
+															'_blank'
+														);
+													}}
+												>
+													{item.split('링크')[1]}
+												</a>
+											</Typography>
+										);
+									}
 								}
 							)}
 						</Box>
