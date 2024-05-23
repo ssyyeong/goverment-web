@@ -67,8 +67,8 @@ const Page: NextPage = () => {
 	>('seminarApplySuccess');
 
 	//* Hooks
-	// const { access } = useUserAccess('SIGN_IN');
-	const access = true;
+	const { access } = useUserAccess('SIGN_IN');
+	// const access = true;
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */

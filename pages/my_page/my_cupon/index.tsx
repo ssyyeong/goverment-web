@@ -36,30 +36,36 @@ const Page: NextPage = () => {
 			label: '티켓명',
 			value: 'Ticket.TICKET_NAME',
 			customValue: (value) => {
-				return <Box sx={{display:"flex", gap:1, }}>
-					<Typography>{value.Ticket.TICKET_NAME}</Typography>
-					{value.Ticket.SUMMARY && 
-					<Tooltip
-										title={value.Ticket.SUMMARY}
-										arrow
-										slotProps={{
-											popper: {
-												modifiers: [
-													{
-														name: 'offset',
-														options: {
-															offset: [0, -14],
-														},
-													},
-												],
+				return (
+					<Box sx={{ display: 'flex', gap: 1 }}>
+						<Typography>
+							{value.Ticket.TICKET_NAME}
+							{value.Ticket.SUMMARY && (
+							<Tooltip
+								title={value.Ticket.SUMMARY}
+								arrow
+								slotProps={{
+									popper: {
+										modifiers: [
+											{
+												name: 'offset',
+												options: {
+													offset: [0, -14],
+												},
 											},
-										}}
-									>
-										<IconButton size="small">
-											<HelpOutlineIcon fontSize="small" />
-										</IconButton>
-									</Tooltip>}
-				</Box>;
+										],
+									},
+								}}
+							>
+								<IconButton size="small">
+									<HelpOutlineIcon fontSize="small" />
+								</IconButton>
+							</Tooltip>
+						)}
+						</Typography>
+		
+					</Box>
+				);
 			},
 			align: 'center',
 		},
