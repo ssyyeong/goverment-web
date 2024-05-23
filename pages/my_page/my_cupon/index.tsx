@@ -1,4 +1,6 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography, IconButton } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
@@ -34,7 +36,30 @@ const Page: NextPage = () => {
 			label: '티켓명',
 			value: 'Ticket.TICKET_NAME',
 			customValue: (value) => {
-				return value.Ticket.TICKET_NAME;
+				return <Box sx={{display:"flex", gap:1, }}>
+					<Typography>{value.Ticket.TICKET_NAME}</Typography>
+					{value.Ticket.SUMMARY && 
+					<Tooltip
+										title={value.Ticket.SUMMARY}
+										arrow
+										slotProps={{
+											popper: {
+												modifiers: [
+													{
+														name: 'offset',
+														options: {
+															offset: [0, -14],
+														},
+													},
+												],
+											},
+										}}
+									>
+										<IconButton size="small">
+											<HelpOutlineIcon fontSize="small" />
+										</IconButton>
+									</Tooltip>}
+				</Box>;
 			},
 			align: 'center',
 		},

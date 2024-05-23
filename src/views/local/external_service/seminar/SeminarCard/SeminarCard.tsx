@@ -88,7 +88,7 @@ const SeminarCard = (props: ISeminarData) => {
 					{props.data.SeminarCategory.CONTENT}
 				</Typography>
 			)}
-			<Typography variant="h6" fontWeight={600}>
+			<Typography variant="h6" fontWeight={600} sx={{	wordBreak: 'keep-all'}}>
 				{props.data.PRODUCT_NAME}
 			</Typography>
 			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}
