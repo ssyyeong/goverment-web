@@ -49,7 +49,7 @@ const Page: NextPage = () => {
 	const [encrypted, setEncrypted] = React.useState<string>('');
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
 	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
-	const [tabs, setTabs] = React.useState<string>('BUSINESS');
+	const [tabs, setTabs] = React.useState<string>('GENERAL');
 	const [activeStep, setActiveStep] = React.useState<number>(0);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
