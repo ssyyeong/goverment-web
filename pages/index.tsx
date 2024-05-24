@@ -826,13 +826,13 @@ const Page: NextPage = () => {
 						gap={1}
 					>
 						<Box display={'flex'}>
-							{/* <Image
+							<Image
 								src={'/images/main/Hime_IR.svg'}
 								alt={'notice'}
 								width={400}
 								height={600}
-							/> */}
-							<Box
+							/>
+							{/* <Box
 								sx={{
 									width: '380px',
 									height: '370px',
@@ -861,14 +861,14 @@ const Page: NextPage = () => {
 								<Typography variant="subtitle2">
 									불편을 드려 죄송합니다.
 								</Typography>
-							</Box>
+							</Box> */}
 							<CloseIcon
 								sx={{ cursor: 'pointer' }}
 								onClick={() => setOpenPopUp(false)}
 							/>
 						</Box>
 
-						{/* <Box display={'flex'} gap={2}>
+						<Box display={'flex'} gap={2}>
 							<SupportiButton
 								contents={'등록하러가기'}
 								variant="contained"
@@ -906,7 +906,7 @@ const Page: NextPage = () => {
 							>
 								오늘 하루 보지 않기
 							</Typography>
-						</Box> */}
+						</Box>
 					</Box>
 				}
 			/>
