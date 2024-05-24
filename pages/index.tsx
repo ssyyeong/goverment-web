@@ -18,6 +18,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../src/views/global/SupportiInput';
 import CloseIcon from '@mui/icons-material/Close';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import Image from 'next/image';
 
 type Props = {};
@@ -825,20 +826,49 @@ const Page: NextPage = () => {
 						gap={1}
 					>
 						<Box display={'flex'}>
-							<Image
+							{/* <Image
 								src={'/images/main/Hime_IR.svg'}
 								alt={'notice'}
 								width={400}
 								height={600}
-							/>
-
+							/> */}
+							<Box
+								sx={{
+									width: '380px',
+									height: '370px',
+									textAlign: 'center',
+								}}
+							>
+								<ReportGmailerrorredIcon
+									sx={{
+										width: '200px',
+										height: '250px',
+										fontSize: '80px',
+										color: 'secondary.main',
+									}}
+								/>
+								<Typography
+									variant="h4"
+									mb={2}
+									fontWeight={600}
+								>
+									현재 서버 작업 중입니다.
+								</Typography>
+								<Typography variant="subtitle2" my={0.5}>
+									일시적으로 접속이 불가하오니
+									양해부탁드립니다.
+								</Typography>
+								<Typography variant="subtitle2">
+									불편을 드려 죄송합니다.
+								</Typography>
+							</Box>
 							<CloseIcon
 								sx={{ cursor: 'pointer' }}
 								onClick={() => setOpenPopUp(false)}
 							/>
 						</Box>
 
-						<Box display={'flex'} gap={2}>
+						{/* <Box display={'flex'} gap={2}>
 							<SupportiButton
 								contents={'등록하러가기'}
 								variant="contained"
@@ -876,7 +906,7 @@ const Page: NextPage = () => {
 							>
 								오늘 하루 보지 않기
 							</Typography>
-						</Box>
+						</Box> */}
 					</Box>
 				}
 			/>
