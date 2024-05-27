@@ -840,7 +840,7 @@ const Page: NextPage = () => {
 					>
 						<Box display={'flex'}>
 							<Image
-								src={'/images/main/Hime_IR.svg'}
+								src={'/images/main/Hime_IR.jpg'}
 								alt={'notice'}
 								width={400}
 								height={600}
@@ -883,9 +883,13 @@ const Page: NextPage = () => {
 
 						<Box display={'flex'} gap={2}>
 							<SupportiButton
-								contents={'등록하러가기'}
+								contents={'사용하러가기'}
 								variant="contained"
-								onClick={() => router.push('/my_page/ir_data')}
+								onClick={() =>
+									router.push(
+										'/external_service/consulting/2'
+									)
+								}
 								style={{
 									width: '150px',
 									marginRight: 'auto',

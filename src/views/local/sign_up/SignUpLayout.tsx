@@ -1,11 +1,8 @@
 import React from 'react';
-
 import { Box, BoxProps } from '@mui/material';
-
 interface ISignUpLayoutProps {
 	children: React.ReactNode;
 }
-
 const SignUpLayout = (props: ISignUpLayoutProps) => {
 	return (
 		<Box
@@ -17,7 +14,7 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 			p={{ xs: 2, md: 10 }}
 		>
 			<Box
-				width={{ sx: '100%', md: '500px' }}
+				width={{ sx: '100%', md: '1000px' }}
 				display={'flex'}
 				flexDirection={'column'}
 				justifyContent={'center'}
@@ -46,5 +43,4 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 		</Box>
 	);
 };
-
 export default SignUpLayout;
