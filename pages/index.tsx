@@ -303,7 +303,10 @@ const Page: NextPage = () => {
 					tabList={['성과 지표', '재무 지표']}
 					setValue={setFinancialTab}
 					value={financialTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/perfomance_indicators.png',
+						'/images/main/financial_indicators.png',
+					]}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -375,7 +378,10 @@ const Page: NextPage = () => {
 					tabList={['A2E', '세미나/컨설팅']}
 					setValue={setMentoringTab}
 					value={mentoringTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/a2e.jpeg',
+						'/images/main/seminar_and_consulting.jpg',
+					]}
 					imagePosition="left"
 					tabContentList={[
 						<Box
@@ -456,7 +462,11 @@ const Page: NextPage = () => {
 					tabList={['투자심사역 피드백', '데모데이', '투자자 매칭']}
 					setValue={setInvestTab}
 					value={investTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/feedback.jpg',
+						'/images/main/demoday.png',
+						'/images/main/matching.jpg',
+					]}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -547,7 +557,7 @@ const Page: NextPage = () => {
 					tabList={['커피챗']}
 					setValue={setSocialingTab}
 					value={socialingTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={['/images/main/coffeechat.jpg']}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -597,7 +607,10 @@ const Page: NextPage = () => {
 					tabList={['무료 서버 지원', '파트너사 프로그램']}
 					setValue={setSupportTab}
 					value={supportTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/free_server.png',
+						'/images/main/partners.png',
+					]}
 					imagePosition="left"
 					tabContentList={[
 						<Box

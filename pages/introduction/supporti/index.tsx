@@ -18,7 +18,8 @@ import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Constants
-	const TabList = ['창업가를 위한', '투자자를 위한'];
+	// const TabList = ['창업가를 위한', '투자자를 위한'];
+	const TabList = ['창업가를 위한'];
 
 	function SamplePrevArrow(props) {
 		const { className, style, onClick } = props;
@@ -167,72 +168,84 @@ const Page: NextPage = () => {
 							{/** 섹션 2 */}
 							<Grid container justifyContent={'center'}>
 								<Box py={5} width="70%">
-								<Box display="flex">
-							<Box mb={5}>
-								<Typography fontWeight={600} mb={1}>
-									법인계좌 연동으로 한눈에 보는
-								</Typography>
-								<Typography color="primary.main" variant="h3">
-									RunWay BurnRate
-								</Typography>
-							</Box>
-							<Box
-								display={'flex'}
-								mb={15}
-								justifyContent={'center'}
-								flexWrap={'wrap'}
-								// sx={{
-								// 	display: { xs: 'none', md: 'block' },
-								// }}
-							>
-								<img
-									src={'/images/main/runwayPC.png'}
-									alt={'runwayPC'}
-									width={'70%'}
-								/>
-								<img
-									src={'/images/main/runwayMobile.png'}
-									alt={'runwayMobile'}
-									width={'12%'}
-									style={{
-										position: 'absolute',
-										marginLeft: '35%',
-										marginTop: '12%',
-									}}
-								/>
-							</Box>
-						</Box>
-						<Box display="flex">
-							<Box mb={15}>
-								<Typography fontWeight={600} mb={1}>
-									쉽고 편하게 관리하는
-								</Typography>
-								<Typography color="primary.main" variant="h3">
-									OKR / KPI 성과지표
-								</Typography>
-							</Box>
-							<Box
-								display={'flex'}
-								mb={5}
-								justifyContent={'center'}
-							>
-								<img
-									src={'/images/main/okrPC.png'}
-									alt={'okrPC'}
-									width={'70%'}
-								/>
-								<img
-									src={'/images/main/okrMobile.png'}
-									alt={'okrMobile'}
-									width={'12%'}
-									style={{
-										position: 'absolute',
-										marginLeft: '35%',
-										marginTop: '12%',
-									}}
-								/>
-							</Box>
-						</Box>
+									<Box display="flex">
+										<Box mb={5}>
+											<Typography fontWeight={600} mb={1}>
+												법인계좌 연동으로 한눈에 보는
+											</Typography>
+											<Typography
+												color="primary.main"
+												variant="h3"
+											>
+												RunWay BurnRate
+											</Typography>
+										</Box>
+										<Box
+											display={'flex'}
+											mb={15}
+											justifyContent={'center'}
+											flexWrap={'wrap'}
+											// sx={{
+											// 	display: { xs: 'none', md: 'block' },
+											// }}
+										>
+											<img
+												src={
+													'/images/main/runwayPC.png'
+												}
+												alt={'runwayPC'}
+												width={'70%'}
+											/>
+											<img
+												src={
+													'/images/main/runwayMobile.png'
+												}
+												alt={'runwayMobile'}
+												width={'12%'}
+												style={{
+													position: 'absolute',
+													marginLeft: '35%',
+													marginTop: '12%',
+												}}
+											/>
+										</Box>
+									</Box>
+									<Box display="flex">
+										<Box mb={15}>
+											<Typography fontWeight={600} mb={1}>
+												쉽고 편하게 관리하는
+											</Typography>
+											<Typography
+												color="primary.main"
+												variant="h3"
+											>
+												OKR / KPI 성과지표
+											</Typography>
+										</Box>
+										<Box
+											display={'flex'}
+											mb={5}
+											justifyContent={'center'}
+										>
+											<img
+												src={'/images/main/okrPC.png'}
+												alt={'okrPC'}
+												width={'70%'}
+											/>
+											<img
+												src={
+													'/images/main/okrMobile.png'
+												}
+												alt={'okrMobile'}
+												width={'12%'}
+												style={{
+													position: 'absolute',
+													marginLeft: '35%',
+													marginTop: '12%',
+												}}
+											/>
+										</Box>
+									</Box>
 								</Box>
 							</Grid>
 
@@ -645,56 +658,56 @@ const Page: NextPage = () => {
 								</Box>
 							</Box>
 						</Grid>,
-						<Grid container width={'100%'}>
-							{/** 섹션 1 */}
-							<Box width={'100%'}>
-								<Box
-									display="flex"
-									gap={2}
-									flexDirection={'column'}
-									m="auto"
-								>
-									<Box
-										textAlign={'center'}
-										display="flex"
-										gap={15}
-										flexDirection={'column'}
-										m="auto"
-										pt={10}
-										pb={15}
-									>
-										<Typography variant={'h3'}>
-											투자 의사결정에 필요한 모든 기능을
-											담았습니다.
-										</Typography>
-										<Typography
-											variant={'h3'}
-											color="primary.main"
-											fontWeight={600}
-										>
-											스타트업의 성장지표부터 IR 자료
-											확인과 소통까지 한 곳에서.
-										</Typography>
-										<Typography variant={'h3'}>
-											관심있는 분야의 스타트업을 필터링
-											해보세요.
-										</Typography>
-										<Typography variant={'h3'}>
-											관심있는 스타트업을 체크하여 나만의
-											체크리스트를 구성해보세요.
-										</Typography>
-										<Typography variant={'h3'}>
-											관심있는 스타트업의 성장지표를 한
-											눈에 확인하고 미팅을 요청해보세요.
-										</Typography>
-										<Typography variant={'h3'}>
-											서포티에서 개최하는 데모데이에
-											참여해보세요.
-										</Typography>
-									</Box>
-								</Box>
-							</Box>
-						</Grid>,
+						// <Grid container width={'100%'}>
+						// 	{/** 섹션 1 */}
+						// 	<Box width={'100%'}>
+						// 		<Box
+						// 			display="flex"
+						// 			gap={2}
+						// 			flexDirection={'column'}
+						// 			m="auto"
+						// 		>
+						// 			<Box
+						// 				textAlign={'center'}
+						// 				display="flex"
+						// 				gap={15}
+						// 				flexDirection={'column'}
+						// 				m="auto"
+						// 				pt={10}
+						// 				pb={15}
+						// 			>
+						// 				<Typography variant={'h3'}>
+						// 					투자 의사결정에 필요한 모든 기능을
+						// 					담았습니다.
+						// 				</Typography>
+						// 				<Typography
+						// 					variant={'h3'}
+						// 					color="primary.main"
+						// 					fontWeight={600}
+						// 				>
+						// 					스타트업의 성장지표부터 IR 자료
+						// 					확인과 소통까지 한 곳에서.
+						// 				</Typography>
+						// 				<Typography variant={'h3'}>
+						// 					관심있는 분야의 스타트업을 필터링
+						// 					해보세요.
+						// 				</Typography>
+						// 				<Typography variant={'h3'}>
+						// 					관심있는 스타트업을 체크하여 나만의
+						// 					체크리스트를 구성해보세요.
+						// 				</Typography>
+						// 				<Typography variant={'h3'}>
+						// 					관심있는 스타트업의 성장지표를 한
+						// 					눈에 확인하고 미팅을 요청해보세요.
+						// 				</Typography>
+						// 				<Typography variant={'h3'}>
+						// 					서포티에서 개최하는 데모데이에
+						// 					참여해보세요.
+						// 				</Typography>
+						// 			</Box>
+						// 		</Box>
+						// 	</Box>
+						// </Grid>,
 					]}
 				/>
 

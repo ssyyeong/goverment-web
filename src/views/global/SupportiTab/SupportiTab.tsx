@@ -23,7 +23,7 @@ interface ISupportiTabProps {
 	/**
 	 * 이미지 경로
 	 */
-	imagePath?: string;
+	imagePath?: string[];
 
 	/**
 	 * 이미지 위치
@@ -39,12 +39,27 @@ const SupportiTab = (props: ISupportiTabProps) => {
 				flexDirection={'row'}
 				justifyContent={'space-between'}
 				gap={2}
-				width='100%'
+				width="100%"
 				p={{ xs: 2, sm: 0 }}
 			>
-				{props.imagePath != '' && props.imagePosition == 'left' && (
-					<img src={props.imagePath} alt={'runwayPC'} width={'50%'} />
-				)}
+				{props.imagePath?.length > 0 &&
+					props.imagePosition == 'left' && (
+						<img
+							src={
+								props.imagePath[
+									props.tabList.findIndex(
+										(tab) => tab == props.value
+									)
+								]
+							}
+							alt={'runwayPC'}
+							style={{
+								width: '50%',
+								flexWrap: 'wrap',
+								display: 'flex',
+							}}
+						/>
+					)}
 				<Box
 					sx={{
 						display: 'flex',
@@ -105,17 +120,24 @@ const SupportiTab = (props: ISupportiTabProps) => {
 						)}
 					</Box>
 				</Box>
-				{props.imagePath != '' && props.imagePosition == 'right' && (
-					<img
-						src={props.imagePath}
-						alt={'runwayPC'}
-						style={{
-							width: '50%',
-							flexWrap: 'wrap',
-							display: 'flex',
-						}}
-					/>
-				)}
+				{props.imagePath?.length > 0 &&
+					props.imagePosition == 'right' && (
+						<img
+							src={
+								props.imagePath[
+									props.tabList.findIndex(
+										(tab) => tab == props.value
+									)
+								]
+							}
+							alt={'runwayPC'}
+							style={{
+								width: '50%',
+								flexWrap: 'wrap',
+								display: 'flex',
+							}}
+						/>
+					)}
 			</Box>
 		)
 	);
