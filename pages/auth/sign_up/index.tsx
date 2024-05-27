@@ -193,7 +193,9 @@ const Page: NextPage = () => {
 	const signUp = () => {
 		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
-		if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
+		if (signupData.PHONE_NUMBER.length < 11)
+			return alert('정확한 전화번호를 입력해주세요.');
+		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
 		if (
 			!signupData.USER_NAME ||
 			!signupData.FULL_NAME ||
@@ -336,20 +338,20 @@ const Page: NextPage = () => {
 			label: '전화번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
-			endAdornment: (
-				<Button
-					variant="contained"
-					sx={{
-						backgroundColor: '#d1d1d1',
-					}}
-					onClick={() => sendAlimTalk()}
-					disabled={isVerified === 'OK'}
-				>
-					<Typography variant="body2" color={'white'} width={100}>
-						인증번호 받기
-					</Typography>
-				</Button>
-			),
+			// endAdornment: (
+			// 	<Button
+			// 		variant="contained"
+			// 		sx={{
+			// 			backgroundColor: '#d1d1d1',
+			// 		}}
+			// 		onClick={() => sendAlimTalk()}
+			// 		disabled={isVerified === 'OK'}
+			// 	>
+			// 		<Typography variant="body2" color={'white'} width={100}>
+			// 			인증번호 받기
+			// 		</Typography>
+			// 	</Button>
+			// ),
 			value: signupData.PHONE_NUMBER,
 			isVerified: isVerified,
 			onChange: (e) => {
@@ -358,42 +360,42 @@ const Page: NextPage = () => {
 					PHONE_NUMBER: e.target.value,
 				});
 			},
-			error: phoneNumDuplication,
-			helperText: phoneNumDuplication
-				? '이미 가입된 전화번호입니다.'
-				: '',
+			// error: phoneNumDuplication,
+			// helperText: phoneNumDuplication
+			// 	? '이미 가입된 전화번호입니다.'
+			// 	: '',
 		},
 
-		{
-			label: '인증번호',
-			type: 'text',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
-			nolabel: true,
-			isVerified: isVerified,
-			endAdornment: (
-				<Button
-					variant="contained"
-					disabled={isVerified === 'OK'}
-					sx={{
-						backgroundColor: '#d1d1d1',
-					}}
-					onClick={() => verifyAuthCode()}
-				>
-					<Typography variant="body2" color={'white'}>
-						인증
-					</Typography>
-				</Button>
-			),
-			helperText:
-				isVerified === 'NOT_OK'
-					? '인증번호가 일치하지 않습니다.'
-					: isVerified === 'OK' && '인증되었습니다.',
-			value: verifyNumber,
-			error: isVerified === 'NOT_OK',
-			onChange: (e) => {
-				setVerifyNumber(e.target.value);
-			},
-		},
+		// {
+		// 	label: '인증번호',
+		// 	type: 'text',
+		// 	for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+		// 	nolabel: true,
+		// 	isVerified: isVerified,
+		// 	endAdornment: (
+		// 		<Button
+		// 			variant="contained"
+		// 			disabled={isVerified === 'OK'}
+		// 			sx={{
+		// 				backgroundColor: '#d1d1d1',
+		// 			}}
+		// 			onClick={() => verifyAuthCode()}
+		// 		>
+		// 			<Typography variant="body2" color={'white'}>
+		// 				인증
+		// 			</Typography>
+		// 		</Button>
+		// 	),
+		// 	helperText:
+		// 		isVerified === 'NOT_OK'
+		// 			? '인증번호가 일치하지 않습니다.'
+		// 			: isVerified === 'OK' && '인증되었습니다.',
+		// 	value: verifyNumber,
+		// 	error: isVerified === 'NOT_OK',
+		// 	onChange: (e) => {
+		// 		setVerifyNumber(e.target.value);
+		// 	},
+		// },
 		{
 			label: '사업자 등록번호',
 			type: 'text',
@@ -635,6 +637,7 @@ const Page: NextPage = () => {
 		setVerifyNumber('');
 		setIsVerified('NOT_YET');
 		setIsBusinessNumOk('NOT_YET');
+		setBusinessStepNum(0);
 	}, [tabs]);
 
 	return (
@@ -1652,7 +1655,7 @@ const Page: NextPage = () => {
 								businessStepNum === 1 ? (
 									<Box width={'49%'}>
 										{signupDataConfig
-											.slice(13, 18)
+											.slice(12, 17)
 											.map((item, idx) => {
 												return (
 													<Box
@@ -1969,14 +1972,22 @@ const Page: NextPage = () => {
 													contents={'다음으로'}
 													onClick={() => {
 														if (
-															businessStepNum <1
+															businessStepNum < 1
 														) {
 															// 개인정보 다 입력
-
-															if (!isVerified)
+															if (
+																signupData
+																	.PHONE_NUMBER
+																	.length < 11
+															)
 																return alert(
-																	'핸드폰 인증을 완료해주세요.'
+																	'정확한 전화번호를 입력해주세요.'
 																);
+
+															// if (!isVerified)
+															// 	return alert(
+															// 		'핸드폰 인증을 완료해주세요.'
+															// 	);
 															if (
 																!signupData.USER_NAME ||
 																!signupData.FULL_NAME ||
@@ -2012,33 +2023,11 @@ const Page: NextPage = () => {
 																return alert(
 																	'사업자 등록번호를 확인해주세요.'
 																);
-															if (isNone) {
-																if (
-																	!signupData.BUSINESS_SECTOR ||
-																	!signupData.CORPORATE_TYPE ||
-																	!signupData.ROLE ||
-																	!signupData.INVEST_ROUND ||
-																	!signupData.MAIN_PRODUCT ||
-																	!signupData.INVESTMENT_COMPANY ||
-																	!signupData.COMPANY_NAME ||
-																	!signupData.COMPANY_HISTORY ||
-																	!signupData.REVENUE ||
-																	!signupData.DESCRIPTION
-																)
-																	return alert(
-																		'모든 정보를 입력해주세요.'
-																	);
 
-																setBusinessStepNum(
-																	(prev) =>
-																		prev + 1
-																);
-															} else {
-																setBusinessStepNum(
-																	(prev) =>
-																		prev + 1
-																);
-															}
+															setBusinessStepNum(
+																(prev) =>
+																	prev + 1
+															);
 														}
 													}}
 													fullWidth
@@ -2052,7 +2041,7 @@ const Page: NextPage = () => {
 								) : (
 									<Box width={'49%'}>
 										{signupDataConfig
-											.slice(4, 6)
+											.slice(4, 5)
 											.map((item, idx) => {
 												return (
 													<Box
@@ -2373,11 +2362,19 @@ const Page: NextPage = () => {
 															0
 														) {
 															// 개인정보 다 입력
-
-															if (!isVerified)
+															if (
+																signupData
+																	.PHONE_NUMBER
+																	.length < 11
+															)
 																return alert(
-																	'핸드폰 인증을 완료해주세요.'
+																	'정확한 전화번호를 입력해주세요.'
 																);
+
+															// if (!isVerified)
+															// 	return alert(
+															// 		'핸드폰 인증을 완료해주세요.'
+															// 	);
 															if (
 																!signupData.USER_NAME ||
 																!signupData.FULL_NAME ||

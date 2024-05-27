@@ -170,12 +170,15 @@ const Page: NextPage = () => {
 								<Box py={5} width="70%">
 									<Box display="flex">
 										<Box mb={5}>
-											<Typography fontWeight={600} mb={1}>
+												
+											<Typography fontWeight={600} mb={1} sx={{wordBreak: 'keep-all'}}>
 												법인계좌 연동으로 한눈에 보는
 											</Typography>
 											<Typography
 												color="primary.main"
 												variant="h3"
+												sx={{wordBreak: 'keep-all'}}
+
 											>
 												RunWay BurnRate
 											</Typography>
@@ -218,6 +221,7 @@ const Page: NextPage = () => {
 											<Typography
 												color="primary.main"
 												variant="h3"
+												sx={{wordBreak: 'keep-all'}}
 											>
 												OKR / KPI 성과지표
 											</Typography>
