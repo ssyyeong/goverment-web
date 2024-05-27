@@ -1963,14 +1963,13 @@ const Page: NextPage = () => {
 												);
 											})}
 										{tabs === 'BUSINESS' &&
-											businessStepNum <= 1 && (
+											businessStepNum < 2 && (
 												<SupportiButton
 													isGradient={true}
 													contents={'다음으로'}
 													onClick={() => {
 														if (
-															businessStepNum ===
-															0
+															businessStepNum <1
 														) {
 															// 개인정보 다 입력
 
@@ -2415,8 +2414,7 @@ const Page: NextPage = () => {
 																	'사업자 등록번호를 확인해주세요.'
 																);
 															// if (isNone) {
-															
-																
+
 															if (
 																!signupData.BUSINESS_SECTOR ||
 																!signupData.CORPORATE_TYPE ||
@@ -2432,11 +2430,11 @@ const Page: NextPage = () => {
 																return alert(
 																	'모든 정보를 입력해주세요.'
 																);
-															 else {
+															else {
 																setBusinessStepNum(
-																(prev) =>
-																	prev + 1
-															);
+																	(prev) =>
+																		prev + 1
+																);
 															}
 														}
 													}}
