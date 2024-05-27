@@ -742,7 +742,7 @@ const Page: NextPage = () => {
 							{tabs === 'BUSINESS' && businessStepNum === 1 ? (
 								<Box width={'49%'}>
 									{signupDataConfig
-										.slice(6, 13)
+										.slice(5, 12)
 										.map((item, idx) => {
 											return (
 												<Box
@@ -1047,7 +1047,7 @@ const Page: NextPage = () => {
 									}
 								>
 									{signupDataConfig
-										.slice(18, 19)
+										.slice(17, 18)
 										.map((item, idx) => {
 											return (
 												<Box
