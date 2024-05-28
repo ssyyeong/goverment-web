@@ -275,7 +275,7 @@ const Page: NextPage = () => {
 							onClick={() => {
 								//로그인 여부에 따라 페이지 이동
 								if (memberId) {
-									router.push('/my_page');
+									router.push('/my_page/edit_profile');
 								} else {
 									router.push('/auth/sign_in');
 								}

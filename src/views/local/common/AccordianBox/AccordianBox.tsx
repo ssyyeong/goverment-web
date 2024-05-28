@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 
 import { Box, BoxProps, TextField, Typography } from '@mui/material';
 import moment from 'moment';
@@ -14,11 +14,20 @@ interface IAccordianBoxProps {
 	notAQna?: boolean;
 	additionalComponent?: React.ReactNode;
 	additionalOpenFunction?: any;
+	openAccordian?: boolean;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
 	//* State
 	const [open, setOpen] = React.useState(false);
+
+	useEffect(() => {
+		console.log(props.openAccordian, 'props.openAccordian');
+		if (props.openAccordian !== null) {
+			setOpen(props.openAccordian);
+		}
+	}, [props.openAccordian]);
+
 	return (
 		<Box
 			sx={{
@@ -49,10 +58,15 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						cursor: 'pointer',
 					}}
 					onClick={() => {
-						props.additionalOpenFunction &&
-							!open &&
-							props.additionalOpenFunction();
-						setOpen(!open);
+						if (props.additionalOpenFunction)
+							!open
+								? props.additionalOpenFunction()
+								: props.openAccordian === true &&
+								  props.additionalOpenFunction();
+
+						if (props?.openAccordian !== null)
+							setOpen(props.openAccordian);
+						else setOpen(!open);
 					}}
 				>
 					{' '}

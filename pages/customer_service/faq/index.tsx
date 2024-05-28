@@ -8,10 +8,12 @@ import AccordianBox from '../../../src/views/local/common/AccordianBox/Accordian
 import Nodata from '../../../src/views/global/NoData/NoData';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import SupportiInput from '../../../src/views/global/SupportiInput';
+import { FaqController } from '../../../src/controller/FaqController';
 
 const Page: NextPage = () => {
 	//* Modules
-	const faqController = new DefaultController('FaqBoardContent');
+	// const faqController = new DefaultController('FaqBoardContent');
+	const faqController = new FaqController();
 	const faqCategoryController = new DefaultController('FaqBoardCategory');
 	//* Constants
 	//* States
@@ -27,8 +29,8 @@ const Page: NextPage = () => {
 	 * faq 리스트 조회
 	 */
 	useEffect(() => {
-		faqController.findAllItems(
-			{},
+		faqController.getFaqList(
+			{ FIND_OPTION_KEY_LIST: {} },
 			(res) => {
 				setFaqList(res.data.result.rows);
 			},
@@ -66,8 +68,11 @@ const Page: NextPage = () => {
 						SEARCH_TEXT: searchText,
 				  };
 
-		faqController.findAllItems(
-			option,
+		faqController.getFaqList(
+			Object.assign({
+				FIND_OPTION_KEY_LIST: option,
+			}),
+
 			(res) => {
 				setFaqList(res.data.result.rows);
 			},
