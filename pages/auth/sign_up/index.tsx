@@ -211,7 +211,7 @@ const Page: NextPage = () => {
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
 				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
-				// NEEDED_SERVICE: JSON.stringify(needService),
+				NEEDED_SERVICE: JSON.stringify(needService),
 				IR_FILE: JSON.stringify(irDeckFile),
 			},
 			(res) => {
