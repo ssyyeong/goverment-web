@@ -18,8 +18,7 @@ import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Constants
-	// const TabList = ['창업가를 위한', '투자자를 위한'];
-	const TabList = ['창업가를 위한'];
+	const TabList = ['창업가를 위한', '투자자를 위한'];
 
 	function SamplePrevArrow(props) {
 		const { className, style, onClick } = props;
@@ -170,15 +169,17 @@ const Page: NextPage = () => {
 								<Box py={5} width="70%">
 									<Box display="flex">
 										<Box mb={5}>
-												
-											<Typography fontWeight={600} mb={1} sx={{wordBreak: 'keep-all'}}>
+											<Typography
+												fontWeight={600}
+												mb={1}
+												sx={{ wordBreak: 'keep-all' }}
+											>
 												법인계좌 연동으로 한눈에 보는
 											</Typography>
 											<Typography
 												color="primary.main"
 												variant="h3"
-												sx={{wordBreak: 'keep-all'}}
-
+												sx={{ wordBreak: 'keep-all' }}
 											>
 												RunWay BurnRate
 											</Typography>
@@ -221,7 +222,7 @@ const Page: NextPage = () => {
 											<Typography
 												color="primary.main"
 												variant="h3"
-												sx={{wordBreak: 'keep-all'}}
+												sx={{ wordBreak: 'keep-all' }}
 											>
 												OKR / KPI 성과지표
 											</Typography>
@@ -662,56 +663,112 @@ const Page: NextPage = () => {
 								</Box>
 							</Box>
 						</Grid>,
-						// <Grid container width={'100%'}>
-						// 	{/** 섹션 1 */}
-						// 	<Box width={'100%'}>
-						// 		<Box
-						// 			display="flex"
-						// 			gap={2}
-						// 			flexDirection={'column'}
-						// 			m="auto"
-						// 		>
-						// 			<Box
-						// 				textAlign={'center'}
-						// 				display="flex"
-						// 				gap={15}
-						// 				flexDirection={'column'}
-						// 				m="auto"
-						// 				pt={10}
-						// 				pb={15}
-						// 			>
-						// 				<Typography variant={'h3'}>
-						// 					투자 의사결정에 필요한 모든 기능을
-						// 					담았습니다.
-						// 				</Typography>
-						// 				<Typography
-						// 					variant={'h3'}
-						// 					color="primary.main"
-						// 					fontWeight={600}
-						// 				>
-						// 					스타트업의 성장지표부터 IR 자료
-						// 					확인과 소통까지 한 곳에서.
-						// 				</Typography>
-						// 				<Typography variant={'h3'}>
-						// 					관심있는 분야의 스타트업을 필터링
-						// 					해보세요.
-						// 				</Typography>
-						// 				<Typography variant={'h3'}>
-						// 					관심있는 스타트업을 체크하여 나만의
-						// 					체크리스트를 구성해보세요.
-						// 				</Typography>
-						// 				<Typography variant={'h3'}>
-						// 					관심있는 스타트업의 성장지표를 한
-						// 					눈에 확인하고 미팅을 요청해보세요.
-						// 				</Typography>
-						// 				<Typography variant={'h3'}>
-						// 					서포티에서 개최하는 데모데이에
-						// 					참여해보세요.
-						// 				</Typography>
-						// 			</Box>
-						// 		</Box>
-						// 	</Box>
-						// </Grid>,
+						<Grid container width={'100%'}>
+							{/** 섹션 1 */}
+							<Box width={'100%'}>
+								<Box
+									display="flex"
+									gap={2}
+									flexDirection={'column'}
+									m="auto"
+								>
+									<Box
+										textAlign={'center'}
+										display="flex"
+										gap={15}
+										flexDirection={'column'}
+										m="auto"
+										pt={10}
+										pb={15}
+									>
+										<Typography variant={'h3'}>
+											투자 의사결정에 필요한 모든 기능을
+											담았습니다.
+										</Typography>
+										<Typography
+											variant={'h3'}
+											color="primary.main"
+											fontWeight={600}
+										>
+											스타트업의 성장지표부터 IR 자료
+											확인과 소통까지 한 곳에서.
+										</Typography>
+										<Typography variant={'h3'}>
+											관심있는 분야의 스타트업을 필터링
+											해보세요.
+										</Typography>
+										<img
+											src={
+												'/images/main/서포티 스타트업 리스트 화면 삽입.jpg'
+											}
+											alt={'스타트업 리스트'}
+											style={{
+												marginLeft: 'auto',
+												marginRight: 'auto',
+												width: '60%',
+											}}
+										/>
+										<Typography variant={'h3'}>
+											관심있는 스타트업을 체크하여 나만의
+											체크리스트를 구성해보세요.
+										</Typography>
+										<img
+											src={
+												'/images/main/스타트업 체크하는 화면 삽입.jpg'
+											}
+											alt={'스타트업 체킹'}
+											style={{
+												marginLeft: 'auto',
+												marginRight: 'auto',
+												width: '60%',
+											}}
+										/>
+										<Typography variant={'h3'}>
+											관심있는 스타트업의 성장지표를 한
+											눈에 확인하고 미팅을 요청해보세요.
+										</Typography>
+										<img
+											src={
+												'/images/main/투자자 관점의 스타트업 성장지표 화면.jpg'
+											}
+											alt={'성장지표'}
+											style={{
+												marginLeft: 'auto',
+												marginRight: 'auto',
+												width: '60%',
+											}}
+										/>
+										<Typography variant={'h3'}>
+											서포티에서 개최하는 데모데이에
+											참여해보세요.
+										</Typography>
+										<img
+											src={'/images/main/데모데이.png'}
+											alt={'데모데이'}
+											style={{
+												marginLeft: 'auto',
+												marginRight: 'auto',
+												width: '60%',
+											}}
+										/>
+										<video
+										controls
+										muted
+											style={{
+												width: '800px',
+												marginLeft: 'auto',
+												marginRight: 'auto',
+											}}
+										>
+											<source
+												src="/videos/서포티 데모데이 화면.mp4"
+												type="video/mp4"
+											/>
+										</video>
+									</Box>
+								</Box>
+							</Box>
+						</Grid>,
 					]}
 				/>
 

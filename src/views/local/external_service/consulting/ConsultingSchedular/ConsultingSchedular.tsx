@@ -178,7 +178,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 		if (page === 3) {
 			if (!ticketId) {
 				alert(
-					'티켓으로만 예약 가능한 컨설팅입니다. 티켓을 선택해주세요!'
+					'티켓으로만 예약 가능한 컨설팅입니다. 사용하실 티켓을 클릭해주세요!'
 				);
 				return;
 			}
@@ -683,9 +683,11 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 						width={'100%'}
 						sx={{
 							overflowY: 'auto',
+							pb: 1.5
 						}}
 						maxHeight={'400px'}
 					>
+						<Typography variant='subtitle2' mb={1.5}>총 보유 티켓 수 {userTicketList.length}</Typography>
 						{userTicketList.map((item, idx) => {
 							return (
 								<MobileTableRow

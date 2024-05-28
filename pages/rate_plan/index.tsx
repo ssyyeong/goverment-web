@@ -393,7 +393,7 @@ const Page: NextPage = () => {
 							variant="h5"
 							fontWeight={500}
 							color={'primary'}
-							sx={{ mb: 2, wordBreak: 'break-all' }}
+							sx={{ mb: 2, wordBreak: 'keep-all' }}
 						>
 							FREE
 						</Typography>
@@ -455,7 +455,7 @@ const Page: NextPage = () => {
 										variant="subtitle1"
 										sx={{
 											mb: 2,
-											wordBreak: 'break-all',
+											wordBreak: 'keep-all',
 										}}
 										fontWeight={600}
 									>
@@ -475,7 +475,7 @@ const Page: NextPage = () => {
 													<Typography
 														sx={{
 															wordBreak:
-																'break-all',
+																'keep-all',
 														}}
 														color={'secondary.dark'}
 													>
@@ -558,7 +558,7 @@ const Page: NextPage = () => {
 											? 'white'
 											: 'primary'
 									}
-									sx={{ mb: 1.5, wordBreak: 'break-all' }}
+									sx={{ mb: 1.5, wordBreak: 'keep-all' }}
 								>
 									{ratePlan.NAME}
 								</Typography>
@@ -668,7 +668,7 @@ const Page: NextPage = () => {
 													variant="subtitle1"
 													sx={{
 														mb: 1,
-														wordBreak: 'break-all',
+														wordBreak: 'keep-all',
 													}}
 													fontWeight={600}
 												>
@@ -688,7 +688,7 @@ const Page: NextPage = () => {
 																	<Typography
 																		sx={{
 																			wordBreak:
-																				'break-all',
+																				'keep-all',
 																		}}
 																		color={
 																			'secondary.dark'

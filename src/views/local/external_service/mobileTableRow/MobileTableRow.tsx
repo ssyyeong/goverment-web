@@ -21,11 +21,11 @@ const MobileTableRow = (props: IMobileTableRowProps) => {
 			display={'flex'}
 			flexDirection={'column'}
 			p={2}
-			bgcolor={props.selected && props.selected ? 'lightgray' : 'white'}
+			bgcolor={props.selected && props.selected ? '#f1f5ff' : 'common.white'}
 			borderRadius={1}
 			gap={2}
 			width={'100%'}
-			border={props.selected && '2px solid #0022ff'}
+			border={props.selected &&  props.selected ? '2px solid #305ddc' : '1px solid #c8c8c8'}
 			mb={1}
 			onClick={props.onClick}
 			sx={{
