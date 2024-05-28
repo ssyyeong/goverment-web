@@ -964,11 +964,11 @@ const coffeeChatSector: string[] = [
  */
 const investSector: string[] = [
 	'해당 없음',
-	'Seed(3억원 이하)',
-	'Pre-A(3억원~10억원 이하)',
-	'SeriesA(10억원~100억원 이하)',
-	'SeriesB(100억원~300억원 이하)',
-	'SeriesC이상(300억 이상)',
+	'Seed',
+	'Pre-A',
+	'SeriesA',
+	'SeriesB',
+	'SeriesC 이상',
 ];
 
 /**
