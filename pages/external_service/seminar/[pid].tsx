@@ -33,6 +33,10 @@ const Page: NextPage = () => {
 	const appMemberController = new DefaultController('AppMember');
 	//* Constants
 	const { pid } = router.query;
+
+	const { isApplied } = router.query;
+
+	console.log(isApplied);
 	//* States
 	/**
 	 * 세미나 데이터
@@ -63,8 +67,8 @@ const Page: NextPage = () => {
 	>('seminarApplySuccess');
 
 	//* Hooks
-	// const { access } = useUserAccess('SIGN_IN');
-	const access = true;
+	const { access } = useUserAccess('SIGN_IN');
+	// const access = true;
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
@@ -189,9 +193,8 @@ const Page: NextPage = () => {
 						xs: 2,
 						md: 0,
 					}}
-					alignItems='center'
+					alignItems="center"
 				>
-				
 					<Typography variant={'body1'}>
 						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
 					</Typography>
@@ -203,7 +206,7 @@ const Page: NextPage = () => {
 							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원
 						</Typography>
 					)}
-						<Typography
+					<Typography
 						sx={{
 							p: 0.8,
 							border: '1px solid #c8c8c8',
@@ -211,7 +214,6 @@ const Page: NextPage = () => {
 							cursor: 'pointer',
 							borderColor: 'primary.main',
 							color: 'primary.main',
-						
 						}}
 					>
 						{seminarData?.ONLINE_YN === 'Y' ? '온라인' : '오프라인'}
@@ -244,17 +246,65 @@ const Page: NextPage = () => {
 						<Box>
 							{seminarData?.DESCRIPTION.split('\n').map(
 								(item, index) => {
-									return (
-										<Typography
-											sx={{
-												wordBreak: 'keep-all',
-											}}
-											variant={'subtitle2'}
-											lineHeight={1.6}
-										>
-											{item}
-										</Typography>
-									);
+									if (!item.startsWith('링크')) {
+										return (
+											<Typography
+												sx={{
+													wordBreak: 'keep-all',
+												}}
+												variant={'subtitle2'}
+												lineHeight={1.6}
+											>
+												{item.split('링크')[0]}
+											</Typography>
+										);
+									}
+								}
+							)}
+						</Box>
+					</Box>
+				)}
+				{seminarData?.DESCRIPTION && (
+					<Box
+						width={'100%'}
+						p={3}
+						bgcolor={'#cccccc60'}
+						borderRadius={2}
+						mb={3}
+						display={'flex'}
+						// alignItems={'center'}
+						gap={2}
+					>
+						<LightbulbOutlinedIcon />
+						<Box>
+							{seminarData?.DESCRIPTION.split('\n').map(
+								(item, index) => {
+									if (item.startsWith('링크')) {
+										return (
+											<Typography
+												variant={'subtitle2'}
+												lineHeight={1.6}
+											>
+												[2024 Revenue boosting 오프라인
+												MKT 세미나 안내]{' '}
+												<a
+													style={{
+														color: 'blue',
+														textDecoration:
+															'underline',
+													}}
+													onClick={() => {
+														window.open(
+															'https://hongyuri.notion.site/2024-Revenue-boosting-MKT-0039520852f04cabbf1a289feed41b13',
+															'_blank'
+														);
+													}}
+												>
+													{item.split('링크')[1]}
+												</a>
+											</Typography>
+										);
+									}
 								}
 							)}
 						</Box>
@@ -408,15 +458,21 @@ const Page: NextPage = () => {
 					height={40}
 				>
 					<SupportiButton
-						contents={'신청하기'}
+						contents={
+							isApplied == 'false' || 'undefined'
+								? '신청하기'
+								: '신청완료'
+						}
 						isGradient={true}
 						onClick={() => {
-							if (
-								seminarData?.SeminarGroups.length > 0 &&
-								seminarGroup == 0
-							) {
-								alert('그룹을 선택해주세요.');
-							} else handleApplySeminar();
+							if (isApplied == 'false' || 'undefined') {
+								if (
+									seminarData?.SeminarGroups.length > 0 &&
+									seminarGroup == 0
+								) {
+									alert('그룹을 선택해주세요.');
+								} else handleApplySeminar();
+							} else alert('이미 신청하셨습니다!');
 						}}
 						style={{
 							color: 'white',

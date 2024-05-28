@@ -3,6 +3,7 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import SupportiButton from '../../../../global/SupportiButton';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useAppMember } from '../../../../../hooks/useAppMember';
 
 // interface ISeminarCard {
 // 	title: string;
@@ -19,6 +20,25 @@ interface ISeminarData {
 
 const SeminarCard = (props: ISeminarData) => {
 	const router = useRouter();
+
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
+
+	const checkApplication = () => {
+		if (props.data?.SeminarApplications) {
+			for (let i = 0; i < props.data.SeminarApplications.length; i++) {
+				if (
+					props.data.SeminarApplications[i].USE_YN === 'Y' &&
+					props.data.SeminarApplications[i]
+						.APP_MEMBER_IDENTIFICATION_CODE === memberId
+				) {
+					return true;
+				} else return false;
+			}
+		}else return false;
+	};
 
 	return (
 		<Box
@@ -37,7 +57,9 @@ const SeminarCard = (props: ISeminarData) => {
 				// 세미나 상세 페이지로 이동
 				if (props.type === 'seminar')
 					router.push(
-						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+						`/external_service/seminar/${
+							props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE
+						}?isApplied=${checkApplication()}`
 					);
 				else
 					router.push(
@@ -60,17 +82,18 @@ const SeminarCard = (props: ISeminarData) => {
 						cursor: 'pointer',
 						width: 'fit-content',
 						color: 'primary.main',
+						wordBreak: 'keep-all'
 					}}
 				>
 					{props.data.SeminarCategory.CONTENT}
 				</Typography>
 			)}
-			<Typography variant="h6" fontWeight={600}>
+			<Typography variant="h6" fontWeight={600} sx={{	wordBreak: 'keep-all'}}>
 				{props.data.PRODUCT_NAME}
 			</Typography>
-			<Typography>{props.data.DESCRIPTION}</Typography>
+			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}
 			<SupportiButton
-				contents="신청하기"
+				contents={checkApplication() ? '신청완료' : '신청하기'}
 				variant="contained"
 				style={{
 					color: 'common.white',

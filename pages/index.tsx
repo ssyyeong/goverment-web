@@ -18,6 +18,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../src/views/global/SupportiInput';
 import CloseIcon from '@mui/icons-material/Close';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import Image from 'next/image';
 
 type Props = {};
@@ -309,7 +310,10 @@ const Page: NextPage = () => {
 					tabList={['성과 지표', '재무 지표']}
 					setValue={setFinancialTab}
 					value={financialTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/perfomance_indicators.png',
+						'/images/main/financial_indicators.png',
+					]}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -381,7 +385,10 @@ const Page: NextPage = () => {
 					tabList={['A2E', '세미나/컨설팅']}
 					setValue={setMentoringTab}
 					value={mentoringTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/a2e.jpeg',
+						'/images/main/seminar_and_consulting.jpg',
+					]}
 					imagePosition="left"
 					tabContentList={[
 						<Box
@@ -462,7 +469,11 @@ const Page: NextPage = () => {
 					tabList={['투자심사역 피드백', '데모데이', '투자자 매칭']}
 					setValue={setInvestTab}
 					value={investTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/feedback.jpg',
+						'/images/main/demoday.png',
+						'/images/main/matching.jpg',
+					]}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -553,7 +564,7 @@ const Page: NextPage = () => {
 					tabList={['커피챗']}
 					setValue={setSocialingTab}
 					value={socialingTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={['/images/main/coffeechat.jpg']}
 					imagePosition="right"
 					tabContentList={[
 						<Box
@@ -603,7 +614,10 @@ const Page: NextPage = () => {
 					tabList={['무료 서버 지원', '파트너사 프로그램']}
 					setValue={setSupportTab}
 					value={supportTab}
-					imagePath="/images/main/runwayPC.png"
+					imagePath={[
+						'/images/main/free_server.png',
+						'/images/main/partners.png',
+					]}
 					imagePosition="left"
 					tabContentList={[
 						<Box
@@ -833,12 +847,41 @@ const Page: NextPage = () => {
 					>
 						<Box display={'flex'}>
 							<Image
-								src={'/images/main/Hime_IR.svg'}
+								src={'/images/main/Hime_IR.jpg'}
 								alt={'notice'}
 								width={400}
 								height={600}
 							/>
-
+							{/* <Box
+								sx={{
+									width: '380px',
+									height: '370px',
+									textAlign: 'center',
+								}}
+							>
+								<ReportGmailerrorredIcon
+									sx={{
+										width: '200px',
+										height: '250px',
+										fontSize: '80px',
+										color: 'secondary.main',
+									}}
+								/>
+								<Typography
+									variant="h4"
+									mb={2}
+									fontWeight={600}
+								>
+									현재 서버 작업 중입니다.
+								</Typography>
+								<Typography variant="subtitle2" my={0.5}>
+									일시적으로 접속이 불가하오니
+									양해부탁드립니다.
+								</Typography>
+								<Typography variant="subtitle2">
+									불편을 드려 죄송합니다.
+								</Typography>
+							</Box> */}
 							<CloseIcon
 								sx={{ cursor: 'pointer' }}
 								onClick={() => setOpenPopUp(false)}
@@ -847,9 +890,13 @@ const Page: NextPage = () => {
 
 						<Box display={'flex'} gap={2}>
 							<SupportiButton
-								contents={'등록하러가기'}
+								contents={'사용하러가기'}
 								variant="contained"
-								onClick={() => router.push('/my_page/ir_data')}
+								onClick={() =>
+									router.push(
+										'/external_service/consulting/2'
+									)
+								}
 								style={{
 									width: '150px',
 									marginRight: 'auto',
