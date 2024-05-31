@@ -22,7 +22,7 @@ interface ICustomHeaderProps {}
 const CustomHeader = (props: ICustomHeaderProps) => {
 	//* States
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElSupporti, setAnchorSupporti] = React.useState(null); // 고객센터 메뉴
+	const [anchorElSupporti, setAnchorSupporti] = React.useState(null); // 고객지원 메뉴
 	const [target, setTarget] = React.useState(null);
 
 	const [toLocale, setToLocale] = React.useState('ko');

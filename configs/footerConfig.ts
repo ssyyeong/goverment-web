@@ -8,7 +8,7 @@ const footerConfig: any = {
 			label: '사업자 등록 번호',
 			value: '563-87-01952',
 		},
-		contactNumber: { label: '고객센터', value: '010--' },
+		contactNumber: { label: '고객지원', value: '010--' },
 		contactAvailableTime: {
 			label: '운영시간',
 			value: '평일 10:00 ~ 19:00 (점심시간 13:00 ~ 14:00 / 주말 및 공휴일 제외)',

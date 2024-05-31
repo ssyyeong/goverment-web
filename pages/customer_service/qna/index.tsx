@@ -51,50 +51,13 @@ const Page: NextPage = () => {
 	 */
 	const [password, setPassword] = React.useState<string>('');
 
-	//* Functions
-	/**
-	 * 질문 등록하기
-	 */
-	const registerQuestion = () => {
-		if (category === '') {
-			alert('카테고리를 선택해주세요.');
-			return;
-		} else if (qnaSheet.CONTENT === '' || qnaSheet.TITLE === '') {
-			alert('제목과 내용을 모두 입력해주세요.');
-			return;
-		} else if (qnaSheet.PRIVATE_YN && qnaSheet.PASSWORD === '') {
-			alert('비밀글을 등록할 경우 비밀번호를 입력해주세요.');
-		} else if (qnaSheet.PRIVATE_YN && qnaSheet.PASSWORD.length !== 4) {
-			alert('비밀번호는 4자리로 입력해주세요.');
-		} else {
-			qnaController.createItem(
-				{
-					...qnaSheet,
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-				},
-				(res) => {
-					console.log(res);
-					setQnaSheet({
-						TITLE: '',
-						CONTENT: '',
-						PRIVATE_YN: false,
-						PASSWORD: '',
-					});
-					getQuestion();
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
-		}
-	};
 	/**
 	 * 질문 가져오기
 	 */
 	const getQuestion = () => {
 		qnaController.findAllItems(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				// APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
 				res.data.result.rows.map((item) => {
@@ -151,148 +114,28 @@ const Page: NextPage = () => {
 			setAlertModal(true);
 		}
 	}, [memberId, access]);
-	/**
-	 * qna 카테고리 리스트 조회
-	 */
-	useEffect(() => {
-		qnaCategoryController.findAllItems(
-			{},
-			(res) => {
-				const categoryList = [];
-				res.data.result.rows.map((item) => {
-					categoryList.push({
-						label: item.CATEGORY,
-						value: item.QNA_BOARD_CATEGORY_IDENTIFICATION_CODE,
-					});
-				});
-				setCategoryList(categoryList);
-			},
-			(err) => console.log(err)
-		);
-	}, []);
 
 	return (
-		<Box p={{ md: 10, xs: 3 }}>
-			<Typography variant="h5" fontWeight={'bold'}>
-				문의하기
-			</Typography>
-			<Typography
-				variant="subtitle1"
-				fontWeight="600"
-				color={'secondary.main'}
-				sx={{ my: 2 }}
-			>
-				서포티에 대한 궁금한점을 남겨주세요.
-			</Typography>
-			<Box
+		<Box p={{ md: 10, xs: 3 }} display={'flex'} flexDirection={'column'}>
+			<Button
+				onClick={() => router.push('/customer_service/qna/write')}
 				sx={{
-					p: 2,
+					my: 2,
+					mx: 2,
+					py: 1.5,
+					display: 'block',
+					width: 90,
 					borderRadius: 2,
-					bgcolor: 'primary.light',
-					mb: 2,
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 1,
+					position: 'absolute',
+					right: 80,
+					top: 120,
 				}}
+				variant="contained"
 			>
-				<Typography variant="body1" fontWeight={'bold'}>
-					카테고리
+				<Typography color={'white'} fontWeight={'600'}>
+					문의하기
 				</Typography>
-				<SupportiInput
-					dataList={categoryList}
-					value={category}
-					setValue={setCategory}
-					type="select"
-					width={{ xs: '30%', md: '30%' }}
-				/>
-				<Typography variant="body1" fontWeight={'bold'}>
-					제목
-				</Typography>
-				<TextField
-					sx={{ width: '100%', bgcolor: 'white' }}
-					value={qnaSheet.TITLE}
-					onChange={(e) => {
-						setQnaSheet({
-							...qnaSheet,
-							TITLE: e.target.value,
-						});
-					}}
-				/>
-				<Typography variant="body1" fontWeight={'bold'}>
-					내용
-				</Typography>
-				<TextField
-					sx={{ width: '100%', bgcolor: 'white' }}
-					multiline
-					rows={2}
-					value={qnaSheet.CONTENT}
-					onChange={(e) => {
-						setQnaSheet({
-							...qnaSheet,
-							CONTENT: e.target.value,
-						});
-					}}
-				/>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						alignItems: 'center',
-						gap: 1,
-					}}
-				>
-					<Typography variant="body1" fontWeight={'bold'}>
-						비밀글 여부
-					</Typography>
-					<SupportiInput
-						type="checkbox"
-						value={qnaSheet.PRIVATE_YN === 'Y' ? true : false}
-						setValue={(e) => {
-							console.log(e);
-							setQnaSheet({
-								...qnaSheet,
-								PRIVATE_YN: e === true ? 'Y' : 'N',
-							});
-						}}
-					/>
-				</Box>
-
-				{qnaSheet.PRIVATE_YN && (
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
-							gap: 1,
-						}}
-					>
-						<Typography variant="body1" fontWeight={'bold'}>
-							비밀번호(숫자 4자리)
-						</Typography>
-						<TextField
-							sx={{ width: '30%', bgcolor: 'white' }}
-							value={qnaSheet.PASSWORD}
-							onChange={(e) => {
-								setQnaSheet({
-									...qnaSheet,
-									PASSWORD: e.target.value,
-								});
-							}}
-						/>
-					</Box>
-				)}
-				<Button
-					variant="contained"
-					onClick={registerQuestion}
-					sx={{
-						width: '15%',
-						height: '40px',
-						ml: 'auto',
-					}}
-				>
-					등록하기
-				</Button>
-			</Box>
+			</Button>
 			<Box mt={4}>
 				{qusetionList.map((notice) => {
 					return (
@@ -306,14 +149,23 @@ const Page: NextPage = () => {
 							created_at={notice.CREATED_AT}
 							additional={notice.CONTENT}
 							type={
-								notice.QnaBoardAnswers.length !== 0
+								notice.QnaBoardAnswers.length !== 0 &&
+								notice.PRIVATE_YN === 'Y'
+									? '답변완료(비밀글)'
+									: notice.QnaBoardAnswers.length == 0 &&
+									  notice.PRIVATE_YN === 'Y'
+									? '답변전(비밀글)'
+									: notice.QnaBoardAnswers.length !== 0 &&
+									  notice.PRIVATE_YN === 'N'
 									? '답변완료'
 									: '답변전'
 							}
 							additionalOpenFunction={() => {
 								if (
 									notice.PRIVATE_YN === 'Y' &&
-									!notice.OPEN_YN
+									!notice.OPEN_YN &&
+									notice.APP_MEMBER_IDENTIFICATION_CODE ===
+										memberId
 								) {
 									setOpenPopUpId(
 										notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
