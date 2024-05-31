@@ -505,7 +505,7 @@ const Page: NextPage = () => {
 				</Typography>
 
 				<SupportiTab
-					tabList={['투자심사역 피드백', '데모데이', '투자자 매칭']}
+					tabList={['데모데이', '투자심사역 피드백', '투자자 매칭']}
 					setValue={setInvestTab}
 					value={investTab}
 					imagePath={[
@@ -526,11 +526,13 @@ const Page: NextPage = () => {
 							}}
 						>
 							<Typography variant={'h4'} fontWeight={400}>
-								투자심사역의 IR 피드백과 코칭!
+								서포티 데모데이를 통한 투자자와의 만남!
 							</Typography>
 							<Typography variant={'h4'} fontWeight={400} mt={5}>
-								IR을 등록하고 투자심사역에게 1:1 코칭과 피드백을
-								받아보세요.
+								서포티 고객사를 대상으로 개최하는 데모데이
+							</Typography>
+							<Typography variant={'h4'} fontWeight={400}>
+								참가를 통해 투자자들에게 회사를 어필해보세요.
 							</Typography>
 						</Box>,
 						<Box
@@ -544,13 +546,11 @@ const Page: NextPage = () => {
 							}}
 						>
 							<Typography variant={'h4'} fontWeight={400}>
-								서포티 데모데이를 통한 투자자와의 만남!
+								투자심사역의 IR 피드백과 코칭!
 							</Typography>
 							<Typography variant={'h4'} fontWeight={400} mt={5}>
-								서포티 고객사를 대상으로 개최하는 데모데이
-							</Typography>
-							<Typography variant={'h4'} fontWeight={400}>
-								참가를 통해 투자자들에게 회사를 어필해보세요.
+								IR을 등록하고 투자심사역에게 1:1 코칭과 피드백을
+								받아보세요.
 							</Typography>
 						</Box>,
 						<Box
