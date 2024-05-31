@@ -825,42 +825,45 @@ const Page: NextPage = () => {
 							flexWrap: 'wrap',
 						}}
 					>
-						{faqCategoryList.map((tab, idx) => (
-							<Button
-								key={idx}
-								onClick={async () => {
-									setFaqTab(tab);
-									getFaqList(tab);
-								}}
-								sx={{
-									px: {
-										xs: 'auto',
-										sm: '20px',
-									},
-									py: {
-										xs: 'auto',
-										sm: '15px',
-									},
-									marginRight: '20px',
-									borderRadius: '15px',
-									backgroundColor:
-										faqTab.CATEGORY == tab.CATEGORY
-											? 'primary.main'
-											: 'grey.300',
-									color:
-										faqTab.CATEGORY == tab.CATEGORY
-											? 'white'
-											: 'primary.main',
+						{faqCategoryList.map(
+							(tab, index) =>
+								index < 5 && (
+									<Button
+										key={index.toString()}
+										onClick={async () => {
+											setFaqTab(tab);
+											getFaqList(tab);
+										}}
+										sx={{
+											px: {
+												xs: 'auto',
+												sm: '20px',
+											},
+											py: {
+												xs: 'auto',
+												sm: '15px',
+											},
+											marginRight: '20px',
+											borderRadius: '15px',
+											backgroundColor:
+												faqTab.CATEGORY == tab.CATEGORY
+													? 'primary.main'
+													: 'grey.300',
+											color:
+												faqTab.CATEGORY == tab.CATEGORY
+													? 'white'
+													: 'primary.main',
 
-									'&:hover': {
-										backgroundColor: 'primary.main',
-										color: 'white',
-									},
-								}}
-							>
-								{tab.CATEGORY}
-							</Button>
-						))}
+											'&:hover': {
+												backgroundColor: 'primary.main',
+												color: 'white',
+											},
+										}}
+									>
+										{tab.CATEGORY}
+									</Button>
+								)
+						)}
 					</Box>
 
 					{faqList.map((notice) => {

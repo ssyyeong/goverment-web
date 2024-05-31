@@ -171,6 +171,12 @@ const Page: NextPage = () => {
 										notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
 									);
 									setOpenPopUp(true);
+								} else if (
+									notice.PRIVATE_YN === 'Y' &&
+									notice.OPEN_YN
+								) {
+									notice.OPEN_YN = !notice.OPEN_YN;
+									setQuestionList([...qusetionList]);
 								} else if (notice.PRIVATE_YN == 'N') {
 									notice.OPEN_YN = !notice.OPEN_YN;
 									setQuestionList([...qusetionList]);
