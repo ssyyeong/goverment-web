@@ -151,7 +151,11 @@ const Page: NextPage = () => {
 							).map((item, index) => {
 								return (
 									<Box key={index}>
-										<img src={item} alt="" />
+										<img
+											src={item}
+											alt=""
+											width={'600px'}
+										/>
 									</Box>
 								);
 							})}

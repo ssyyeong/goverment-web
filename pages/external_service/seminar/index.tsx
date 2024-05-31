@@ -145,7 +145,7 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				setTotalDataCount(res.data.result.count);
-				setConsultingDataList(res.data.result.rows.filter((item)=> item.CONSULTING_PRODUCT_IDENTIFICATION_CODE !== 2));
+				setConsultingDataList(res.data.result.rows);
 			},
 			(err) => {}
 		);
