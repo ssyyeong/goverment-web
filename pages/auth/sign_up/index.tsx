@@ -484,7 +484,7 @@ const Page: NextPage = () => {
 			},
 		},
 		{
-			label: '서비스명(또는 서비스주소)',
+			label: '서비스명(또는 아이템 한 줄 소개)',
 			type: 'text',
 			optional: true,
 			for: ['BUSINESS'],
@@ -493,6 +493,21 @@ const Page: NextPage = () => {
 				setSignupData({
 					...signupData,
 					MAIN_PRODUCT: e.target.value,
+				});
+			},
+		},
+		{
+			label: '최근 투자라운드/금액',
+			for: 'INVESTOR',
+			config: investSector,
+			key: 'INVESTMENT_ROUND',
+			type: 'select',
+			optional: true,
+			value: signupData.INVESTMENT_ROUND,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					INVESTMENT_ROUND: e.target.value,
 				});
 			},
 		},
@@ -526,12 +541,12 @@ const Page: NextPage = () => {
 			},
 		},
 		{
-			label: '업력',
+			label: '설립년도/월',
 			for: 'BUSINESS',
 			config: companyHistory,
 			key: 'COMPANY_HISTORY',
 			optional: true,
-			type: 'select',
+			type: 'datepicker',
 			value: signupData.COMPANY_HISTORY,
 			onChange: (e) => {
 				setSignupData({
@@ -555,23 +570,23 @@ const Page: NextPage = () => {
 				});
 			},
 		},
-		{
-			label: '회사 소개',
-			type: 'text',
-			for: ['BUSINESS'],
-			placeholder:
-				'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
+		// {
+		// 	label: '회사 소개',
+		// 	type: 'text',
+		// 	for: ['INVESTOR'],
+		// 	placeholder:
+		// 		'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
 
-			helperText:
-				'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
-			value: signupData.DESCRIPTION,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					DESCRIPTION: e.target.value,
-				});
-			},
-		},
+		// 	helperText:
+		// 		'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
+		// 	value: signupData.DESCRIPTION,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			DESCRIPTION: e.target.value,
+		// 		});
+		// 	},
+		// },
 
 		// {
 		// 	label: '대표자명',
@@ -650,11 +665,11 @@ const Page: NextPage = () => {
 				<SupportiToggle
 					chipDataList={[
 						{
-							label: '사업가',
+							label: '기창업자',
 							value: 'BUSINESS',
 						},
 						{
-							label: '일반',
+							label: '예비창업자',
 							value: 'GENERAL',
 						},
 						// {
@@ -883,6 +898,41 @@ const Page: NextPage = () => {
 																</Box>
 															</Box>
 														</Box>
+													) : item.type ===
+													  'datepicker' ? (
+														<SupportiInput
+															type={
+																item.type
+																	? item.type
+																	: 'text'
+															}
+															value={
+																signupData.COMPANY_HISTORY
+															}
+															setValue={(
+																value
+															) => {
+																setSignupData({
+																	...signupData,
+																	COMPANY_HISTORY:
+																		dayjs(
+																			value
+																		).format(
+																			'YYYY-MM'
+																		),
+																});
+															}}
+															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
+																placeholder:
+																	item.placeholder
+																		? item.placeholder
+																		: `${item.label}을 입력해주세요.`,
+															}}
+														/>
 													) : item.label ===
 													  '설립일자' ? (
 														<SupportiInput
@@ -1188,6 +1238,41 @@ const Page: NextPage = () => {
 																</Box>
 															</Box>
 														</Box>
+													) : item.type ===
+													  'datepicker' ? (
+														<SupportiInput
+															type={
+																item.type
+																	? item.type
+																	: 'text'
+															}
+															value={
+																signupData.COMPANY_HISTORY
+															}
+															setValue={(
+																value
+															) => {
+																setSignupData({
+																	...signupData,
+																	COMPANY_HISTORY:
+																		dayjs(
+																			value
+																		).format(
+																			'YYYY-MM-DD'
+																		),
+																});
+															}}
+															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
+																placeholder:
+																	item.placeholder
+																		? item.placeholder
+																		: `${item.label}을 입력해주세요.`,
+															}}
+														/>
 													) : item.label ===
 													  '설립일자' ? (
 														<SupportiInput
@@ -1493,6 +1578,41 @@ const Page: NextPage = () => {
 																</Box>
 															</Box>
 														</Box>
+													) : item.type ===
+													  'datepicker' ? (
+														<SupportiInput
+															type={
+																item.type
+																	? item.type
+																	: 'text'
+															}
+															value={
+																signupData.COMPANY_HISTORY
+															}
+															setValue={(
+																value
+															) => {
+																setSignupData({
+																	...signupData,
+																	COMPANY_HISTORY:
+																		dayjs(
+																			value
+																		).format(
+																			'YYYY-MM-DD'
+																		),
+																});
+															}}
+															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
+																placeholder:
+																	item.placeholder
+																		? item.placeholder
+																		: `${item.label}을 입력해주세요.`,
+															}}
+														/>
 													) : item.label ===
 													  '설립일자' ? (
 														<SupportiInput
@@ -1804,6 +1924,43 @@ const Page: NextPage = () => {
 																	</Box>
 																</Box>
 															</Box>
+														) : item.type ===
+														  'datepicker' ? (
+															<SupportiInput
+																type={
+																	item.type
+																		? item.type
+																		: 'text'
+																}
+																value={
+																	signupData.COMPANY_HISTORY
+																}
+																setValue={(
+																	value
+																) => {
+																	setSignupData(
+																		{
+																			...signupData,
+																			COMPANY_HISTORY:
+																				dayjs(
+																					value
+																				).format(
+																					'YYYY-MM-DD'
+																				),
+																		}
+																	);
+																}}
+																additionalProps={{
+																	views: [
+																		'month',
+																		'year',
+																	],
+																	placeholder:
+																		item.placeholder
+																			? item.placeholder
+																			: `${item.label}을 입력해주세요.`,
+																}}
+															/>
 														) : item.label ===
 														  '설립일자' ? (
 															<SupportiInput
@@ -2190,6 +2347,43 @@ const Page: NextPage = () => {
 																	</Box>
 																</Box>
 															</Box>
+														) : item.type ===
+														  'datepicker' ? (
+															<SupportiInput
+																type={
+																	item.type
+																		? item.type
+																		: 'text'
+																}
+																value={
+																	signupData.COMPANY_HISTORY
+																}
+																setValue={(
+																	value
+																) => {
+																	setSignupData(
+																		{
+																			...signupData,
+																			COMPANY_HISTORY:
+																				dayjs(
+																					value
+																				).format(
+																					'YYYY-MM-DD'
+																				),
+																		}
+																	);
+																}}
+																additionalProps={{
+																	views: [
+																		'month',
+																		'year',
+																	],
+																	placeholder:
+																		item.placeholder
+																			? item.placeholder
+																			: `${item.label}을 입력해주세요.`,
+																}}
+															/>
 														) : item.label ===
 														  '설립일자' ? (
 															<SupportiInput

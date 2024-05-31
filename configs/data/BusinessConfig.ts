@@ -975,7 +975,7 @@ const investSector: string[] = [
  * 사업자 유형
  *
  */
-const businessType: string[] = ['법인 사업자', '개인 사업자', '예비 사업자'];
+const businessType: string[] = ['법인 사업자', '개인 사업자'];
 
 /**
  * 업력

@@ -35,6 +35,7 @@ interface SupportiInputProps {
 	label?: string;
 	minDate?: any;
 	maxDate?: any;
+	views?: any;
 	children?: React.ReactNode;
 	btnContent?: string;
 	btnOnClick?: () => void;
@@ -237,10 +238,19 @@ const SupportiInput = React.forwardRef(
 				) : props.type === 'datepicker' ? (
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
 						<MobileDatePicker
-							inputFormat="YYYY-MM-DD"
+							inputFormat={
+								props.additionalProps?.views
+									? 'YYYY-MM'
+									: 'YYYY-MM-DD'
+							}
 							onChange={(newValue) => {
 								props.setValue(newValue);
 							}}
+							views={
+								props.additionalProps?.views
+									? props.additionalProps?.views
+									: ['day', 'month', 'year']
+							}
 							value={dayjs(props.value)}
 							minDate={
 								props.minDate !== undefined
