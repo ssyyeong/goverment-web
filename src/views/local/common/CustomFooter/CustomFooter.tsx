@@ -44,7 +44,7 @@ const CustomFooter = (props: ICustomFooterProps) => {
 		{ category: '서비스이용약관', link: '/terms?type=service' },
 		{ category: '개인정보처리방침', link: '/terms?type=privacy' },
 		{ category: '마케팅정보수신동의', link: '/terms?type=marketing' },
-		{ category: '고객센터', link: '/customer_service/qna' },
+		{ category: '고객지원', link: '/customer_service/qna' },
 	];
 
 	return (

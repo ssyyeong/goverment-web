@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 
 import { Box, BoxProps, TextField, Typography } from '@mui/material';
 import moment from 'moment';
@@ -10,15 +10,24 @@ interface IAccordianBoxProps {
 	title: any;
 	created_at?: Date;
 	content?: string;
+	imageList?: string[];
 	additional?: string;
 	notAQna?: boolean;
 	additionalComponent?: React.ReactNode;
 	additionalOpenFunction?: any;
+	openAccordian?: boolean;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
 	//* State
 	const [open, setOpen] = React.useState(false);
+
+	useEffect(() => {
+		if (props.openAccordian !== undefined) {
+			setOpen(props.openAccordian);
+		}
+	}, [props.openAccordian]);
+
 	return (
 		<Box
 			sx={{
@@ -49,21 +58,26 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						cursor: 'pointer',
 					}}
 					onClick={() => {
-						props.additionalOpenFunction &&
-							!open &&
-							props.additionalOpenFunction();
-						setOpen(!open);
+						if (props.additionalOpenFunction)
+							!open
+								? props.additionalOpenFunction()
+								: props.openAccordian === true &&
+								  props.additionalOpenFunction();
+
+						if (props?.openAccordian !== undefined)
+							setOpen(props.openAccordian);
+						else setOpen(!open);
 					}}
 				>
 					{' '}
 					<Typography color={'primary'} fontWeight={'500'}>
-						{props.type}
+						{props.type == '공지' ? '' : props.type}
 					</Typography>{' '}
 					{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
 				</Box>
 
 				<Typography variant="body1" fontWeight={'bold'}>
-					{props.notAQna ? '' : 'Q)'}
+					{/* {props.notAQna ? '' : 'Q)'} */}
 					{props.title}
 				</Typography>
 				{props.additionalComponent && open && (
@@ -92,6 +106,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						sx={{
 							width: '100%',
 							my: 2,
+							whiteSpace: 'pre-line',
 						}}
 						fontWeight={'400'}
 						lineHeight={1.5}
@@ -100,11 +115,36 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						{props.content}
 					</Typography>
 				)}
+				{open &&
+					!props.additionalComponent &&
+					props.imageList != undefined &&
+					props.imageList.length > 0 && (
+						<Box
+							sx={{
+								display: 'flex',
+								gap: 1,
+								width: '100%',
+								flexWrap: 'wrap',
+								justifyContent: 'center',
+								flexDirection: 'column',
+							}}
+						>
+							{props.imageList.map((image, index) => (
+								<img
+									src={image}
+									style={{
+										width: '60%',
+										height: '70%',
+										objectFit: 'contain',
+										alignSelf: 'center',
+									}}
+								/>
+							))}
+						</Box>
+					)}
 				{props.created_at && (
 					<Typography variant="body1">
-						{moment(props.created_at).format(
-							'YYYY-MM-DD(ddd) HH:mm'
-						)}
+						{moment(props.created_at).format('YYYY-MM-DD')}
 					</Typography>
 				)}
 			</Box>

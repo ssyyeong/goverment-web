@@ -361,7 +361,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			subMenus: rate_plan,
 		},
 		{
-			label: '고객센터',
+			label: '고객지원',
 			subMenus: customercenter,
 		},
 	];

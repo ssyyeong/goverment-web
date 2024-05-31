@@ -2,21 +2,33 @@ import React, { useEffect } from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import AccordianBox from '../../../src/views/local/common/AccordianBox/AccordianBox';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useRouter } from 'next/router';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import SupportiInput from '../../../src/views/global/SupportiInput';
+import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
+import CloseIcon from '@mui/icons-material/Close';
+import { set } from 'date-fns';
+import SupportiButton from '../../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	//* Modules
 	const qnaController = new DefaultController('QnaBoardQuestion');
+	const qnaCategoryController = new DefaultController('QnaBoardCategory');
 	const router = useRouter();
 	//* Constants
 	//* States
 	const [qnaSheet, setQnaSheet] = React.useState<any>({});
+	const [category, setCategory] = React.useState<string>('');
+	/**
+	 * 카테고리 리스트
+	 */
+	const [categoryList, setCategoryList] = React.useState<any[]>([]);
+
 	/**
 	 * 질문 리스트
 	 */
@@ -26,45 +38,62 @@ const Page: NextPage = () => {
 	 * 알럿
 	 */
 	const [alertModal, setAlertModal] = React.useState<boolean>(false);
-
-	//* Functions
 	/**
-	 * 질문 등록하기
+	 * 비밀글 팝업
 	 */
-	const registerQuestion = () => {
-		qnaController.createItem(
-			{
-				...qnaSheet,
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
-			},
-			(res) => {
-				console.log(res);
-				setQnaSheet({
-					TITLE: '',
-					CONTENT: '',
-				});
-				getQuestion();
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	};
+	const [openPopUp, setOpenPopUp] = React.useState(false);
+	/**
+	 * 비밀글 팝업 아이디
+	 */
+	const [openPopUpId, setOpenPopUpId] = React.useState<string>('');
+	/**
+	 * 비밀글 비밀번호
+	 */
+	const [password, setPassword] = React.useState<string>('');
+
 	/**
 	 * 질문 가져오기
 	 */
 	const getQuestion = () => {
 		qnaController.findAllItems(
 			{
-				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				// APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
+				res.data.result.rows.map((item) => {
+					item.OPEN_YN = false;
+				});
 				setQuestionList(res.data.result.rows);
 			},
 			(err) => {
 				console.log(err);
 			}
 		);
+	};
+
+	/**
+	 * 비밀글 비밀번호 확인
+	 */
+	const checkPassword = () => {
+		const question = qusetionList.filter((item) => {
+			return item.QNA_BOARD_QUESTION_IDENTIFICATION_CODE === openPopUpId;
+		});
+
+		if (question[0].PASSWORD === password) {
+			setOpenPopUp(false);
+
+			qusetionList.map((item) => {
+				if (
+					item.QNA_BOARD_QUESTION_IDENTIFICATION_CODE === openPopUpId
+				) {
+					item.OPEN_YN = true;
+				}
+			});
+		} else {
+			alert('비밀번호가 일치하지 않습니다.');
+		}
+
+		setPassword('');
 	};
 	//* Hooks
 	/**
@@ -85,70 +114,28 @@ const Page: NextPage = () => {
 			setAlertModal(true);
 		}
 	}, [memberId, access]);
+
 	return (
-		<Box p={{ md: 10, xs: 3 }}>
-			<Typography variant="h5" fontWeight={'bold'}>
-				문의하기
-			</Typography>
-			<Typography
-				variant="subtitle1"
-				fontWeight="600"
-				color={'secondary.main'}
-				sx={{ my: 2 }}
-			>
-				서포티에 대한 궁금한점을 남겨주세요.
-			</Typography>
-			<Box
+		<Box p={{ md: 10, xs: 3 }} display={'flex'} flexDirection={'column'}>
+			<Button
+				onClick={() => router.push('/customer_service/qna/write')}
 				sx={{
-					p: 2,
+					my: 2,
+					mx: 2,
+					py: 1.5,
+					display: 'block',
+					width: 90,
 					borderRadius: 2,
-					bgcolor: 'primary.light',
-					mb: 2,
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 1,
+					position: 'absolute',
+					right: 80,
+					top: 120,
 				}}
+				variant="contained"
 			>
-				<Typography variant="body1" fontWeight={'bold'}>
-					제목
+				<Typography color={'white'} fontWeight={'600'}>
+					문의하기
 				</Typography>
-				<TextField
-					sx={{ width: '100%', bgcolor: 'white' }}
-					value={qnaSheet.TITLE}
-					onChange={(e) => {
-						setQnaSheet({
-							...qnaSheet,
-							TITLE: e.target.value,
-						});
-					}}
-				/>
-				<Typography variant="body1" fontWeight={'bold'}>
-					내용
-				</Typography>
-				<TextField
-					sx={{ width: '100%', bgcolor: 'white' }}
-					multiline
-					rows={2}
-					value={qnaSheet.CONTENT}
-					onChange={(e) => {
-						setQnaSheet({
-							...qnaSheet,
-							CONTENT: e.target.value,
-						});
-					}}
-				/>
-				<Button
-					variant="contained"
-					onClick={registerQuestion}
-					sx={{
-						width: '15%',
-						height: '40px',
-						ml: 'auto',
-					}}
-				>
-					등록하기
-				</Button>
-			</Box>
+			</Button>
 			<Box mt={4}>
 				{qusetionList.map((notice) => {
 					return (
@@ -162,9 +149,35 @@ const Page: NextPage = () => {
 							created_at={notice.CREATED_AT}
 							additional={notice.CONTENT}
 							type={
-								notice.QnaBoardAnswers.length !== 0
+								notice.QnaBoardAnswers.length !== 0 &&
+								notice.PRIVATE_YN === 'Y'
+									? '답변완료(비밀글)'
+									: notice.QnaBoardAnswers.length == 0 &&
+									  notice.PRIVATE_YN === 'Y'
+									? '답변전(비밀글)'
+									: notice.QnaBoardAnswers.length !== 0 &&
+									  notice.PRIVATE_YN === 'N'
 									? '답변완료'
 									: '답변전'
+							}
+							additionalOpenFunction={() => {
+								if (
+									notice.PRIVATE_YN === 'Y' &&
+									!notice.OPEN_YN &&
+									notice.APP_MEMBER_IDENTIFICATION_CODE ===
+										memberId
+								) {
+									setOpenPopUpId(
+										notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
+									);
+									setOpenPopUp(true);
+								} else {
+									notice.OPEN_YN = !notice.OPEN_YN;
+									setQuestionList([...qusetionList]);
+								}
+							}}
+							openAccordian={
+								notice.OPEN_YN === true ? true : false
 							}
 						/>
 					);
@@ -177,6 +190,83 @@ const Page: NextPage = () => {
 					router.push('/auth/sign_in');
 				}}
 				type="login"
+			/>
+			<PopUpModal
+				modalOpen={openPopUp}
+				setModalOpen={setOpenPopUp}
+				uiData={
+					<Box
+						display={'flex'}
+						justifyContent={'space-between'}
+						flexDirection={'column'}
+						gap={3}
+					>
+						<Box display="flex" justifyContent={'center'}>
+							<Typography
+								variant="subtitle1"
+								fontWeight={600}
+								mt="auto"
+								mb="auto"
+							>
+								비밀글
+							</Typography>
+							<CloseIcon
+								sx={{
+									cursor: 'pointer',
+									position: 'absolute',
+									right: 20,
+									top: 15,
+								}}
+								onClick={() => setOpenPopUp(false)}
+							/>
+						</Box>
+						<Box display="flex" justifyContent="space-between">
+							<Typography
+								variant="subtitle1"
+								fontWeight={600}
+								mt="auto"
+								mb="auto"
+							>
+								비밀번호
+							</Typography>
+							<SupportiInput
+								type="input"
+								additionalProps={{
+									placeholder: '비밀번호를 입력해주세요.',
+								}}
+								value={password}
+								setValue={setPassword}
+								width={'80%'}
+							/>
+						</Box>
+
+						<Box display={'flex'} gap={2}>
+							<SupportiButton
+								contents={'확인'}
+								variant="contained"
+								onClick={() => checkPassword()}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+							<SupportiButton
+								contents={'닫기'}
+								variant="outlined"
+								onClick={() => {
+									setOpenPopUp(false);
+									setPassword('');
+								}}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+						</Box>
+					</Box>
+				}
 			/>
 		</Box>
 	);

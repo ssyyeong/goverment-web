@@ -49,6 +49,7 @@ const Page: NextPage = () => {
 						<AccordianBox
 							title={notice.TITLE}
 							content={notice.CONTENT}
+							imageList={JSON.parse(notice.IMAGE_LIST)}
 							created_at={notice.CREATED_AT}
 							type="공지"
 							notAQna

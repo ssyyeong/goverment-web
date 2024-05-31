@@ -272,7 +272,14 @@ const Page: NextPage = () => {
 								marginLeft: 'auto',
 								marginTop: 5,
 							}}
-							onClick={() => router.push('/auth/sign_in')}
+							onClick={() => {
+								//로그인 여부에 따라 페이지 이동
+								if (memberId) {
+									router.push('/my_page/edit_profile');
+								} else {
+									router.push('/auth/sign_in');
+								}
+							}}
 						/>
 					</Box>
 				</Box>

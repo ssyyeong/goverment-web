@@ -37,7 +37,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	//* States
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElMypage, setAnchorElMypage] = React.useState(null); //마이페이지 메뉴
-	const [anchorElUser, setAnchorElUser] = React.useState(null); // 고객센터 메뉴
+	const [anchorElUser, setAnchorElUser] = React.useState(null); // 고객지원 메뉴
 	const [anchorElCommunity, setAnchorElCommunity] = React.useState(null); // 소셜링 메뉴
 	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
 	const [anchorElGovernment, setAnchorElGovernment] = React.useState(null); //지원사업 메뉴
@@ -385,10 +385,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/rate_plan',
 		},
 		{
-			label: '고객센터',
+			label: '고객지원',
 			subMenus: customercenter,
 			subMenuHandler: (event) => {
-				console.log(event, '고객센터');
 				if (event) setAnchorElUser(event.currentTarget);
 				else setAnchorElUser(null);
 			},
@@ -450,10 +449,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/rate_plan',
 		},
 		{
-			label: '고객센터',
+			label: '고객지원',
 			subMenus: customercenter,
 			subMenuHandler: (event) => {
-				console.log(event, '고객센터');
 				if (event) setAnchorElUser(event.currentTarget);
 				else setAnchorElUser(null);
 			},
