@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import React from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,7 +18,6 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../src/views/global/SupportiInput';
 import CloseIcon from '@mui/icons-material/Close';
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import Image from 'next/image';
 
 type Props = {};
@@ -47,6 +46,11 @@ const Page: NextPage = () => {
 	const [supportTab, setSupportTab] = React.useState('무료 서버 지원');
 
 	const [faqList, setFaqList] = React.useState([]);
+	const [faqCategoryList, setFaqCategoryList] = React.useState([]);
+	const [faqTab, setFaqTab] = React.useState({
+		CATEGORY: '전체',
+		FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
+	});
 
 	//* Constants
 	const data = [
@@ -211,13 +215,48 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
-	useEffect(() => {
+	const getFaqList = (tab: any) => {
+		console.log('tab');
 		//faq 리스트 조회
 		const faqController = new DefaultController('FaqBoardContent');
+		const findOption =
+			tab.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE !== 0
+				? {
+						FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE:
+							tab.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
+				  }
+				: {};
+		console.log(findOption);
 		faqController.findAllItems(
+			findOption,
+			(res) => {
+				setFaqList(res.data.result.rows.splice(0, 3));
+			},
+			(err) => console.log(err)
+		);
+	};
+
+	useEffect(() => {
+		getFaqList(faqTab);
+		//faq 카테고리 리스트 조회
+		const faqCategoryController = new DefaultController('FaqBoardCategory');
+		faqCategoryController.findAllItems(
 			{},
 			(res) => {
-				setFaqList(res.data.result.rows);
+				const categoryList: any = [
+					{
+						CATEGORY: '전체',
+						FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
+					},
+				];
+				res.data.result.rows.map((item: any) => {
+					categoryList.push({
+						CATEGORY: item.CATEGORY,
+						FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE:
+							item.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
+					});
+				});
+				setFaqCategoryList(categoryList);
 			},
 			(err) => console.log(err)
 		);
@@ -778,6 +817,52 @@ const Page: NextPage = () => {
 					>
 						서포티가 궁금합니다.
 					</Typography>
+
+					<Box
+						sx={{
+							display: 'flex',
+							direction: 'row',
+							flexWrap: 'wrap',
+						}}
+					>
+						{faqCategoryList.map((tab, idx) => (
+							<Button
+								key={idx}
+								onClick={async () => {
+									setFaqTab(tab);
+									getFaqList(tab);
+								}}
+								sx={{
+									px: {
+										xs: 'auto',
+										sm: '20px',
+									},
+									py: {
+										xs: 'auto',
+										sm: '15px',
+									},
+									marginRight: '20px',
+									borderRadius: '15px',
+									backgroundColor:
+										faqTab.CATEGORY == tab.CATEGORY
+											? 'primary.main'
+											: 'grey.300',
+									color:
+										faqTab.CATEGORY == tab.CATEGORY
+											? 'white'
+											: 'primary.main',
+
+									'&:hover': {
+										backgroundColor: 'primary.main',
+										color: 'white',
+									},
+								}}
+							>
+								{tab.CATEGORY}
+							</Button>
+						))}
+					</Box>
+
 					{faqList.map((notice) => {
 						return (
 							<AccordianBox
@@ -788,6 +873,19 @@ const Page: NextPage = () => {
 							/>
 						);
 					})}
+					<SupportiButton
+						contents={'FAQ 더보기'}
+						variant="contained"
+						style={{
+							width: '200px',
+							marginRight: 'auto',
+							marginLeft: 'auto',
+							marginTop: 5,
+						}}
+						onClick={() => {
+							router.push('/customer_service/faq');
+						}}
+					/>
 				</Box>
 			</Grid>
 			<Grid item xs={12} mt={5}>

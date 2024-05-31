@@ -20,9 +20,7 @@ const Page: NextPage = () => {
 	const [faqList, setFaqList] = React.useState([]);
 	const [category, setCategory] = React.useState(0); //검색하는 카테고리명
 	const [searchText, setSearchText] = React.useState(''); //검색하는 텍스트
-	const [categoryList, setCategoryList] = React.useState([
-		{ label: '전체', value: 0 },
-	]); //카테고리 리스트
+	const [categoryList, setCategoryList] = React.useState([]); //카테고리 리스트
 	//* Functions
 	//* Hooks
 	/**
@@ -40,15 +38,14 @@ const Page: NextPage = () => {
 		faqCategoryController.findAllItems(
 			{},
 			(res) => {
+				const categoryList = [{ label: '전체', value: 0 }];
 				res.data.result.rows.map((item) => {
-					setCategoryList((prev) => [
-						...prev,
-						{
-							label: item.CATEGORY_NAME,
-							value: item.CATEGORY_NAME,
-						},
-					]);
+					categoryList.push({
+						label: item.CATEGORY,
+						value: item.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
+					});
 				});
+				setCategoryList(categoryList);
 			},
 			(err) => console.log(err)
 		);
