@@ -95,6 +95,25 @@ const Page: NextPage = () => {
 
 		setPassword('');
 	};
+
+
+	/**
+	 * 
+	 * 글 삭제
+	 */
+
+	const deletePost = (id) => {
+		qnaController.deleteItem({
+			QNA_BOARD_QUESTION_IDENTIFICATION_CODE: id
+		},
+		(res) => {
+			alert("삭제 되었습니다.");
+			getQuestion();
+		},
+		(err) => {
+			console.log(err);
+		})
+	}
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -185,6 +204,8 @@ const Page: NextPage = () => {
 							openAccordian={
 								notice.OPEN_YN === true ? true : false
 							}
+
+							deleteCallback={()=>deletePost(notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE)}
 						/>
 					);
 				})}

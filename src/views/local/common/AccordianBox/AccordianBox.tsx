@@ -16,6 +16,7 @@ interface IAccordianBoxProps {
 	additionalComponent?: React.ReactNode;
 	additionalOpenFunction?: any;
 	openAccordian?: boolean;
+	deleteCallback?: ()=> void;
 }
 
 const AccordianBox = (props: IAccordianBoxProps) => {
@@ -115,6 +116,10 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						{props.content}
 					</Typography>
 				)}
+
+{open && <Typography variant="body1" sx={{textDecoration: 'underline', ml:"auto", cursor:"pointer"}} onClick={props.deleteCallback}>
+						삭제하기
+					</Typography>}
 				{open &&
 					!props.additionalComponent &&
 					props.imageList != undefined &&
@@ -140,6 +145,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 									}}
 								/>
 							))}
+
 						</Box>
 					)}
 				{props.created_at && (
@@ -147,6 +153,8 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 						{moment(props.created_at).format('YYYY-MM-DD')}
 					</Typography>
 				)}
+
+
 			</Box>
 		</Box>
 	);
