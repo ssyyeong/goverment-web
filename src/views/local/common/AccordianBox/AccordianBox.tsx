@@ -61,6 +61,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				
 					}}
 					onClick={() => {
+						
 						if (props.additionalOpenFunction)
 							!open
 								? props.additionalOpenFunction()
@@ -68,7 +69,10 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 								  props.additionalOpenFunction();
 
 						if (props?.openAccordian !== undefined)
-							setOpen(props.openAccordian);
+							{
+								
+								setOpen(props.openAccordian);
+							}
 						else setOpen(!open);
 					}}
 				>

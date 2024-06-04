@@ -190,7 +190,12 @@ const Page: NextPage = () => {
 										notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
 									);
 									setOpenPopUp(true);
-								} else if (
+								}else if (notice.PRIVATE_YN === 'Y' &&
+								!notice.OPEN_YN &&
+								notice.APP_MEMBER_IDENTIFICATION_CODE !==
+									memberId) {
+alert("비밀글은 본인 글만 확인 가능합니다.")
+								}else if (
 									notice.PRIVATE_YN === 'Y' &&
 									notice.OPEN_YN
 								) {

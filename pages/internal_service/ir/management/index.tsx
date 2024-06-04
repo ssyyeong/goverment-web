@@ -119,7 +119,7 @@ const Page: NextPage = () => {
 			type: 'datepicker',
 		},
 		{
-			label: '회사주소',
+			label: '회사소재지',
 			value: 'COMPANY_ADDRESS',
 		},
 		{
@@ -138,14 +138,14 @@ const Page: NextPage = () => {
 			label: '한줄 설명',
 			value: 'SUMMARY',
 		},
-		{
-			label: '설명',
-			value: 'DESCRIPTION',
-			additionalProps: {
-				multiline: true,
-				rows: 4,
-			},
-		},
+		// {
+		// 	label: '설명',
+		// 	value: 'DESCRIPTION',
+		// 	additionalProps: {
+		// 		multiline: true,
+		// 		rows: 4,
+		// 	},
+		// },
 	];
 
 	// 투자 정보
@@ -156,11 +156,11 @@ const Page: NextPage = () => {
 			type: 'select',
 			options: hopeInvestRound,
 		},
-		{
-			label: '희망 투지유치 금액(억단위)',
-			value: 'HOPE_INVEST_MONEY',
-			type: 'text',
-		},
+		// {
+		// 	label: '희망 투지유치 금액(억단위)',
+		// 	value: 'HOPE_INVEST_MONEY',
+		// 	type: 'text',
+		// },
 	];
 
 	// 투자 연혁
@@ -210,7 +210,7 @@ const Page: NextPage = () => {
 	const [businessRegistrationFile, setBusinessRegistrationFile] =
 		React.useState<string>('');
 	/**
-	 * 기업 소개 이미지 리스트
+	 * 기업 로고/이미지 리스트
 	 */
 	const [companyIntroductionImages, setCompanyIntroductionImages] =
 		React.useState<string[]>([]);
@@ -861,7 +861,7 @@ const Page: NextPage = () => {
 																	}}
 																	additionalProps={{
 																		placeholder: `${item.label}을 입력해주세요.`,
-																		...item.additionalProps,
+																		// ...item.additionalProps,
 																		fullWidth:
 																			true,
 																	}}
@@ -934,7 +934,7 @@ const Page: NextPage = () => {
 											variant="caption"
 											width={'130px'}
 										>
-											기업 소개 이미지
+											기업 로고/이미지
 										</Typography>
 										<Box
 											display={'flex'}

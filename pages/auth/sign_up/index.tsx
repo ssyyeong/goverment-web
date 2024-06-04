@@ -484,6 +484,19 @@ const Page: NextPage = () => {
 			},
 		},
 		{
+			label: '대표자명',
+			type: 'text',
+			optional: true,
+			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : "INVESTOR"],
+			value: signupData.OWNER_NAME,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					OWNER_NAME: e.target.value,
+				});
+			},
+		},
+		{
 			label: '서비스명(또는 아이템 한 줄 소개)',
 			type: 'text',
 			optional: true,
@@ -496,21 +509,21 @@ const Page: NextPage = () => {
 				});
 			},
 		},
-		{
-			label: '최근 투자라운드/금액',
-			for: 'INVESTOR',
-			config: investSector,
-			key: 'INVESTMENT_ROUND',
-			type: 'select',
-			optional: true,
-			value: signupData.INVESTMENT_ROUND,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					INVESTMENT_ROUND: e.target.value,
-				});
-			},
-		},
+		// {
+		// 	label: '최근 투자라운드/금액',
+		// 	for: 'INVESTOR',
+		// 	config: investSector,
+		// 	key: 'INVESTMENT_ROUND',
+		// 	type: 'select',
+		// 	optional: true,
+		// 	value: signupData.INVESTMENT_ROUND,
+		// 	onChange: (e) => {
+		// 		setSignupData({
+		// 			...signupData,
+		// 			INVESTMENT_ROUND: e.target.value,
+		// 		});
+		// 	},
+		// },
 		{
 			label: '최근 투자라운드/금액',
 			for: 'BUSINESS',
@@ -544,14 +557,14 @@ const Page: NextPage = () => {
 			label: '설립년도/월',
 			for: 'BUSINESS',
 			config: companyHistory,
-			key: 'COMPANY_HISTORY',
+			key: 'ESTABLISHMENT_DATE',
 			optional: true,
 			type: 'datepicker',
-			value: signupData.COMPANY_HISTORY,
+			value: signupData.ESTABLISHMENT_DATE,
 			onChange: (e) => {
 				setSignupData({
 					...signupData,
-					COMPANY_HISTORY: e.target.value,
+					ESTABLISHMENT_DATE: e.target.value,
 				});
 			},
 		},
@@ -907,14 +920,14 @@ const Page: NextPage = () => {
 																	: 'text'
 															}
 															value={
-																signupData.COMPANY_HISTORY
+																signupData.ESTABLISHMENT_DATE
 															}
 															setValue={(
 																value
 															) => {
 																setSignupData({
 																	...signupData,
-																	COMPANY_HISTORY:
+																	ESTABLISHMENT_DATE:
 																		dayjs(
 																			value
 																		).format(
@@ -1247,14 +1260,14 @@ const Page: NextPage = () => {
 																	: 'text'
 															}
 															value={
-																signupData.COMPANY_HISTORY
+																signupData.ESTABLISHMENT_DATE
 															}
 															setValue={(
 																value
 															) => {
 																setSignupData({
 																	...signupData,
-																	COMPANY_HISTORY:
+																	ESTABLISHMENT_DATE:
 																		dayjs(
 																			value
 																		).format(
@@ -1587,14 +1600,14 @@ const Page: NextPage = () => {
 																	: 'text'
 															}
 															value={
-																signupData.COMPANY_HISTORY
+																signupData.ESTABLISHMENT_DATE
 															}
 															setValue={(
 																value
 															) => {
 																setSignupData({
 																	...signupData,
-																	COMPANY_HISTORY:
+																	ESTABLISHMENT_DATE:
 																		dayjs(
 																			value
 																		).format(
@@ -1933,7 +1946,7 @@ const Page: NextPage = () => {
 																		: 'text'
 																}
 																value={
-																	signupData.COMPANY_HISTORY
+																	signupData.ESTABLISHMENT_DATE
 																}
 																setValue={(
 																	value
@@ -1941,7 +1954,7 @@ const Page: NextPage = () => {
 																	setSignupData(
 																		{
 																			...signupData,
-																			COMPANY_HISTORY:
+																			ESTABLISHMENT_DATE:
 																				dayjs(
 																					value
 																				).format(
@@ -2356,7 +2369,7 @@ const Page: NextPage = () => {
 																		: 'text'
 																}
 																value={
-																	signupData.COMPANY_HISTORY
+																	signupData.ESTABLISHMENT_DATE
 																}
 																setValue={(
 																	value
@@ -2364,7 +2377,7 @@ const Page: NextPage = () => {
 																	setSignupData(
 																		{
 																			...signupData,
-																			COMPANY_HISTORY:
+																			ESTABLISHMENT_DATE:
 																				dayjs(
 																					value
 																				).format(
@@ -2614,7 +2627,7 @@ const Page: NextPage = () => {
 																!signupData.MAIN_PRODUCT ||
 																!signupData.INVESTMENT_COMPANY ||
 																!signupData.COMPANY_NAME ||
-																!signupData.COMPANY_HISTORY ||
+																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
 																!signupData.DESCRIPTION
 															)
