@@ -16,6 +16,7 @@ interface IAccordianBoxProps {
 	additionalComponent?: React.ReactNode;
 	additionalOpenFunction?: any;
 	openAccordian?: boolean;
+	isPossibleDelete?: boolean;
 	deleteCallback?: ()=> void;
 }
 
@@ -52,11 +53,12 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 			>
 				<Box
 					sx={{
-						display: 'flex',
+						display: props.type === '공지' ? 'none':'flex',
 						justifyContent: 'space-between',
 						width: '100%',
 						alignItems: 'center',
 						cursor: 'pointer',
+				
 					}}
 					onClick={() => {
 						if (props.additionalOpenFunction)
@@ -72,7 +74,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 				>
 					{' '}
 					<Typography color={'primary'} fontWeight={'500'}>
-						{props.type == '공지' ? '' : props.type}
+						{props.type == '공지' ? '공지' : props.type}
 					</Typography>{' '}
 					{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
 				</Box>
@@ -117,9 +119,11 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 					</Typography>
 				)}
 
-{open && <Typography variant="body1" sx={{textDecoration: 'underline', ml:"auto", cursor:"pointer"}} onClick={props.deleteCallback}>
+{open && props.deleteCallback && props.isPossibleDelete &&
+<Typography variant="body1" sx={{textDecoration: 'underline', ml:"auto", cursor:"pointer"}} onClick={props.deleteCallback}>
 						삭제하기
-					</Typography>}
+					</Typography>
+					}
 				{open &&
 					!props.additionalComponent &&
 					props.imageList != undefined &&

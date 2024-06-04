@@ -235,7 +235,7 @@ const Page: NextPage = () => {
 					<Box
 						width={'100%'}
 						p={3}
-						bgcolor={'#cccccc60'}
+						bgcolor={'secondary.light'}
 						borderRadius={2}
 						mb={3}
 						display={'flex'}
@@ -268,7 +268,7 @@ const Page: NextPage = () => {
 					<Box
 						width={'100%'}
 						p={3}
-						bgcolor={'#cccccc60'}
+						bgcolor={'secondary.light'}
 						borderRadius={2}
 						mb={3}
 						display={'flex'}
@@ -292,6 +292,7 @@ const Page: NextPage = () => {
 														color: 'blue',
 														textDecoration:
 															'underline',
+															cursor:"pointer"
 													}}
 													onClick={() => {
 														window.open(
@@ -315,7 +316,7 @@ const Page: NextPage = () => {
 					<Box
 						width={'100%'}
 						p={3}
-						bgcolor={'#cccccc60'}
+						bgcolor={'secondary.light'}
 						borderRadius={2}
 						mb={3}
 						display={'flex'}
@@ -366,10 +367,12 @@ const Page: NextPage = () => {
 						flexDirection={'column'}
 						gap={1}
 						m={3}
-						p={2}
-						bgcolor={'#cccccc60'}
+						p={4}
+						bgcolor={'secondary.light'}
+						border={'1px solid #FFFFFF'}
+					borderRadius={1}
 					>
-						<Typography variant={'subtitle1'}>
+						<Typography variant={'subtitle1'} fontWeight={600}>
 							그룹 신청 가능 인원 및 정보
 						</Typography>
 						{seminarData?.SeminarGroups.map((item, index) => {
@@ -409,13 +412,14 @@ const Page: NextPage = () => {
 				{seminarData?.SeminarGroups?.length > 0 && (
 					<FormControl>
 						<FormLabel id="demo-radio-buttons-group-label">
-							그룹 선택(선택 후 신청하기 버튼을 눌러주세요.)
+							그룹 선택 (선택 후 신청하기 버튼을 눌러주세요.)
 						</FormLabel>
 						<RadioGroup
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
 								justifyContent: 'center',
+								my: 1
 							}}
 							value={seminarGroup}
 							onChange={(e) => {
@@ -477,6 +481,8 @@ const Page: NextPage = () => {
 						style={{
 							color: 'white',
 							width: '200px',
+							height: '40px',
+							mt: 2
 						}}
 					/>
 				</Box>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Box, BoxProps, Typography } from '@mui/material';
 import SeminarCard from '../../local/external_service/seminar/SeminarCard/SeminarCard';
+import Nodata from '../../global/NoData/NoData';
 
 interface IServiceListLayoutProps {
 	type: "seminar" | "consulting";
@@ -72,11 +73,14 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 				</Box>
 			)}
 			{/* 콘텐츠 영역 */}
-			<Box display="flex" gap={3} flexWrap='wrap' my={2}>
+			{props.dataList?.length === 0 ? 
+		<Nodata />	
+		: 
+			<Box display="flex" gap={3} flexWrap='wrap' my={3}>
 				{props.dataList?.map((item, index) => {
 					return <SeminarCard data={item} type={props.type}/>;
 				})}
-			</Box>
+			</Box>}
 		</Box>
 	);
 };

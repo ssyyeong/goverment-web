@@ -204,7 +204,8 @@ const Page: NextPage = () => {
 							openAccordian={
 								notice.OPEN_YN === true ? true : false
 							}
-
+							isPossibleDelete={notice.APP_MEMBER_IDENTIFICATION_CODE ===
+								memberId}
 							deleteCallback={()=>deletePost(notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE)}
 						/>
 					);
