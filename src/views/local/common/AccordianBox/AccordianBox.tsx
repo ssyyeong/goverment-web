@@ -53,7 +53,7 @@ const AccordianBox = (props: IAccordianBoxProps) => {
 			>
 				<Box
 					sx={{
-						display: props.type === '공지' ? 'none':'flex',
+						display:'flex',
 						justifyContent: 'space-between',
 						width: '100%',
 						alignItems: 'center',
