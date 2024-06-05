@@ -287,7 +287,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 */
 	const businessDataConfig = [
 		{
-			label: '사업 분류',
+			label: '업종/업태',
 			for: 'BUSINESS',
 			type: 'select',
 			value: businessData?.BUSINESS_SECTOR,
@@ -409,7 +409,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							<Typography fontWeight={600}>
 								{!item.nolabel && item.label}
 							</Typography>
-							{item.label == '사업 분류' ? (
+							{item.label == '업종/업태' ? (
 								<Autocomplete
 									size="small"
 									options={businessSector}

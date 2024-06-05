@@ -18,7 +18,7 @@ const businessConfig: {
 	},
 	{
 		key: 'ESTABLISHMENT_DATE',
-		label: '설립일자',
+		label: '설립일자(연/월)',
 		type: 'datepicker',
 	},
 	{
@@ -917,7 +917,7 @@ const businessConfig: {
 
 /**
  *
- * 서포티 사업 분류
+ * 서포티 업종/업태
  */
 const businessSector: string[] = [
 	'플랫폼',

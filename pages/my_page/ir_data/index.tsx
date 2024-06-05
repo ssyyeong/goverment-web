@@ -32,6 +32,7 @@ import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/u
 import Nodata from '../../../src/views/global/NoData/NoData';
 import SupportiModal from '../../../src/views/global/SupportiModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import { businessSector } from '../../../configs/data/BusinessConfig';
 
 export interface IInvestInfoType {
 	DATE?: any;
@@ -61,6 +62,7 @@ const Page: NextPage = () => {
 		// 	path: '/internal_service/ir/management',
 		// },
 	];
+
 	// 투자 라운드
 	const hopeInvestRound = [
 		{
@@ -93,6 +95,13 @@ const Page: NextPage = () => {
 		},
 	];
 
+	console.log(
+		businessSector.map((item) => {
+			return { label: item, value: item };
+		}),
+		hopeInvestRound
+	);
+
 	const companyInfoConfig = [
 		{
 			label: '사업자등록번호',
@@ -113,11 +122,15 @@ const Page: NextPage = () => {
 		{
 			label: '업종/업태',
 			value: 'BUSINESS_SECTOR',
+			type: 'select',
 			required: true,
+			options: businessSector.map((item) => {
+				return { label: item, value: item };
+			}),
 			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 		},
 		{
-			label: '설립일자',
+			label: '설립일자(연/월)',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
 			required: true,
@@ -550,8 +563,8 @@ const Page: NextPage = () => {
 											color={'grey'}
 											fontWeight={'600'}
 											sx={{
-												wordBreak:'keep-all',
-												lineHeight: '120%'
+												wordBreak: 'keep-all',
+												lineHeight: '120%',
 											}}
 										>
 											지금 대표님의 IR자료를 통해
@@ -697,7 +710,8 @@ const Page: NextPage = () => {
 													2024/린온컴퍼니/PDF/25)
 												</Typography>
 											</Box>
-										) : (irDeckFile.length === 0 || irDeckFile.FILE_URL == '') ? (
+										) : irDeckFile.length === 0 ||
+										  irDeckFile.FILE_URL == '' ? (
 											<Box
 												p={2}
 												boxShadow={
@@ -817,43 +831,112 @@ const Page: NextPage = () => {
 																)}
 															</Typography>
 															{isEdit ? (
-																<SupportiInput
-																	type={
-																		item.type
-																			? item.type
-																			: 'text'
-																	}
-																	value={
-																		userIrInfo[
-																			item
-																				.value
-																		]
-																	}
-																	setValue={(
-																		value
-																	) => {
-																		setUserIrInfo(
-																			{
-																				...userIrInfo,
-																				[item.value]:
-																					item.type ===
-																					'datepicker'
-																						? dayjs(
-																								value
-																						  ).format(
-																								'YYYY-MM-DD'
-																						  )
-																						: value,
-																			}
-																		);
-																	}}
-																	additionalProps={{
-																		placeholder:
-																			item.placeholder
-																				? item.placeholder
-																				: `${item.label}을 입력해주세요.`,
-																	}}
-																/>
+																item.type ===
+																'select' ? (
+																	<SupportiInput
+																		type={
+																			item.type
+																		}
+																		value={
+																			userIrInfo[
+																				item
+																					.value
+																			]
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					[item.value]:
+																						value,
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			placeholder: `${item.label}을 입력해주세요.`,
+																		}}
+																		dataList={
+																			item.options
+																		}
+																	/>
+																) : item.label ===
+																  '설립일자(연/월)' ? (
+																	<SupportiInput
+																		type={
+																			item.type
+																				? item.type
+																				: 'text'
+																		}
+																		value={
+																			userIrInfo.ESTABLISHMENT_DATE
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					ESTABLISHMENT_DATE:
+																						dayjs(
+																							value
+																						).format(
+																							'YYYY-MM-DD'
+																						),
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			views: [
+																				'month',
+																				'year',
+																			],
+																			placeholder:
+																				item.placeholder
+																					? item.placeholder
+																					: `${item.label}을 입력해주세요.`,
+																		}}
+																	/>
+																) : (
+																	<SupportiInput
+																		type={
+																			item.type
+																				? item.type
+																				: 'text'
+																		}
+																		value={
+																			userIrInfo[
+																				item
+																					.value
+																			]
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					[item.value]:
+																						item.type ===
+																						'datepicker'
+																							? dayjs(
+																									value
+																							  ).format(
+																									'YYYY-MM-DD'
+																							  )
+																							: value,
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			placeholder:
+																				item.placeholder
+																					? item.placeholder
+																					: `${item.label}을 입력해주세요.`,
+																		}}
+																	/>
+																)
 															) : (
 																<Typography
 																	fontWeight={

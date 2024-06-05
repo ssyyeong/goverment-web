@@ -290,7 +290,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 
 	const businessDataConfig = [
 		{
-			label: '사업 분류',
+			label: '업종/업태',
 			for: 'BUSINESS',
 			type: 'select',
 			value: businessData?.BUSINESS_SECTOR,
@@ -469,7 +469,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 								<Typography fontWeight={600}>
 									{item.label}
 								</Typography>
-								{item.label == '사업 분류' ? (
+								{item.label == '업종/업태' ? (
 									<Autocomplete
 										options={businessSector}
 										fullWidth

@@ -114,7 +114,7 @@ const Page: NextPage = () => {
 			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 		},
 		{
-			label: '설립일자',
+			label: '설립일자(연/월)',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
 		},

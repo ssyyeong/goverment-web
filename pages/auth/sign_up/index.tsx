@@ -431,7 +431,7 @@ const Page: NextPage = () => {
 					: '',
 		},
 		{
-			label: '사업 분류',
+			label: '업종/업태',
 			for: 'BUSINESS',
 			config: businessSector,
 			key: 'BUSINESS_SECTOR',
@@ -487,7 +487,7 @@ const Page: NextPage = () => {
 			label: '대표자명',
 			type: 'text',
 			optional: true,
-			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : "INVESTOR"],
+			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
 			value: signupData.OWNER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -554,7 +554,7 @@ const Page: NextPage = () => {
 			},
 		},
 		{
-			label: '설립년도/월',
+			label: '설립일자(연/월)',
 			for: 'BUSINESS',
 			config: companyHistory,
 			key: 'ESTABLISHMENT_DATE',
@@ -614,7 +614,7 @@ const Page: NextPage = () => {
 		// 	},
 		// },
 		// {
-		// 	label: '설립일자',
+		// 	label: '설립일자(연/월)',
 		// 	type: 'datepicker',
 		// 	for: ['BUSINESS'],
 		// 	value: signupData.ESTABLISHMENT_DATE,
@@ -947,7 +947,36 @@ const Page: NextPage = () => {
 															}}
 														/>
 													) : item.label ===
-													  '설립일자' ? (
+													  '설립일자(연/월)' ? (
+														// <SupportiInput
+														// 	type={
+														// 		item.type
+														// 			? item.type
+														// 			: 'text'
+														// 	}
+														// 	value={
+														// 		signupData.ESTABLISHMENT_DATE
+														// 	}
+														// 	setValue={(
+														// 		value
+														// 	) => {
+														// 		setSignupData({
+														// 			...signupData,
+														// 			ESTABLISHMENT_DATE:
+														// 				dayjs(
+														// 					value
+														// 				).format(
+														// 					'YYYY-MM-DD'
+														// 				),
+														// 		});
+														// 	}}
+														// 	additionalProps={{
+														// 		placeholder:
+														// 			item.placeholder
+														// 				? item.placeholder
+														// 				: `${item.label}을 입력해주세요.`,
+														// 	}}
+														// />
 														<SupportiInput
 															type={
 																item.type
@@ -971,6 +1000,10 @@ const Page: NextPage = () => {
 																});
 															}}
 															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1287,7 +1320,7 @@ const Page: NextPage = () => {
 															}}
 														/>
 													) : item.label ===
-													  '설립일자' ? (
+													  '설립일자(연/월)' ? (
 														<SupportiInput
 															type={
 																item.type
@@ -1311,6 +1344,10 @@ const Page: NextPage = () => {
 																});
 															}}
 															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1627,7 +1664,7 @@ const Page: NextPage = () => {
 															}}
 														/>
 													) : item.label ===
-													  '설립일자' ? (
+													  '설립일자(연/월)' ? (
 														<SupportiInput
 															type={
 																item.type
@@ -1651,6 +1688,10 @@ const Page: NextPage = () => {
 																});
 															}}
 															additionalProps={{
+																views: [
+																	'month',
+																	'year',
+																],
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1975,7 +2016,7 @@ const Page: NextPage = () => {
 																}}
 															/>
 														) : item.label ===
-														  '설립일자' ? (
+														  '설립일자(연/월)' ? (
 															<SupportiInput
 																type={
 																	item.type
@@ -2001,6 +2042,10 @@ const Page: NextPage = () => {
 																	);
 																}}
 																additionalProps={{
+																	views: [
+																		'month',
+																		'year',
+																	],
 																	placeholder:
 																		item.placeholder
 																			? item.placeholder
@@ -2398,7 +2443,7 @@ const Page: NextPage = () => {
 																}}
 															/>
 														) : item.label ===
-														  '설립일자' ? (
+														  '설립일자(연/월)' ? (
 															<SupportiInput
 																type={
 																	item.type
@@ -2424,6 +2469,10 @@ const Page: NextPage = () => {
 																	);
 																}}
 																additionalProps={{
+																	views: [
+																		'month',
+																		'year',
+																	],
 																	placeholder:
 																		item.placeholder
 																			? item.placeholder
