@@ -1,7 +1,7 @@
 {
 	"apps": [
 		{
-			"name": "qillie-base-admin-web",
+			"name": "qillie-base-user-web",
 			"cwd": "./",
 			"script": "npm",
 			"args": "start",
