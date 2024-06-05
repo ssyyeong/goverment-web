@@ -36,7 +36,6 @@ const Page: NextPage = () => {
 
 	const { isApplied } = router.query;
 
-	console.log(isApplied);
 	//* States
 	/**
 	 * 세미나 데이터
@@ -45,7 +44,7 @@ const Page: NextPage = () => {
 	/**
 	 * 세미나 그룹
 	 */
-	const [seminarGroup, setSeminarGroup] = React.useState<any>(0);
+	const [seminarGroup, setSeminarGroup] = React.useState<any>(undefined);
 	/**
 	 * 세미나 신청 목록 데이터
 	 */
@@ -171,7 +170,7 @@ const Page: NextPage = () => {
 				xs: 2,
 				md: 10,
 			}}
-			minHeight={'90vh'}
+			minHeight={'100vh'}
 		>
 			{/* 세미나 헤더 */}
 			<Box
@@ -460,6 +459,7 @@ const Page: NextPage = () => {
 						top: 0,
 					}}
 					height={40}
+					mb={5}
 				>
 					<SupportiButton
 						contents={
@@ -469,20 +469,37 @@ const Page: NextPage = () => {
 						}
 						isGradient={true}
 						onClick={() => {
+
+							const soldOut = seminarData?.SeminarGroups?.filter((item) => ( seminarApplication.filter(
+								(data) =>
+									data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+									item.SEMINAR_GROUP_IDENTIFICATION_CODE
+							).length != item.PERSONNEL))
+
+							console.log(soldOut)
+
+
 							if (isApplied == 'false' || 'undefined') {
 								if (
 									seminarData?.SeminarGroups.length > 0 &&
-									seminarGroup == 0
+									seminarGroup == undefined && soldOut.length !== 0
 								) {
 									alert('그룹을 선택해주세요.');
-								} else handleApplySeminar();
+									return;
+								} else if(soldOut.length === 0) {
+									alert("마감되었습니다.");
+									return;
+								}else handleApplySeminar();
 							} else alert('이미 신청하셨습니다!');
+
+							
 						}}
 						style={{
 							color: 'white',
 							width: '200px',
 							height: '40px',
-							mt: 2
+							my: 2,
+							pb: 2,
 						}}
 					/>
 				</Box>

@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { SubsidyByItemController } from '../../../../../src/controller/SubsidyByItemController';
 import SupportSearchModal from '../../../../../src/views/local/internal_service/government/SupportSearchModal/SupportSearchModal';
+import addCommaToNumber from '../../../../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -614,9 +615,9 @@ const Page: NextPage = () => {
 					sx={{ mt: 1, ml: '80%' }}
 				>
 					{supportBusiness.OPERATING_COST != 0
-						? supportBusiness.OPERATING_COST *
+						? addCommaToNumber(supportBusiness.OPERATING_COST *
 						  0.01 *
-						  supportBusiness.SUPPORT_COST_RATE
+						  supportBusiness.SUPPORT_COST_RATE)
 						: 0}{' '}
 					원
 				</Typography>
@@ -645,9 +646,9 @@ const Page: NextPage = () => {
 					sx={{ mt: 1, ml: '80%' }}
 				>
 					{supportBusiness.OPERATING_COST != 0
-						? supportBusiness.OPERATING_COST *
+						? addCommaToNumber(supportBusiness.OPERATING_COST *
 						  0.01 *
-						  supportBusiness.BUSINESS_CONTRIBUTION_RATE
+						  supportBusiness.BUSINESS_CONTRIBUTION_RATE)
 						: 0}{' '}
 					원
 				</Typography>

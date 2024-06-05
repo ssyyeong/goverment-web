@@ -203,8 +203,8 @@ const Page: NextPage = () => {
 			!signupData.PHONE_NUMBER
 		)
 			return alert('모든 정보를 입력해주세요.');
-		if (signupData.USER_NAME && emailDuplication)
-			return alert('중복된 이메일입니다.');
+		// if (signupData.USER_NAME && emailDuplication)
+		// 	return alert('중복된 이메일입니다.');
 		appMemberController.register(
 			{
 				...signupData,

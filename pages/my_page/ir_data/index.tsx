@@ -549,6 +549,10 @@ const Page: NextPage = () => {
 											variant="body2"
 											color={'grey'}
 											fontWeight={'600'}
+											sx={{
+												wordBreak:'keep-all',
+												lineHeight: '120%'
+											}}
 										>
 											지금 대표님의 IR자료를 통해
 											투자자분들에게 투자받을 기회를
@@ -682,9 +686,10 @@ const Page: NextPage = () => {
 													}}
 												/>
 												<Typography
-													variant="caption"
+													variant="subtitle2"
 													fontWeight={'600'}
 													color={'grey'}
+													mt={1}
 												>
 													제작년도 / 기업명 / 파일형식
 													/ 페이지 수 형식으로 업로드
@@ -692,7 +697,7 @@ const Page: NextPage = () => {
 													2024/린온컴퍼니/PDF/25)
 												</Typography>
 											</Box>
-										) : irDeckFile.FILE_URL == '' ? (
+										) : (irDeckFile.length === 0 || irDeckFile.FILE_URL == '') ? (
 											<Box
 												p={2}
 												boxShadow={
@@ -798,6 +803,7 @@ const Page: NextPage = () => {
 																}
 																color={'grey'}
 																variant="body1"
+																my={1}
 															>
 																{item.label}{' '}
 																{item.required && (
@@ -1111,6 +1117,7 @@ const Page: NextPage = () => {
 																}
 																color={'grey'}
 																variant="body1"
+																my={1}
 															>
 																{item.label}
 															</Typography>

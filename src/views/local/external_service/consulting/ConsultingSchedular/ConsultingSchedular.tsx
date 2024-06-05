@@ -306,7 +306,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 							</Typography>
 						</Box>
 
-						<Box
+						{/* <Box
 							display={'flex'}
 							alignItems={'center'}
 							gap={1}
@@ -343,7 +343,7 @@ const ConsultingSchedular = (props: IConsultingSchedularProps) => {
 									'YYYY-MM-DD'
 								)}
 							</Typography>
-						</Box>
+						</Box> */}
 						<Box mt={2}>
 							<Typography color={'primary'}>
 								{props.consultingData.LOCK_DOWN_TIME_UNIT ===
