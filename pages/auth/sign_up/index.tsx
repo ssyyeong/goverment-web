@@ -2618,14 +2618,6 @@ const Page: NextPage = () => {
 															0
 														) {
 															// 개인정보 다 입력
-															if (
-																signupData
-																	.PHONE_NUMBER
-																	.length < 11
-															)
-																return alert(
-																	'정확한 전화번호를 입력해주세요.'
-																);
 
 															// if (!isVerified)
 															// 	return alert(
@@ -2639,6 +2631,16 @@ const Page: NextPage = () => {
 															)
 																return alert(
 																	'모든 정보를 입력해주세요.'
+																);
+
+															if (
+																signupData
+																	?.PHONE_NUMBER
+																	?.length <
+																11
+															)
+																return alert(
+																	'정확한 전화번호를 입력해주세요.'
 																);
 															if (
 																signupData.USER_NAME &&

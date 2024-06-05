@@ -956,10 +956,33 @@ const Page: NextPage = () => {
 																		item
 																			.value
 																	]
-																		? userIrInfo[
-																				item
-																					.value
-																		  ]
+																		? item.label ===
+																		  '설립일자(연/월)'
+																			? userIrInfo[
+																					item
+																						.value
+																			  ]
+																					.split(
+																						'T'
+																					)[0]
+																					.split(
+																						'-'
+																					)[0] +
+																			  '-' +
+																			  userIrInfo[
+																					item
+																						.value
+																			  ]
+																					.split(
+																						'T'
+																					)[0]
+																					.split(
+																						'-'
+																					)[1]
+																			: userIrInfo[
+																					item
+																						.value
+																			  ]
 																		: '없음'}
 																</Typography>
 															)}
