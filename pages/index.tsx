@@ -1,4 +1,11 @@
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Divider,
+	Grid,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import React from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -301,7 +308,7 @@ const Page: NextPage = () => {
 						>
 							서포티는 스타트업과 함께하는 동행자입니다.
 						</Typography>
-
+						{/* 
 						<SupportiButton
 							contents={'지금 시작하기'}
 							variant="contained"
@@ -319,8 +326,15 @@ const Page: NextPage = () => {
 									router.push('/auth/sign_in');
 								}
 							}}
-						/>
+						/> */}
 					</Box>
+					<Divider
+						sx={{
+							width: '40%',
+							display: 'flex',
+							margin: 'auto',
+						}}
+					/>
 				</Box>
 			</Box>
 
@@ -913,12 +927,11 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents="무료로 시작하기"
 						onClick={() => {
-							if (!memberId) {
-								router.push('/auth/sign_in');
+							//로그인 여부에 따라 페이지 이동
+							if (memberId) {
+								router.push('/my_page/edit_profile');
 							} else {
-								router.push(
-									'/internal_service/financial_solution/account_manage'
-								);
+								router.push('/auth/sign_in');
 							}
 						}}
 						variant="contained"

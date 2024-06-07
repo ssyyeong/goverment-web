@@ -77,6 +77,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
+
 	const handleOpenUserMenu = (event, title, eventHandler) => {
 		eventHandler(event);
 	};

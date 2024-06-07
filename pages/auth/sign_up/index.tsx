@@ -37,6 +37,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import dayjs from 'dayjs';
+import { set } from 'date-fns';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -302,8 +303,7 @@ const Page: NextPage = () => {
 			type: 'password',
 			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
 			value: signupData.PASSWORD,
-			placeholder:
-				'비밀번호 (8~16자의 영문 대소문자, 숫자, 특수문자 조합)',
+			placeholder: '비밀번호 (8~16 영문,숫자,특수문자)',
 			onChange: (e) => {
 				setSignupData({
 					...signupData,
@@ -693,6 +693,11 @@ const Page: NextPage = () => {
 					value={tabs}
 					setValue={(value) => {
 						setTabs(value as string);
+						//탭 변경 시 초기화 작업
+						setActiveStep(0);
+						setEmailDuplication(undefined);
+						setPhoneNumDuplication(false);
+						setIsVerified('NOT_YET');
 					}}
 				/>
 			</Box>
@@ -753,11 +758,11 @@ const Page: NextPage = () => {
 							<Typography variant="body1">
 								서포티 서비스 이용을 위한{' '}
 								{businessStepNum === 0
-									? '기본정보'
+									? '기본정보 항목을'
 									: businessStepNum === 1
-									? '상세정보'
-									: '필요 항목'}
-								을/를 입력해주세요.
+									? '상세정보 항목을'
+									: '필요 항목을'}{' '}
+								입력해주세요.
 							</Typography>
 						</Box>
 
