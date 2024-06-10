@@ -64,7 +64,7 @@ const Page: NextPage = () => {
 	 * ir deck 파일
 	 */
 	const [irDeckFile, setIrDeckFile] = React.useState<any>({
-		FILE_NAME: 'ppt, pdf, hwp, pcdx, zip (200mb이하)',
+		FILE_NAME: '',
 		FILE_URL: '',
 	});
 	/**
@@ -212,7 +212,7 @@ const Page: NextPage = () => {
 				USER_GRADE: tabs,
 				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
 				NEEDED_SERVICE: JSON.stringify(needService),
-				IR_FILE: isNone ? '[]' : JSON.stringify(irDeckFile),
+				IR_FILE: JSON.stringify(signupData.IR_FILE),
 			},
 			(res) => {
 				if (res.data.result) {
@@ -669,6 +669,31 @@ const Page: NextPage = () => {
 		setIsNone(false);
 	}, [tabs]);
 
+	React.useEffect(() => {
+		setSignupData({
+			...signupData,
+			IR_FILE: irDeckFile,
+		});
+	}, [irDeckFile]);
+
+	React.useEffect(() => {
+		if (isNone) {
+			setSignupData({
+				...signupData,
+				IR_FILE: [],
+			});
+			setIrDeckFile({
+				FILE_NAME: '',
+				FILE_URL: '',
+			});
+		} else {
+			setSignupData({
+				...signupData,
+				IR_FILE: irDeckFile,
+			});
+		}
+	}, [isNone]);
+
 	return (
 		<SignUpLayout>
 			<Typography variant="h1" fontWeight={'bold'}>
@@ -877,6 +902,8 @@ const Page: NextPage = () => {
 																			{
 																				accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
 																			},
+																		placeholer:
+																			'ppt, pdf, hwp, pcdx, zip (200mb이하)',
 																	}}
 																/>
 																<Typography
@@ -888,8 +915,12 @@ const Page: NextPage = () => {
 																		'grey'
 																	}
 																>
-																	PDF 형식을
+																	* PDF 형식을
 																	권장드립니다.
+																	(ppt, pdf,
+																	hwp, pcdx,
+																	zip
+																	(200mb이하))
 																</Typography>
 																<Box display="flex">
 																	<SupportiInput
@@ -1250,6 +1281,8 @@ const Page: NextPage = () => {
 																			{
 																				accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
 																			},
+																		placeholer:
+																			'ppt, pdf, hwp, pcdx, zip (200mb이하)',
 																	}}
 																/>
 																<Typography
@@ -1261,8 +1294,12 @@ const Page: NextPage = () => {
 																		'grey'
 																	}
 																>
-																	PDF 형식을
+																	* PDF 형식을
 																	권장드립니다.
+																	(ppt, pdf,
+																	hwp, pcdx,
+																	zip
+																	(200mb이하))
 																</Typography>
 																<Box display="flex">
 																	<SupportiInput
@@ -1594,6 +1631,8 @@ const Page: NextPage = () => {
 																			{
 																				accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
 																			},
+																		placeholer:
+																			'ppt, pdf, hwp, pcdx, zip (200mb이하)',
 																	}}
 																/>
 																<Typography
@@ -1605,8 +1644,12 @@ const Page: NextPage = () => {
 																		'grey'
 																	}
 																>
-																	PDF 형식을
+																	* PDF 형식을
 																	권장드립니다.
+																	(ppt, pdf,
+																	hwp, pcdx,
+																	zip
+																	(200mb이하))
 																</Typography>
 																<Box display="flex">
 																	<SupportiInput
@@ -1943,6 +1986,8 @@ const Page: NextPage = () => {
 																				{
 																					accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
 																				},
+																			placeholer:
+																				'ppt, pdf, hwp, pcdx, zip (200mb이하)',
 																		}}
 																	/>
 																	<Typography
@@ -1954,9 +1999,15 @@ const Page: NextPage = () => {
 																			'grey'
 																		}
 																	>
-																		PDF
+																		* PDF
 																		형식을
 																		권장드립니다.
+																		(ppt,
+																		pdf,
+																		hwp,
+																		pcdx,
+																		zip
+																		(200mb이하))
 																	</Typography>
 																	<Box display="flex">
 																		<SupportiInput
@@ -2259,8 +2310,10 @@ const Page: NextPage = () => {
 																!signupData.COMPANY_NAME ||
 																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
-																(!isNone &&
-																	!signupData.IR_FILE)
+																signupData
+																	.IR_FILE
+																	?.FILE_URL ===
+																	''
 															)
 																return alert(
 																	'모든 정보를 입력해주세요.'
@@ -2706,8 +2759,10 @@ const Page: NextPage = () => {
 																!signupData.COMPANY_NAME ||
 																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
-																(!isNone &&
-																	!signupData.IR_FILE)
+																signupData
+																	.IR_FILE
+																	?.FILE_URL ===
+																	''
 															)
 																return alert(
 																	'모든 정보를 입력해주세요.'

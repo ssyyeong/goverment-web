@@ -323,6 +323,9 @@ const SupportiInput = React.forwardRef(
 										>
 											{props.fileTypeInputName
 												? props.value.FILE_NAME
+												: props.value.FILE_NAME === ''
+												? props?.additionalProps
+														?.placeholder
 												: props.value}
 										</Typography>
 									</InputAdornment>
