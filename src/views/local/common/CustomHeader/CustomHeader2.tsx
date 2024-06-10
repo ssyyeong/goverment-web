@@ -11,7 +11,10 @@ import {
 	Toolbar,
 	Typography,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MenuIcon from '@mui/icons-material/Menu';
+
 import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import { gTagEvent } from '../../../../lib/gtag';
@@ -24,6 +27,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	//* States
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [isOpenMenu, setIsOpenMenu] = React.useState(false);
+
+	const [anchorElIndicator, setAnchorElIndicator] = React.useState(null); //지표관리 메뉴
+	const [target, setTarget] = React.useState(null);
 	//* Constants
 
 	/**
@@ -66,7 +72,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '세미나/컨설팅',
+			label: '세미나',
 			path: '/external_service/seminar',
 			onclick: () => {
 				router.push('/external_service/seminar');
@@ -171,7 +177,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '세미나/컨설팅',
+			label: '세미나',
 			path: '/external_service/seminar',
 			onclick: () => {
 				router.push('/external_service/seminar');
@@ -285,7 +291,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 */
 	const service = [
 		{
-			label: '세미나/컨설팅',
+			label: '세미나',
 			path: '/external_service/seminar',
 			additionalOnclickFunction: () => {
 				gTagEvent({
@@ -343,6 +349,28 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 	];
 
+	/**
+	 * 지표관리
+	 */
+	const indication = [
+		{
+			label: '성과 지표',
+			path: '/internal_service/indicator_management/achievement',
+			onclick: () => {
+				router.push(
+					'/internal_service/indicator_management/achievement'
+				);
+			},
+		},
+		{
+			label: '재무 지표',
+			path: '/internal_service/indicator_management/financial',
+			onclick: () => {
+				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+	];
+
 	const pages = [
 		{
 			label: '서포티',
@@ -370,6 +398,18 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 * 마이페이지
 	 */
 	const mypage = [
+		// {
+		// 	label: '지표관리',
+		// 	subMenus: indication,
+		// 	subMenuHandler: (event) => {
+		// 		console.log(event, '지표관리');
+
+		// 		if (event) setAnchorElIndicator(event.currentTarget);
+		// 		else setAnchorElIndicator(null);
+		// 	},
+		// 	target: anchorElIndicator,
+		// },
+
 		{
 			label: '지표관리',
 			path: '/internal_service/indicator_management/financial',
@@ -377,7 +417,6 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/internal_service/indicator_management/financial');
 			},
 		},
-
 		{
 			label: '마이페이지',
 			path: '/my_page/edit_profile',
@@ -402,6 +441,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 */
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
+	};
+
+	/**
+	 * 고객 센터 메뉴 오픈
+	 */
+	const handleOpenUserMenu = (event, title, eventHandler) => {
+		eventHandler(event);
 	};
 
 	const handleOpenMenu = (menu, idx) => {
@@ -460,6 +506,99 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 					</Box>
 				)}
 			</Box>
+		);
+	};
+
+	const handleMypageMenu = (menu, idx) => {
+		return (
+			<>
+				{/* 메인 메뉴 버튼 */}
+				<Button
+					onClick={(event) => {
+						handleOpenUserMenu(
+							event,
+							menu.label,
+							menu.subMenuHandler
+						);
+						setTarget(menu.label);
+						setIsOpenMenu(false);
+					}}
+					sx={{
+						my: 1,
+						mx: 2,
+						borderRadius: 2,
+						display: 'flex',
+						height: 28,
+						flexDirection: 'row',
+						alignItems: 'center',
+						p: 2,
+					}}
+					variant="contained"
+				>
+					<Typography color={'white'} fontWeight={'600'}>
+						{menu.label}
+					</Typography>
+
+					{target === menu.label && Boolean(menu?.target) ? (
+						<ExpandLessIcon />
+					) : (
+						<ExpandMoreIcon />
+					)}
+				</Button>
+				{/*  버튼 하위 메뉴 */}
+				<Menu
+					sx={{
+						mt: '45px',
+						visibility: target !== menu.label && 'hidden',
+					}}
+					id="menu-appbar"
+					anchorEl={menu.target}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					// keepMounted
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+					open={target === menu.label && Boolean(menu?.target)}
+					onClose={() => menu?.subMenuHandler(null)}
+					PaperProps={{
+						sx: {
+							bgcolor: 'primary.light',
+							boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
+							borderRadius: 2,
+							textAlign: 'center',
+						},
+					}}
+					key={idx}
+					MenuListProps={{
+						onMouseLeave: () => {
+							menu?.subMenuHandler(null);
+						},
+					}}
+					autoFocus={false}
+				>
+					{menu.subMenus.map((setting) => (
+						<MenuItem
+							key={setting.label}
+							onClick={() => router.push(setting.path)}
+							sx={{ width: '130px', textAlign: 'center' }}
+						>
+							<Typography
+								textAlign="center"
+								color={'primary'}
+								// variant="h6"
+								fontWeight={'600'}
+								sx={{ px: 0.5, mx: 'auto' }}
+							>
+								{setting.label}
+							</Typography>
+						</MenuItem>
+					))}
+				</Menu>
+			</>
 		);
 	};
 
@@ -658,12 +797,15 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 									justifyContent={'center'}
 									alignContent={'center'}
 								>
-									{mypage.map((menu, idx) => {
+									{mypage.map((menu: any, idx) => {
+										// return menu.subMenus ? (
+										// 	handleMypageMenu(menu, idx)
+										// ) :
 										return (
 											<Button
 												onClick={menu.onclick}
 												sx={{
-													my: 2,
+													my: 1,
 													mx: 2,
 													display: 'block',
 													width: 90,
