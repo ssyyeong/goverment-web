@@ -204,15 +204,19 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	 */
 	const temp = subsidyConfig.map((item, index) => {
 		return {
-			data: JSON.parse(
-				props.supportBusinessManagement.SubsidyByItems.filter(
-					(data) => data.NAME === item.key
-				)[0]?.SUPPORT_COST
-			)[0][item.group][props.subsidyTab],
+			data:
+				props.supportBusinessManagement.SubsidyByItems &&
+				JSON.parse(
+					props.supportBusinessManagement.SubsidyByItems?.filter(
+						(data) => data.NAME === item.key
+					)[0]?.SUPPORT_COST
+				)[0][item.group][props.subsidyTab],
 			key: item.key,
-			id: props.supportBusinessManagement.SubsidyByItems.filter(
-				(data) => data.NAME === item.key
-			)[0].SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
+			id:
+				props.supportBusinessManagement.SubsidyByItems &&
+				props.supportBusinessManagement.SubsidyByItems?.filter(
+					(data) => data.NAME === item.key
+				)[0].SUBSIDY_BY_ITEM_IDENTIFICATION_CODE,
 			group: item.group,
 		};
 	});
@@ -349,9 +353,8 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 		setIsEditMode(false);
 	}, [props.subsidyTab]);
 
-
 	return (
-		subSidyByItems.length !== 0 && (
+		subSidyByItems?.length !== 0 && (
 			<Box
 				display={'flex'}
 				flexDirection={'column'}
@@ -943,7 +946,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 							</Grid>
 						)}
 
-{props.supportBusinessManagement.PHASE === 'PHASE2' && (
+						{props.supportBusinessManagement.PHASE === 'PHASE2' && (
 							<Grid
 								container
 								flexDirection={'column'}
@@ -966,31 +969,25 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 										textAlign={'center'}
 										color={'white'}
 									>
-										
 										각 {props.subsidyTab}
 									</Typography>
 								</Grid>
 								{temp.map((item, index) => {
 									return (
-											<Grid
-												item
-												display={'flex'}
-												justifyContent={'center'}
-												alignItems={'center'}
-												px={1}
-												borderBottom={
-													'0.5px solid #ccc'
-												}
-												borderRight={'0.5px solid #ccc'}
-												py={2.192}
-											>
-												<Typography fontWeight={'400'}>
-													{addCommaToNumber(
-														item.data
-													)}
-												</Typography>
-											</Grid>
-										
+										<Grid
+											item
+											display={'flex'}
+											justifyContent={'center'}
+											alignItems={'center'}
+											px={1}
+											borderBottom={'0.5px solid #ccc'}
+											borderRight={'0.5px solid #ccc'}
+											py={2.192}
+										>
+											<Typography fontWeight={'400'}>
+												{addCommaToNumber(item.data)}
+											</Typography>
+										</Grid>
 									);
 								})}
 							</Grid>
@@ -1061,7 +1058,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 								</Typography>
 							</Grid>
 						)}
-						{subSidyByItems.map((item, index) => (
+						{subSidyByItems?.map((item, index) => (
 							// <Grid
 							// 	item
 							// 	display={'flex'}
@@ -1158,17 +1155,23 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 										: 2.192
 								}
 							>
-							<Typography py={3.118}>
-							{addCommaToNumber(
-								Number(JSON.parse(item.SUPPORT_COST)[0]?.[
-									'지원금'
-								]?.[props.subsidyTab]) +
-								Number(JSON.parse(
-										item.SUPPORT_COST
-									)[0]?.['기업부담금']?.[props.subsidyTab])
-							)}
-						</Typography>
-						</Grid>
+								<Typography py={3.118}>
+									{addCommaToNumber(
+										Number(
+											JSON.parse(item.SUPPORT_COST)[0]?.[
+												'지원금'
+											]?.[props.subsidyTab]
+										) +
+											Number(
+												JSON.parse(
+													item.SUPPORT_COST
+												)[0]?.['기업부담금']?.[
+													props.subsidyTab
+												]
+											)
+									)}
+								</Typography>
+							</Grid>
 						))}
 					</Grid>
 				</Grid>

@@ -699,7 +699,7 @@ const Page: NextPage = () => {
 																			') '}
 																		{item}
 																	</Typography>
-																	{item.includes(
+																	{/* {item.includes(
 																		'시드권'
 																	) && (
 																		<Tooltip
@@ -740,7 +740,7 @@ const Page: NextPage = () => {
 																				<HelpOutlineIcon fontSize="small" />
 																			</IconButton>
 																		</Tooltip>
-																	)}
+																	)} */}
 																</Box>
 																<img
 																	src={
@@ -1050,7 +1050,7 @@ const Page: NextPage = () => {
 					color: 'primary.main',
 					cursor: 'pointer',
 				}}
-				contents={'요금제 상세보기'}
+				contents={'서비스 상세보기'}
 				onClick={() => {
 					router.push('/rate_plan/theBlack');
 				}}

@@ -94,7 +94,6 @@ const Page: NextPage = () => {
 		'세무/노무/특허/법률',
 	];
 
-	console.log(needService);
 	//*Functions
 	/**
 	 * 알림톡 발송
@@ -194,14 +193,14 @@ const Page: NextPage = () => {
 	const signUp = () => {
 		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
-		if (signupData.PHONE_NUMBER.length < 11)
+		if (!signupData.PHONE_NUMBER || signupData.PHONE_NUMBER?.length < 11)
 			return alert('정확한 전화번호를 입력해주세요.');
 		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
 		if (
 			!signupData.USER_NAME ||
 			!signupData.FULL_NAME ||
-			!signupData.PASSWORD ||
-			!signupData.PHONE_NUMBER
+			!signupData.PASSWORD
+			// !signupData.PHONE_NUMBER
 		)
 			return alert('모든 정보를 입력해주세요.');
 		// if (signupData.USER_NAME && emailDuplication)
@@ -213,10 +212,11 @@ const Page: NextPage = () => {
 				USER_GRADE: tabs,
 				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
 				NEEDED_SERVICE: JSON.stringify(needService),
-				IR_FILE: JSON.stringify(irDeckFile),
+				IR_FILE: isNone ? '[]' : JSON.stringify(irDeckFile),
 			},
 			(res) => {
 				if (res.data.result) {
+					alert('회원가입이 완료되었습니다.');
 					gTagEvent({
 						action: 'sign_up_complete',
 						category: 'sign_up_complete',
@@ -666,6 +666,7 @@ const Page: NextPage = () => {
 		setIsVerified('NOT_YET');
 		setIsBusinessNumOk('NOT_YET');
 		setBusinessStepNum(0);
+		setIsNone(false);
 	}, [tabs]);
 
 	return (
@@ -2244,6 +2245,27 @@ const Page: NextPage = () => {
 																	'사업자 등록번호를 확인해주세요.'
 																);
 
+															console.log(
+																signupData
+															);
+
+															if (
+																!signupData.BUSINESS_SECTOR ||
+																!signupData.CORPORATE_TYPE ||
+																!signupData.ROLE ||
+																!signupData.INVESTMENT_ROUND ||
+																!signupData.MAIN_PRODUCT ||
+																!signupData.INVESTMENT_COMPANY ||
+																!signupData.COMPANY_NAME ||
+																!signupData.ESTABLISHMENT_DATE ||
+																!signupData.REVENUE ||
+																(!isNone &&
+																	!signupData.IR_FILE)
+															)
+																return alert(
+																	'모든 정보를 입력해주세요.'
+																);
+
 															setBusinessStepNum(
 																(prev) =>
 																	prev + 1
@@ -2673,19 +2695,19 @@ const Page: NextPage = () => {
 																return alert(
 																	'사업자 등록번호를 확인해주세요.'
 																);
-															// if (isNone) {
 
 															if (
 																!signupData.BUSINESS_SECTOR ||
 																!signupData.CORPORATE_TYPE ||
 																!signupData.ROLE ||
-																!signupData.INVEST_ROUND ||
+																!signupData.INVESTMENT_ROUND ||
 																!signupData.MAIN_PRODUCT ||
 																!signupData.INVESTMENT_COMPANY ||
 																!signupData.COMPANY_NAME ||
 																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
-																!signupData.DESCRIPTION
+																(!isNone &&
+																	!signupData.IR_FILE)
 															)
 																return alert(
 																	'모든 정보를 입력해주세요.'

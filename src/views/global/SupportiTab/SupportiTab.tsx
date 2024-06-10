@@ -41,6 +41,8 @@ const SupportiTab = (props: ISupportiTabProps) => {
 				gap={2}
 				width="100%"
 				p={{ xs: 2, sm: 0 }}
+				flexWrap={'wrap'}
+				alignContent={'center'}
 			>
 				{props.imagePath?.length > 0 &&
 					props.imagePosition == 'left' && (
@@ -54,9 +56,10 @@ const SupportiTab = (props: ISupportiTabProps) => {
 							}
 							alt={'runwayPC'}
 							style={{
-								width: '50%',
+								width: '80%',
 								flexWrap: 'wrap',
 								display: 'flex',
+								margin: 'auto',
 							}}
 						/>
 					)}
@@ -132,9 +135,10 @@ const SupportiTab = (props: ISupportiTabProps) => {
 							}
 							alt={'runwayPC'}
 							style={{
-								width: '50%',
+								width: '80%',
 								flexWrap: 'wrap',
 								display: 'flex',
+								margin: 'auto',
 							}}
 						/>
 					)}
