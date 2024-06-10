@@ -2316,7 +2316,7 @@ const Page: NextPage = () => {
 																	''
 															)
 																return alert(
-																	'모든 정보를 입력해주세요.'
+																	'모든 정보를 입력해주세요. (또는 설립일자 확인)'
 																);
 
 															setBusinessStepNum(
@@ -2765,7 +2765,7 @@ const Page: NextPage = () => {
 																	''
 															)
 																return alert(
-																	'모든 정보를 입력해주세요.'
+																	'모든 정보를 입력해주세요. (또는 설립일자 확인)'
 																);
 															else {
 																setBusinessStepNum(

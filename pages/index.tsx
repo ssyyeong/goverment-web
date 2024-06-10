@@ -926,7 +926,7 @@ const Page: NextPage = () => {
 						'/images/main/free_server.png',
 						'/images/main/partners.png',
 					]}
-					imagePosition="left"
+					imagePosition="right"
 					tabContentList={[
 						<Box
 							sx={{
