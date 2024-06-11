@@ -5,9 +5,7 @@ import { NextPage } from 'next';
 import {
 	Autocomplete,
 	Box,
-	BoxProps,
 	Button,
-	Divider,
 	Step,
 	StepLabel,
 	Stepper,
@@ -19,7 +17,6 @@ import { emailRegex, passwordRegex } from '../../../configs/regex/regex';
 import SignUpLayout from '../../../src/views/local/sign_up/SignUpLayout';
 import SupportiToggle from '../../../src/views/global/SupportiToggle';
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/ui/local/input/MultiImageUploader/MultiImageUploader';
@@ -33,11 +30,9 @@ import {
 	investSector,
 	lastYearSales,
 } from '../../../configs/data/BusinessConfig';
-import CheckIcon from '@mui/icons-material/Check';
 import { gTagEvent } from '../../../src/lib/gtag';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import dayjs from 'dayjs';
-import { set } from 'date-fns';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -59,7 +54,9 @@ const Page: NextPage = () => {
 		React.useState<boolean>(undefined);
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
-	const [isNone, setIsNone] = React.useState<boolean>(false);
+	const [isNone, setIsNone] = React.useState<boolean>(false); // IR파일 없음으로 체크했을 경우 판별
+	const [isShowError, setIsShowError] = React.useState<boolean>(false); // 미입력 데이터 표시 on/off
+
 	/**
 	 * ir deck 파일
 	 */
@@ -81,6 +78,9 @@ const Page: NextPage = () => {
 	 */
 	const [needService, setNeedService] = React.useState<string[]>([]);
 
+	/**
+	 * 필요 서비스 목 데이터
+	 */
 	const dataList = [
 		'경영 지표 관리',
 		'사업계획서',
@@ -191,11 +191,17 @@ const Page: NextPage = () => {
 	 * 회원가입
 	 */
 	const signUp = () => {
+		// 사업가 일 경우 사업자 등록 번호 유효성 확인
 		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
+
+		// 일반으로 가입할 경우를 위한 전화번호 검증
 		if (!signupData.PHONE_NUMBER || signupData.PHONE_NUMBER?.length < 11)
 			return alert('정확한 전화번호를 입력해주세요.');
+
 		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
+
+		// 필수 정보 입력 알럿. 현재 전화번호는 따로 검증 중이므로 주석 처리
 		if (
 			!signupData.USER_NAME ||
 			!signupData.FULL_NAME ||
@@ -203,8 +209,11 @@ const Page: NextPage = () => {
 			// !signupData.PHONE_NUMBER
 		)
 			return alert('모든 정보를 입력해주세요.');
+
 		// if (signupData.USER_NAME && emailDuplication)
 		// 	return alert('중복된 이메일입니다.');
+
+		// 검증을 마치면 실제 회원가입 api 호출
 		appMemberController.register(
 			{
 				...signupData,
@@ -216,26 +225,34 @@ const Page: NextPage = () => {
 			},
 			(res) => {
 				if (res.data.result) {
+					// 유저 회원가입 완료 UX를 위함
 					alert('회원가입이 완료되었습니다.');
+
+					// Google Analytics 를 위함
 					gTagEvent({
 						action: 'sign_up_complete',
 						category: 'sign_up_complete',
 						label: tabs,
 						value: 1,
 					});
+
+					// 회원가입 완료 UI로 처리
 					setActiveStep(1);
 				}
 			},
 			(err) => {}
 		);
 	};
+	console.log(signupData);
 
 	//* Constants
+
+	// 회원가입시 입력받을 정보들 정의
 	const signupDataConfig = [
 		{
 			label: '이메일',
 			type: 'email',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.USER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -289,7 +306,7 @@ const Page: NextPage = () => {
 		{
 			label: '이름',
 			type: 'text',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.FULL_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -301,7 +318,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호',
 			type: 'password',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.PASSWORD,
 			placeholder: '비밀번호 (8~16 영문,숫자,특수문자)',
 			onChange: (e) => {
@@ -320,7 +337,7 @@ const Page: NextPage = () => {
 		{
 			label: '비밀번호 확인',
 			placeholder: '비밀번호 재확인',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+			for: ['BUSINESS', 'GENERAL'],
 			type: 'password',
 			value: passwordConfirm,
 			onChange: (e) => {
@@ -337,7 +354,7 @@ const Page: NextPage = () => {
 		{
 			label: '전화번호',
 			type: 'phone',
-			for: ['BUSINESS', 'GENERAL', 'INVESTOR'],
+			for: ['BUSINESS', 'GENERAL'],
 			// endAdornment: (
 			// 	<Button
 			// 		variant="contained"
@@ -443,6 +460,7 @@ const Page: NextPage = () => {
 					BUSINESS_SECTOR: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.BUSINESS_SECTOR,
 		},
 		{
 			label: '사업자 유형',
@@ -458,11 +476,12 @@ const Page: NextPage = () => {
 					CORPORATE_TYPE: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.CORPORATE_TYPE,
 		},
 		{
 			label: '직책',
 			type: 'text',
-			for: ['BUSINESS', 'INVESTOR'],
+			for: ['BUSINESS'],
 			value: signupData.ROLE,
 			onChange: (e) => {
 				setSignupData({
@@ -470,11 +489,12 @@ const Page: NextPage = () => {
 					ROLE: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.ROLE,
 		},
 		{
 			label: '회사명',
 			type: 'text',
-			for: ['BUSINESS', 'INVESTOR'],
+			for: ['BUSINESS'],
 			value: signupData.COMPANY_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -482,11 +502,12 @@ const Page: NextPage = () => {
 					COMPANY_NAME: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.COMPANY_NAME,
 		},
 		{
 			label: '대표자명',
 			type: 'text',
-			optional: true,
+			// optional: true,
 			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
 			value: signupData.OWNER_NAME,
 			onChange: (e) => {
@@ -495,11 +516,12 @@ const Page: NextPage = () => {
 					OWNER_NAME: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.OWNER_NAME,
 		},
 		{
 			label: '서비스명(또는 아이템 한 줄 소개)',
 			type: 'text',
-			optional: true,
+			// optional: true,
 			for: ['BUSINESS'],
 			value: signupData.MAIN_PRODUCT,
 			onChange: (e) => {
@@ -508,6 +530,7 @@ const Page: NextPage = () => {
 					MAIN_PRODUCT: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.MAIN_PRODUCT,
 		},
 		// {
 		// 	label: '최근 투자라운드/금액',
@@ -530,7 +553,7 @@ const Page: NextPage = () => {
 			config: investSector,
 			key: 'INVESTMENT_ROUND',
 			type: 'select',
-			optional: true,
+			// optional: true,
 			value: signupData.INVESTMENT_ROUND,
 			onChange: (e) => {
 				setSignupData({
@@ -538,11 +561,12 @@ const Page: NextPage = () => {
 					INVESTMENT_ROUND: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.INVESTMENT_ROUND,
 		},
 		{
 			label: '최근 투자사',
 			type: 'text',
-			optional: true,
+			// optional: true,
 			for: ['BUSINESS'],
 			placeholder: 'ex) 비공개, xx 투자',
 			value: signupData.INVESTMENT_COMPANY,
@@ -552,6 +576,7 @@ const Page: NextPage = () => {
 					INVESTMENT_COMPANY: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.INVESTMENT_COMPANY,
 		},
 		{
 			label: '설립일자(연/월)',
@@ -567,6 +592,7 @@ const Page: NextPage = () => {
 					ESTABLISHMENT_DATE: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.ESTABLISHMENT_DATE,
 		},
 		{
 			label: '전년도 매출',
@@ -582,6 +608,7 @@ const Page: NextPage = () => {
 					REVENUE: e.target.value,
 				});
 			},
+			error: isShowError && !signupData.REVENUE,
 		},
 		// {
 		// 	label: '회사 소개',
@@ -636,6 +663,7 @@ const Page: NextPage = () => {
 					IR_FILE: e.target.value,
 				});
 			},
+			error: !isNone && isShowError && irDeckFile.FILE_URL == '',
 		},
 
 		{
@@ -667,6 +695,7 @@ const Page: NextPage = () => {
 		setIsBusinessNumOk('NOT_YET');
 		setBusinessStepNum(0);
 		setIsNone(false);
+		setIsShowError(false);
 	}, [tabs]);
 
 	React.useEffect(() => {
@@ -694,6 +723,8 @@ const Page: NextPage = () => {
 		}
 	}, [isNone]);
 
+	console.log(signupData.ESTABLISHMENT_DATE);
+
 	return (
 		<SignUpLayout>
 			<Typography variant="h1" fontWeight={'bold'}>
@@ -720,6 +751,14 @@ const Page: NextPage = () => {
 					setValue={(value) => {
 						setTabs(value as string);
 						//탭 변경 시 초기화 작업
+						setSignupData({} as IUser);
+						setPasswordConfirm('');
+						setEncrypted('');
+						setVerifyNumber('');
+						setIsBusinessNumOk('NOT_YET');
+						setBusinessStepNum(0);
+						setIsNone(false);
+						setIsShowError(false);
 						setActiveStep(0);
 						setEmailDuplication(undefined);
 						setPhoneNumDuplication(false);
@@ -797,6 +836,7 @@ const Page: NextPage = () => {
 							width={'100%'}
 							display="flex"
 							justifyContent="space-between"
+							key={tabs}
 						>
 							{tabs === 'BUSINESS' && businessStepNum === 1 ? (
 								<Box width={'49%'}>
@@ -843,6 +883,9 @@ const Page: NextPage = () => {
 															) => (
 																<TextField
 																	{...params}
+																	error={
+																		item.error
+																	}
 																	sx={{
 																		mt: 1,
 																		'& .MuiAutocomplete-input':
@@ -888,6 +931,9 @@ const Page: NextPage = () => {
 																	type="fileinput"
 																	value={
 																		irDeckFile
+																	}
+																	error={
+																		item.error
 																	}
 																	setValue={
 																		setIrDeckFile
@@ -1041,6 +1087,8 @@ const Page: NextPage = () => {
 																	'month',
 																	'year',
 																],
+																defaultValue:
+																	undefined,
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1222,6 +1270,9 @@ const Page: NextPage = () => {
 															) => (
 																<TextField
 																	{...params}
+																	error={
+																		item.error
+																	}
 																	sx={{
 																		mt: 1,
 																		'& .MuiAutocomplete-input':
@@ -1267,6 +1318,9 @@ const Page: NextPage = () => {
 																	type="fileinput"
 																	value={
 																		irDeckFile
+																	}
+																	error={
+																		item.error
 																	}
 																	setValue={
 																		setIrDeckFile
@@ -1572,6 +1626,9 @@ const Page: NextPage = () => {
 															) => (
 																<TextField
 																	{...params}
+																	error={
+																		item.error
+																	}
 																	sx={{
 																		mt: 1,
 																		'& .MuiAutocomplete-input':
@@ -1617,6 +1674,9 @@ const Page: NextPage = () => {
 																	type="fileinput"
 																	value={
 																		irDeckFile
+																	}
+																	error={
+																		item.error
 																	}
 																	setValue={
 																		setIrDeckFile
@@ -1927,6 +1987,9 @@ const Page: NextPage = () => {
 																) => (
 																	<TextField
 																		{...params}
+																		error={
+																			item.error
+																		}
 																		sx={{
 																			mt: 1,
 																			'& .MuiAutocomplete-input':
@@ -1972,6 +2035,9 @@ const Page: NextPage = () => {
 																		type="fileinput"
 																		value={
 																			irDeckFile
+																		}
+																		error={
+																			item.error
 																		}
 																		setValue={
 																			setIrDeckFile
@@ -2269,6 +2335,7 @@ const Page: NextPage = () => {
 																return alert(
 																	'모든 정보를 입력해주세요.'
 																);
+
 															if (
 																signupData.USER_NAME &&
 																emailDuplication
@@ -2296,10 +2363,6 @@ const Page: NextPage = () => {
 																	'사업자 등록번호를 확인해주세요.'
 																);
 
-															console.log(
-																signupData
-															);
-
 															if (
 																!signupData.BUSINESS_SECTOR ||
 																!signupData.CORPORATE_TYPE ||
@@ -2310,14 +2373,19 @@ const Page: NextPage = () => {
 																!signupData.COMPANY_NAME ||
 																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
-																signupData
-																	.IR_FILE
-																	?.FILE_URL ===
-																	''
-															)
-																return alert(
-																	'모든 정보를 입력해주세요. (또는 설립일자 확인)'
+																(!isNone &&
+																	isShowError &&
+																	irDeckFile.FILE_URL ==
+																		'')
+															) {
+																alert(
+																	'모든 정보를 입력해주세요.'
 																);
+																setIsShowError(
+																	true
+																);
+																return;
+															}
 
 															setBusinessStepNum(
 																(prev) =>
@@ -2385,6 +2453,9 @@ const Page: NextPage = () => {
 																) => (
 																	<TextField
 																		{...params}
+																		error={
+																			item.error
+																		}
 																		sx={{
 																			mt: 1,
 																			'& .MuiAutocomplete-input':
@@ -2430,6 +2501,9 @@ const Page: NextPage = () => {
 																		type="fileinput"
 																		value={
 																			irDeckFile
+																		}
+																		error={
+																			item.error
 																		}
 																		setValue={
 																			setIrDeckFile
@@ -2759,15 +2833,19 @@ const Page: NextPage = () => {
 																!signupData.COMPANY_NAME ||
 																!signupData.ESTABLISHMENT_DATE ||
 																!signupData.REVENUE ||
-																signupData
-																	.IR_FILE
-																	?.FILE_URL ===
-																	''
-															)
-																return alert(
-																	'모든 정보를 입력해주세요. (또는 설립일자 확인)'
+																(!isNone &&
+																	isShowError &&
+																	irDeckFile.FILE_URL ==
+																		'')
+															) {
+																alert(
+																	'모든 정보를 입력해주세요.'
 																);
-															else {
+																setIsShowError(
+																	true
+																);
+																return;
+															} else {
 																setBusinessStepNum(
 																	(prev) =>
 																		prev + 1

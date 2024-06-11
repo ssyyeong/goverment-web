@@ -309,6 +309,8 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
+
+	console.log(userIrInfo);
 	/**
 	 * 필수 입력 항목 체크
 	 */
@@ -321,7 +323,6 @@ const Page: NextPage = () => {
 			!userIrInfo.BUSINESS_SECTOR ||
 			!userIrInfo.ESTABLISHMENT_DATE ||
 			!userIrInfo.CONTACT_NUMBER ||
-			!userIrInfo.SUMMARY ||
 			investHistoryConfig.length === 0
 		) {
 			alert('필수 입력 항목을 입력해주세요.');

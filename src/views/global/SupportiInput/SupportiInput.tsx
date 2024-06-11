@@ -251,7 +251,7 @@ const SupportiInput = React.forwardRef(
 									? props.additionalProps?.views
 									: ['day', 'month', 'year']
 							}
-							value={dayjs(props.value)}
+							value={props.value ? dayjs(props.value) : null}
 							minDate={
 								props.minDate !== undefined
 									? dayjs(props.minDate)
@@ -307,6 +307,7 @@ const SupportiInput = React.forwardRef(
 						<TextField
 							{...props.additionalProps}
 							ref={ref}
+							error={props.error}
 							type="file"
 							onChange={fileChange}
 							InputProps={{
