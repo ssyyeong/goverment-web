@@ -104,47 +104,48 @@ const Page: NextPage = () => {
 			`${appMemberController.mergedPath}/profile`,
 			(res) => {
 				if (res.data.result !== null) {
-					seminarApplicationController.createItem(
-						{
-							SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
-							APP_MEMBER_IDENTIFICATION_CODE: memberId,
-							SEMINAR_GROUP_IDENTIFICATION_CODE: seminarGroup,
-							NAME: res.data.result.FULL_NAME,
-							PHONE: res.data.result.PHONE_NUMBER,
-							EMAIL: res.data.result.USER_NAME,
-						},
-						(res) => {
-							setAlertModal(true);
-							setAlertModalType('seminarApplySuccess');
-						},
-						(err) => {
-							console.log(err.response);
-							if (
-								err.response.data.message ===
-								'신청 내역이 존재합니다.'
-							) {
-								setAlertModal(true);
-								setAlertModalType('already');
-								return;
-							}
-							if (
-								err.response.data.message ===
-								'포인트가 부족합니다.'
-							) {
-								setAlertModal(true);
-								setAlertModalType('point');
-								return;
-							}
-							if (
-								err.response.data.message ===
-								'정원이 초과되었습니다.'
-							) {
-								setAlertModal(true);
-								setAlertModalType('seminarexceed');
-								return;
-							}
-						}
-					);
+					router.push(seminarData?.PAYMENT_LINK);
+					// seminarApplicationController.createItem(
+					// 	{
+					// 		SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
+					// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					// 		SEMINAR_GROUP_IDENTIFICATION_CODE: seminarGroup,
+					// 		NAME: res.data.result.FULL_NAME,
+					// 		PHONE: res.data.result.PHONE_NUMBER,
+					// 		EMAIL: res.data.result.USER_NAME,
+					// 	},
+					// 	(res) => {
+					// 		setAlertModal(true);
+					// 		setAlertModalType('seminarApplySuccess');
+					// 	},
+					// 	(err) => {
+					// 		console.log(err.response);
+					// 		if (
+					// 			err.response.data.message ===
+					// 			'신청 내역이 존재합니다.'
+					// 		) {
+					// 			setAlertModal(true);
+					// 			setAlertModalType('already');
+					// 			return;
+					// 		}
+					// 		if (
+					// 			err.response.data.message ===
+					// 			'포인트가 부족합니다.'
+					// 		) {
+					// 			setAlertModal(true);
+					// 			setAlertModalType('point');
+					// 			return;
+					// 		}
+					// 		if (
+					// 			err.response.data.message ===
+					// 			'정원이 초과되었습니다.'
+					// 		) {
+					// 			setAlertModal(true);
+					// 			setAlertModalType('seminarexceed');
+					// 			return;
+					// 		}
+					// 	}
+					// );
 				} else {
 				}
 			}
@@ -483,6 +484,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 1주차:{' '}
@@ -506,6 +508,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 2주차:{' '}
@@ -540,6 +543,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* Moderator:{' '}
@@ -562,6 +566,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 3주차:{' '}
@@ -585,6 +590,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 4주차:{' '}
@@ -619,6 +625,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 5주차:{' '}
@@ -656,6 +663,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 시상식 후 총 5개 회사 선정:{' '}
@@ -679,6 +687,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 최우수, 우수 2개 회사:{' '}
@@ -715,6 +724,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 실질적인 IR 자료:{' '}
@@ -739,6 +749,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 투자자와의 직접 IR 기회:{' '}
@@ -763,6 +774,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 투자심사 보고서 공유:{' '}
@@ -786,6 +798,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 지속적인 멘토링 및 피드백:{' '}
@@ -809,6 +822,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 네트워크 활용:{' '}
@@ -846,6 +860,7 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
+									flexWrap: 'wrap',
 								}}
 							>
 								* 5주 프로그램:{' '}
@@ -1814,7 +1829,7 @@ const Page: NextPage = () => {
 					</FormControl>
 				)}
 				{/* 신청하기 버튼 */}
-				{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 11 && (
+				{
 					<Box
 						width={'100%'}
 						justifyContent={'center'}
@@ -1845,7 +1860,10 @@ const Page: NextPage = () => {
 											).length != item.PERSONNEL
 									);
 
-								if (isApplied == 'false' || 'undefined') {
+								if (
+									isApplied == 'false' ||
+									isApplied == 'undefined'
+								) {
 									if (
 										seminarData?.SeminarGroups.length > 0 &&
 										seminarGroup == undefined &&
@@ -1853,7 +1871,10 @@ const Page: NextPage = () => {
 									) {
 										alert('그룹을 선택해주세요.');
 										return;
-									} else if (soldOut.length === 0) {
+									} else if (
+										seminarData?.SeminarGroups.length > 0 &&
+										soldOut.length === 0
+									) {
 										alert('마감되었습니다.');
 										return;
 									} else handleApplySeminar();
@@ -1868,7 +1889,7 @@ const Page: NextPage = () => {
 							}}
 						/>
 					</Box>
-				)}
+				}
 			</Box>
 
 			<SupportiAlertModal

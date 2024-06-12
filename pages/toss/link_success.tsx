@@ -24,7 +24,7 @@ const Page: NextPage = () => {
 	/**
 	 * 가상계좌 데이터
 	 */
-	const [virtualAccount, setVirtualAccount] = React.useState<any>();
+	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
 	//* Functions
 
 	/**
@@ -59,7 +59,8 @@ const Page: NextPage = () => {
 					window.alert(
 						'결제가 완료되었습니다! 결제 여부 갱신까지는 시간이 소요될 수 있습니다.'
 					);
-					router.push('/');
+					router.back();
+					// router.push('/');
 				}
 			});
 	};
