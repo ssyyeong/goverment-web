@@ -512,7 +512,7 @@ const Page: NextPage = () => {
 					fontWeight={400}
 					mb={5}
 				>
-					서포티를 통해 각 분야의 전문가들의 도움을 쉽게 받아보세요
+					서포티를 통해 각 분야의 전문가들의 도움을 쉽게 받아보세요.
 				</Typography>
 
 				<SupportiTab
