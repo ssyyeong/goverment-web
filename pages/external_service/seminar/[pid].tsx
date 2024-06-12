@@ -68,7 +68,7 @@ const Page: NextPage = () => {
 	/**
 	 * 더보기
 	 */
-	const [isShowMore, setIsShowMore] = React.useState<boolean>(false);
+	const [isShowMore, setIsShowMore] = React.useState<boolean>(true);
 
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
@@ -381,7 +381,7 @@ const Page: NextPage = () => {
 								overflow: 'hidden',
 							}}
 						>
-							{/* <Typography
+							<Typography
 								fontWeight={700}
 								variant="h3"
 								color={'#363636'}
@@ -432,30 +432,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								공공기관 (정부) 지원사업 성공을 위한 사업계획서
-								작성법
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* Moderator: 하임벤처투자 오성훈 수석심사역
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* 1주차: 스타트업 자금조달 방안 소개 및
+								🔍 공공기관 (정부) 지원사업 성공을 위한
 								사업계획서 작성법
 							</Typography>
 							<Typography
@@ -465,9 +442,178 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 2주차: 정부지원사업 합격 사례 분석 및 1:1 코칭
+								* Moderator:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									하임벤처투자 오성훈 수석심사역
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* 1주차:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									스타트업 자금조달 방안 소개 및 사업계획서
+									작성법
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* 2주차:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									정부지원사업 합격 사례 분석 및 1:1 코칭
+								</Typography>
+							</Typography>
+							<Box my={1.5} />
+							<Typography
+								fontWeight={700}
+								variant="h5"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								✏️ AC, VC 투자유치 성공을 위한 투자제안서 작성법
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* Moderator:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									하임벤처투자 박대성 대표
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* 3주차:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									민간 투자유치 가이드라인 및 투자제안서
+									작성법
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* 4주차:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									IR 자료 1:1 코칭 및 피드백
+								</Typography>
+							</Typography>
+							<Box my={1.5} />
+							<Typography
+								fontWeight={700}
+								variant="h5"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								📚 공통
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								* 5주차:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									모의 데모데이 및 시상식
+								</Typography>
 							</Typography>
 
 							<Box my={1.5} />
@@ -479,9 +625,10 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								AC, VC 투자유치 성공을 위한 투자제안서 작성법
+								🎉 추가 혜택
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -492,7 +639,18 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								* Moderator: 하임벤처투자 박대성 대표
+								* 시상식 후 총 5개 회사 선정:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									선정된 회사는 실제 데모데이 및 직접 투자
+									검토 기회 제공
+								</Typography>
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -501,84 +659,20 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 3주차: 민간 투자유치 가이드라인 및 투자제안서
-								작성법
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* 4주차: IR 자료 1:1 코칭 및 피드백
-							</Typography>
-
-							<Box my={1.5} />
-
-							<Typography
-								fontWeight={700}
-								variant="h5"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								공통
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* 5주차: 모의 데모데이 및 시상식
-							</Typography>
-
-							<Box my={1.5} />
-
-							<Typography
-								fontWeight={700}
-								variant="h5"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								추가 혜택
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* 시상식 후 총 5개 회사 선정: 선정된 회사는 실제
-								데모데이 및 직접 투자 검토 기회 제공
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								* 최우수, 우수 2개 회사: 투자 검토 기회와 더불어
-								수강료 50% 환급
+								* 최우수, 우수 2개 회사:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									투자 검토 기회와 더불어 수강료 50% 환급
+								</Typography>
 							</Typography>
 
 							<Box my={1.5} />
@@ -601,11 +695,22 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 실질적인 IR 자료: 5주 프로그램 종료 시, 투자나
-								정부사업에 활용할 수 있는 사업계획서를 직접
-								작성하고 코칭 받음
+								* 실질적인 IR 자료:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									5주 프로그램 종료 시, 투자나 정부사업에
+									활용할 수 있는 사업계획서를 직접 작성하고
+									코칭 받음
+								</Typography>
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -614,12 +719,22 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 투자자와의 직접 IR 기회: 우수 기업에게 자체
-								보유한 펀드, 프로젝트 펀드, 팁스 운영사의 투자
-								검토 등 최소 2~3회의 투자자와의 직접 IR 기회
-								제공
+								* 투자자와의 직접 IR 기회:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									우수 기업에게 자체 보유한 펀드, 프로젝트
+									펀드, 팁스 운영사의 투자 검토 등 최소
+									2~3회의 투자자와의 직접 IR 기회 제공
+								</Typography>
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -628,10 +743,21 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 투자심사 보고서 공유: 실제 투자자의 시각을
-								이해할 수 있는 투자심사 보고서 제공
+								* 투자심사 보고서 공유:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									실제 투자자의 시각을 이해할 수 있는 투자심사
+									보고서 제공
+								</Typography>
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -640,10 +766,21 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 지속적인 멘토링 및 피드백: 세미나 이후에도
-								지속적인 멘토링과 피드백 제공
+								* 지속적인 멘토링 및 피드백:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									세미나 이후에도 지속적인 멘토링과 피드백
+									제공
+								</Typography>
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -652,10 +789,21 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 네트워크 활용: 투자 유치를 위해 자사의
-								네트워크를 활용해 적극적으로 지원
+								* 네트워크 활용:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									투자 유치를 위해 자사의 네트워크를 활용해
+									적극적으로 지원
+								</Typography>
 							</Typography>
 
 							<Box my={1.5} />
@@ -678,9 +826,20 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
-								* 5주 프로그램: 99만원 (부가세 포함)
+								* 5주 프로그램:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									99만원 (부가세 포함)
+								</Typography>
 							</Typography>
 							<Typography
 								sx={{
@@ -694,8 +853,8 @@ const Page: NextPage = () => {
 								기회를 놓치지 마세요! 많은 참여 바랍니다.
 							</Typography>
 
-							<Box my={1.5} /> */}
-							<Typography
+							<Box my={1.5} />
+							{/* <Typography
 								fontWeight={700}
 								variant="h2"
 								color={'#363636'}
@@ -1526,10 +1685,10 @@ const Page: NextPage = () => {
 									홈페이지 공지, 스타트업 커뮤니티 홍보,
 									파트너사 추천 등
 								</Typography>
-							</Typography>
+							</Typography> */}
 						</Box>
 
-						<SupportiButton
+						{/* <SupportiButton
 							contents={'클릭해서 더보기 💡'}
 							onClick={() => {
 								setIsShowMore(true);
@@ -1542,7 +1701,7 @@ const Page: NextPage = () => {
 
 								mx: 'auto',
 							}}
-						/>
+						/> */}
 					</Box>
 				)}
 
