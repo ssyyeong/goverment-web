@@ -50,6 +50,7 @@ const Page: NextPage = () => {
 	 * 추천사업데이터
 	 */
 	const [recommendBusiness, setRecommendBusiness] = React.useState<any>();
+
 	/**
 	 * 필터
 	 */
@@ -298,7 +299,8 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
-	console.log(recommendBusiness, 'recommendBusiness');
+	console.log(recommendBusiness);
+
 	return (
 		// <InternalServiceDrawer type="dashboard">
 		<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
@@ -377,7 +379,7 @@ const Page: NextPage = () => {
 							</Tooltip>
 						</Typography>
 					)}
-					{personalFilterExist && (
+					{personalFilterExist && recommendBusiness != undefined && (
 						<Box
 							display={'flex'}
 							sx={{
@@ -398,7 +400,7 @@ const Page: NextPage = () => {
 							pb={1}
 							my={1}
 						>
-							{recommendBusiness?.rows.map((item, index) => {
+							{recommendBusiness?.rows?.map((item, index) => {
 								return (
 									<Box
 										key={index}
@@ -415,7 +417,7 @@ const Page: NextPage = () => {
 							})}
 							{
 								// 추천 지원 사업이 없을 경우
-								recommendBusiness?.rows.length === 0 && (
+								recommendBusiness?.rows?.length === 0 && (
 									<Typography color={'gray'} py={1}>
 										필터와 일치하는 지원사업이
 										없습니다.(너무 자세한 필터 설정은 추천
