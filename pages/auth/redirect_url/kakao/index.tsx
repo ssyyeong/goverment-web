@@ -33,7 +33,10 @@ const Page: NextPage = () => {
 				},
 				(res) => {
 					if (res.data.result.user.USER_GRADE === 'NOT_GENERATED') {
-						alert('회원가입이 필요합니다.');
+						alert(
+							'회원가입에 필요한 유저 및 사업자 정보 입력창으로 넘어갑니다.'
+						);
+
 						setAccessToken(
 							res.data.result.signUpResult.accessToken
 						);
@@ -73,7 +76,7 @@ const Page: NextPage = () => {
 				height: '80vh',
 			}}
 		>
-			<LoadingButton
+			{/* <LoadingButton
 				size="large"
 				onClick={() => {}}
 				loading={loading}
@@ -81,7 +84,7 @@ const Page: NextPage = () => {
 				// variant="outlined"
 			>
 				<span> 소셜로그인이 완료되었습니다!</span>
-			</LoadingButton>
+			</LoadingButton> */}
 			<Typography
 				variant="h3"
 				fontWeight={'bold'}

@@ -269,6 +269,7 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 				{seminarData?.DESCRIPTION &&
+					seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 11 &&
 					seminarData?.PAYMENT_LINK != '' && (
 						<Box
 							width={'100%'}
@@ -356,17 +357,34 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 
-				{/** 추가 상세 이미지 리스트 */}
-				{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
-					JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
-						(item, index) => {
-							return (
-								<Box key={index}>
-									<img src={item} alt="" />
-								</Box>
-							);
-						}
-					)}
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection:
+							seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+							JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST)
+								.length > 1
+								? 'column'
+								: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+						alignContent: 'center',
+						textAlign: 'center',
+						width: '100%',
+					}}
+				>
+					{/** 추가 상세 이미지 리스트 */}
+					{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
+							(item, index) => {
+								return (
+									<Box key={index}>
+										<img src={item} alt="" width={'65%'} />
+									</Box>
+								);
+							}
+						)}
+				</Box>
 
 				{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 11 && (
 					<Box width="100%">
@@ -377,7 +395,7 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'column',
 								gap: 2,
-								p: 3,
+								p: 10,
 								overflow: 'hidden',
 							}}
 						>
@@ -421,7 +439,7 @@ const Page: NextPage = () => {
 								커리큘럼
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={1} />
 
 							<Typography
 								fontWeight={700}
@@ -637,6 +655,7 @@ const Page: NextPage = () => {
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
+									display: 'flex',
 								}}
 							>
 								* 시상식 후 총 5개 회사 선정:{' '}
@@ -675,7 +694,7 @@ const Page: NextPage = () => {
 								</Typography>
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={5.5} />
 
 							<Typography
 								fontWeight={700}
@@ -806,7 +825,7 @@ const Page: NextPage = () => {
 								</Typography>
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={5.5} />
 
 							<Typography
 								fontWeight={700}
