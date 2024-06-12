@@ -104,48 +104,48 @@ const Page: NextPage = () => {
 			`${appMemberController.mergedPath}/profile`,
 			(res) => {
 				if (res.data.result !== null) {
-					router.push(seminarData?.PAYMENT_LINK);
-					// seminarApplicationController.createItem(
-					// 	{
-					// 		SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
-					// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					// 		SEMINAR_GROUP_IDENTIFICATION_CODE: seminarGroup,
-					// 		NAME: res.data.result.FULL_NAME,
-					// 		PHONE: res.data.result.PHONE_NUMBER,
-					// 		EMAIL: res.data.result.USER_NAME,
-					// 	},
-					// 	(res) => {
-					// 		setAlertModal(true);
-					// 		setAlertModalType('seminarApplySuccess');
-					// 	},
-					// 	(err) => {
-					// 		console.log(err.response);
-					// 		if (
-					// 			err.response.data.message ===
-					// 			'신청 내역이 존재합니다.'
-					// 		) {
-					// 			setAlertModal(true);
-					// 			setAlertModalType('already');
-					// 			return;
-					// 		}
-					// 		if (
-					// 			err.response.data.message ===
-					// 			'포인트가 부족합니다.'
-					// 		) {
-					// 			setAlertModal(true);
-					// 			setAlertModalType('point');
-					// 			return;
-					// 		}
-					// 		if (
-					// 			err.response.data.message ===
-					// 			'정원이 초과되었습니다.'
-					// 		) {
-					// 			setAlertModal(true);
-					// 			setAlertModalType('seminarexceed');
-					// 			return;
-					// 		}
-					// 	}
-					// );
+					// router.push(seminarData?.PAYMENT_LINK);
+					seminarApplicationController.createItem(
+						{
+							SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
+							APP_MEMBER_IDENTIFICATION_CODE: memberId,
+							SEMINAR_GROUP_IDENTIFICATION_CODE: seminarGroup,
+							NAME: res.data.result.FULL_NAME,
+							PHONE: res.data.result.PHONE_NUMBER,
+							EMAIL: res.data.result.USER_NAME,
+						},
+						(res) => {
+							setAlertModal(true);
+							setAlertModalType('seminarApplySuccess');
+						},
+						(err) => {
+							console.log(err.response);
+							if (
+								err.response.data.message ===
+								'신청 내역이 존재합니다.'
+							) {
+								setAlertModal(true);
+								setAlertModalType('already');
+								return;
+							}
+							if (
+								err.response.data.message ===
+								'포인트가 부족합니다.'
+							) {
+								setAlertModal(true);
+								setAlertModalType('point');
+								return;
+							}
+							if (
+								err.response.data.message ===
+								'정원이 초과되었습니다.'
+							) {
+								setAlertModal(true);
+								setAlertModalType('seminarexceed');
+								return;
+							}
+						}
+					);
 				} else {
 				}
 			}

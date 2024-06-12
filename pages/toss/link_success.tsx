@@ -59,8 +59,8 @@ const Page: NextPage = () => {
 					window.alert(
 						'결제가 완료되었습니다! 결제 여부 갱신까지는 시간이 소요될 수 있습니다.'
 					);
-					router.back();
-					// router.push('/');
+					// router.back();
+					router.push('/');
 				}
 			});
 	};
