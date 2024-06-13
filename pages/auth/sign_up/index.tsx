@@ -669,7 +669,7 @@ const Page: NextPage = () => {
 		{
 			label: '중복 선택 가능',
 			type: 'text',
-			helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+			// helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
 			for: ['BUSINESS'],
 			dataList: dataList,
 			value: needService,
@@ -697,6 +697,10 @@ const Page: NextPage = () => {
 		setIsNone(false);
 		setIsShowError(false);
 	}, [tabs]);
+
+	React.useEffect(() => {
+		setEmailDuplication(undefined);
+	}, [signupData.USER_NAME]);
 
 	React.useEffect(() => {
 		setSignupData({
@@ -1163,13 +1167,13 @@ const Page: NextPage = () => {
 																		);
 																	}
 																)}
-																<Typography color="secondary.main">
+																{/* <Typography color="secondary.main">
 																	(
 																	{
 																		item.helperText
 																	}
 																	)
-																</Typography>
+																</Typography> */}
 															</Box>
 														</Box>
 													) : (
@@ -1519,13 +1523,13 @@ const Page: NextPage = () => {
 																		);
 																	}
 																)}
-																<Typography color="secondary.main">
+																{/* <Typography color="secondary.main">
 																	(
 																	{
 																		item.helperText
 																	}
 																	)
-																</Typography>
+																</Typography> */}
 															</Box>
 														</Box>
 													) : (
@@ -1875,13 +1879,13 @@ const Page: NextPage = () => {
 																		);
 																	}
 																)}
-																<Typography color="secondary.main">
+																{/* <Typography color="secondary.main">
 																	(
 																	{
 																		item.helperText
 																	}
 																	)
-																</Typography>
+																</Typography> */}
 															</Box>
 														</Box>
 													) : (

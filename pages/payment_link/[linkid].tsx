@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useRouter } from 'next/router';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SupportiInput from '../../src/views/global/SupportiInput';
 import SupportiButton from '../../src/views/global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
@@ -179,7 +180,8 @@ const Page: NextPage = () => {
 				{caution !== '' && (
 					<Box display={'flex'} alignItems={'center'} gap={5}>
 						<Typography variant="h6" fontWeight={'bold'}>
-							주의사항!!!
+							주의사항
+							<ErrorOutlineIcon />
 						</Typography>
 						<Typography fontWeight={'600'} color={'error.main'}>
 							{caution}

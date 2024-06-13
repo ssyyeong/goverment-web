@@ -35,9 +35,12 @@ const SeminarCard = (props: ISeminarData) => {
 						.APP_MEMBER_IDENTIFICATION_CODE === memberId
 				) {
 					return true;
-				} else return false;
+				}
+				return false;
 			}
-		}else return false;
+			return false;
+		}
+		return false;
 	};
 
 	return (
@@ -82,13 +85,17 @@ const SeminarCard = (props: ISeminarData) => {
 						cursor: 'pointer',
 						width: 'fit-content',
 						color: 'primary.main',
-						wordBreak: 'keep-all'
+						wordBreak: 'keep-all',
 					}}
 				>
 					{props.data.SeminarCategory.CONTENT}
 				</Typography>
 			)}
-			<Typography variant="h6" fontWeight={600} sx={{	wordBreak: 'keep-all'}}>
+			<Typography
+				variant="h6"
+				fontWeight={600}
+				sx={{ wordBreak: 'keep-all' }}
+			>
 				{props.data.PRODUCT_NAME}
 			</Typography>
 			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}

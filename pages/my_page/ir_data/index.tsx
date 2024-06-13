@@ -95,12 +95,9 @@ const Page: NextPage = () => {
 		},
 	];
 
-	console.log(
-		businessSector.map((item) => {
-			return { label: item, value: item };
-		}),
-		hopeInvestRound
-	);
+	// 투자 연혁 존재 여부
+	const [existInvestment, setExistInvestment] =
+		React.useState<boolean>(false);
 
 	const companyInfoConfig = [
 		{
@@ -1309,12 +1306,14 @@ const Page: NextPage = () => {
 											>
 												투자 연혁
 											</Typography>
-											<Typography
-												fontWeight={'600'}
-												color={'primary'}
-											>
-												(필수)
-											</Typography>
+											{/* {!existInvestment && (
+												<Typography
+													fontWeight={'600'}
+													color={'primary'}
+												>
+													(필수)
+												</Typography>
+											)} */}
 											<Box display={'flex'}></Box>
 										</Box>
 										{isEdit ? (
@@ -1394,45 +1393,100 @@ const Page: NextPage = () => {
 														);
 													}
 												)}
-												<ControlPointIcon
-													onClick={() => {
-														if (
-															newInvestInfo.INVEST_AMOUNT ===
-																'' ||
-															newInvestInfo.INVESTOR ===
-																'' ||
-															newInvestInfo.INVEST_LEVEL ===
-																'' ||
-															newInvestInfo.VALUE ===
-																''
-														) {
-															alert(
-																'모든 항목을 입력해주세요.'
-															);
-															return;
-														}
 
-														setInvestInfo([
-															...investInfo,
-															newInvestInfo,
-														]);
-														setNewInvestInfo({
-															DATE: dayjs().format(
-																'YYYY-MM-DD'
-															),
-															INVEST_AMOUNT: '',
-															INVESTOR: '',
-															INVEST_LEVEL: '',
-															VALUE: '',
-														});
-													}}
-													sx={{
-														cursor: 'pointer',
-														position: 'absolute',
-														right: '10px',
-														top: '10px',
-													}}
-												/>
+												<Box display="flex" gap={1}>
+													{/* {investInfo.length ===
+														0 && (
+														<Typography
+															sx={{
+																cursor: 'pointer',
+																position:
+																	'absolute',
+																right: '10px',
+																bottom: '10px',
+																textDecoration:
+																	'underline',
+															}}
+															onClick={() =>
+																setExistInvestment(
+																	!existInvestment
+																)
+															}
+														>
+															해당 없음
+															<Tooltip
+																title={
+																	'해당 없음을 클릭하시면 필수 입력 조건에서 투자 연혁이 제외됩니다.'
+																}
+																arrow
+																placement="top"
+																slotProps={{
+																	popper: {
+																		modifiers:
+																			[
+																				{
+																					name: 'offset',
+																					options:
+																						{
+																							offset: [
+																								0,
+																								-14,
+																							],
+																						},
+																				},
+																			],
+																	},
+																}}
+															>
+																<IconButton size="small">
+																	<HelpOutlineIcon fontSize="small" />
+																</IconButton>
+															</Tooltip>
+														</Typography>
+													)} */}
+													<ControlPointIcon
+														onClick={() => {
+															if (
+																newInvestInfo.INVEST_AMOUNT ===
+																	'' ||
+																newInvestInfo.INVESTOR ===
+																	'' ||
+																newInvestInfo.INVEST_LEVEL ===
+																	'' ||
+																newInvestInfo.VALUE ===
+																	''
+															) {
+																alert(
+																	'모든 항목을 입력해주세요.'
+																);
+																return;
+															}
+
+															setInvestInfo([
+																...investInfo,
+																newInvestInfo,
+															]);
+															setNewInvestInfo({
+																DATE: dayjs().format(
+																	'YYYY-MM-DD'
+																),
+																INVEST_AMOUNT:
+																	'',
+																INVESTOR: '',
+																INVEST_LEVEL:
+																	'',
+																VALUE: '',
+															});
+														}}
+														sx={{
+															cursor: 'pointer',
+															position:
+																'absolute',
+															right: '10px',
+															top: '10px',
+														}}
+													/>
+												</Box>
 											</Grid>
 										) : null}
 
