@@ -179,10 +179,13 @@ const Page: NextPage = () => {
 				</Box>
 				{caution !== '' && (
 					<Box display={'flex'} alignItems={'center'} gap={5}>
-						<Typography variant="h6" fontWeight={'bold'}>
-							주의사항
-							<ErrorOutlineIcon />
-						</Typography>
+						<Box display={'flex'} gap={1}>
+							<Typography variant="h6" fontWeight={'bold'}>
+								주의사항
+							</Typography>
+							<ErrorOutlineIcon fontSize="small" />
+						</Box>
+
 						<Typography fontWeight={'600'} color={'error.main'}>
 							{caution}
 						</Typography>
