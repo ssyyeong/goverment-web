@@ -91,13 +91,17 @@ const Page: NextPage = () => {
 					'결제 및 신청이 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다'
 				);
 				// router.back();
-
-				if (virtualAccount) {
-					return;
-				} else router.push('/');
 			});
 	};
 	//* Hooks
+
+	useEffect(() => {
+		if (virtualAccount != undefined) {
+			console.log('가상 결제 계좌', virtualAccount);
+		} else {
+			router.push('/');
+		}
+	}, [virtualAccount]);
 
 	/**
 	 * 결제 성공 데이터 백에 보내기
