@@ -82,6 +82,7 @@ const Page: NextPage = () => {
 					AMOUNT: Number(amount),
 					TYPE: 'SEMINAR',
 					ORDER_ID: orderId,
+					STATUS: 'WAITING',
 				},
 			},
 
