@@ -86,7 +86,6 @@ const Page: NextPage = () => {
 
 				createPaymentHistory();
 
-				setLoading(false);
 				window.alert(
 					'결제 및 신청이 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다'
 				);
@@ -96,7 +95,7 @@ const Page: NextPage = () => {
 	//* Hooks
 
 	useEffect(() => {
-		if (virtualAccount != undefined || virtualAccount != null) {
+		if (virtualAccount != undefined && virtualAccount != null) {
 			console.log('가상 결제 계좌', virtualAccount);
 		} else {
 			router.push('/');
@@ -130,22 +129,10 @@ const Page: NextPage = () => {
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
-					{virtualAccount == undefined
-						? '결제가 완료되었습니다!'
-						: ''}
+					{virtualAccount == null ? '결제가 완료되었습니다!' : ''}
 				</span>
 			</LoadingButton>
-			{virtualAccount == undefined ? (
-				<Typography
-					variant="h3"
-					fontWeight={'bold'}
-					sx={{
-						mt: 3,
-					}}
-				>
-					결제가 진행중입니다!
-				</Typography>
-			) : (
+			{virtualAccount != undefined && virtualAccount != null ? (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
@@ -173,6 +160,16 @@ const Page: NextPage = () => {
 						후 페이지를 벗어나주세요!
 					</Typography>
 				</Box>
+			) : (
+				<Typography
+					variant="h3"
+					fontWeight={'bold'}
+					sx={{
+						mt: 3,
+					}}
+				>
+					결제가 진행중입니다!
+				</Typography>
 			)}
 		</Box>
 	);
