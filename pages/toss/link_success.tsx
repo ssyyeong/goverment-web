@@ -15,6 +15,7 @@ const Page: NextPage = () => {
 	const router = useRouter();
 	const { paymentKey, orderId, amount, paymentType } = router.query;
 	//* Controllers
+	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
 	//* States
 	/**
@@ -26,6 +27,33 @@ const Page: NextPage = () => {
 	 */
 	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
 	//* Functions
+	console.log(paymentType, virtualAccount);
+	/**
+	 * 결제 내역 생성
+	 */
+	const createPaymentHistory = () => {
+		paymentHistoryController.putData(
+			{
+				UPDATE_OPTION_KEY_LIST: {
+					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
+					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
+					ORDER_ID: orderId, //주문ID
+					PAY_METHOD: virtualAccount ? 'VIRTUAL_ACCOUNT' : 'CARD', //결제방식
+				},
+				FIND_OPTION_KEY_LIST: {},
+			},
+			`${paymentHistoryController.mergedPath}/update`,
+			(res) => {
+				console.log('결제 내역 생성 성공');
+				console.log('결제 성공');
+				setLoading(false);
+				// router.push(route as string);
+			},
+			(err) => {
+				alert('결제 내역 생성 실패');
+			}
+		);
+	};
 
 	/**
 	 * toss 에 결제 승인 요청
@@ -52,10 +80,12 @@ const Page: NextPage = () => {
 			.then((response) => {
 				console.log(response);
 				console.log('결제 성공');
+				createPaymentHistory();
 				setLoading(false);
 				if (response.data.method === '가상계좌') {
 					setVirtualAccount(response.data.virtualAccount);
 				} else {
+					setLoading(false);
 					window.alert(
 						'결제가 완료되었습니다! 결제 여부 갱신까지는 시간이 소요될 수 있습니다.'
 					);
@@ -71,6 +101,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		setLoading(true);
+
 		if (paymentKey) {
 			confirmPayment();
 		}

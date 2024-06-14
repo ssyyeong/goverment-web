@@ -80,7 +80,7 @@ const Page: NextPage = () => {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					DESCRIPTION: '세미나 단건 결제',
 					AMOUNT: Number(amount),
-					TYPE: 'SEMINAR',
+					TYPE: 'TICKET',
 					ORDER_ID: orderId,
 					STATUS: 'WAITING',
 				},
@@ -95,6 +95,7 @@ const Page: NextPage = () => {
 						orderId: orderId, // 주문 id
 						orderName: orderName.toString(), // 결제 이름
 						customerName: customerName.toString(), // 판매자, 판매처 이름
+
 						successUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST +
 							`/toss/link_success` +

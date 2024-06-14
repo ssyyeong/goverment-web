@@ -124,10 +124,6 @@ const Page: NextPage = () => {
 							} else {
 								setAlertModal(true);
 								setAlertModalType('seminarApplySuccess');
-
-								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}`
-								);
 							}
 						},
 						(err) => {
@@ -2163,6 +2159,12 @@ const Page: NextPage = () => {
 				customHandleClose={
 					alertModalType == 'seminarApply'
 						? () => applySeminar()
+						: alertModalType == 'seminarApplySuccess'
+						? () => {
+								router.push(
+									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}`
+								);
+						  }
 						: undefined
 				}
 			/>
