@@ -60,9 +60,7 @@ const SeminarCard = (props: ISeminarData) => {
 				// 세미나 상세 페이지로 이동
 				if (props.type === 'seminar')
 					router.push(
-						`/external_service/seminar/${
-							props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE
-						}?isApplied=${checkApplication()}`
+						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
 					);
 				else
 					router.push(

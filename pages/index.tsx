@@ -48,7 +48,7 @@ const Page: NextPage = () => {
 
 	const [financialTab, setFinancialTab] = React.useState('성과 지표');
 	const [mentoringTab, setMentoringTab] = React.useState('A2E');
-	const [investTab, setInvestTab] = React.useState('투자심사역 피드백');
+	const [investTab, setInvestTab] = React.useState('데모데이');
 	const [socialingTab, setSocialingTab] = React.useState('커피챗');
 	const [supportTab, setSupportTab] = React.useState('무료 서버 지원');
 
@@ -523,7 +523,7 @@ const Page: NextPage = () => {
 						'/images/main/a2e.jpeg',
 						'/images/main/seminar_and_consulting.jpg',
 					]}
-					imagePosition="left"
+					imagePosition="right"
 					tabContentList={[
 						<Box
 							sx={{

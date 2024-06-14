@@ -22,6 +22,14 @@ const useAppMember = () => {
 	 * 유저 이름
 	 */
 	const [memberName, setMemberName] = useState<string | undefined>(undefined);
+
+	/**
+	 * 유저 이메일 아이디
+	 */
+	const [memberEmailId, setMemberEmailId] = useState<string | undefined>(
+		undefined
+	);
+
 	/**
 	 * 유저 포인트
 	 */
@@ -59,6 +67,8 @@ const useAppMember = () => {
 						setMemberId(
 							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 						);
+						setMemberEmailId(res.data.result.USER_NAME);
+
 						setMemberName(res.data.result.FULL_NAME);
 						if (memberPoint !== undefined) return;
 						pointHistoryController.getPointSum(
@@ -96,7 +106,13 @@ const useAppMember = () => {
 		}
 	}, [accessToken]);
 
-	return { memberId, memberName, memberPoint, memberCoffeeChatProfileId };
+	return {
+		memberId,
+		memberEmailId,
+		memberName,
+		memberPoint,
+		memberCoffeeChatProfileId,
+	};
 };
 
 export default useAppMember;

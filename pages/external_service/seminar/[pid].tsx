@@ -34,8 +34,6 @@ const Page: NextPage = () => {
 	//* Constants
 	const { pid } = router.query;
 
-	const { isApplied } = router.query;
-
 	//* States
 	/**
 	 * 세미나 데이터
@@ -49,6 +47,7 @@ const Page: NextPage = () => {
 	 * 세미나 신청 목록 데이터
 	 */
 	const [seminarApplication, setSeminarApplication] = React.useState<any>([]);
+
 	/**
 	 * 알럿 모달
 	 */
@@ -76,7 +75,7 @@ const Page: NextPage = () => {
 	/**
 	 * 유저 아이디 가져오는 훅
 	 */
-	const { memberId } = useAppMember();
+	const { memberId, memberEmailId } = useAppMember();
 	//* Functions
 	/**
 	 * 세미나 신청 버튼 클릭시
@@ -93,6 +92,7 @@ const Page: NextPage = () => {
 	/**
 	 * 세미나 신청하기
 	 */
+
 	const applySeminar = () => {
 		if (!access) {
 			setAlertModalType('login');
@@ -104,7 +104,10 @@ const Page: NextPage = () => {
 			`${appMemberController.mergedPath}/profile`,
 			(res) => {
 				if (res.data.result !== null) {
-					// router.push(seminarData?.PAYMENT_LINK);
+					// router.push(
+					// 	`${seminarData?.PAYMENT_LINK}?userName=${memberName}`
+					// );
+
 					seminarApplicationController.createItem(
 						{
 							SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid,
@@ -115,8 +118,17 @@ const Page: NextPage = () => {
 							EMAIL: res.data.result.USER_NAME,
 						},
 						(res) => {
-							setAlertModal(true);
-							setAlertModalType('seminarApplySuccess');
+							if (seminarData?.FREE_YN === 'Y') {
+								//무료 세미나일 경우
+								alert('신청 완료되었습니다.');
+							} else {
+								setAlertModal(true);
+								setAlertModalType('seminarApplySuccess');
+
+								router.push(
+									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}`
+								);
+							}
 						},
 						(err) => {
 							console.log(err.response);
@@ -150,6 +162,23 @@ const Page: NextPage = () => {
 				}
 			}
 		);
+	};
+
+	const checkApplication = () => {
+		if (seminarData?.SeminarApplications) {
+			for (let i = 0; i < seminarData.SeminarApplications.length; i++) {
+				if (
+					seminarData.SeminarApplications[i].USE_YN === 'Y' &&
+					seminarData.SeminarApplications[i]
+						.APP_MEMBER_IDENTIFICATION_CODE === memberId
+				) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+		return false;
 	};
 
 	//* Hooks
@@ -319,7 +348,7 @@ const Page: NextPage = () => {
 						</Box>
 					)}
 				{/* 결제 안내 */}
-				{seminarData?.PAYMENT_LINK && (
+				{/* {seminarData?.PAYMENT_LINK && (
 					<Box
 						width={'100%'}
 						p={3}
@@ -356,7 +385,7 @@ const Page: NextPage = () => {
 							진행되오니 참고 부탁드립니다.
 						</Typography>
 					</Box>
-				)}
+				)} */}
 
 				<Box
 					sx={{
@@ -396,7 +425,7 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'column',
 								gap: 2,
-								p: 10,
+								p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
 							}}
 						>
@@ -419,14 +448,14 @@ const Page: NextPage = () => {
 								}}
 								variant="subtitle1"
 							>
-								서포티 투자 IR 시크릿 캠프 는 5주간 진행되는
-								프로그램으로, 4주 동안 매주 1회 이상
-								하임벤처투자의 대표와 수석 심사역의 강의와 1:1
-								미팅을 통해 진행되며, 마지막 5주차에는 모의
+								<strong>서포티 자금조달 시크릿 캠프</strong>는
+								5주간 진행되는 프로그램으로, 4주 동안 매주 1회
+								이상 하임벤처투자의 대표와 수석 심사역의 강의와
+								1:1 미팅을 통해 진행되며, 마지막 5주차에는 모의
 								데모데이를 통해 실습을 마무리합니다.
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={2} />
 
 							<Typography
 								fontWeight={700}
@@ -523,7 +552,7 @@ const Page: NextPage = () => {
 									정부지원사업 합격 사례 분석 및 1:1 코칭
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h5"
@@ -605,7 +634,7 @@ const Page: NextPage = () => {
 									IR 자료 1:1 코칭 및 피드백
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h5"
@@ -641,7 +670,246 @@ const Page: NextPage = () => {
 								</Typography>
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h5"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								💁‍♂️ 팀별안내
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 1팀:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									서울 및 전국지역소재 기업
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 2팀:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									안양 소재 기업
+								</Typography>
+							</Typography>
+							{/* <Box
+								width={'fit-content'}
+								py={1}
+								px={3}
+								bgcolor={'primary.light'}
+								display={{ xs: 'block', md: 'flex' }}
+								justifyContent={'space-between'}
+								alignItems={'center'}
+								borderRadius={2}
+							> */}
+							<Typography
+								my={1}
+								display={'flex'}
+								gap={1}
+								alignItems={'center'}
+								sx={{ wordBreak: 'keep-all' }}
+							>
+								<h2>💡</h2> 참가 신청인원이 미달될 경우, 폐강 될
+								수 있습니다.
+							</Typography>
+							{/* </Box> */}
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h5"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								⏰ 일정
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 모집일정:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									6.17(월)-28(금) 2주간 진행
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 강의일정:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									1팀 매주 화요일 7월 2일 시작 (2일, 9일,
+									16일, 23일) - 4주 강의 진행
+									<br />
+									2팀 매주 목요일 7월 4일 시작 (4일, 11일,
+									18일, 25일) - 4주 강의 진행
+									<br />
+									5주차 7월 30일 화요일 1,2팀 모의데모데이
+									진행
+									<br />
+								</Typography>
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 요일 및 시간:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									매주 화, 목 오후 19시-22시
+								</Typography>
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h5"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+								}}
+							>
+								🏢 장소
+							</Typography>
+
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								* 강의 장소:{' '}
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+								>
+									1팀 - 강남역 부근 세미나실
+									<br />
+									2팀 - 평촌역 부근 세미나실
+									<br />
+								</Typography>
+							</Typography>
+							{/* <Box
+								width={'fit-content'}
+								py={1}
+								px={3}
+								bgcolor={'primary.light'}
+								display={{ xs: 'block', md: 'flex' }}
+								justifyContent={'space-between'}
+								alignItems={'center'}
+								borderRadius={2}
+							> */}
+							<Typography
+								my={1}
+								display={'flex'}
+								flexWrap={'wrap'}
+								gap={1}
+								alignItems={'center'}
+								sx={{ wordBreak: 'keep-all' }}
+							>
+								<h2>💡</h2> 이번 일정에 참여가 어려우신가요?{' '}
+								<strong>약 2~3개월 마다 개강</strong>하니
+								참고하세요 !
+							</Typography>
+							{/* </Box> */}
+
+							<Box my={2} />
 
 							<Typography
 								fontWeight={700}
@@ -679,6 +947,7 @@ const Page: NextPage = () => {
 									검토 기회 제공
 								</Typography>
 							</Typography>
+
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -872,7 +1141,7 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									99만원 (부가세 포함)
+									110만원 → 99만원 (부가세 별도)
 								</Typography>
 							</Typography>
 							<Typography
@@ -882,12 +1151,12 @@ const Page: NextPage = () => {
 								}}
 								variant="subtitle1"
 							>
-								이번 ‘서포티 투자 IR 시크릿 캠프’를 통해
-								여러분의 스타트업이 한 단계 성장할 수 있는
-								기회를 놓치지 마세요! 많은 참여 바랍니다.
+								이번 ‘자금조달 시크릿 캠프’를 통해 여러분의
+								스타트업이 한 단계 성장할 수 있는 기회를 놓치지
+								마세요! 많은 참여 바랍니다.
 							</Typography>
 
-							<Box my={1.5} />
+							<Box my={2} />
 							{/* <Typography
 								fontWeight={700}
 								variant="h2"
@@ -899,7 +1168,7 @@ const Page: NextPage = () => {
 							>
 								1. 프로그램 개요
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -1099,7 +1368,7 @@ const Page: NextPage = () => {
 									등의 투자 심사 보고서를 공유합니다.
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h4"
@@ -1182,7 +1451,7 @@ const Page: NextPage = () => {
 									활용해 투자 유치를 적극적으로 도와드립니다.
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h4"
@@ -1228,7 +1497,7 @@ const Page: NextPage = () => {
 							>
 								2. 프로그램 구성
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h5"
@@ -1308,7 +1577,7 @@ const Page: NextPage = () => {
 									정부지원사업 합격 사례 분석 및 1:1 코칭
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h5"
@@ -1387,7 +1656,7 @@ const Page: NextPage = () => {
 									IR 자료 1:1 코칭 및 피드백
 								</Typography>
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={700}
 								variant="h5"
@@ -1433,7 +1702,7 @@ const Page: NextPage = () => {
 							>
 								3. 강사진 및 멘토 구성
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -1491,7 +1760,7 @@ const Page: NextPage = () => {
 							>
 								4. 참가자 지원 내용
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -1593,7 +1862,7 @@ const Page: NextPage = () => {
 							>
 								5. 프로그램 운영
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -1673,7 +1942,7 @@ const Page: NextPage = () => {
 							>
 								6. 홍보 및 마케팅
 							</Typography>
-							<Box my={1.5} />
+							<Box my={2} />
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
@@ -1844,12 +2113,11 @@ const Page: NextPage = () => {
 					>
 						<SupportiButton
 							contents={
-								isApplied == 'false' || 'undefined'
-									? '신청하기'
-									: '신청완료'
+								!checkApplication() ? '신청하기' : '신청완료'
 							}
 							isGradient={true}
 							onClick={() => {
+								// 정원이 마감되었을 경우
 								const soldOut =
 									seminarData?.SeminarGroups?.filter(
 										(item) =>
@@ -1860,23 +2128,19 @@ const Page: NextPage = () => {
 											).length != item.PERSONNEL
 									);
 
-								if (
-									isApplied == 'false' ||
-									isApplied == 'undefined'
-								) {
+								// 세미나 신청 여부 판별
+								if (!checkApplication()) {
 									if (
 										seminarData?.SeminarGroups.length > 0 &&
 										seminarGroup == undefined &&
 										soldOut.length !== 0
 									) {
-										alert('그룹을 선택해주세요.');
-										return;
+										return alert('그룹을 선택해주세요.');
 									} else if (
 										seminarData?.SeminarGroups.length > 0 &&
 										soldOut.length === 0
 									) {
-										alert('마감되었습니다.');
-										return;
+										return alert('마감되었습니다.');
 									} else handleApplySeminar();
 								} else alert('이미 신청하셨습니다!');
 							}}

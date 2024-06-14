@@ -18,16 +18,22 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SupportiInput from '../../src/views/global/SupportiInput';
 import SupportiButton from '../../src/views/global/SupportiButton';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { useAppMember } from '../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const { linkid } = useRouter().query;
+	const { userName } = useRouter().query;
 	const router = useRouter();
+	const { memberId } = useAppMember();
+
 	//* Constants
 	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
 	const orderId = uuidv4();
 	//* States
-	const [customerName, setCustomerName] = useState<string>('');
+	const [customerName, setCustomerName] = useState<string>(
+		(userName as string) ? (userName as string) : ''
+	);
 	const [amount, setAmount] = useState<number>(0);
 	const [orderName, setOrderName] = useState<string>('');
 	const [caution, setCaution] = useState<string>('');
@@ -36,6 +42,7 @@ const Page: NextPage = () => {
 	);
 	//* Controller
 	const paymentLinkController = new DefaultController('PaymentLink');
+	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Functions
 	/**
 	 * 결제 정보 가져오기
@@ -65,24 +72,42 @@ const Page: NextPage = () => {
 			alert('결제자 아이디를 입력해주세요!');
 			return;
 		}
-		loadTossPayments(clientKey).then((tossPayments) => {
-			// 카드 결제 메서드 실행
-			tossPayments.requestPayment(paymentMethod, {
-				amount: Number(amount), // 가격
-				orderId: orderId, // 주문 id
-				orderName: orderName.toString(), // 결제 이름
-				customerName: customerName.toString(), // 판매자, 판매처 이름
-				successUrl:
-					process.env.NEXT_PUBLIC_WEB_HOST +
-					`/toss/link_success` +
-					`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
-				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
-				validHours: 24, // 유효시간
-				cashReceipt: {
-					type: '소득공제',
+
+		// 히스토리 생성
+		paymentHistoryController.postData(
+			{
+				CREATE_OPTION_KEY_LIST: {
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
+					DESCRIPTION: '세미나 단건 결제',
+					AMOUNT: Number(amount),
+					TYPE: 'SEMINAR',
+					ORDER_ID: orderId,
 				},
-			});
-		});
+			},
+
+			`${paymentHistoryController.mergedPath}/create`,
+			(res) => {
+				loadTossPayments(clientKey).then((tossPayments) => {
+					// 카드 결제 메서드 실행
+					tossPayments.requestPayment(paymentMethod, {
+						amount: Number(amount), // 가격
+						orderId: orderId, // 주문 id
+						orderName: orderName.toString(), // 결제 이름
+						customerName: customerName.toString(), // 판매자, 판매처 이름
+						successUrl:
+							process.env.NEXT_PUBLIC_WEB_HOST +
+							`/toss/link_success` +
+							`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+						failUrl:
+							process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
+						validHours: 24, // 유효시간
+						cashReceipt: {
+							type: '소득공제',
+						},
+					});
+				});
+			}
+		);
 	};
 	//* Hooks
 	useEffect(() => {
@@ -162,20 +187,29 @@ const Page: NextPage = () => {
 						<Typography variant="h6" fontWeight={'bold'}>
 							결제자 아이디
 						</Typography>
-						<SupportiInput
-							value={customerName}
-							setValue={setCustomerName}
-							type="text"
-							additionalProps={{
-								placeholder: '결제자 아이디를 입력해주세요',
-							}}
-							style={{ minWidth: '180px' }}
-						/>
+						{userName ? (
+							<Typography fontWeight={'600'}>
+								{userName}
+							</Typography>
+						) : (
+							<>
+								<SupportiInput
+									value={customerName}
+									setValue={setCustomerName}
+									type="text"
+									additionalProps={{
+										placeholder:
+											'결제자 아이디를 입력해주세요',
+									}}
+									style={{ minWidth: '180px' }}
+								/>
+								<Typography>
+									결제자 아이디는 반드시 서포티 로그인시
+									사용한 메일로 입력해주세요!
+								</Typography>
+							</>
+						)}
 					</Box>
-					<Typography>
-						결제자 아이디는 반드시 서포티 로그인시 사용한 메일로
-						입력해주세요!
-					</Typography>
 				</Box>
 				{caution !== '' && (
 					<Box display={'flex'} alignItems={'center'} gap={5}>
