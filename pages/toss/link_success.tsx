@@ -84,6 +84,12 @@ const Page: NextPage = () => {
 				console.log('결제 성공');
 				setLoading(false);
 
+				if (response.data.virtualAccount == null) {
+					router.push('/');
+				} else {
+					console.log('가상 결제 계좌', virtualAccount);
+				}
+
 				createPaymentHistory();
 
 				window.alert(
@@ -93,14 +99,6 @@ const Page: NextPage = () => {
 			});
 	};
 	//* Hooks
-
-	useEffect(() => {
-		if (virtualAccount != undefined && virtualAccount != null) {
-			console.log('가상 결제 계좌', virtualAccount);
-		} else {
-			router.push('/');
-		}
-	}, [virtualAccount]);
 
 	/**
 	 * 결제 성공 데이터 백에 보내기
@@ -132,7 +130,17 @@ const Page: NextPage = () => {
 					{virtualAccount == null ? '결제가 완료되었습니다!' : ''}
 				</span>
 			</LoadingButton>
-			{virtualAccount != undefined && virtualAccount != null ? (
+			{virtualAccount == null ? (
+				<Typography
+					variant="h3"
+					fontWeight={'bold'}
+					sx={{
+						mt: 3,
+					}}
+				>
+					결제가 진행중입니다!
+				</Typography>
+			) : (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
@@ -160,16 +168,6 @@ const Page: NextPage = () => {
 						후 페이지를 벗어나주세요!
 					</Typography>
 				</Box>
-			) : (
-				<Typography
-					variant="h3"
-					fontWeight={'bold'}
-					sx={{
-						mt: 3,
-					}}
-				>
-					결제가 진행중입니다!
-				</Typography>
 			)}
 		</Box>
 	);
