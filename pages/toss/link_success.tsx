@@ -78,13 +78,13 @@ const Page: NextPage = () => {
 				}
 			)
 			.then((response) => {
+				setVirtualAccount(response.data.virtualAccount);
+
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
 
 				createPaymentHistory();
-
-				setVirtualAccount(response.data.virtualAccount);
 
 				setLoading(false);
 				window.alert(
@@ -96,7 +96,7 @@ const Page: NextPage = () => {
 	//* Hooks
 
 	useEffect(() => {
-		if (virtualAccount != undefined) {
+		if (virtualAccount != undefined || virtualAccount != null) {
 			console.log('가상 결제 계좌', virtualAccount);
 		} else {
 			router.push('/');
