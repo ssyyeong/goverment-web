@@ -21,6 +21,7 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import dynamic from 'next/dynamic';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -33,6 +34,16 @@ const Page: NextPage = () => {
 	const appMemberController = new DefaultController('AppMember');
 	//* Constants
 	const { pid } = router.query;
+
+	const SupportiViewer = dynamic(
+		() =>
+			import(
+				'../../../src/views/local/internal_service/contents/ToastViewer/ToastViewer'
+			),
+		{
+			ssr: false,
+		}
+	);
 
 	//* States
 	/**
@@ -407,13 +418,53 @@ const Page: NextPage = () => {
 						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
 							(item, index) => {
 								return (
-									<Box key={index}>
-										<img src={item} alt="" width={'65%'} />
-									</Box>
+									<>
+										<Box
+											key={index}
+											sx={{
+												display: {
+													xs: 'none',
+													sm: 'block',
+												},
+											}}
+										>
+											<img
+												src={item}
+												alt=""
+												width={'75%'}
+											/>
+										</Box>
+										<Box
+											key={index}
+											sx={{
+												display: {
+													sm: 'none',
+													xs: 'block',
+												},
+											}}
+										>
+											<img
+												src={item}
+												alt=""
+												width={'100%'}
+											/>
+										</Box>
+									</>
 								);
 							}
 						)}
 				</Box>
+
+				{/* {seminarData?.LONG_DESCRIPTION && (
+					<Box
+						width={'100%'}
+						sx={{
+							p: { sm: 10, xs: 2 },
+						}}
+					>
+						<SupportiViewer data={seminarData?.LONG_DESCRIPTION} />
+					</Box>
+				)} */}
 
 				{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 11 && (
 					<Box width="100%">
@@ -695,7 +746,7 @@ const Page: NextPage = () => {
 									flexWrap: 'wrap',
 								}}
 							>
-								* 1팀:{' '}
+								* A반:{' '}
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
@@ -718,7 +769,7 @@ const Page: NextPage = () => {
 									flexWrap: 'wrap',
 								}}
 							>
-								* 2팀:{' '}
+								* B반:{' '}
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
@@ -809,13 +860,13 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									1팀 매주 화요일 7월 2일 시작 (2일, 9일,
+									A반 매주 화요일 7월 2일 시작 (2일, 9일,
 									16일, 23일) - 4주 강의 진행
 									<br />
-									2팀 매주 목요일 7월 4일 시작 (4일, 11일,
+									B반 매주 목요일 7월 4일 시작 (4일, 11일,
 									18일, 25일) - 4주 강의 진행
 									<br />
-									5주차 7월 30일 화요일 1,2팀 모의데모데이
+									5주차 7월 30일 화요일 1,B반 모의데모데이
 									진행
 									<br />
 								</Typography>
@@ -879,9 +930,9 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									1팀 - 강남역 부근 세미나실
+									A반 - 강남역 부근 세미나실
 									<br />
-									2팀 - 평촌역 부근 세미나실
+									B반 - 평촌역 부근 세미나실
 									<br />
 								</Typography>
 							</Typography>

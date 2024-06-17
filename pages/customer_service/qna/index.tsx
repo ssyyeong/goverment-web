@@ -96,24 +96,25 @@ const Page: NextPage = () => {
 		setPassword('');
 	};
 
-
 	/**
-	 * 
+	 *
 	 * 글 삭제
 	 */
 
 	const deletePost = (id) => {
-		qnaController.deleteItem({
-			QNA_BOARD_QUESTION_IDENTIFICATION_CODE: id
-		},
-		(res) => {
-			alert("삭제 되었습니다.");
-			getQuestion();
-		},
-		(err) => {
-			console.log(err);
-		})
-	}
+		qnaController.deleteItem(
+			{
+				QNA_BOARD_QUESTION_IDENTIFICATION_CODE: id,
+			},
+			(res) => {
+				alert('삭제 되었습니다.');
+				getQuestion();
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	};
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오는 훅
@@ -139,15 +140,12 @@ const Page: NextPage = () => {
 			<Button
 				onClick={() => router.push('/customer_service/qna/write')}
 				sx={{
-					my: 2,
-					mx: 2,
+					my: 1,
 					py: 1.5,
 					display: 'block',
 					width: 90,
 					borderRadius: 2,
-					position: 'absolute',
-					right: 80,
-					top: 120,
+					ml: 'auto',
 				}}
 				variant="contained"
 			>
@@ -190,12 +188,16 @@ const Page: NextPage = () => {
 										notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
 									);
 									setOpenPopUp(true);
-								}else if (notice.PRIVATE_YN === 'Y' &&
-								!notice.OPEN_YN &&
-								notice.APP_MEMBER_IDENTIFICATION_CODE !==
-									memberId) {
-alert("비밀글은 본인 글만 확인 가능합니다.")
-								}else if (
+								} else if (
+									notice.PRIVATE_YN === 'Y' &&
+									!notice.OPEN_YN &&
+									notice.APP_MEMBER_IDENTIFICATION_CODE !==
+										memberId
+								) {
+									alert(
+										'비밀글은 본인 글만 확인 가능합니다.'
+									);
+								} else if (
 									notice.PRIVATE_YN === 'Y' &&
 									notice.OPEN_YN
 								) {
@@ -209,9 +211,15 @@ alert("비밀글은 본인 글만 확인 가능합니다.")
 							openAccordian={
 								notice.OPEN_YN === true ? true : false
 							}
-							isPossibleDelete={notice.APP_MEMBER_IDENTIFICATION_CODE ===
-								memberId}
-							deleteCallback={()=>deletePost(notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE)}
+							isPossibleDelete={
+								notice.APP_MEMBER_IDENTIFICATION_CODE ===
+								memberId
+							}
+							deleteCallback={() =>
+								deletePost(
+									notice.QNA_BOARD_QUESTION_IDENTIFICATION_CODE
+								)
+							}
 						/>
 					);
 				})}
