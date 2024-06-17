@@ -2220,7 +2220,7 @@ const Page: NextPage = () => {
 						: alertModalType == 'seminarApplySuccess'
 						? () => {
 								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}`
+									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}`
 								);
 						  }
 						: undefined

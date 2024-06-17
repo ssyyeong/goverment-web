@@ -9,6 +9,7 @@ import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import dayjs from 'dayjs';
+import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -96,6 +97,12 @@ const Page: NextPage = () => {
 				createPaymentHistory();
 
 				// router.back();
+			})
+			.catch((e) => {
+				console.log(e);
+				console.log(e.response.data.message);
+				alert(e.response.data.message);
+				router.push('/');
 			});
 	};
 	//* Hooks
@@ -160,9 +167,9 @@ const Page: NextPage = () => {
 						{virtualAccount?.bank} {virtualAccount?.accountNumber}
 					</Typography>
 					<Typography variant="h3" fontWeight={'bold'}>
-						{dayjs(virtualAccount?.dueDate).format(
-							'YYYY.MM.DD(ddd) hh:mm'
-						)}{' '}
+						{moment(virtualAccount?.dueDate).format(
+							'YYYY-MM-DD HH:mm'
+						)}
 						까지 입금 바랍니다.
 					</Typography>
 					<Typography color={'red'}>

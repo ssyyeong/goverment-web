@@ -24,6 +24,7 @@ const Page: NextPage = () => {
 	//* Modules
 	const { linkid } = useRouter().query;
 	const { userName } = useRouter().query;
+	const { productName, productId } = useRouter().query;
 	const router = useRouter();
 	const { memberId } = useAppMember();
 
@@ -80,7 +81,7 @@ const Page: NextPage = () => {
 			{
 				CREATE_OPTION_KEY_LIST: {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					DESCRIPTION: '세미나 단건 결제',
+					DESCRIPTION: '세미나 단건 결제' + '(' + productName + ')',
 					AMOUNT: Number(amount),
 					TYPE: 'TICKET',
 					ORDER_ID: orderId,
