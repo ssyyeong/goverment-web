@@ -25,7 +25,12 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 					style={{ width: 230, margin: 'auto' }}
 				/>
 				<Box
-					px={6}
+					sx={{
+						px: {
+							xs: 2,
+							sm: 6,
+						},
+					}}
 					py={5}
 					display={'flex'}
 					flexDirection={'column'}

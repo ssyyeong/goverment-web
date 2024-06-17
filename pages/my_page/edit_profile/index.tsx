@@ -243,13 +243,13 @@ const Page: NextPage = () => {
 						setAlertModalType('withdraw');
 					},
 				},
-				{
-					label: '전화번호 수정하기',
-					onClick: () => {
-						setEditProfileModal(true);
-						setModal(true);
-					},
-				},
+				// {
+				// 	label: '전화번호 수정하기',
+				// 	onClick: () => {
+				// 		setEditProfileModal(true);
+				// 		setModal(true);
+				// 	},
+				// },
 				{
 					label: '비밀번호 변경하기',
 					onClick: () => {

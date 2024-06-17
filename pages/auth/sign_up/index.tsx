@@ -316,11 +316,11 @@ const Page: NextPage = () => {
 			},
 		},
 		{
-			label: '비밀번호',
+			label: '비밀번호 (8~16 영문,숫자,특수문자)',
 			type: 'password',
 			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.PASSWORD,
-			placeholder: '비밀번호 (8~16 영문,숫자,특수문자)',
+			placeholder: '비밀번호',
 			onChange: (e) => {
 				setSignupData({
 					...signupData,
@@ -414,7 +414,7 @@ const Page: NextPage = () => {
 		// 	},
 		// },
 		{
-			label: '사업자 등록번호',
+			label: '사업자 등록번호 (-제외)',
 			type: 'text',
 			for: 'BUSINESS',
 			value: signupData.BUSINESS_NUMBER,
@@ -437,7 +437,7 @@ const Page: NextPage = () => {
 					</Typography>
 				</Button>
 			),
-			placeholder: '사업자 등록번호를 입력해주세요.(-제외)',
+			placeholder: '사업자번호 입력',
 			isVerified: isBusinessNumOk === 'OK',
 			error: isBusinessNumOk === 'NOT_OK',
 			helperText:
@@ -522,6 +522,7 @@ const Page: NextPage = () => {
 			label: '서비스명(또는 아이템 한 줄 소개)',
 			type: 'text',
 			// optional: true,
+			placeholder: '서비스명을 입력해주세요.',
 			for: ['BUSINESS'],
 			value: signupData.MAIN_PRODUCT,
 			onChange: (e) => {
@@ -583,6 +584,8 @@ const Page: NextPage = () => {
 			for: 'BUSINESS',
 			config: companyHistory,
 			key: 'ESTABLISHMENT_DATE',
+			placeholder: '설립일자를 입력해주세요.',
+
 			optional: true,
 			type: 'datepicker',
 			value: signupData.ESTABLISHMENT_DATE,
