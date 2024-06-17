@@ -112,7 +112,7 @@ const Page: NextPage = () => {
 			required: true,
 		},
 		{
-			label: '기업명',
+			label: '회사명',
 			value: 'COMPANY_NAME',
 			required: true,
 		},
@@ -141,7 +141,7 @@ const Page: NextPage = () => {
 			value: 'HOME_PAGE',
 		},
 		{
-			label: '연락처',
+			label: '전화번호',
 			value: 'CONTACT_NUMBER',
 			required: true,
 			placeholder: '-를 제외한 숫자만 입력해주세요.',
@@ -669,7 +669,7 @@ const Page: NextPage = () => {
 											fontWeight={'600'}
 											display={'flex'}
 										>
-											IR자료 또는 사업 계획서{' '}
+											IR자료(또는 사업 계획서){' '}
 											{isEdit && (
 												<Typography
 													fontWeight={'600'}
@@ -702,7 +702,7 @@ const Page: NextPage = () => {
 													color={'grey'}
 													mt={1}
 												>
-													제작년도 / 기업명 / 파일형식
+													제작년도 / 회사명 / 파일형식
 													/ 페이지 수 형식으로 업로드
 													부탁드립니다. (예시 :
 													2024/린온컴퍼니/PDF/25)

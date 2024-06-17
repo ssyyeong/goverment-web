@@ -656,7 +656,7 @@ const Page: NextPage = () => {
 		// 	},
 		// },
 		{
-			label: 'IR자료 또는 사업 계획서',
+			label: 'IR자료(또는 사업 계획서)',
 			type: 'file',
 			for: ['BUSINESS'],
 			value: signupData.IR_FILE,
@@ -930,7 +930,7 @@ const Page: NextPage = () => {
 															/>
 														</Box>
 													) : item.label ===
-													  'IR자료 또는 사업 계획서' ? (
+													  'IR자료(또는 사업 계획서)' ? (
 														<Box
 															display={'flex'}
 															flexDirection={
@@ -1321,7 +1321,7 @@ const Page: NextPage = () => {
 															/>
 														</Box>
 													) : item.label ===
-													  'IR자료 또는 사업 계획서' ? (
+													  'IR자료(또는 사업 계획서)' ? (
 														<Box
 															display={'flex'}
 															flexDirection={
@@ -1690,7 +1690,7 @@ const Page: NextPage = () => {
 															/>
 														</Box>
 													) : item.label ===
-													  'IR자료 또는 사업 계획서' ? (
+													  'IR자료(또는 사업 계획서)' ? (
 														<Box
 															display={'flex'}
 															flexDirection={
@@ -2064,7 +2064,7 @@ const Page: NextPage = () => {
 																/>
 															</Box>
 														) : item.label ===
-														  'IR자료 또는 사업 계획서' ? (
+														  'IR자료(또는 사업 계획서)' ? (
 															<Box
 																display={'flex'}
 																flexDirection={
@@ -2533,7 +2533,7 @@ const Page: NextPage = () => {
 																/>
 															</Box>
 														) : item.label ===
-														  'IR자료 또는 사업 계획서' ? (
+														  'IR자료(또는 사업 계획서)' ? (
 															<Box
 																display={'flex'}
 																flexDirection={

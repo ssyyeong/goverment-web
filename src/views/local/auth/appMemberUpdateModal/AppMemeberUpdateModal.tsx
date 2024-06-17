@@ -529,7 +529,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			error: isShowError && !businessData?.REVENUE,
 		},
 		{
-			label: 'IR자료 또는 사업 계획서',
+			label: 'IR자료(또는 사업 계획서)',
 			type: 'file',
 			for: ['BUSINESS'],
 			value: businessData?.IR_FILE,
@@ -543,7 +543,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		},
 
 		{
-			label: '중복 선택 가능',
+			label: '서포티 필요항목 (중복 선택 가능)',
 			type: 'text',
 			// helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
 			for: ['BUSINESS'],
@@ -831,7 +831,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 									</Typography> */}
 									</Box>
 								</Box>
-							) : item.label === 'IR자료 또는 사업 계획서' ? (
+							) : item.label === 'IR자료(또는 사업 계획서)' ? (
 								<Box
 									display={'flex'}
 									flexDirection={'column'}

@@ -10,7 +10,7 @@ const businessConfig: {
 }[] = [
 	{
 		key: 'COMPANY_NAME',
-		label: '기업명',
+		label: '회사명',
 	},
 	{
 		key: 'OWNER_NAME',
