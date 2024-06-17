@@ -56,6 +56,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 사업가 정보
 	 */
 	const [businessData, setBusinessData] = useState<{
+		ESTABLISHMENT_DATE: any;
 		BUSINESS_SECTOR: string;
 		BUSINESS_NUMBER: any;
 		COMPANY_NAME: string;
@@ -218,10 +219,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				INVESTMENT_ROUND: businessData.INVESTMENT_ROUND,
 				MAIN_PRODUCT: businessData.MAIN_PRODUCT,
 				INVESTMENT_COMPANY: businessData.INVESTMENT_COMPANY,
-				// ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
+				ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
 				REVENUE: businessData.REVENUE,
 				NEEDED_SERVICE: JSON.stringify(needService),
-				IR_FILE: JSON.stringify(irDeckFile),
+				IR_FILE: JSON.stringify(businessData.IR_FILE),
 			},
 			(res) => {
 				gTagEvent({
@@ -491,22 +492,22 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			error: isShowError && !businessData?.INVESTMENT_COMPANY,
 		},
-		// {
-		// 	label: '설립일자(연/월)',
-		// 	for: 'BUSINESS',
-		// 	config: companyHistory,
-		// 	key: 'ESTABLISHMENT_DATE',
-		// 	optional: true,
-		// 	type: 'datepicker',
-		// 	value: businessData?.ESTABLISHMENT_DATE,
-		// 	onChange: (e) => {
-		// 		setBusinessData({
-		// 			...businessData,
-		// 			ESTABLISHMENT_DATE: e.target.value,
-		// 		});
-		// 	},
-		// 	error: isShowError && !businessData?.ESTABLISHMENT_DATE,
-		// },
+		{
+			label: '설립일자(연/월)',
+			for: 'BUSINESS',
+			config: companyHistory,
+			key: 'ESTABLISHMENT_DATE',
+			optional: true,
+			type: 'datepicker',
+			value: businessData?.ESTABLISHMENT_DATE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					ESTABLISHMENT_DATE: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.ESTABLISHMENT_DATE,
+		},
 		{
 			label: '전년도 매출',
 			for: 'BUSINESS',
@@ -564,6 +565,24 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		}
 		return finalData;
 	};
+
+	React.useEffect(() => {
+		if (isNone) {
+			setBusinessData({
+				...businessData,
+				IR_FILE: [],
+			});
+			setIrDeckFile({
+				FILE_NAME: '',
+				FILE_URL: '',
+			});
+		} else {
+			setBusinessData({
+				...businessData,
+				IR_FILE: irDeckFile,
+			});
+		}
+	}, [isNone]);
 
 	return (
 		<SupportiModal
@@ -669,6 +688,29 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 											}}
 										/>
 									)}
+								/>
+							) : item.label === '설립일자(연/월)' ? (
+								<SupportiInput
+									type={item.type ? item.type : 'text'}
+									value={businessData?.ESTABLISHMENT_DATE}
+									setValue={(value) => {
+										setBusinessData({
+											...businessData,
+											ESTABLISHMENT_DATE:
+												dayjs(value).format(
+													'YYYY-MM-DD'
+												),
+										});
+									}}
+									additionalProps={{
+										views: ['month', 'year'],
+										sx: {
+											mt: 1,
+										},
+										placeholder: item.placeholder
+											? item.placeholder
+											: `${item.label}을 입력해주세요.`,
+									}}
 								/>
 							) : // : item.label === '설립일자(연/월)' ? (
 							// <SupportiInput
