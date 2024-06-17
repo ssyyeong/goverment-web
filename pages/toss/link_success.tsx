@@ -27,7 +27,7 @@ const Page: NextPage = () => {
 	 */
 	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
 	//* Functions
-	console.log(paymentType, virtualAccount);
+
 	/**
 	 * 결제 내역 생성
 	 */
@@ -78,20 +78,24 @@ const Page: NextPage = () => {
 				}
 			)
 			.then((response) => {
+				setVirtualAccount(response.data.virtualAccount);
+
 				console.log(response);
 				console.log('결제 성공');
-				createPaymentHistory();
 				setLoading(false);
-				if (response.data.method === '가상계좌') {
-					setVirtualAccount(response.data.virtualAccount);
-				} else {
-					setLoading(false);
-					window.alert(
-						'결제가 완료되었습니다! 결제 여부 갱신까지는 시간이 소요될 수 있습니다.'
-					);
-					// router.back();
+
+				if (response.data.virtualAccount == null) {
 					router.push('/');
+				} else {
+					console.log('가상 결제 계좌', virtualAccount);
 				}
+
+				createPaymentHistory();
+
+				window.alert(
+					'결제 및 신청이 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다'
+				);
+				// router.back();
 			});
 	};
 	//* Hooks
@@ -107,6 +111,8 @@ const Page: NextPage = () => {
 		}
 	}, [router.query]);
 
+	console.log(virtualAccount);
+
 	return (
 		<Box
 			sx={{
@@ -121,12 +127,20 @@ const Page: NextPage = () => {
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
-					{virtualAccount !== null || virtualAccount !== undefined
-						? ''
-						: '결제가 완료되었습니다!'}
+					{virtualAccount == null ? '결제가 완료되었습니다!' : ''}
 				</span>
 			</LoadingButton>
-			{virtualAccount !== null || virtualAccount !== undefined ? (
+			{virtualAccount == null ? (
+				<Typography
+					variant="h3"
+					fontWeight={'bold'}
+					sx={{
+						mt: 3,
+					}}
+				>
+					결제가 진행중입니다!
+				</Typography>
+			) : (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
@@ -150,20 +164,10 @@ const Page: NextPage = () => {
 						까지 입금 바랍니다.
 					</Typography>
 					<Typography color={'red'}>
-						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인후
-						페이지를 벗어나주세요!
+						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인
+						후 페이지를 벗어나주세요!
 					</Typography>
 				</Box>
-			) : (
-				<Typography
-					variant="h3"
-					fontWeight={'bold'}
-					sx={{
-						mt: 3,
-					}}
-				>
-					결제가 진행중입니다!
-				</Typography>
 			)}
 		</Box>
 	);

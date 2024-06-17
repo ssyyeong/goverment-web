@@ -218,6 +218,7 @@ const Page: NextPage = () => {
 				</Typography>
 				<Box
 					display={'flex'}
+					flexWrap={'wrap'}
 					gap={3}
 					mt={{
 						xs: 2,
