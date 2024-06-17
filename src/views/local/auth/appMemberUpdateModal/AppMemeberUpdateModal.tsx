@@ -66,8 +66,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		MAIN_PRODUCT: string;
 		INVESTMENT_COMPANY: string;
 		REVENUE: string;
-		ESTABLISHMENT_DATE: string;
-		IR_FILE: string;
+		// ESTABLISHMENT_DATE: any;
+		IR_FILE: any;
 	}>();
 	/**
 	 * 인증번호 암호화
@@ -218,7 +218,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				INVESTMENT_ROUND: businessData.INVESTMENT_ROUND,
 				MAIN_PRODUCT: businessData.MAIN_PRODUCT,
 				INVESTMENT_COMPANY: businessData.INVESTMENT_COMPANY,
-				ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
+				// ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
 				REVENUE: businessData.REVENUE,
 				NEEDED_SERVICE: JSON.stringify(needService),
 				IR_FILE: JSON.stringify(signupData.IR_FILE),
@@ -491,22 +491,22 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			error: isShowError && !businessData?.INVESTMENT_COMPANY,
 		},
-		{
-			label: '설립일자(연/월)',
-			for: 'BUSINESS',
-			config: companyHistory,
-			key: 'ESTABLISHMENT_DATE',
-			optional: true,
-			type: 'datepicker',
-			value: businessData?.ESTABLISHMENT_DATE,
-			onChange: (e) => {
-				setBusinessData({
-					...businessData,
-					ESTABLISHMENT_DATE: e.target.value,
-				});
-			},
-			error: isShowError && !businessData?.ESTABLISHMENT_DATE,
-		},
+		// {
+		// 	label: '설립일자(연/월)',
+		// 	for: 'BUSINESS',
+		// 	config: companyHistory,
+		// 	key: 'ESTABLISHMENT_DATE',
+		// 	optional: true,
+		// 	type: 'datepicker',
+		// 	value: businessData?.ESTABLISHMENT_DATE,
+		// 	onChange: (e) => {
+		// 		setBusinessData({
+		// 			...businessData,
+		// 			ESTABLISHMENT_DATE: e.target.value,
+		// 		});
+		// 	},
+		// 	error: isShowError && !businessData?.ESTABLISHMENT_DATE,
+		// },
 		{
 			label: '전년도 매출',
 			for: 'BUSINESS',
@@ -670,75 +670,58 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 										/>
 									)}
 								/>
-							) : item.type === 'datepicker' ? (
-								<SupportiInput
-									type={item.type ? item.type : 'text'}
-									value={businessData.ESTABLISHMENT_DATE}
-									setValue={(value) => {
-										setBusinessData({
-											...businessData,
-											ESTABLISHMENT_DATE:
-												dayjs(value).format('YYYY-MM'),
-										});
-									}}
-									additionalProps={{
-										views: ['month', 'year'],
-										placeholder: item.placeholder
-											? item.placeholder
-											: `${item.label}을 입력해주세요.`,
-									}}
-								/>
-							) : item.label === '설립일자(연/월)' ? (
-								// <SupportiInput
-								// 	type={
-								// 		item.type
-								// 			? item.type
-								// 			: 'text'
-								// 	}
-								// 	value={
-								// 		signupData.ESTABLISHMENT_DATE
-								// 	}
-								// 	setValue={(
-								// 		value
-								// 	) => {
-								// 		setSignupData({
-								// 			...signupData,
-								// 			ESTABLISHMENT_DATE:
-								// 				dayjs(
-								// 					value
-								// 				).format(
-								// 					'YYYY-MM-DD'
-								// 				),
-								// 		});
-								// 	}}
-								// 	additionalProps={{
-								// 		placeholder:
-								// 			item.placeholder
-								// 				? item.placeholder
-								// 				: `${item.label}을 입력해주세요.`,
-								// 	}}
-								// />
-								<SupportiInput
-									type={item.type ? item.type : 'text'}
-									value={businessData.ESTABLISHMENT_DATE}
-									setValue={(value) => {
-										setBusinessData({
-											...businessData,
-											ESTABLISHMENT_DATE:
-												dayjs(value).format(
-													'YYYY-MM-DD'
-												),
-										});
-									}}
-									additionalProps={{
-										views: ['month', 'year'],
-										defaultValue: undefined,
-										placeholder: item.placeholder
-											? item.placeholder
-											: `${item.label}을 입력해주세요.`,
-									}}
-								/>
-							) : item.label === '중복 선택 가능' ? (
+							) : // : item.label === '설립일자(연/월)' ? (
+							// <SupportiInput
+							// 	type={
+							// 		item.type
+							// 			? item.type
+							// 			: 'text'
+							// 	}
+							// 	value={
+							// 		signupData.ESTABLISHMENT_DATE
+							// 	}
+							// 	setValue={(
+							// 		value
+							// 	) => {
+							// 		setSignupData({
+							// 			...signupData,
+							// 			ESTABLISHMENT_DATE:
+							// 				dayjs(
+							// 					value
+							// 				).format(
+							// 					'YYYY-MM-DD'
+							// 				),
+							// 		});
+							// 	}}
+							// 	additionalProps={{
+							// 		placeholder:
+							// 			item.placeholder
+							// 				? item.placeholder
+							// 				: `${item.label}을 입력해주세요.`,
+							// 	}}
+							// />
+							// <SupportiInput
+							// 	type={item.type ? item.type : 'text'}
+							// 	value={businessData.ESTABLISHMENT_DATE}
+							// 	setValue={(value) => {
+							// 		setBusinessData({
+							// 			...businessData,
+							// 			ESTABLISHMENT_DATE:
+							// 				dayjs(value).format(
+							// 					'YYYY-MM-DD'
+							// 				),
+							// 		});
+							// 	}}
+							// 	additionalProps={{
+							// 		views: ['month', 'year'],
+							// 		defaultValue: undefined,
+							// 		placeholder: item.placeholder
+							// 			? item.placeholder
+							// 			: `${item.label}을 입력해주세요.`,
+							// 	}}
+							// />
+							// )
+							item.label === '중복 선택 가능' ? (
 								<Box>
 									{/* <Typography my={2}>
 										선택 : {needService}
