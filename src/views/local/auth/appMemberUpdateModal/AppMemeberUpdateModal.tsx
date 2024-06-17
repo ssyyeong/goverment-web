@@ -25,6 +25,7 @@ import {
 } from '../../../../../configs/data/BusinessConfig';
 import { gTagEvent } from '../../../../lib/gtag';
 import SupportiInput from '../../../global/SupportiInput';
+import dayjs from 'dayjs';
 
 interface IAppMemberUpdateModalProps {
 	open: boolean;
@@ -534,11 +535,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			dataList: dataList,
 			value: needService,
 		},
-		{
-			label: '명함 이미지',
-			type: 'image',
-			for: ['INVESTOR'],
-		},
 	];
 
 	const finalDataConfig = () => {
@@ -570,9 +566,16 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			style={{
 				minWidth: '40%',
 				width: { sm: 'fit-content', xs: '100%' },
+				maxHeight: '90vh',
+				overflow: 'auto',
 			}}
 		>
-			<Box width={'100%'} display={'flex'} flexDirection={'column'}>
+			<Box
+				width={'100%'}
+				display={'flex'}
+				flexDirection={'column'}
+				my={2}
+			>
 				{/* 토글 */}
 				<Box width={'100%'}>
 					<SupportiToggle
@@ -602,7 +605,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							width={'100%'}
 							mt={!item.nolabel && 2}
 						>
-							<Typography fontWeight={600}>
+							<Typography
+								fontWeight={600}
+								mb={item.label === '설립일자(연/월)' && 1}
+							>
 								{!item.nolabel && item.label}
 							</Typography>
 							{item.label == '업종/업태' ? (
@@ -629,6 +635,163 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 										/>
 									)}
 								/>
+							) : item.type == 'select' ? (
+								<Autocomplete
+									size="small"
+									options={item.config}
+									fullWidth
+									onChange={(e, newValue) => {
+										setSignupData({
+											...signupData,
+											[item.key]: newValue,
+										});
+									}}
+									value={item.value}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											error={item.error}
+											sx={{
+												mt: 1,
+												'& .MuiAutocomplete-input': {
+													padding: '8px !important',
+												},
+											}}
+										/>
+									)}
+								/>
+							) : item.type === 'datepicker' ? (
+								<SupportiInput
+									type={item.type ? item.type : 'text'}
+									value={signupData.ESTABLISHMENT_DATE}
+									setValue={(value) => {
+										setSignupData({
+											...signupData,
+											ESTABLISHMENT_DATE:
+												dayjs(value).format('YYYY-MM'),
+										});
+									}}
+									additionalProps={{
+										views: ['month', 'year'],
+										placeholder: item.placeholder
+											? item.placeholder
+											: `${item.label}을 입력해주세요.`,
+									}}
+								/>
+							) : item.label === '설립일자(연/월)' ? (
+								// <SupportiInput
+								// 	type={
+								// 		item.type
+								// 			? item.type
+								// 			: 'text'
+								// 	}
+								// 	value={
+								// 		signupData.ESTABLISHMENT_DATE
+								// 	}
+								// 	setValue={(
+								// 		value
+								// 	) => {
+								// 		setSignupData({
+								// 			...signupData,
+								// 			ESTABLISHMENT_DATE:
+								// 				dayjs(
+								// 					value
+								// 				).format(
+								// 					'YYYY-MM-DD'
+								// 				),
+								// 		});
+								// 	}}
+								// 	additionalProps={{
+								// 		placeholder:
+								// 			item.placeholder
+								// 				? item.placeholder
+								// 				: `${item.label}을 입력해주세요.`,
+								// 	}}
+								// />
+								<SupportiInput
+									type={item.type ? item.type : 'text'}
+									value={signupData.ESTABLISHMENT_DATE}
+									setValue={(value) => {
+										setSignupData({
+											...signupData,
+											ESTABLISHMENT_DATE:
+												dayjs(value).format(
+													'YYYY-MM-DD'
+												),
+										});
+									}}
+									additionalProps={{
+										views: ['month', 'year'],
+										defaultValue: undefined,
+										placeholder: item.placeholder
+											? item.placeholder
+											: `${item.label}을 입력해주세요.`,
+									}}
+								/>
+							) : item.label === '중복 선택 가능' ? (
+								<Box>
+									{/* <Typography my={2}>
+										선택 : {needService}
+									</Typography> */}
+									<Box
+										display={'flex'}
+										gap={2}
+										flexWrap="wrap"
+										my={2}
+									>
+										{item?.dataList?.map((item, index) => {
+											return (
+												<Typography
+													fontWeight={
+														needService.includes(
+															item
+														) && 700
+													}
+													sx={{
+														p: 1,
+														borderRadius: 4,
+														border: '1px solid #d1d1d1',
+														cursor: 'pointer',
+														color: needService.includes(
+															item
+														)
+															? 'primary.main'
+															: 'common.black',
+													}}
+													onClick={() => {
+														if (
+															needService.includes(
+																item
+															)
+														) {
+															setNeedService(
+																needService.filter(
+																	(data) =>
+																		data !==
+																		item
+																)
+															);
+														} else {
+															setNeedService([
+																...needService,
+																item,
+															]);
+														}
+													}}
+												>
+													{item}
+												</Typography>
+											);
+										})}
+										{/* <Typography color="secondary.main">
+										(
+										{
+											item.helperText
+										}
+										)
+									</Typography> */}
+									</Box>
+								</Box>
 							) : item.label === 'IR자료 또는 사업 계획서' ? (
 								<Box
 									display={'flex'}
