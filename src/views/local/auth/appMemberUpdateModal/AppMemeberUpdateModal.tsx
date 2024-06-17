@@ -212,6 +212,16 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				BUSINESS_SECTOR: businessData.BUSINESS_SECTOR,
 				BUSINESS_NUMBER: businessData.BUSINESS_NUMBER,
 				COMPANY_NAME: businessData.COMPANY_NAME,
+				CORPORATE_TYPE: businessData.CORPORATE_TYPE,
+				ROLE: businessData.ROLE,
+				OWNER_NAME: businessData.OWNER_NAME,
+				INVESTMENT_ROUND: businessData.INVESTMENT_ROUND,
+				MAIN_PRODUCT: businessData.MAIN_PRODUCT,
+				INVESTMENT_COMPANY: businessData.INVESTMENT_COMPANY,
+				ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
+				REVENUE: businessData.REVENUE,
+				NEEDED_SERVICE: JSON.stringify(needService),
+				IR_FILE: JSON.stringify(signupData.IR_FILE),
 			},
 			(res) => {
 				gTagEvent({
@@ -641,8 +651,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 									options={item.config}
 									fullWidth
 									onChange={(e, newValue) => {
-										setSignupData({
-											...signupData,
+										setBusinessData({
+											...businessData,
 											[item.key]: newValue,
 										});
 									}}
@@ -663,10 +673,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							) : item.type === 'datepicker' ? (
 								<SupportiInput
 									type={item.type ? item.type : 'text'}
-									value={signupData.ESTABLISHMENT_DATE}
+									value={businessData.ESTABLISHMENT_DATE}
 									setValue={(value) => {
-										setSignupData({
-											...signupData,
+										setBusinessData({
+											...businessData,
 											ESTABLISHMENT_DATE:
 												dayjs(value).format('YYYY-MM'),
 										});
@@ -710,10 +720,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								// />
 								<SupportiInput
 									type={item.type ? item.type : 'text'}
-									value={signupData.ESTABLISHMENT_DATE}
+									value={businessData.ESTABLISHMENT_DATE}
 									setValue={(value) => {
-										setSignupData({
-											...signupData,
+										setBusinessData({
+											...businessData,
 											ESTABLISHMENT_DATE:
 												dayjs(value).format(
 													'YYYY-MM-DD'
