@@ -221,7 +221,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				// ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
 				REVENUE: businessData.REVENUE,
 				NEEDED_SERVICE: JSON.stringify(needService),
-				IR_FILE: JSON.stringify(signupData.IR_FILE),
+				IR_FILE: JSON.stringify(irDeckFile),
 			},
 			(res) => {
 				gTagEvent({
