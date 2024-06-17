@@ -119,7 +119,7 @@ const Page: NextPage = () => {
 								colums={[
 									{
 										label: '금액',
-										value: item.AMOUNT,
+										value: item.AMOUNT + ' 원',
 									},
 									{
 										label: '결제일',
@@ -129,7 +129,7 @@ const Page: NextPage = () => {
 														'T'
 												  )[0]
 												: '취소'
-										} 원`,
+										} `,
 									},
 								]}
 							/>

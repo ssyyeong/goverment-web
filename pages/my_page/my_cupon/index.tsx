@@ -41,29 +41,28 @@ const Page: NextPage = () => {
 						<Typography>
 							{value.Ticket.TICKET_NAME}
 							{value.Ticket.SUMMARY && (
-							<Tooltip
-								title={value.Ticket.SUMMARY}
-								arrow
-								slotProps={{
-									popper: {
-										modifiers: [
-											{
-												name: 'offset',
-												options: {
-													offset: [0, -14],
+								<Tooltip
+									title={value.Ticket.SUMMARY}
+									arrow
+									slotProps={{
+										popper: {
+											modifiers: [
+												{
+													name: 'offset',
+													options: {
+														offset: [0, -14],
+													},
 												},
-											},
-										],
-									},
-								}}
-							>
-								<IconButton size="small">
-									<HelpOutlineIcon fontSize="small" />
-								</IconButton>
-							</Tooltip>
-						)}
+											],
+										},
+									}}
+								>
+									<IconButton size="small">
+										<HelpOutlineIcon fontSize="small" />
+									</IconButton>
+								</Tooltip>
+							)}
 						</Typography>
-		
 					</Box>
 				);
 			},
@@ -204,8 +203,17 @@ const Page: NextPage = () => {
 											<Button
 												variant="contained"
 												onClick={() => {
+													if (
+														!item.Ticket
+															.SERVICE_LINK
+													) {
+														return alert(
+															'이동할 링크가 없습니다.'
+														);
+													}
+
 													router.push(
-														item.SERVICE_LINK
+														item.Ticket.SERVICE_LINK
 													);
 												}}
 												sx={{

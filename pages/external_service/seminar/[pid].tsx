@@ -161,22 +161,24 @@ const Page: NextPage = () => {
 	};
 
 	const checkApplication = () => {
+		let result = false;
+
 		if (seminarData?.SeminarApplications) {
 			for (let i = 0; i < seminarData.SeminarApplications.length; i++) {
 				if (
-					seminarData.SeminarApplications[i].USE_YN === 'Y' &&
+					seminarData.SeminarApplications[i].USE_YN == 'Y' &&
+					seminarData.SeminarApplications[i].CANCELED_YN == 'N' &&
 					seminarData.SeminarApplications[i]
-						.APP_MEMBER_IDENTIFICATION_CODE === memberId
+						.APP_MEMBER_IDENTIFICATION_CODE == memberId
 				) {
-					return true;
+					result = true;
 				}
-				return false;
 			}
-			return false;
 		}
-		return false;
+		return result;
 	};
 
+	console.log(seminarData);
 	//* Hooks
 	/**
 	 * 세미나 데이터 조회
@@ -663,7 +665,8 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									모의 데모데이 및 시상식
+									모의 데모데이 및 시상식(TIPS 운용사 및
+									투자자 초청해 팁스 투자 검토 등)
 								</Typography>
 							</Typography>
 
@@ -2010,7 +2013,7 @@ const Page: NextPage = () => {
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
-						gap={1}
+						gap={1.5}
 						m={3}
 						p={4}
 						bgcolor={'secondary.light'}
@@ -2026,6 +2029,8 @@ const Page: NextPage = () => {
 									key={index.toString()}
 									display={'flex'}
 									flexDirection={'row'}
+									flexWrap={'wrap'}
+									gap={1}
 									mt={1}
 								>
 									<Typography variant={'body1'} mr={2}>

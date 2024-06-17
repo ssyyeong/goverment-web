@@ -68,6 +68,8 @@ const Page: NextPage = () => {
 	 * 토스 결제 실행
 	 */
 	const tossPay = () => {
+		if (!memberId) return alert('로그인 후 결제해주세요!');
+
 		if (customerName === '') {
 			alert('결제자 아이디를 입력해주세요!');
 			return;

@@ -16,8 +16,15 @@ import { AppMemberController } from '../../../../controller/AppMemberController'
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { CookieManager } from '@leanoncompany/supporti-utility';
-import { businessSector } from '../../../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	businessType,
+	companyHistory,
+	investSector,
+	lastYearSales,
+} from '../../../../../configs/data/BusinessConfig';
 import { gTagEvent } from '../../../../lib/gtag';
+import SupportiInput from '../../../global/SupportiInput';
 
 interface IAppMemberUpdateModalProps {
 	open: boolean;
@@ -43,6 +50,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원가입 정보
 	 */
 	const [signupData, setSignupData] = useState<any>();
+	const [isNone, setIsNone] = React.useState<boolean>(false); // IR파일 없음으로 체크했을 경우 판별
 	/**
 	 * 사업가 정보
 	 */
@@ -50,6 +58,15 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		BUSINESS_SECTOR: string;
 		BUSINESS_NUMBER: any;
 		COMPANY_NAME: string;
+		CORPORATE_TYPE: string;
+		ROLE: string;
+		OWNER_NAME: string;
+		INVESTMENT_ROUND: string;
+		MAIN_PRODUCT: string;
+		INVESTMENT_COMPANY: string;
+		REVENUE: string;
+		ESTABLISHMENT_DATE: string;
+		IR_FILE: string;
 	}>();
 	/**
 	 * 인증번호 암호화
@@ -67,6 +84,37 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		React.useState<string>('NOT_YET');
 	const [phoneNumDuplication, setPhoneNumDuplication] =
 		React.useState<boolean>(false);
+
+	const [isShowError, setIsShowError] = React.useState<boolean>(false); // 미입력 데이터 표시 on/off
+	/**
+	 * ir deck 파일
+	 */
+	const [irDeckFile, setIrDeckFile] = React.useState<any>({
+		FILE_NAME: '',
+		FILE_URL: '',
+	});
+
+	/**
+	 *
+	 * 필요 서비스
+	 */
+	const [needService, setNeedService] = React.useState<string[]>([]);
+
+	/**
+	 * 필요 서비스 목 데이터
+	 */
+	const dataList = [
+		'경영 지표 관리',
+		'사업계획서',
+		'소프트웨어 개발',
+		'AI 노코드',
+		'정부지원사업',
+		'투자 유치',
+		'마케팅/브랜딩',
+		'HR',
+		'글로벌 진출',
+		'세무/노무/특허/법률',
+	];
 
 	//* Functions
 	/**
@@ -86,7 +134,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					setPhoneNumDuplication(false);
 				},
 				(err) => {
-					setPhoneNumDuplication(true);
+					alert(err);
+					// setPhoneNumDuplication(true);
 				}
 			);
 		}
@@ -332,6 +381,35 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					: '',
 		},
 		{
+			label: '사업자 유형',
+			for: 'BUSINESS',
+			config: businessType,
+			key: 'CORPORATE_TYPE',
+			type: 'select',
+			optional: true,
+			value: businessData?.CORPORATE_TYPE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					CORPORATE_TYPE: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.CORPORATE_TYPE,
+		},
+		{
+			label: '직책',
+			type: 'text',
+			for: ['BUSINESS'],
+			value: businessData?.ROLE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					ROLE: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.ROLE,
+		},
+		{
 			label: '회사명',
 			type: 'text',
 			for: 'BUSINESS',
@@ -342,6 +420,124 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					COMPANY_NAME: e.target.value,
 				});
 			},
+		},
+		{
+			label: '대표자명',
+			type: 'text',
+			// optional: true,
+			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
+			value: businessData?.OWNER_NAME,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					OWNER_NAME: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.OWNER_NAME,
+		},
+		{
+			label: '서비스명(또는 아이템 한 줄 소개)',
+			type: 'text',
+			// optional: true,
+			for: ['BUSINESS'],
+			value: businessData?.MAIN_PRODUCT,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					MAIN_PRODUCT: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.MAIN_PRODUCT,
+		},
+		{
+			label: '최근 투자라운드/금액',
+			for: 'BUSINESS',
+			config: investSector,
+			key: 'INVESTMENT_ROUND',
+			type: 'select',
+			// optional: true,
+			value: businessData?.INVESTMENT_ROUND,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					INVESTMENT_ROUND: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.INVESTMENT_ROUND,
+		},
+		{
+			label: '최근 투자사',
+			type: 'text',
+			// optional: true,
+			for: ['BUSINESS'],
+			placeholder: 'ex) 비공개, xx 투자',
+			value: businessData?.INVESTMENT_COMPANY,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					INVESTMENT_COMPANY: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.INVESTMENT_COMPANY,
+		},
+		{
+			label: '설립일자(연/월)',
+			for: 'BUSINESS',
+			config: companyHistory,
+			key: 'ESTABLISHMENT_DATE',
+			optional: true,
+			type: 'datepicker',
+			value: businessData?.ESTABLISHMENT_DATE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					ESTABLISHMENT_DATE: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.ESTABLISHMENT_DATE,
+		},
+		{
+			label: '전년도 매출',
+			for: 'BUSINESS',
+			config: lastYearSales,
+			key: 'REVENUE',
+			optional: true,
+			type: 'select',
+			value: businessData?.REVENUE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					REVENUE: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.REVENUE,
+		},
+		{
+			label: 'IR자료 또는 사업 계획서',
+			type: 'file',
+			for: ['BUSINESS'],
+			value: businessData?.IR_FILE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					IR_FILE: e.target.value,
+				});
+			},
+			error: !isNone && isShowError && irDeckFile?.FILE_URL == '',
+		},
+
+		{
+			label: '중복 선택 가능',
+			type: 'text',
+			// helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+			for: ['BUSINESS'],
+			dataList: dataList,
+			value: needService,
+		},
+		{
+			label: '명함 이미지',
+			type: 'image',
+			for: ['INVESTOR'],
 		},
 	];
 
@@ -433,6 +629,61 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 										/>
 									)}
 								/>
+							) : item.label === 'IR자료 또는 사업 계획서' ? (
+								<Box
+									display={'flex'}
+									flexDirection={'column'}
+									gap={2}
+									mt={2}
+								>
+									<Box>
+										<SupportiInput
+											type="fileinput"
+											value={irDeckFile}
+											error={item.error}
+											setValue={setIrDeckFile}
+											fileTypeInputName
+											fileTypeInputNameMaxSize={{
+												unit: 'MB',
+												size: 200,
+											}}
+											additionalProps={{
+												inputProps: {
+													accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
+												},
+												placeholer:
+													'ppt, pdf, hwp, pcdx, zip (200mb이하)',
+											}}
+										/>
+										<Typography
+											variant="caption"
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+											color={'grey'}
+										>
+											* PDF 형식을 권장드립니다. (ppt,
+											pdf, hwp, pcdx, zip (200mb이하))
+										</Typography>
+										<Box display="flex">
+											<SupportiInput
+												type="checkbox"
+												value={isNone}
+												setValue={setIsNone}
+											/>
+											<Typography
+												mt="auto"
+												mb="auto"
+												ml={-2.5}
+												fontWeight={500}
+												variant="body1"
+											>
+												없음
+											</Typography>
+										</Box>
+									</Box>
+								</Box>
 							) : (
 								<TextField
 									type={item.type}
@@ -469,6 +720,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				isGradient={true}
 				fullWidth={true}
 				onClick={() => {
+					setIsShowError(true);
+
 					if (props.needPhoneUpdate && isVerified !== 'OK')
 						return alert('전화번호 인증을 해주세요.');
 					if (tabs === 'BUSINESS') {

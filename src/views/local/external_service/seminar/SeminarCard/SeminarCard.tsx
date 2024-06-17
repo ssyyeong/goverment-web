@@ -27,20 +27,20 @@ const SeminarCard = (props: ISeminarData) => {
 	const { memberId } = useAppMember();
 
 	const checkApplication = () => {
+		let result = false;
 		if (props.data?.SeminarApplications) {
 			for (let i = 0; i < props.data.SeminarApplications.length; i++) {
 				if (
-					props.data.SeminarApplications[i].USE_YN === 'Y' &&
+					props.data.SeminarApplications[i].USE_YN == 'Y' &&
+					props.data.SeminarApplications[i].CANCELED_YN == 'N' &&
 					props.data.SeminarApplications[i]
-						.APP_MEMBER_IDENTIFICATION_CODE === memberId
+						.APP_MEMBER_IDENTIFICATION_CODE == memberId
 				) {
-					return true;
+					result = true;
 				}
-				return false;
 			}
-			return false;
 		}
-		return false;
+		return result;
 	};
 
 	return (

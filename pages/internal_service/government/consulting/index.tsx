@@ -199,7 +199,10 @@ const Page: NextPage = () => {
 						>
 							지원 사업 컨설팅
 						</Typography>
-						<Typography color={'secondary.dark'} sx={{ mb: 2 }}>
+						<Typography
+							color={'secondary.dark'}
+							sx={{ mb: 2, wordBreak: 'keep-all' }}
+						>
 							가장 중요한 지원사업파트 중 하나인 ‘사업계획서’의
 							컨설팅 및 피드백 기능을 통해 고객사의 합격률을
 							높이는 서포팅
@@ -212,6 +215,7 @@ const Page: NextPage = () => {
 					borderRadius={3}
 					p={4}
 					display={'flex'}
+					flexWrap={'wrap'}
 					justifyContent={'space-around'}
 				>
 					<Image
@@ -227,13 +231,22 @@ const Page: NextPage = () => {
 						gap={1.5}
 						alignItems="center"
 						justifyContent={'center'}
+						flexWrap={'wrap'}
 					>
-						<Typography fontWeight={'600'} variant="subtitle2">
+						<Typography
+							fontWeight={'600'}
+							variant="subtitle2"
+							sx={{ wordBreak: 'keep-all' }}
+						>
 							지원사업 하면서 가장 고민 되는 파트! 사업계획서 등의
 							문서 작성에 대해 합격 다수 경험자의 피드백을 받아볼
 							수 있는 기회!
 						</Typography>
-						<Typography fontWeight={'600'} variant="subtitle2">
+						<Typography
+							fontWeight={'600'}
+							variant="subtitle2"
+							sx={{ wordBreak: 'keep-all' }}
+						>
 							서포티 자체적으로 정형화된 가이드라인/매뉴얼에 따라
 							문서형태의 계획서 혹은 지원서에 대한 컨설팅을
 							해드립니다!

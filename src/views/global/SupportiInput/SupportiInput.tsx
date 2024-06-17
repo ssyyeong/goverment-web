@@ -15,6 +15,7 @@ import {
 	Typography,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -340,6 +341,10 @@ const SupportiInput = React.forwardRef(
 												':hover': {
 													color: 'black',
 												},
+												display: {
+													xs: 'none',
+													sm: 'block',
+												},
 											}}
 											variant="contained"
 											color="secondary"
@@ -354,6 +359,24 @@ const SupportiInput = React.forwardRef(
 										>
 											파일선택
 										</Button>
+										<UploadFileIcon
+											onClick={(e) => {
+												if (inputRef.current !== null) {
+													// console.log(
+													// 	inputRef.current
+													// );
+													inputRef.current.click();
+												}
+											}}
+											fontSize="small"
+											sx={{
+												cursor: 'pointer',
+												display: {
+													sm: 'none',
+													xs: 'block',
+												},
+											}}
+										/>
 									</InputAdornment>
 								),
 

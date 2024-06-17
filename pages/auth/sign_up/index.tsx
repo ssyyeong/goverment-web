@@ -859,7 +859,13 @@ const Page: NextPage = () => {
 															: 'none'
 													}
 												>
-													<Typography>
+													<Typography
+														mb={
+															item.label ===
+																'설립일자(연/월)' &&
+															1
+														}
+													>
 														{!item.nolabel &&
 															item.label}
 													</Typography>
@@ -961,6 +967,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		'grey'
 																	}
@@ -1348,6 +1358,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		'grey'
 																	}
@@ -1449,6 +1463,9 @@ const Page: NextPage = () => {
 																	'month',
 																	'year',
 																],
+																sx: {
+																	mt: 1,
+																},
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1602,7 +1619,13 @@ const Page: NextPage = () => {
 															: 'none'
 													}
 												>
-													<Typography>
+													<Typography
+														mb={
+															item.label ===
+																'설립일자(연/월)' &&
+															1
+														}
+													>
 														{!item.nolabel &&
 															item.label}
 													</Typography>
@@ -1704,6 +1727,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		'grey'
 																	}
@@ -1805,6 +1832,9 @@ const Page: NextPage = () => {
 																	'month',
 																	'year',
 																],
+																sx: {
+																	mt: 1,
+																},
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
@@ -1958,7 +1988,13 @@ const Page: NextPage = () => {
 																: 'none'
 														}
 													>
-														<Typography>
+														<Typography
+															mb={
+																item.label ===
+																	'설립일자(연/월)' &&
+																1
+															}
+														>
 															{!item.nolabel &&
 																item.label}
 														</Typography>
@@ -2173,6 +2209,9 @@ const Page: NextPage = () => {
 																		'month',
 																		'year',
 																	],
+																	sx: {
+																		mt: 1,
+																	},
 																	placeholder:
 																		item.placeholder
 																			? item.placeholder
@@ -2631,6 +2670,9 @@ const Page: NextPage = () => {
 																		'month',
 																		'year',
 																	],
+																	sx: {
+																		mt: 1,
+																	},
 																	placeholder:
 																		item.placeholder
 																			? item.placeholder
