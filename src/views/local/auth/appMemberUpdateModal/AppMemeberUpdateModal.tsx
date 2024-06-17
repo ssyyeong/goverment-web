@@ -924,9 +924,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				onClick={() => {
 					setIsShowError(true);
 
-					if (!signupData || signupData?.length < 11)
-						return alert('정확한 전화번호를 입력해주세요.');
-
+					if (props.needPhoneUpdate) {
+						if (!signupData || signupData?.length < 11)
+							return alert('정확한 전화번호를 입력해주세요.');
+					}
 					// if (props.needPhoneUpdate && isVerified !== 'OK')
 					// 	return alert('전화번호 인증을 해주세요.');
 					if (tabs === 'BUSINESS') {
