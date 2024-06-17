@@ -33,6 +33,7 @@ const SeminarCard = (props: ISeminarData) => {
 				if (
 					props.data.SeminarApplications[i].USE_YN == 'Y' &&
 					props.data.SeminarApplications[i].CANCELED_YN == 'N' &&
+					props.data.SeminarApplications[i].PAYMENT_YN == 'Y' &&
 					props.data.SeminarApplications[i]
 						.APP_MEMBER_IDENTIFICATION_CODE == memberId
 				) {

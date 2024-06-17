@@ -179,6 +179,7 @@ const Page: NextPage = () => {
 				if (
 					seminarData.SeminarApplications[i].USE_YN == 'Y' &&
 					seminarData.SeminarApplications[i].CANCELED_YN == 'N' &&
+					seminarData.SeminarApplications[i].PAYMENT_YN == 'Y' &&
 					seminarData.SeminarApplications[i]
 						.APP_MEMBER_IDENTIFICATION_CODE == memberId
 				) {

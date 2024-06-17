@@ -85,6 +85,9 @@ const Page: NextPage = () => {
 				setLoading(false);
 
 				if (response.data.virtualAccount == null) {
+					window.alert(
+						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
+					);
 					router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
@@ -92,7 +95,6 @@ const Page: NextPage = () => {
 
 				createPaymentHistory();
 
-				window.alert('결제 및 신청이 완료되었습니다!');
 				// router.back();
 			});
 	};
