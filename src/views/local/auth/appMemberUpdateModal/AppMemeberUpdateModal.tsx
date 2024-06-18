@@ -67,7 +67,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		MAIN_PRODUCT: string;
 		INVESTMENT_COMPANY: string;
 		REVENUE: string;
-		// ESTABLISHMENT_DATE: any;
 		IR_FILE: any;
 	}>();
 	/**
@@ -124,7 +123,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 */
 	const sendAlimTalk = () => {
 		if (signupData == undefined) {
-			alert('전화번호를 입력해주세요.');
+			alert('휴대폰번호를 입력해주세요.');
 			return;
 		} else {
 			appMemberController.sendAuthCode(
@@ -259,6 +258,14 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					PHONE_NUMBER: signupData,
 					USER_GRADE: tabs,
 				},
+				BUSINESS_SECTOR: businessData.BUSINESS_SECTOR,
+				COMPANY_NAME: businessData.COMPANY_NAME,
+				MAIN_PRODUCT: businessData.MAIN_PRODUCT,
+				IR_FILE: JSON.stringify(businessData.IR_FILE),
+				PHONE_NUMBER: signupData,
+				USER_GRADE: tabs,
+				APP_MEMBER_IDENTIFICATION_CODE:
+					props.appMemberData.APP_MEMBER_IDENTIFICATION_CODE,
 			},
 			(res) => {
 				gTagEvent({
@@ -284,7 +291,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	//* Constants
 	const signupDataConfig = [
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL'],
 			// optional: props.needPhoneUpdate,
@@ -312,7 +319,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			},
 			// error: phoneNumDuplication,
 			// helperText: phoneNumDuplication
-			// 	? '이미 가입된 전화번호입니다.'
+			// 	? '이미 가입된 휴대폰번호입니다.'
 			// 	: '',
 		},
 		// {
@@ -353,7 +360,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	const businessDataConfig = [
 		{
 			label: '업종/업태',
-			for: 'BUSINESS',
+			for: ['BUSINESS', 'GENERAL'],
 			type: 'select',
 			value: businessData?.BUSINESS_SECTOR,
 			onChange: (e) => {
@@ -426,9 +433,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			error: isShowError && !businessData?.ROLE,
 		},
 		{
-			label: '회사명',
+			label: '기업명',
 			type: 'text',
-			for: 'BUSINESS',
+			for: ['BUSINESS', 'GENERAL'],
 			value: businessData?.COMPANY_NAME,
 			onChange: (e) => {
 				setBusinessData({
@@ -455,7 +462,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '서비스명(또는 아이템 한 줄 소개)',
 			type: 'text',
 			// optional: true,
-			for: ['BUSINESS'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: businessData?.MAIN_PRODUCT,
 			onChange: (e) => {
 				setBusinessData({
@@ -531,7 +538,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		{
 			label: 'IR자료(또는 사업 계획서)',
 			type: 'file',
-			for: ['BUSINESS'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: businessData?.IR_FILE,
 			onChange: (e) => {
 				setBusinessData({
@@ -642,6 +649,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								fontWeight={600}
 								mb={item.label === '설립연도/월' && 1}
 							>
+								{tabs === 'GENERAL' && '예상 '}
 								{!item.nolabel && item.label}
 							</Typography>
 							{item.label == '업종/업태' ? (
@@ -926,10 +934,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 
 					if (props.needPhoneUpdate) {
 						if (!signupData || signupData?.length < 11)
-							return alert('정확한 전화번호를 입력해주세요.');
+							return alert('정확한 휴대폰번호를 입력해주세요.');
 					}
 					// if (props.needPhoneUpdate && isVerified !== 'OK')
-					// 	return alert('전화번호 인증을 해주세요.');
+					// 	return alert('휴대폰번호 인증을 해주세요.');
 					if (tabs === 'BUSINESS') {
 						if (isBusinessNumOk === 'NOT_OK') {
 							return alert('사업자 등록번호를 확인해주세요.');

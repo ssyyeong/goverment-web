@@ -46,7 +46,7 @@ const Page: NextPage = () => {
 	const [verifyNumber, setVerifyNumber] = React.useState<string>('');
 	const [isVerified, setIsVerified] = React.useState<string>('NOT_YET');
 	const [tabs, setTabs] = React.useState<string>('BUSINESS');
-	const [businessStepNum, setBusinessStepNum] = React.useState<number>(0);
+	const [stepNum, setStepNum] = React.useState<number>(0);
 	const [activeStep, setActiveStep] = React.useState<number>(0);
 	const [isBusinessNumOk, setIsBusinessNumOk] =
 		React.useState<string>('NOT_YET');
@@ -99,7 +99,8 @@ const Page: NextPage = () => {
 	 * 알림톡 발송
 	 */
 	const sendAlimTalk = () => {
-		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
+		if (!signupData.PHONE_NUMBER)
+			return alert('휴대폰번호를 입력해주세요.');
 		appMemberController.sendAuthCode(
 			{
 				PHONE_NUMBER: signupData.PHONE_NUMBER,
@@ -195,13 +196,13 @@ const Page: NextPage = () => {
 		if (tabs == 'BUSINESS' && isBusinessNumOk !== 'OK')
 			return alert('사업자 등록번호를 확인해주세요.');
 
-		// 일반으로 가입할 경우를 위한 전화번호 검증
+		// 일반으로 가입할 경우를 위한 휴대폰번호 검증
 		if (!signupData.PHONE_NUMBER || signupData.PHONE_NUMBER?.length < 11)
-			return alert('정확한 전화번호를 입력해주세요.');
+			return alert('정확한 휴대폰번호를 입력해주세요.');
 
 		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
 
-		// 필수 정보 입력 알럿. 현재 전화번호는 따로 검증 중이므로 주석 처리
+		// 필수 정보 입력 알럿. 현재 휴대폰번호는 따로 검증 중이므로 주석 처리
 		if (
 			!signupData.USER_NAME ||
 			!signupData.FULL_NAME ||
@@ -243,12 +244,11 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
-	console.log(signupData);
 
 	//* Constants
 
 	// 회원가입시 입력받을 정보들 정의
-	const signupDataConfig = [
+	const leftSideSignupDataConfig = [
 		{
 			label: '이메일',
 			type: 'email',
@@ -302,6 +302,7 @@ const Page: NextPage = () => {
 					  signupData.USER_NAME === ''
 					? ''
 					: '',
+			stepNum: 0,
 		},
 		{
 			label: '이름',
@@ -314,6 +315,7 @@ const Page: NextPage = () => {
 					FULL_NAME: e.target.value,
 				});
 			},
+			stepNum: 0,
 		},
 		{
 			label: '비밀번호 (8~16 영문,숫자,특수문자)',
@@ -333,6 +335,7 @@ const Page: NextPage = () => {
 				signupData.PASSWORD && !passwordRegex.test(signupData.PASSWORD)
 					? '비밀번호 형식이 올바르지 않습니다.'
 					: '',
+			stepNum: 0,
 		},
 		{
 			label: '비밀번호 확인',
@@ -350,9 +353,149 @@ const Page: NextPage = () => {
 				signupData.PASSWORD && signupData.PASSWORD !== passwordConfirm
 					? '비밀번호가 일치하지 않습니다.'
 					: '',
+			stepNum: 0,
 		},
 		{
-			label: '전화번호',
+			label: '사업자 등록번호 (-제외)',
+			type: 'text',
+			for: 'BUSINESS',
+			value: signupData.BUSINESS_NUMBER,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					BUSINESS_NUMBER: e.target.value,
+				});
+			},
+			endAdornment: (
+				<Button
+					variant="contained"
+					sx={{
+						backgroundColor: '#d1d1d1',
+					}}
+					onClick={() => businessNumCheck()}
+				>
+					<Typography variant="body2" color={'white'}>
+						인증
+					</Typography>
+				</Button>
+			),
+			placeholder: '사업자번호 입력',
+			isVerified: isBusinessNumOk === 'OK',
+			error: isBusinessNumOk === 'NOT_OK',
+			helperText:
+				isBusinessNumOk === 'NOT_OK'
+					? '사업자 등록번호가 올바르지 않습니다.'
+					: isBusinessNumOk === 'OK'
+					? '인증되었습니다.'
+					: '',
+			stepNum: 1,
+		},
+		{
+			label: '업종/업태',
+			for: ['BUSINESS', 'GENERAL'],
+			config: businessSector,
+			key: 'BUSINESS_SECTOR',
+			type: 'select',
+			value: signupData.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.BUSINESS_SECTOR,
+			stepNum: 1,
+		},
+		{
+			label: '사업자 유형',
+			for: 'BUSINESS',
+			config: businessType,
+			key: 'CORPORATE_TYPE',
+			type: 'select',
+			optional: true,
+			value: signupData.CORPORATE_TYPE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					CORPORATE_TYPE: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.CORPORATE_TYPE,
+			stepNum: 1,
+		},
+		{
+			label: '직책',
+			type: 'text',
+			for: ['BUSINESS'],
+			value: signupData.ROLE,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					ROLE: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.ROLE,
+			stepNum: 1,
+		},
+		{
+			label: '기업명',
+			type: 'text',
+			for: ['BUSINESS', 'GENERAL'],
+			value: signupData.COMPANY_NAME,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					COMPANY_NAME: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.COMPANY_NAME,
+			stepNum: 1,
+		},
+		{
+			label: '대표자명',
+			type: 'text',
+			// optional: true,
+			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
+			value: signupData.OWNER_NAME,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					OWNER_NAME: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.OWNER_NAME,
+			stepNum: 1,
+		},
+		{
+			label: '서비스명(또는 아이템 한 줄 소개)',
+			type: 'text',
+			// optional: true,
+			placeholder: '서비스명을 입력해주세요.',
+			for: ['BUSINESS', 'GENERAL'],
+			value: signupData.MAIN_PRODUCT,
+			onChange: (e) => {
+				setSignupData({
+					...signupData,
+					MAIN_PRODUCT: e.target.value,
+				});
+			},
+			error: isShowError && !signupData.MAIN_PRODUCT,
+			stepNum: 1,
+		},
+		{
+			label: '중복 선택 가능',
+			type: 'text',
+			// helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+			for: ['BUSINESS'],
+			dataList: dataList,
+			value: needService,
+			stepNum: 2,
+		},
+	];
+
+	const rightSideSignupDataConfig = [
+		{
+			label: '휴대폰번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL'],
 			// endAdornment: (
@@ -377,9 +520,10 @@ const Page: NextPage = () => {
 					PHONE_NUMBER: e.target.value,
 				});
 			},
+			stepNum: 0,
 			// error: phoneNumDuplication,
 			// helperText: phoneNumDuplication
-			// 	? '이미 가입된 전화번호입니다.'
+			// 	? '이미 가입된 휴대폰번호입니다.'
 			// 	: '',
 		},
 
@@ -414,141 +558,6 @@ const Page: NextPage = () => {
 		// 	},
 		// },
 		{
-			label: '사업자 등록번호 (-제외)',
-			type: 'text',
-			for: 'BUSINESS',
-			value: signupData.BUSINESS_NUMBER,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					BUSINESS_NUMBER: e.target.value,
-				});
-			},
-			endAdornment: (
-				<Button
-					variant="contained"
-					sx={{
-						backgroundColor: '#d1d1d1',
-					}}
-					onClick={() => businessNumCheck()}
-				>
-					<Typography variant="body2" color={'white'}>
-						인증
-					</Typography>
-				</Button>
-			),
-			placeholder: '사업자번호 입력',
-			isVerified: isBusinessNumOk === 'OK',
-			error: isBusinessNumOk === 'NOT_OK',
-			helperText:
-				isBusinessNumOk === 'NOT_OK'
-					? '사업자 등록번호가 올바르지 않습니다.'
-					: isBusinessNumOk === 'OK'
-					? '인증되었습니다.'
-					: '',
-		},
-		{
-			label: '업종/업태',
-			for: 'BUSINESS',
-			config: businessSector,
-			key: 'BUSINESS_SECTOR',
-			type: 'select',
-			value: signupData.BUSINESS_SECTOR,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					BUSINESS_SECTOR: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.BUSINESS_SECTOR,
-		},
-		{
-			label: '사업자 유형',
-			for: 'BUSINESS',
-			config: businessType,
-			key: 'CORPORATE_TYPE',
-			type: 'select',
-			optional: true,
-			value: signupData.CORPORATE_TYPE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					CORPORATE_TYPE: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.CORPORATE_TYPE,
-		},
-		{
-			label: '직책',
-			type: 'text',
-			for: ['BUSINESS'],
-			value: signupData.ROLE,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					ROLE: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.ROLE,
-		},
-		{
-			label: '회사명',
-			type: 'text',
-			for: ['BUSINESS'],
-			value: signupData.COMPANY_NAME,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					COMPANY_NAME: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.COMPANY_NAME,
-		},
-		{
-			label: '대표자명',
-			type: 'text',
-			// optional: true,
-			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
-			value: signupData.OWNER_NAME,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					OWNER_NAME: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.OWNER_NAME,
-		},
-		{
-			label: '서비스명(또는 아이템 한 줄 소개)',
-			type: 'text',
-			// optional: true,
-			placeholder: '서비스명을 입력해주세요.',
-			for: ['BUSINESS'],
-			value: signupData.MAIN_PRODUCT,
-			onChange: (e) => {
-				setSignupData({
-					...signupData,
-					MAIN_PRODUCT: e.target.value,
-				});
-			},
-			error: isShowError && !signupData.MAIN_PRODUCT,
-		},
-		// {
-		// 	label: '최근 투자라운드/금액',
-		// 	for: 'INVESTOR',
-		// 	config: investSector,
-		// 	key: 'INVESTMENT_ROUND',
-		// 	type: 'select',
-		// 	optional: true,
-		// 	value: signupData.INVESTMENT_ROUND,
-		// 	onChange: (e) => {
-		// 		setSignupData({
-		// 			...signupData,
-		// 			INVESTMENT_ROUND: e.target.value,
-		// 		});
-		// 	},
-		// },
-		{
 			label: '최근 투자라운드/금액',
 			for: 'BUSINESS',
 			config: investSector,
@@ -563,6 +572,7 @@ const Page: NextPage = () => {
 				});
 			},
 			error: isShowError && !signupData.INVESTMENT_ROUND,
+			stepNum: 1,
 		},
 		{
 			label: '최근 투자사',
@@ -578,14 +588,14 @@ const Page: NextPage = () => {
 				});
 			},
 			error: isShowError && !signupData.INVESTMENT_COMPANY,
+			stepNum: 1,
 		},
 		{
-			label: '설립일자(연/월)',
+			label: '설립연도/월',
 			for: 'BUSINESS',
 			config: companyHistory,
 			key: 'ESTABLISHMENT_DATE',
-			placeholder: '설립일자를 입력해주세요.',
-
+			placeholder: '설립연도/월을 입력해주세요.',
 			optional: true,
 			type: 'datepicker',
 			value: signupData.ESTABLISHMENT_DATE,
@@ -596,6 +606,7 @@ const Page: NextPage = () => {
 				});
 			},
 			error: isShowError && !signupData.ESTABLISHMENT_DATE,
+			stepNum: 1,
 		},
 		{
 			label: '전년도 매출',
@@ -612,53 +623,12 @@ const Page: NextPage = () => {
 				});
 			},
 			error: isShowError && !signupData.REVENUE,
+			stepNum: 1,
 		},
-		// {
-		// 	label: '회사 소개',
-		// 	type: 'text',
-		// 	for: ['INVESTOR'],
-		// 	placeholder:
-		// 		'ex) 스타트업 성장을 위해 전분야의 솔루션을 제공하는 회사입니다.',
-
-		// 	helperText:
-		// 		'어떤 고객에게 어떤 서비스/제품을, 어떤 채널로 판매하여 어떻게 수익을 만드는 기업인지 간단하게 소개해주세요.',
-		// 	value: signupData.DESCRIPTION,
-		// 	onChange: (e) => {
-		// 		setSignupData({
-		// 			...signupData,
-		// 			DESCRIPTION: e.target.value,
-		// 		});
-		// 	},
-		// },
-
-		// {
-		// 	label: '대표자명',
-		// 	type: 'text',
-		// 	for: ['BUSINESS'],
-		// 	value: signupData.OWNER_NAME,
-		// 	onChange: (e) => {
-		// 		setSignupData({
-		// 			...signupData,
-		// 			OWNER_NAME: e.target.value,
-		// 		});
-		// 	},
-		// },
-		// {
-		// 	label: '설립일자(연/월)',
-		// 	type: 'datepicker',
-		// 	for: ['BUSINESS'],
-		// 	value: signupData.ESTABLISHMENT_DATE,
-		// 	onChange: (e) => {
-		// 		setSignupData({
-		// 			...signupData,
-		// 			ESTABLISHMENT_DATE: e.target.value,
-		// 		});
-		// 	},
-		// },
 		{
 			label: 'IR자료(또는 사업 계획서)',
 			type: 'file',
-			for: ['BUSINESS'],
+			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.IR_FILE,
 			onChange: (e) => {
 				setSignupData({
@@ -667,20 +637,7 @@ const Page: NextPage = () => {
 				});
 			},
 			error: !isNone && isShowError && irDeckFile.FILE_URL == '',
-		},
-
-		{
-			label: '중복 선택 가능',
-			type: 'text',
-			// helperText: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
-			for: ['BUSINESS'],
-			dataList: dataList,
-			value: needService,
-		},
-		{
-			label: '명함 이미지',
-			type: 'image',
-			for: ['INVESTOR'],
+			stepNum: 1,
 		},
 	];
 
@@ -696,7 +653,7 @@ const Page: NextPage = () => {
 		setVerifyNumber('');
 		setIsVerified('NOT_YET');
 		setIsBusinessNumOk('NOT_YET');
-		setBusinessStepNum(0);
+		setStepNum(0);
 		setIsNone(false);
 		setIsShowError(false);
 	}, [tabs]);
@@ -730,8 +687,6 @@ const Page: NextPage = () => {
 		}
 	}, [isNone]);
 
-	console.log(signupData.ESTABLISHMENT_DATE);
-
 	return (
 		<SignUpLayout>
 			<Typography variant="h1" fontWeight={'bold'}>
@@ -763,7 +718,7 @@ const Page: NextPage = () => {
 						setEncrypted('');
 						setVerifyNumber('');
 						setIsBusinessNumOk('NOT_YET');
-						setBusinessStepNum(0);
+						setStepNum(0);
 						setIsNone(false);
 						setIsShowError(false);
 						setActiveStep(0);
@@ -808,9 +763,10 @@ const Page: NextPage = () => {
 					borderTop={'1px solid #f1f2f5'}
 					pt={5}
 					width={'100%'}
-					key={businessStepNum}
+					key={stepNum}
 				>
 					<Box width="100%">
+						{/** 상단 스텝 박스 */}
 						<Box
 							sx={{
 								width: '100%',
@@ -825,18 +781,19 @@ const Page: NextPage = () => {
 								mb={1}
 								color="primary.main"
 							>
-								STEP 0{businessStepNum + 1}.
+								STEP 0{stepNum + 1}.
 							</Typography>
 							<Typography variant="body1">
 								서포티 서비스 이용을 위한{' '}
-								{businessStepNum === 0
+								{stepNum === 0
 									? '기본정보 항목을'
-									: businessStepNum === 1
+									: stepNum === 1
 									? '상세정보 항목을'
 									: '필요 항목을'}{' '}
 								입력해주세요.
 							</Typography>
 						</Box>
+						{/** 회원가입 폼 */}
 
 						<Box
 							my={3}
@@ -845,11 +802,11 @@ const Page: NextPage = () => {
 							justifyContent="space-between"
 							key={tabs}
 						>
-							{tabs === 'BUSINESS' && businessStepNum === 1 ? (
-								<Box width={'49%'}>
-									{signupDataConfig
-										.slice(5, 12)
-										.map((item, idx) => {
+							<>
+								{/** 왼쪽에 위치할 폼들 */}
+								<Box width={stepNum <= 1 ? '49%' : '100%'}>
+									{leftSideSignupDataConfig.map(
+										(item, idx) => {
 											return (
 												<Box
 													key={idx}
@@ -857,7 +814,10 @@ const Page: NextPage = () => {
 													width={'100%'}
 													mt={!item.nolabel && 2}
 													display={
-														item.for.includes(tabs)
+														item.for.includes(
+															tabs
+														) &&
+														item.stepNum == stepNum
 															? 'block'
 															: 'none'
 													}
@@ -865,10 +825,13 @@ const Page: NextPage = () => {
 													<Typography
 														mb={
 															item.label ===
-																'설립일자(연/월)' &&
+																'설립연도/월' &&
 															1
 														}
 													>
+														{tabs === 'GENERAL' &&
+															stepNum == 1 &&
+															'예상 '}
 														{!item.nolabel &&
 															item.label}
 													</Typography>
@@ -1047,36 +1010,7 @@ const Page: NextPage = () => {
 															}}
 														/>
 													) : item.label ===
-													  '설립일자(연/월)' ? (
-														// <SupportiInput
-														// 	type={
-														// 		item.type
-														// 			? item.type
-														// 			: 'text'
-														// 	}
-														// 	value={
-														// 		signupData.ESTABLISHMENT_DATE
-														// 	}
-														// 	setValue={(
-														// 		value
-														// 	) => {
-														// 		setSignupData({
-														// 			...signupData,
-														// 			ESTABLISHMENT_DATE:
-														// 				dayjs(
-														// 					value
-														// 				).format(
-														// 					'YYYY-MM-DD'
-														// 				),
-														// 		});
-														// 	}}
-														// 	additionalProps={{
-														// 		placeholder:
-														// 			item.placeholder
-														// 				? item.placeholder
-														// 				: `${item.label}을 입력해주세요.`,
-														// 	}}
-														// />
+													  '설립연도/월' ? (
 														<SupportiInput
 															type={
 																item.type
@@ -1115,9 +1049,6 @@ const Page: NextPage = () => {
 													) : item.label ===
 													  '중복 선택 가능' ? (
 														<Box>
-															{/* <Typography my={2}>
-																	선택 : {needService}
-																</Typography> */}
 															<Box
 																display={'flex'}
 																gap={2}
@@ -1180,13 +1111,6 @@ const Page: NextPage = () => {
 																		);
 																	}
 																)}
-																{/* <Typography color="secondary.main">
-																	(
-																	{
-																		item.helperText
-																	}
-																	)
-																</Typography> */}
 															</Box>
 														</Box>
 													) : (
@@ -1197,22 +1121,22 @@ const Page: NextPage = () => {
 																item.onChange
 															}
 															error={item.error}
-															focused={
-																item.isVerified ===
-																'NOT_OK'
-															}
-															disabled={
-																item.isVerified ==
-																	'OK' &&
-																item.value ===
-																	verifyNumber
-															}
-															color={
-																item.isVerified ===
-																'OK'
-																	? 'primary'
-																	: 'secondary'
-															}
+															// focused={
+															// 	item.isVerified ===
+															// 	'NOT_OK'
+															// }
+															// disabled={
+															// 	item.isVerified ==
+															// 		'OK' &&
+															// 	item.value ===
+															// 		verifyNumber
+															// }
+															// color={
+															// 	item.isVerified ===
+															// 	'OK'
+															// 		? 'primary'
+															// 		: 'secondary'
+															// }
 															fullWidth
 															InputProps={{
 																endAdornment:
@@ -1233,391 +1157,24 @@ const Page: NextPage = () => {
 													)}
 												</Box>
 											);
-										})}
+										}
+									)}
 								</Box>
-							) : tabs === 'BUSINESS' && businessStepNum === 2 ? (
-								<Box
-									width={
-										tabs === 'BUSINESS' &&
-										businessStepNum === 2
-											? '90%'
-											: '49%'
-									}
-								>
-									{signupDataConfig
-										.slice(17, 18)
-										.map((item, idx) => {
+								{/** 오른쪽에 위치할 폼들 */}
+								<Box width={stepNum <= 1 ? '49%' : '0%'}>
+									{rightSideSignupDataConfig.map(
+										(item, idx) => {
 											return (
 												<Box
 													key={idx}
 													alignItems={'center'}
 													width={'100%'}
-													mt={!item.nolabel && 2}
+													mt={2}
 													display={
-														item.for.includes(tabs)
-															? 'block'
-															: 'none'
-													}
-												>
-													<Typography>
-														{!item.nolabel &&
-															item.label}
-													</Typography>
-
-													{item.type == 'select' ? (
-														<Autocomplete
-															size="small"
-															options={
-																item.config
-															}
-															fullWidth
-															onChange={(
-																e,
-																newValue
-															) => {
-																setSignupData({
-																	...signupData,
-																	[item.key]:
-																		newValue,
-																});
-															}}
-															value={item.value}
-															renderInput={(
-																params
-															) => (
-																<TextField
-																	{...params}
-																	error={
-																		item.error
-																	}
-																	sx={{
-																		mt: 1,
-																		'& .MuiAutocomplete-input':
-																			{
-																				padding:
-																					'8px !important',
-																			},
-																	}}
-																/>
-															)}
-														/>
-													) : item.type ===
-													  'image' ? (
-														<Box mt={2}>
-															<MultiImageUploader
-																imagePreviewUrlList={
-																	businessCardImages
-																}
-																setImagePreviewUrlList={
-																	setBusinessCardImages
-																}
-																numOfUploader={
-																	3
-																}
-																label="이미지"
-																inputStatus={{
-																	status: 'default',
-																}}
-															/>
-														</Box>
-													) : item.label ===
-													  'IR자료(또는 사업 계획서)' ? (
-														<Box
-															display={'flex'}
-															flexDirection={
-																'column'
-															}
-															gap={2}
-															mt={2}
-														>
-															<Box>
-																<SupportiInput
-																	type="fileinput"
-																	value={
-																		irDeckFile
-																	}
-																	error={
-																		item.error
-																	}
-																	setValue={
-																		setIrDeckFile
-																	}
-																	fileTypeInputName
-																	fileTypeInputNameMaxSize={{
-																		unit: 'MB',
-																		size: 200,
-																	}}
-																	additionalProps={{
-																		inputProps:
-																			{
-																				accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
-																			},
-																		placeholer:
-																			'ppt, pdf, hwp, pcdx, zip (200mb이하)',
-																	}}
-																/>
-																<Typography
-																	variant="caption"
-																	fontWeight={
-																		'600'
-																	}
-																	sx={{
-																		wordBreak:
-																			'keep-all',
-																	}}
-																	color={
-																		'grey'
-																	}
-																>
-																	* PDF 형식을
-																	권장드립니다.
-																	(ppt, pdf,
-																	hwp, pcdx,
-																	zip
-																	(200mb이하))
-																</Typography>
-																<Box display="flex">
-																	<SupportiInput
-																		type="checkbox"
-																		value={
-																			isNone
-																		}
-																		setValue={
-																			setIsNone
-																		}
-																	/>
-																	<Typography
-																		mt="auto"
-																		mb="auto"
-																		ml={
-																			-2.5
-																		}
-																		fontWeight={
-																			500
-																		}
-																		variant="body1"
-																	>
-																		없음
-																	</Typography>
-																</Box>
-															</Box>
-														</Box>
-													) : item.type ===
-													  'datepicker' ? (
-														<SupportiInput
-															type={
-																item.type
-																	? item.type
-																	: 'text'
-															}
-															value={
-																signupData.ESTABLISHMENT_DATE
-															}
-															setValue={(
-																value
-															) => {
-																setSignupData({
-																	...signupData,
-																	ESTABLISHMENT_DATE:
-																		dayjs(
-																			value
-																		).format(
-																			'YYYY-MM-DD'
-																		),
-																});
-															}}
-															additionalProps={{
-																views: [
-																	'month',
-																	'year',
-																],
-																placeholder:
-																	item.placeholder
-																		? item.placeholder
-																		: `${item.label}을 입력해주세요.`,
-															}}
-														/>
-													) : item.label ===
-													  '설립일자(연/월)' ? (
-														<SupportiInput
-															type={
-																item.type
-																	? item.type
-																	: 'text'
-															}
-															value={
-																signupData.ESTABLISHMENT_DATE
-															}
-															setValue={(
-																value
-															) => {
-																setSignupData({
-																	...signupData,
-																	ESTABLISHMENT_DATE:
-																		dayjs(
-																			value
-																		).format(
-																			'YYYY-MM-DD'
-																		),
-																});
-															}}
-															additionalProps={{
-																views: [
-																	'month',
-																	'year',
-																],
-																sx: {
-																	mt: 1,
-																},
-																placeholder:
-																	item.placeholder
-																		? item.placeholder
-																		: `${item.label}을 입력해주세요.`,
-															}}
-														/>
-													) : item.label ===
-													  '중복 선택 가능' ? (
-														<Box>
-															{/* <Typography my={2}>
-																	선택 : {needService}
-																</Typography> */}
-															<Box
-																display={'flex'}
-																gap={2}
-																flexWrap="wrap"
-																my={2}
-															>
-																{item?.dataList?.map(
-																	(
-																		item,
-																		index
-																	) => {
-																		return (
-																			<Typography
-																				fontWeight={
-																					needService.includes(
-																						item
-																					) &&
-																					700
-																				}
-																				sx={{
-																					p: 1,
-																					borderRadius: 4,
-																					border: '1px solid #d1d1d1',
-																					cursor: 'pointer',
-																					color: needService.includes(
-																						item
-																					)
-																						? 'primary.main'
-																						: 'common.black',
-																				}}
-																				onClick={() => {
-																					if (
-																						needService.includes(
-																							item
-																						)
-																					) {
-																						setNeedService(
-																							needService.filter(
-																								(
-																									data
-																								) =>
-																									data !==
-																									item
-																							)
-																						);
-																					} else {
-																						setNeedService(
-																							[
-																								...needService,
-																								item,
-																							]
-																						);
-																					}
-																				}}
-																			>
-																				{
-																					item
-																				}
-																			</Typography>
-																		);
-																	}
-																)}
-																{/* <Typography color="secondary.main">
-																	(
-																	{
-																		item.helperText
-																	}
-																	)
-																</Typography> */}
-															</Box>
-														</Box>
-													) : (
-														<TextField
-															type={item.type}
-															value={item.value}
-															onChange={
-																item.onChange
-															}
-															error={item.error}
-															focused={
-																item.isVerified ===
-																'NOT_OK'
-															}
-															disabled={
-																item.isVerified ==
-																	'OK' &&
-																item.value ===
-																	verifyNumber
-															}
-															color={
-																item.isVerified ===
-																'OK'
-																	? 'primary'
-																	: 'secondary'
-															}
-															fullWidth
-															InputProps={{
-																endAdornment:
-																	item.endAdornment,
-															}}
-															helperText={
-																item.helperText
-															}
-															sx={{
-																mt: 1,
-															}}
-															placeholder={
-																item.placeholder
-																	? item.placeholder
-																	: `${item.label} 입력`
-															}
-														/>
-													)}
-												</Box>
-											);
-										})}
-								</Box>
-							) : (
-								<Box
-									width={
-										tabs === 'BUSINESS' &&
-										businessStepNum === 2
-											? '90%'
-											: '49%'
-									}
-								>
-									{signupDataConfig
-										.slice(0, 4)
-										.map((item, idx) => {
-											return (
-												<Box
-													key={idx}
-													alignItems={'center'}
-													width={'100%'}
-													mt={!item.nolabel && 2}
-													display={
-														item.for.includes(tabs)
+														item.for.includes(
+															tabs
+														) &&
+														item.stepNum == stepNum
 															? 'block'
 															: 'none'
 													}
@@ -1625,12 +1182,11 @@ const Page: NextPage = () => {
 													<Typography
 														mb={
 															item.label ===
-																'설립일자(연/월)' &&
+																'설립연도/월' &&
 															1
 														}
 													>
-														{!item.nolabel &&
-															item.label}
+														{item.label}
 													</Typography>
 
 													{item.type == 'select' ? (
@@ -1791,7 +1347,7 @@ const Page: NextPage = () => {
 																		dayjs(
 																			value
 																		).format(
-																			'YYYY-MM-DD'
+																			'YYYY-MM'
 																		),
 																});
 															}}
@@ -1807,7 +1363,7 @@ const Page: NextPage = () => {
 															}}
 														/>
 													) : item.label ===
-													  '설립일자(연/월)' ? (
+													  '설립연도/월' ? (
 														<SupportiInput
 															type={
 																item.type
@@ -1835,92 +1391,14 @@ const Page: NextPage = () => {
 																	'month',
 																	'year',
 																],
-																sx: {
-																	mt: 1,
-																},
+																defaultValue:
+																	undefined,
 																placeholder:
 																	item.placeholder
 																		? item.placeholder
 																		: `${item.label}을 입력해주세요.`,
 															}}
 														/>
-													) : item.label ===
-													  '중복 선택 가능' ? (
-														<Box>
-															{/* <Typography my={2}>
-																선택 : {needService}
-															</Typography> */}
-															<Box
-																display={'flex'}
-																gap={2}
-																flexWrap="wrap"
-																my={2}
-															>
-																{item?.dataList?.map(
-																	(
-																		item,
-																		index
-																	) => {
-																		return (
-																			<Typography
-																				fontWeight={
-																					needService.includes(
-																						item
-																					) &&
-																					700
-																				}
-																				sx={{
-																					p: 1,
-																					borderRadius: 4,
-																					border: '1px solid #d1d1d1',
-																					cursor: 'pointer',
-																					color: needService.includes(
-																						item
-																					)
-																						? 'primary.main'
-																						: 'common.black',
-																				}}
-																				onClick={() => {
-																					if (
-																						needService.includes(
-																							item
-																						)
-																					) {
-																						setNeedService(
-																							needService.filter(
-																								(
-																									data
-																								) =>
-																									data !==
-																									item
-																							)
-																						);
-																					} else {
-																						setNeedService(
-																							[
-																								...needService,
-																								item,
-																							]
-																						);
-																					}
-																				}}
-																			>
-																				{
-																					item
-																				}
-																			</Typography>
-																		);
-																	}
-																)}
-																{/* <Typography color="secondary.main">
-																	(
-																	{
-																		item.helperText
-																	}
-																	)
-																</Typography> */}
-															</Box>
-														</Box>
 													) : (
 														<TextField
 															type={item.type}
@@ -1946,13 +1424,13 @@ const Page: NextPage = () => {
 																	: 'secondary'
 															}
 															fullWidth
-															InputProps={{
-																endAdornment:
-																	item.endAdornment,
-															}}
-															helperText={
-																item.helperText
-															}
+															// InputProps={{
+															// 	endAdornment:
+															// 		item.endAdornment,
+															// }}
+															// helperText={
+															// 	item.helperText
+															// }
 															sx={{
 																mt: 1,
 															}}
@@ -1965,14 +1443,101 @@ const Page: NextPage = () => {
 													)}
 												</Box>
 											);
-										})}
-								</Box>
-							)}
+										}
+									)}{' '}
+									{(stepNum == 0 ||
+										(tabs === 'BUSINESS' &&
+											stepNum == 1)) && (
+										<SupportiButton
+											isGradient={true}
+											contents={'다음으로'}
+											onClick={() => {
+												if (stepNum === 0) {
+													// 개인정보 다 입력
 
-							{((tabs === 'BUSINESS' && businessStepNum <= 1) ||
+													// if (!isVerified)
+													// 	return alert(
+													// 		'핸드폰 인증을 완료해주세요.'
+													// 	);
+													if (
+														!signupData.USER_NAME ||
+														!signupData.FULL_NAME ||
+														!signupData.PASSWORD ||
+														!signupData.PHONE_NUMBER
+													)
+														return alert(
+															'모든 정보를 입력해주세요.'
+														);
+
+													if (
+														signupData?.PHONE_NUMBER
+															?.length < 11
+													)
+														return alert(
+															'정확한 휴대폰번호를 입력해주세요.'
+														);
+													if (
+														signupData.USER_NAME &&
+														emailDuplication
+													)
+														return alert(
+															'중복된 이메일입니다.'
+														);
+
+													setStepNum(
+														(prev) => prev + 1
+													);
+												} else if (stepNum === 1) {
+													// 사업가 정보 입력
+													if (
+														tabs == 'BUSINESS' &&
+														isBusinessNumOk !== 'OK'
+													)
+														return alert(
+															'사업자 등록번호를 확인해주세요.'
+														);
+
+													if (
+														!signupData.BUSINESS_SECTOR ||
+														!signupData.CORPORATE_TYPE ||
+														!signupData.ROLE ||
+														!signupData.INVESTMENT_ROUND ||
+														!signupData.MAIN_PRODUCT ||
+														!signupData.INVESTMENT_COMPANY ||
+														!signupData.COMPANY_NAME ||
+														!signupData.ESTABLISHMENT_DATE ||
+														!signupData.REVENUE ||
+														(!isNone &&
+															isShowError &&
+															irDeckFile.FILE_URL ==
+																'')
+													) {
+														alert(
+															'모든 정보를 입력해주세요.'
+														);
+														setIsShowError(true);
+														return;
+													} else {
+														setStepNum(
+															(prev) => prev + 1
+														);
+													}
+												}
+											}}
+											fullWidth
+											style={{
+												color: '#fff',
+												mt: 3,
+											}}
+										/>
+									)}
+								</Box>
+							</>
+
+							{/* {((tabs === 'BUSINESS' && stepNum <= 1) ||
 								tabs === 'GENERAL') &&
 								(tabs === 'BUSINESS' &&
-								businessStepNum === 1 ? (
+								stepNum === 1 ? (
 									<Box width={'49%'}>
 										{signupDataConfig
 											.slice(12, 17)
@@ -1994,7 +1559,7 @@ const Page: NextPage = () => {
 														<Typography
 															mb={
 																item.label ===
-																	'설립일자(연/월)' &&
+																	'설립연도/월' &&
 																1
 															}
 														>
@@ -2182,7 +1747,7 @@ const Page: NextPage = () => {
 																}}
 															/>
 														) : item.label ===
-														  '설립일자(연/월)' ? (
+														  '설립연도/월' ? (
 															<SupportiInput
 																type={
 																	item.type
@@ -2224,9 +1789,7 @@ const Page: NextPage = () => {
 														) : item.label ===
 														  '필요 서비스' ? (
 															<Box>
-																{/* <Typography my={2}>
-												선택 : {needService}
-											</Typography> */}
+															
 																<Box
 																	display={
 																		'flex'
@@ -2349,103 +1912,97 @@ const Page: NextPage = () => {
 													</Box>
 												);
 											})}
-										{tabs === 'BUSINESS' &&
-											businessStepNum < 2 && (
-												<SupportiButton
-													isGradient={true}
-													contents={'다음으로'}
-													onClick={() => {
+										{stepNum < 2 && (
+											<SupportiButton
+												isGradient={true}
+												contents={'다음으로'}
+												onClick={() => {
+													if (stepNum < 1) {
+														// 개인정보 다 입력
 														if (
-															businessStepNum < 1
-														) {
-															// 개인정보 다 입력
-															if (
-																signupData
-																	.PHONE_NUMBER
-																	.length < 11
-															)
-																return alert(
-																	'정확한 전화번호를 입력해주세요.'
-																);
-
-															// if (!isVerified)
-															// 	return alert(
-															// 		'핸드폰 인증을 완료해주세요.'
-															// 	);
-															if (
-																!signupData.USER_NAME ||
-																!signupData.FULL_NAME ||
-																!signupData.PASSWORD ||
-																!signupData.PHONE_NUMBER
-															)
-																return alert(
-																	'모든 정보를 입력해주세요.'
-																);
-
-															if (
-																signupData.USER_NAME &&
-																emailDuplication
-															)
-																return alert(
-																	'중복된 이메일입니다.'
-																);
-
-															setBusinessStepNum(
-																(prev) =>
-																	prev + 1
+															signupData
+																.PHONE_NUMBER
+																.length < 11
+														)
+															return alert(
+																'정확한 휴대폰번호를 입력해주세요.'
 															);
-														} else if (
-															businessStepNum ===
-															1
-														) {
-															// 사업가 정보 입력
-															if (
-																tabs ==
-																	'BUSINESS' &&
-																isBusinessNumOk !==
-																	'OK'
-															)
-																return alert(
-																	'사업자 등록번호를 확인해주세요.'
-																);
 
-															if (
-																!signupData.BUSINESS_SECTOR ||
-																!signupData.CORPORATE_TYPE ||
-																!signupData.ROLE ||
-																!signupData.INVESTMENT_ROUND ||
-																!signupData.MAIN_PRODUCT ||
-																!signupData.INVESTMENT_COMPANY ||
-																!signupData.COMPANY_NAME ||
-																!signupData.ESTABLISHMENT_DATE ||
-																!signupData.REVENUE ||
-																(!isNone &&
-																	isShowError &&
-																	irDeckFile.FILE_URL ==
-																		'')
-															) {
-																alert(
-																	'모든 정보를 입력해주세요.'
-																);
-																setIsShowError(
-																	true
-																);
-																return;
-															}
-
-															setBusinessStepNum(
-																(prev) =>
-																	prev + 1
+														// if (!isVerified)
+														// 	return alert(
+														// 		'핸드폰 인증을 완료해주세요.'
+														// 	);
+														if (
+															!signupData.USER_NAME ||
+															!signupData.FULL_NAME ||
+															!signupData.PASSWORD ||
+															!signupData.PHONE_NUMBER
+														)
+															return alert(
+																'모든 정보를 입력해주세요.'
 															);
+
+														if (
+															signupData.USER_NAME &&
+															emailDuplication
+														)
+															return alert(
+																'중복된 이메일입니다.'
+															);
+
+														setStepNum(
+															(prev) => prev + 1
+														);
+													} else if (
+														stepNum === 1
+													) {
+														// 사업가 정보 입력
+														if (
+															tabs ==
+																'BUSINESS' &&
+															isBusinessNumOk !==
+																'OK'
+														)
+															return alert(
+																'사업자 등록번호를 확인해주세요.'
+															);
+
+														if (
+															!signupData.BUSINESS_SECTOR ||
+															!signupData.CORPORATE_TYPE ||
+															!signupData.ROLE ||
+															!signupData.INVESTMENT_ROUND ||
+															!signupData.MAIN_PRODUCT ||
+															!signupData.INVESTMENT_COMPANY ||
+															!signupData.COMPANY_NAME ||
+															!signupData.ESTABLISHMENT_DATE ||
+															!signupData.REVENUE ||
+															(!isNone &&
+																isShowError &&
+																irDeckFile.FILE_URL ==
+																	'')
+														) {
+															alert(
+																'모든 정보를 입력해주세요.'
+															);
+															setIsShowError(
+																true
+															);
+															return;
 														}
-													}}
-													fullWidth
-													style={{
-														color: '#fff',
-														mt: 3,
-													}}
-												/>
-											)}
+
+														setStepNum(
+															(prev) => prev + 1
+														);
+													}
+												}}
+												fullWidth
+												style={{
+													color: '#fff',
+													mt: 3,
+												}}
+											/>
+										)}
 									</Box>
 								) : (
 									<Box width={'49%'}>
@@ -2643,7 +2200,7 @@ const Page: NextPage = () => {
 																}}
 															/>
 														) : item.label ===
-														  '설립일자(연/월)' ? (
+														  '설립연도/월' ? (
 															<SupportiInput
 																type={
 																	item.type
@@ -2685,9 +2242,7 @@ const Page: NextPage = () => {
 														) : item.label ===
 														  '필요 서비스' ? (
 															<Box>
-																{/* <Typography my={2}>
-											선택 : {needService}
-										</Typography> */}
+													
 																<Box
 																	display={
 																		'flex'
@@ -2810,133 +2365,126 @@ const Page: NextPage = () => {
 													</Box>
 												);
 											})}
-										{tabs === 'BUSINESS' &&
-											businessStepNum <= 1 && (
-												<SupportiButton
-													isGradient={true}
-													contents={'다음으로'}
-													onClick={() => {
+										{stepNum <= 1 && (
+											<SupportiButton
+												isGradient={true}
+												contents={'다음으로'}
+												onClick={() => {
+													if (stepNum === 0) {
+														// 개인정보 다 입력
+
+														// if (!isVerified)
+														// 	return alert(
+														// 		'핸드폰 인증을 완료해주세요.'
+														// 	);
 														if (
-															businessStepNum ===
-															0
+															!signupData.USER_NAME ||
+															!signupData.FULL_NAME ||
+															!signupData.PASSWORD ||
+															!signupData.PHONE_NUMBER
+														)
+															return alert(
+																'모든 정보를 입력해주세요.'
+															);
+
+														if (
+															signupData
+																?.PHONE_NUMBER
+																?.length < 11
+														)
+															return alert(
+																'정확한 휴대폰번호를 입력해주세요.'
+															);
+														if (
+															signupData.USER_NAME &&
+															emailDuplication
+														)
+															return alert(
+																'중복된 이메일입니다.'
+															);
+
+														setStepNum(
+															(prev) => prev + 1
+														);
+													} else if (
+														stepNum === 1
+													) {
+														// 사업가 정보 입력
+														if (
+															tabs ==
+																'BUSINESS' &&
+															isBusinessNumOk !==
+																'OK'
+														)
+															return alert(
+																'사업자 등록번호를 확인해주세요.'
+															);
+
+														if (
+															!signupData.BUSINESS_SECTOR ||
+															!signupData.CORPORATE_TYPE ||
+															!signupData.ROLE ||
+															!signupData.INVESTMENT_ROUND ||
+															!signupData.MAIN_PRODUCT ||
+															!signupData.INVESTMENT_COMPANY ||
+															!signupData.COMPANY_NAME ||
+															!signupData.ESTABLISHMENT_DATE ||
+															!signupData.REVENUE ||
+															(!isNone &&
+																isShowError &&
+																irDeckFile.FILE_URL ==
+																	'')
 														) {
-															// 개인정보 다 입력
-
-															// if (!isVerified)
-															// 	return alert(
-															// 		'핸드폰 인증을 완료해주세요.'
-															// 	);
-															if (
-																!signupData.USER_NAME ||
-																!signupData.FULL_NAME ||
-																!signupData.PASSWORD ||
-																!signupData.PHONE_NUMBER
-															)
-																return alert(
-																	'모든 정보를 입력해주세요.'
-																);
-
-															if (
-																signupData
-																	?.PHONE_NUMBER
-																	?.length <
-																11
-															)
-																return alert(
-																	'정확한 전화번호를 입력해주세요.'
-																);
-															if (
-																signupData.USER_NAME &&
-																emailDuplication
-															)
-																return alert(
-																	'중복된 이메일입니다.'
-																);
-
-															setBusinessStepNum(
+															alert(
+																'모든 정보를 입력해주세요.'
+															);
+															setIsShowError(
+																true
+															);
+															return;
+														} else {
+															setStepNum(
 																(prev) =>
 																	prev + 1
 															);
-														} else if (
-															businessStepNum ===
-															1
-														) {
-															// 사업가 정보 입력
-															if (
-																tabs ==
-																	'BUSINESS' &&
-																isBusinessNumOk !==
-																	'OK'
-															)
-																return alert(
-																	'사업자 등록번호를 확인해주세요.'
-																);
-
-															if (
-																!signupData.BUSINESS_SECTOR ||
-																!signupData.CORPORATE_TYPE ||
-																!signupData.ROLE ||
-																!signupData.INVESTMENT_ROUND ||
-																!signupData.MAIN_PRODUCT ||
-																!signupData.INVESTMENT_COMPANY ||
-																!signupData.COMPANY_NAME ||
-																!signupData.ESTABLISHMENT_DATE ||
-																!signupData.REVENUE ||
-																(!isNone &&
-																	isShowError &&
-																	irDeckFile.FILE_URL ==
-																		'')
-															) {
-																alert(
-																	'모든 정보를 입력해주세요.'
-																);
-																setIsShowError(
-																	true
-																);
-																return;
-															} else {
-																setBusinessStepNum(
-																	(prev) =>
-																		prev + 1
-																);
-															}
 														}
-													}}
-													fullWidth
-													style={{
-														color: '#fff',
-														mt: 3,
-													}}
-												/>
-											)}
+													}
+												}}
+												fullWidth
+												style={{
+													color: '#fff',
+													mt: 3,
+												}}
+											/>
+										)}
 									</Box>
-								))}
+								))} */}
 						</Box>
+						{((tabs === 'BUSINESS' && stepNum === 2) ||
+							(tabs === 'GENERAL' && stepNum === 1)) && (
+							<SupportiButton
+								isGradient={true}
+								contents={'회원가입하기'}
+								onClick={() => signUp()}
+								fullWidth
+								style={{
+									color: '#fff',
+								}}
+							/>
+						)}
+						<Typography sx={{ mt: 4, textAlign: 'center' }}>
+							이미 계정이 있나요?{' '}
+							<Link
+								href="/auth/sign_in"
+								style={{
+									textDecoration: 'underline',
+									color: 'blue',
+								}}
+							>
+								로그인
+							</Link>
+						</Typography>
 					</Box>
-					{(tabs === 'GENERAL' ||
-						(tabs === 'BUSINESS' && businessStepNum === 2)) && (
-						<SupportiButton
-							isGradient={true}
-							contents={'회원가입하기'}
-							onClick={() => signUp()}
-							fullWidth
-							style={{
-								color: '#fff',
-							}}
-						/>
-					)}
-					<Typography sx={{ mt: 4, textAlign: 'center' }}>
-						이미 계정이 있나요?{' '}
-						<Link
-							href="/auth/sign_in"
-							style={{
-								textDecoration: 'underline',
-								color: 'blue',
-							}}
-						>
-							로그인
-						</Link>
-					</Typography>
 				</Box>
 			) : (
 				<Box

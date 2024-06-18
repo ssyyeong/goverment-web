@@ -120,7 +120,7 @@ const CoffeeChatApprovalModal = (props: ICoffeeChatApprovalModalProps) => {
 					lineHeight={1.4}
 				>
 					일정 변경 혹은 문제상황 발생시 사용될 예정입니다. 메일,
-					전화번호, 오픈카톡방 등의 연락이 가능한 연락처를
+					휴대폰번호, 오픈카톡방 등의 연락이 가능한 연락처를
 					입력해주세요!
 				</Typography>
 				<SupportiInput

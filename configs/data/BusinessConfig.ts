@@ -10,7 +10,7 @@ const businessConfig: {
 }[] = [
 	{
 		key: 'COMPANY_NAME',
-		label: '회사명',
+		label: '기업명',
 	},
 	{
 		key: 'OWNER_NAME',
@@ -56,7 +56,7 @@ const businessConfig: {
 	},
 	{
 		key: 'COMPANY_NUMBER',
-		label: '전화번호',
+		label: '휴대폰번호',
 	},
 	{
 		key: 'COMPANY_ADDRESS',

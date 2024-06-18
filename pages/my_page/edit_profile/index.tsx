@@ -178,7 +178,7 @@ const Page: NextPage = () => {
 			value: memberInfo.USER_NAME,
 		},
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			value: memberInfo.PHONE_NUMBER,
 		},
 		{
@@ -244,7 +244,7 @@ const Page: NextPage = () => {
 					},
 				},
 				// {
-				// 	label: '전화번호 수정하기',
+				// 	label: '휴대폰번호 수정하기',
 				// 	onClick: () => {
 				// 		setEditProfileModal(true);
 				// 		setModal(true);

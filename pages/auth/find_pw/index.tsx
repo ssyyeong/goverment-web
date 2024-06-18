@@ -32,7 +32,8 @@ const Page: NextPage = () => {
 	 * 알림톡 발송
 	 */
 	const sendAlimTalk = () => {
-		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
+		if (!signupData.PHONE_NUMBER)
+			return alert('휴대폰번호를 입력해주세요.');
 		if (!signupData.USER_NAME) return alert('이메일을 입력해주세요.');
 		appMemberController.sendFindPasswordAuthCode(
 			{
@@ -115,7 +116,7 @@ const Page: NextPage = () => {
 					: '',
 		},
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL'],
 			endAdornment: (

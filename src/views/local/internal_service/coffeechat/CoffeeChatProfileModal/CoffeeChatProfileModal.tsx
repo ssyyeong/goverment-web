@@ -77,10 +77,10 @@ const CoffeeChatProfileModal = (props: ICoffeeChatProfileModalProps) => {
 	 */
 	const profileDataConfig = [
 		{
-			label: '회사명',
+			label: '기업명',
 			value: profile.COMPANY_NAME,
 			additionalProps: {
-				placeholder: '회사명을 입력해주세요',
+				placeholder: '기업명을 입력해주세요',
 			},
 			essential: true,
 			setValue: (value: string) =>

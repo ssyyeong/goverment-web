@@ -39,7 +39,7 @@ const Page: NextPage = () => {
 	 */
 	const [requesterName, setRequesterName] = useState<string>('');
 	/**
-	 * 결제자 전화번호
+	 * 결제자 휴대폰번호
 	 */
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	/**
@@ -76,7 +76,7 @@ const Page: NextPage = () => {
 			setValue: setRequesterName,
 		},
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			value: phoneNumber,
 			setValue: setPhoneNumber,
 			placeholder: `'-'제외하고 번호만 입력해주세요.`,

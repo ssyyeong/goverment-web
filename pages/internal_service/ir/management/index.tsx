@@ -105,7 +105,7 @@ const Page: NextPage = () => {
 			value: 'CEO_NAME',
 		},
 		{
-			label: '회사명',
+			label: '기업명',
 			value: 'COMPANY_NAME',
 		},
 		{
@@ -127,7 +127,7 @@ const Page: NextPage = () => {
 			value: 'HOME_PAGE',
 		},
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			value: 'CONTACT_NUMBER',
 		},
 	];
@@ -632,7 +632,7 @@ const Page: NextPage = () => {
 												fontWeight={'600'}
 												color={'grey'}
 											>
-												제작년도 / 회사명 / 파일형식 /
+												제작년도 / 기업명 / 파일형식 /
 												페이지 수 형식으로 업로드
 												부탁드립니다. (예시 :
 												2024/린온컴퍼니/PDF/25)

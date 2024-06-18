@@ -59,7 +59,8 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	 * 알림톡 발송
 	 */
 	const sendAlimTalk = () => {
-		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
+		if (!signupData.PHONE_NUMBER)
+			return alert('휴대폰번호를 입력해주세요.');
 		appMemberController.sendAuthCode(
 			{
 				PHONE_NUMBER: signupData.PHONE_NUMBER,
@@ -148,7 +149,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		}
 		if (props.infoUpdate) {
 			if (signupData.PHONE_NUMBER == '') {
-				alert('전화번호를 입력해주세요.');
+				alert('휴대폰번호를 입력해주세요.');
 				return (isOk = false);
 			}
 			if (signupData.PHONE_NUMBER !== rawSignupData.PHONE_NUMBER) {
@@ -227,7 +228,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 	//* Constants
 	const signupDataConfig = [
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			type: 'phone',
 			endAdornment: (
 				<Button
@@ -253,7 +254,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 			},
 			error: phoneNumDuplication,
 			helperText: phoneNumDuplication
-				? '이미 가입된 전화번호입니다.'
+				? '이미 가입된 휴대폰번호입니다.'
 				: '',
 		},
 		{
@@ -335,7 +336,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 					: '',
 		},
 		{
-			label: '회사명',
+			label: '기업명',
 			type: 'text',
 			for: 'BUSINESS',
 			value: businessData?.COMPANY_NAME,
