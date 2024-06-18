@@ -656,6 +656,10 @@ const Page: NextPage = () => {
 		setStepNum(0);
 		setIsNone(false);
 		setIsShowError(false);
+		setIrDeckFile({
+			FILE_NAME: '',
+			FILE_URL: '',
+		});
 	}, [tabs]);
 
 	React.useEffect(() => {
