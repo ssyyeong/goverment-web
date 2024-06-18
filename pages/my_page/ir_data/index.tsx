@@ -127,7 +127,7 @@ const Page: NextPage = () => {
 			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 		},
 		{
-			label: '설립일자(연/월)',
+			label: '설립연도/월',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
 			required: true,
@@ -860,7 +860,7 @@ const Page: NextPage = () => {
 																		}
 																	/>
 																) : item.label ===
-																  '설립일자(연/월)' ? (
+																  '설립연도/월' ? (
 																	<SupportiInput
 																		type={
 																			item.type
@@ -955,7 +955,7 @@ const Page: NextPage = () => {
 																			.value
 																	]
 																		? item.label ===
-																		  '설립일자(연/월)'
+																		  '설립연도/월'
 																			? userIrInfo[
 																					item
 																						.value

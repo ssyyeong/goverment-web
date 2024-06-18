@@ -497,7 +497,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			error: isShowError && !businessData?.INVESTMENT_COMPANY,
 		},
 		{
-			label: '설립일자(연/월)',
+			label: '설립연도/월',
 			for: 'BUSINESS',
 			config: companyHistory,
 			key: 'ESTABLISHMENT_DATE',
@@ -640,7 +640,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 						>
 							<Typography
 								fontWeight={600}
-								mb={item.label === '설립일자(연/월)' && 1}
+								mb={item.label === '설립연도/월' && 1}
 							>
 								{!item.nolabel && item.label}
 							</Typography>
@@ -693,7 +693,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 										/>
 									)}
 								/>
-							) : item.label === '설립일자(연/월)' ? (
+							) : item.label === '설립연도/월' ? (
 								<SupportiInput
 									type={item.type ? item.type : 'text'}
 									value={businessData?.ESTABLISHMENT_DATE}
@@ -716,7 +716,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 											: `${item.label}을 입력해주세요.`,
 									}}
 								/>
-							) : // : item.label === '설립일자(연/월)' ? (
+							) : // : item.label === '설립연도/월' ? (
 							// <SupportiInput
 							// 	type={
 							// 		item.type
