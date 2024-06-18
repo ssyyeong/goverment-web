@@ -202,6 +202,17 @@ const Page: NextPage = () => {
 
 		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
 
+		if (
+			!signupData.BUSINESS_SECTOR ||
+			!signupData.MAIN_PRODUCT ||
+			!signupData.COMPANY_NAME ||
+			(!isNone && isShowError && irDeckFile.FILE_URL == '')
+		) {
+			alert('모든 정보를 입력해주세요.');
+			setIsShowError(true);
+			return;
+		}
+
 		// 필수 정보 입력 알럿. 현재 휴대폰번호는 따로 검증 중이므로 주석 처리
 		if (
 			!signupData.USER_NAME ||
