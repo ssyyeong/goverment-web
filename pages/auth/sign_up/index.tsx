@@ -236,8 +236,9 @@ const Page: NextPage = () => {
 				...signupData,
 				ALIMTALK_YN: 'Y',
 				USER_GRADE: tabs,
-				BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
-				NEEDED_SERVICE: JSON.stringify(needService),
+				// BUSINESS_CARD_IMAGE_LIST: JSON.stringify(businessCardImages),
+				NEEDED_SERVICE:
+					tabs === 'BUSINESS' ? JSON.stringify(needService) : null,
 				IR_FILE: JSON.stringify(signupData.IR_FILE),
 			},
 			(res) => {

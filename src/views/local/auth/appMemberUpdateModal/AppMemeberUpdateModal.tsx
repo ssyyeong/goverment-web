@@ -359,18 +359,6 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 */
 	const businessDataConfig = [
 		{
-			label: '업종/업태',
-			for: ['BUSINESS', 'GENERAL'],
-			type: 'select',
-			value: businessData?.BUSINESS_SECTOR,
-			onChange: (e) => {
-				setBusinessData({
-					...businessData,
-					BUSINESS_SECTOR: e.target.value,
-				});
-			},
-		},
-		{
 			label: '사업자 등록번호',
 			type: 'text',
 			for: 'BUSINESS',
@@ -418,6 +406,18 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				});
 			},
 			error: isShowError && !businessData?.CORPORATE_TYPE,
+		},
+		{
+			label: '업종/업태',
+			for: ['BUSINESS', 'GENERAL'],
+			type: 'select',
+			value: businessData?.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
 		},
 		{
 			label: '직책',
@@ -559,6 +559,61 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		},
 	];
 
+	const generalDataConfig = [
+		{
+			label: '예상 업종/업태',
+			for: ['BUSINESS', 'GENERAL'],
+			type: 'select',
+			value: businessData?.BUSINESS_SECTOR,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					BUSINESS_SECTOR: e.target.value,
+				});
+			},
+		},
+		{
+			label: '예상 기업명',
+			type: 'text',
+			for: ['BUSINESS', 'GENERAL'],
+			value: businessData?.COMPANY_NAME,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					COMPANY_NAME: e.target.value,
+				});
+			},
+		},
+		{
+			label: '예상 서비스명(또는 아이템 한 줄 소개)',
+			type: 'text',
+			// optional: true,
+			for: ['BUSINESS', 'GENERAL'],
+			value: businessData?.MAIN_PRODUCT,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					MAIN_PRODUCT: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.MAIN_PRODUCT,
+		},
+
+		{
+			label: 'IR자료(또는 사업 계획서)',
+			type: 'file',
+			for: ['BUSINESS', 'GENERAL'],
+			value: businessData?.IR_FILE,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					IR_FILE: e.target.value,
+				});
+			},
+			error: !isNone && isShowError && irDeckFile?.FILE_URL == '',
+		},
+	];
+
 	const finalDataConfig = () => {
 		let finalData = [];
 		if (tabs === 'BUSINESS') {
@@ -569,9 +624,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			}
 		} else {
 			if (props.needPhoneUpdate) {
-				finalData = signupDataConfig;
+				finalData = [...signupDataConfig, ...generalDataConfig];
 			} else {
-				finalData = [];
+				finalData = generalDataConfig;
 			}
 		}
 		return finalData;
@@ -775,7 +830,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 							// 	}}
 							// />
 							// )
-							item.label === '중복 선택 가능' ? (
+							item.label ===
+							  '서포티 필요항목 (중복 선택 가능)' ? (
 								<Box>
 									{/* <Typography my={2}>
 										선택 : {needService}
