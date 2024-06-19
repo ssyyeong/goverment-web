@@ -1021,7 +1021,7 @@ const Page: NextPage = () => {
 																return (
 																	<Typography
 																		fontWeight={
-																			needService.includes(
+																			needService?.includes(
 																				item
 																			) &&
 																			700
@@ -1031,7 +1031,7 @@ const Page: NextPage = () => {
 																			borderRadius: 4,
 																			border: '1px solid #d1d1d1',
 																			cursor: 'pointer',
-																			color: needService.includes(
+																			color: needService?.includes(
 																				item
 																			)
 																				? 'primary.main'
@@ -1039,7 +1039,7 @@ const Page: NextPage = () => {
 																		}}
 																		onClick={() => {
 																			if (
-																				needService.includes(
+																				needService?.includes(
 																					item
 																				)
 																			) {
@@ -1053,12 +1053,23 @@ const Page: NextPage = () => {
 																					)
 																				);
 																			} else {
-																				setNeedService(
-																					[
-																						...needService,
-																						item,
-																					]
-																				);
+																				if (
+																					needService !=
+																					null
+																				) {
+																					setNeedService(
+																						[
+																							...needService,
+																							item,
+																						]
+																					);
+																				} else {
+																					setNeedService(
+																						[
+																							item,
+																						]
+																					);
+																				}
 																				console.log(
 																					item
 																				);
