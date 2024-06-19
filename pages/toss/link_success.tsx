@@ -39,7 +39,8 @@ const Page: NextPage = () => {
 					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
 					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
 					ORDER_ID: orderId, //주문ID
-					PAY_METHOD: virtualAccount ? 'VIRTUAL_ACCOUNT' : 'CARD', //결제방식
+					PAY_METHOD:
+						virtualAccount != null ? 'VIRTUAL_ACCOUNT' : 'CARD', //결제방식
 				},
 				FIND_OPTION_KEY_LIST: {},
 			},

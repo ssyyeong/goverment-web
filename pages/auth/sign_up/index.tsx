@@ -213,6 +213,11 @@ const Page: NextPage = () => {
 			return;
 		}
 
+		if (tabs == 'BUSINESS') {
+			if (needService.length == 0)
+				return alert('필요한 서비스를 선택해주세요.');
+		}
+
 		// 필수 정보 입력 알럿. 현재 휴대폰번호는 따로 검증 중이므로 주석 처리
 		if (
 			!signupData.USER_NAME ||
@@ -1474,6 +1479,17 @@ const Page: NextPage = () => {
 													// 	return alert(
 													// 		'핸드폰 인증을 완료해주세요.'
 													// 	);
+
+													if (
+														signupData.PASSWORD &&
+														signupData.PASSWORD !==
+															passwordConfirm
+													) {
+														return alert(
+															'비밀번호를 재확인 해주세요.'
+														);
+													}
+
 													if (
 														!signupData.USER_NAME ||
 														!signupData.FULL_NAME ||

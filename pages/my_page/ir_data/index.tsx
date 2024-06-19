@@ -190,6 +190,81 @@ const Page: NextPage = () => {
 		// },
 	];
 
+	const companyInfoConfigForGeneral = [
+		// {
+		// 	label: '사업자등록번호',
+		// 	value: 'BUSINESS_NUMBER',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// 	placeholder: '-를 제외한 숫자만 입력해주세요.',
+		// },
+		// {
+		// 	label: '대표자명',
+		// 	value: 'CEO_NAME',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// },
+		{
+			label: '예상 기업명',
+			value: 'COMPANY_NAME',
+			required: true,
+		},
+		{
+			label: '예상 업종/업태',
+			value: 'BUSINESS_SECTOR',
+			type: 'select',
+			required: true,
+			options: businessSector.map((item) => {
+				return { label: item, value: item };
+			}),
+			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
+		},
+		// {
+		// 	label: '설립연도/월',
+		// 	value: 'ESTABLISHMENT_DATE',
+		// 	type: 'datepicker',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// },
+		// {
+		// 	label: '사업자 유형',
+		// 	value: 'CORPORATE_TYPE',
+		// 	type: 'select',
+		// 	options: businessType.map((item) => {
+		// 		return { label: item, value: item };
+		// 	}),
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// },
+		// {
+		// 	label: '직책',
+		// 	value: 'ROLE',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// },
+
+		// {
+		// 	label: '회사소재지',
+		// 	value: 'COMPANY_ADDRESS',
+		// },
+		// {
+		// 	label: '홈페이지',
+		// 	value: 'HOME_PAGE',
+		// },
+		{
+			label: '휴대폰번호',
+			value: 'CONTACT_NUMBER',
+			required: true,
+			placeholder: '-를 제외한 숫자만 입력해주세요.',
+		},
+		// {
+		// 	label: '필요 항목',
+		// 	value: 'NEEDED_SERVICE',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// 	placeholder: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+		// },
+	];
+
+	// const returnConfig = () => {
+	// 	if (memberType === 'BUSINESS') return companyInfoConfig;
+	// 	if (memberType === 'GENERAL') return companyInfoConfigForGeneral;
+	// };
+
 	// 사업 소개
 	const businessIntroductionConfig = [
 		{
@@ -396,7 +471,7 @@ const Page: NextPage = () => {
 	const checkRequired = () => {
 		if (memberType === 'GENERAL') {
 			if (
-				!isNone ||
+				(!isNone && irDeckFile.FILE_URL == '') ||
 				!userIrInfo.COMPANY_NAME ||
 				!userIrInfo.BUSINESS_SECTOR ||
 				!userIrInfo.MAIN_PRODUCT ||
@@ -408,7 +483,7 @@ const Page: NextPage = () => {
 		}
 		if (memberType === 'BUSINESS') {
 			if (
-				irDeckFile.FILE_URL == '' ||
+				(!isNone && irDeckFile.FILE_URL == '') ||
 				!userIrInfo.BUSINESS_NUMBER ||
 				!userIrInfo.CEO_NAME ||
 				!userIrInfo.COMPANY_NAME ||
@@ -421,7 +496,8 @@ const Page: NextPage = () => {
 				!userIrInfo.NEEDED_SERVICE ||
 				!userIrInfo.REVENUE ||
 				!userIrInfo.CORPORATE_TYPE ||
-				!userIrInfo.ROLE
+				!userIrInfo.ROLE ||
+				needService.length == 0
 			) {
 				alert('필수 입력 항목을 입력해주세요.');
 				return false;
@@ -1080,6 +1156,216 @@ const Page: NextPage = () => {
 															key={index}
 															sm={5.9}
 															xs={12}
+															display={
+																memberType ===
+																'BUSINESS'
+																	? 'show'
+																	: 'none'
+															}
+														>
+															<Typography
+																fontWeight={
+																	'600'
+																}
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
+																color={'grey'}
+																variant="body1"
+																my={1}
+															>
+																{item.label}{' '}
+																{item.required &&
+																	isEdit && (
+																		<span
+																			style={{
+																				color: 'blue',
+																			}}
+																		>
+																			(필수)
+																		</span>
+																	)}
+															</Typography>
+															{isEdit ? (
+																item.type ===
+																'select' ? (
+																	<SupportiInput
+																		type={
+																			item.type
+																		}
+																		value={
+																			userIrInfo[
+																				item
+																					.value
+																			]
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					[item.value]:
+																						value,
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			placeholder: `${item.label}을 입력해주세요.`,
+																		}}
+																		dataList={
+																			item.options
+																		}
+																	/>
+																) : item.label ===
+																  '설립연도/월' ? (
+																	<SupportiInput
+																		type={
+																			item.type
+																				? item.type
+																				: 'text'
+																		}
+																		value={
+																			userIrInfo.ESTABLISHMENT_DATE
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					ESTABLISHMENT_DATE:
+																						dayjs(
+																							value
+																						).format(
+																							'YYYY-MM-DD'
+																						),
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			views: [
+																				'month',
+																				'year',
+																			],
+																			placeholder:
+																				item.placeholder
+																					? item.placeholder
+																					: `${item.label}을 입력해주세요.`,
+																		}}
+																	/>
+																) : (
+																	<SupportiInput
+																		type={
+																			item.type
+																				? item.type
+																				: 'text'
+																		}
+																		value={
+																			userIrInfo[
+																				item
+																					.value
+																			]
+																		}
+																		setValue={(
+																			value
+																		) => {
+																			setUserIrInfo(
+																				{
+																					...userIrInfo,
+																					[item.value]:
+																						item.type ===
+																						'datepicker'
+																							? dayjs(
+																									value
+																							  ).format(
+																									'YYYY-MM-DD'
+																							  )
+																							: value,
+																				}
+																			);
+																		}}
+																		additionalProps={{
+																			placeholder:
+																				item.placeholder
+																					? item.placeholder
+																					: `${item.label}을 입력해주세요.`,
+																		}}
+																	/>
+																)
+															) : (
+																<Typography
+																	fontWeight={
+																		'600'
+																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
+																	color={
+																		userIrInfo[
+																			item
+																				.value
+																		]
+																			? 'black'
+																			: 'grey'
+																	}
+																	py={1}
+																>
+																	{userIrInfo[
+																		item
+																			.value
+																	]
+																		? item.label ===
+																		  '설립연도/월'
+																			? userIrInfo[
+																					item
+																						.value
+																			  ]
+																					.split(
+																						'T'
+																					)[0]
+																					.split(
+																						'-'
+																					)[0] +
+																			  '-' +
+																			  userIrInfo[
+																					item
+																						.value
+																			  ]
+																					.split(
+																						'T'
+																					)[0]
+																					.split(
+																						'-'
+																					)[1]
+																			: userIrInfo[
+																					item
+																						.value
+																			  ]
+																		: '없음'}
+																</Typography>
+															)}
+														</Grid>
+													);
+												}
+											)}
+
+											{companyInfoConfigForGeneral.map(
+												(item, index) => {
+													return (
+														<Grid
+															item
+															key={index}
+															sm={5.9}
+															xs={12}
+															display={
+																memberType ==
+																'BUSINESS'
+																	? 'none'
+																	: 'show'
+															}
 														>
 															<Typography
 																fontWeight={
@@ -1309,6 +1595,9 @@ const Page: NextPage = () => {
 																	'fit-content'
 																}
 															>
+																{memberType ===
+																	'GENERAL' &&
+																	'예상 '}
 																{item.label}{' '}
 																{item.required &&
 																	isEdit && (
@@ -1484,7 +1773,14 @@ const Page: NextPage = () => {
 										</Box> */}
 									</Box>
 									{/* 투자 정보 */}
-									<Box mt={2}>
+									<Box
+										mt={2}
+										display={
+											memberType === 'BUSINESS'
+												? 'block'
+												: 'none'
+										}
+									>
 										<Typography
 											fontWeight={'600'}
 											variant="subtitle1"

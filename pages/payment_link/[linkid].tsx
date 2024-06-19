@@ -217,7 +217,12 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 				{caution !== '' && (
-					<Box display={'flex'} alignItems={'center'} gap={5}>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						gap={5}
+						flexWrap={'wrap'}
+					>
 						<Box display={'flex'} gap={1}>
 							<Typography variant="h6" fontWeight={'bold'}>
 								주의사항
