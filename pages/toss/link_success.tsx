@@ -173,8 +173,8 @@ const Page: NextPage = () => {
 						까지 입금 바랍니다.
 					</Typography>
 					<Typography color={'red'}>
-						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인
-						후 페이지를 벗어나주세요!
+						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. <br />
+						확인 후 페이지를 벗어나주세요!
 					</Typography>
 				</Box>
 			)}
