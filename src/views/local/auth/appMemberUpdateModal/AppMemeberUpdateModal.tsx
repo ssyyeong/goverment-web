@@ -199,6 +199,23 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
+		if (
+			!businessData.BUSINESS_SECTOR ||
+			!businessData.COMPANY_NAME ||
+			!businessData.MAIN_PRODUCT ||
+			(!isNone && businessData.IR_FILE.FILE_URL == '') ||
+			needService.length == 0 ||
+			!businessData.REVENUE ||
+			!businessData.ESTABLISHMENT_DATE ||
+			!businessData.INVESTMENT_COMPANY ||
+			!businessData.INVESTMENT_ROUND ||
+			!businessData.OWNER_NAME ||
+			!businessData.ROLE ||
+			!businessData.CORPORATE_TYPE ||
+			!businessData.BUSINESS_NUMBER
+		)
+			return alert('모든 정보를 입력해주세요.');
+
 		appMemberController.updateMemberInfo(
 			{
 				FIND_OPTION_KEY_LIST: {
@@ -248,6 +265,14 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	const updateAppMemberForGeneral = () => {
+		if (
+			!businessData.BUSINESS_SECTOR ||
+			!businessData.COMPANY_NAME ||
+			!businessData.MAIN_PRODUCT ||
+			(!isNone && businessData.IR_FILE.FILE_URL == '')
+		)
+			return alert('모든 정보를 입력해주세요.');
+
 		appMemberController.updateMemberInfo(
 			{
 				FIND_OPTION_KEY_LIST: {
