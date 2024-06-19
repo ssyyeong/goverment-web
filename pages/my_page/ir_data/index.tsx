@@ -176,12 +176,12 @@ const Page: NextPage = () => {
 		// 	label: '홈페이지',
 		// 	value: 'HOME_PAGE',
 		// },
-		{
-			label: '휴대폰번호',
-			value: 'CONTACT_NUMBER',
-			required: true,
-			placeholder: '-를 제외한 숫자만 입력해주세요.',
-		},
+		// {
+		// 	label: '휴대폰번호',
+		// 	value: 'CONTACT_NUMBER',
+		// 	required: true,
+		// 	placeholder: '-를 제외한 숫자만 입력해주세요.',
+		// },
 		// {
 		// 	label: '필요 항목',
 		// 	value: 'NEEDED_SERVICE',
@@ -246,12 +246,12 @@ const Page: NextPage = () => {
 		// 	label: '홈페이지',
 		// 	value: 'HOME_PAGE',
 		// },
-		{
-			label: '휴대폰번호',
-			value: 'CONTACT_NUMBER',
-			required: true,
-			placeholder: '-를 제외한 숫자만 입력해주세요.',
-		},
+		// {
+		// 	label: '휴대폰번호',
+		// 	value: 'CONTACT_NUMBER',
+		// 	required: true,
+		// 	placeholder: '-를 제외한 숫자만 입력해주세요.',
+		// },
 		// {
 		// 	label: '필요 항목',
 		// 	value: 'NEEDED_SERVICE',
@@ -468,8 +468,8 @@ const Page: NextPage = () => {
 				(!isNone && irDeckFile.FILE_URL == '') ||
 				!userIrInfo.COMPANY_NAME ||
 				!userIrInfo.BUSINESS_SECTOR ||
-				!userIrInfo.MAIN_PRODUCT ||
-				!userIrInfo.CONTACT_NUMBER
+				!userIrInfo.MAIN_PRODUCT
+				// !userIrInfo.CONTACT_NUMBER
 			) {
 				alert('필수 입력 항목을 입력해주세요.');
 				return false;
@@ -483,7 +483,7 @@ const Page: NextPage = () => {
 				!userIrInfo.COMPANY_NAME ||
 				!userIrInfo.BUSINESS_SECTOR ||
 				!userIrInfo.ESTABLISHMENT_DATE ||
-				!userIrInfo.CONTACT_NUMBER ||
+				// !userIrInfo.CONTACT_NUMBER ||
 				!userIrInfo.MAIN_PRODUCT ||
 				!userIrInfo.INVESTMENT_COMPANY ||
 				!userIrInfo.INVESTMENT_ROUND ||
