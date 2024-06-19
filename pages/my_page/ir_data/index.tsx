@@ -445,13 +445,8 @@ const Page: NextPage = () => {
 					setCompanyIntroductionImages(
 						JSON.parse(res.data.result.IMAGE_LIST)
 					);
-					setNeedService(
-						new Array(
-							JSON.parse(res.data.result.NEEDED_SERVICE).split(
-								','
-							)
-						)[0]
-					);
+
+					setNeedService(JSON.parse(res.data.result.NEEDED_SERVICE));
 
 					setInvestInfo(JSON.parse(res.data.result.INVEST_INFO));
 					setDeepTech(res.data.result.DEEP_TECH_YN);
@@ -464,7 +459,6 @@ const Page: NextPage = () => {
 		);
 	};
 
-	console.log(userIrInfo);
 	/**
 	 * 필수 입력 항목 체크
 	 */

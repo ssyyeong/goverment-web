@@ -32,15 +32,14 @@ const Page: NextPage = () => {
 	/**
 	 * 결제 내역 생성
 	 */
-	const createPaymentHistory = () => {
+	const createPaymentHistory = (payMethod) => {
 		paymentHistoryController.putData(
 			{
 				UPDATE_OPTION_KEY_LIST: {
 					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
 					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
 					ORDER_ID: orderId, //주문ID
-					PAY_METHOD:
-						virtualAccount != null ? 'VIRTUAL_ACCOUNT' : 'CARD', //결제방식
+					PAY_METHOD: payMethod, //결제방식
 				},
 				FIND_OPTION_KEY_LIST: {},
 			},
@@ -90,12 +89,12 @@ const Page: NextPage = () => {
 					window.alert(
 						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
 					);
+					createPaymentHistory('CARD');
 					router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
+					createPaymentHistory('VIRTUAL_ACCOUNT');
 				}
-
-				createPaymentHistory();
 
 				// router.back();
 			})
