@@ -1085,7 +1085,9 @@ const Page: NextPage = () => {
 													fontWeight={'600'}
 												>
 													{needService?.length != 0
-														? needService.toString()
+														? JSON.stringify(
+																needService
+														  )
 														: '없음'}
 												</Typography>
 											)}
