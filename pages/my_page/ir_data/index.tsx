@@ -491,7 +491,7 @@ const Page: NextPage = () => {
 				!userIrInfo.REVENUE ||
 				!userIrInfo.CORPORATE_TYPE ||
 				!userIrInfo.ROLE ||
-				needService.length == 0
+				needService?.length == 0
 			) {
 				alert('필수 입력 항목을 입력해주세요.');
 				return false;
@@ -932,7 +932,7 @@ const Page: NextPage = () => {
 													</Typography>
 												</Box>
 											</Box>
-										) : irDeckFile.length === 0 ||
+										) : irDeckFile?.length === 0 ||
 										  irDeckFile.FILE_URL == '' ? (
 											<Box
 												p={2}
@@ -1084,7 +1084,7 @@ const Page: NextPage = () => {
 													color={'grey'}
 													fontWeight={'600'}
 												>
-													{needService.length != 0
+													{needService?.length != 0
 														? needService.toString()
 														: '없음'}
 												</Typography>
@@ -2263,7 +2263,7 @@ const Page: NextPage = () => {
 											코멘트 리스트
 										</Typography>
 										<Typography>
-											총 {commentList.length}개
+											총 {commentList?.length}개
 										</Typography>
 									</Box>
 									<Box
@@ -2271,7 +2271,9 @@ const Page: NextPage = () => {
 										flexDirection={'column'}
 										gap={2}
 									>
-										{commentList.length === 0 && <Nodata />}
+										{commentList?.length === 0 && (
+											<Nodata />
+										)}
 										{commentList.map((item, index) => {
 											return (
 												<Box
