@@ -603,7 +603,7 @@ const Page: NextPage = () => {
 		if (isNone) {
 			setUserIrInfo({
 				...userIrInfo,
-				IR_FILE: [].toString(),
+				IR_FILE: '[]',
 			});
 			setIrDeckFile({
 				FILE_NAME: '',
