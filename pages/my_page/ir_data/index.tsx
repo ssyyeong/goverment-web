@@ -32,7 +32,12 @@ import MultiImageUploader from '@leanoncompany/supporti-ark-office-project/src/u
 import Nodata from '../../../src/views/global/NoData/NoData';
 import SupportiModal from '../../../src/views/global/SupportiModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
-import { businessSector } from '../../../configs/data/BusinessConfig';
+import {
+	businessSector,
+	businessType,
+	investSector,
+	lastYearSales,
+} from '../../../configs/data/BusinessConfig';
 
 export interface IInvestInfoType {
 	DATE?: any;
@@ -49,7 +54,7 @@ const Page: NextPage = () => {
 	);
 	const irCommentController = new DefaultController('IrComment');
 	//* Modules
-	const { memberId } = useAppMember();
+	const { memberId, memberType } = useAppMember();
 	const router = useRouter();
 	//* Constants
 	const selectableIndicatorList = [
@@ -61,6 +66,22 @@ const Page: NextPage = () => {
 		// 	name: 'IR 데이터',
 		// 	path: '/internal_service/ir/management',
 		// },
+	];
+
+	/**
+	 * 필요 서비스 목 데이터
+	 */
+	const dataList = [
+		'경영 지표 관리',
+		'사업계획서',
+		'소프트웨어 개발',
+		'AI 노코드',
+		'정부지원사업',
+		'투자 유치',
+		'마케팅/브랜딩',
+		'HR',
+		'글로벌 진출',
+		'세무/노무/특허/법률',
 	];
 
 	// 투자 라운드
@@ -103,13 +124,13 @@ const Page: NextPage = () => {
 		{
 			label: '사업자등록번호',
 			value: 'BUSINESS_NUMBER',
-			required: true,
+			required: memberType === 'BUSINESS' ? true : false,
 			placeholder: '-를 제외한 숫자만 입력해주세요.',
 		},
 		{
 			label: '대표자명',
 			value: 'CEO_NAME',
-			required: true,
+			required: memberType === 'BUSINESS' ? true : false,
 		},
 		{
 			label: '기업명',
@@ -130,30 +151,51 @@ const Page: NextPage = () => {
 			label: '설립연도/월',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
-			required: true,
+			required: memberType === 'BUSINESS' ? true : false,
 		},
 		{
-			label: '회사소재지',
-			value: 'COMPANY_ADDRESS',
+			label: '사업자 유형',
+			value: 'CORPORATE_TYPE',
+			type: 'select',
+			options: businessType.map((item) => {
+				return { label: item, value: item };
+			}),
+			required: memberType === 'BUSINESS' ? true : false,
 		},
 		{
-			label: '홈페이지',
-			value: 'HOME_PAGE',
+			label: '직책',
+			value: 'ROLE',
+			required: memberType === 'BUSINESS' ? true : false,
 		},
+
+		// {
+		// 	label: '회사소재지',
+		// 	value: 'COMPANY_ADDRESS',
+		// },
+		// {
+		// 	label: '홈페이지',
+		// 	value: 'HOME_PAGE',
+		// },
 		{
 			label: '휴대폰번호',
 			value: 'CONTACT_NUMBER',
 			required: true,
 			placeholder: '-를 제외한 숫자만 입력해주세요.',
 		},
+		// {
+		// 	label: '필요 항목',
+		// 	value: 'NEEDED_SERVICE',
+		// 	required: memberType === 'BUSINESS' ? true : false,
+		// 	placeholder: '서포티 서비스 이용시 필요한 항목을 선택해주세요.',
+		// },
 	];
 
 	// 사업 소개
 	const businessIntroductionConfig = [
 		{
-			label: '한줄 설명',
-			value: 'SUMMARY',
-			required: false,
+			label: '서비스명(또는 아이템 한 줄 소개)',
+			value: 'MAIN_PRODUCT',
+			required: true,
 		},
 		// {
 		// 	label: '설명',
@@ -168,12 +210,36 @@ const Page: NextPage = () => {
 	// 투자 정보
 	const investInfoConfig = [
 		{
-			label: '희망 투자 유치 단계',
-			value: 'HOPE_INVEST_ROUND',
-			required: true,
+			label: '최근 투자라운드',
+			value: 'INVESTMENT_ROUND',
 			type: 'select',
-			options: hopeInvestRound,
+			options: investSector.map((item) => {
+				return { label: item, value: item };
+			}),
+			required: memberType === 'BUSINESS' ? true : false,
 		},
+		{
+			label: '최근 투자사',
+			value: 'INVESTMENT_COMPANY',
+			required: memberType === 'BUSINESS' ? true : false,
+			placeholder: 'ex) 비공개, xx 투자',
+		},
+		{
+			label: '전년도 매출',
+			value: 'REVENUE',
+			type: 'select',
+			options: lastYearSales.map((item) => {
+				return { label: item, value: item };
+			}),
+			required: memberType === 'BUSINESS' ? true : false,
+		},
+		// {
+		// 	label: '희망 투자 유치 단계',
+		// 	value: 'HOPE_INVEST_ROUND',
+		// 	required: true,
+		// 	type: 'select',
+		// 	options: hopeInvestRound,
+		// },
 		// {
 		// 	label: '희망 투지유치 금액(억단위)',
 		// 	value: 'HOPE_INVEST_MONEY',
@@ -261,8 +327,8 @@ const Page: NextPage = () => {
 	/**
 	 * 업데이트 로직 실행 여부
 	 */
-	const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
-	console.log(newInvestInfo);
+	// const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
+
 	/**
 	 * 코멘트 확인하기
 	 */
@@ -272,6 +338,12 @@ const Page: NextPage = () => {
 	 */
 	const [commentList, setCommentList] = React.useState<any[]>([]);
 	/**
+	 *
+	 * 필요 서비스
+	 */
+	const [needService, setNeedService] = React.useState<string[]>([]);
+
+	/**
 	 * 딥테크 여부
 	 */
 	const [deepTech, setDeepTech] = React.useState<'Y' | 'N'>('N');
@@ -279,6 +351,8 @@ const Page: NextPage = () => {
 	 * 딥테크 설명 모달
 	 */
 	const [deepTechModal, setDeepTechModal] = React.useState<boolean>(false);
+
+	const [isNone, setIsNone] = React.useState<boolean>(false); // IR파일 없음으로 체크했을 경우 판별
 
 	//* Functions
 	/**
@@ -296,11 +370,19 @@ const Page: NextPage = () => {
 					setCompanyIntroductionImages(
 						JSON.parse(res.data.result.IMAGE_LIST)
 					);
+					setNeedService(
+						new Array(
+							JSON.parse(res.data.result.NEEDED_SERVICE).split(
+								','
+							)
+						)[0]
+					);
+
 					setInvestInfo(JSON.parse(res.data.result.INVEST_INFO));
 					setDeepTech(res.data.result.DEEP_TECH_YN);
-					setIsUpdate(true);
+					// setIsUpdate(true);
 				} else {
-					setIsUpdate(false);
+					// setIsUpdate(false);
 				}
 			},
 			(err) => {}
@@ -312,19 +394,40 @@ const Page: NextPage = () => {
 	 * 필수 입력 항목 체크
 	 */
 	const checkRequired = () => {
-		if (
-			irDeckFile.FILE_URL == '' ||
-			!userIrInfo.BUSINESS_NUMBER ||
-			!userIrInfo.CEO_NAME ||
-			!userIrInfo.COMPANY_NAME ||
-			!userIrInfo.BUSINESS_SECTOR ||
-			!userIrInfo.ESTABLISHMENT_DATE ||
-			!userIrInfo.CONTACT_NUMBER ||
-			investHistoryConfig.length === 0
-		) {
-			alert('필수 입력 항목을 입력해주세요.');
-			return false;
+		if (memberType === 'GENERAL') {
+			if (
+				!isNone ||
+				!userIrInfo.COMPANY_NAME ||
+				!userIrInfo.BUSINESS_SECTOR ||
+				!userIrInfo.MAIN_PRODUCT ||
+				!userIrInfo.CONTACT_NUMBER
+			) {
+				alert('필수 입력 항목을 입력해주세요.');
+				return false;
+			}
 		}
+		if (memberType === 'BUSINESS') {
+			if (
+				irDeckFile.FILE_URL == '' ||
+				!userIrInfo.BUSINESS_NUMBER ||
+				!userIrInfo.CEO_NAME ||
+				!userIrInfo.COMPANY_NAME ||
+				!userIrInfo.BUSINESS_SECTOR ||
+				!userIrInfo.ESTABLISHMENT_DATE ||
+				!userIrInfo.CONTACT_NUMBER ||
+				!userIrInfo.MAIN_PRODUCT ||
+				!userIrInfo.INVESTMENT_COMPANY ||
+				!userIrInfo.INVESTMENT_ROUND ||
+				!userIrInfo.NEEDED_SERVICE ||
+				!userIrInfo.REVENUE ||
+				!userIrInfo.CORPORATE_TYPE ||
+				!userIrInfo.ROLE
+			) {
+				alert('필수 입력 항목을 입력해주세요.');
+				return false;
+			}
+		}
+
 		return true;
 	};
 	/**
@@ -375,6 +478,7 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 				...userIrInfo,
 				IR_FILE: JSON.stringify(irDeckFile),
+				NEEDED_SERVICE: JSON.stringify(needService),
 				IMAGE_LIST: JSON.stringify(companyIntroductionImages),
 				INVEST_INFO: JSON.stringify(investInfo),
 				DEEP_TECH_YN: deepTech,
@@ -389,6 +493,7 @@ const Page: NextPage = () => {
 					});
 					alert('성공적으로 업데이트되었습니다.');
 					setIsEdit(false);
+					getUserIrInfo();
 				}
 			},
 			(err) => {}
@@ -418,11 +523,29 @@ const Page: NextPage = () => {
 		}
 	}, [memberId]);
 
+	// useEffect(() => {
+	// 	if (isUpdate) {
+	// 		getCommentList();
+	// 	}
+	// }, [isUpdate]);
+
 	useEffect(() => {
-		if (isUpdate) {
-			getCommentList();
+		if (isNone) {
+			setUserIrInfo({
+				...userIrInfo,
+				IR_FILE: [].toString(),
+			});
+			setIrDeckFile({
+				FILE_NAME: '',
+				FILE_URL: '',
+			});
+		} else {
+			setUserIrInfo({
+				...userIrInfo,
+				IR_FILE: irDeckFile,
+			});
 		}
-	}, [isUpdate]);
+	}, [isNone]);
 
 	return (
 		// <InternalServiceDrawer type="dashboard">
@@ -447,6 +570,7 @@ const Page: NextPage = () => {
 									router.push(selectableIndicator.path);
 								}}
 								sx={{
+									wordBreak: 'keep-all',
 									color:
 										router.pathname ===
 										selectableIndicator.path
@@ -503,6 +627,9 @@ const Page: NextPage = () => {
 											<Typography
 												fontWeight={'bold'}
 												color={'primary'}
+												sx={{
+													wordBreak: 'keep-all',
+												}}
 											>
 												{isEdit
 													? '저장하기'
@@ -516,11 +643,13 @@ const Page: NextPage = () => {
 											return;
 										}
 										if (isEdit) {
-											if (isUpdate) {
-												updateUserIrInfo();
-											} else {
-												createUserIrInfo();
-											}
+											updateUserIrInfo();
+
+											// if (isUpdate) {
+											// 	updateUserIrInfo();
+											// } else {
+											// 	createUserIrInfo();
+											// }
 										} else {
 											setIsEdit(!isEdit);
 											setCommentView(false);
@@ -553,6 +682,9 @@ const Page: NextPage = () => {
 											fontWeight={'600'}
 											display={'flex'}
 											mb={0.5}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
 										>
 											공개여부, 알림톡 여부
 										</Typography>
@@ -668,8 +800,11 @@ const Page: NextPage = () => {
 										<Typography
 											fontWeight={'600'}
 											display={'flex'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
 										>
-											IR자료(또는 사업 계획서){' '}
+											IR자료 (또는 사업 계획서){' '}
 											{isEdit && (
 												<Typography
 													fontWeight={'600'}
@@ -701,12 +836,31 @@ const Page: NextPage = () => {
 													fontWeight={'600'}
 													color={'grey'}
 													mt={1}
+													sx={{
+														wordBreak: 'keep-all',
+													}}
 												>
 													제작년도 / 기업명 / 파일형식
 													/ 페이지 수 형식으로 업로드
 													부탁드립니다. (예시 :
 													2024/린온컴퍼니/PDF/25)
 												</Typography>
+												<Box display="flex">
+													<SupportiInput
+														type="checkbox"
+														value={isNone}
+														setValue={setIsNone}
+													/>
+													<Typography
+														mt="auto"
+														mb="auto"
+														ml={-2.5}
+														fontWeight={500}
+														variant="body1"
+													>
+														없음
+													</Typography>
+												</Box>
 											</Box>
 										) : irDeckFile.length === 0 ||
 										  irDeckFile.FILE_URL == '' ? (
@@ -732,7 +886,12 @@ const Page: NextPage = () => {
 												display={'flex'}
 												alignItems={'center'}
 											>
-												<Typography fontWeight={'600'}>
+												<Typography
+													fontWeight={'600'}
+													sx={{
+														wordBreak: 'keep-all',
+													}}
+												>
 													{irDeckFile.FILE_NAME}
 												</Typography>
 												<DownloadForOfflineIcon
@@ -749,6 +908,119 @@ const Page: NextPage = () => {
 											</Box>
 										)}
 									</Box>
+
+									{/** 서포티 내 필요 항목 */}
+
+									{memberType === 'BUSINESS' && (
+										<Box
+											display={'flex'}
+											flexDirection={'column'}
+											gap={2}
+											mt={3}
+										>
+											<Typography
+												fontWeight={'600'}
+												display={'flex'}
+												mt={0.5}
+												gap={0.5}
+												sx={{
+													wordBreak: 'keep-all',
+												}}
+											>
+												서포티 내 필요 항목
+												{isEdit && (
+													<span
+														style={{
+															color: 'blue',
+														}}
+													>
+														(필수)
+													</span>
+												)}
+											</Typography>
+											{isEdit ? (
+												<Box>
+													<Box
+														display={'flex'}
+														gap={2}
+														flexWrap="wrap"
+														my={1}
+													>
+														{dataList?.map(
+															(item, index) => {
+																return (
+																	<Typography
+																		fontWeight={
+																			needService.includes(
+																				item
+																			) &&
+																			700
+																		}
+																		sx={{
+																			p: 1,
+																			borderRadius: 4,
+																			border: '1px solid #d1d1d1',
+																			cursor: 'pointer',
+																			color: needService.includes(
+																				item
+																			)
+																				? 'primary.main'
+																				: 'common.black',
+																		}}
+																		onClick={() => {
+																			if (
+																				needService.includes(
+																					item
+																				)
+																			) {
+																				setNeedService(
+																					needService.filter(
+																						(
+																							value
+																						) =>
+																							value !=
+																							item
+																					)
+																				);
+																			} else {
+																				setNeedService(
+																					[
+																						...needService,
+																						item,
+																					]
+																				);
+																				console.log(
+																					item
+																				);
+																			}
+																			console.log(
+																				needService
+																			);
+																		}}
+																	>
+																		{item}
+																	</Typography>
+																);
+															}
+														)}
+													</Box>
+												</Box>
+											) : (
+												<Typography
+													sx={{
+														wordBreak: 'keep-all',
+														lineHeight: '20px',
+													}}
+													color={'grey'}
+													fontWeight={'600'}
+												>
+													{needService.length != 0
+														? needService.toString()
+														: '없음'}
+												</Typography>
+											)}
+										</Box>
+									)}
 									{/* 기업 정보 */}
 									<Box mt={2}>
 										<Typography
@@ -763,7 +1035,7 @@ const Page: NextPage = () => {
 											gap={1}
 											mt={2}
 										>
-											<Grid
+											{/* <Grid
 												item
 												sm={5.9}
 												display={'flex'}
@@ -798,7 +1070,7 @@ const Page: NextPage = () => {
 															);
 													}}
 												/>
-											</Grid>
+											</Grid> */}
 
 											{companyInfoConfig.map(
 												(item, index) => {
@@ -813,20 +1085,25 @@ const Page: NextPage = () => {
 																fontWeight={
 																	'600'
 																}
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
 																color={'grey'}
 																variant="body1"
 																my={1}
 															>
 																{item.label}{' '}
-																{item.required && (
-																	<span
-																		style={{
-																			color: 'blue',
-																		}}
-																	>
-																		(필수)
-																	</span>
-																)}
+																{item.required &&
+																	isEdit && (
+																		<span
+																			style={{
+																				color: 'blue',
+																			}}
+																		>
+																			(필수)
+																		</span>
+																	)}
 															</Typography>
 															{isEdit ? (
 																item.type ===
@@ -940,6 +1217,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		userIrInfo[
 																			item
@@ -1018,20 +1299,27 @@ const Page: NextPage = () => {
 																fontWeight={
 																	'600'
 																}
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
 																color={'grey'}
 																variant="body1"
-																width={'100px'}
+																width={
+																	'fit-content'
+																}
 															>
 																{item.label}{' '}
-																{item.required && (
-																	<span
-																		style={{
-																			color: 'blue',
-																		}}
-																	>
-																		(필수)
-																	</span>
-																)}
+																{item.required &&
+																	isEdit && (
+																		<span
+																			style={{
+																				color: 'blue',
+																			}}
+																		>
+																			(필수)
+																		</span>
+																	)}
 															</Typography>
 															{isEdit ? (
 																<Box
@@ -1074,6 +1362,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		userIrInfo[
 																			item
@@ -1127,7 +1419,7 @@ const Page: NextPage = () => {
 											)}
 										</Grid>
 										{/* 이미지 */}
-										<Box mt={2} display={'flex'}>
+										{/* <Box mt={2} display={'flex'}>
 											<Typography
 												fontWeight={'600'}
 												color={'grey'}
@@ -1189,7 +1481,7 @@ const Page: NextPage = () => {
 													)
 												)}
 											</Box>
-										</Box>
+										</Box> */}
 									</Box>
 									{/* 투자 정보 */}
 									<Box mt={2}>
@@ -1216,6 +1508,10 @@ const Page: NextPage = () => {
 															xs={12}
 														>
 															<Typography
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
 																fontWeight={
 																	'600'
 																}
@@ -1223,7 +1519,17 @@ const Page: NextPage = () => {
 																variant="body1"
 																my={1}
 															>
-																{item.label}
+																{item.label}{' '}
+																{item.required &&
+																	isEdit && (
+																		<span
+																			style={{
+																				color: 'blue',
+																			}}
+																		>
+																			(필수)
+																		</span>
+																	)}
 															</Typography>
 															{isEdit ? (
 																<SupportiInput
@@ -1248,7 +1554,10 @@ const Page: NextPage = () => {
 																		);
 																	}}
 																	additionalProps={{
-																		placeholder: `${item.label}을 입력해주세요.`,
+																		placeholder:
+																			item.placeholder
+																				? item.placeholder
+																				: `${item.label}을 입력해주세요.`,
 																	}}
 																	dataList={
 																		item.options
@@ -1259,6 +1568,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																	color={
 																		userIrInfo[
 																			item
@@ -1294,7 +1607,7 @@ const Page: NextPage = () => {
 											)}
 										</Grid>
 										{/* 투자 연혁 */}
-										<Box
+										{/* <Box
 											display={'flex'}
 											alignItems={'center'}
 										>
@@ -1343,17 +1656,17 @@ const Page: NextPage = () => {
 													ml: 'auto',
 												}}
 											/>
-											{/* {!existInvestment && (
+											{!existInvestment && (
 												<Typography
 													fontWeight={'600'}
 													color={'primary'}
 												>
 													(필수)
 												</Typography>
-											)} */}
+											)}
 											<Box display={'flex'}></Box>
-										</Box>
-										{isEdit ? (
+										</Box> */}
+										{/* {isEdit ? (
 											<Grid
 												container
 												display={'flex'}
@@ -1432,7 +1745,7 @@ const Page: NextPage = () => {
 												)}
 
 												<Box display="flex" gap={1}>
-													{/* {investInfo.length ===
+													{investInfo.length ===
 														0 && (
 														<Typography
 															sx={{
@@ -1480,12 +1793,12 @@ const Page: NextPage = () => {
 																</IconButton>
 															</Tooltip>
 														</Typography>
-													)} */}
+													)}
 												</Box>
 											</Grid>
-										) : null}
+										) : null} */}
 
-										<Box mt={1} display={'flex'}>
+										{/* <Box mt={1} display={'flex'}>
 											<Box
 												display={'flex'}
 												gap={1}
@@ -1623,7 +1936,7 @@ const Page: NextPage = () => {
 													}
 												)}
 											</Box>
-										</Box>
+										</Box> */}
 									</Box>
 								</Box>
 							</Grid>
@@ -1653,6 +1966,9 @@ const Page: NextPage = () => {
 											fontWeight={'600'}
 											display={'flex'}
 											mb={0.5}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
 										>
 											코멘트 리스트
 										</Typography>
@@ -1685,6 +2001,10 @@ const Page: NextPage = () => {
 														mb={1.5}
 													>
 														<Typography
+															sx={{
+																wordBreak:
+																	'keep-all',
+															}}
 															fontWeight={'600'}
 														>
 															{item.PartnerMember
@@ -1696,6 +2016,10 @@ const Page: NextPage = () => {
 														<Typography
 															fontWeight={'600'}
 															color={'grey'}
+															sx={{
+																wordBreak:
+																	'keep-all',
+															}}
 															variant="body2"
 														>
 															{moment(
@@ -1713,6 +2037,10 @@ const Page: NextPage = () => {
 														{item.IR_DECK_COMMENT && (
 															<Typography
 																display={'flex'}
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
 																flexWrap={
 																	'wrap'
 																}
@@ -1722,6 +2050,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																>
 																	[IR deck]
 																</Typography>
@@ -1733,6 +2065,10 @@ const Page: NextPage = () => {
 														{item.INVEST_INFO_COMMENT && (
 															<Typography
 																display={'flex'}
+																sx={{
+																	wordBreak:
+																		'keep-all',
+																}}
 																flexWrap={
 																	'wrap'
 																}
@@ -1742,6 +2078,10 @@ const Page: NextPage = () => {
 																	fontWeight={
 																		'600'
 																	}
+																	sx={{
+																		wordBreak:
+																			'keep-all',
+																	}}
 																>
 																	[투자정보]
 																</Typography>

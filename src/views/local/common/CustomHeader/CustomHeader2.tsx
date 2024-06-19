@@ -233,8 +233,8 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			path: '/customer_service/qna',
 		},
 		{
-			label: '회원가입',
-			path: '/auth/sign_up',
+			label: '회원가입 / 로그인',
+			path: '/auth/sign_in',
 		},
 		// {
 		// 	label: '재무 지표',

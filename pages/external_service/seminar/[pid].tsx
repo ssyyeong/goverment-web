@@ -861,11 +861,13 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									A반 매주 화요일 7월 2일 시작 (2일, 9일,
-									16일, 23일) - 4주 강의 진행
+									<b>A반</b> <br />
+									- 매주 화요일 7월 2일 시작 (2일, 9일, 16일,
+									23일) - 4주 강의 진행
 									<br />
-									B반 매주 목요일 7월 4일 시작 (4일, 11일,
-									18일, 25일) - 4주 강의 진행
+									<b>B반</b> <br />
+									- 매주 목요일 7월 4일 시작 (4일, 11일, 18일,
+									25일) - 4주 강의 진행
 									<br />
 									5주차 7월 30일 화요일 1,B반 모의데모데이
 									진행
@@ -1035,7 +1037,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								제공 혜택
+								🎁 제공 혜택
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -1171,7 +1173,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								비용
+								💵 비용
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -2077,35 +2079,50 @@ const Page: NextPage = () => {
 						</Typography>
 						{seminarData?.SeminarGroups.map((item, index) => {
 							return (
-								<Box
-									key={index.toString()}
-									display={'flex'}
-									flexDirection={'row'}
-									flexWrap={'wrap'}
-									gap={1}
-									mt={1}
-								>
-									<Typography variant={'body1'} mr={2}>
-										그룹이름: {item.NAME}
-									</Typography>
-									<Typography variant={'body1'} mr={2}>
-										정원: {item.PERSONNEL}명
-									</Typography>
-									<Typography variant={'body1'} mr={2}>
-										현재{' '}
-										{
-											seminarApplication.filter(
-												(data) =>
-													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
-													item.SEMINAR_GROUP_IDENTIFICATION_CODE
-											).length
-										}
-										명 신청
-									</Typography>
-									<Typography variant={'body1'}>
-										한줄소개: {item.DESCRIPTION}
-									</Typography>
-								</Box>
+								<>
+									<Box
+										key={index.toString()}
+										display={'flex'}
+										flexDirection={'row'}
+										flexWrap={'wrap'}
+										gap={1}
+										my={1}
+									>
+										<Typography variant={'body1'} mr={2}>
+											그룹이름: {item.NAME}
+										</Typography>
+										<Typography variant={'body1'} mr={2}>
+											정원: {item.PERSONNEL}명
+										</Typography>
+										<Typography variant={'body1'} mr={2}>
+											현재{' '}
+											{
+												seminarApplication.filter(
+													(data) =>
+														data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+														item.SEMINAR_GROUP_IDENTIFICATION_CODE
+												).length
+											}
+											명 신청
+										</Typography>
+										<Typography variant={'body1'}>
+											한줄소개: {item.DESCRIPTION}
+										</Typography>
+									</Box>
+
+									<Box
+										sx={{
+											display:
+												index !=
+												seminarData?.SeminarGroups
+													.length -
+													1
+													? 'block'
+													: 'none',
+											borderTop: '1px solid lightgrey',
+										}}
+									/>
+								</>
 							);
 						})}
 					</Box>

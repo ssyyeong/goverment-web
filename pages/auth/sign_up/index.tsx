@@ -569,7 +569,7 @@ const Page: NextPage = () => {
 		// 	},
 		// },
 		{
-			label: '최근 투자라운드/금액',
+			label: '최근 투자라운드',
 			for: 'BUSINESS',
 			config: investSector,
 			key: 'INVESTMENT_ROUND',

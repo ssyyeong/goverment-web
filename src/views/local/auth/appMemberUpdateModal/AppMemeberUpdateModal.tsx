@@ -473,7 +473,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			error: isShowError && !businessData?.MAIN_PRODUCT,
 		},
 		{
-			label: '최근 투자라운드/금액',
+			label: '최근 투자라운드',
 			for: 'BUSINESS',
 			config: investSector,
 			key: 'INVESTMENT_ROUND',
@@ -621,11 +621,11 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					<SupportiToggle
 						chipDataList={[
 							{
-								label: '사업가',
+								label: '기창업자',
 								value: 'BUSINESS',
 							},
 							{
-								label: '일반',
+								label: '예비창업자',
 								value: 'GENERAL',
 							},
 						]}
@@ -649,7 +649,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								fontWeight={600}
 								mb={item.label === '설립연도/월' && 1}
 							>
-								{tabs === 'GENERAL' && '예상 '}
+								{/* {tabs === 'GENERAL' && '예상 '} */}
 								{!item.nolabel && item.label}
 							</Typography>
 							{item.label == '업종/업태' ? (
