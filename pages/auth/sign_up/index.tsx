@@ -706,7 +706,7 @@ const Page: NextPage = () => {
 				IR_FILE: irDeckFile,
 			});
 		}
-	}, [isNone]);
+	}, [isNone, irDeckFile]);
 
 	React.useEffect(() => {
 		console.log(emailDuplication);

@@ -681,7 +681,7 @@ const Page: NextPage = () => {
 				IR_FILE: irDeckFile,
 			});
 		}
-	}, [isNone]);
+	}, [isNone, irDeckFile]);
 
 	return (
 		// <InternalServiceDrawer type="dashboard">
