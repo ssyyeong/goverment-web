@@ -708,9 +708,6 @@ const Page: NextPage = () => {
 		}
 	}, [isNone, irDeckFile]);
 
-	React.useEffect(() => {
-		console.log(emailDuplication);
-	}, [emailDuplication]);
 
 	return (
 		<SignUpLayout>
