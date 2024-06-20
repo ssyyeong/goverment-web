@@ -6,6 +6,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
 	Box,
 	BoxProps,
+	Button,
 	FormControlLabel,
 	Grid,
 	IconButton,
@@ -38,6 +39,7 @@ import {
 	investSector,
 	lastYearSales,
 } from '../../../configs/data/BusinessConfig';
+import axios from 'axios';
 
 export interface IInvestInfoType {
 	DATE?: any;
@@ -120,12 +122,70 @@ const Page: NextPage = () => {
 	const [existInvestment, setExistInvestment] =
 		React.useState<boolean>(false);
 
+	/**
+	 * 유저 ir 정보
+	 */
+	const [userIrInfo, setUserIrInfo] = React.useState<IUserIRData>({
+		HOPE_INVEST_ROUND: '사업화지원 단계 (예비창업자)',
+		OPEN_YN: 'Y',
+		ALIMTALK_YN: 'Y',
+	});
+
+	const [isBusinessNumOk, setIsBusinessNumOk] =
+		React.useState<string>('NOT_YET');
+
+	/**
+	 * 사업가 번호 체크
+	 */
+	const businessNumCheck = () => {
+		if (!userIrInfo.BUSINESS_NUMBER)
+			return alert('사업자 등록번호를 입력해주세요.');
+		axios
+			.post(
+				`https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=${process.env.NEXT_PUBLIC_SERVICE_KEY}&returnType=JSON`,
+				{
+					b_no: [`${userIrInfo.BUSINESS_NUMBER}`],
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json',
+					},
+				}
+			)
+			.then((res) => {
+				//정부 res
+				const resData = res.data.data[0].tax_type;
+				if (
+					resData === '국세청에 등록되지 않은 사업자등록번호입니다.'
+				) {
+					setIsBusinessNumOk('NOT_OK');
+					return;
+				} else {
+					setIsBusinessNumOk('OK');
+				}
+			});
+	};
+
 	const companyInfoConfig = [
 		{
-			label: '사업자등록번호',
+			label: '사업자 등록번호 (-제외)',
 			value: 'BUSINESS_NUMBER',
 			required: memberType === 'BUSINESS' ? true : false,
 			placeholder: '-를 제외한 숫자만 입력해주세요.',
+			// endAdornment: (
+			// 	<Button
+			// 		variant="contained"
+			// 		sx={{
+			// 			backgroundColor: '#d1d1d1',
+			// 		}}
+			// 		onClick={() => businessNumCheck()}
+			// 	>
+			// 		<Typography variant="body2" color={'white'}>
+			// 			인증
+			// 		</Typography>
+			// 	</Button>
+			// ),
 		},
 		{
 			label: '대표자명',
@@ -373,14 +433,7 @@ const Page: NextPage = () => {
 	 */
 	const [companyIntroductionImages, setCompanyIntroductionImages] =
 		React.useState<string[]>([]);
-	/**
-	 * 유저 ir 정보
-	 */
-	const [userIrInfo, setUserIrInfo] = React.useState<IUserIRData>({
-		HOPE_INVEST_ROUND: '사업화지원 단계 (예비창업자)',
-		OPEN_YN: 'Y',
-		ALIMTALK_YN: 'Y',
-	});
+
 	/**
 	 * 투자 연혁
 	 */
@@ -447,7 +500,9 @@ const Page: NextPage = () => {
 					);
 
 					setNeedService(JSON.parse(res.data.result.NEEDED_SERVICE));
-
+					if (!JSON.parse(res.data.result.IR_FILE).FILE_URL) {
+						setIsNone(true);
+					}
 					setInvestInfo(JSON.parse(res.data.result.INVEST_INFO));
 					setDeepTech(res.data.result.DEEP_TECH_YN);
 					// setIsUpdate(true);
@@ -458,6 +513,7 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
+	console.log(userIrInfo);
 
 	/**
 	 * 필수 입력 항목 체크
@@ -476,6 +532,9 @@ const Page: NextPage = () => {
 			}
 		}
 		if (memberType === 'BUSINESS') {
+			// if (isBusinessNumOk !== 'OK')
+			// 	return alert('사업자 등록번호를 확인해주세요.');
+
 			if (
 				(!isNone && irDeckFile.FILE_URL == '') ||
 				!userIrInfo.BUSINESS_NUMBER ||
@@ -487,7 +546,6 @@ const Page: NextPage = () => {
 				!userIrInfo.MAIN_PRODUCT ||
 				!userIrInfo.INVESTMENT_COMPANY ||
 				!userIrInfo.INVESTMENT_ROUND ||
-				!userIrInfo.NEEDED_SERVICE ||
 				!userIrInfo.REVENUE ||
 				!userIrInfo.CORPORATE_TYPE ||
 				!userIrInfo.ROLE ||
@@ -598,6 +656,14 @@ const Page: NextPage = () => {
 	// 		getCommentList();
 	// 	}
 	// }, [isUpdate]);
+
+	useEffect(() => {
+		if (isBusinessNumOk === 'NOT_OK') {
+			alert('사업자 등록번호가 올바르지 않습니다.');
+		} else if (isBusinessNumOk === 'OK') {
+			alert('인증되었습니다.');
+		}
+	}, [isBusinessNumOk]);
 
 	useEffect(() => {
 		if (isNone) {
@@ -828,6 +894,12 @@ const Page: NextPage = () => {
 																					.checked
 																					? 'Y'
 																					: 'N',
+																			OPEN_YN:
+																				e
+																					.target
+																					.checked
+																					? 'Y'
+																					: 'N',
 																		}
 																	);
 															}}
@@ -933,7 +1005,7 @@ const Page: NextPage = () => {
 												</Box>
 											</Box>
 										) : irDeckFile?.length === 0 ||
-										  irDeckFile.FILE_URL == '' ? (
+										  irDeckFile?.FILE_URL == '' ? (
 											<Box
 												p={2}
 												boxShadow={
@@ -1074,9 +1146,6 @@ const Page: NextPage = () => {
 																					item
 																				);
 																			}
-																			console.log(
-																				needService
-																			);
 																		}}
 																	>
 																		{item}
@@ -1095,10 +1164,11 @@ const Page: NextPage = () => {
 													color={'grey'}
 													fontWeight={'600'}
 												>
-													{needService?.length != 0
-														? JSON.stringify(
-																needService
-														  )
+													{needService == null
+														? '없음'
+														: needService?.length !=
+														  0
+														? needService + '  '
 														: '없음'}
 												</Typography>
 											)}
@@ -1294,6 +1364,9 @@ const Page: NextPage = () => {
 																			);
 																		}}
 																		additionalProps={{
+																			// endAdornment:
+																			// 	item?.endAdornment,
+
 																			placeholder:
 																				item.placeholder
 																					? item.placeholder

@@ -266,6 +266,7 @@ const SupportiInput = React.forwardRef(
 							// {...props.additionalProps}
 							renderInput={(params) => (
 								<TextField
+									fullWidth
 									{...params}
 									{...props.additionalProps}
 								/>

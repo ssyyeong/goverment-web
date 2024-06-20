@@ -708,6 +708,10 @@ const Page: NextPage = () => {
 		}
 	}, [isNone]);
 
+	React.useEffect(() => {
+		console.log(emailDuplication);
+	}, [emailDuplication]);
+
 	return (
 		<SignUpLayout>
 			<Typography variant="h1" fontWeight={'bold'}>
@@ -1480,6 +1484,17 @@ const Page: NextPage = () => {
 													// 	return alert(
 													// 		'핸드폰 인증을 완료해주세요.'
 													// 	);
+													if (
+														(signupData.USER_NAME &&
+															!emailRegex.test(
+																signupData.USER_NAME
+															)) ||
+														emailDuplication ==
+															undefined
+													)
+														return alert(
+															'이메일을 확인해주세요.'
+														);
 
 													if (
 														signupData.PASSWORD &&
