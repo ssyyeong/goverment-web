@@ -203,8 +203,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.COMPANY_NAME ||
 			!businessData.MAIN_PRODUCT ||
-			(!isNone && businessData.IR_FILE.FILE_URL == '') ||
-			needService.length == 0 ||
+			(!isNone && irDeckFile.FILE_URL == '') ||
+			needService?.length == 0 ||
 			!businessData.REVENUE ||
 			!businessData.ESTABLISHMENT_DATE ||
 			!businessData.INVESTMENT_COMPANY ||
