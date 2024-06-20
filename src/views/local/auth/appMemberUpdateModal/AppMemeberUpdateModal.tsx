@@ -752,288 +752,276 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 								{/* {tabs === 'GENERAL' && '예상 '} */}
 								{!item.nolabel && item.label}
 							</Typography>
-							{
-								// item.label == '업종/업태' ? (
-								// 	<Autocomplete
-								// 		size="small"
-								// 		options={businessSector}
-								// 		fullWidth
-								// 		onChange={(e, newValue) => {
-								// 			setBusinessData({
-								// 				...businessData,
-								// 				BUSINESS_SECTOR: newValue,
-								// 			});
-								// 		}}
-								// 		value={item.value}
-								// 		renderInput={(params) => (
-								// 			<TextField
-								// 				{...params}
-								// 				sx={{
-								// 					mt: 1,
-								// 					'& .MuiAutocomplete-input': {
-								// 						padding: '8px !important',
-								// 					},
-								// 				}}
-								// 			/>
-								// 		)}
-								// 	/>
-								// ) :
-								item.type == 'select' ? (
-									<Autocomplete
-										size="small"
-										options={item.config}
-										fullWidth
-										onChange={(e, newValue) => {
-											setBusinessData({
-												...businessData,
-												[item.key]: newValue,
-											});
-										}}
-										value={item.value}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												error={item.error}
-												sx={{
-													mt: 1,
-													'& .MuiAutocomplete-input':
-														{
-															padding:
-																'8px !important',
-														},
-												}}
-											/>
-										)}
-									/>
-								) : item.label === '설립연도/월' ? (
-									<SupportiInput
-										type={item.type ? item.type : 'text'}
-										value={businessData?.ESTABLISHMENT_DATE}
-										setValue={(value) => {
-											setBusinessData({
-												...businessData,
-												ESTABLISHMENT_DATE:
-													dayjs(value).format(
-														'YYYY-MM-DD'
-													),
-											});
-										}}
-										additionalProps={{
-											views: ['month', 'year'],
-											sx: {
+							{item.label.includes('업종/업태') ? (
+								<Autocomplete
+									size="small"
+									options={businessSector}
+									fullWidth
+									onChange={(e, newValue) => {
+										setBusinessData({
+											...businessData,
+											BUSINESS_SECTOR: newValue,
+										});
+									}}
+									value={item.value}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											sx={{
 												mt: 1,
-											},
-											placeholder: item.placeholder
-												? item.placeholder
-												: `${item.label}을 입력해주세요.`,
-										}}
-									/>
-								) : // : item.label === '설립연도/월' ? (
-								// <SupportiInput
-								// 	type={
-								// 		item.type
-								// 			? item.type
-								// 			: 'text'
-								// 	}
-								// 	value={
-								// 		signupData.ESTABLISHMENT_DATE
-								// 	}
-								// 	setValue={(
-								// 		value
-								// 	) => {
-								// 		setSignupData({
-								// 			...signupData,
-								// 			ESTABLISHMENT_DATE:
-								// 				dayjs(
-								// 					value
-								// 				).format(
-								// 					'YYYY-MM-DD'
-								// 				),
-								// 		});
-								// 	}}
-								// 	additionalProps={{
-								// 		placeholder:
-								// 			item.placeholder
-								// 				? item.placeholder
-								// 				: `${item.label}을 입력해주세요.`,
-								// 	}}
-								// />
-								// <SupportiInput
-								// 	type={item.type ? item.type : 'text'}
-								// 	value={businessData.ESTABLISHMENT_DATE}
-								// 	setValue={(value) => {
-								// 		setBusinessData({
-								// 			...businessData,
-								// 			ESTABLISHMENT_DATE:
-								// 				dayjs(value).format(
-								// 					'YYYY-MM-DD'
-								// 				),
-								// 		});
-								// 	}}
-								// 	additionalProps={{
-								// 		views: ['month', 'year'],
-								// 		defaultValue: undefined,
-								// 		placeholder: item.placeholder
-								// 			? item.placeholder
-								// 			: `${item.label}을 입력해주세요.`,
-								// 	}}
-								// />
-								// )
-								item.label ===
-								  '서포티 필요항목 (중복 선택 가능)' ? (
-									<Box>
-										{/* <Typography my={2}>
+												'& .MuiAutocomplete-input': {
+													padding: '8px !important',
+												},
+											}}
+										/>
+									)}
+								/>
+							) : item.type == 'select' ? (
+								<Autocomplete
+									size="small"
+									options={item.config}
+									fullWidth
+									onChange={(e, newValue) => {
+										setBusinessData({
+											...businessData,
+											[item.key]: newValue,
+										});
+									}}
+									value={item.value}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											error={item.error}
+											sx={{
+												mt: 1,
+												'& .MuiAutocomplete-input': {
+													padding: '8px !important',
+												},
+											}}
+										/>
+									)}
+								/>
+							) : item.label === '설립연도/월' ? (
+								<SupportiInput
+									type={item.type ? item.type : 'text'}
+									value={businessData?.ESTABLISHMENT_DATE}
+									setValue={(value) => {
+										setBusinessData({
+											...businessData,
+											ESTABLISHMENT_DATE:
+												dayjs(value).format(
+													'YYYY-MM-DD'
+												),
+										});
+									}}
+									additionalProps={{
+										views: ['month', 'year'],
+										sx: {
+											mt: 1,
+										},
+										placeholder: item.placeholder
+											? item.placeholder
+											: `${item.label}을 입력해주세요.`,
+									}}
+								/>
+							) : // : item.label === '설립연도/월' ? (
+							// <SupportiInput
+							// 	type={
+							// 		item.type
+							// 			? item.type
+							// 			: 'text'
+							// 	}
+							// 	value={
+							// 		signupData.ESTABLISHMENT_DATE
+							// 	}
+							// 	setValue={(
+							// 		value
+							// 	) => {
+							// 		setSignupData({
+							// 			...signupData,
+							// 			ESTABLISHMENT_DATE:
+							// 				dayjs(
+							// 					value
+							// 				).format(
+							// 					'YYYY-MM-DD'
+							// 				),
+							// 		});
+							// 	}}
+							// 	additionalProps={{
+							// 		placeholder:
+							// 			item.placeholder
+							// 				? item.placeholder
+							// 				: `${item.label}을 입력해주세요.`,
+							// 	}}
+							// />
+							// <SupportiInput
+							// 	type={item.type ? item.type : 'text'}
+							// 	value={businessData.ESTABLISHMENT_DATE}
+							// 	setValue={(value) => {
+							// 		setBusinessData({
+							// 			...businessData,
+							// 			ESTABLISHMENT_DATE:
+							// 				dayjs(value).format(
+							// 					'YYYY-MM-DD'
+							// 				),
+							// 		});
+							// 	}}
+							// 	additionalProps={{
+							// 		views: ['month', 'year'],
+							// 		defaultValue: undefined,
+							// 		placeholder: item.placeholder
+							// 			? item.placeholder
+							// 			: `${item.label}을 입력해주세요.`,
+							// 	}}
+							// />
+							// )
+							item.label ===
+							  '서포티 필요항목 (중복 선택 가능)' ? (
+								<Box>
+									{/* <Typography my={2}>
 										선택 : {needService}
 									</Typography> */}
-										<Box
-											display={'flex'}
-											gap={2}
-											flexWrap="wrap"
-											my={2}
-										>
-											{item?.dataList?.map(
-												(item, index) => {
-													return (
-														<Typography
-															fontWeight={
-																needService.includes(
-																	item
-																) && 700
-															}
-															sx={{
-																p: 1,
-																borderRadius: 4,
-																border: '1px solid #d1d1d1',
-																cursor: 'pointer',
-																color: needService.includes(
-																	item
-																)
-																	? 'primary.main'
-																	: 'common.black',
-															}}
-															onClick={() => {
-																if (
-																	needService.includes(
+									<Box
+										display={'flex'}
+										gap={2}
+										flexWrap="wrap"
+										my={2}
+									>
+										{item?.dataList?.map((item, index) => {
+											return (
+												<Typography
+													fontWeight={
+														needService.includes(
+															item
+														) && 700
+													}
+													sx={{
+														p: 1,
+														borderRadius: 4,
+														border: '1px solid #d1d1d1',
+														cursor: 'pointer',
+														color: needService.includes(
+															item
+														)
+															? 'primary.main'
+															: 'common.black',
+													}}
+													onClick={() => {
+														if (
+															needService.includes(
+																item
+															)
+														) {
+															setNeedService(
+																needService?.filter(
+																	(data) =>
+																		data !==
 																		item
-																	)
-																) {
-																	setNeedService(
-																		needService?.filter(
-																			(
-																				data
-																			) =>
-																				data !==
-																				item
-																		)
-																	);
-																} else {
-																	setNeedService(
-																		[
-																			...needService,
-																			item,
-																		]
-																	);
-																}
-															}}
-														>
-															{item}
-														</Typography>
-													);
-												}
-											)}
-											{/* <Typography color="secondary.main">
+																)
+															);
+														} else {
+															setNeedService([
+																...needService,
+																item,
+															]);
+														}
+													}}
+												>
+													{item}
+												</Typography>
+											);
+										})}
+										{/* <Typography color="secondary.main">
 										(
 										{
 											item.helperText
 										}
 										)
 									</Typography> */}
-										</Box>
 									</Box>
-								) : item.label ===
-								  'IR자료(또는 사업 계획서)' ? (
-									<Box
-										display={'flex'}
-										flexDirection={'column'}
-										gap={2}
-										mt={2}
-									>
-										<Box>
+								</Box>
+							) : item.label === 'IR자료(또는 사업 계획서)' ? (
+								<Box
+									display={'flex'}
+									flexDirection={'column'}
+									gap={2}
+									mt={2}
+								>
+									<Box>
+										<SupportiInput
+											type="fileinput"
+											value={irDeckFile}
+											error={item.error}
+											setValue={setIrDeckFile}
+											fileTypeInputName
+											fileTypeInputNameMaxSize={{
+												unit: 'MB',
+												size: 200,
+											}}
+											additionalProps={{
+												inputProps: {
+													accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
+												},
+												placeholer:
+													'ppt, pdf, hwp, pcdx, zip (200mb이하)',
+											}}
+										/>
+										<Typography
+											variant="caption"
+											fontWeight={'600'}
+											sx={{
+												wordBreak: 'keep-all',
+											}}
+											color={'grey'}
+										>
+											* PDF 형식을 권장드립니다. (ppt,
+											pdf, hwp, pcdx, zip (200mb이하))
+										</Typography>
+										<Box display="flex">
 											<SupportiInput
-												type="fileinput"
-												value={irDeckFile}
-												error={item.error}
-												setValue={setIrDeckFile}
-												fileTypeInputName
-												fileTypeInputNameMaxSize={{
-													unit: 'MB',
-													size: 200,
-												}}
-												additionalProps={{
-													inputProps: {
-														accept: '.pdf, .ppt, .hwp, .pcdx, .zip',
-													},
-													placeholer:
-														'ppt, pdf, hwp, pcdx, zip (200mb이하)',
-												}}
+												type="checkbox"
+												value={isNone}
+												setValue={setIsNone}
 											/>
 											<Typography
-												variant="caption"
-												fontWeight={'600'}
-												sx={{
-													wordBreak: 'keep-all',
-												}}
-												color={'grey'}
+												mt="auto"
+												mb="auto"
+												ml={-2.5}
+												fontWeight={500}
+												variant="body1"
 											>
-												* PDF 형식을 권장드립니다. (ppt,
-												pdf, hwp, pcdx, zip (200mb이하))
+												없음
 											</Typography>
-											<Box display="flex">
-												<SupportiInput
-													type="checkbox"
-													value={isNone}
-													setValue={setIsNone}
-												/>
-												<Typography
-													mt="auto"
-													mb="auto"
-													ml={-2.5}
-													fontWeight={500}
-													variant="body1"
-												>
-													없음
-												</Typography>
-											</Box>
 										</Box>
 									</Box>
-								) : (
-									<TextField
-										type={item.type}
-										value={item.value}
-										onChange={item.onChange}
-										error={item?.error}
-										focused={item.isVerified === 'NOT_OK'}
-										disabled={
-											item.isVerified == 'OK' &&
-											item.value === verifyNumber
-										}
-										color={
-											item.isVerified === 'OK'
-												? 'primary'
-												: 'secondary'
-										}
-										fullWidth
-										InputProps={{
-											endAdornment: item.endAdornment,
-										}}
-										helperText={item?.helperText}
-										sx={{
-											mt: 1,
-										}}
-										placeholder={`${item.label} 입력`}
-									/>
-								)
-							}
+								</Box>
+							) : (
+								<TextField
+									type={item.type}
+									value={item.value}
+									onChange={item.onChange}
+									error={item?.error}
+									focused={item.isVerified === 'NOT_OK'}
+									disabled={
+										item.isVerified == 'OK' &&
+										item.value === verifyNumber
+									}
+									color={
+										item.isVerified === 'OK'
+											? 'primary'
+											: 'secondary'
+									}
+									fullWidth
+									InputProps={{
+										endAdornment: item.endAdornment,
+									}}
+									helperText={item?.helperText}
+									sx={{
+										mt: 1,
+									}}
+									placeholder={`${item.label} 입력`}
+								/>
+							)}
 						</Box>
 					);
 				})}
