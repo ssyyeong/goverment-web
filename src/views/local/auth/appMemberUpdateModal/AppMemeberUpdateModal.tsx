@@ -199,12 +199,30 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
+		console.log(!businessData.BUSINESS_SECTOR);
+		console.log(!businessData.COMPANY_NAME);
+		console.log(
+			isNone,
+			irDeckFile.FILE_URL == '',
+			!isNone && irDeckFile.FILE_URL == ''
+		);
+		console.log(!businessData.MAIN_PRODUCT);
+		console.log(needService);
+		console.log(!businessData.REVENUE);
+		console.log(!businessData.ESTABLISHMENT_DATE);
+		console.log(!businessData.INVESTMENT_COMPANY);
+		console.log(!businessData.INVESTMENT_ROUND);
+		console.log(!businessData.OWNER_NAME);
+		console.log(!businessData.ROLE);
+		console.log(!businessData.CORPORATE_TYPE);
+		console.log(!businessData.BUSINESS_NUMBER);
+		console.log(businessData);
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.COMPANY_NAME ||
 			!businessData.MAIN_PRODUCT ||
-			(!isNone && irDeckFile.FILE_URL == '') ||
-			needService?.length == 0 ||
+			// (!isNone && irDeckFile.FILE_URL == '') ||
+			// needService?.length == 0 ||
 			!businessData.REVENUE ||
 			!businessData.ESTABLISHMENT_DATE ||
 			!businessData.INVESTMENT_COMPANY ||
@@ -238,7 +256,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				ESTABLISHMENT_DATE: businessData.ESTABLISHMENT_DATE,
 				REVENUE: businessData.REVENUE,
 				NEEDED_SERVICE: JSON.stringify(needService),
-				IR_FILE: JSON.stringify(businessData.IR_FILE),
+				IR_FILE: JSON.stringify(irDeckFile),
 				PHONE_NUMBER: signupData,
 				USER_GRADE: tabs,
 				APP_MEMBER_IDENTIFICATION_CODE:
@@ -663,7 +681,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 		if (isNone) {
 			setBusinessData({
 				...businessData,
-				IR_FILE: [],
+				IR_FILE: '[]',
 			});
 			setIrDeckFile({
 				FILE_NAME: '',
