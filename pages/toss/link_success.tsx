@@ -176,6 +176,15 @@ const Page: NextPage = () => {
 						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. <br />
 						확인 후 페이지를 벗어나주세요!
 					</Typography>
+
+					<Typography
+						fontWeight={'bold'}
+						textAlign={'center'}
+						variant="h3"
+					>
+						⚠️ 입금내역 확인 후 결제처리 및 최종신청 완료가 되오니,
+						꼭 유의해주세요 ⚠️
+					</Typography>
 				</Box>
 			)}
 		</Box>
