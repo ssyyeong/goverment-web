@@ -665,6 +665,17 @@ const Page: NextPage = () => {
 		}
 	}, [isBusinessNumOk]);
 
+	React.useEffect(() => {
+		setUserIrInfo({
+			...userIrInfo,
+			IR_FILE: irDeckFile,
+		});
+
+		if (irDeckFile.FILE_URL != '') {
+			setIsNone(false);
+		} else setIsNone(true);
+	}, [irDeckFile]);
+
 	useEffect(() => {
 		if (isNone) {
 			setUserIrInfo({
@@ -681,7 +692,7 @@ const Page: NextPage = () => {
 				IR_FILE: irDeckFile,
 			});
 		}
-	}, [isNone, irDeckFile]);
+	}, [isNone]);
 
 	return (
 		// <InternalServiceDrawer type="dashboard">

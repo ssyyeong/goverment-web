@@ -688,6 +688,10 @@ const Page: NextPage = () => {
 			...signupData,
 			IR_FILE: irDeckFile,
 		});
+
+		if (irDeckFile.FILE_URL != '') {
+			setIsNone(false);
+		} else setIsNone(true);
 	}, [irDeckFile]);
 
 	React.useEffect(() => {
@@ -706,8 +710,7 @@ const Page: NextPage = () => {
 				IR_FILE: irDeckFile,
 			});
 		}
-	}, [isNone, irDeckFile]);
-
+	}, [isNone]);
 
 	return (
 		<SignUpLayout>

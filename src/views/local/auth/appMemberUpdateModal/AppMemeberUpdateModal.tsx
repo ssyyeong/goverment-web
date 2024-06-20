@@ -660,6 +660,17 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	React.useEffect(() => {
+		setBusinessData({
+			...businessData,
+			IR_FILE: irDeckFile,
+		});
+
+		if (irDeckFile.FILE_URL != '') {
+			setIsNone(false);
+		} else setIsNone(true);
+	}, [irDeckFile]);
+
+	React.useEffect(() => {
 		if (isNone) {
 			setBusinessData({
 				...businessData,
@@ -675,7 +686,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				IR_FILE: irDeckFile,
 			});
 		}
-	}, [isNone, irDeckFile]);
+	}, [isNone]);
 
 	return (
 		<SupportiModal
