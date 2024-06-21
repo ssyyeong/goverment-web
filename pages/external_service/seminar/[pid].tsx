@@ -242,11 +242,13 @@ const Page: NextPage = () => {
 				>
 					<Typography variant={'body1'}>
 						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
+						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
+							12 && ' (마감기한)'}
 					</Typography>
 					<Typography variant={'body1'}>
 						정원 : {seminarData?.PERSONNEL}명
 					</Typography>
-					{seminarData?.REAL_PRICE && (
+					{seminarData?.REAL_PRICE !== 0 && (
 						<Typography variant={'body1'}>
 							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
 							{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
