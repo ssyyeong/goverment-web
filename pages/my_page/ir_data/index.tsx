@@ -257,11 +257,11 @@ const Page: NextPage = () => {
 		// 	required: memberType === 'BUSINESS' ? true : false,
 		// 	placeholder: '-를 제외한 숫자만 입력해주세요.',
 		// },
-		// {
-		// 	label: '대표자명',
-		// 	value: 'CEO_NAME',
-		// 	required: memberType === 'BUSINESS' ? true : false,
-		// },
+		{
+			label: '대표자명',
+			value: 'CEO_NAME',
+			required: memberType === 'BUSINESS' ? true : false,
+		},
 		{
 			label: '예상 기업명',
 			value: 'COMPANY_NAME',
