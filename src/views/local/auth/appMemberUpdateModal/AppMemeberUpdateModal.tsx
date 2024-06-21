@@ -267,6 +267,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	const updateAppMemberForGeneral = () => {
 		if (
 			!businessData.BUSINESS_SECTOR ||
+			!businessData.OWNER_NAME ||
 			!businessData.COMPANY_NAME ||
 			!businessData.MAIN_PRODUCT ||
 			(!isNone && businessData.IR_FILE.FILE_URL == '')
@@ -286,6 +287,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 				BUSINESS_SECTOR: businessData.BUSINESS_SECTOR,
 				COMPANY_NAME: businessData.COMPANY_NAME,
 				MAIN_PRODUCT: businessData.MAIN_PRODUCT,
+				OWNER_NAME: businessData.OWNER_NAME,
 				IR_FILE: JSON.stringify(businessData.IR_FILE),
 				PHONE_NUMBER: signupData,
 				USER_GRADE: tabs,
@@ -610,6 +612,20 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 					COMPANY_NAME: e.target.value,
 				});
 			},
+		},
+		{
+			label: '대표자명',
+			type: 'text',
+			// optional: true,
+			for: ['BUSINESS', 'GENERAL'],
+			value: businessData?.OWNER_NAME,
+			onChange: (e) => {
+				setBusinessData({
+					...businessData,
+					OWNER_NAME: e.target.value,
+				});
+			},
+			error: isShowError && !businessData?.OWNER_NAME,
 		},
 		{
 			label: '예상 서비스명(또는 아이템 한 줄 소개)',
