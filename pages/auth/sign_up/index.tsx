@@ -205,6 +205,7 @@ const Page: NextPage = () => {
 		if (
 			!signupData.BUSINESS_SECTOR ||
 			!signupData.MAIN_PRODUCT ||
+			!signupData.OWNER_NAME ||
 			!signupData.COMPANY_NAME ||
 			(!isNone && isShowError && irDeckFile.FILE_URL == '')
 		) {
@@ -472,7 +473,10 @@ const Page: NextPage = () => {
 			label: '대표자명',
 			type: 'text',
 			// optional: true,
-			for: [isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR'],
+			for: [
+				isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR',
+				'GENERAL',
+			],
 			value: signupData.OWNER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -855,6 +859,8 @@ const Page: NextPage = () => {
 														}
 													>
 														{tabs === 'GENERAL' &&
+															item.label !=
+																'대표자명' &&
 															stepNum == 1 &&
 															'예상 '}
 														{!item.nolabel &&

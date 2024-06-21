@@ -248,7 +248,9 @@ const Page: NextPage = () => {
 					</Typography>
 					{seminarData?.REAL_PRICE && (
 						<Typography variant={'body1'}>
-							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원
+							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
+							{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
+								11 && '(23일까지 얼리버드 가격)'}
 						</Typography>
 					)}
 					<Typography
