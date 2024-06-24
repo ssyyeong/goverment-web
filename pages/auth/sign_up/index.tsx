@@ -197,7 +197,7 @@ const Page: NextPage = () => {
 			return alert('사업자 등록번호를 확인해주세요.');
 
 		// 일반으로 가입할 경우를 위한 휴대폰번호 검증
-		if (!signupData.PHONE_NUMBER || signupData.PHONE_NUMBER?.length < 11)
+		if (!signupData.PHONE_NUMBER || signupData.PHONE_NUMBER?.length != 11)
 			return alert('정확한 휴대폰번호를 입력해주세요.');
 
 		// if (!isVerified) return alert('핸드폰 인증을 완료해주세요.');
@@ -473,10 +473,7 @@ const Page: NextPage = () => {
 			label: '대표자명',
 			type: 'text',
 			// optional: true,
-			for: [
-				isBusinessNumOk === 'OK' ? 'BUSINESS' : 'INVESTOR',
-				'GENERAL',
-			],
+			for: ['BUSINESS', 'GENERAL'],
 			value: signupData.OWNER_NAME,
 			onChange: (e) => {
 				setSignupData({
@@ -517,7 +514,7 @@ const Page: NextPage = () => {
 	const rightSideSignupDataConfig = [
 		{
 			label: '휴대폰번호',
-			type: 'phone',
+			type: 'number',
 			for: ['BUSINESS', 'GENERAL'],
 			// endAdornment: (
 			// 	<Button
@@ -1524,7 +1521,7 @@ const Page: NextPage = () => {
 
 													if (
 														signupData?.PHONE_NUMBER
-															?.length < 11
+															?.length != 11
 													)
 														return alert(
 															'정확한 휴대폰번호를 입력해주세요.'

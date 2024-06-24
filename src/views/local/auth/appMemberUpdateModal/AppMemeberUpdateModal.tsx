@@ -199,6 +199,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
+		// todo : 휴대폰번호 검증 로직 추가
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.COMPANY_NAME ||
@@ -265,6 +266,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	const updateAppMemberForGeneral = () => {
+		// todo : 휴대폰번호 검증 로직 추가
+
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.OWNER_NAME ||
@@ -319,7 +322,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	const signupDataConfig = [
 		{
 			label: '휴대폰번호',
-			type: 'phone',
+			type: 'number',
 			for: ['BUSINESS', 'GENERAL'],
 			// optional: props.needPhoneUpdate,
 			// endAdornment: (
