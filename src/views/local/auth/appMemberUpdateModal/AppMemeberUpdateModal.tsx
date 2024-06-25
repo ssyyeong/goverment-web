@@ -199,7 +199,9 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
-		// todo : 휴대폰번호 검증 로직 추가
+		if (signupData.length != 11)
+			return alert('올바른 전화번호를 입력해주세요.');
+
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.COMPANY_NAME ||
@@ -266,7 +268,8 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	const updateAppMemberForGeneral = () => {
-		// todo : 휴대폰번호 검증 로직 추가
+		if (signupData.length != 11)
+			return alert('올바른 전화번호를 입력해주세요.');
 
 		if (
 			!businessData.BUSINESS_SECTOR ||
