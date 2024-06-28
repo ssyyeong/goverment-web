@@ -255,8 +255,6 @@ const Page: NextPage = () => {
 					{seminarData?.REAL_PRICE !== 0 && (
 						<Typography variant={'body1'}>
 							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
-							{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
-								11 && '(23일까지 얼리버드 가격)'}
 						</Typography>
 					)}
 					<Typography
@@ -1204,10 +1202,10 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									110만원 → 99만원 (부가세 별도)
+									110만원 → 89만원 (부가세 별도)
 								</Typography>
 							</Typography>
-							<Typography
+							{/* <Typography
 								fontWeight={600}
 								variant="subtitle1"
 								color={'red'}
@@ -1240,7 +1238,7 @@ const Page: NextPage = () => {
 									</Typography>{' '}
 									(부가세 포함)
 								</Typography>
-							</Typography>
+							</Typography> */}
 							<Typography
 								sx={{
 									wordBreak: 'keep-all',
@@ -1937,7 +1935,7 @@ const Page: NextPage = () => {
 						: alertModalType == 'seminarApplySuccess'
 						? () => {
 								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}`
+									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}&productId=${seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
 								);
 						  }
 						: undefined

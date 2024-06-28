@@ -14,7 +14,8 @@ import moment from 'moment';
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType } = router.query;
+	const { paymentKey, orderId, amount, paymentType, find_option } =
+		router.query;
 	//* Controllers
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
@@ -41,7 +42,9 @@ const Page: NextPage = () => {
 					ORDER_ID: orderId, //주문ID
 					PAY_METHOD: payMethod, //결제방식
 				},
-				FIND_OPTION_KEY_LIST: {},
+				FIND_OPTION_KEY_LIST: {
+					SEMINAR_PRODUCT_IDENTIFICATION_CODE: find_option,
+				},
 			},
 			`${paymentHistoryController.mergedPath}/update`,
 			(res) => {
