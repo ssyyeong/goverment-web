@@ -54,7 +54,7 @@ const Page: NextPage = () => {
 				// router.push(route as string);
 			},
 			(err) => {
-				alert('결제 내역 생성 실패');
+				// alert('결제 내역 생성 실패');
 			}
 		);
 	};
