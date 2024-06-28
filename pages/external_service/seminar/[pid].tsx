@@ -246,7 +246,11 @@ const Page: NextPage = () => {
 							12 && ' (마감기한)'}
 					</Typography>
 					<Typography variant={'body1'}>
-						정원 : {seminarData?.PERSONNEL}명
+						정원 :{' '}
+						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 13
+							? '3'
+							: seminarData?.PERSONNEL}
+						명
 					</Typography>
 					{seminarData?.REAL_PRICE !== 0 && (
 						<Typography variant={'body1'}>
@@ -314,6 +318,7 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 				{seminarData?.DESCRIPTION &&
+					seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 13 &&
 					seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 11 &&
 					seminarData?.PAYMENT_LINK != '' && (
 						<Box
@@ -1268,6 +1273,474 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 
+				{seminarData?.PAYMENT_LINK ===
+					'https://supporti.biz/payment_link/11' && (
+					<Box width="100%">
+						<Box
+							maxHeight={isShowMore ? '100%' : '500px'}
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: 2,
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 프로그램 개요
+							</Typography>
+							<strong>프로그램명</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 사업 진출 및 오픈이노베이션 멘토링 프로그램
+							</Typography>
+							<strong>멘토</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								UNI Platform 김윤경님
+							</Typography>
+							<strong>목표</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								참가자들에게 일본 시장 진출을 위한 실질적인
+								전략과 노하우 제공
+								<br />
+								오픈이노베이션의 개념과 성공 사례를 통해
+								혁신적인 아이디어 창출을 지원
+								<br />
+								일본 비즈니스 환경 이해 및 네트워크 구축 지원
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 대상
+							</Typography>
+							<strong>참가 대상</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 시장에 진출을 계획하고 있는 한국 스타트업
+								및 중소 기업
+								<br />
+								오픈이노베이션을 통한 혁신을 추구하는 기업 및
+								예비 창업자
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 프로그램 구조
+							</Typography>
+							<strong>모집 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								7.1 ~ 7.15
+							</Typography>
+							<strong>프로그램 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								7.17(수), 7.18(목), 7.22(월), 7.24(수),
+								7.25(목), 7.31(수) 의 11:00-12:10 중 이틀 선택
+								<br />
+								(날짜는 선착순으로 마감됩니다.)
+							</Typography>
+							<strong>형태</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								온라인
+								<br />주 1회 70분 x 2회 온라인 멘토링 및
+								질의응답
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 강의 목록
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'red'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									alignItems: 'center',
+								}}
+							>
+								[1회차]
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>chapter 1 :</strong> 오리엔테이션 및
+								일본 시장 개요 및 일본 비즈니스 문화와 네트워크
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 시장의 특성 및 진출 시 고려사항
+								<br />
+								일본 비즈니스 문화의 이해
+								<br />
+								성공적인 네트워킹 전략
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>chapter 2 :</strong> 협력 및 파트너십
+								전략 및 제품 및 서비스 현지화 전략
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 기업과의 협력 방안
+								<br />
+								파트너십 구축을 위한 전략
+								<br />
+								일본 소비자 특성 분석
+								<br />
+								현지화 전략 수립
+							</Typography>
+							<Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'red'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									alignItems: 'center',
+								}}
+							>
+								[2회차]
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>chapter 3 :</strong> 일본 진출 한국
+								스타트업의 사례
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								B2C 사례
+								<br />
+								B2B 사례
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>chapter 4 :</strong> 자금 조달 및 투자
+								유치 네트워킹 및 Q&A
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본에서의 자금 조달 방법
+								<br />
+								투자 유치 전략 및 준비사항
+								<br />
+								일본 현지 비즈니스 전문가 및 투자사와의 네트워킹
+								<br />
+								Q&A 및 멘토링 세션
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 지원 내용
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 현지 전문가와의 1:1 멘토링
+								<br />
+								일본 시장 조사 및 진출 전략 수립 지원
+								<br />
+								오픈이노베이션 관련 자료 및 성공 사례 제공
+								<br />
+								현지 네트워킹 행사 초청 및 참여
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 기대 효과
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								일본 시장에 대한 깊이 있는 이해와 진출 전략 확보
+								<br />
+								오픈이노베이션을 통한 혁신적 아이디어 및 사업
+								기회 발굴
+								<br />
+								일본 내 비즈니스 네트워크 구축 및 파트너십 형성
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 신청 방법
+							</Typography>
+							<strong>신청 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								2024년 7월 1일 ~ 2024년 7월 31일
+							</Typography>
+							<strong>신청 방법</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								온라인 신청서 작성 및 제출
+							</Typography>
+							<strong>문의처</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								이메일 : leanoncompany@gmail.com
+								<br />
+								전화 : 010-5676-4066
+							</Typography>
+							<Box my={2} />
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 금액
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								30만원 (부가세 별도)
+								<br />총 2회 선택 금액
+							</Typography>
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								* 강연자 기본 설명
+							</Typography>
+							<img
+								src={'/images/seminar/Untitled (3).png'}
+								alt=""
+								width={'100%'}
+							/>
+
+							<img
+								src={'/images/seminar/Untitled (1).png'}
+								alt=""
+								width={'100%'}
+							/>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+									my: 2,
+									py: 2,
+								}}
+								variant="subtitle1"
+							>
+								한국과 일본은 하나의 경제권! 양국의 강력한
+								협력체제로 Asia to Global 실현에 공헌하는 UNI
+								Platform 김윤경 입니다. 여러분의 일본사업과
+								관련된 진출지원/진출이후 사업확장 및
+								일본기업과의 제휴/VC 등의 투자유치 등을
+								지원합니다.
+							</Typography>
+							<Box my={2} />
+						</Box>
+
+						{/* <SupportiButton
+							contents={'클릭해서 더보기 💡'}
+							onClick={() => {
+								setIsShowMore(true);
+							}}
+							style={{
+								color: 'common.black',
+								width: '100%',
+								height: '80px',
+								my: 5,
+
+								mx: 'auto',
+							}}
+						/> */}
+					</Box>
+				)}
+
 				{/* 그룹 신청 가능 인원 및 정보 */}
 				{seminarData?.SeminarGroups?.length > 0 && (
 					<Box
@@ -1295,11 +1768,18 @@ const Page: NextPage = () => {
 										my={1}
 									>
 										<Typography variant={'body1'} mr={2}>
-											그룹이름: {item.NAME}
+											그룹이름:{' '}
+											<strong>{item.NAME}</strong>
 										</Typography>
-										<Typography variant={'body1'} mr={2}>
-											정원: {item.PERSONNEL}명
-										</Typography>
+										{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !==
+											13 && (
+											<Typography
+												variant={'body1'}
+												mr={2}
+											>
+												정원: {item.PERSONNEL}명
+											</Typography>
+										)}
 										<Typography variant={'body1'} mr={2}>
 											현재{' '}
 											{
@@ -1351,7 +1831,14 @@ const Page: NextPage = () => {
 								setSeminarGroup(e.target.value);
 							}}
 						>
-							{seminarData?.SeminarGroups.map((item, index) => {
+							{seminarData?.SeminarGroups.sort(function compare(
+								a,
+								b
+							) {
+								if (a.DESCRIPTION > b.DESCRIPTION) return 1;
+								if (a.DESCRIPTION < b.DESCRIPTION) return -1;
+								return 0;
+							}).map((item, index) => {
 								return (
 									<FormControlLabel
 										key={index.toString()}
