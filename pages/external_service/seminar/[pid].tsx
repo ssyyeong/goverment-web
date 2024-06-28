@@ -1756,7 +1756,14 @@ const Page: NextPage = () => {
 						<Typography variant={'subtitle1'} fontWeight={600}>
 							그룹 신청 가능 인원 및 정보
 						</Typography>
-						{seminarData?.SeminarGroups.map((item, index) => {
+						{seminarData?.SeminarGroups?.sort(function compare(
+							a,
+							b
+						) {
+							if (a.DESCRIPTION > b.DESCRIPTION) return 1;
+							if (a.DESCRIPTION < b.DESCRIPTION) return -1;
+							return 0;
+						}).map((item, index) => {
 							return (
 								<>
 									<Box
