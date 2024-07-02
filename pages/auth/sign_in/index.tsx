@@ -2,16 +2,8 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import {
-	Avatar,
-	Box,
-	BoxProps,
-	Container,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Avatar, Box, TextField, Typography } from '@mui/material';
 import SocialLogin from '../../../src/modules/SocialLogin';
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
@@ -157,7 +149,7 @@ const Page: NextPage = () => {
 						label={'자동 로그인'}
 						width={'120px'}
 					/>
-					{/* <Box display={'flex'} alignItems={'center'} gap={0.5}>
+					<Box display={'flex'} alignItems={'center'} gap={0.5}>
 						<Typography
 							variant="subtitle2"
 							sx={{
@@ -177,7 +169,7 @@ const Page: NextPage = () => {
 						>
 							비밀번호 찾기
 						</Typography>
-					</Box> */}
+					</Box>
 				</Box>
 				{/* 소셜로그인 */}
 				<Box display={'flex'} justifyContent={'space-between'}>

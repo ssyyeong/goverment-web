@@ -2,10 +2,9 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import { Box, BoxProps, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import SignUpLayout from '../../../src/views/local/sign_up/SignUpLayout';
 import { useRouter } from 'next/router';
-import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { emailRegex, passwordRegex } from '../../../configs/regex/regex';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
@@ -29,9 +28,9 @@ const Page: NextPage = () => {
 	//*Functions
 
 	/**
-	 * 알림톡 발송
+	 * SNS 발송
 	 */
-	const sendAlimTalk = () => {
+	const sendSns = () => {
 		if (!signupData.PHONE_NUMBER)
 			return alert('휴대폰번호를 입력해주세요.');
 		if (!signupData.USER_NAME) return alert('이메일을 입력해주세요.');
@@ -125,7 +124,7 @@ const Page: NextPage = () => {
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
-					onClick={() => sendAlimTalk()}
+					onClick={() => sendSns()}
 					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>

@@ -121,7 +121,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	/**
 	 * 알림톡 발송
 	 */
-	const sendAlimTalk = () => {
+	const sendSns = () => {
 		if (signupData == undefined) {
 			alert('휴대폰번호를 입력해주세요.');
 			return;
@@ -327,24 +327,24 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 			label: '휴대폰번호',
 			type: 'number',
 			for: ['BUSINESS', 'GENERAL'],
-			// optional: props.needPhoneUpdate,
-			// endAdornment: (
-			// 	<Button
-			// 		variant="contained"
-			// 		sx={{
-			// 			backgroundColor: '#d1d1d1',
-			// 		}}
-			// 		onClick={() => {
-			// 			console.log('sendAlimTalk', signupData);
-			// 			sendAlimTalk();
-			// 		}}
-			// 		disabled={isVerified === 'OK'}
-			// 	>
-			// 		<Typography variant="body2" color={'white'} width={100}>
-			// 			인증 받기
-			// 		</Typography>
-			// 	</Button>
-			// ),
+			optional: props.needPhoneUpdate,
+			endAdornment: (
+				<Button
+					variant="contained"
+					sx={{
+						backgroundColor: '#d1d1d1',
+					}}
+					onClick={() => {
+						console.log('sendSns', signupData);
+						sendSns();
+					}}
+					disabled={isVerified === 'OK'}
+				>
+					<Typography variant="body2" color={'white'} width={100}>
+						인증 받기
+					</Typography>
+				</Button>
+			),
 			value: signupData,
 			isVerified: isVerified,
 			onChange: (e) => {

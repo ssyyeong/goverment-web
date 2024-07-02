@@ -56,9 +56,9 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 		React.useState<boolean>(false);
 	//* Functions
 	/**
-	 * 알림톡 발송
+	 * SNS 발송
 	 */
-	const sendAlimTalk = () => {
+	const sendSns = () => {
 		if (!signupData.PHONE_NUMBER)
 			return alert('휴대폰번호를 입력해주세요.');
 		appMemberController.sendAuthCode(
@@ -236,7 +236,7 @@ const ProfileUpdateModal = (props: IProfileUpdateModalProps) => {
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
-					onClick={() => sendAlimTalk()}
+					onClick={() => sendSns()}
 					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>
