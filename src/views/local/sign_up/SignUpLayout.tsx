@@ -11,7 +11,7 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 			alignItems={'center'}
 			justifyContent={'center'}
 			bgcolor={'primary.light'}
-			p={{ xs: 2, md: 10 }}
+			p={{ xs: 0, md: 10 }}
 		>
 			<Box
 				width={{ sx: '100%', md: '1000px' }}
@@ -25,7 +25,12 @@ const SignUpLayout = (props: ISignUpLayoutProps) => {
 					style={{ width: 230, margin: 'auto' }}
 				/>
 				<Box
-					px={6}
+					sx={{
+						px: {
+							xs: 2,
+							sm: 6,
+						},
+					}}
 					py={5}
 					display={'flex'}
 					flexDirection={'column'}

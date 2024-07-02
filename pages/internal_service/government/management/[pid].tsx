@@ -1115,7 +1115,7 @@ const Page: NextPage = () => {
 					)}
 				{/* 디테일 모달 */}
 				{detailData && (
-					<Box key={detailModal.toString()}>
+					<Box key={detailModal && detailModal?.toString()}>
 						<SupportBusinessModal
 							modalOpen={detailModal}
 							setModalOpen={setDetailModal}

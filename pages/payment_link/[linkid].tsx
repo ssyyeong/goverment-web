@@ -24,6 +24,7 @@ const Page: NextPage = () => {
 	//* Modules
 	const { linkid } = useRouter().query;
 	const { userName } = useRouter().query;
+	const { productName, productId } = useRouter().query;
 	const router = useRouter();
 	const { memberId } = useAppMember();
 
@@ -68,6 +69,8 @@ const Page: NextPage = () => {
 	 * 토스 결제 실행
 	 */
 	const tossPay = () => {
+		if (!memberId) return alert('로그인 후 결제해주세요!');
+
 		if (customerName === '') {
 			alert('결제자 아이디를 입력해주세요!');
 			return;
@@ -78,7 +81,7 @@ const Page: NextPage = () => {
 			{
 				CREATE_OPTION_KEY_LIST: {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					DESCRIPTION: '세미나 단건 결제',
+					DESCRIPTION: '세미나 단건 결제' + '(' + productName + ')',
 					AMOUNT: Number(amount),
 					TYPE: 'TICKET',
 					ORDER_ID: orderId,
@@ -99,7 +102,7 @@ const Page: NextPage = () => {
 						successUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST +
 							`/toss/link_success` +
-							`?route=${router.asPath}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+							`?route=${router.asPath}&find_option=${productId}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
 						failUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
 						validHours: 24, // 유효시간
@@ -214,7 +217,12 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 				{caution !== '' && (
-					<Box display={'flex'} alignItems={'center'} gap={5}>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						gap={5}
+						flexWrap={'wrap'}
+					>
 						<Box display={'flex'} gap={1}>
 							<Typography variant="h6" fontWeight={'bold'}>
 								주의사항

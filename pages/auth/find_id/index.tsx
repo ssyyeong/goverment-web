@@ -2,17 +2,9 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import {
-	Box,
-	BoxProps,
-	Button,
-	Link,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Box, Button, Link, TextField, Typography } from '@mui/material';
 import SignUpLayout from '../../../src/views/local/sign_up/SignUpLayout';
 import { useRouter } from 'next/router';
-import { AlimTalkController } from '../../../src/controller/AlimTalkController';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';
 
@@ -34,10 +26,11 @@ const Page: NextPage = () => {
 	//*Functions
 
 	/**
-	 * 알림톡 발송
+	 * SNS 발송
 	 */
-	const sendAlimTalk = () => {
-		if (!signupData.PHONE_NUMBER) return alert('전화번호를 입력해주세요.');
+	const sendSns = () => {
+		if (!signupData.PHONE_NUMBER)
+			return alert('휴대폰번호를 입력해주세요.');
 		appMemberController.sendFindAccountAuthCode(
 			{
 				PHONE_NUMBER: signupData.PHONE_NUMBER,
@@ -78,7 +71,7 @@ const Page: NextPage = () => {
 	//* Constants
 	const signupDataConfig = [
 		{
-			label: '전화번호',
+			label: '휴대폰번호',
 			type: 'phone',
 			for: ['BUSINESS', 'GENERAL'],
 			endAdornment: (
@@ -87,7 +80,7 @@ const Page: NextPage = () => {
 					sx={{
 						backgroundColor: '#d1d1d1',
 					}}
-					onClick={() => sendAlimTalk()}
+					onClick={() => sendSns()}
 					disabled={isVerified === 'OK'}
 				>
 					<Typography variant="body2" color={'white'} width={100}>

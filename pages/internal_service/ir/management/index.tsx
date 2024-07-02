@@ -114,7 +114,7 @@ const Page: NextPage = () => {
 			placeholder: '사업자등록증 상의 업종을 입력해주세요.',
 		},
 		{
-			label: '설립일자(연/월)',
+			label: '설립연도/월',
 			value: 'ESTABLISHMENT_DATE',
 			type: 'datepicker',
 		},
@@ -127,7 +127,7 @@ const Page: NextPage = () => {
 			value: 'HOME_PAGE',
 		},
 		{
-			label: '연락처',
+			label: '휴대폰번호',
 			value: 'CONTACT_NUMBER',
 		},
 	];
@@ -600,7 +600,7 @@ const Page: NextPage = () => {
 										fontWeight={'600'}
 										display={'flex'}
 									>
-										IR자료 또는 사업 계획서{' '}
+										IR자료(또는 사업 계획서){' '}
 										{isEdit && (
 											<Typography
 												fontWeight={'600'}

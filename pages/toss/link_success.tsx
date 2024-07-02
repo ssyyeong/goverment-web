@@ -9,11 +9,13 @@ import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAppMember } from '../../src/hooks/useAppMember';
 import dayjs from 'dayjs';
+import moment from 'moment';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType } = router.query;
+	const { paymentKey, orderId, amount, paymentType, find_option } =
+		router.query;
 	//* Controllers
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
@@ -31,16 +33,18 @@ const Page: NextPage = () => {
 	/**
 	 * 결제 내역 생성
 	 */
-	const createPaymentHistory = () => {
+	const createPaymentHistory = (payMethod) => {
 		paymentHistoryController.putData(
 			{
 				UPDATE_OPTION_KEY_LIST: {
 					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
 					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
 					ORDER_ID: orderId, //주문ID
-					PAY_METHOD: virtualAccount ? 'VIRTUAL_ACCOUNT' : 'CARD', //결제방식
+					PAY_METHOD: payMethod, //결제방식
 				},
-				FIND_OPTION_KEY_LIST: {},
+				FIND_OPTION_KEY_LIST: {
+					SEMINAR_PRODUCT_IDENTIFICATION_CODE: find_option,
+				},
 			},
 			`${paymentHistoryController.mergedPath}/update`,
 			(res) => {
@@ -50,7 +54,7 @@ const Page: NextPage = () => {
 				// router.push(route as string);
 			},
 			(err) => {
-				alert('결제 내역 생성 실패');
+				// alert('결제 내역 생성 실패');
 			}
 		);
 	};
@@ -85,17 +89,23 @@ const Page: NextPage = () => {
 				setLoading(false);
 
 				if (response.data.virtualAccount == null) {
+					window.alert(
+						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
+					);
+					createPaymentHistory('CARD');
 					router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
+					createPaymentHistory('VIRTUAL_ACCOUNT');
 				}
 
-				createPaymentHistory();
-
-				window.alert(
-					'결제 및 신청이 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다'
-				);
 				// router.back();
+			})
+			.catch((e) => {
+				console.log(e);
+				console.log(e.response.data.message);
+				alert(e.response.data.message);
+				router.push('/');
 			});
 	};
 	//* Hooks
@@ -127,7 +137,9 @@ const Page: NextPage = () => {
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
-					{virtualAccount == null ? '결제가 완료되었습니다!' : ''}
+					{virtualAccount == null
+						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
+						: ''}
 				</span>
 			</LoadingButton>
 			{virtualAccount == null ? (
@@ -158,14 +170,23 @@ const Page: NextPage = () => {
 						{virtualAccount?.bank} {virtualAccount?.accountNumber}
 					</Typography>
 					<Typography variant="h3" fontWeight={'bold'}>
-						{dayjs(virtualAccount?.dueDate).format(
-							'YYYY.MM.DD(ddd) hh:mm'
-						)}{' '}
+						{moment(virtualAccount?.dueDate).format(
+							'YYYY-MM-DD HH:mm'
+						)}
 						까지 입금 바랍니다.
 					</Typography>
-					<Typography color={'red'}>
-						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. 확인
-						후 페이지를 벗어나주세요!
+					<Typography color={'red'} textAlign={'center'}>
+						해당 페이지를 벗어날 시 계좌 확인이 불가능합니다. <br />
+						확인 후 페이지를 벗어나주세요!
+					</Typography>
+
+					<Typography
+						fontWeight={'bold'}
+						textAlign={'center'}
+						variant="h3"
+					>
+						⚠️ 입금내역 확인 후 결제처리 및 최종신청 완료가 되오니,
+						꼭 유의해주세요 ⚠️
 					</Typography>
 				</Box>
 			)}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Button } from '@mui/material';
+import SupportiButton from '../SupportiButton';
 
 interface ISupportiTabProps {
 	/**
@@ -78,35 +79,66 @@ const SupportiTab = (props: ISupportiTabProps) => {
 							direction: 'row',
 							paddingTop: '50px',
 							flexWrap: 'wrap',
+							gap: 1.5,
 						}}
 					>
 						{props.tabList.map((tab, idx) => (
-							<Button
+							<SupportiButton
 								key={idx}
+								contents={tab}
+								variant="contained"
 								onClick={() => props.setValue(tab)}
-								sx={{
+								style={{
+									width: {
+										xs: '100px',
+										sm: '200px',
+									},
+									wordBreak: 'keep-all',
 									px: {
 										xs: 'auto',
-										sm: '50px',
+										sm: '20px',
 									},
 									py: {
 										xs: 'auto',
 										sm: '15px',
 									},
-									marginRight: '20px',
-									borderRadius: '15px',
 									backgroundColor:
 										props.value == tab
 											? 'primary.main'
 											: 'grey.300',
 									color:
 										props.value == tab
-											? 'white'
+											? 'common.white'
 											: 'primary.main',
+									borderRadius: '15px',
 								}}
-							>
-								{tab}
-							</Button>
+							/>
+							// <Button
+							// 	key={idx}
+							// 	onClick={() => props.setValue(tab)}
+							// 	sx={{
+							// 		px: {
+							// 			xs: 'auto',
+							// 			sm: '50px',
+							// 		},
+							// 		py: {
+							// 			xs: 'auto',
+							// 			sm: '15px',
+							// 		},
+							// 		marginRight: '20px',
+							// 		borderRadius: '15px',
+							// 		backgroundColor:
+							// 			props.value == tab
+							// 				? 'primary.main'
+							// 				: 'grey.300',
+							// 		color:
+							// 			props.value == tab
+							// 				? 'common.white'
+							// 				: 'primary.main',
+							// 	}}
+							// >
+							// 	{tab}
+							// </Button>
 						))}
 					</Box>
 					<Box

@@ -321,13 +321,13 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		},
 		seminarApplySuccess: {
 			type: 'success',
-			title: '신청완료 되었습니다.(결제 링크로 넘어갑니다.)',
+			title: '결제 링크로 넘어갑니다.',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
 				props.customHandleClose && props.customHandleClose();
 			},
-			cancelButtonAvailable: true,
+			cancelButtonAvailable: false,
 		},
 		unAccess: {
 			type: 'error',

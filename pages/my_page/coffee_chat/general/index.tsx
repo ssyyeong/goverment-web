@@ -351,7 +351,7 @@ const Page: NextPage = () => {
 													variant="body2"
 													fontWeight={'600'}
 												>
-													전화번호
+													휴대폰번호
 												</Typography>
 												<Typography
 													width={'90%'}

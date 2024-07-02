@@ -18,7 +18,7 @@ const businessConfig: {
 	},
 	{
 		key: 'ESTABLISHMENT_DATE',
-		label: '설립일자(연/월)',
+		label: '설립연도/월',
 		type: 'datepicker',
 	},
 	{
@@ -56,7 +56,7 @@ const businessConfig: {
 	},
 	{
 		key: 'COMPANY_NUMBER',
-		label: '전화번호',
+		label: '휴대폰번호',
 	},
 	{
 		key: 'COMPANY_ADDRESS',

@@ -191,7 +191,7 @@ const AccountCalculation = (props: IAccountCalculationProps) => {
 			{/* PC */}
 			<Box
 				sx={{
-					width: { md: `calc(100% - 300px)`, xs: '100%' },
+					width: { md: '100%', xs: '100%' },
 					backgroundImage:
 						'linear-gradient(to bottom, #262626, #000)',
 					// height: '150px',

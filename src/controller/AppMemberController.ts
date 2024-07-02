@@ -128,7 +128,7 @@ export class AppMemberController extends ControllerABC {
 		);
 	}
 
-	//* 전화번호 중복
+	//* 휴대폰번호 중복
 	public checkPhoneNumber(
 		args: { [key: string]: any },
 		successCallback?: (response: any) => void,

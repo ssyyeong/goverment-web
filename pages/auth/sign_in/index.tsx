@@ -2,16 +2,8 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import {
-	Avatar,
-	Box,
-	BoxProps,
-	Container,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Avatar, Box, TextField, Typography } from '@mui/material';
 import SocialLogin from '../../../src/modules/SocialLogin';
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { AppMemberController } from '../../../src/controller/AppMemberController';

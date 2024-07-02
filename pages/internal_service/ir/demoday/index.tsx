@@ -53,7 +53,7 @@ const Page: NextPage = () => {
 	 */
 	const [userIrData, setUserIrData] = React.useState<boolean>(false);
 	/**
-	 * 유저 전화번호
+	 * 유저 휴대폰번호
 	 */
 	const [irContactNum, setIrContactNum] = React.useState<string>('');
 	/**

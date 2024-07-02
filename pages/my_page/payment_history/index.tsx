@@ -10,6 +10,7 @@ import { TableHeaderProps } from '../../../src/views/global/SupportiTable/Suppor
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import InternalServiceDrawer from '../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import Nodata from '../../../src/views/global/NoData/NoData';
+import addCommaToNumber from '../../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -119,7 +120,9 @@ const Page: NextPage = () => {
 								colums={[
 									{
 										label: '금액',
-										value: item.AMOUNT,
+										value:
+											addCommaToNumber(item.AMOUNT) +
+											' 원',
 									},
 									{
 										label: '결제일',
@@ -129,7 +132,7 @@ const Page: NextPage = () => {
 														'T'
 												  )[0]
 												: '취소'
-										} 원`,
+										} `,
 									},
 								]}
 							/>

@@ -17,6 +17,7 @@ import InternalServiceDrawer from '../../../src/views/local/internal_service/com
 import { SeminarApplicationController } from '../../../src/controller/SeminarApplicationController';
 import MobileTableRow from '../../../src/views/local/external_service/mobileTableRow/MobileTableRow';
 import Nodata from '../../../src/views/global/NoData/NoData';
+import addCommaToNumber from '../../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -266,8 +267,9 @@ const Page: NextPage = () => {
 									{
 										label: '금액',
 										value:
-											item.SeminarProduct.REAL_PRICE +
-											'원',
+											addCommaToNumber(
+												item.SeminarProduct.REAL_PRICE
+											) + '원',
 									},
 									{
 										label: '일정',

@@ -138,7 +138,11 @@ const SupportiTable = (props: ISupportiTableProps) => {
 								<TableCell
 									key={column.value}
 									align={column.align}
-									style={{ minWidth: column.minWidth }}
+									style={{
+										minWidth: column.minWidth,
+										textAlign: 'center',
+										wordBreak: 'keep-all',
+									}}
 								>
 									{column.label}
 								</TableCell>
@@ -164,6 +168,7 @@ const SupportiTable = (props: ISupportiTableProps) => {
 										cursor: props.onClick
 											? 'pointer'
 											: 'default',
+										wordBreak: 'keep-all',
 									}}
 								>
 									{props.headerData.map((column) => {
@@ -211,6 +216,10 @@ const SupportiTable = (props: ISupportiTableProps) => {
 													/>
 												) : (
 													<Typography
+														sx={{
+															wordBreak:
+																'keep-all',
+														}}
 														color={
 															column.customFormat
 																? column.customFormat(

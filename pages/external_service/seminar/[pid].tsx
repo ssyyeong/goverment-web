@@ -21,6 +21,7 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import dynamic from 'next/dynamic';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -33,6 +34,16 @@ const Page: NextPage = () => {
 	const appMemberController = new DefaultController('AppMember');
 	//* Constants
 	const { pid } = router.query;
+
+	const SupportiViewer = dynamic(
+		() =>
+			import(
+				'../../../src/views/local/internal_service/contents/ToastViewer/ToastViewer'
+			),
+		{
+			ssr: false,
+		}
+	);
 
 	//* States
 	/**
@@ -161,22 +172,25 @@ const Page: NextPage = () => {
 	};
 
 	const checkApplication = () => {
+		let result = false;
+
 		if (seminarData?.SeminarApplications) {
 			for (let i = 0; i < seminarData.SeminarApplications.length; i++) {
 				if (
-					seminarData.SeminarApplications[i].USE_YN === 'Y' &&
+					seminarData.SeminarApplications[i].USE_YN == 'Y' &&
+					seminarData.SeminarApplications[i].CANCELED_YN == 'N' &&
+					seminarData.SeminarApplications[i].PAYMENT_YN == 'Y' &&
 					seminarData.SeminarApplications[i]
-						.APP_MEMBER_IDENTIFICATION_CODE === memberId
+						.APP_MEMBER_IDENTIFICATION_CODE == memberId
 				) {
-					return true;
+					result = true;
 				}
-				return false;
 			}
-			return false;
 		}
-		return false;
+		return result;
 	};
 
+	console.log(seminarData);
 	//* Hooks
 	/**
 	 * 세미나 데이터 조회
@@ -228,13 +242,19 @@ const Page: NextPage = () => {
 				>
 					<Typography variant={'body1'}>
 						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
+						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
+							12 && ' (마감기한)'}
 					</Typography>
 					<Typography variant={'body1'}>
-						정원 : {seminarData?.PERSONNEL}명
+						정원 :{' '}
+						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 13
+							? '3'
+							: seminarData?.PERSONNEL}
+						명
 					</Typography>
-					{seminarData?.REAL_PRICE && (
+					{seminarData?.REAL_PRICE !== 0 && (
 						<Typography variant={'body1'}>
-							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원
+							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
 						</Typography>
 					)}
 					<Typography
@@ -296,6 +316,7 @@ const Page: NextPage = () => {
 					</Box>
 				)}
 				{seminarData?.DESCRIPTION &&
+					seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 13 &&
 					seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !== 11 &&
 					seminarData?.PAYMENT_LINK != '' && (
 						<Box
@@ -405,13 +426,53 @@ const Page: NextPage = () => {
 						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
 							(item, index) => {
 								return (
-									<Box key={index}>
-										<img src={item} alt="" width={'65%'} />
-									</Box>
+									<>
+										<Box
+											key={index}
+											sx={{
+												display: {
+													xs: 'none',
+													sm: 'block',
+												},
+											}}
+										>
+											<img
+												src={item}
+												alt=""
+												width={'75%'}
+											/>
+										</Box>
+										<Box
+											key={index}
+											sx={{
+												display: {
+													sm: 'none',
+													xs: 'block',
+												},
+											}}
+										>
+											<img
+												src={item}
+												alt=""
+												width={'100%'}
+											/>
+										</Box>
+									</>
 								);
 							}
 						)}
 				</Box>
+
+				{/* {seminarData?.LONG_DESCRIPTION && (
+					<Box
+						width={'100%'}
+						sx={{
+							p: { sm: 10, xs: 2 },
+						}}
+					>
+						<SupportiViewer data={seminarData?.LONG_DESCRIPTION} />
+					</Box>
+				)} */}
 
 				{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 11 && (
 					<Box width="100%">
@@ -663,7 +724,8 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									모의 데모데이 및 시상식
+									모의 데모데이 및 시상식(TIPS 운용사 및
+									투자자 초청해 팁스 투자 검토 등)
 								</Typography>
 							</Typography>
 
@@ -692,7 +754,7 @@ const Page: NextPage = () => {
 									flexWrap: 'wrap',
 								}}
 							>
-								* 1팀:{' '}
+								* A반:{' '}
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
@@ -715,7 +777,7 @@ const Page: NextPage = () => {
 									flexWrap: 'wrap',
 								}}
 							>
-								* 2팀:{' '}
+								* B반:{' '}
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
@@ -806,13 +868,15 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									1팀 매주 화요일 7월 2일 시작 (2일, 9일,
-									16일, 23일) - 4주 강의 진행
+									<b>A반</b> <br />
+									- 매주 화요일 7월 2일 시작 (2일, 9일, 16일,
+									23일) - 4주 강의 진행
 									<br />
-									2팀 매주 목요일 7월 4일 시작 (4일, 11일,
-									18일, 25일) - 4주 강의 진행
+									<b>B반</b> <br />
+									- 매주 목요일 7월 4일 시작 (4일, 11일, 18일,
+									25일) - 4주 강의 진행
 									<br />
-									5주차 7월 30일 화요일 1,2팀 모의데모데이
+									5주차 7월 30일 화요일 1,B반 모의데모데이
 									진행
 									<br />
 								</Typography>
@@ -876,9 +940,9 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									1팀 - 강남역 부근 세미나실
+									A반 - 강남역 부근 세미나실
 									<br />
-									2팀 - 평촌역 부근 세미나실
+									B반 - 평촌역 부근 세미나실
 									<br />
 								</Typography>
 							</Typography>
@@ -980,7 +1044,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								제공 혜택
+								🎁 제공 혜택
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -1116,7 +1180,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 								}}
 							>
-								비용
+								💵 비용
 							</Typography>
 							<Typography
 								fontWeight={600}
@@ -1138,9 +1202,43 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									110만원 → 99만원 (부가세 별도)
+									110만원 → 89만원 (부가세 별도)
 								</Typography>
 							</Typography>
+							{/* <Typography
+								fontWeight={600}
+								variant="subtitle1"
+								color={'red'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									alignItems: 'center',
+								}}
+							>
+								🎉 6월 23일까지 20% 할인
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 0.5,
+									}}
+									variant="subtitle1"
+									display={'flex'}
+									flexWrap={'wrap'}
+									gap={1}
+									alignItems={'center'}
+								>
+									<Typography
+										fontWeight={600}
+										variant="subtitle1"
+									>
+										→ 792,000원
+									</Typography>{' '}
+									(부가세 포함)
+								</Typography>
+							</Typography> */}
 							<Typography
 								sx={{
 									wordBreak: 'keep-all',
@@ -1154,838 +1252,470 @@ const Page: NextPage = () => {
 							</Typography>
 
 							<Box my={2} />
-							{/* <Typography
+						</Box>
+
+						{/* <SupportiButton
+							contents={'클릭해서 더보기 💡'}
+							onClick={() => {
+								setIsShowMore(true);
+							}}
+							style={{
+								color: 'common.black',
+								width: '100%',
+								height: '80px',
+								my: 5,
+
+								mx: 'auto',
+							}}
+						/> */}
+					</Box>
+				)}
+
+				{seminarData?.PAYMENT_LINK ===
+					'https://supporti.biz/payment_link/11' && (
+					<Box width="100%">
+						<Box
+							maxHeight={isShowMore ? '100%' : '500px'}
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: 2,
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+							}}
+						>
+							<Typography
 								fontWeight={700}
-								variant="h2"
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
-									lineHeight: '20px',
+									lineHeight: '22px',
 								}}
 							>
-								1. 프로그램 개요
+								📢 프로그램 개요
 							</Typography>
+							<strong>프로그램명</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 일본 사업 진출 및 오픈이노베이션 멘토링
+								프로그램
+							</Typography>
+							<strong>멘토</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* UNI Platform 김윤경님
+							</Typography>
+							<strong>목표</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 참가자들에게 일본 시장 진출을 위한 실질적인
+								전략과 노하우 제공
+								<br />
+								* 오픈이노베이션의 개념과 성공 사례를 통해
+								혁신적인 아이디어 창출을 지원
+								<br />* 일본 비즈니스 환경 이해 및 네트워크 구축
+								지원
+							</Typography>
+
 							<Box my={2} />
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								프로그램 이름:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									서포티 투자 IR 시크릿 캠프
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								목표:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									초기 스타트업이 투자에 필요한 지식과 기술을
-									습득하고, 실제 투자 유치 기회를 얻을 수
-									있도록 지원.
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								기간:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									5주 (주 1회, 총 5회)
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								대상:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									초기 스타트업 창업자 및 핵심 멤버 (10개 팀
-									선발)
-								</Typography>
-							</Typography>
-							<Box my={3.5} />
+
 							<Typography
 								fontWeight={700}
-								variant="h4"
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
-									lineHeight: '20px',
+									lineHeight: '22px',
 								}}
 							>
-								💁‍♂️ 무엇을 제공하나요?
+								🙆‍♂️ 대상
+							</Typography>
+							<strong>참가 대상</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 일본 시장에 진출을 계획하고 있는 한국 스타트업
+								및 중소 기업
+								<br />* 오픈이노베이션을 통한 혁신을 추구하는
+								기업 및 예비 창업자
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+							>
+								⚙️ 프로그램 구조
+							</Typography>
+							<strong>모집 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 7.1 ~ 7.15
+							</Typography>
+							<strong>프로그램 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 7.17(수), 7.18(목), 7.22(월), 7.24(수),
+								7.25(목), 7.31(수) 의 11:00-12:10 중 이틀 선택
+								<br />
+								(날짜는 선착순으로 마감됩니다.)
+							</Typography>
+							<strong>형태</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								* 온라인
+								<br />* 주 1회 70분 x 2회 온라인 멘토링 및
+								질의응답
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+							>
+								📔 강의 목록
 							</Typography>
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 실습 중심의 교육:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 1,
-									}}
-									variant="subtitle1"
-								>
-									말뿐인 강의가 아닌, 직접 사업계획서를
-									작성하고 전문가의 코칭을 받는 실습 중심의
-									교육을 제공합니다.
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 투자 유치용 사업계획서 작성:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 1,
-									}}
-									variant="subtitle1"
-								>
-									4주가 끝났을 때, 당장 투자 유치를 할 수 있는
-									완성된 사업계획서를 보유하게 됩니다.
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
+								color={'red'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
+									alignItems: 'center',
 								}}
 							>
-								* IR 기회 제공:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 1,
-									}}
-									variant="subtitle1"
-								>
-									우수 기업에게는 린온컴퍼니의 자체 보유 펀드,
-									프로젝트 펀드, 팁스(TIPS) 운영사의 투자 검토
-									기회를 제공합니다. 최소 2~3회 이상의
-									투자자와의 직접 IR 기회를 가질 수 있습니다.
-								</Typography>
+								[1회차]
 							</Typography>
+
 							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 투자 심사 보고서 공유:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 1,
-									}}
-									variant="subtitle1"
-								>
-									실제 투자자의 시각을 가지도록 린온컴퍼니
-									등의 투자 심사 보고서를 공유합니다.
-								</Typography>
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={700}
-								variant="h4"
-								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 								}}
-							>
-								🤩 혜택
-							</Typography>
-							<Typography
-								fontWeight={600}
 								variant="subtitle1"
-								color={'#363636'}
+							>
+								<strong>* chapter 1 :</strong> 오리엔테이션 및
+								일본 시장 개요 및 일본 비즈니스 문화와 네트워크
+							</Typography>
+
+							<Typography
 								sx={{
 									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
+									lineHeight: '22px',
 								}}
+								variant="subtitle1"
 							>
-								* 지속적인 멘토링 및 피드백:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									세미나 이후에도 박대성 이사와 오성훈 이사가
-									지속적으로 멘토링 및 피드백을 제공합니다.
-								</Typography>
+								- 일본 시장의 특성 및 진출 시 고려사항
+								<br />
+								- 일본 비즈니스 문화의 이해
+								<br />- 성공적인 네트워킹 전략
+							</Typography>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>* chapter 2 :</strong> 협력 및 파트너십
+								전략 및 제품 및 서비스 현지화 전략
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '22px',
+								}}
+								variant="subtitle1"
+							>
+								- 일본 기업과의 협력 방안
+								<br />
+								- 파트너십 구축을 위한 전략
+								<br />
+								- 일본 소비자 특성 분석
+								<br />- 현지화 전략 수립
 							</Typography>
 							<Typography
 								fontWeight={600}
 								variant="subtitle1"
-								color={'#363636'}
+								color={'red'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
+									alignItems: 'center',
 								}}
 							>
-								* 수강료 환급:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									우수 기업에게는 투자 검토 기회와 더불어,
-									수강료의 50%를 환급해드립니다. (2개사 한정)
-								</Typography>
+								[2회차]
 							</Typography>
 							<Typography
-								fontWeight={600}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
 								variant="subtitle1"
+							>
+								<strong>* chapter 3 :</strong> 일본 진출 한국
+								스타트업의 사례
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								- B2C 사례
+								<br />- B2B 사례
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								<strong>* chapter 4 :</strong> 자금 조달 및 투자
+								유치 네트워킹 및 Q&A
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								- 일본에서의 자금 조달 방법
+								<br />
+								- 투자 유치 전략 및 준비사항
+								<br />
+								- 일본 현지 비즈니스 전문가 및 투자사와의
+								네트워킹
+								<br />- Q&A 및 멘토링 세션
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
-									display: 'flex',
 								}}
 							>
-								* 광범위한 네트워크 지원:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									린온컴퍼니뿐만 아니라 자사의 네트워크를
-									활용해 투자 유치를 적극적으로 도와드립니다.
-								</Typography>
+								💁‍♀️ 지원 내용
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								* 일본 현지 전문가와의 1:1 멘토링
+								<br />
+								* 일본 시장 조사 및 진출 전략 수립 지원
+								<br />
+								* 오픈이노베이션 관련 자료 및 성공 사례 제공
+								<br />* 현지 네트워킹 행사 초청 및 참여
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								🌟 기대 효과
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								* 일본 시장에 대한 깊이 있는 이해와 진출 전략
+								확보
+								<br />
+								* 오픈이노베이션을 통한 혁신적 아이디어 및 사업
+								기회 발굴
+								<br />* 일본 내 비즈니스 네트워크 구축 및
+								파트너십 형성
+							</Typography>
+
+							<Box my={2} />
+
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+							>
+								🔎 신청 방법
+							</Typography>
+							<strong>신청 기간</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								* 2024년 7월 1일 ~ 2024년 7월 31일
+							</Typography>
+							<strong>신청 방법</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								* 온라인 신청서 작성 및 제출
+							</Typography>
+							<strong>문의처</strong>
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								* 이메일 : leanoncompany@gmail.com
+								<br />* 전화 : 010-5676-4066
 							</Typography>
 							<Box my={2} />
 							<Typography
 								fontWeight={700}
-								variant="h4"
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 								}}
 							>
-								💰 비용
+								💸 금액
 							</Typography>
+
 							<Typography
-								fontWeight={600}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
 								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
 							>
-								* 5주 프로그램 :{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									99만원(부가세별도)
-								</Typography>
-							</Typography>
-							<Box my={5.5} />
-							<Typography
-								fontWeight={700}
-								variant="h2"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								2. 프로그램 구성
+								* 30만원 (부가세 별도)
+								<br />* 총 2회 선택 금액
 							</Typography>
 							<Box my={2} />
+
 							<Typography
 								fontWeight={700}
-								variant="h5"
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
 									lineHeight: '20px',
 								}}
 							>
-								🔍 공공기관 (정부) 지원사업 성공을 위한
-								사업계획서 작성법
+								👩‍🏫 강연자 기본 설명
 							</Typography>
+							<img
+								src={'/images/seminar/Untitled (3).png'}
+								alt=""
+								width={'100%'}
+							/>
+
+							<img
+								src={'/images/seminar/Untitled (1).png'}
+								alt=""
+								width={'100%'}
+							/>
 							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
+									lineHeight: '22px',
+									my: 2,
+									py: 2,
 								}}
-							>
-								* Moderator:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									하임벤처투자 오성훈 수석심사역
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
 								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
 							>
-								* 1주차:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									스타트업 자금조달 방안 소개 및 사업계획서
-									작성법
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 2주차:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									정부지원사업 합격 사례 분석 및 1:1 코칭
-								</Typography>
+								한국과 일본은 하나의 경제권! 양국의 강력한
+								협력체제로 Asia to Global 실현에 공헌하는 UNI
+								Platform 김윤경 입니다. 여러분의 일본사업과
+								관련된 진출지원/진출이후 사업확장 및
+								일본기업과의 제휴/VC 등의 투자유치 등을
+								지원합니다.
 							</Typography>
 							<Box my={2} />
-							<Typography
-								fontWeight={700}
-								variant="h5"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								✏️ AC, VC 투자유치 성공을 위한 투자제안서 작성법
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* Moderator:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									하임벤처투자 박대성 대표
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 3주차:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									민간 투자유치 가이드라인 및 투자제안서
-									작성법
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 4주차:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									IR 자료 1:1 코칭 및 피드백
-								</Typography>
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={700}
-								variant="h5"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								📚 공통
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 5주차:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									모의 데모데이 및 시상식
-								</Typography>
-							</Typography>
-							<Box my={5.5} />
-							<Typography
-								fontWeight={700}
-								variant="h2"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								3. 강사진 및 멘토 구성
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 강사진:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									금융 전문가, 성공한 스타트업 창업자, 법률
-									전문가 등
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 멘토:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									경험이 풍부한 투자자 및 업계 전문가
-								</Typography>
-							</Typography>
-							<Box my={5.5} />
-							<Typography
-								fontWeight={700}
-								variant="h2"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								4. 참가자 지원 내용
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 교육 자료 제공:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									각 세션별 강의 자료 및 참고 문헌 제공
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 멘토링 세션:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									주기적인 1:1 멘토링 세션
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 네트워킹 기회:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									투자자 및 업계 전문가와의 네트워킹 행사
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 피드백:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									모의 피칭 및 실제 피칭에 대한 전문 피드백
-									제공
-								</Typography>
-							</Typography>
-							<Box my={5.5} />
-							<Typography
-								fontWeight={700}
-								variant="h2"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								5. 프로그램 운영
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 신청 및 선발:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									온라인 신청서 접수 후 심사를 통해 10개 팀
-									선발
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 장소:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									린온컴퍼니 본사 교육장
-								</Typography>
-							</Typography>{' '}
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 비용:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									5주 99만원 (선발된 팀에 한해)
-								</Typography>
-							</Typography>
-							<Box my={5.5} />
-							<Typography
-								fontWeight={700}
-								variant="h2"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-								}}
-							>
-								6. 홍보 및 마케팅
-							</Typography>
-							<Box my={2} />
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 홍보 전략:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									소셜 미디어, 뉴스레터, 협력 기관 및 파트너사
-									네트워크 활용
-								</Typography>
-							</Typography>
-							<Typography
-								fontWeight={600}
-								variant="subtitle1"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-								}}
-							>
-								* 참가자 모집:{' '}
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										ml: 0.5,
-									}}
-									variant="subtitle1"
-								>
-									홈페이지 공지, 스타트업 커뮤니티 홍보,
-									파트너사 추천 등
-								</Typography>
-							</Typography> */}
 						</Box>
 
 						{/* <SupportiButton
@@ -2010,7 +1740,7 @@ const Page: NextPage = () => {
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
-						gap={1}
+						gap={1.5}
 						m={3}
 						p={4}
 						bgcolor={'secondary.light'}
@@ -2020,35 +1750,66 @@ const Page: NextPage = () => {
 						<Typography variant={'subtitle1'} fontWeight={600}>
 							그룹 신청 가능 인원 및 정보
 						</Typography>
-						{seminarData?.SeminarGroups.map((item, index) => {
+						{seminarData?.SeminarGroups?.sort(function compare(
+							a,
+							b
+						) {
+							if (a.DESCRIPTION > b.DESCRIPTION) return 1;
+							if (a.DESCRIPTION < b.DESCRIPTION) return -1;
+							return 0;
+						}).map((item, index) => {
 							return (
-								<Box
-									key={index.toString()}
-									display={'flex'}
-									flexDirection={'row'}
-									mt={1}
-								>
-									<Typography variant={'body1'} mr={2}>
-										그룹이름: {item.NAME}
-									</Typography>
-									<Typography variant={'body1'} mr={2}>
-										정원: {item.PERSONNEL}명
-									</Typography>
-									<Typography variant={'body1'} mr={2}>
-										현재{' '}
-										{
-											seminarApplication.filter(
-												(data) =>
-													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
-													item.SEMINAR_GROUP_IDENTIFICATION_CODE
-											).length
-										}
-										명 신청
-									</Typography>
-									<Typography variant={'body1'}>
-										한줄소개: {item.DESCRIPTION}
-									</Typography>
-								</Box>
+								<>
+									<Box
+										key={index.toString()}
+										display={'flex'}
+										flexDirection={'row'}
+										flexWrap={'wrap'}
+										gap={1}
+										my={1}
+									>
+										<Typography variant={'body1'} mr={2}>
+											그룹이름:{' '}
+											<strong>{item.NAME}</strong>
+										</Typography>
+										{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !==
+											13 && (
+											<Typography
+												variant={'body1'}
+												mr={2}
+											>
+												정원: {item.PERSONNEL}명
+											</Typography>
+										)}
+										<Typography variant={'body1'} mr={2}>
+											현재{' '}
+											{
+												seminarApplication.filter(
+													(data) =>
+														data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+														item.SEMINAR_GROUP_IDENTIFICATION_CODE
+												).length
+											}
+											명 신청
+										</Typography>
+										<Typography variant={'body1'}>
+											한줄소개: {item.DESCRIPTION}
+										</Typography>
+									</Box>
+
+									<Box
+										sx={{
+											display:
+												index !=
+												seminarData?.SeminarGroups
+													.length -
+													1
+													? 'block'
+													: 'none',
+											borderTop: '1px solid lightgrey',
+										}}
+									/>
+								</>
 							);
 						})}
 					</Box>
@@ -2071,7 +1832,14 @@ const Page: NextPage = () => {
 								setSeminarGroup(e.target.value);
 							}}
 						>
-							{seminarData?.SeminarGroups.map((item, index) => {
+							{seminarData?.SeminarGroups.sort(function compare(
+								a,
+								b
+							) {
+								if (a.DESCRIPTION > b.DESCRIPTION) return 1;
+								if (a.DESCRIPTION < b.DESCRIPTION) return -1;
+								return 0;
+							}).map((item, index) => {
 								return (
 									<FormControlLabel
 										key={index.toString()}
@@ -2163,7 +1931,7 @@ const Page: NextPage = () => {
 						: alertModalType == 'seminarApplySuccess'
 						? () => {
 								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}`
+									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}&productId=${seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
 								);
 						  }
 						: undefined
