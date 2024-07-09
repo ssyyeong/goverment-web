@@ -8,7 +8,6 @@ import dynamic from 'next/dynamic';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import moment from 'moment';
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import ConsultingSchedular from '../../../src/views/local/external_service/consulting/ConsultingSchedular/ConsultingSchedular';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
@@ -124,17 +123,20 @@ const Page: NextPage = () => {
 	}, [openReservationSchedule, pid]);
 
 	return (
-		<Box
-			width={'100%'}
-			position={'relative'}
-			p={{
-				xs: 2,
-				md: 10,
-			}}
-			minHeight={'90vh'}
-		>
+		<Box>
 			{mentoringData !== undefined && (
-				<Box display={'flex'} flexDirection={'column'}>
+				<Box
+					display={'flex'}
+					flexDirection={'column'}
+					width={'80%'}
+					position={'relative'}
+					margin={'auto'}
+					p={{
+						xs: 2,
+						md: 10,
+					}}
+					minHeight={'90vh'}
+				>
 					{/* 멘토링 헤더 */}
 					<Box
 						width={'100%'}
@@ -142,13 +144,18 @@ const Page: NextPage = () => {
 						display={'flex'}
 						justifyContent={'space-between'}
 						alignItems={'center'}
-						borderRadius={2}
+						gap={3}
 					>
 						<Box
 							display={'flex'}
 							flexDirection={'column'}
 							gap={3}
 							alignSelf={'flex-start'}
+							borderRadius={2}
+							bgcolor={'primary.light'}
+							py={4}
+							px={5}
+							flex={1}
 						>
 							<Typography variant={'h2'} fontWeight={'600'}>
 								{mentoringData.TITLE}
@@ -156,7 +163,7 @@ const Page: NextPage = () => {
 							<Box
 								display={'flex'}
 								flexDirection={'row'}
-								gap={3}
+								gap={2}
 								alignContent={'center'}
 							>
 								<Box
@@ -196,11 +203,7 @@ const Page: NextPage = () => {
 							<Typography variant={'body1'} color={'gray'}>
 								{mentoringData.CATEGORY}
 							</Typography>
-							<Typography
-								variant={'body1'}
-								color={'gray'}
-								alignSelf={'center'}
-							>
+							<Typography variant={'body1'} color={'gray'}>
 								{moment(mentoringData.START_DATE).format(
 									'YYYY.MM.DD'
 								)}{' '}
@@ -218,9 +221,6 @@ const Page: NextPage = () => {
 							p={3}
 							borderRadius={2}
 							flexDirection={'column'}
-							position={'absolute'}
-							top={50}
-							right={30}
 						>
 							<Box
 								display={'flex'}
@@ -289,8 +289,11 @@ const Page: NextPage = () => {
 										}}
 									>
 										{mentoringData.PERSONNEL -
-											mentoringData.MentoringApplications
-												.length}{' '}
+											mentoringData.MentoringApplications.filter(
+												(mentoringApplication: any) =>
+													mentoringApplication.CANCELED_YN ===
+													'N'
+											).length}{' '}
 										자리 남음
 									</Typography>
 									<Typography>
@@ -307,7 +310,10 @@ const Page: NextPage = () => {
 							)}
 
 							{mentoringData.PERSONNEL -
-								mentoringData.MentoringApplications.length >
+								mentoringData.MentoringApplications.filter(
+									(mentoringApplication: any) =>
+										mentoringApplication.CANCELED_YN === 'N'
+								).length >
 								0 && (
 								<SupportiButton
 									contents={'신청하기'}
@@ -332,7 +338,8 @@ const Page: NextPage = () => {
 					<Box
 						display={'flex'}
 						flexDirection={'row'}
-						width={'70%'}
+						alignSelf={'center'}
+						width={'100%'}
 						gap={15}
 						mt={5}
 						ml={15}
@@ -382,7 +389,6 @@ const Page: NextPage = () => {
 						<Box
 							display={'flex'}
 							flexDirection={'column'}
-							alignItems={'center'}
 							mt={2}
 							gap={3}
 						>
@@ -391,21 +397,17 @@ const Page: NextPage = () => {
 									<Box
 										display={'flex'}
 										flexDirection={'column'}
-										alignItems={'center'}
 										mt={2}
 										gap={3}
 									>
 										<Typography
 											variant={'h5'}
-											color={'gray'}
 											fontWeight={'600'}
-											alignSelf={'center'}
 										>
 											멘토 소개
 										</Typography>
 										<Typography
 											variant={'body1'}
-											color={'gray'}
 											alignSelf={'center'}
 										>
 											{mentoringData.MENTOR_INTRODUCE}
@@ -417,15 +419,12 @@ const Page: NextPage = () => {
 									<Box
 										display={'flex'}
 										flexDirection={'column'}
-										alignItems={'center'}
 										mt={2}
 										gap={3}
 									>
 										<Typography
 											variant={'h5'}
-											color={'gray'}
 											fontWeight={'600'}
-											alignSelf={'center'}
 										>
 											주요 경력
 										</Typography>
@@ -446,11 +445,12 @@ const Page: NextPage = () => {
 										router.push(
 											`${
 												mentoringData?.PAYMENT_LINK
-											}?userName=${memberEmailId}&productName=${'멘토링'}&productName=${
+											}?userName=${memberEmailId}&productType=${'멘토링'}&productName=${
 												mentoringData?.TITLE
 											}&productId=${
 												mentoringData?.MENTORING_PRODUCT_IDENTIFICATION_CODE
-											}`
+											}$productLink=${mentoringData?.LINK}
+											`
 										);
 								  }
 								: undefined

@@ -88,8 +88,6 @@ const MentoringData = (props: IMentoringData) => {
 			<Box
 				display={'flex'}
 				flexDirection={'row'}
-				alignItems={'center'}
-				justifyContent={'center'}
 				gap={1}
 				sx={{
 					overflowX: 'auto',
@@ -166,17 +164,8 @@ const MentoringData = (props: IMentoringData) => {
 															selectedDate &&
 														element.START ===
 															time.START
-												).length > 0
+												).length === 0
 											) {
-												const index = timeList.indexOf(
-													(element) =>
-														element.DATE ===
-															selectedDate &&
-														element.START ===
-															time.START
-												);
-												timeList.splice(index, 1);
-											} else {
 												timeList.push({
 													DATE: selectedDate,
 													START: time.START,
@@ -191,7 +180,16 @@ const MentoringData = (props: IMentoringData) => {
 											py: 2,
 											pl: 3,
 											pr: 2,
-											bgcolor: 'rgba(248, 248, 248, 1)',
+											bgcolor:
+												props.selectedTime.filter(
+													(element) =>
+														element.DATE ===
+															selectedDate &&
+														element.START ===
+															time.START
+												).length > 0
+													? 'primary.main'
+													: 'rgba(248, 248, 248, 1)',
 											width: '100%',
 											display: 'flex',
 											alignItems: 'center',
@@ -199,7 +197,23 @@ const MentoringData = (props: IMentoringData) => {
 											maxHeight: '50px',
 										}}
 									>
-										<Typography>{time.START}</Typography>
+										<Typography
+											variant="body1"
+											sx={{
+												color:
+													props.selectedTime.filter(
+														(element) =>
+															element.DATE ===
+																selectedDate &&
+															element.START ===
+																time.START
+													).length > 0
+														? 'white'
+														: 'black',
+											}}
+										>
+											{time.START} ~ {time.END}
+										</Typography>
 									</Box>
 								);
 							})}
