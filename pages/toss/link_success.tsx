@@ -99,7 +99,8 @@ const Page: NextPage = () => {
 						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
 					);
 					createPaymentHistory('CARD');
-					router.push('/');
+					if (productLink) router.push(productLink as string);
+					else router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
 					createPaymentHistory('VIRTUAL_ACCOUNT');
