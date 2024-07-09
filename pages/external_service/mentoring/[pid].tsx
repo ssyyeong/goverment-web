@@ -85,7 +85,7 @@ const Page: NextPage = () => {
 			mentoringApplicationController.createItem(
 				{
 					MENTORING_PRODUCT_IDENTIFICATION_CODE: pid,
-					APP_MEMBER_IDENTIFICATION_CODE: 1,
+					APP_MEMBER_IDENTIFICATION_CODE: memberId,
 					RESERVATION_DATE: JSON.stringify(selectedTime),
 				},
 				(res) => {
