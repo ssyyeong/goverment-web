@@ -12,6 +12,7 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import MentoringData from '../../../src/views/local/external_service/mentoring/MentoringDate/MentroingData';
+import { set } from 'date-fns';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -65,6 +66,8 @@ const Page: NextPage = () => {
 	 */
 	const [selectedTime, setSelectedTime] = React.useState([]);
 
+	const [scroll, setScroll] = React.useState(false);
+
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
 	/**
@@ -102,6 +105,21 @@ const Page: NextPage = () => {
 		}
 	};
 
+	/**
+	 * URL 복사
+	 */
+	const CopyUrl = () => {
+		const url = window.location.href;
+		navigator.clipboard.writeText(url).then(
+			function () {
+				alert('URL이 복사되었습니다.');
+			},
+			function () {
+				alert('URL 복사에 실패했습니다.');
+			}
+		);
+	};
+
 	//* Hooks
 
 	/**
@@ -122,8 +140,29 @@ const Page: NextPage = () => {
 		}
 	}, [openReservationSchedule, pid]);
 
+	/**
+	 * 스크롤 감지
+	 */
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll); //clean up
+		};
+	}, []);
+
+	const handleScroll = () => {
+		// 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
+		if (window.scrollY >= 50) {
+			setScroll(true);
+			console.log(scroll);
+		} else {
+			// 스크롤이 50px 미만일경우 false를 넣어줌
+			setScroll(false);
+		}
+	};
+
 	return (
-		<Box>
+		<Box display={'flex'}>
 			{mentoringData !== undefined && (
 				<Box
 					display={'flex'}
@@ -153,7 +192,7 @@ const Page: NextPage = () => {
 							alignSelf={'flex-start'}
 							borderRadius={2}
 							bgcolor={'primary.light'}
-							py={4}
+							py={6.3}
 							px={5}
 							flex={1}
 						>
@@ -328,6 +367,26 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
+							<Box
+								display={'flex'}
+								flexDirection={'column'}
+								alignItems={'center'}
+								gap={2}
+								sx={{
+									cursor: 'pointer',
+								}}
+								onClick={() => {
+									CopyUrl();
+								}}
+							>
+								<Typography
+									variant={'body1'}
+									color={'gray'}
+									align={'center'}
+								>
+									공유하기
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 					{/* 멘토링 내용 */}
@@ -456,6 +515,73 @@ const Page: NextPage = () => {
 								: undefined
 						}
 					/>
+				</Box>
+			)}
+			{scroll && (
+				<Box
+					sx={{
+						width: { md: '100%', xs: '100%' },
+						border: '1px solid #E0E0E0',
+						backgroundColor: 'white',
+						// height: '150px',
+						px: 5,
+						py: 2,
+						position: 'fixed',
+						bottom: 0,
+						right: 0,
+						zIndex: 1,
+						display: { md: 'block', xs: 'none' },
+					}}
+				>
+					<Box
+						display={'flex'}
+						flexDirection={'row'}
+						justifyContent={'center'}
+						alignItems={'center'}
+						gap={5}
+					>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							alignItems={'center'}
+							gap={1}
+						>
+							<Typography
+								variant={'h5'}
+								sx={{
+									fontWeight: 'bold',
+									color: '#3A3A3A',
+								}}
+							>
+								{mentoringData?.TITLE}
+							</Typography>
+							<Typography
+								variant={'subtitle2'}
+								sx={{
+									color: '#3A3A3A',
+									alignSelf: 'end',
+								}}
+							>
+								{mentoringData?.REAL_PRICE.toLocaleString()}원
+							</Typography>
+						</Box>
+						<SupportiButton
+							contents={'신청하기'}
+							variant={'contained'}
+							style={{
+								width: '130px',
+							}}
+							onClick={() => {
+								window.scrollTo(0, 0);
+								if (access) {
+									setOpenReservationSchedule(true);
+								} else {
+									setAlertModal(true);
+									setAlertModalType('login');
+								}
+							}}
+						/>
+					</Box>
 				</Box>
 			)}
 		</Box>
