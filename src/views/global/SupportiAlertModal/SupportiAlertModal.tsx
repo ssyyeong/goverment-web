@@ -51,6 +51,7 @@ interface ISupportiAlertModalProps {
 		| 'coffeechatapplysuccess'
 		| 'irFinish'
 		| 'irApply'
+		| 'mentoringWarning'
 		| 'noAccount'
 		| 'unReady';
 
@@ -415,6 +416,15 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 				props.customHandleClose && props.customHandleClose();
 			},
 			cancelButtonAvailable: true,
+		},
+		mentoringWarning: {
+			type: 'error',
+			title: '멘토링 진행 횟수를 다시 확인해주세요.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
 		},
 	};
 

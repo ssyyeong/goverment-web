@@ -7,15 +7,21 @@ import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
-import { useAppMember } from '../../src/hooks/useAppMember';
 import dayjs from 'dayjs';
 import moment from 'moment';
+import SupportiButton from '../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType, find_option } =
-		router.query;
+	const {
+		paymentKey,
+		orderId,
+		amount,
+		paymentType,
+		find_option,
+		productLink,
+	} = router.query;
 	//* Controllers
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
@@ -138,7 +144,7 @@ const Page: NextPage = () => {
 				<span>
 					{' '}
 					{virtualAccount == null
-						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
+						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
 						: ''}
 				</span>
 			</LoadingButton>
@@ -188,6 +194,27 @@ const Page: NextPage = () => {
 						⚠️ 입금내역 확인 후 결제처리 및 최종신청 완료가 되오니,
 						꼭 유의해주세요 ⚠️
 					</Typography>
+					<SupportiButton
+						contents={
+							productLink
+								? '사전설문 및 첨부자료 확인'
+								: '홈으로 이동'
+						}
+						variant="contained"
+						style={{
+							width: '200px',
+							marginRight: 'auto',
+							marginLeft: 'auto',
+							marginTop: 5,
+						}}
+						onClick={() => {
+							if (productLink) {
+								router.push(productLink as string);
+							} else {
+								router.push('/');
+							}
+						}}
+					/>
 				</Box>
 			)}
 		</Box>

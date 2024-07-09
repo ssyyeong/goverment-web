@@ -1931,7 +1931,13 @@ const Page: NextPage = () => {
 						: alertModalType == 'seminarApplySuccess'
 						? () => {
 								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}&productId=${seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+									`${
+										seminarData?.PAYMENT_LINK
+									}?userName=${memberEmailId}&productName=${'세미나'}&productName=${
+										seminarData?.PRODUCT_NAME
+									}&productId=${
+										seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE
+									}`
 								);
 						  }
 						: undefined

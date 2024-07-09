@@ -5,7 +5,7 @@ import SeminarCard from '../../local/external_service/seminar/SeminarCard/Semina
 import Nodata from '../../global/NoData/NoData';
 
 interface IServiceListLayoutProps {
-	type: "seminar" | "consulting";
+	type: 'seminar' | 'consulting' | 'mentoring';
 	useFiltering?: boolean;
 	title: string;
 	filterList?: any[];
@@ -38,20 +38,20 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 			{/** 필터링 영역 */}
 			{props.useFiltering && (
 				<Box display="flex" gap={1} flexWrap="wrap" my={2}>
-						<Typography
-								sx={{
-									p: 1,
-									border: '1px solid #c8c8c8',
-									borderRadius: 5,
-									cursor: 'pointer',
-									borderColor:
-										tab === undefined ? 'primary.main' : '#c8c8c8',
-										color: tab === undefined && 'primary.main'
-								}}
-								onClick={() => setTab(undefined)}
-							>
-								전체
-							</Typography>
+					<Typography
+						sx={{
+							p: 1,
+							border: '1px solid #c8c8c8',
+							borderRadius: 5,
+							cursor: 'pointer',
+							borderColor:
+								tab === undefined ? 'primary.main' : '#c8c8c8',
+							color: tab === undefined && 'primary.main',
+						}}
+						onClick={() => setTab(undefined)}
+					>
+						전체
+					</Typography>
 					{props.filterList?.map((item, index) => {
 						return (
 							<Typography
@@ -61,8 +61,10 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 									borderRadius: 5,
 									cursor: 'pointer',
 									borderColor:
-										tab === item ? 'primary.main' : '#c8c8c8',
-										color: tab === item && 'primary.main'
+										tab === item
+											? 'primary.main'
+											: '#c8c8c8',
+									color: tab === item && 'primary.main',
 								}}
 								onClick={() => setTab(item)}
 							>
@@ -73,14 +75,15 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 				</Box>
 			)}
 			{/* 콘텐츠 영역 */}
-			{props.dataList?.length === 0 ? 
-		<Nodata />	
-		: 
-			<Box display="flex" gap={3} flexWrap='wrap' my={3}>
-				{props.dataList?.map((item, index) => {
-					return <SeminarCard data={item} type={props.type}/>;
-				})}
-			</Box>}
+			{props.dataList?.length === 0 ? (
+				<Nodata />
+			) : (
+				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
+					{props.dataList?.map((item, index) => {
+						return <SeminarCard data={item} type={props.type} />;
+					})}
+				</Box>
+			)}
 		</Box>
 	);
 };
