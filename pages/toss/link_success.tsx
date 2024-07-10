@@ -110,13 +110,22 @@ const Page: NextPage = () => {
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
-				console.log(router.query);
 
 				if (response.data.virtualAccount == null) {
-					window.alert(
-						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
-					);
 					createPaymentHistory('CARD');
+
+					if (productLink != undefined) {
+						window.alert(
+							'신청이 완료되었습니다! 사전설문 및 첨부자료 확인 부탁드립니다.'
+						);
+
+						window.open(productLink);
+					} else {
+						window.alert(
+							'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
+						);
+						router.push('/');
+					}
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
 					createPaymentHistory('VIRTUAL_ACCOUNT');
@@ -209,29 +218,29 @@ const Page: NextPage = () => {
 						⚠️ 입금내역 확인 후 결제처리 및 최종신청 완료가 되오니,
 						꼭 유의해주세요 ⚠️
 					</Typography>
-					<SupportiButton
-						contents={
-							productLink != undefined
-								? '사전설문 및 첨부자료 확인'
-								: '홈으로 이동'
-						}
-						variant="contained"
-						style={{
-							width: '200px',
-							marginRight: 'auto',
-							marginLeft: 'auto',
-							marginTop: 5,
-						}}
-						onClick={() => {
-							if (productLink != undefined) {
-								window.open(productLink);
-							} else {
-								router.push('/');
-							}
-						}}
-					/>
 				</Box>
 			)}
+			<SupportiButton
+				contents={
+					productLink != undefined
+						? '사전설문 및 첨부자료 확인'
+						: '홈으로 이동'
+				}
+				variant="contained"
+				style={{
+					width: '200px',
+					marginRight: 'auto',
+					marginLeft: 'auto',
+					marginTop: 5,
+				}}
+				onClick={() => {
+					if (productLink != undefined) {
+						window.open(productLink);
+					} else {
+						router.push('/');
+					}
+				}}
+			/>
 		</Box>
 	);
 };
