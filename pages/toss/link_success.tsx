@@ -151,14 +151,14 @@ const Page: NextPage = () => {
 				height: '80vh',
 			}}
 		>
-			<LoadingButton size="large" onClick={() => {}} loading={loading}>
+			{/* <LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
 					{virtualAccount == null
 						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
 						: ''}
 				</span>
-			</LoadingButton>
+			</LoadingButton> */}
 			{virtualAccount == null ? (
 				<Typography
 					variant="h3"
@@ -167,7 +167,9 @@ const Page: NextPage = () => {
 						mt: 3,
 					}}
 				>
-					결제가 진행중입니다!
+					{loading
+						? '결제가 진행중입니다!'
+						: '결제가 완료되었습니다!'}
 				</Typography>
 			) : (
 				<Box
