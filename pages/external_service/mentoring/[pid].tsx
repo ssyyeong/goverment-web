@@ -347,25 +347,40 @@ const Page: NextPage = () => {
 								/>
 							)}
 
-							{mentoringData.PERSONNEL -
-								mentoringData.MentoringApplications.filter(
-									(mentoringApplication: any) =>
-										mentoringApplication.CANCELED_YN === 'N'
-								).length >
-								0 && (
-								<SupportiButton
-									contents={'신청하기'}
-									variant={'contained'}
-									onClick={() => {
-										if (access) {
-											mentoringApply();
-										} else {
-											setAlertModal(true);
-											setAlertModalType('login');
-										}
-									}}
-								/>
-							)}
+							<SupportiButton
+								contents={
+									mentoringData.PERSONNEL -
+										mentoringData.MentoringApplications.filter(
+											(mentoringApplication: any) =>
+												mentoringApplication.CANCELED_YN ===
+												'N'
+										).length ===
+									0
+										? '신청마감'
+										: '신청하기'
+								}
+								variant={'contained'}
+								onClick={() => {
+									if (
+										mentoringData.PERSONNEL -
+											mentoringData.MentoringApplications.filter(
+												(mentoringApplication: any) =>
+													mentoringApplication.CANCELED_YN ===
+													'N'
+											).length ===
+										0
+									)
+										return;
+
+									if (access) {
+										mentoringApply();
+									} else {
+										setAlertModal(true);
+										setAlertModalType('login');
+									}
+								}}
+							/>
+
 							<Box
 								display={'flex'}
 								flexDirection={'row'}
@@ -422,7 +437,7 @@ const Page: NextPage = () => {
 									mr: 28,
 								}}
 							>
-								멘토링 소개
+								멘토링 소개 🙌
 							</Typography>
 
 							<Typography
@@ -465,7 +480,7 @@ const Page: NextPage = () => {
 									mr: 27,
 								}}
 							>
-								커리큘럼 소개
+								커리큘럼 소개 📚
 							</Typography>
 							<Box
 								display={'flex'}
@@ -624,7 +639,7 @@ const Page: NextPage = () => {
 									mr: 32,
 								}}
 							>
-								기대 효과
+								기대 효과 🚀
 							</Typography>
 
 							<Typography
@@ -666,7 +681,7 @@ const Page: NextPage = () => {
 									mr: 32,
 								}}
 							>
-								참가대상
+								참가대상 🎯
 							</Typography>
 
 							<Typography
@@ -704,7 +719,7 @@ const Page: NextPage = () => {
 									mr: 32,
 								}}
 							>
-								모집기간
+								모집기간 📅
 							</Typography>
 
 							<Typography
@@ -740,7 +755,7 @@ const Page: NextPage = () => {
 									mr: 32,
 								}}
 							>
-								진행기간
+								진행기간 📆
 							</Typography>
 
 							<Typography
@@ -776,7 +791,7 @@ const Page: NextPage = () => {
 									mr: 32,
 								}}
 							>
-								진행형태
+								진행형태 📌
 							</Typography>
 
 							<Typography
@@ -813,7 +828,7 @@ const Page: NextPage = () => {
 									mr: 38,
 								}}
 							>
-								금액
+								금액 💰
 							</Typography>
 
 							<Typography
