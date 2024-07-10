@@ -78,8 +78,8 @@ const Page: NextPage = () => {
 	 * 멘토링 리스트 가져오기
 	 */
 	useEffect(() => {
-		const seminarController = new DefaultController('MentoringProduct');
-		seminarController.findAllItems(
+		const mentoringController = new DefaultController('MentoringProduct');
+		mentoringController.findAllItems(
 			{
 				LIMIT: 10,
 				PAGE: page,
@@ -103,21 +103,11 @@ const Page: NextPage = () => {
 			{ USE_YN: 'Y' },
 			(res) => {
 				setMentoringCategoryList(res.data.result.rows);
+				res.data.result.rows.map((item, index) => {
+					item.IMAGE = `/images/mentoring/category${index + 1}.png`;
+				});
 			},
 			(err) => console.log(err)
-		);
-
-		const consultingController = new DefaultController('ConsultingProduct');
-		consultingController.findAllItems(
-			{
-				LIMIT: 10,
-				PAGE: page,
-				PURCHASE_AVAILABLE_YN: 'Y',
-			},
-			(res) => {
-				setTotalDataCount(res.data.result.count);
-			},
-			(err) => {}
 		);
 	}, [page]);
 

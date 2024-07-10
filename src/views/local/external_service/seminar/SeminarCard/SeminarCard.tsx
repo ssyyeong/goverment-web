@@ -113,6 +113,9 @@ const SeminarCard = (props: ISeminarData) => {
 					{props.data.CATEGORY}
 				</Typography>
 			)}
+			{props.data.MENTOR_NAME && (
+				<Typography>{props.data.MENTOR_NAME}</Typography>
+			)}
 			<Typography
 				variant="h6"
 				fontWeight={600}

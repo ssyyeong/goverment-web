@@ -37,41 +37,118 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 			</Box>
 			{/** 필터링 영역 */}
 			{props.useFiltering && (
-				<Box display="flex" gap={1} flexWrap="wrap" my={2}>
-					<Typography
-						sx={{
-							p: 1,
-							border: '1px solid #c8c8c8',
-							borderRadius: 5,
-							cursor: 'pointer',
-							borderColor:
-								tab === undefined ? 'primary.main' : '#c8c8c8',
-							color: tab === undefined && 'primary.main',
-						}}
-						onClick={() => setTab(undefined)}
-					>
-						전체
-					</Typography>
-					{props.filterList?.map((item, index) => {
-						return (
+				<Box display="flex" gap={3} flexWrap="wrap" my={2}>
+					{props.type != 'mentoring' && (
+						<Typography
+							sx={{
+								p: 1,
+								border: '1px solid #c8c8c8',
+								borderRadius: 5,
+								cursor: 'pointer',
+								borderColor:
+									tab === undefined
+										? 'primary.main'
+										: '#c8c8c8',
+								color: tab === undefined && 'primary.main',
+							}}
+							onClick={() => setTab(undefined)}
+						>
+							전체
+						</Typography>
+					)}
+					{props.type == 'mentoring' && (
+						<Box
+							display="flex"
+							flexDirection={'column'}
+							alignItems="center"
+							gap={1}
+							sx={{
+								py: 1,
+								px: 3,
+								border: '1px solid #c8c8c8',
+								borderRadius: 5,
+								cursor: 'pointer',
+								borderColor:
+									tab === undefined
+										? 'primary.main'
+										: '#c8c8c8',
+							}}
+						>
+							<img
+								src="/images/mentoring/category.png"
+								alt="icon"
+								style={{ width: 40, height: 40 }}
+							/>
 							<Typography
 								sx={{
 									p: 1,
-									border: '1px solid #c8c8c8',
-									borderRadius: 5,
 									cursor: 'pointer',
-									borderColor:
-										tab === item
-											? 'primary.main'
-											: '#c8c8c8',
-									color: tab === item && 'primary.main',
+									color: tab === undefined && 'primary.main',
 								}}
-								onClick={() => setTab(item)}
+								onClick={() => setTab(undefined)}
 							>
-								{item.CONTENT}
+								전체
 							</Typography>
-						);
-					})}
+						</Box>
+					)}
+					{props.type === 'mentoring' &&
+						props.filterList?.map((item, index) => {
+							return (
+								<Box
+									key={index.toString()}
+									display="flex"
+									flexDirection={'column'}
+									alignItems="center"
+									gap={1}
+									sx={{
+										p: 1,
+										border: '1px solid #c8c8c8',
+										borderRadius: 5,
+										cursor: 'pointer',
+										borderColor:
+											tab === item
+												? 'primary.main'
+												: '#c8c8c8',
+									}}
+								>
+									<img
+										src={item.IMAGE}
+										alt="icon"
+										style={{ width: 40, height: 40 }}
+									/>
+									<Typography
+										sx={{
+											color:
+												tab === item && 'primary.main',
+										}}
+										onClick={() => setTab(item)}
+									>
+										{item.CONTENT}
+									</Typography>
+								</Box>
+							);
+						})}
+					{props.type != 'mentoring' &&
+						props.filterList?.map((item, index) => {
+							return (
+								<Typography
+									sx={{
+										p: 1,
+										border: '1px solid #c8c8c8',
+										borderRadius: 5,
+										cursor: 'pointer',
+										borderColor:
+											tab === item
+												? 'primary.main'
+												: '#c8c8c8',
+										color: tab === item && 'primary.main',
+									}}
+									onClick={() => setTab(item)}
+								>
+									{item.CONTENT}
+								</Typography>
+							);
+						})}
 				</Box>
 			)}
 			{/* 콘텐츠 영역 */}

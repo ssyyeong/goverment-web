@@ -12,7 +12,8 @@ import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import MentoringData from '../../../src/views/local/external_service/mentoring/MentoringDate/MentroingData';
-import { set } from 'date-fns';
+
+import ShareIcon from '@mui/icons-material/Share';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -236,13 +237,20 @@ const Page: NextPage = () => {
 									color={'#3A3A3A'}
 									alignSelf={'center'}
 								>
-									{mentoringData.MENTOR_NAME}
+									멘토: {mentoringData.MENTOR_NAME}
 								</Typography>
 							</Box>
 							<Typography variant={'body1'} color={'gray'}>
-								{mentoringData.CATEGORY}
+								분야: {mentoringData.CATEGORY}
 							</Typography>
 							<Typography variant={'body1'} color={'gray'}>
+								진행방식:{' '}
+								{mentoringData.ONLINE_YN === 'Y'
+									? '온라인'
+									: '오프라인'}
+							</Typography>
+							<Typography variant={'body1'} color={'gray'}>
+								진행기간:{' '}
 								{moment(mentoringData.START_DATE).format(
 									'YYYY.MM.DD'
 								)}{' '}
@@ -285,7 +293,7 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>1회 가격</Typography>
+								<Typography color={'gray'}>진행가격</Typography>
 								<Typography>
 									{mentoringData.REAL_PRICE.toLocaleString()}
 									원
@@ -298,7 +306,7 @@ const Page: NextPage = () => {
 								justifyContent={'space-between'}
 							>
 								<Typography color={'gray'}>
-									멘토링 진행 횟수 (선택해야 하는 시간 수)
+									총 진행 횟수
 								</Typography>
 								<Typography>
 									{mentoringData.PROGRESS_NUMBER.toLocaleString()}
@@ -311,32 +319,23 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>정원</Typography>
+								<Typography color={'gray'}>정원 : </Typography>
 								<Box
 									display={'flex'}
 									flexDirection={'row'}
 									alignItems={'center'}
 									gap={1}
 								>
-									<Typography
-										color={'red'}
-										variant="body1"
-										sx={{
-											fontWeight: 'bold',
-											border: '1px solid red',
-											padding: '5px',
-										}}
-									>
+									<Typography>
+										{mentoringData.PERSONNEL} 명(남은
+										신청인원{' '}
 										{mentoringData.PERSONNEL -
 											mentoringData.MentoringApplications.filter(
 												(mentoringApplication: any) =>
 													mentoringApplication.CANCELED_YN ===
 													'N'
 											).length}{' '}
-										자리 남음
-									</Typography>
-									<Typography>
-										{mentoringData.PERSONNEL} 명(최대)
+										명)
 									</Typography>
 								</Box>
 							</Box>
@@ -369,9 +368,10 @@ const Page: NextPage = () => {
 							)}
 							<Box
 								display={'flex'}
-								flexDirection={'column'}
+								flexDirection={'row'}
 								alignItems={'center'}
-								gap={2}
+								alignSelf={'center'}
+								gap={1}
 								sx={{
 									cursor: 'pointer',
 								}}
@@ -379,6 +379,13 @@ const Page: NextPage = () => {
 									CopyUrl();
 								}}
 							>
+								<ShareIcon
+									color="primary"
+									sx={{
+										width: '15px',
+										height: '15px',
+									}}
+								/>
 								<Typography
 									variant={'body1'}
 									color={'gray'}
@@ -391,7 +398,428 @@ const Page: NextPage = () => {
 					</Box>
 					{/* 멘토링 내용 */}
 					<Box display={'flex'} flexDirection={'column'} ml={3}>
-						<SupportiViewer data={mentoringData.DESCRIPTION} />
+						{/* <SupportiViewer data={mentoringData.DESCRIPTION} /> */}
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 28,
+								}}
+							>
+								멘토링 소개
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+									alignSelf: 'center',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 참가자들에게 일본 시장 진출을 위한 실질적인
+								전략과 노하우 제공
+								<br />
+								ㆍ 오픈이노베이션의 개념과 성공 사례를 통해
+								혁신적인 아이디어 창출을 지원
+								<br />ㆍ 일본 비즈니스 환경 이해 및 네트워크
+								구축 지원
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+								}}
+							>
+								커리큘럼 소개
+							</Typography>
+							<Box
+								display={'flex'}
+								flexDirection={'column'}
+								gap={1}
+							>
+								<Typography
+									fontWeight={600}
+									variant="h6"
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										display: 'flex',
+										flexWrap: 'wrap',
+									}}
+								>
+									1회차
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+									}}
+									variant="subtitle1"
+								>
+									<strong>* chapter 1 :</strong> 오리엔테이션
+									및 일본 시장 개요 및 일본 비즈니스 문화와
+									네트워크
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '22px',
+										ml: 2,
+									}}
+									variant="subtitle1"
+								>
+									ㆍ 일본 시장의 특성 및 진출 시 고려사항
+									<br />
+									ㆍ 일본 비즈니스 문화의 이해
+									<br />ㆍ 성공적인 네트워킹 전략
+								</Typography>
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '22px',
+									}}
+									variant="subtitle1"
+								>
+									<strong>* chapter 2 :</strong> 협력 및
+									파트너십 전략 및 제품 및 서비스 현지화 전략
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '22px',
+										ml: 2,
+									}}
+									variant="subtitle1"
+								>
+									ㆍ 일본 기업과의 협력 방안
+									<br />
+									ㆍ 파트너십 구축을 위한 전략
+									<br />
+									ㆍ 일본 소비자 특성 분석
+									<br />ㆍ 현지화 전략 수립
+								</Typography>
+								<Typography
+									fontWeight={600}
+									variant="h6"
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										display: 'flex',
+										flexWrap: 'wrap',
+										mt: 2,
+									}}
+								>
+									2회차
+								</Typography>
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+									}}
+									variant="subtitle1"
+								>
+									<strong>* chapter 3 :</strong> 일본 진출
+									한국 스타트업의 사례
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 2,
+									}}
+									variant="subtitle1"
+								>
+									ㆍ B2C 사례
+									<br />ㆍ B2B 사례
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+									}}
+									variant="subtitle1"
+								>
+									<strong>* chapter 4 :</strong> 자금 조달 및
+									투자 유치 네트워킹 및 Q&A
+								</Typography>
+
+								<Typography
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '20px',
+										ml: 2,
+									}}
+									variant="subtitle1"
+								>
+									ㆍ 일본에서의 자금 조달 방법
+									<br />
+									ㆍ 투자 유치 전략 및 준비사항
+									<br />
+									ㆍ 일본 현지 비즈니스 전문가 및 투자사와의
+									네트워킹
+									<br />ㆍ Q&A 및 멘토링 세션
+								</Typography>
+							</Box>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 32,
+								}}
+							>
+								기대 효과
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 일본 시장에 대한 깊이 있는 이해와 진출 전략
+								확보
+								<br />
+								ㆍ 오픈이노베이션을 통한 혁신적 아이디어 및 사업
+								기회 발굴
+								<br />ㆍ 일본 내 비즈니스 네트워크 구축 및
+								파트너십 형성
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 32,
+								}}
+							>
+								참가대상
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 일본 시장에 진출을 계획하고 있는 한국
+								스타트업 및 중소기업
+								<br />ㆍ 오픈이노베이션을 통한 혁신을 추구하는
+								기업 및 예비 창업자
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 32,
+								}}
+							>
+								모집기간
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 7월1일 ~ 7월15일
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 32,
+								}}
+							>
+								진행기간
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 7월17일 ~ 7월31일
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h2"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 32,
+								}}
+							>
+								진행형태
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '30px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 온라인 진행 멘토링 및 질의응답
+								<br />ㆍ 총 2회 (주 1회 70분)
+							</Typography>
+						</Box>
+						<Box
+							width={'100%'}
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								p: { sm: 10, xs: 2 },
+								overflow: 'hidden',
+								borderBottom: '1px solid #c8c8c8',
+							}}
+						>
+							<Typography
+								fontWeight={700}
+								variant="h3"
+								color={'#363636'}
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+									display: 'flex',
+									flexWrap: 'wrap',
+									mr: 38,
+								}}
+							>
+								금액
+							</Typography>
+
+							<Typography
+								sx={{
+									wordBreak: 'keep-all',
+									lineHeight: '20px',
+								}}
+								variant="subtitle1"
+							>
+								ㆍ 30만원 (부가세 별도)
+								<br />ㆍ 총 2회 선택 금액
+							</Typography>
+						</Box>
 					</Box>
 					{/* 멘토 정보 */}
 					<Box
@@ -412,7 +840,7 @@ const Page: NextPage = () => {
 							gap={1}
 						>
 							<Typography variant={'subtitle2'} color={'#3A3A3A'}>
-								{mentoringData.CATEGORY}
+								분야: {mentoringData.CATEGORY}
 							</Typography>
 							<Box
 								display={'flex'}
@@ -439,10 +867,10 @@ const Page: NextPage = () => {
 								/>
 							</Box>
 							<Typography variant={'h5'} color={'#3A3A3A'}>
-								{mentoringData.MENTOR_NAME}
+								멘토: {mentoringData.MENTOR_NAME}
 							</Typography>
 							<Typography variant={'h5'} color={'#3A3A3A'}>
-								{mentoringData.MENTOR_COMPANY}
+								소속: {mentoringData.MENTOR_COMPANY}
 							</Typography>
 						</Box>
 						<Box
@@ -468,6 +896,9 @@ const Page: NextPage = () => {
 										<Typography
 											variant={'body1'}
 											alignSelf={'center'}
+											sx={{
+												lineHeight: '1.5',
+											}}
 										>
 											{mentoringData.MENTOR_INTRODUCE}
 										</Typography>
@@ -521,8 +952,7 @@ const Page: NextPage = () => {
 				<Box
 					sx={{
 						width: { md: '100%', xs: '100%' },
-						border: '1px solid #E0E0E0',
-						backgroundColor: 'white',
+						backgroundColor: 'secondary.light',
 						// height: '150px',
 						px: 5,
 						py: 2,
