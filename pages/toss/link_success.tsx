@@ -34,6 +34,7 @@ const Page: NextPage = () => {
 	 * 가상계좌 데이터
 	 */
 	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
+
 	//* Functions
 
 	/**
@@ -93,6 +94,7 @@ const Page: NextPage = () => {
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
+				console.log(router.query);
 
 				if (response.data.virtualAccount == null) {
 					window.alert(
