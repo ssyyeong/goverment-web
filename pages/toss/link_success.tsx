@@ -7,21 +7,14 @@ import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
-import dayjs from 'dayjs';
 import moment from 'moment';
 import SupportiButton from '../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const {
-		paymentKey,
-		orderId,
-		amount,
-		paymentType,
-		find_option,
-		productLink,
-	} = router.query;
+	const { paymentKey, orderId, amount, paymentType, find_option } =
+		router.query;
 	//* Controllers
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
@@ -35,8 +28,31 @@ const Page: NextPage = () => {
 	 */
 	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
 
+	/**
+	 * 상품 링크
+	 */
+	const [productLink, setProductLink] = React.useState<string | undefined>(
+		undefined
+	);
+
 	//* Functions
 
+	useEffect(() => {
+		if (find_option) {
+			const mentoringController = new DefaultController(
+				'MentoringProduct'
+			);
+			mentoringController.getOneItem(
+				{
+					MENTORING_PRODUCT_IDENTIFICATION_CODE: find_option,
+				},
+				(res) => {
+					console.log(res.data.result);
+					setProductLink(res.data.result.LINK);
+				}
+			);
+		}
+	}, [router.query]);
 	/**
 	 * 결제 내역 생성
 	 */
@@ -101,8 +117,6 @@ const Page: NextPage = () => {
 						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
 					);
 					createPaymentHistory('CARD');
-					if (productLink) router.push(productLink as string);
-					else router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
 					createPaymentHistory('VIRTUAL_ACCOUNT');
@@ -129,8 +143,6 @@ const Page: NextPage = () => {
 			confirmPayment();
 		}
 	}, [router.query]);
-
-	console.log(virtualAccount);
 
 	return (
 		<Box
@@ -199,7 +211,7 @@ const Page: NextPage = () => {
 					</Typography>
 					<SupportiButton
 						contents={
-							productLink
+							productLink != undefined
 								? '사전설문 및 첨부자료 확인'
 								: '홈으로 이동'
 						}
@@ -211,8 +223,8 @@ const Page: NextPage = () => {
 							marginTop: 5,
 						}}
 						onClick={() => {
-							if (productLink) {
-								router.push(productLink as string);
+							if (productLink != undefined) {
+								window.open(productLink);
 							} else {
 								router.push('/');
 							}
