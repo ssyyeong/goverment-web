@@ -113,19 +113,6 @@ const Page: NextPage = () => {
 
 				if (response.data.virtualAccount == null) {
 					createPaymentHistory('CARD');
-
-					if (productLink != undefined) {
-						window.alert(
-							'신청이 완료되었습니다! 사전설문 및 첨부자료 확인 부탁드립니다.'
-						);
-
-						window.open(productLink);
-					} else {
-						window.alert(
-							'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
-						);
-						router.push('/');
-					}
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
 					createPaymentHistory('VIRTUAL_ACCOUNT');
