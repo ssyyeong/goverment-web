@@ -405,8 +405,6 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'row',
 								py: 4,
-								pl: 2,
-
 								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
@@ -451,7 +449,6 @@ const Page: NextPage = () => {
 								flexDirection: 'row',
 								// p: { sm: 10, xs: 2 },
 								py: 4,
-								pl: 2,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 							}}
@@ -611,7 +608,6 @@ const Page: NextPage = () => {
 								flexDirection: 'row',
 								// p: { sm: 10, xs: 2 },
 								py: 4,
-								pl: 2,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 							}}
@@ -654,7 +650,6 @@ const Page: NextPage = () => {
 								flexDirection: 'row',
 								// p: { sm: 10, xs: 2 },
 								py: 4,
-								pl: 2,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 							}}
@@ -693,7 +688,6 @@ const Page: NextPage = () => {
 								display: 'flex',
 								flexDirection: 'row',
 								py: 4,
-								pl: 2,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 							}}
@@ -730,7 +724,6 @@ const Page: NextPage = () => {
 								flexDirection: 'row',
 								// p: { sm: 10, xs: 2 },
 								py: 4,
-								pl: 2,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 							}}
@@ -768,7 +761,6 @@ const Page: NextPage = () => {
 								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
 								py: 4,
-								pl: 2,
 								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
@@ -807,7 +799,6 @@ const Page: NextPage = () => {
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
 								py: 4,
-								pl: 2,
 							}}
 						>
 							<Typography
@@ -845,25 +836,18 @@ const Page: NextPage = () => {
 						width={'100%'}
 						gap={15}
 						mt={5}
-						ml={10}
+						ml={5}
 						border={'1px solid #E0E0E0'}
 						p={5}
 					>
-						<Box
-							display={'flex'}
-							flexDirection={'column'}
-							alignItems={'center'}
-							gap={1}
-						>
-							<Typography variant={'subtitle2'} color={'#3A3A3A'}>
-								분야: {mentoringData.CATEGORY}
-							</Typography>
+						<Box display={'flex'} flexDirection={'column'} gap={1}>
 							<Box
 								display={'flex'}
 								width={'150px'}
 								height={'150px'}
 								borderRadius={'70%'}
 								overflow={'hidden'}
+								mb={2}
 							>
 								<img
 									src={
@@ -882,11 +866,15 @@ const Page: NextPage = () => {
 									}}
 								/>
 							</Box>
+
 							<Typography variant={'h5'} color={'#3A3A3A'}>
 								멘토: {mentoringData.MENTOR_NAME}
 							</Typography>
 							<Typography variant={'h5'} color={'#3A3A3A'}>
 								소속: {mentoringData.MENTOR_COMPANY}
+							</Typography>
+							<Typography variant={'h5'} color={'#3A3A3A'}>
+								분야: {mentoringData.CATEGORY}
 							</Typography>
 						</Box>
 						<Box
