@@ -37,7 +37,7 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 			</Box>
 			{/** 필터링 영역 */}
 			{props.useFiltering && (
-				<Box display="flex" gap={3} flexWrap="wrap" my={2}>
+				<Box display="flex" gap={1.2} flexWrap="wrap" my={2}>
 					{props.type != 'mentoring' && (
 						<Typography
 							sx={{
@@ -61,10 +61,13 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 							display="flex"
 							flexDirection={'column'}
 							alignItems="center"
+							justifyContent="center"
 							gap={1}
 							sx={{
-								py: 1,
-								px: 3,
+								px: 1,
+								py: 0.3,
+								width: '110px',
+								height: '80px',
 								border: '1px solid #c8c8c8',
 								borderRadius: 5,
 								cursor: 'pointer',
@@ -98,10 +101,14 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 									key={index.toString()}
 									display="flex"
 									flexDirection={'column'}
-									alignItems="center"
+									alignItems={'center'}
+									justifyContent="center"
 									gap={1}
 									sx={{
-										p: 1,
+										px: 1,
+										py: 0.3,
+										width: index != 9 ? '105px' : '140px',
+										height: '80px',
 										border: '1px solid #c8c8c8',
 										borderRadius: 5,
 										cursor: 'pointer',
