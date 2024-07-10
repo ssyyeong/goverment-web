@@ -404,9 +404,12 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
+
+								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -446,9 +449,11 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -604,9 +609,11 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -645,9 +652,11 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -683,9 +692,10 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -718,9 +728,11 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
+								py: 4,
+								pl: 2,
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -753,14 +765,16 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								py: 4,
+								pl: 2,
+								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
 								fontWeight={700}
-								variant="h2"
+								variant="h3"
 								color={'#363636'}
 								sx={{
 									wordBreak: 'keep-all',
@@ -789,9 +803,11 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								p: { sm: 10, xs: 2 },
+								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
-								borderBottom: '1px solid #c8c8c8',
+								// borderBottom: '1px solid #c8c8c8',
+								py: 4,
+								pl: 2,
 							}}
 						>
 							<Typography
@@ -829,7 +845,7 @@ const Page: NextPage = () => {
 						width={'100%'}
 						gap={15}
 						mt={5}
-						ml={15}
+						ml={10}
 						border={'1px solid #E0E0E0'}
 						p={5}
 					>
