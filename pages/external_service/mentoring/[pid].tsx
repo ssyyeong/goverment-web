@@ -193,7 +193,7 @@ const Page: NextPage = () => {
 							alignSelf={'flex-start'}
 							borderRadius={2}
 							bgcolor={'primary.light'}
-							py={6.3}
+							py={3}
 							px={5}
 							flex={1}
 						>
@@ -446,7 +446,6 @@ const Page: NextPage = () => {
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
-								justifyContent: 'space-between',
 								p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
 								borderBottom: '1px solid #c8c8c8',
@@ -461,6 +460,7 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
+									mr: 27,
 								}}
 							>
 								커리큘럼 소개
