@@ -93,8 +93,16 @@ const Page: NextPage = () => {
 					RESERVATION_DATE: JSON.stringify(selectedTime),
 				},
 				(res) => {
-					setAlertModal(true);
-					setAlertModalType('seminarApplySuccess');
+					router.push(
+						`${
+							mentoringData?.PAYMENT_LINK
+						}?userName=${memberEmailId}&productType=${'멘토링'}&productName=${
+							mentoringData?.TITLE
+						}&productId=${
+							mentoringData?.MENTORING_PRODUCT_IDENTIFICATION_CODE
+						}$productLink=${mentoringData?.LINK}
+						`
+					);
 				},
 				(err) => {
 					setAlertModal(true);
@@ -207,7 +215,10 @@ const Page: NextPage = () => {
 							alignSelf={'flex-start'}
 							borderRadius={2}
 							bgcolor={'primary.light'}
-							py={2}
+							py={{
+								xs: 2,
+								md: 4,
+							}}
 							px={{
 								xs: 2,
 								md: 3,
@@ -1170,18 +1181,7 @@ const Page: NextPage = () => {
 						handleClose={() => setAlertModal(false)}
 						customHandleClose={
 							alertModalType == 'seminarApplySuccess'
-								? () => {
-										router.push(
-											`${
-												mentoringData?.PAYMENT_LINK
-											}?userName=${memberEmailId}&productType=${'멘토링'}&productName=${
-												mentoringData?.TITLE
-											}&productId=${
-												mentoringData?.MENTORING_PRODUCT_IDENTIFICATION_CODE
-											}$productLink=${mentoringData?.LINK}
-											`
-										);
-								  }
+								? () => {}
 								: undefined
 						}
 					/>
