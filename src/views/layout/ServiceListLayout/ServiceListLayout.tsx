@@ -60,13 +60,13 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 						<Box
 							display="flex"
 							flexDirection={'column'}
-							alignItems="center"
+							alignItems={'center'}
 							justifyContent="center"
 							gap={1}
 							sx={{
 								px: 1,
 								py: 0.3,
-								width: '110px',
+								width: '105px',
 								height: '80px',
 								border: '1px solid #c8c8c8',
 								borderRadius: 5,
@@ -76,6 +76,7 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 										? 'primary.main'
 										: '#c8c8c8',
 							}}
+							onClick={() => setTab(undefined)}
 						>
 							<img
 								src="/images/mentoring/category.png"
@@ -84,11 +85,8 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 							/>
 							<Typography
 								sx={{
-									p: 1,
-									cursor: 'pointer',
 									color: tab === undefined && 'primary.main',
 								}}
-								onClick={() => setTab(undefined)}
 							>
 								전체
 							</Typography>
@@ -117,6 +115,7 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 												? 'primary.main'
 												: '#c8c8c8',
 									}}
+									onClick={() => setTab(item)}
 								>
 									<img
 										src={item.IMAGE}
@@ -128,7 +127,6 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 											color:
 												tab === item && 'primary.main',
 										}}
-										onClick={() => setTab(item)}
 									>
 										{item.CONTENT}
 									</Typography>
