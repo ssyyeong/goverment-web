@@ -154,7 +154,7 @@ let themeConfig = createTheme({
 		},
 	},
 	palette: {
-		mode: 'light',
+		mode: 'light' || 'dark',
 		common: {
 			black: '#000',
 			white: '#f8f8f8',

@@ -252,6 +252,9 @@ const MentoringData = (props: IMentoringData) => {
 					);
 				})}
 			</Box>
+			<Typography variant="body2" color={'gray'}>
+				2회(2일)만 신청가능합니다.
+			</Typography>
 		</Box>
 	);
 };
