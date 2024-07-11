@@ -193,7 +193,7 @@ const Page: NextPage = () => {
 							alignSelf={'flex-start'}
 							borderRadius={2}
 							bgcolor={'primary.light'}
-							py={3}
+							py={4}
 							px={5}
 							flex={1}
 						>
@@ -240,16 +240,16 @@ const Page: NextPage = () => {
 									멘토: {mentoringData.MENTOR_NAME}
 								</Typography>
 							</Box>
-							<Typography variant={'body1'} color={'gray'}>
+							<Typography variant={'subtitle1'} color={'gray'}>
 								분야: {mentoringData.CATEGORY}
 							</Typography>
-							<Typography variant={'body1'} color={'gray'}>
+							<Typography variant={'subtitle1'} color={'gray'}>
 								진행방식:{' '}
 								{mentoringData.ONLINE_YN === 'Y'
 									? '온라인'
 									: '오프라인'}
 							</Typography>
-							<Typography variant={'body1'} color={'gray'}>
+							<Typography variant={'subtitle1'} color={'gray'}>
 								진행기간:{' '}
 								{moment(mentoringData.START_DATE).format(
 									'YYYY.MM.DD'
@@ -276,8 +276,13 @@ const Page: NextPage = () => {
 								gap={5}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>모집기간</Typography>
-								<Typography>
+								<Typography
+									variant={'subtitle1'}
+									color={'gray'}
+								>
+									모집기간
+								</Typography>
+								<Typography variant={'subtitle1'}>
 									{moment(
 										mentoringData.RECURITMENT_START_DATE
 									).format('YYYY.MM.DD')}{' '}
@@ -293,8 +298,13 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>진행가격</Typography>
-								<Typography>
+								<Typography
+									variant={'subtitle1'}
+									color={'gray'}
+								>
+									진행가격
+								</Typography>
+								<Typography variant={'subtitle1'}>
 									{mentoringData.REAL_PRICE.toLocaleString()}
 									원
 								</Typography>
@@ -305,10 +315,13 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>
+								<Typography
+									color={'gray'}
+									variant={'subtitle1'}
+								>
 									총 진행 횟수
 								</Typography>
-								<Typography>
+								<Typography variant={'subtitle1'}>
 									{mentoringData.PROGRESS_NUMBER.toLocaleString()}
 									회
 								</Typography>
@@ -319,14 +332,19 @@ const Page: NextPage = () => {
 								alignItems={'center'}
 								justifyContent={'space-between'}
 							>
-								<Typography color={'gray'}>정원 : </Typography>
+								<Typography
+									color={'gray'}
+									variant={'subtitle1'}
+								>
+									정원 :{' '}
+								</Typography>
 								<Box
 									display={'flex'}
 									flexDirection={'row'}
 									alignItems={'center'}
 									gap={1}
 								>
-									<Typography>
+									<Typography variant={'subtitle1'}>
 										{mentoringData.PERSONNEL} 명(남은
 										신청인원{' '}
 										{mentoringData.PERSONNEL -
@@ -446,7 +464,8 @@ const Page: NextPage = () => {
 									lineHeight: '30px',
 									alignSelf: 'center',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 참가자들에게 일본 시장 진출을 위한 실질적인
 								전략과 노하우 제공
@@ -489,7 +508,7 @@ const Page: NextPage = () => {
 							>
 								<Typography
 									fontWeight={600}
-									variant="h6"
+									variant="h5"
 									sx={{
 										wordBreak: 'keep-all',
 										lineHeight: '20px',
@@ -505,7 +524,8 @@ const Page: NextPage = () => {
 										wordBreak: 'keep-all',
 										lineHeight: '20px',
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									<strong>* chapter 1 :</strong> 오리엔테이션
 									및 일본 시장 개요 및 일본 비즈니스 문화와
@@ -515,10 +535,11 @@ const Page: NextPage = () => {
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
-										lineHeight: '22px',
+										lineHeight: '30px',
 										ml: 2,
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									ㆍ 일본 시장의 특성 및 진출 시 고려사항
 									<br />
@@ -530,7 +551,8 @@ const Page: NextPage = () => {
 										wordBreak: 'keep-all',
 										lineHeight: '22px',
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									<strong>* chapter 2 :</strong> 협력 및
 									파트너십 전략 및 제품 및 서비스 현지화 전략
@@ -539,10 +561,11 @@ const Page: NextPage = () => {
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
-										lineHeight: '22px',
+										lineHeight: '30px',
 										ml: 2,
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									ㆍ 일본 기업과의 협력 방안
 									<br />
@@ -553,7 +576,7 @@ const Page: NextPage = () => {
 								</Typography>
 								<Typography
 									fontWeight={600}
-									variant="h6"
+									variant="h5"
 									sx={{
 										wordBreak: 'keep-all',
 										lineHeight: '20px',
@@ -569,7 +592,8 @@ const Page: NextPage = () => {
 										wordBreak: 'keep-all',
 										lineHeight: '20px',
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									<strong>* chapter 3 :</strong> 일본 진출
 									한국 스타트업의 사례
@@ -578,10 +602,11 @@ const Page: NextPage = () => {
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
-										lineHeight: '20px',
+										lineHeight: '30px',
 										ml: 2,
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									ㆍ B2C 사례
 									<br />ㆍ B2B 사례
@@ -592,7 +617,8 @@ const Page: NextPage = () => {
 										wordBreak: 'keep-all',
 										lineHeight: '20px',
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									<strong>* chapter 4 :</strong> 자금 조달 및
 									투자 유치 네트워킹 및 Q&A
@@ -601,10 +627,11 @@ const Page: NextPage = () => {
 								<Typography
 									sx={{
 										wordBreak: 'keep-all',
-										lineHeight: '20px',
+										lineHeight: '30px',
 										ml: 2,
 									}}
-									variant="subtitle1"
+									variant="h6"
+									fontWeight={400}
 								>
 									ㆍ 일본에서의 자금 조달 방법
 									<br />
@@ -647,7 +674,8 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 일본 시장에 대한 깊이 있는 이해와 진출 전략
 								확보
@@ -689,7 +717,8 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 일본 시장에 진출을 계획하고 있는 한국
 								스타트업 및 중소기업
@@ -727,7 +756,8 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 7월1일 ~ 7월15일
 							</Typography>
@@ -763,7 +793,8 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 7월17일 ~ 7월31일
 							</Typography>
@@ -799,7 +830,8 @@ const Page: NextPage = () => {
 									wordBreak: 'keep-all',
 									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 온라인 진행 멘토링 및 질의응답
 								<br />ㆍ 총 2회 (주 1회 70분)
@@ -834,9 +866,10 @@ const Page: NextPage = () => {
 							<Typography
 								sx={{
 									wordBreak: 'keep-all',
-									lineHeight: '20px',
+									lineHeight: '30px',
 								}}
-								variant="subtitle1"
+								variant="h6"
+								fontWeight={400}
 							>
 								ㆍ 30만원 (부가세 별도)
 								<br />ㆍ 총 2회 선택 금액
@@ -849,7 +882,7 @@ const Page: NextPage = () => {
 						flexDirection={'row'}
 						alignSelf={'center'}
 						width={'100%'}
-						gap={15}
+						gap={12}
 						mt={5}
 						ml={5}
 						border={'1px solid #E0E0E0'}
@@ -882,15 +915,57 @@ const Page: NextPage = () => {
 								/>
 							</Box>
 
-							<Typography variant={'h5'} color={'#3A3A3A'}>
-								멘토: {mentoringData.MENTOR_NAME}
-							</Typography>
-							<Typography variant={'h5'} color={'#3A3A3A'}>
-								소속: {mentoringData.MENTOR_COMPANY}
-							</Typography>
-							<Typography variant={'h5'} color={'#3A3A3A'}>
-								분야: {mentoringData.CATEGORY}
-							</Typography>
+							<Box
+								display={'flex'}
+								flexDirection={'row'}
+								gap={1}
+								alignItems={'center'}
+							>
+								<Typography
+									variant={'h5'}
+									fontWeight={'600'}
+									color={'#3A3A3A'}
+								>
+									멘토
+								</Typography>
+								<Typography variant={'h6'} color={'#3A3A3A'}>
+									{mentoringData.MENTOR_NAME}
+								</Typography>
+							</Box>
+							<Box
+								display={'flex'}
+								flexDirection={'row'}
+								gap={1}
+								alignItems={'center'}
+							>
+								<Typography
+									variant={'h5'}
+									fontWeight={'600'}
+									color={'#3A3A3A'}
+								>
+									소속
+								</Typography>
+								<Typography variant={'h6'} color={'#3A3A3A'}>
+									SoftBank / UNI PLATFORM
+								</Typography>
+							</Box>
+							<Box
+								display={'flex'}
+								flexDirection={'row'}
+								gap={1}
+								alignItems={'center'}
+							>
+								<Typography
+									variant={'h5'}
+									fontWeight={'600'}
+									color={'#3A3A3A'}
+								>
+									분야
+								</Typography>
+								<Typography variant={'h6'} color={'#3A3A3A'}>
+									{mentoringData.CATEGORY}
+								</Typography>
+							</Box>
 						</Box>
 						<Box
 							display={'flex'}
@@ -916,7 +991,7 @@ const Page: NextPage = () => {
 											variant={'body1'}
 											alignSelf={'center'}
 											sx={{
-												lineHeight: '1.5',
+												lineHeight: '2',
 											}}
 										>
 											{mentoringData.MENTOR_INTRODUCE}
@@ -937,9 +1012,20 @@ const Page: NextPage = () => {
 										>
 											주요 경력
 										</Typography>
-										<SupportiViewer
-											data={mentoringData.MENTOR_HISTORY}
-										/>
+										<Typography
+											variant={'body1'}
+											sx={{
+												lineHeight: '2',
+											}}
+										>
+											현) SoftBank 과장
+											<br />
+											현) UNI Platform CEO/Founder
+											<br /> 전) LINE 금융사업본부
+											<br /> 전) 미즈호 도쿄본점
+											국제영업부 <br />
+											전) 주상파울루 대한민국 총영사
+										</Typography>
 									</Box>
 								)}
 						</Box>
