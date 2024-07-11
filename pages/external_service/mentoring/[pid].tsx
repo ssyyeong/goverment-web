@@ -436,6 +436,17 @@ const Page: NextPage = () => {
 										? '신청마감'
 										: '신청하기'
 								}
+								disabled={
+									mentoringData.PERSONNEL -
+										mentoringData.MentoringApplications.filter(
+											(mentoringApplication: any) =>
+												mentoringApplication.CANCELED_YN ===
+												'N'
+										).length ===
+									0
+										? true
+										: false
+								}
 								variant={'contained'}
 								onClick={() => {
 									if (
