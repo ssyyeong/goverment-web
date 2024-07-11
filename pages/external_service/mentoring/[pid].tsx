@@ -163,16 +163,27 @@ const Page: NextPage = () => {
 	};
 
 	return (
-		<Box display={'flex'}>
+		<Box
+			display={'flex'}
+			width={'100%'}
+			p={{
+				xs: 2,
+				md: 10,
+			}}
+			minHeight={'100vh'}
+		>
 			{mentoringData !== undefined && (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
-					width={'80%'}
+					width={{
+						md: '80%',
+						xs: '100%',
+					}}
 					position={'relative'}
 					margin={'auto'}
 					p={{
-						xs: 2,
+						xs: 1,
 						md: 10,
 					}}
 					minHeight={'90vh'}
@@ -180,8 +191,11 @@ const Page: NextPage = () => {
 					{/* 멘토링 헤더 */}
 					<Box
 						width={'100%'}
-						p={3}
-						display={'flex'}
+						p={{
+							xs: 0,
+							md: 3,
+						}}
+						display={{ xs: 'block', md: 'flex' }}
 						justifyContent={'space-between'}
 						alignItems={'center'}
 						gap={3}
@@ -193,7 +207,7 @@ const Page: NextPage = () => {
 							alignSelf={'flex-start'}
 							borderRadius={2}
 							bgcolor={'primary.light'}
-							py={4}
+							py={2}
 							px={5}
 							flex={1}
 						>
@@ -431,16 +445,16 @@ const Page: NextPage = () => {
 					</Box>
 					{/* 멘토링 내용 */}
 					<Box display={'flex'} flexDirection={'column'} ml={3}>
-						{/* <SupportiViewer data={mentoringData.DESCRIPTION} /> */}
 						<Box
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								py: 4,
-								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -452,7 +466,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 28,
+									mr: {
+										md: 28,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								멘토링 소개 🙌
@@ -480,8 +501,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
-								// p: { sm: 10, xs: 2 },
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								py: 4,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
@@ -496,10 +519,17 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 27,
+									mr: {
+										md: 30,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
-								커리큘럼 소개 📚
+								커리큘럼 📚
 							</Typography>
 							<Box
 								display={'flex'}
@@ -647,7 +677,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								// p: { sm: 10, xs: 2 },
 								py: 4,
 								overflow: 'hidden',
@@ -663,7 +696,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 32,
+									mr: {
+										md: 32,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								기대 효과 🚀
@@ -690,7 +730,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								// p: { sm: 10, xs: 2 },
 								py: 4,
 								overflow: 'hidden',
@@ -706,7 +749,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 32,
+									mr: {
+										md: 32,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								참가대상 🎯
@@ -730,7 +780,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								py: 4,
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
@@ -745,7 +798,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 32,
+									mr: {
+										md: 32,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								모집기간 📅
@@ -766,7 +826,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								// p: { sm: 10, xs: 2 },
 								py: 4,
 								overflow: 'hidden',
@@ -782,7 +845,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 32,
+									mr: {
+										md: 32,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								진행기간 📆
@@ -803,11 +873,12 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
-								// p: { sm: 10, xs: 2 },
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								overflow: 'hidden',
 								py: 4,
-								// borderBottom: '1px solid #c8c8c8',
 							}}
 						>
 							<Typography
@@ -819,7 +890,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 32,
+									mr: {
+										md: 32,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								진행형태 📌
@@ -841,7 +919,10 @@ const Page: NextPage = () => {
 							width={'100%'}
 							sx={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: {
+									md: 'row',
+									xs: 'column',
+								},
 								// p: { sm: 10, xs: 2 },
 								overflow: 'hidden',
 								// borderBottom: '1px solid #c8c8c8',
@@ -857,7 +938,14 @@ const Page: NextPage = () => {
 									lineHeight: '20px',
 									display: 'flex',
 									flexWrap: 'wrap',
-									mr: 38,
+									mr: {
+										md: 38,
+										xs: 0,
+									},
+									mb: {
+										md: 0,
+										xs: 3,
+									},
 								}}
 							>
 								금액 💰
@@ -879,12 +967,24 @@ const Page: NextPage = () => {
 					{/* 멘토 정보 */}
 					<Box
 						display={'flex'}
-						flexDirection={'row'}
+						flexDirection={{
+							md: 'row',
+							xs: 'column',
+						}}
 						alignSelf={'center'}
 						width={'100%'}
-						gap={12}
-						mt={5}
-						ml={5}
+						gap={{
+							md: 12,
+							xs: 0,
+						}}
+						mt={{
+							md: 5,
+							xs: 0,
+						}}
+						ml={{
+							md: 5,
+							xs: 0,
+						}}
 						border={'1px solid #E0E0E0'}
 						p={5}
 					>
@@ -946,7 +1046,7 @@ const Page: NextPage = () => {
 									소속
 								</Typography>
 								<Typography variant={'h6'} color={'#3A3A3A'}>
-									SoftBank / UNI PLATFORM
+									SoftBank / <br /> UNI PLATFORM
 								</Typography>
 							</Box>
 							<Box
