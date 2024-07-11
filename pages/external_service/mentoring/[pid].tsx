@@ -208,12 +208,46 @@ const Page: NextPage = () => {
 							borderRadius={2}
 							bgcolor={'primary.light'}
 							py={2}
-							px={5}
+							px={{
+								xs: 2,
+								md: 3,
+							}}
 							flex={1}
+							mb={{
+								xs: 3,
+								md: 0,
+							}}
 						>
-							<Typography variant={'h2'} fontWeight={'600'}>
-								{mentoringData.TITLE}
-							</Typography>
+							<Box display={{ md: 'flex', xs: 'none' }}>
+								<Typography
+									variant={'h3'}
+									fontWeight={'600'}
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '30px',
+										display: 'flex',
+										flexWrap: 'wrap',
+									}}
+								>
+									일본 사업 진출 및 오픈이노베이션 멘토링
+									프로그램
+								</Typography>
+							</Box>
+							<Box display={{ md: 'none', xs: 'flex' }}>
+								<Typography
+									variant={'h3'}
+									fontWeight={'600'}
+									sx={{
+										wordBreak: 'keep-all',
+										lineHeight: '30px',
+										display: 'flex',
+										flexWrap: 'wrap',
+									}}
+								>
+									일본 사업 진출 및 <br /> 오픈이노베이션
+									멘토링 프로그램
+								</Typography>
+							</Box>
 							<Box
 								display={'flex'}
 								flexDirection={'row'}
