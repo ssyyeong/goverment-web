@@ -1102,7 +1102,7 @@ const Page: NextPage = () => {
 									소속
 								</Typography>
 								<Typography variant={'h6'} color={'#3A3A3A'}>
-									SoftBank / <br /> UNI PLATFORM
+									LINE야후 금융사업본부 / <br /> UNI Platform
 								</Typography>
 							</Box>
 							<Box
@@ -1174,13 +1174,17 @@ const Page: NextPage = () => {
 												lineHeight: '2',
 											}}
 										>
-											현) SoftBank 과장
+											현) LINE야후 금융사업본부
 											<br />
 											현) UNI Platform CEO/Founder
-											<br /> 전) LINE 금융사업본부
-											<br /> 전) 미즈호 도쿄본점
-											국제영업부 <br />
-											전) 주상파울루 대한민국 총영사
+											<br /> 현)SoftBank Corp.
+											법인전략기획총괄부
+											<br /> 전) LINE은행설립준비회사
+											<br />
+											전) 미즈호은행 서울지점 <br />
+											전) 미즈호은행 도쿄본점 국제영업부
+											<br />
+											전) 주상파울루대한민국총영사관
 										</Typography>
 									</Box>
 								)}
