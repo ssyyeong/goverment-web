@@ -5,7 +5,7 @@ import SeminarCard from '../../local/external_service/seminar/SeminarCard/Semina
 import Nodata from '../../global/NoData/NoData';
 
 interface IServiceListLayoutProps {
-	type: "seminar" | "consulting";
+	type: 'seminar' | 'consulting' | 'mentoring';
 	useFiltering?: boolean;
 	title: string;
 	filterList?: any[];
@@ -37,50 +37,135 @@ const ServiceListLayout = (props: IServiceListLayoutProps) => {
 			</Box>
 			{/** 필터링 영역 */}
 			{props.useFiltering && (
-				<Box display="flex" gap={1} flexWrap="wrap" my={2}>
+				<Box display="flex" gap={1.2} flexWrap="wrap" my={2}>
+					{props.type != 'mentoring' && (
 						<Typography
+							sx={{
+								p: 1,
+								border: '1px solid #c8c8c8',
+								borderRadius: 5,
+								cursor: 'pointer',
+								borderColor:
+									tab === undefined
+										? 'primary.main'
+										: '#c8c8c8',
+								color: tab === undefined && 'primary.main',
+							}}
+							onClick={() => setTab(undefined)}
+						>
+							전체
+						</Typography>
+					)}
+					{props.type == 'mentoring' && (
+						<Box
+							display="flex"
+							flexDirection={'column'}
+							alignItems={'center'}
+							justifyContent="center"
+							gap={1}
+							sx={{
+								px: 1,
+								py: 0.3,
+								width: '105px',
+								height: '80px',
+								border: '1px solid #c8c8c8',
+								borderRadius: 5,
+								cursor: 'pointer',
+								borderColor:
+									tab === undefined
+										? 'primary.main'
+										: '#c8c8c8',
+							}}
+							onClick={() => setTab(undefined)}
+						>
+							<img
+								src="/images/mentoring/category.png"
+								alt="icon"
+								style={{ width: 40, height: 40 }}
+							/>
+							<Typography
 								sx={{
-									p: 1,
-									border: '1px solid #c8c8c8',
-									borderRadius: 5,
-									cursor: 'pointer',
-									borderColor:
-										tab === undefined ? 'primary.main' : '#c8c8c8',
-										color: tab === undefined && 'primary.main'
+									color: tab === undefined && 'primary.main',
 								}}
-								onClick={() => setTab(undefined)}
 							>
 								전체
 							</Typography>
-					{props.filterList?.map((item, index) => {
-						return (
-							<Typography
-								sx={{
-									p: 1,
-									border: '1px solid #c8c8c8',
-									borderRadius: 5,
-									cursor: 'pointer',
-									borderColor:
-										tab === item ? 'primary.main' : '#c8c8c8',
-										color: tab === item && 'primary.main'
-								}}
-								onClick={() => setTab(item)}
-							>
-								{item.CONTENT}
-							</Typography>
-						);
-					})}
+						</Box>
+					)}
+					{props.type === 'mentoring' &&
+						props.filterList?.map((item, index) => {
+							return (
+								<Box
+									key={index.toString()}
+									display="flex"
+									flexDirection={'column'}
+									alignItems={'center'}
+									justifyContent="center"
+									gap={1}
+									sx={{
+										px: 1,
+										py: 0.3,
+										width: index != 9 ? '105px' : '140px',
+										height: '80px',
+										border: '1px solid #c8c8c8',
+										borderRadius: 5,
+										cursor: 'pointer',
+										borderColor:
+											tab === item
+												? 'primary.main'
+												: '#c8c8c8',
+									}}
+									onClick={() => setTab(item)}
+								>
+									<img
+										src={item.IMAGE}
+										alt="icon"
+										style={{ width: 40, height: 40 }}
+									/>
+									<Typography
+										sx={{
+											color:
+												tab === item && 'primary.main',
+										}}
+									>
+										{item.CONTENT}
+									</Typography>
+								</Box>
+							);
+						})}
+					{props.type != 'mentoring' &&
+						props.filterList?.map((item, index) => {
+							return (
+								<Typography
+									sx={{
+										p: 1,
+										border: '1px solid #c8c8c8',
+										borderRadius: 5,
+										cursor: 'pointer',
+										borderColor:
+											tab === item
+												? 'primary.main'
+												: '#c8c8c8',
+										color: tab === item && 'primary.main',
+									}}
+									onClick={() => setTab(item)}
+								>
+									{item.CONTENT}
+								</Typography>
+							);
+						})}
 				</Box>
 			)}
 			{/* 콘텐츠 영역 */}
-			{props.dataList?.length === 0 ? 
-		<Nodata />	
-		: 
-			<Box display="flex" gap={3} flexWrap='wrap' my={3}>
-				{props.dataList?.map((item, index) => {
-					return <SeminarCard data={item} type={props.type}/>;
-				})}
-			</Box>}
+			{props.dataList?.length === 0 ? (
+				<Nodata />
+			) : (
+				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
+					{props.dataList?.map((item, index) => {
+						return <SeminarCard data={item} type={props.type} />;
+					})}
+				</Box>
+			)}
 		</Box>
 	);
 };

@@ -845,7 +845,7 @@ const Page: NextPage = () => {
 									}}
 									variant="subtitle1"
 								>
-									6.17(월)-28(금) 2주간 진행
+									7.08(월)-19(금) 2주간 진행
 								</Typography>
 							</Typography>
 							<Typography
@@ -869,14 +869,14 @@ const Page: NextPage = () => {
 									variant="subtitle1"
 								>
 									<b>A반</b> <br />
-									- 매주 화요일 7월 2일 시작 (2일, 9일, 16일,
-									23일) - 4주 강의 진행
+									- 매주 화요일 7월 23일 시작 (23일, 30일, 8월
+									6일, 13일) - 4주 강의 진행
 									<br />
 									<b>B반</b> <br />
-									- 매주 목요일 7월 4일 시작 (4일, 11일, 18일,
-									25일) - 4주 강의 진행
+									- 매주 목요일 7월 25일 시작 (8월 1일, 8일,
+									15일, 22일) - 4주 강의 진행
 									<br />
-									5주차 7월 30일 화요일 1,B반 모의데모데이
+									5주차 8월 27일 화요일 A,B반 모의데모데이
 									진행
 									<br />
 								</Typography>
@@ -1931,7 +1931,13 @@ const Page: NextPage = () => {
 						: alertModalType == 'seminarApplySuccess'
 						? () => {
 								router.push(
-									`${seminarData?.PAYMENT_LINK}?userName=${memberEmailId}&productName=${seminarData?.PRODUCT_NAME}&productId=${seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+									`${
+										seminarData?.PAYMENT_LINK
+									}?userName=${memberEmailId}&productName=${'세미나'}&productName=${
+										seminarData?.PRODUCT_NAME
+									}&productId=${
+										seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE
+									}`
 								);
 						  }
 						: undefined

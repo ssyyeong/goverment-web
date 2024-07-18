@@ -15,7 +15,7 @@ import { useAppMember } from '../../../../../hooks/useAppMember';
 
 interface ISeminarData {
 	data: any;
-	type: 'seminar' | 'consulting';
+	type: 'seminar' | 'consulting' | 'mentoring';
 }
 
 const SeminarCard = (props: ISeminarData) => {
@@ -63,14 +63,22 @@ const SeminarCard = (props: ISeminarData) => {
 					router.push(
 						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
 					);
-				else
+				else if (props.type === 'consulting')
 					router.push(
 						`/external_service/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+					);
+				else
+					router.push(
+						`/external_service/mentoring/${props.data.MENTORING_PRODUCT_IDENTIFICATION_CODE}`
 					);
 			}}
 		>
 			<Image
-				src={JSON.parse(props.data.PRODUCT_DETAIL_IMAGE_LIST)[0]}
+				src={
+					props.type !== 'mentoring'
+						? JSON.parse(props.data.PRODUCT_DETAIL_IMAGE_LIST)[0]
+						: JSON.parse(props.data.IMAGE)[0]
+				}
 				alt="image"
 				width={240}
 				height={250}
@@ -90,13 +98,36 @@ const SeminarCard = (props: ISeminarData) => {
 					{props.data.SeminarCategory.CONTENT}
 				</Typography>
 			)}
+			{props.data.CATEGORY && (
+				<Typography
+					sx={{
+						p: 1,
+						border: '1px solid #c8c8c8',
+						borderRadius: 5,
+						cursor: 'pointer',
+						width: 'fit-content',
+						color: 'primary.main',
+						wordBreak: 'keep-all',
+					}}
+				>
+					{props.data.CATEGORY}
+				</Typography>
+			)}
+			{props.data.MENTOR_NAME && (
+				<Typography>{props.data.MENTOR_NAME}</Typography>
+			)}
 			<Typography
 				variant="h6"
 				fontWeight={600}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.PRODUCT_NAME}
+				{props.data.PRODUCT_NAME || props.data.TITLE}
 			</Typography>
+			{props.type === 'mentoring' && (
+				<Typography>
+					{props.data.REAL_PRICE.toLocaleString()}원
+				</Typography>
+			)}
 			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}
 			<SupportiButton
 				contents={checkApplication() ? '신청완료' : '신청하기'}

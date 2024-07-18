@@ -24,7 +24,8 @@ const Page: NextPage = () => {
 	//* Modules
 	const { linkid } = useRouter().query;
 	const { userName } = useRouter().query;
-	const { productName, productId } = useRouter().query;
+	const { productType, productName, productId, productLink } =
+		useRouter().query;
 	const router = useRouter();
 	const { memberId } = useAppMember();
 
@@ -81,7 +82,8 @@ const Page: NextPage = () => {
 			{
 				CREATE_OPTION_KEY_LIST: {
 					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					DESCRIPTION: '세미나 단건 결제' + '(' + productName + ')',
+					DESCRIPTION:
+						productType + ' 단건 결제' + '(' + productName + ')',
 					AMOUNT: Number(amount),
 					TYPE: 'TICKET',
 					ORDER_ID: orderId,
@@ -102,7 +104,7 @@ const Page: NextPage = () => {
 						successUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST +
 							`/toss/link_success` +
-							`?route=${router.asPath}&find_option=${productId}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
+							`?route=${router.asPath}&find_option=${productId}&productLink=${productLink}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
 						failUrl:
 							process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
 						validHours: 24, // 유효시간

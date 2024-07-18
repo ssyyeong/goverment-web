@@ -78,13 +78,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/external_service/seminar');
 			},
 		},
-		// {
-		// 	label: '멘토링',
-		// 	path: '/mentor',
-		// 	onclick: () => {
-		// 		router.push('/mentor');
-		// 	},
-		// },
+		{
+			label: '멘토링',
+			path: '/external_service/mentoring',
+			onclick: () => {
+				router.push('/external_service/mentoring');
+			},
+		},
 		// {
 		// 	label: '커피챗',
 		// 	path: '/internal_service/coffeechat',
@@ -181,6 +181,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			path: '/external_service/seminar',
 			onclick: () => {
 				router.push('/external_service/seminar');
+			},
+		},
+		{
+			label: '멘토링',
+			path: '/external_service/mentoring',
+			onclick: () => {
+				router.push('/external_service/mentoring');
 			},
 		},
 		// {
@@ -306,10 +313,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				});
 			},
 		},
-		// {
-		// 	label: '멘토링',
-		// 	path: '/mentor',
-		// },
+		{
+			label: '멘토링',
+			path: '/external_service/mentoring',
+		},
 		// {
 		// 	label: '커피챗',
 		// 	path: '/internal_service/coffeechat',

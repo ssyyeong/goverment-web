@@ -140,6 +140,16 @@ const mypageMenu: IMenu[] = [
 		icon: '/images/icons/seminar-reservation.png',
 	},
 	{
+		label: '멘토링 히스토리',
+		path: '/my_page/mentoring_reservation_history',
+		icon: '/images/icons/seminar.png',
+	},
+	{
+		label: '컨설팅 히스토리',
+		path: '/my_page/consulting_reservation_history',
+		icon: '/images/icons/consulting-reservation.png',
+	},
+	{
 		label: '마이티켓',
 		path: '/my_page/my_cupon',
 		icon: '/images/icons/cupon.png',
@@ -154,11 +164,7 @@ const mypageMenu: IMenu[] = [
 	// 	path: '/my_page/ir_history',
 	// 	icon: '/images/icons/seminar-reservation.png',
 	// },
-	{
-		label: '컨설팅 히스토리',
-		path: '/my_page/consulting_reservation_history',
-		icon: '/images/icons/consulting-reservation.png',
-	},
+
 	{
 		label: '커피챗 신청',
 		icon: '/images/icons/coffee.png',

@@ -7,9 +7,8 @@ import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
-import { useAppMember } from '../../src/hooks/useAppMember';
-import dayjs from 'dayjs';
 import moment from 'moment';
+import SupportiButton from '../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -28,8 +27,32 @@ const Page: NextPage = () => {
 	 * 가상계좌 데이터
 	 */
 	const [virtualAccount, setVirtualAccount] = React.useState<any>(undefined);
+
+	/**
+	 * 상품 링크
+	 */
+	const [productLink, setProductLink] = React.useState<string | undefined>(
+		undefined
+	);
+
 	//* Functions
 
+	useEffect(() => {
+		if (find_option) {
+			const mentoringController = new DefaultController(
+				'MentoringProduct'
+			);
+			mentoringController.getOneItem(
+				{
+					MENTORING_PRODUCT_IDENTIFICATION_CODE: find_option,
+				},
+				(res) => {
+					console.log(res.data.result);
+					setProductLink(res.data.result.LINK);
+				}
+			);
+		}
+	}, [router.query]);
 	/**
 	 * 결제 내역 생성
 	 */
@@ -89,11 +112,7 @@ const Page: NextPage = () => {
 				setLoading(false);
 
 				if (response.data.virtualAccount == null) {
-					window.alert(
-						'신청이 완료되었습니다! 결제 확인까지 시간이 소요될 수 있습니다.'
-					);
 					createPaymentHistory('CARD');
-					router.push('/');
 				} else {
 					console.log('가상 결제 계좌', virtualAccount);
 					createPaymentHistory('VIRTUAL_ACCOUNT');
@@ -121,8 +140,6 @@ const Page: NextPage = () => {
 		}
 	}, [router.query]);
 
-	console.log(virtualAccount);
-
 	return (
 		<Box
 			sx={{
@@ -134,14 +151,14 @@ const Page: NextPage = () => {
 				height: '80vh',
 			}}
 		>
-			<LoadingButton size="large" onClick={() => {}} loading={loading}>
+			{/* <LoadingButton size="large" onClick={() => {}} loading={loading}>
 				<span>
 					{' '}
 					{virtualAccount == null
-						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 세미나 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
+						? '결제가 완료되었습니다! 신청내역은 마이페이지 내 히스토리에서 확인하실 수 있습니다. 관리자 확인 후 결제처리가 완료 될 예정입니다.'
 						: ''}
 				</span>
-			</LoadingButton>
+			</LoadingButton> */}
 			{virtualAccount == null ? (
 				<Typography
 					variant="h3"
@@ -150,7 +167,9 @@ const Page: NextPage = () => {
 						mt: 3,
 					}}
 				>
-					결제가 진행중입니다!
+					{loading
+						? '결제가 진행중입니다!'
+						: '결제가 완료되었습니다!'}
 				</Typography>
 			) : (
 				<Box
@@ -190,6 +209,27 @@ const Page: NextPage = () => {
 					</Typography>
 				</Box>
 			)}
+			<SupportiButton
+				contents={
+					productLink != undefined
+						? '사전설문 및 첨부자료 확인'
+						: '홈으로 이동'
+				}
+				variant="contained"
+				style={{
+					width: '200px',
+					marginRight: 'auto',
+					marginLeft: 'auto',
+					marginTop: 5,
+				}}
+				onClick={() => {
+					if (productLink != undefined) {
+						window.open(productLink);
+					} else {
+						router.push('/');
+					}
+				}}
+			/>
 		</Box>
 	);
 };
