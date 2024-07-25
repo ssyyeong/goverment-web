@@ -240,8 +240,7 @@ const Page: NextPage = () => {
 										flexWrap: 'wrap',
 									}}
 								>
-									일본 사업 진출 및 오픈이노베이션 멘토링
-									프로그램
+									{mentoringData.TITLE}
 								</Typography>
 							</Box>
 							<Box display={{ md: 'none', xs: 'flex' }}>
@@ -255,8 +254,7 @@ const Page: NextPage = () => {
 										flexWrap: 'wrap',
 									}}
 								>
-									일본 사업 진출 및 <br /> 오픈이노베이션
-									멘토링 프로그램
+									{mentoringData.TITLE}
 								</Typography>
 							</Box>
 							<Box
@@ -501,524 +499,54 @@ const Page: NextPage = () => {
 					</Box>
 					{/* 멘토링 내용 */}
 					<Box display={'flex'} flexDirection={'column'} ml={3}>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								py: 4,
-								overflow: 'hidden',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 28,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								멘토링 소개 🙌
-							</Typography>
+						{JSON.parse(mentoringData.DESCRIPTION).map(
+							(item: any) => {
+								return (
+									<Box
+										width={'100%'}
+										sx={{
+											display: 'flex',
+											flexDirection: {
+												md: 'row',
+												xs: 'column',
+											},
+											py: 4,
+											overflow: 'hidden',
+										}}
+									>
+										<Box
+											width={{
+												md: '35%',
+												xs: '100%',
+											}}
+										>
+											<Typography
+												fontWeight={700}
+												variant="h3"
+												color={'#363636'}
+												sx={{
+													wordBreak: 'keep-all',
+													lineHeight: '20px',
+													display: 'flex',
+													flexWrap: 'wrap',
 
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-									alignSelf: 'center',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 참가자들에게 일본 시장 진출을 위한 실질적인
-								전략과 노하우 제공
-								<br />
-								ㆍ 오픈이노베이션의 개념과 성공 사례를 통해
-								혁신적인 아이디어 창출을 지원
-								<br />ㆍ 일본 비즈니스 환경 이해 및 네트워크
-								구축 지원
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								py: 4,
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 30,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								커리큘럼 📚
-							</Typography>
-							<Box
-								display={'flex'}
-								flexDirection={'column'}
-								gap={1}
-							>
-								<Typography
-									fontWeight={600}
-									variant="h5"
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										display: 'flex',
-										flexWrap: 'wrap',
-									}}
-								>
-									1회차
-								</Typography>
+													mb: {
+														md: 0,
+														xs: 3,
+													},
+												}}
+											>
+												{item.TITLE}
+											</Typography>
+										</Box>
 
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									<strong>* chapter 1 :</strong> 오리엔테이션
-									및 일본 시장 개요 및 일본 비즈니스 문화와
-									네트워크
-								</Typography>
-
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '30px',
-										ml: 2,
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									ㆍ 일본 시장의 특성 및 진출 시 고려사항
-									<br />
-									ㆍ 일본 비즈니스 문화의 이해
-									<br />ㆍ 성공적인 네트워킹 전략
-								</Typography>
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '22px',
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									<strong>* chapter 2 :</strong> 협력 및
-									파트너십 전략 및 제품 및 서비스 현지화 전략
-								</Typography>
-
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '30px',
-										ml: 2,
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									ㆍ 일본 기업과의 협력 방안
-									<br />
-									ㆍ 파트너십 구축을 위한 전략
-									<br />
-									ㆍ 일본 소비자 특성 분석
-									<br />ㆍ 현지화 전략 수립
-								</Typography>
-								<Typography
-									fontWeight={600}
-									variant="h5"
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-										display: 'flex',
-										flexWrap: 'wrap',
-										mt: 2,
-									}}
-								>
-									2회차
-								</Typography>
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									<strong>* chapter 3 :</strong> 일본 진출
-									한국 스타트업의 사례
-								</Typography>
-
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '30px',
-										ml: 2,
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									ㆍ B2C 사례
-									<br />ㆍ B2B 사례
-								</Typography>
-
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '20px',
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									<strong>* chapter 4 :</strong> 자금 조달 및
-									투자 유치 네트워킹 및 Q&A
-								</Typography>
-
-								<Typography
-									sx={{
-										wordBreak: 'keep-all',
-										lineHeight: '30px',
-										ml: 2,
-									}}
-									variant="h6"
-									fontWeight={400}
-								>
-									ㆍ 일본에서의 자금 조달 방법
-									<br />
-									ㆍ 투자 유치 전략 및 준비사항
-									<br />
-									ㆍ 일본 현지 비즈니스 전문가 및 투자사와의
-									네트워킹
-									<br />ㆍ Q&A 및 멘토링 세션
-								</Typography>
-							</Box>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								// p: { sm: 10, xs: 2 },
-								py: 4,
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 32,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								기대 효과 🚀
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 일본 시장에 대한 깊이 있는 이해와 진출 전략
-								확보
-								<br />
-								ㆍ 오픈이노베이션을 통한 혁신적 아이디어 및 사업
-								기회 발굴
-								<br />ㆍ 일본 내 비즈니스 네트워크 구축 및
-								파트너십 형성
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								// p: { sm: 10, xs: 2 },
-								py: 4,
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 32,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								참가대상 🎯
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 일본 시장에 진출을 계획하고 있는 한국
-								스타트업 및 중소기업
-								<br />ㆍ 오픈이노베이션을 통한 혁신을 추구하는
-								기업 및 예비 창업자
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								py: 4,
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 32,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								모집기간 📅
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 7월1일 ~ 7월15일
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								// p: { sm: 10, xs: 2 },
-								py: 4,
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 32,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								진행기간 📆
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 7월17일 ~ 7월31일
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								overflow: 'hidden',
-								py: 4,
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 32,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								진행형태 📌
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 온라인 진행 멘토링 및 질의응답
-								<br />ㆍ 총 2회 (주 1회 70분)
-							</Typography>
-						</Box>
-						<Box
-							width={'100%'}
-							sx={{
-								display: 'flex',
-								flexDirection: {
-									md: 'row',
-									xs: 'column',
-								},
-								// p: { sm: 10, xs: 2 },
-								overflow: 'hidden',
-								// borderBottom: '1px solid #c8c8c8',
-								py: 4,
-							}}
-						>
-							<Typography
-								fontWeight={700}
-								variant="h3"
-								color={'#363636'}
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '20px',
-									display: 'flex',
-									flexWrap: 'wrap',
-									mr: {
-										md: 38,
-										xs: 0,
-									},
-									mb: {
-										md: 0,
-										xs: 3,
-									},
-								}}
-							>
-								금액 💰
-							</Typography>
-
-							<Typography
-								sx={{
-									wordBreak: 'keep-all',
-									lineHeight: '30px',
-								}}
-								variant="h6"
-								fontWeight={400}
-							>
-								ㆍ 30만원 (부가세 별도)
-								<br />ㆍ 총 2회 선택 금액
-							</Typography>
-						</Box>
+										<SupportiViewer
+											data={item.DESCRIPTION}
+										/>
+									</Box>
+								);
+							}
+						)}
 					</Box>
 					{/* 멘토 정보 */}
 					<Box
@@ -1102,7 +630,7 @@ const Page: NextPage = () => {
 									소속
 								</Typography>
 								<Typography variant={'h6'} color={'#3A3A3A'}>
-									LINE야후 금융사업본부 / <br /> UNI Platform
+									{mentoringData.MENTOR_COMPANY}
 								</Typography>
 							</Box>
 							<Box
@@ -1168,24 +696,13 @@ const Page: NextPage = () => {
 										>
 											주요 경력
 										</Typography>
-										<Typography
-											variant={'body1'}
-											sx={{
-												lineHeight: '2',
-											}}
-										>
-											현) LINE야후 금융사업본부
-											<br />
-											현) UNI Platform CEO/Founder
-											<br /> 현)SoftBank Corp.
-											법인전략기획총괄부
-											<br /> 전) LINE은행설립준비회사
-											<br />
-											전) 미즈호은행 서울지점 <br />
-											전) 미즈호은행 도쿄본점 국제영업부
-											<br />
-											전) 주상파울루대한민국총영사관
-										</Typography>
+										<Box alignSelf={'center'}>
+											<SupportiViewer
+												data={
+													mentoringData.MENTOR_HISTORY
+												}
+											/>
+										</Box>
 									</Box>
 								)}
 						</Box>
