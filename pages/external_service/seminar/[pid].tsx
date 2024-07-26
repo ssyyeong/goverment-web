@@ -304,40 +304,41 @@ const Page: NextPage = () => {
 					{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
 						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
 							(item, index) => {
-								return (
-									<>
-										<Box
-											key={index}
-											sx={{
-												display: {
-													xs: 'none',
-													sm: 'block',
-												},
-											}}
-										>
-											<img
-												src={item}
-												alt=""
-												width={'75%'}
-											/>
-										</Box>
-										<Box
-											key={index}
-											sx={{
-												display: {
-													sm: 'none',
-													xs: 'block',
-												},
-											}}
-										>
-											<img
-												src={item}
-												alt=""
-												width={'100%'}
-											/>
-										</Box>
-									</>
-								);
+								if (index > 0)
+									return (
+										<>
+											<Box
+												key={index}
+												sx={{
+													display: {
+														xs: 'none',
+														sm: 'block',
+													},
+												}}
+											>
+												<img
+													src={item}
+													alt=""
+													width={'75%'}
+												/>
+											</Box>
+											<Box
+												key={index}
+												sx={{
+													display: {
+														sm: 'none',
+														xs: 'block',
+													},
+												}}
+											>
+												<img
+													src={item}
+													alt=""
+													width={'100%'}
+												/>
+											</Box>
+										</>
+									);
 							}
 						)}
 				</Box>
