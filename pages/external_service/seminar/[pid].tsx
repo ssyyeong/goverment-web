@@ -301,7 +301,7 @@ const Page: NextPage = () => {
 					}}
 				>
 					{/** 추가 상세 이미지 리스트 */}
-					{/* {seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+					{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
 						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
 							(item, index) => {
 								return (
@@ -339,7 +339,7 @@ const Page: NextPage = () => {
 									</>
 								);
 							}
-						)} */}
+						)}
 				</Box>
 				{/* 세미나 내용 */}
 				<Box
