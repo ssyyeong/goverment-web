@@ -220,100 +220,111 @@ const Page: NextPage = () => {
 			minHeight={'100vh'}
 			flexDirection={'column'}
 		>
-			{/* 세미나 헤더 */}
 			<Box
-				width={'100%'}
-				p={3}
-				bgcolor={'primary.light'}
-				display={{ xs: 'block', md: 'flex' }}
-				justifyContent={'space-between'}
-				alignItems={'center'}
-				borderRadius={2}
+				width={{
+					md: '80%',
+					xs: '100%',
+				}}
+				display={'flex'}
+				flexDirection={'column'}
+				justifyContent={'center'}
+				alignSelf={'center'}
 			>
-				<Typography variant={'h4'} fontWeight={'600'}>
-					{seminarData?.PRODUCT_NAME}
-				</Typography>
+				{/* 세미나 헤더 */}
+				<Box
+					p={3}
+					bgcolor={'primary.light'}
+					display={{ xs: 'block', md: 'flex' }}
+					justifyContent={'space-between'}
+					borderRadius={2}
+				>
+					<Typography variant={'h4'} fontWeight={'600'}>
+						{seminarData?.PRODUCT_NAME}
+					</Typography>
+					<Box
+						display={'flex'}
+						gap={3}
+						mt={{
+							xs: 2,
+							md: 0,
+						}}
+						alignItems="center"
+					>
+						<Typography variant={'body1'}>
+							{moment(seminarData?.SEMINAR_DATE).format(
+								'YYYY-MM-DD'
+							)}
+							{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
+								12 && ' (마감기한)'}
+						</Typography>
+						<Typography variant={'body1'}>
+							정원 :{' '}
+							{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
+							13
+								? '3'
+								: seminarData?.PERSONNEL}
+							명
+						</Typography>
+						{seminarData?.REAL_PRICE !== 0 && (
+							<Typography variant={'body1'}>
+								가격 :{' '}
+								{seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
+							</Typography>
+						)}
+						<Typography
+							sx={{
+								p: 0.8,
+								border: '1px solid #c8c8c8',
+								borderRadius: 5,
+								cursor: 'pointer',
+								borderColor: 'primary.main',
+								color: 'primary.main',
+							}}
+						>
+							{seminarData?.ONLINE_YN === 'Y'
+								? '온라인'
+								: '오프라인'}
+						</Typography>
+					</Box>
+				</Box>
+				{/* 세미나 내용 */}
 				<Box
 					display={'flex'}
-					flexWrap={'wrap'}
-					gap={3}
-					mt={{
-						xs: 2,
-						md: 0,
-					}}
-					alignItems="center"
+					flexDirection={'column'}
+					mt={3}
+					height={'auto'}
+					position={'relative'}
 				>
-					<Typography variant={'body1'}>
-						{moment(seminarData?.SEMINAR_DATE).format('YYYY-MM-DD')}
-						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE ===
-							12 && ' (마감기한)'}
-					</Typography>
-					<Typography variant={'body1'}>
-						정원 :{' '}
-						{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE === 13
-							? '3'
-							: seminarData?.PERSONNEL}
-						명
-					</Typography>
-					{seminarData?.REAL_PRICE !== 0 && (
-						<Typography variant={'body1'}>
-							가격 : {seminarData?.REAL_PRICE?.toLocaleString()}원{' '}
-						</Typography>
-					)}
-					<Typography
+					<Box
 						sx={{
-							p: 0.8,
-							border: '1px solid #c8c8c8',
-							borderRadius: 5,
-							cursor: 'pointer',
-							borderColor: 'primary.main',
-							color: 'primary.main',
+							display: 'flex',
+							flexDirection:
+								seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+								JSON.parse(
+									seminarData?.PRODUCT_DETAIL_IMAGE_LIST
+								).length > 1
+									? 'column'
+									: 'row',
+
+							width: '100%',
+							alignContent: 'center',
+							justifyContent: 'center',
 						}}
 					>
-						{seminarData?.ONLINE_YN === 'Y' ? '온라인' : '오프라인'}
-					</Typography>
-				</Box>
-			</Box>
-			{/* 세미나 내용 */}
-			<Box
-				display={'flex'}
-				width={'100%'}
-				flexDirection={'column'}
-				alignItems={'center'}
-				mt={3}
-				height={'auto'}
-				position={'relative'}
-			>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection:
-							seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
-							JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST)
-								.length > 1
-								? 'column'
-								: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-						alignContent: 'center',
-						textAlign: 'center',
-						width: '100%',
-					}}
-				>
-					{/** 추가 상세 이미지 리스트 */}
-					{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
-						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
-							(item, index) => {
+						{/** 추가 상세 이미지 리스트 */}
+						{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+							JSON.parse(
+								seminarData?.PRODUCT_DETAIL_IMAGE_LIST
+							).map((item, index) => {
 								if (index > 0)
 									return (
 										<>
 											<Box
 												key={index}
 												sx={{
-													display: {
-														xs: 'none',
-														sm: 'block',
-													},
+													display: 'flex',
+													alignContent: 'center',
+													justifyContent: 'center',
 												}}
 											>
 												<img
@@ -339,26 +350,16 @@ const Page: NextPage = () => {
 											</Box>
 										</>
 									);
-							}
-						)}
-				</Box>
-				{/* 세미나 내용 */}
-				<Box
-					display={'flex'}
-					flexDirection={'column'}
-					ml={3}
-					width={'100%'}
-				>
+							})}
+					</Box>
+					{/* 세미나 내용 */}
 					{seminarData?.DESCRIPTION &&
 						JSON.parse(seminarData?.DESCRIPTION).map(
 							(item: any) => {
 								return (
 									<Box
-										width={'100%'}
 										sx={{
 											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
 											flexDirection: {
 												md: 'row',
 												xs: 'column',
@@ -369,7 +370,7 @@ const Page: NextPage = () => {
 									>
 										<Box
 											width={{
-												md: '35%',
+												md: '30%',
 												xs: '100%',
 											}}
 											mt={2}
@@ -401,22 +402,97 @@ const Page: NextPage = () => {
 							}
 						)}
 				</Box>
-				{/* 그룹 신청 가능 인원 및 정보 */}
-				{seminarData?.SeminarGroups?.length > 0 && (
-					<Box
-						display={'flex'}
-						flexDirection={'column'}
-						gap={1.5}
-						m={3}
-						p={4}
-						bgcolor={'secondary.light'}
-						border={'1px solid #FFFFFF'}
-						borderRadius={1}
+			</Box>
+			{/* 그룹 신청 가능 인원 및 정보 */}
+			{seminarData?.SeminarGroups?.length > 0 && (
+				<Box
+					display={'flex'}
+					flexDirection={'column'}
+					gap={1.5}
+					m={3}
+					p={4}
+					bgcolor={'secondary.light'}
+					border={'1px solid #FFFFFF'}
+					borderRadius={1}
+				>
+					<Typography variant={'subtitle1'} fontWeight={600}>
+						그룹 신청 가능 인원 및 정보
+					</Typography>
+					{seminarData?.SeminarGroups?.sort(function compare(a, b) {
+						if (a.DESCRIPTION > b.DESCRIPTION) return 1;
+						if (a.DESCRIPTION < b.DESCRIPTION) return -1;
+						return 0;
+					}).map((item, index) => {
+						return (
+							<>
+								<Box
+									key={index.toString()}
+									display={'flex'}
+									flexDirection={'row'}
+									flexWrap={'wrap'}
+									gap={1}
+									my={1}
+								>
+									<Typography variant={'body1'} mr={2}>
+										그룹이름: <strong>{item.NAME}</strong>
+									</Typography>
+									{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !==
+										13 && (
+										<Typography variant={'body1'} mr={2}>
+											정원: {item.PERSONNEL}명
+										</Typography>
+									)}
+									<Typography variant={'body1'} mr={2}>
+										현재{' '}
+										{
+											seminarApplication.filter(
+												(data) =>
+													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+													item.SEMINAR_GROUP_IDENTIFICATION_CODE
+											).length
+										}
+										명 신청
+									</Typography>
+									<Typography variant={'body1'}>
+										한줄소개: {item.DESCRIPTION}
+									</Typography>
+								</Box>
+
+								<Box
+									sx={{
+										display:
+											index !=
+											seminarData?.SeminarGroups.length -
+												1
+												? 'block'
+												: 'none',
+										borderTop: '1px solid lightgrey',
+									}}
+								/>
+							</>
+						);
+					})}
+				</Box>
+			)}
+			{/* 그룹 선택 */}
+			{seminarData?.SeminarGroups?.length > 0 && (
+				<FormControl>
+					<FormLabel id="demo-radio-buttons-group-label">
+						그룹 선택 (선택 후 신청하기 버튼을 눌러주세요.)
+					</FormLabel>
+					<RadioGroup
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							my: 1,
+						}}
+						value={seminarGroup}
+						onChange={(e) => {
+							setSeminarGroup(e.target.value);
+						}}
 					>
-						<Typography variant={'subtitle1'} fontWeight={600}>
-							그룹 신청 가능 인원 및 정보
-						</Typography>
-						{seminarData?.SeminarGroups?.sort(function compare(
+						{seminarData?.SeminarGroups.sort(function compare(
 							a,
 							b
 						) {
@@ -425,167 +501,81 @@ const Page: NextPage = () => {
 							return 0;
 						}).map((item, index) => {
 							return (
-								<>
-									<Box
-										key={index.toString()}
-										display={'flex'}
-										flexDirection={'row'}
-										flexWrap={'wrap'}
-										gap={1}
-										my={1}
-									>
-										<Typography variant={'body1'} mr={2}>
-											그룹이름:{' '}
-											<strong>{item.NAME}</strong>
-										</Typography>
-										{seminarData?.SEMINAR_PRODUCT_IDENTIFICATION_CODE !==
-											13 && (
-											<Typography
-												variant={'body1'}
-												mr={2}
-											>
-												정원: {item.PERSONNEL}명
-											</Typography>
-										)}
-										<Typography variant={'body1'} mr={2}>
-											현재{' '}
-											{
-												seminarApplication.filter(
-													(data) =>
-														data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
-														item.SEMINAR_GROUP_IDENTIFICATION_CODE
-												).length
-											}
-											명 신청
-										</Typography>
-										<Typography variant={'body1'}>
-											한줄소개: {item.DESCRIPTION}
-										</Typography>
-									</Box>
-
-									<Box
-										sx={{
-											display:
-												index !=
-												seminarData?.SeminarGroups
-													.length -
-													1
-													? 'block'
-													: 'none',
-											borderTop: '1px solid lightgrey',
-										}}
-									/>
-								</>
+								<FormControlLabel
+									key={index.toString()}
+									value={
+										item.SEMINAR_GROUP_IDENTIFICATION_CODE
+									}
+									control={<Radio />}
+									label={item.NAME}
+									color="primary"
+									disabled={
+										seminarApplication.filter(
+											(data) =>
+												data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
+												item.SEMINAR_GROUP_IDENTIFICATION_CODE
+										).length == item.PERSONNEL
+									}
+								/>
 							);
 						})}
-					</Box>
-				)}
-				{/* 그룹 선택 */}
-				{seminarData?.SeminarGroups?.length > 0 && (
-					<FormControl>
-						<FormLabel id="demo-radio-buttons-group-label">
-							그룹 선택 (선택 후 신청하기 버튼을 눌러주세요.)
-						</FormLabel>
-						<RadioGroup
-							sx={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'center',
-								my: 1,
-							}}
-							value={seminarGroup}
-							onChange={(e) => {
-								setSeminarGroup(e.target.value);
-							}}
-						>
-							{seminarData?.SeminarGroups.sort(function compare(
-								a,
-								b
-							) {
-								if (a.DESCRIPTION > b.DESCRIPTION) return 1;
-								if (a.DESCRIPTION < b.DESCRIPTION) return -1;
-								return 0;
-							}).map((item, index) => {
-								return (
-									<FormControlLabel
-										key={index.toString()}
-										value={
+					</RadioGroup>
+				</FormControl>
+			)}
+			{/* 신청하기 버튼 */}
+			{
+				<Box
+					width={'100%'}
+					justifyContent={'center'}
+					// bgcolor={'red'}
+					sx={{
+						position: 'sticky',
+						display: 'flex',
+						top: 0,
+					}}
+					height={40}
+					mb={5}
+				>
+					<SupportiButton
+						contents={!checkApplication() ? '신청하기' : '신청완료'}
+						isGradient={true}
+						onClick={() => {
+							// 정원이 마감되었을 경우
+							const soldOut = seminarData?.SeminarGroups?.filter(
+								(item) =>
+									seminarApplication.filter(
+										(data) =>
+											data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
 											item.SEMINAR_GROUP_IDENTIFICATION_CODE
-										}
-										control={<Radio />}
-										label={item.NAME}
-										color="primary"
-										disabled={
-											seminarApplication.filter(
-												(data) =>
-													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
-													item.SEMINAR_GROUP_IDENTIFICATION_CODE
-											).length == item.PERSONNEL
-										}
-									/>
-								);
-							})}
-						</RadioGroup>
-					</FormControl>
-				)}
-				{/* 신청하기 버튼 */}
-				{
-					<Box
-						width={'100%'}
-						justifyContent={'center'}
-						// bgcolor={'red'}
-						sx={{
-							position: 'sticky',
-							display: 'flex',
-							top: 0,
-						}}
-						height={40}
-						mb={5}
-					>
-						<SupportiButton
-							contents={
-								!checkApplication() ? '신청하기' : '신청완료'
-							}
-							isGradient={true}
-							onClick={() => {
-								// 정원이 마감되었을 경우
-								const soldOut =
-									seminarData?.SeminarGroups?.filter(
-										(item) =>
-											seminarApplication.filter(
-												(data) =>
-													data.SEMINAR_GROUP_IDENTIFICATION_CODE ===
-													item.SEMINAR_GROUP_IDENTIFICATION_CODE
-											).length != item.PERSONNEL
-									);
+									).length != item.PERSONNEL
+							);
 
-								// 세미나 신청 여부 판별
-								if (!checkApplication()) {
-									if (
-										seminarData?.SeminarGroups.length > 0 &&
-										seminarGroup == undefined &&
-										soldOut.length !== 0
-									) {
-										return alert('그룹을 선택해주세요.');
-									} else if (
-										seminarData?.SeminarGroups.length > 0 &&
-										soldOut.length === 0
-									) {
-										return alert('마감되었습니다.');
-									} else handleApplySeminar();
-								} else alert('이미 신청하셨습니다!');
-							}}
-							style={{
-								color: 'white',
-								width: '200px',
-								height: '40px',
-								my: 2,
-								pb: 2,
-							}}
-						/>
-					</Box>
-				}
-			</Box>
+							// 세미나 신청 여부 판별
+							if (!checkApplication()) {
+								if (
+									seminarData?.SeminarGroups.length > 0 &&
+									seminarGroup == undefined &&
+									soldOut.length !== 0
+								) {
+									return alert('그룹을 선택해주세요.');
+								} else if (
+									seminarData?.SeminarGroups.length > 0 &&
+									soldOut.length === 0
+								) {
+									return alert('마감되었습니다.');
+								} else handleApplySeminar();
+							} else alert('이미 신청하셨습니다!');
+						}}
+						style={{
+							color: 'white',
+							width: '200px',
+							height: '40px',
+							my: 2,
+							pb: 2,
+						}}
+					/>
+				</Box>
+			}
 
 			<SupportiAlertModal
 				type={alertModalType}
