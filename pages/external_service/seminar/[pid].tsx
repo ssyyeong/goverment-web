@@ -221,14 +221,19 @@ const Page: NextPage = () => {
 			flexDirection={'column'}
 		>
 			<Box
+				display={'flex'}
+				flexDirection={'column'}
 				width={{
 					md: '80%',
 					xs: '100%',
 				}}
-				display={'flex'}
-				flexDirection={'column'}
-				justifyContent={'center'}
-				alignSelf={'center'}
+				position={'relative'}
+				margin={'auto'}
+				p={{
+					xs: 1,
+					md: 5,
+				}}
+				minHeight={'90vh'}
 			>
 				{/* 세미나 헤더 */}
 				<Box
@@ -248,7 +253,14 @@ const Page: NextPage = () => {
 							xs: 2,
 							md: 0,
 						}}
-						alignItems="center"
+						alignItems={{
+							xs: 'start',
+							md: 'center',
+						}}
+						flexDirection={{
+							xs: 'column',
+							md: 'row',
+						}}
 					>
 						<Typography variant={'body1'}>
 							{moment(seminarData?.SEMINAR_DATE).format(
@@ -288,34 +300,32 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 				{/* 세미나 내용 */}
-				<Box
+				{/* <Box
 					display={'flex'}
 					flexDirection={'column'}
 					mt={3}
 					height={'auto'}
 					position={'relative'}
-				>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection:
-								seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
-								JSON.parse(
-									seminarData?.PRODUCT_DETAIL_IMAGE_LIST
-								).length > 1
-									? 'column'
-									: 'row',
+				> */}
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection:
+							seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+							JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST)
+								.length > 1
+								? 'column'
+								: 'row',
 
-							width: '100%',
-							alignContent: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						{/** 추가 상세 이미지 리스트 */}
-						{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
-							JSON.parse(
-								seminarData?.PRODUCT_DETAIL_IMAGE_LIST
-							).map((item, index) => {
+						width: '100%',
+						alignContent: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					{/** 추가 상세 이미지 리스트 */}
+					{seminarData?.PRODUCT_DETAIL_IMAGE_LIST &&
+						JSON.parse(seminarData?.PRODUCT_DETAIL_IMAGE_LIST).map(
+							(item, index) => {
 								if (index > 0)
 									return (
 										<>
@@ -350,14 +360,23 @@ const Page: NextPage = () => {
 											</Box>
 										</>
 									);
-							})}
-					</Box>
-					{/* 세미나 내용 */}
+							}
+						)}
+				</Box>
+				{/* 세미나 내용 */}
+				<Box
+					display={'flex'}
+					flexDirection={'column'}
+					alignSelf={'center'}
+					width={'100%'}
+					ml={'25%'}
+				>
 					{seminarData?.DESCRIPTION &&
 						JSON.parse(seminarData?.DESCRIPTION).map(
 							(item: any) => {
 								return (
 									<Box
+										width={'100%'}
 										sx={{
 											display: 'flex',
 											flexDirection: {
@@ -370,7 +389,7 @@ const Page: NextPage = () => {
 									>
 										<Box
 											width={{
-												md: '30%',
+												md: '45%',
 												xs: '100%',
 											}}
 											mt={2}
@@ -402,6 +421,7 @@ const Page: NextPage = () => {
 							}
 						)}
 				</Box>
+				{/* </Box> */}
 			</Box>
 			{/* 그룹 신청 가능 인원 및 정보 */}
 			{seminarData?.SeminarGroups?.length > 0 && (
