@@ -51,7 +51,13 @@ function App({
 }: AppProps & { emotionCache: EmotionCache }) {
 	//* Mui ssr 설정
 	const CustomHeaderNoSSR = dynamic(
-		() => import('../src/views/local/common/CustomHeader/CustomHeader2'),
+		() => import('../src/views/local/common/CustomHeader/CustomHeader'),
+		{
+			ssr: false,
+		}
+	);
+	const CustomHeaderJpNoSSR = dynamic(
+		() => import('../src/views/local/common/CustomHeader/CustomHeaderJp'),
 		{
 			ssr: false,
 		}
@@ -126,6 +132,41 @@ function App({
 						header: navigatorConfig,
 						footer: footerConfig,
 						useFooter: true,
+					}}
+					cache={{
+						emotion: emotionCache,
+						theme: themeConfig,
+					}}
+					Component={Component}
+					useAuthCheck={false}
+					pageProps={pageProps}
+					disableSideBar={true}
+					disableGutturs={true}
+					containerPaddingX={'0'}
+					containerMaxWidth={'3000px !important'}
+					router={router}
+					anotherFooter={<CustomFooterNoSSR />}
+				/>
+			) : router.pathname.includes('jp') ? (
+				<Entry
+					disableBreadCrumb={true}
+					memory={memory}
+					customHeader={<CustomHeaderJpNoSSR />}
+					configs={{
+						sidebar: {
+							...sideBarConfig,
+							...{
+								signIn: {
+									tokenExpireHours: 1,
+									signInSuccessLink: '/login',
+								},
+								plugin: [],
+							},
+						},
+						head: { title: '서포티' },
+						header: navigatorConfig,
+						footer: footerConfig,
+						useFooter: false,
 					}}
 					cache={{
 						emotion: emotionCache,
