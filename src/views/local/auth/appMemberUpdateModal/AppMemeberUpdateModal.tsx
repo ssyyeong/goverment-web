@@ -199,9 +199,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
-		if (props.needPhoneUpdate && signupData.length != 11)
-			return alert('올바른 전화번호를 입력해주세요.');
-
+		if (props.needPhoneUpdate) {
+			if (!signupData || signupData?.length < 11)
+				return alert('정확한 휴대폰번호를 입력해주세요.');
+		}
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.COMPANY_NAME ||
@@ -268,9 +269,10 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	const updateAppMemberForGeneral = () => {
-		if (props.needPhoneUpdate && signupData.length != 11)
-			return alert('올바른 전화번호를 입력해주세요.');
-
+		if (props.needPhoneUpdate) {
+			if (!signupData || signupData?.length < 11)
+				return alert('정확한 휴대폰번호를 입력해주세요.');
+		}
 		if (
 			!businessData.BUSINESS_SECTOR ||
 			!businessData.OWNER_NAME ||
