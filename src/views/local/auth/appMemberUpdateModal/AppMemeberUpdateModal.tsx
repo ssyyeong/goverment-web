@@ -199,7 +199,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	 * 회원 정보 업데이트
 	 */
 	const updateAppMemberForBusiness = () => {
-		if (signupData.length != 11)
+		if (props.needPhoneUpdate && signupData.length != 11)
 			return alert('올바른 전화번호를 입력해주세요.');
 
 		if (
@@ -268,7 +268,7 @@ const AppMemberUpdateModal = (props: IAppMemberUpdateModalProps) => {
 	};
 
 	const updateAppMemberForGeneral = () => {
-		if (signupData.length != 11)
+		if (props.needPhoneUpdate && signupData.length != 11)
 			return alert('올바른 전화번호를 입력해주세요.');
 
 		if (
