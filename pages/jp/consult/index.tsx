@@ -50,11 +50,10 @@ const Page: NextPage = () => {
 									법인설립
 								</Typography>
 								<Typography
-									variant={'h5'}
+									variant={'h6'}
 									fontWeight={400}
 									sx={{
-										mt: 1,
-										lineHeight: 1.8,
+										lineHeight: 1.5,
 									}}
 								>
 									일본에서 가장 까다로운 지사 설립(법인)과

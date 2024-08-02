@@ -12,10 +12,13 @@ import { CookieManager } from '@leanoncompany/supporti-utility';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { gTagEvent } from '../../../src/lib/gtag';
 import { memory } from '../../_app';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
+	const appMemberJpController = new DefaultController('AppMemberJp');
 	const appMemberController = new AppMemberController();
+
 	const router = useRouter();
 	const cookie = new CookieManager();
 	//* Constants
@@ -41,23 +44,24 @@ const Page: NextPage = () => {
 		if (!name || !company || !email || !phoneNumber) {
 			return alert('모든 정보를 입력해주세요.');
 		}
-		appMemberController.login(
+		appMemberJpController.createItem(
 			{
-				USER_NAME: email,
+				NAME: name,
+				COMPANY: company,
+				EMAIL: email,
+				PHONE_NUMBER: phoneNumber,
 			},
 			(res) => {
 				if (res.data.result !== null) {
 					cookie.setItemInCookies(
 						'ACCESS_TOKEN',
-						res.data.result.accessToken,
+						res.data.result.NAME,
 						{
 							path: '/',
-							maxAge: autoLogin ? 3600 * 24 * 30 : 3600 * 24,
+							maxAge: 3600 * 24 * 30,
 						}
 					);
-					memory.setData('memberName', res.data.result.FULL_NAME);
-					router.push('/');
-				} else {
+					router.push('/jp');
 				}
 			},
 			(err) => {}

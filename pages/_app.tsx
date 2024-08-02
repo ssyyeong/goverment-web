@@ -78,6 +78,13 @@ function App({
 		}
 	);
 
+	const CustomFooterJpNoSSR = dynamic(
+		() => import('../src/views/local/common/CustomFooter/CustomFooterJp'),
+		{
+			ssr: false,
+		}
+	);
+
 	useEffect(() => {
 		const handleRouteChange = (url: URL) => {
 			gtag.pageview(url);
@@ -166,7 +173,7 @@ function App({
 						head: { title: '서포티' },
 						header: navigatorConfig,
 						footer: footerConfig,
-						useFooter: false,
+						useFooter: true,
 					}}
 					cache={{
 						emotion: emotionCache,
@@ -180,7 +187,7 @@ function App({
 					containerPaddingX={'0'}
 					containerMaxWidth={'3000px !important'}
 					router={router}
-					anotherFooter={<CustomFooterNoSSR />}
+					anotherFooter={<CustomFooterJpNoSSR />}
 				/>
 			) : (
 				<Entry

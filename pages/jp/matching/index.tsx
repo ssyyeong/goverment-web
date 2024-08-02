@@ -32,10 +32,6 @@ const Page: NextPage = () => {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				backdropFilter: 'blur(20px)',
-				borderStyle: 'solid',
-				borderColor: 'primary.light',
-				borderWidth: 'thin',
 			}}
 		>
 			<Box width={'100%'}>
@@ -68,11 +64,17 @@ const Page: NextPage = () => {
 				p={10}
 				justifyContent={'center'}
 				alignItems={'center'}
-				gap={5}
+				gap={{
+					xs: 2,
+					md: 5,
+				}}
 			>
 				<Box
 					display="flex"
-					flexDirection={'row'}
+					flexDirection={{
+						xs: 'column',
+						md: 'row',
+					}}
 					justifyContent={'space-between'}
 					alignItems={'center'}
 					width={'100%'}
@@ -80,9 +82,12 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						flexDirection={'row'}
-						justifyContent={'space-between'}
 						alignItems={'center'}
 						gap={2}
+						width={{
+							xs: '100%',
+							md: '50%',
+						}}
 					>
 						<img
 							src={'/images/main/투자.png'}
@@ -91,15 +96,18 @@ const Page: NextPage = () => {
 							height={'100px'}
 						/>
 						<Typography variant={'h5'} fontWeight={600}>
-							투자 유치
+							투자유치
 						</Typography>
 					</Box>
 					<Box
 						display="flex"
 						flexDirection={'row'}
-						justifyContent={'space-between'}
 						alignItems={'center'}
 						gap={2}
+						width={{
+							xs: '100%',
+							md: '50%',
+						}}
 					>
 						<img
 							src={'/images/main/마케팅.png'}
@@ -114,7 +122,10 @@ const Page: NextPage = () => {
 				</Box>
 				<Box
 					display="flex"
-					flexDirection={'row'}
+					flexDirection={{
+						xs: 'column',
+						md: 'row',
+					}}
 					justifyContent={'space-between'}
 					alignItems={'center'}
 					width={'100%'}
@@ -122,9 +133,12 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						flexDirection={'row'}
-						justifyContent={'space-between'}
 						alignItems={'center'}
 						gap={2}
+						width={{
+							xs: '100%',
+							md: '50%',
+						}}
 					>
 						<img
 							src={'/images/main/노무.png'}
@@ -139,8 +153,11 @@ const Page: NextPage = () => {
 					<Box
 						display="flex"
 						flexDirection={'row'}
-						justifyContent={'space-between'}
 						alignItems={'center'}
+						width={{
+							xs: '100%',
+							md: '50%',
+						}}
 						gap={2}
 					>
 						<img

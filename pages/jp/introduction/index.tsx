@@ -1,19 +1,9 @@
 import React from 'react';
 import { NextPage } from 'next';
 
-import {
-	Box,
-	Grid,
-	ToggleButton,
-	ToggleButtonGroup,
-	Typography,
-} from '@mui/material';
-import SupportiTab from '../../../src/views/global/SupportiTab';
+import { Box, Grid, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import SupportiButton from '../../../src/views/global/SupportiButton';
-import router from 'next/router';
-import EastIcon from '@mui/icons-material/East';
 import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
@@ -213,7 +203,7 @@ const Page: NextPage = () => {
 				</Grid>
 				{/** 섹션 4 */}
 				<Box width="100%" pb={8} bgcolor={'primary.light'}>
-					<Box ml="auto" mr="auto" mt={10} mb={5}>
+					<Box ml="auto" mr="auto" mt={10} mb={2}>
 						<Box
 							display={'flex'}
 							flexWrap={'wrap'}
@@ -223,7 +213,8 @@ const Page: NextPage = () => {
 							{data1.map((item, index) => {
 								return (
 									<Box
-										width={250}
+										width={'70%'}
+										mx={5}
 										px={3}
 										py={2}
 										borderRadius={4}
@@ -233,36 +224,52 @@ const Page: NextPage = () => {
 										}
 										key={index}
 									>
-										<Box>
-											<Typography
-												variant={'h4'}
-												fontWeight={'600'}
-												textAlign={'center'}
-												mb={2}
+										<Box
+											flexDirection={'row'}
+											display={'flex'}
+											gap={2}
+										>
+											<img
+												src="/images/main/노무.png"
+												alt="mentor"
+												style={{
+													width: 100,
+													height: 100,
+												}}
+											/>
+											<Box
+												display="flex"
+												flexDirection={'column'}
 											>
-												{item.text1}
-											</Typography>
-											<Typography
-												color={'gray'}
-												fontWeight={'600'}
-												variant="h6"
-											>
-												{item.text2}
-											</Typography>
-											<Typography
-												variant="h6"
-												color={'gray'}
-												fontWeight={'600'}
-											>
-												{item.text3}
-											</Typography>
-											<Typography
-												variant="h6"
-												color={'gray'}
-												fontWeight={'600'}
-											>
-												{item.text4}
-											</Typography>
+												<Typography
+													variant={'h4'}
+													fontWeight={'600'}
+													mb={2}
+												>
+													{item.text1}
+												</Typography>
+												<Typography
+													color={'gray'}
+													fontWeight={'600'}
+													variant="h6"
+												>
+													{item.text2}
+												</Typography>
+												<Typography
+													variant="h6"
+													color={'gray'}
+													fontWeight={'600'}
+												>
+													{item.text3}
+												</Typography>
+												<Typography
+													variant="h6"
+													color={'gray'}
+													fontWeight={'600'}
+												>
+													{item.text4}
+												</Typography>
+											</Box>
 										</Box>
 									</Box>
 								);
@@ -274,19 +281,22 @@ const Page: NextPage = () => {
 				<Grid container justifyContent={'center'}>
 					<Box p={5} mt={5}>
 						<Box
-							mb={5}
 							display="flex"
 							flexDirection={'row'}
 							justifyContent={'space-between'}
 							gap={4}
 							alignItems={'center'}
 						>
-							<img
-								src="/images/main/consulting.jpg"
-								alt="법인설립"
-								style={{ width: 300, height: 200 }}
-							/>
-							<Box display="flex" flexDirection={'column'}>
+							<Box
+								display="flex"
+								flexDirection={'column'}
+								gap={2}
+							>
+								<img
+									src="/images/main/graph.jpg"
+									alt="법인설립"
+									style={{ width: '100%', height: 'auto' }}
+								/>
 								<Typography
 									color="primary.main"
 									fontWeight={600}
@@ -306,9 +316,8 @@ const Page: NextPage = () => {
 									}}
 								>
 									일본에서 가장 까다로운 지사 설립(법인)과
-									<br />
-									계좌 개설 모든 과정을 협업 기관과 <br />
-									함께 대행 및 컨설팅 해드립니다.
+									계좌 개설 모든 과정을 협업 기관과 함께 대행
+									및 컨설팅 해드립니다.
 								</Typography>
 							</Box>
 						</Box>
@@ -319,14 +328,23 @@ const Page: NextPage = () => {
 				<Grid container justifyContent={'center'}>
 					<Box p={5} mt={5} bgcolor={'primary.light'}>
 						<Box
-							mb={5}
+							mb={3}
 							display="flex"
 							flexDirection={'row'}
 							justifyContent={'space-between'}
 							gap={4}
 							alignItems={'center'}
 						>
-							<Box display="flex" flexDirection={'column'}>
+							<Box
+								display="flex"
+								flexDirection={'column'}
+								gap={2}
+							>
+								<img
+									src="/images/main/consulting.jpg"
+									alt="비즈니스 매칭"
+									style={{ width: '100%', height: 'auto' }}
+								/>
 								<Typography
 									color="primary.main"
 									fontWeight={600}
@@ -357,11 +375,6 @@ const Page: NextPage = () => {
 									있습니다.
 								</Typography>
 							</Box>
-							<img
-								src="/images/main/consulting.jpg"
-								alt="비즈니스 매칭"
-								style={{ width: 300, height: 200 }}
-							/>
 						</Box>
 					</Box>
 				</Grid>
@@ -369,19 +382,23 @@ const Page: NextPage = () => {
 				<Grid container justifyContent={'center'}>
 					<Box p={5} mt={5}>
 						<Box
-							mb={5}
+							mb={3}
 							display="flex"
 							flexDirection={'row'}
 							justifyContent={'space-between'}
 							gap={4}
 							alignItems={'center'}
 						>
-							<img
-								src="/images/main/innovation.jpg"
-								alt="오픈 이노베이션"
-								style={{ width: 300, height: 200 }}
-							/>
-							<Box display="flex" flexDirection={'column'}>
+							<Box
+								display="flex"
+								flexDirection={'column'}
+								gap={2}
+							>
+								<img
+									src="/images/main/innovation.jpg"
+									alt="오픈 이노베이션"
+									style={{ width: '100%', height: 'auto' }}
+								/>
 								<Typography
 									color="primary.main"
 									fontWeight={600}

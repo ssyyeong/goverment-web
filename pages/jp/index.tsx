@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 
 import { Box, Typography } from '@mui/material';
 import SupportiButton from '../../src/views/global/SupportiButton';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 const Page: NextPage = () => {
 	const router = useRouter();
+	const cookie = new CookieManager();
 
 	return (
 		<Box
@@ -68,7 +70,7 @@ const Page: NextPage = () => {
 					my: 10,
 				}}
 			>
-				<Typography variant={'h2'}>일본회사이신가요?</Typography>
+				<Typography variant={'h2'}>日本の会社ですか?</Typography>
 				<SupportiButton
 					contents={'지금 시작하기'}
 					variant="contained"
@@ -104,6 +106,11 @@ const Page: NextPage = () => {
 						marginTop: 5,
 					}}
 					onClick={() => {
+						console.log(cookie.getItemInCookies('ACCESS_TOKEN'));
+						if (cookie.getItemInCookies('ACCESS_TOKEN')) {
+							alert('이미 로그인 되어 있습니다.');
+							return;
+						}
 						router.push('/jp/sign_in');
 					}}
 				/>
