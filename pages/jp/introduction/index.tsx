@@ -195,7 +195,10 @@ const Page: NextPage = () => {
 													variant={'h4'}
 													fontWeight={'600'}
 													mb={2}
-													textAlign={'center'}
+													textAlign={{
+														xs: 'center',
+														md: 'left',
+													}}
 												>
 													{item.text1}
 												</Typography>
