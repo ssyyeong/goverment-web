@@ -680,19 +680,21 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 								display: { xs: 'none', md: 'flex' },
 							}}
 						>
-							<img
-								src={'/images/logo/Suppor-TFulllogo.svg'}
-								alt="Logo"
-								width={'145px'}
-								height={'45px'}
-								style={{
-									cursor: 'pointer',
-									marginLeft: 'auto',
-									marginRight: '15px',
-									marginTop: '25px',
-								}}
-								onClick={() => router.push('/')}
-							/>
+							<Box>
+								<img
+									src={'/images/logo/Suppor-TFulllogo.svg'}
+									alt="Logo"
+									width={'145px'}
+									height={'45px'}
+									style={{
+										cursor: 'pointer',
+										marginLeft: 'auto',
+										marginRight: '15px',
+										marginTop: '25px',
+									}}
+									onClick={() => router.push('/')}
+								/>
+							</Box>
 
 							{pages.map((menu, idx) => {
 								return handleOpenMenu(menu, idx);
