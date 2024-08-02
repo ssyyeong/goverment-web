@@ -21,7 +21,8 @@ const Page: NextPage = () => {
 
 	const router = useRouter();
 	const cookie = new CookieManager();
-	//* Constants
+	const locale = cookie.getItemInCookies('LOCALE');
+
 	//* States
 	/**
 	 * 로그인 데이터
@@ -31,18 +32,15 @@ const Page: NextPage = () => {
 	const [email, setEmail] = React.useState<string>('');
 	const [phoneNumber, setPhoneNumber] = React.useState<string>('');
 
-	/**
-	 * 자동로그인
-	 */
-	const [autoLogin, setAutoLogin] = React.useState<boolean>(false);
-
 	//* Functions
 	/**
 	 * 로그인
 	 */
 	const signIn = () => {
 		if (!name || !company || !email || !phoneNumber) {
-			return alert('모든 정보를 입력해주세요.');
+			if (locale == 'jp')
+				return alert('すべての情報を入力してください。');
+			else return alert('모든 정보를 입력해주세요.');
 		}
 		appMemberJpController.createItem(
 			{
@@ -104,7 +102,7 @@ const Page: NextPage = () => {
 					onChange={(e) => setName(e.target.value)}
 					variant={'outlined'}
 					sx={{ mb: 2, bgcolor: 'white' }}
-					placeholder="이름 입력"
+					placeholder={locale == 'jp' ? '名前入力' : '이름 입력'}
 					onKeyDown={onKeyPress}
 				/>
 				<TextField
@@ -114,7 +112,7 @@ const Page: NextPage = () => {
 					onChange={(e) => setCompany(e.target.value)}
 					variant={'outlined'}
 					sx={{ mb: 2, bgcolor: 'white' }}
-					placeholder="회사명 입력"
+					placeholder={locale == 'jp' ? '会社名入力' : '회사명 입력'}
 					onKeyDown={onKeyPress}
 				/>
 				<TextField
@@ -124,7 +122,7 @@ const Page: NextPage = () => {
 					onChange={(e) => setEmail(e.target.value)}
 					variant={'outlined'}
 					sx={{ mb: 2, bgcolor: 'white' }}
-					placeholder="이메일 입력"
+					placeholder={locale == 'jp' ? 'Eメール入力' : '이메일 입력'}
 					onKeyDown={onKeyPress}
 				/>
 				<TextField
@@ -134,20 +132,24 @@ const Page: NextPage = () => {
 					onChange={(e) => setPhoneNumber(e.target.value)}
 					variant={'outlined'}
 					sx={{ mb: 2, bgcolor: 'white' }}
-					placeholder="전화번호 입력"
+					placeholder={
+						locale == 'jp' ? '電話番号入力' : '전화번호 입력'
+					}
 					onKeyDown={onKeyPress}
 				/>
 				<Typography
 					variant={'body1'}
 					sx={{ textAlign: 'center', color: 'primary.main', py: 1 }}
 				>
-					* 입력 시 로그인 및 회원가입이 됩니다.
+					{locale == 'jp'
+						? '* 入力時にログイン及び会員登録ができます。'
+						: '* 입력 시 로그인 및 회원가입이 됩니다.'}
 				</Typography>
 				<SupportiButton
 					fullWidth
 					onClick={() => signIn()}
 					isGradient={true}
-					contents={'로그인'}
+					contents={locale == 'jp' ? 'ログイン' : '로그인'}
 					style={{
 						color: '#fff',
 					}}

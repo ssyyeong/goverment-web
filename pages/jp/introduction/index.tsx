@@ -2,82 +2,12 @@ import React from 'react';
 import { NextPage } from 'next';
 
 import { Box, Grid, Typography } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useAppMember } from '../../../src/hooks/useAppMember';
+
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 const Page: NextPage = () => {
-	function SamplePrevArrow(props) {
-		const { className, style, onClick } = props;
-		return (
-			<div
-				className={className}
-				style={{ ...style, display: 'block', color: 'black' }}
-				onClick={onClick}
-			>
-				<ArrowBackIosNewIcon />
-			</div>
-		);
-	}
-
-	function SampleNextArrow(props) {
-		const { className, style, onClick } = props;
-		return (
-			<div
-				className={className}
-				style={{ ...style, display: 'block', color: 'black' }}
-				onClick={onClick}
-			>
-				<ArrowForwardIosIcon />
-			</div>
-		);
-	}
-
-	const settings = {
-		dots: true,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		arrows: true,
-		nextArrow: <SampleNextArrow />,
-		prevArrow: <SamplePrevArrow />,
-	};
-
-	const data = [
-		{
-			srcPath: '/images/logo/partners/신용보증기금.svg',
-			alt: '신용보증기금',
-		},
-		{
-			srcPath: '/images/logo/partners/법무법인도울.svg',
-			alt: '법무법인도울',
-		},
-		{
-			srcPath: '/images/logo/partners/메타소프트.svg',
-			alt: '메타소프트',
-		},
-		{
-			srcPath: '/images/logo/partners/자버.svg',
-			alt: '자버',
-		},
-		{
-			srcPath: '/images/logo/partners/교보생명.svg',
-			alt: '교보생명',
-		},
-		{
-			srcPath: '/images/logo/partners/나쵸코드.svg',
-			alt: '나쵸코드',
-		},
-		{
-			srcPath: '/images/logo/partners/화웨이.svg',
-			alt: '화웨이',
-		},
-		{
-			srcPath: '/images/logo/partners/원테이커.svg',
-			alt: '원테이커',
-		},
-	];
+	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	const data1 = [
 		{
@@ -92,11 +22,6 @@ const Page: NextPage = () => {
 			text4: '소프트뱅크 고장',
 		},
 	];
-
-	//* Modules
-	const { memberId } = useAppMember();
-
-	//* Hooks
 
 	return (
 		<Box
@@ -136,16 +61,24 @@ const Page: NextPage = () => {
 								backgroundSize: 'cover',
 								width: '100%',
 							}}
+							px={{
+								xs: 5,
+								md: 0,
+							}}
 						>
 							<Typography variant={'h3'} color={'white'}>
-								서포티는 비즈니스 매칭에 특화된
+								{locale == 'jp'
+									? 'Supportiはビジネスマッチングに特化した'
+									: '서포티는 비즈니스 매칭에 특화된'}
 							</Typography>
 							<Typography
 								variant={'h3'}
 								color="white"
 								fontWeight={600}
 							>
-								한-일 비즈니스 플랫폼입니다.
+								{locale == 'jp'
+									? '韓日ビジネスプラットフォームです。'
+									: '한-일 비즈니스 플랫폼입니다.'}
 							</Typography>
 						</Box>
 					</Box>
@@ -159,6 +92,10 @@ const Page: NextPage = () => {
 							my={5}
 							flexDirection={'column'}
 							alignItems={'center'}
+							px={{
+								xs: 5,
+								md: 0,
+							}}
 						>
 							<Typography
 								fontWeight={600}
@@ -167,13 +104,17 @@ const Page: NextPage = () => {
 								color="primary.main"
 								sx={{ wordBreak: 'keep-all' }}
 							>
-								법인 설립-투자유치-마케팅-상장까지
+								{locale == 'jp'
+									? '法人設立-投資誘致-マーケティング-上場まで'
+									: '법인 설립-투자유치-마케팅-상장까지'}
 							</Typography>
 							<Typography
 								variant="h4"
 								sx={{ wordBreak: 'keep-all' }}
 							>
-								비즈니스의 전과정에 도움을 드립니다.
+								{locale == 'jp'
+									? 'ビジネスの全過程をサポートします。'
+									: '비즈니스의 전과정에 도움을 드립니다.'}
 							</Typography>
 						</Box>
 						<Box
@@ -183,6 +124,10 @@ const Page: NextPage = () => {
 							alignItems={'center'}
 							bgcolor={'primary.light'}
 							pt={5}
+							px={{
+								xs: 5,
+								md: 0,
+							}}
 						>
 							<Typography
 								fontWeight={600}
@@ -190,13 +135,14 @@ const Page: NextPage = () => {
 								variant="h3"
 								color="primary.main"
 							>
-								대한민국에서 일본을 가장 잘 아는 전문가가
+								{locale == 'jp'
+									? '大韓民国で日本を一番よく知っている専門家が'
+									: '대한민국에서 일본을 가장 잘 아는 전문가가'}
 							</Typography>
-							<Typography
-								variant="h4"
-								sx={{ wordBreak: 'keep-all' }}
-							>
-								전문가들의 도움을 받아 서비스를 만들고 있습니다.
+							<Typography variant="h4">
+								{locale == 'jp'
+									? '専門家の助けを借りてサービスを作っています。'
+									: '전문가들의 도움을 받아 서비스를 만들고 있습니다.'}
 							</Typography>
 						</Box>
 					</Box>
@@ -225,9 +171,13 @@ const Page: NextPage = () => {
 										key={index}
 									>
 										<Box
-											flexDirection={'row'}
+											flexDirection={{
+												xs: 'column',
+												md: 'row',
+											}}
 											display={'flex'}
 											gap={2}
+											alignItems={'center'}
 										>
 											<img
 												src="/images/main/노무.png"
@@ -245,6 +195,7 @@ const Page: NextPage = () => {
 													variant={'h4'}
 													fontWeight={'600'}
 													mb={2}
+													textAlign={'center'}
 												>
 													{item.text1}
 												</Typography>
@@ -295,7 +246,11 @@ const Page: NextPage = () => {
 								<img
 									src="/images/main/graph.jpg"
 									alt="법인설립"
-									style={{ width: '100%', height: 'auto' }}
+									style={{
+										width: 500,
+										height: 300,
+										alignContent: 'center',
+									}}
 								/>
 								<Typography
 									color="primary.main"
@@ -304,20 +259,19 @@ const Page: NextPage = () => {
 									variant="h3"
 									sx={{ wordBreak: 'keep-all' }}
 								>
-									법인설립
+									{locale == 'jp' ? '法人設立' : '법인설립'}
 								</Typography>
 								<Typography
 									variant="h5"
 									fontWeight={400}
 									sx={{
-										wordBreak: 'keep-all',
 										mt: 2,
 										lineHeight: 1.5,
 									}}
 								>
-									일본에서 가장 까다로운 지사 설립(법인)과
-									계좌 개설 모든 과정을 협업 기관과 함께 대행
-									및 컨설팅 해드립니다.
+									{locale == 'jp'
+										? '日本で最も厳しい支社設立(法人)と口座開設の全ての過程を協業機関と共に代行およびコンサルティングいたします。'
+										: '일본에서 가장 까다로운 지사 설립(법인)과 계좌 개설 모든 과정을 협업 기관과 함께 대행 및 컨설팅 해드립니다.'}
 								</Typography>
 							</Box>
 						</Box>
@@ -343,7 +297,11 @@ const Page: NextPage = () => {
 								<img
 									src="/images/main/consulting.jpg"
 									alt="비즈니스 매칭"
-									style={{ width: '100%', height: 'auto' }}
+									style={{
+										width: 600,
+										height: 300,
+										alignContent: 'center',
+									}}
 								/>
 								<Typography
 									color="primary.main"
@@ -352,28 +310,48 @@ const Page: NextPage = () => {
 									variant="h3"
 									sx={{ wordBreak: 'keep-all' }}
 								>
-									비즈니스 매칭
+									{locale == 'jp'
+										? 'ビジネスマッチング'
+										: '비즈니스 매칭'}
 								</Typography>
-								<Typography
-									variant="h5"
-									fontWeight={400}
-									sx={{
-										wordBreak: 'keep-all',
-										mt: 2,
-										lineHeight: 1.5,
-									}}
-								>
-									일본 엑셀러레이터, 대기업, 마케팅 회사 등
-									다양한 기관과 제휴를 맺고 있어 니즈에 맞는
-									매칭과 협업이 가능합니다. <br />
-									<br />
-									현지 매니저가 있어 원하는 협업 대상 기업을
-									찾아줄 수 있습니다. <br />
-									<br />
-									매칭 이후 실제 비즈니스가 성사되도록 전문
-									통역사가 당신의 비즈니스에 도움을 줄 수
-									있습니다.
-								</Typography>
+								{locale == 'jp' ? (
+									<Typography
+										variant="h5"
+										fontWeight={400}
+										sx={{
+											mt: 2,
+											lineHeight: 1.5,
+										}}
+									>
+										日本のアクセラレータ、大企業、マーケティング会社など多様な機関と提携を結んでおり、ニーズに合わせたマッチングと協業が可能です。
+										<br />
+										<br />
+										現地マネージャーがいて、希望する協業対象企業を探すことができます。
+										<br />
+										<br />
+										マッチング後、実際のビジネスが実現するように専門通訳者があなたのビジネスをサポートすることができます。
+									</Typography>
+								) : (
+									<Typography
+										variant="h5"
+										fontWeight={400}
+										sx={{
+											mt: 2,
+											lineHeight: 1.5,
+										}}
+									>
+										일본 엑셀러레이터, 대기업, 마케팅 회사
+										등 다양한 기관과 제휴를 맺고 있어 니즈에
+										맞는 매칭과 협업이 가능합니다. <br />
+										<br />
+										현지 매니저가 있어 원하는 협업 대상
+										기업을 찾아줄 수 있습니다. <br />
+										<br />
+										매칭 이후 실제 비즈니스가 성사되도록
+										전문 통역사가 당신의 비즈니스에 도움을
+										줄 수 있습니다.
+									</Typography>
+								)}
 							</Box>
 						</Box>
 					</Box>
@@ -397,7 +375,7 @@ const Page: NextPage = () => {
 								<img
 									src="/images/main/innovation.jpg"
 									alt="오픈 이노베이션"
-									style={{ width: '100%', height: 'auto' }}
+									style={{ width: 600, height: 300 }}
 								/>
 								<Typography
 									color="primary.main"
@@ -406,22 +384,41 @@ const Page: NextPage = () => {
 									variant="h3"
 									sx={{ wordBreak: 'keep-all' }}
 								>
-									오픈 이노베이션
+									{locale == 'jp'
+										? 'オープン·イノベーション'
+										: '오픈 이노베이션'}
 								</Typography>
-								<Typography
-									variant="h5"
-									fontWeight={400}
-									sx={{
-										wordBreak: 'keep-all',
-										mt: 2,
-										lineHeight: 1.5,
-									}}
-								>
-									일본 기업의 80%는 대기업-중소기업 간의
-									거래에서 이루어집니다. <br />
-									주요 대기업과의 제휴로 일본 대기업과 한국
-									기업의 오픈 이노베이션을 지원합니다.
-								</Typography>
+								{locale == 'jp' ? (
+									<Typography
+										variant="h5"
+										fontWeight={400}
+										sx={{
+											mt: 2,
+											lineHeight: 1.5,
+										}}
+									>
+										日本企業の 80%
+										は、大企業-中小企業間の取引で行われます。
+										<br />
+										主要大手企業との提携で日本大手と韓国企業のオープンイノベーションを支援します。
+									</Typography>
+								) : (
+									<Typography
+										variant="h5"
+										fontWeight={400}
+										sx={{
+											wordBreak: 'keep-all',
+											mt: 2,
+											lineHeight: 1.5,
+										}}
+									>
+										일본 기업의 80%는 대기업-중소기업 간의
+										거래에서 이루어집니다. <br />
+										주요 대기업과의 제휴로 일본 대기업과
+										한국 기업의 오픈 이노베이션을
+										지원합니다.
+									</Typography>
+								)}
 							</Box>
 						</Box>
 					</Box>

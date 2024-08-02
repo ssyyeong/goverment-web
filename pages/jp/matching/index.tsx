@@ -7,10 +7,12 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import { useRouter } from 'next/router';
 import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../../../src/views/global/SupportiInput';
-import SupportiToggle from '../../../src/views/global/SupportiToggle';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 const Page: NextPage = () => {
 	const router = useRouter();
+	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	const [openPopUp, setOpenPopUp] = React.useState(false);
 	const [name, setName] = React.useState('');
@@ -52,7 +54,9 @@ const Page: NextPage = () => {
 							fontWeight={600}
 							color={'white'}
 						>
-							어떤 비즈니스 상대를 원하시나요?
+							{locale == 'jp'
+								? 'どのようなビジネス相手をご希望ですか？'
+								: '어떤 비즈니스 상대를 원하시나요?'}
 						</Typography>
 					</Box>
 				</Box>
@@ -96,7 +100,7 @@ const Page: NextPage = () => {
 							height={'100px'}
 						/>
 						<Typography variant={'h5'} fontWeight={600}>
-							투자유치
+							{locale == 'jp' ? '投資誘致' : '투자유치'}
 						</Typography>
 					</Box>
 					<Box
@@ -116,7 +120,7 @@ const Page: NextPage = () => {
 							height={'100px'}
 						/>
 						<Typography variant={'h5'} fontWeight={600}>
-							마케팅
+							{locale == 'jp' ? 'マーケッティング' : '마케팅'}
 						</Typography>
 					</Box>
 				</Box>
@@ -167,7 +171,7 @@ const Page: NextPage = () => {
 							height={'100px'}
 						/>
 						<Typography variant={'h5'} fontWeight={600}>
-							영업 대행
+							{locale == 'jp' ? '営業代行' : '영업 대행'}
 						</Typography>
 					</Box>
 				</Box>
@@ -176,17 +180,25 @@ const Page: NextPage = () => {
 					fontWeight={600}
 					textAlign={'center'}
 				>
-					믿을 수 있는 파트너를 찾아드립니다.
+					{locale == 'jp'
+						? '信頼できるパートナーを見つけます。'
+						: '믿을 수 있는 파트너를 찾아드립니다.'}
 				</Typography>
 				<Typography
 					variant={'subtitle1'}
 					fontWeight={600}
 					textAlign={'center'}
 				>
-					미팅 성사 시에만 지불, 성사 불가 시 100% 환불해 진행합니다.
+					{locale == 'jp'
+						? 'ミーティングの成功時のみ支払い、成功不可の場合は100%返金して行います。'
+						: '미팅 성사 시에만 지불, 성사 불가 시 100% 환불해 진행합니다.'}
 				</Typography>
 				<SupportiButton
-					contents="매칭 바로 가기"
+					contents={
+						locale == 'jp'
+							? 'マッチングショートカット'
+							: '매칭 바로 가기'
+					}
 					onClick={() => {
 						setOpenPopUp(true);
 					}}
@@ -215,7 +227,9 @@ const Page: NextPage = () => {
 									mt="auto"
 									mb="auto"
 								>
-									설문조사
+									{locale == 'jp'
+										? 'アンケート調査'
+										: '설문조사'}
 								</Typography>
 								<CloseIcon
 									sx={{
@@ -233,12 +247,15 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									이름
+									{locale == 'jp' ? '名' : '이름'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이름을 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? '名前を入力してください。'
+												: '이름을 입력하세요.',
 									}}
 									value={name}
 									setValue={setName}
@@ -250,12 +267,15 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									회사명
+									{locale == 'jp' ? '社名' : '회사명'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '회사명을 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? '会社名を入力してください。'
+												: '회사명을 입력하세요.',
 									}}
 									value={company}
 									setValue={setCompany}
@@ -267,12 +287,15 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									전화번호
+									{locale == 'jp' ? '電話番号' : '전화번호'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '전화번호를 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? '電話番号を入力してください。'
+												: '전화번호를 입력하세요.',
 									}}
 									value={phoneNumber}
 									setValue={setPhoneNumber}
@@ -284,12 +307,15 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									이메일
+									{locale == 'jp' ? 'イーメール' : '이메일'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '이메일을 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? 'メールを入力してください。'
+												: '이메일을 입력하세요.',
 									}}
 									value={email}
 									setValue={setEmail}
@@ -301,12 +327,15 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									사업명
+									{locale == 'jp' ? '事業名' : '사업명'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '사업명을 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? '事業名を入力してください。'
+												: '사업명을 입력하세요.',
 									}}
 									value={business}
 									setValue={setBusiness}
@@ -318,14 +347,18 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									일본어 또는 영어 가능 여부
+									{locale == 'jp'
+										? '日本語または英語が可能かどうか'
+										: '일본어 또는 영어 가능 여부'}
 								</Typography>
 								<Typography
 									variant="body1"
 									fontWeight={600}
 									color={'gray'}
 								>
-									(비즈니스 대화 수준의 영어, 일어)
+									{locale == 'jp'
+										? 'ビジネス会話レベルの英語、日本語'
+										: '(비즈니스 대화 수준의 영어, 일어)'}
 								</Typography>
 								<Switch
 									checked={visibleLanguage}
@@ -341,12 +374,17 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									매칭 원하는 분야
+									{locale == 'jp'
+										? 'マッチングしたい分野'
+										: '매칭 원하는 분야'}
 								</Typography>
 								<SupportiInput
 									type="input"
 									additionalProps={{
-										placeholder: '분야를 입력하세요.',
+										placeholder:
+											locale == 'jp'
+												? '分野を入力してください。'
+												: '분야를 입력하세요.',
 									}}
 									value={field}
 									setValue={setField}
@@ -358,20 +396,36 @@ const Page: NextPage = () => {
 								flexDirection={'column'}
 							>
 								<Typography variant="body1" fontWeight={600}>
-									매칭 프리미엄 서비스 이용 여부
+									{locale == 'jp'
+										? 'マッチングプレミアムサービスの利用可否'
+										: '매칭 프리미엄 서비스 이용 여부'}
 								</Typography>
-								<Typography
-									variant="body1"
-									fontWeight={600}
-									color={'gray'}
-									sx={{ lineHeight: 1.2 }}
-								>
-									매칭 이후 통역사와 연결해 만남까지 동행하는
-									서비스입니다. (추가 2만엔 비용 발생) <br />
-									1회 매칭 시 최소 3만엔 ~6만엔의 비용이
-									발생하며 상호 동의 후 선입금 시 서비스가
-									진행됩니다.
-								</Typography>
+								{locale == 'jp' ? (
+									<Typography
+										variant="body1"
+										fontWeight={600}
+										color={'gray'}
+										sx={{ lineHeight: 1.2 }}
+									>
+										マッチング後、通訳者と連絡を取り合い、出会いまで同行するサービスです。(追加2万円の費用が発生){' '}
+										<br />
+										1回マッチングすると最低3万円~6万円の費用が発生し、相互同意後に前払い時にサービスが行われます。
+									</Typography>
+								) : (
+									<Typography
+										variant="body1"
+										fontWeight={600}
+										color={'gray'}
+										sx={{ lineHeight: 1.2 }}
+									>
+										매칭 이후 통역사와 연결해 만남까지
+										동행하는 서비스입니다. (추가 2만엔 비용
+										발생) <br />
+										1회 매칭 시 최소 3만엔 ~6만엔의 비용이
+										발생하며 상호 동의 후 선입금 시 서비스가
+										진행됩니다.
+									</Typography>
+								)}
 								<Switch
 									checked={visibleLanguage}
 									onChange={() =>
@@ -383,7 +437,9 @@ const Page: NextPage = () => {
 
 							<Box display={'flex'} gap={2}>
 								<SupportiButton
-									contents={'제출하기'}
+									contents={
+										locale == 'jp' ? '提出する' : '제출하기'
+									}
 									variant="contained"
 									onClick={() => {}}
 									style={{
@@ -393,7 +449,9 @@ const Page: NextPage = () => {
 									}}
 								/>
 								<SupportiButton
-									contents={'닫기'}
+									contents={
+										locale == 'jp' ? '閉じる' : '닫기'
+									}
 									variant="outlined"
 									onClick={() => setOpenPopUp(false)}
 									style={{

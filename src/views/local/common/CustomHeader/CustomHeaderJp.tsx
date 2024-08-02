@@ -35,28 +35,37 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 */
 	const mobileMenu = [
 		{
-			label: '소개',
+			label: cookie.getItemInCookies('LOCALE') === 'ko' ? '소개' : '紹介',
 			path: '/jp/introduction',
 			onclick: () => {
 				router.push('/jp/introduction');
 			},
 		},
 		{
-			label: '법인 설립',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '법인 설립'
+					: '法人設立',
 			path: '/jp/consult',
 			onclick: () => {
 				router.push('/jp/consult');
 			},
 		},
 		{
-			label: '비즈니스 매칭',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '비즈니스 매칭'
+					: 'ビジネスマッチング',
 			path: '/jp/matching',
 			onclick: () => {
 				router.push('/jp/matching');
 			},
 		},
 		{
-			label: '오픈 이노베이션',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '오픈 이노베이션'
+					: 'オープン·イノベーション',
 			path: '/jp/innovation',
 			onclick: () => {
 				router.push('/jp/innovation');
@@ -66,28 +75,37 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	const unLoginMenu = [
 		{
-			label: cookie.getItemInCookies('locale') === 'ko' ? '소개' : '紹介',
+			label: cookie.getItemInCookies('LOCALE') === 'ko' ? '소개' : '紹介',
 			path: '/jp/introduction',
 			onclick: () => {
 				router.push('/jp/introduction');
 			},
 		},
 		{
-			label: '법인 설립',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '법인 설립'
+					: '法人設立',
 			path: '/jp/consult',
 			onclick: () => {
 				router.push('/jp/consult');
 			},
 		},
 		{
-			label: '비즈니스 매칭',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '비즈니스 매칭'
+					: 'ビジネスマッチング',
 			path: '/jp/matching',
 			onclick: () => {
 				router.push('/jp/matching');
 			},
 		},
 		{
-			label: '오픈 이노베이션',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '오픈 이노베이션'
+					: 'オープン·イノベーション',
 			path: '/jp/innovation',
 			onclick: () => {
 				router.push('/jp/innovation');
@@ -97,28 +115,37 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
 	const pages = [
 		{
-			label: '소개',
+			label: cookie.getItemInCookies('LOCALE') === 'ko' ? '소개' : '紹介',
 			path: '/jp/introduction',
 			onclick: () => {
 				router.push('/jp/introduction');
 			},
 		},
 		{
-			label: '법인 설립',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '법인 설립'
+					: '法人設立',
 			path: '/jp/consult',
 			onclick: () => {
 				router.push('/jp/consult');
 			},
 		},
 		{
-			label: '비즈니스 매칭',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '비즈니스 매칭'
+					: 'ビジネスマッチング',
 			path: '/jp/matching',
 			onclick: () => {
 				router.push('/jp/matching');
 			},
 		},
 		{
-			label: '오픈 이노베이션',
+			label:
+				cookie.getItemInCookies('LOCALE') === 'ko'
+					? '오픈 이노베이션'
+					: 'オープン·イノベーション',
 			path: '/jp/innovation',
 			onclick: () => {
 				router.push('/jp/innovation');
@@ -177,8 +204,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	};
 
 	useEffect(() => {
-		console.log(cookie.getItemInCookies('locale'));
-		setToLocale(cookie.getItemInCookies('locale') || 'ko');
+		setToLocale(cookie.getItemInCookies('LOCALE') || 'ko');
 	}, [router]);
 
 	return (
@@ -301,7 +327,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 													router.push(page.path);
 													handleCloseNavMenu();
 												}}
-												sx={{}}
 											>
 												<Typography
 													textAlign="center"
@@ -341,7 +366,10 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								onChange={(event, value) => {
 									if (value == null) return;
 									setToLocale(value);
-									cookie.setItemInCookies('locale', value);
+									cookie.setItemInCookies('LOCALE', value, {
+										path: '/',
+										maxAge: 3600 * 24 * 30,
+									});
 									router.push('/jp');
 								}}
 								color="primary"
@@ -413,14 +441,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										if (value == null) return;
 										setToLocale(value);
 										cookie.setItemInCookies(
-											'locale',
-											value
+											'LOCALE',
+											value,
+											{
+												path: '/',
+												maxAge: 3600 * 24 * 30,
+											}
 										);
-										if (value == 'ko') {
-											router.push('/jp');
-										} else {
-											router.push('/jp/consult');
-										}
+										router.push('/jp');
 									}}
 									color="primary"
 									aria-label="text alignment"

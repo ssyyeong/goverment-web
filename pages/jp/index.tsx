@@ -9,6 +9,7 @@ import { CookieManager } from '@leanoncompany/supporti-utility';
 const Page: NextPage = () => {
 	const router = useRouter();
 	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	return (
 		<Box
@@ -44,22 +45,42 @@ const Page: NextPage = () => {
 					display={'flex'}
 					flexDirection={'column'}
 				>
-					<Typography
-						variant={'h2'}
-						fontWeight={'400'}
-						color={'white'}
-					>
-						서포티는 <b>한-일 Cross Boarder 솔루션</b>으로
-					</Typography>
-
-					<Typography
-						variant={'h2'}
-						fontWeight={'400'}
-						color={'white'}
-						mt={1}
-					>
-						한국과 일본의 진출을 지원합니다.{' '}
-					</Typography>
+					{locale === 'jp' ? (
+						<Typography
+							variant={'h2'}
+							fontWeight={'400'}
+							color={'white'}
+						>
+							Supportiは <b>韓日Cross Boarderソリューションで</b>
+						</Typography>
+					) : (
+						<Typography
+							variant={'h2'}
+							fontWeight={'400'}
+							color={'white'}
+						>
+							서포티는 <b>한-일 Cross Boarder 솔루션</b>으로
+						</Typography>
+					)}
+					{cookie.getItemInCookies('LOCALE') === 'jp' ? (
+						<Typography
+							variant={'h2'}
+							fontWeight={'400'}
+							color={'white'}
+							mt={1}
+						>
+							韓国と日本の進出を支援します。
+						</Typography>
+					) : (
+						<Typography
+							variant={'h2'}
+							fontWeight={'400'}
+							color={'white'}
+							mt={1}
+						>
+							한국과 일본의 진출을 지원합니다.
+						</Typography>
+					)}
 				</Box>
 			</Box>
 			<Box
@@ -106,7 +127,6 @@ const Page: NextPage = () => {
 						marginTop: 5,
 					}}
 					onClick={() => {
-						console.log(cookie.getItemInCookies('ACCESS_TOKEN'));
 						if (cookie.getItemInCookies('ACCESS_TOKEN')) {
 							alert('이미 로그인 되어 있습니다.');
 							return;

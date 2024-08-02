@@ -190,7 +190,6 @@ const Page: NextPage = () => {
 		return result;
 	};
 
-	console.log(seminarData);
 	//* Hooks
 	/**
 	 * 세미나 데이터 조회

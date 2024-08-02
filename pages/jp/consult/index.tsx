@@ -2,11 +2,15 @@ import React from 'react';
 import { NextPage } from 'next';
 
 import { Box, Grid, Typography } from '@mui/material';
-import SupportiButton from '../../../src/views/global/SupportiButton';
 import { useRouter } from 'next/router';
+import { CookieManager } from '@leanoncompany/supporti-utility';
+
+import SupportiButton from '../../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	const router = useRouter();
+	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	return (
 		<Box
@@ -47,20 +51,34 @@ const Page: NextPage = () => {
 								}}
 							>
 								<Typography variant={'h3'} color={'primary'}>
-									법인설립
+									{locale == 'jp' ? '法人設立' : '법인설립'}
 								</Typography>
-								<Typography
-									variant={'h6'}
-									fontWeight={400}
-									sx={{
-										lineHeight: 1.5,
-									}}
-								>
-									일본에서 가장 까다로운 지사 설립(법인)과
-									<br />
-									계좌 개설 모든 과정을 협업 기관과 함께 대행
-									및 컨설팅 해드립니다.
-								</Typography>
+								{locale == 'jp' ? (
+									<Typography
+										variant={'h6'}
+										fontWeight={400}
+										sx={{
+											lineHeight: 1.5,
+										}}
+									>
+										日本で最も厳しい支社設立（法人）と
+										<br />
+										口座開設の全過程を協業機関と共に代行およびコンサルティングいたします。
+									</Typography>
+								) : (
+									<Typography
+										variant={'h6'}
+										fontWeight={400}
+										sx={{
+											lineHeight: 1.5,
+										}}
+									>
+										일본에서 가장 까다로운 지사 설립(법인)과
+										<br />
+										계좌 개설 모든 과정을 협업 기관과 함께
+										대행 및 컨설팅 해드립니다.
+									</Typography>
+								)}
 							</Box>
 						</Box>
 					</Box>
@@ -85,18 +103,30 @@ const Page: NextPage = () => {
 						variant="h4"
 						fontWeight={'500'}
 					>
-						여러분의 사업을 편리하게 관리하세요
+						{locale == 'jp'
+							? 'ビジネスを便利に管理しなさい'
+							: '여러분의 사업을 편리하게 관리하세요'}
 					</Typography>
 					<Typography
 						sx={{ wordBreak: 'keep-all', textAlign: 'center' }}
 						color={'white'}
 						variant="subtitle1"
 					>
-						서포티에서 최적의 솔루션을 제안합니다.
+						{locale == 'jp'
+							? 'サポティで最適なソリューションを提案します。'
+							: '서포티에서 최적의 솔루션을 제안합니다.'}
 					</Typography>
 					<SupportiButton
-						contents="무료로 시작하기"
+						contents={
+							locale == 'jp' ? '無料で始める' : '무료로 시작하기'
+						}
 						onClick={() => {
+							if (cookie.getItemInCookies('ACCESS_TOKEN')) {
+								locale == 'jp'
+									? alert('すでにログインしています。')
+									: alert('이미 로그인 되어 있습니다.');
+								return;
+							}
 							router.push('/jp/sign_in');
 						}}
 						variant="contained"
