@@ -6,7 +6,8 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material';
-import React from 'react';
+import { styled } from 'styled-components';
+import React, { useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRouter } from 'next/router';
@@ -28,6 +29,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 
 type Props = {};
+interface Character {
+	char: string;
+	key: number;
+}
 
 const Page: NextPage = () => {
 	const router = useRouter();
@@ -58,6 +63,8 @@ const Page: NextPage = () => {
 		CATEGORY: '전체',
 		FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
 	});
+
+	const [characters, setCharacters] = useState<Character[]>([]);
 
 	//* Constants
 	const data = [
@@ -153,7 +160,7 @@ const Page: NextPage = () => {
 	 */
 	const getUserIrInfo = () => {
 		//임시 처리
-		setOpenPopUp(true);
+		// setOpenPopUp(true);
 		// userIrInformationController.getOneItemByKey(
 		// 	{
 		// 		APP_MEMBER_IDENTIFICATION_CODE: memberId,
@@ -198,6 +205,52 @@ const Page: NextPage = () => {
 			(err) => {}
 		);
 	};
+	const txt = '서포티와 함께 성장해 보세요!';
+	const [Text, setText] = useState('');
+	const [Description, setDescription] = useState('');
+	const [Description2, setDescription2] = useState('');
+
+	const [Count, setCount] = useState(0);
+
+	const [position, setPosition] = useState(0);
+
+	function onScroll() {
+		setPosition(window.scrollY);
+		console.log(window.scrollY);
+		console.log(position - 600);
+	}
+	useEffect(() => {
+		window.addEventListener('scroll', onScroll);
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+		};
+	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setText(Text + txt[Count]); // 이전 set한 문자 + 다음 문자
+			setCount(Count + 1); // 개수 만큼 체크
+		}, 100);
+		if (Count === txt.length) {
+			// Count를 따로 두지 않고 Text.length 체크도 가능
+			clearInterval(interval); // 문자열 체크를 통해 setInterval을 해제합니다
+		}
+		return () => clearInterval(interval);
+	});
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDescription('고객님의 하나뿐인 스타트업 성장 관리 솔루션');
+		}, 800);
+		return () => clearTimeout(timer);
+	});
+
+	useEffect(() => {
+		const timer2 = setTimeout(() => {
+			setDescription2('서포티는 스타트업과 함께하는 동행자입니다.');
+		}, 900);
+		return () => clearTimeout(timer2);
+	});
 
 	useEffect(() => {
 		// 팝업창이 닫혔을 시점에 오늘 하루 보지 않기에 체크가 되어 있다면 쿠키에 셋팅
@@ -296,7 +349,7 @@ const Page: NextPage = () => {
 							color="primary.main"
 							mt={3}
 						>
-							서포티와 함께 성장해 보세요!
+							{Text}
 						</Typography>
 						<Typography
 							sx={{ wordBreak: 'keep-all', textAlign: 'center' }}
@@ -305,7 +358,7 @@ const Page: NextPage = () => {
 							fontWeight={400}
 							mt={3}
 						>
-							고객님의 하나뿐인 스타트업 성장 관리 솔루션
+							{Description}
 						</Typography>
 						<Typography
 							sx={{ wordBreak: 'keep-all', textAlign: 'center' }}
@@ -313,8 +366,9 @@ const Page: NextPage = () => {
 							color="primary.main"
 							fontWeight={400}
 						>
-							서포티는 스타트업과 함께하는 동행자입니다.
+							{Description2}
 						</Typography>
+
 						{/* 
 						<SupportiButton
 							contents={'지금 시작하기'}
@@ -1369,5 +1423,4 @@ const Page: NextPage = () => {
 		</Grid>
 	);
 };
-
 export default Page;
