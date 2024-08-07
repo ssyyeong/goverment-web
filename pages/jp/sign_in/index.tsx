@@ -2,22 +2,15 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import { Avatar, Box, TextField, Typography } from '@mui/material';
-import SocialLogin from '../../../src/modules/SocialLogin';
-import SupportiInput from '../../../src/views/global/SupportiInput';
+import { Box, TextField, Typography } from '@mui/material';
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import { AppMemberController } from '../../../src/controller/AppMemberController';
 import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
-import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
-import { gTagEvent } from '../../../src/lib/gtag';
-import { memory } from '../../_app';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	//* Modules
 	const appMemberJpController = new DefaultController('AppMemberJp');
-	const appMemberController = new AppMemberController();
 
 	const router = useRouter();
 	const cookie = new CookieManager();
@@ -94,7 +87,13 @@ const Page: NextPage = () => {
 				alt="logo"
 				style={{ width: 230 }}
 			/>
-			<Box mt={5} px={5}>
+			<Box
+				mt={5}
+				px={{
+					xs: 0,
+					md: 5,
+				}}
+			>
 				<TextField
 					fullWidth
 					value={name}

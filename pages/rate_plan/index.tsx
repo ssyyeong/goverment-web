@@ -327,7 +327,16 @@ const Page: NextPage = () => {
 				</Box>
 			</Box> */}
 
-			<Box display="flex" gap={1} my={2} mt={20}>
+			<Box
+				display="flex"
+				gap={1}
+				my={2}
+				mt={20}
+				flexDirection={{
+					md: 'row',
+					xs: 'column',
+				}}
+			>
 				<Typography variant="h3"> 비즈니스에 적합한 </Typography>
 				<Typography variant="h3" color="primary.main">
 					프리권
@@ -870,7 +879,16 @@ const Page: NextPage = () => {
 
 			{/** 플랜별 상세 기능 비교 헤더 영역 */}
 
-			<Box display="flex" gap={1} my={10} mt={30}>
+			<Box
+				display="flex"
+				gap={1}
+				my={10}
+				mt={30}
+				flexDirection={{
+					md: 'row',
+					xs: 'column',
+				}}
+			>
 				<Typography variant="h3"> 비즈니스를 위한 </Typography>
 				<Typography variant="h3">프리권</Typography>
 				<Typography variant="h3">서비스 확인하기 </Typography>

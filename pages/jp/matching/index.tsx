@@ -8,9 +8,15 @@ import { useRouter } from 'next/router';
 import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import { CookieManager } from '@leanoncompany/supporti-utility';
+import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 const Page: NextPage = () => {
 	const router = useRouter();
+
+	const businessMatchingController = new DefaultController(
+		'BusinessMatching'
+	);
+
 	const cookie = new CookieManager();
 	const locale = cookie.getItemInCookies('LOCALE');
 
@@ -20,9 +26,41 @@ const Page: NextPage = () => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
 	const [email, setEmail] = React.useState('');
 	const [business, setBusiness] = React.useState('');
-	const [visibleLanguage, setVisibleLanguage] = React.useState(false);
+	const [availableLanguage, setAvailableLanguage] = React.useState(false);
 	const [field, setField] = React.useState('');
 	const [useService, setUseService] = React.useState(false);
+
+	//* Functions
+	/**
+	 * 설문조사 제출
+	 */
+	const create = () => {
+		if (!name || !company || !email || !phoneNumber) {
+			if (locale == 'jp')
+				return alert('すべての情報を入力してください。');
+			else return alert('모든 정보를 입력해주세요.');
+		}
+		businessMatchingController.createItem(
+			{
+				NAME: name,
+				COMPANY: company,
+				PHONE_NUMBER: phoneNumber,
+				EMAIL: email,
+				BUSINESS: business,
+				AVAILABLE_LANGUAGE: availableLanguage ? 'Y' : 'N',
+				FIELD: field,
+				USE_SERVICE: useService ? 'Y' : 'N',
+			},
+			(res) => {
+				if (res.data.result !== null) {
+					setOpenPopUp(false);
+					if (locale == 'jp') alert('提出されました。');
+					else alert('제출되었습니다.');
+				}
+			},
+			(err) => {}
+		);
+	};
 
 	return (
 		<Box
@@ -361,9 +399,9 @@ const Page: NextPage = () => {
 										: '(비즈니스 대화 수준의 영어, 일어)'}
 								</Typography>
 								<Switch
-									checked={visibleLanguage}
+									checked={availableLanguage}
 									onChange={() =>
-										setVisibleLanguage(!visibleLanguage)
+										setAvailableLanguage(!availableLanguage)
 									}
 									color="primary"
 								/>
@@ -427,10 +465,8 @@ const Page: NextPage = () => {
 									</Typography>
 								)}
 								<Switch
-									checked={visibleLanguage}
-									onChange={() =>
-										setVisibleLanguage(!visibleLanguage)
-									}
+									checked={useService}
+									onChange={() => setUseService(!useService)}
 									color="primary"
 								/>
 							</Box>
@@ -441,7 +477,9 @@ const Page: NextPage = () => {
 										locale == 'jp' ? '提出する' : '제출하기'
 									}
 									variant="contained"
-									onClick={() => {}}
+									onClick={() => {
+										create();
+									}}
 									style={{
 										width: '150px',
 										marginRight: 'auto',

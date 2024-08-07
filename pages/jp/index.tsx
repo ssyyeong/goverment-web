@@ -93,7 +93,7 @@ const Page: NextPage = () => {
 			>
 				<Typography variant={'h2'}>日本の会社ですか?</Typography>
 				<SupportiButton
-					contents={'지금 시작하기'}
+					contents={'今から始める'}
 					variant="contained"
 					style={{
 						width: '200px',
@@ -102,7 +102,10 @@ const Page: NextPage = () => {
 						marginTop: 5,
 					}}
 					onClick={() => {
-						//구글 docs 링크
+						window.open(
+							'https://docs.google.com/forms/d/e/1FAIpQLScxLqCAX2T8xpz2mjpyQ6LR6BkS0VkTchDuYSN35qCJdQpxsQ/viewform',
+							'_blank'
+						);
 					}}
 				/>
 			</Box>
