@@ -11,8 +11,6 @@ import {
 	Toolbar,
 	Typography,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { useRouter } from 'next/router';
@@ -21,7 +19,7 @@ import { gTagEvent } from '../../../../lib/gtag';
 
 interface ICustomHeaderProps {}
 
-const CustomHeader = (props: ICustomHeaderProps) => {
+const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const cookie = new CookieManager();
 
 	//* States
@@ -43,78 +41,77 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				router.push('/introduction/supporti');
 			},
 		},
-		// {
-		// 	label: '서포티 TV',
-		// 	path: '/supportv',
-		// 	onclick: () => {
-		// 		router.push('/supportv');
-		// 	},
-		// },
+
 		{
-			label: '지원사업 조회',
+			label: '마켓 소개',
 			path: '/internal_service/government/research',
 			onclick: () => {
 				router.push('/internal_service/government/research');
 			},
 		},
 		{
-			label: '지원사업 관리',
-			path: '/internal_service/government/management',
+			label: '마켓 플레이스',
+			path: '/renewal/market_place',
 			onclick: () => {
-				router.push('/internal_service/government/management');
+				router.push('/renewal/market_place');
 			},
 		},
 		{
-			label: '지원사업 컨설팅',
-			path: '/internal_service/government/consulting',
+			label: '컨설팅',
+			path: '/renewal/consulting',
 			onclick: () => {
-				router.push('/internal_service/government/consulting');
+				router.push('/renewal/consulting');
 			},
 		},
 		{
 			label: '세미나',
-			path: '/external_service/seminar',
+			path: '/renewal/seminar',
 			onclick: () => {
-				router.push('/external_service/seminar');
+				router.push('/renewal/seminar');
 			},
 		},
 		{
 			label: '멘토링',
-			path: '/external_service/mentoring',
+			path: '/renewal/mentoring',
 			onclick: () => {
-				router.push('/external_service/mentoring');
+				router.push('/renewal/mentoring');
 			},
 		},
-		// {
-		// 	label: '커피챗',
-		// 	path: '/internal_service/coffeechat',
-		// 	onclick: () => {
-		// 		router.push('/internal_service/coffeechat');
-		// 	},
-		// },
-		// {
-		// 	label: '부가 서비스',
-		// 	path: '/introduction/extra_service',
-		// 	onclick: () => {
-		// 		router.push('/introduction/extra_service');
-		// 	},
-		// },
-
 		{
-			label: '프리권',
+			label: '테마(안양)',
 			path: '/rate_plan',
 			onclick: () => {
 				router.push('/rate_plan');
 			},
 		},
-		// {
-		// 	label: '시드권',
-		// 	path: '/rate_plan',
-		// 	onclick: () => {
-		// 		router.push('/rate_plan');
-		// 	},
-		// },
-
+		{
+			label: '테마(소상공인)',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
+		{
+			label: 'API Store',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
+		{
+			label: '인사이트',
+			path: '/renewal/insight',
+			onclick: () => {
+				router.push('/renewal/insight');
+			},
+		},
+		{
+			label: '요금제 안내',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
 		{
 			label: 'FAQ',
 			path: '/customer_service/faq',
@@ -128,7 +125,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			path: '/customer_service/qna',
 		},
 		{
-			label: '재무 지표',
+			label: '지표 관리',
 			path: '/internal_service/indicator_management/financial',
 			onclick: () => {
 				router.push('/internal_service/indicator_management/financial');
@@ -148,84 +145,77 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				router.push('/introduction/supporti');
 			},
 		},
-		// {
-		// 	label: '서포티 TV',
-		// 	path: '/supportv',
-		// 	onclick: () => {
-		// 		router.push('/supportv');
-		// 	},
-		// },
+
 		{
-			label: '지원사업 조회',
+			label: '마켓 소개',
 			path: '/internal_service/government/research',
 			onclick: () => {
 				router.push('/internal_service/government/research');
 			},
 		},
 		{
-			label: '지원사업 관리',
-			path: '/internal_service/government/management',
+			label: '마켓 플레이스',
+			path: '/renewal/market_place',
 			onclick: () => {
-				router.push('/internal_service/government/management');
+				router.push('/renewal/market_place');
 			},
 		},
 		{
-			label: '지원사업 컨설팅',
-			path: '/internal_service/government/consulting',
+			label: '컨설팅',
+			path: '/renewal/consulting',
 			onclick: () => {
-				router.push('/internal_service/government/consulting');
+				router.push('/renewal/consulting');
 			},
 		},
 		{
 			label: '세미나',
-			path: '/external_service/seminar',
+			path: '/renewal/seminar',
 			onclick: () => {
-				router.push('/external_service/seminar');
+				router.push('/renewal/seminar');
 			},
 		},
 		{
 			label: '멘토링',
-			path: '/external_service/mentoring',
+			path: '/renewal/mentoring',
 			onclick: () => {
-				router.push('/external_service/mentoring');
+				router.push('/renewal/mentoring');
 			},
 		},
-		// {
-		// 	label: '멘토링',
-		// 	path: '/mentor',
-		// 	onclick: () => {
-		// 		router.push('/mentor');
-		// 	},
-		// },
-		// {
-		// 	label: '커피챗',
-		// 	path: '/internal_service/coffeechat',
-		// 	onclick: () => {
-		// 		router.push('/internal_service/coffeechat');
-		// 	},
-		// },
-		// {
-		// 	label: '부가 서비스',
-		// 	path: '/introduction/extra_service',
-		// 	onclick: () => {
-		// 		router.push('/introduction/extra_service');
-		// 	},
-		// },
-
 		{
-			label: '프리권',
+			label: '테마(안양)',
 			path: '/rate_plan',
 			onclick: () => {
 				router.push('/rate_plan');
 			},
 		},
-		// {
-		// 	label: '시드권',
-		// 	path: '/rate_plan',
-		// 	onclick: () => {
-		// 		router.push('/rate_plan');
-		// 	},
-		// },
+		{
+			label: '테마(소상공인)',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
+		{
+			label: 'API Store',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
+		{
+			label: '인사이트',
+			path: '/renewal/insight',
+			onclick: () => {
+				router.push('/renewal/insight');
+			},
+		},
+		{
+			label: '요금제 안내',
+			path: '/rate_plan',
+			onclick: () => {
+				router.push('/rate_plan');
+			},
+		},
 
 		{
 			label: 'FAQ',
@@ -243,17 +233,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '회원가입 / 로그인',
 			path: '/auth/sign_in',
 		},
-		// {
-		// 	label: '재무 지표',
-		// 	path: '/internal_service/indicator_management/financial',
-		// 	onclick: () => {
-		// 		router.push('/internal_service/indicator_management/financial');
-		// 	},
-		// },
-		// {
-		// 	label: '마이페이지',
-		// 	path: '/my_page/edit_profile',
-		// },
 	];
 
 	/**
@@ -264,46 +243,36 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			label: '서포티 소개',
 			path: '/introduction/supporti',
 		},
-		// {
-		// 	label: '서포티 TV',
-		// 	path: '/supportv',
-		// },
 	];
 
 	/**
-	 * 지원사업
+	 * 마켓
 	 */
-	const government = [
+	const market = [
 		{
-			label: '조회',
+			label: '소개',
 			path: '/internal_service/government/research',
 			onclick: () => {
 				router.push('/internal_service/government/research');
 			},
 		},
 		{
-			label: '관리',
-			path: '/internal_service/government/management',
+			label: '마켓 플레이스',
+			path: '/renewal/market_place',
 			onclick: () => {
-				router.push('/internal_service/government/management');
+				router.push('/renewal/market_place');
 			},
 		},
 		{
 			label: '컨설팅',
-			path: '/internal_service/government/consulting',
+			path: '/renewal/consulting',
 			onclick: () => {
-				router.push('/internal_service/government/consulting');
+				router.push('/external_service/consulting');
 			},
 		},
-	];
-
-	/**
-	 * 서비스
-	 */
-	const service = [
 		{
 			label: '세미나',
-			path: '/external_service/seminar',
+			path: '/renewal/seminar',
 			additionalOnclickFunction: () => {
 				gTagEvent({
 					action: 'seminar',
@@ -315,31 +284,22 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '멘토링',
-			path: '/external_service/mentoring',
+			path: '/renewal/mentoring',
 		},
-		// {
-		// 	label: '커피챗',
-		// 	path: '/internal_service/coffeechat',
-		// },
-
-		// {
-		// 	label: '부가 서비스',
-		// 	path: '/introduction/extra_service',
-		// },
 	];
 
 	/**
-	 * 요금제
+	 * 테마
 	 */
-	const rate_plan = [
+	const theme = [
 		{
-			label: '프리권',
-			path: '/rate_plan',
+			label: '안양',
+			path: '/external_service/seminar',
 		},
-		// {
-		// 	label: '시드권',
-		// 	path: '/rate_plan/point',
-		// },
+		{
+			label: '소상공인',
+			path: '/external_service/mentoring',
+		},
 	];
 
 	/**
@@ -360,67 +320,47 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		},
 	];
 
-	/**
-	 * 지표관리
-	 */
-	const indication = [
-		{
-			label: '성과 지표',
-			path: '/internal_service/indicator_management/achievement',
-			onclick: () => {
-				router.push(
-					'/internal_service/indicator_management/achievement'
-				);
-			},
-		},
-		{
-			label: '재무 지표',
-			path: '/internal_service/indicator_management/financial',
-			onclick: () => {
-				router.push('/internal_service/indicator_management/financial');
-			},
-		},
-	];
-
 	const pages = [
 		{
 			label: '서포티',
 			subMenus: supporti,
 		},
 		{
-			label: '지원사업',
-			subMenus: government,
+			label: '마켓',
+			subMenus: market,
 		},
 		{
-			label: '서비스',
-			subMenus: service,
+			label: '테마',
+			subMenus: theme,
+		},
+		{
+			label: 'API Store',
+			onClick: () => {
+				router.push('/rate_plan');
+			},
+		},
+		{
+			label: '인사이트',
+			onClick: () => {
+				router.push('/renewal/insight');
+			},
 		},
 		{
 			label: '요금제 안내',
-			subMenus: rate_plan,
+			onClick: () => {
+				router.push('/rate_plan');
+			},
 		},
-		{
-			label: '고객지원',
-			subMenus: customercenter,
-		},
+		// {
+		// 	label: '고객지원',
+		// 	subMenus: customercenter,
+		// },
 	];
 
 	/**
 	 * 마이페이지
 	 */
 	const mypage = [
-		// {
-		// 	label: '지표관리',
-		// 	subMenus: indication,
-		// 	subMenuHandler: (event) => {
-		// 		console.log(event, '지표관리');
-
-		// 		if (event) setAnchorElIndicator(event.currentTarget);
-		// 		else setAnchorElIndicator(null);
-		// 	},
-		// 	target: anchorElIndicator,
-		// },
-
 		{
 			label: '지표관리',
 			path: '/internal_service/indicator_management/financial',
@@ -454,18 +394,14 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 		setAnchorElNav(null);
 	};
 
-	/**
-	 * 고객 센터 메뉴 오픈
-	 */
-	const handleOpenUserMenu = (event, title, eventHandler) => {
-		eventHandler(event);
-	};
-
 	const handleOpenMenu = (menu, idx) => {
 		return (
 			<Box display={'flex'} flexDirection={'column'}>
 				{/* 메인 메뉴 버튼 */}
 				<Button
+					onClick={() => {
+						if (!menu.subMenu) menu.onClick();
+					}}
 					onMouseEnter={(event) => {
 						setIsOpenMenu(true);
 					}}
@@ -489,31 +425,32 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 				{/* 하위 메뉴  */}
 				{isOpenMenu && (
 					<Box flexDirection={'column'}>
-						{menu.subMenus.map((subMenu, idx) => {
-							return (
-								<Button
-									key={subMenu.label}
-									onClick={() => {
-										setIsOpenMenu(false);
-										router.push(subMenu.path);
-									}}
-									sx={{
-										my: 2,
-										mr: 2,
-										display: 'block',
-										width: '100%',
-										alignContent: 'center',
-									}}
-								>
-									<Typography
-										variant="body1"
-										fontWeight={400}
+						{menu.subMenus &&
+							menu.subMenus.map((subMenu, idx) => {
+								return (
+									<Button
+										key={subMenu.label}
+										onClick={() => {
+											setIsOpenMenu(false);
+											router.push(subMenu.path);
+										}}
+										sx={{
+											my: 2,
+											mr: 2,
+											display: 'block',
+											width: '100%',
+											alignContent: 'center',
+										}}
 									>
-										{subMenu.label}
-									</Typography>
-								</Button>
-							);
-						})}
+										<Typography
+											variant="body1"
+											fontWeight={400}
+										>
+											{subMenu.label}
+										</Typography>
+									</Button>
+								);
+							})}
 					</Box>
 				)}
 			</Box>
@@ -769,4 +706,4 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	);
 };
 
-export default CustomHeader;
+export default CustomHeader2;

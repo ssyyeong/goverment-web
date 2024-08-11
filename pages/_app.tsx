@@ -26,7 +26,6 @@ import dotenv from 'dotenv';
 import dynamic from 'next/dynamic';
 
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Script from 'next/script';
 import * as gtag from '../src/lib/gtag';
 
@@ -62,10 +61,10 @@ function App({
 			ssr: false,
 		}
 	);
-	const CustomHeaderLandingNoSSR = dynamic(
+	const CustomHeaderRenewalNoSSR = dynamic(
 		() =>
 			import(
-				'../src/views/local/common/CustomHeader/CustomHeaderLanding'
+				'../src/views/local/common/CustomHeader/CustomHeaderRenewal'
 			),
 		{
 			ssr: false,
@@ -119,11 +118,11 @@ function App({
 				strategy="afterInteractive"
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
-			{router.pathname.includes('landing') ? (
+			{router.pathname.includes('renewal') ? (
 				<Entry
 					disableBreadCrumb={true}
 					memory={memory}
-					customHeader={<CustomHeaderLandingNoSSR />}
+					customHeader={<CustomHeaderRenewalNoSSR />}
 					configs={{
 						sidebar: {
 							...sideBarConfig,

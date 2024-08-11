@@ -211,7 +211,7 @@ const Page: NextPage = () => {
 				}}
 			/>
 
-			<Box
+			{/* <Box
 				sx={{
 					my: 20,
 				}}
@@ -221,7 +221,7 @@ const Page: NextPage = () => {
 				title="지금 신청 가능한 컨설팅"
 				dataList={consultingDataList}
 				type="consulting"
-			/>
+			/> */}
 			{/* <Typography variant="h4" fontWeight={'bold'}>
 				예약 가능 세미나
 			</Typography> */}

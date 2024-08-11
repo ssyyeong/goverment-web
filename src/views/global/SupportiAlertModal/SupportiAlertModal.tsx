@@ -52,6 +52,9 @@ interface ISupportiAlertModalProps {
 		| 'irFinish'
 		| 'irApply'
 		| 'mentoringWarning'
+		| 'marketPlaceApply'
+		| 'marketPlaceApplySuccess'
+		| 'marketPlaceApplyFail'
 		| 'noAccount'
 		| 'unReady';
 
@@ -420,6 +423,35 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		mentoringWarning: {
 			type: 'error',
 			title: '멘토링 진행 횟수를 다시 확인해주세요.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		marketPlaceApply: {
+			type: 'success',
+			title: '혜택을 받으시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		marketPlaceApplySuccess: {
+			type: 'success',
+			title: '신청되었습니다. 추후 연락드리겠습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		marketPlaceApplyFail: {
+			type: 'error',
+			title: '이미 혜택 신청을 하셨습니다.',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();
