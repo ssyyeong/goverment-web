@@ -9,6 +9,7 @@ import { usePagination } from '../../../src/hooks/usePagination';
 import Nodata from '../../../src/views/global/NoData/NoData';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -35,7 +36,11 @@ const Page: NextPage = () => {
 	 * 페이징 관련
 	 */
 	const { page, limit, handlePageChange, setLimit } = usePagination();
-
+	/**
+	 *
+	 * 전체 글 총 갯수
+	 */
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 	/**
 	 * 알럿 모달
 	 */
@@ -66,12 +71,11 @@ const Page: NextPage = () => {
 				INSIGHT_CATEGORY_IDENTIFICATION_CODE:
 					tab === '전체' ? undefined : tab,
 				PAGE: page,
-				LIMIT: 9,
+				LIMIT: 8,
 			},
 			(res) => {
-				if (res.data.result) {
-					setInsighteDataList(res.data.result.rows);
-				}
+				setInsighteDataList(res.data.result.rows);
+				setTotalDataCount(res.data.result.count);
 			}
 		);
 	};
@@ -165,6 +169,7 @@ const Page: NextPage = () => {
 				{insightCategoryDataList?.map((item, index) => {
 					return (
 						<Typography
+							key={index}
 							sx={{
 								p: 1,
 								border: '1px solid #c8c8c8',
@@ -196,7 +201,6 @@ const Page: NextPage = () => {
 			) : (
 				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
 					{insightDataList?.map((item, index) => {
-						console.log(JSON.parse(item.IMAGE));
 						return (
 							<Box
 								key={index}
@@ -224,6 +228,7 @@ const Page: NextPage = () => {
 										margin: '0 auto',
 										borderTopLeftRadius: 5,
 										borderTopRightRadius: 5,
+										backgroundSize: 'cover',
 										backgroundImage:
 											JSON.parse(item.IMAGE).length > 0
 												? `url(${
@@ -232,7 +237,6 @@ const Page: NextPage = () => {
 														)[0]
 												  })`
 												: `url(/images/main/container.jpg)`,
-										backgroundSize: 'cover',
 									}}
 								></Box>
 								<Box
@@ -297,6 +301,17 @@ const Page: NextPage = () => {
 					})}
 				</Box>
 			)}
+			{/* 페이지 네이션 */}
+			<Box width={'100%'} p={2}>
+				<SupportiPagination
+					limit={limit}
+					setLimit={setLimit}
+					page={page}
+					handlePageChange={handlePageChange}
+					count={totalDataCount}
+					useLimit={false}
+				/>
+			</Box>
 			<SupportiAlertModal
 				type={alertModalType}
 				open={alertModal}
