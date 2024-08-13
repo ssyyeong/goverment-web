@@ -295,15 +295,15 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const customercenter = [
 		{
 			label: 'FAQ',
-			path: '/customer_service/faq',
+			path: '/renewal/faq',
 		},
 		{
 			label: '공지사항',
-			path: '/customer_service/notice',
+			path: '/renewal/notice',
 		},
 		{
 			label: '문의하기',
-			path: '/customer_service/qna',
+			path: '/renewal/qna',
 		},
 	];
 
@@ -340,10 +340,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/rate_plan');
 			},
 		},
-		// {
-		// 	label: '고객지원',
-		// 	subMenus: customercenter,
-		// },
+		{
+			label: '고객지원',
+			subMenus: customercenter,
+		},
 	];
 
 	/**

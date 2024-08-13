@@ -49,13 +49,13 @@ const Page: NextPage = () => {
 
 	const regionsList = [
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/지역별 1.png',
 			CATEGORY: '서울지역',
 			TEXT1: '서울 스타트업 창업가 모임',
 			TEXT2: '서울/창업가모임/투자유치 (1/15)명',
 		},
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/지역별 2.png',
 			CATEGORY: '경기지역',
 			TEXT1: '안양시 초기 스타트업 창업가 모임',
 			TEXT2: '안양/창업가모임/제품개발 (1/10)명',
@@ -71,19 +71,19 @@ const Page: NextPage = () => {
 
 	const industryList = [
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/업종별1.png',
 			CATEGORY: '테크 스타트업',
 			TEXT1: '24년 하반기 빠르게 개발 진행하실 창업가분 모십니다.',
 			TEXT2: 'MVP개발(1/30)명',
 		},
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/업종별2.png',
 			CATEGORY: '소상공인',
 			TEXT1: '처음부터 천천히, 각 제품에 맞는 MVP개발 도와드립니다.',
 			TEXT2: 'MVP개발(1/15)명',
 		},
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/업종별3.png',
 			CATEGORY: '커머스',
 			TEXT1: '기획부터 마케팅까지, 커머스 전문가와 함께하세요!',
 			TEXT2: '기획(1/30)명',
@@ -94,19 +94,19 @@ const Page: NextPage = () => {
 
 	const overseasList = [
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/해외매칭1.png',
 			CATEGORY: '일본',
 			TEXT1: '해외진출을 위한 해외시장조사단 모집합니다.',
 			TEXT2: '사전답사/시장조사 (1/5)명',
 		},
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/해외매칭2.png',
 			CATEGORY: '일본',
 			TEXT1: '처음부터 천천히, 각 제품에 맞는 MVP개발 도와드립니다.',
 			TEXT2: '전문컨설팅/1:1멘토링 (1/3)명',
 		},
 		{
-			IMAGE: '/images/main/container.jpg',
+			IMAGE: '/images/theme/해외매칭3.png',
 			CATEGORY: '동남아시아',
 			TEXT1: '동남아시아 진출에 관심있는 창업가라면 누구든 함께해요!',
 			TEXT2: '사전조사/커뮤니티 (1/30)명',

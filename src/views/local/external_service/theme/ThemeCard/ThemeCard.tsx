@@ -1,9 +1,7 @@
 import React from 'react';
-import { Box, BoxProps, Typography } from '@mui/material';
-import SupportiButton from '../../../../global/SupportiButton';
+import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useAppMember } from '../../../../../hooks/useAppMember';
 
 // interface ISeminarCard {
 // 	title: string;
