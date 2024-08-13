@@ -156,7 +156,7 @@ const Page: NextPage = () => {
 				>
 					MVP 전문 API Store
 				</Typography>
-				<img
+				{/* <img
 					src="/images/apistore/description.svg"
 					alt="description"
 					width={600}
@@ -166,7 +166,7 @@ const Page: NextPage = () => {
 					alt="avatar"
 					width={300}
 					height={200}
-				/>
+				/> */}
 			</Box>
 			{/* 섹션3 */}
 			<Box
