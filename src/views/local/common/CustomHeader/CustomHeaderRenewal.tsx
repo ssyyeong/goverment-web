@@ -36,17 +36,17 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const mobileMenu = [
 		{
 			label: '서포티 소개',
-			path: '/introduction/supporti',
+			path: '/renewal/introduce',
 			onclick: () => {
-				router.push('/introduction/supporti');
+				router.push('/renewal/introduce');
 			},
 		},
 
 		{
 			label: '마켓 소개',
-			path: '/internal_service/government/research',
+			path: '/renewal/market_place/introduce',
 			onclick: () => {
-				router.push('/internal_service/government/research');
+				router.push('/renewal/market_place/introduce');
 			},
 		},
 		{
@@ -78,17 +78,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '테마(안양)',
-			path: '/rate_plan',
+			label: '테마',
+			path: '/renewal/theme',
 			onclick: () => {
-				router.push('/rate_plan');
-			},
-		},
-		{
-			label: '테마(소상공인)',
-			path: '/rate_plan',
-			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/theme');
 			},
 		},
 		{
@@ -140,17 +133,17 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const unLoginMenu = [
 		{
 			label: '서포티 소개',
-			path: '/introduction/supporti',
+			path: '/renewal/introduce',
 			onclick: () => {
-				router.push('/introduction/supporti');
+				router.push('/renewal/introduce');
 			},
 		},
 
 		{
 			label: '마켓 소개',
-			path: '/internal_service/government/research',
+			path: '/renewal/market_place/introduce',
 			onclick: () => {
-				router.push('/internal_service/government/research');
+				router.push('/renewal/market_place/introduce');
 			},
 		},
 		{
@@ -182,19 +175,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '테마(안양)',
-			path: '/rate_plan',
+			label: '테마',
+			path: '/renewal/theme',
 			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/theme');
 			},
 		},
-		{
-			label: '테마(소상공인)',
-			path: '/rate_plan',
-			onclick: () => {
-				router.push('/rate_plan');
-			},
-		},
+
 		{
 			label: 'API Store',
 			path: '/rate_plan',
@@ -241,7 +228,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const supporti = [
 		{
 			label: '서포티 소개',
-			path: '/introduction/supporti',
+			path: '/renewal/introduce',
 		},
 	];
 
@@ -251,9 +238,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const market = [
 		{
 			label: '소개',
-			path: '/internal_service/government/research',
+			path: '/renewal/market_place/introduce',
 			onclick: () => {
-				router.push('/internal_service/government/research');
+				router.push('/renewal/market_place/introduce');
 			},
 		},
 		{
@@ -291,16 +278,16 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	/**
 	 * 테마
 	 */
-	const theme = [
-		{
-			label: '안양',
-			path: '/external_service/seminar',
-		},
-		{
-			label: '소상공인',
-			path: '/external_service/mentoring',
-		},
-	];
+	// const theme = [
+	// 	{
+	// 		label: '안양',
+	// 		path: '/external_service/seminar',
+	// 	},
+	// 	{
+	// 		label: '소상공인',
+	// 		path: '/external_service/mentoring',
+	// 	},
+	// ];
 
 	/**
 	 * 고객 센터
@@ -331,7 +318,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '테마',
-			subMenus: theme,
+			onClick: () => {
+				router.push('/renewal/theme');
+			},
 		},
 		{
 			label: 'API Store',
@@ -496,7 +485,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 								display: { xs: 'flex', md: 'none' },
 							}}
 						>
-							<Box onClick={() => router.push('/')}>
+							<Box onClick={() => router.push('/renewal')}>
 								<img
 									src="/images/logo/Suppor-T1.png"
 									alt="logo"
@@ -629,7 +618,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 										marginRight: '15px',
 										marginTop: '25px',
 									}}
-									onClick={() => router.push('/')}
+									onClick={() => router.push('/renewal')}
 								/>
 							</Box>
 
