@@ -4,11 +4,11 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from 'next/router';
-import { useUserAccess } from '../../src/hooks/useUserAccess';
-import { useAppMember } from '../../src/hooks/useAppMember';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 import Image from 'next/image';
-import SupportiButton from '../../src/views/global/SupportiButton';
-import addCommaToNumber from '../../src/function/DataFormatter/addCommaToNumber';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import addCommaToNumber from '../../../src/function/DataFormatter/addCommaToNumber';
 
 const Page: NextPage = () => {
 	//* Modules

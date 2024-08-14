@@ -4,17 +4,14 @@ import { NextPage } from 'next';
 
 import { Box, BoxProps, Grid, Tab, Tabs, Typography } from '@mui/material';
 import Image from 'next/image';
-import { Thumbnail } from '@leanoncompany/supporti-react-ui';
 import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import { usePagination } from '../../../src/hooks/usePagination';
-import SupportiPagination from '../../../src/views/global/SupportiPagination';
-import YouTube from 'react-youtube';
-import SupportiInput from '../../../src/views/global/SupportiInput';
-import { ContentsController } from '../../../src/controller/ContentsController';
 import Nodata from '../../../src/views/global/NoData/NoData';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import SupportiPagination from '../../../src/views/global/SupportiPagination';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -46,6 +43,7 @@ const Page: NextPage = () => {
 	 * 페이징 관련
 	 */
 	const { page, limit, handlePageChange, setLimit } = usePagination();
+	const [totalDataCount, setTotalDataCount] = React.useState<number>(0);
 
 	/**
 	 * 알럿 모달
@@ -66,6 +64,21 @@ const Page: NextPage = () => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+	/**
+	 * 로그인 여부 가져오는 훅
+	 */
+	const { access } = useUserAccess('SIGN_IN');
+
+	/**
+	 * 로그인 체크
+	 */
+	useEffect(() => {
+		if (access === false) {
+			setAlertModal(true);
+			setAlertModalType('login');
+			return;
+		}
+	}, [memberId, access]);
 
 	/**
 	 * 마켓플레이스 신청 체크
@@ -128,11 +141,12 @@ const Page: NextPage = () => {
 				MARKET_PLACE_CATEGORY_IDENTIFICATION_CODE:
 					tab === '전체' ? undefined : tab,
 				PAGE: page,
-				LIMIT: 9,
+				LIMIT: 10,
 			},
 			(res) => {
 				if (res.data.result) {
 					setMarketPlaceDataList(res.data.result.rows);
+					setTotalDataCount(res.data.result.count);
 				}
 			}
 		);
@@ -234,6 +248,7 @@ const Page: NextPage = () => {
 			) : (
 				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
 					{marketPlaceDataList?.map((item, index) => {
+						console.log(JSON.parse(item.IMAGE)[0]);
 						return (
 							<Box
 								key={index}
@@ -266,7 +281,11 @@ const Page: NextPage = () => {
 										borderTopRightRadius: 5,
 										backgroundImage:
 											JSON.parse(item.IMAGE).length > 0
-												? JSON.parse(item.IMAGE)[0]
+												? `url(${
+														JSON.parse(
+															item.IMAGE
+														)[0]
+												  })`
 												: `url(/images/main/container.jpg)`,
 										backgroundSize: 'cover',
 									}}
@@ -321,6 +340,13 @@ const Page: NextPage = () => {
 										fontWeight={400}
 										sx={{ pb: 2.5, wordBreak: 'keep-all' }}
 									>
+										{item.COMPANY}
+									</Typography>
+									<Typography
+										variant="body1"
+										fontWeight={400}
+										sx={{ pb: 2.5, wordBreak: 'keep-all' }}
+									>
 										{item.DESCRIPTION}
 									</Typography>
 								</Box>
@@ -329,6 +355,17 @@ const Page: NextPage = () => {
 					})}
 				</Box>
 			)}
+			{/* 페이지 네이션 */}
+			<Box width={'100%'} p={2}>
+				<SupportiPagination
+					limit={10}
+					setLimit={setLimit}
+					page={page}
+					handlePageChange={handlePageChange}
+					count={totalDataCount}
+					useLimit={false}
+				/>
+			</Box>
 			<SupportiAlertModal
 				type={alertModalType}
 				open={alertModal}

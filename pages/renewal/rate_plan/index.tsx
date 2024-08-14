@@ -16,7 +16,6 @@ import SupportiButton from '../../../src/views/global/SupportiButton';
 import BillingModal from '../../../src/views/local/external_service/billingModal/BillingModal';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 import SupportiTheBlack from '../../../src/modules/SupportiTheBlack/SupportiTheBlack';
 import { useAppMember } from '../../../src/hooks/useAppMember';
@@ -33,59 +32,35 @@ const Page: NextPage = () => {
 
 	//* Constants
 	/**
-	 * 컨텐트
+	 * 상단 고정 컨텐트
 	 */
-	const content1 = [
+	const topContents = [
 		{
-			title: '서버지원',
-			description: ['AWS 서버 무상지원 (5천불 상당)'],
+			title: '파트너사 제공 서비스 이용',
+			description: [
+				'AWS $5000 크레딧',
+				'세무기장 서비스 3개월 무료',
+				'세무 법무 특허 노무 24시간 Q&A',
+			],
 		},
 		{
-			title: '지표관리',
-			description: ['재무/성과지표 관리 서비스'],
+			title: '사업, 투자전략 코칭 혜택',
+			description: [
+				'투자자 1:1 IR Deck 코칭 (60분)',
+				'투자전략, 사업전략 전문가 커피챗 2회 (각 1시간) / 월',
+				'월1회 프리미엄 강의 / 세미나 진행',
+				'주1회 사업, 투자전략 온라인 Open Discussion 진행',
+			],
 		},
 		{
-			title: '인사이트',
-			description: ['스타트업 대상 무료 콘텐츠 뉴스레터'],
-		},
-	];
-
-	const content2 = [
-		{
-			title: '무료 서비스 이용',
-			description: [],
-		},
-		{
-			title: '마켓플레이스',
-			description: ['최대 5개 무료 이용'],
-		},
-		{
-			title: '멘토링 제공',
-			description: ['1:1 멘토링 1회 제공'],
-		},
-	];
-
-	const content3 = [
-		{
-			title: '무료 서비스 이용',
-			description: [],
-		},
-		{
-			title: '마켓플레이스',
-			description: ['무제한 이용'],
-		},
-		{
-			title: '멘토링 제공',
-			description: ['유료 멘토링 20% 할인 무제한 제공'],
-		},
-		{
-			title: '비즈니스 매칭 1회 무료',
-			description: ['추가 구매 시 20% 할인'],
-		},
-		{ title: '테마별 커뮤니티 이용 무제한 무료' },
-		{
-			title: '개별 전담 매니저 배치',
-			description: ['1:1 매니저 상담 가능'],
+			title: '서포티에서만 이용할 수 있는 부가 서비스',
+			description: [
+				'투자전략, 사업전략 24시간 Q&A',
+				'투자자 매칭 서비스 (1회) : 단건 주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
+				'CEO 사업 Todo, 루틴관리 서비스',
+				'마케팅 컨설팅 서비스 (1회)',
+			],
+			add: '* 해당서비스는 유료서비스입니다.',
 		},
 	];
 
@@ -99,10 +74,6 @@ const Page: NextPage = () => {
 	 */
 	const contentsDetail = [
 		{
-			title: 'SUPPORTV',
-			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
-		},
-		{
 			title: '서버지원',
 			description: 'AWS 서버 무상지원 (5천불 상당)',
 		},
@@ -111,12 +82,8 @@ const Page: NextPage = () => {
 			description: '재무/성과지표 관리 서비스',
 		},
 		{
-			title: '소셜링',
-			description: '무료 세미나, 커뮤니티 등록',
-		},
-		{
-			title: 'IR 피드백',
-			description: 'IR Deck 등록시 심사역 무료 피드백 제공',
+			title: '인사이트',
+			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
 		},
 	];
 
@@ -187,7 +154,6 @@ const Page: NextPage = () => {
 				ACTIVATED_YN: 'Y',
 			},
 			(res) => {
-				console.log(res.data.result.rows);
 				setRatePlanList(res.data.result.rows);
 			},
 			(err) => {}
@@ -456,7 +422,7 @@ const Page: NextPage = () => {
 						>
 							서포티 도입을 고민하시는 분들에게 추천합니다.
 						</Typography>
-						{content1.map((item, idx) => {
+						{contentsDetail.map((item, idx) => {
 							return (
 								<Box>
 									<Typography
@@ -469,36 +435,41 @@ const Page: NextPage = () => {
 									>
 										{item.title}
 									</Typography>
-									{item.description.map((item, idx) => {
-										return (
-											<Box
-												display="flex"
-												justifyContent={'space-between'}
-												mb={1}
-											>
-												<Typography
-													sx={{
-														wordBreak: 'keep-all',
-													}}
-													color={'secondary.dark'}
-												>
-													{idx + 1 + ') '}
-													{item}
-												</Typography>
-
-												<img
-													src={
-														'/images/icons/ratePlanChecked.svg'
+									{item.description
+										.split(',')
+										.map((item, idx) => {
+											return (
+												<Box
+													display="flex"
+													justifyContent={
+														'space-between'
 													}
-													alt={'check'}
-													style={{
-														width: '16px',
-														height: '16px',
-													}}
-												/>
-											</Box>
-										);
-									})}
+													mb={1}
+												>
+													<Typography
+														sx={{
+															wordBreak:
+																'keep-all',
+														}}
+														color={'secondary.dark'}
+													>
+														{idx + 1 + ') '}
+														{item}
+													</Typography>
+
+													<img
+														src={
+															'/images/icons/ratePlanChecked.svg'
+														}
+														alt={'check'}
+														style={{
+															width: '16px',
+															height: '16px',
+														}}
+													/>
+												</Box>
+											);
+										})}
 
 									{/** 구분선 */}
 									<Box

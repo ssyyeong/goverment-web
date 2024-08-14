@@ -170,46 +170,46 @@ const Page: NextPage = () => {
 		<Grid container width={'100%'}>
 			{/** 섹션 1 */}
 			<Grid container display={'flex'} alignSelf={'center'}>
-				<Box pb={10} width={'100%'} alignSelf="center" mx={'auto'}>
+				<Box width={'100%'} alignSelf="center">
 					<Slider {...settings}>
 						<Box
 							sx={{
 								backgroundImage: `url(/images/main/banner/001.png)`,
-								backgroundSize: 'contain',
+								backgroundSize: 'cover',
 								width: '1000px',
-								height: '250px',
+								height: '320px',
 							}}
 						/>
 						<Box
 							sx={{
 								backgroundImage: `url(/images/main/banner/002.png)`,
-								backgroundSize: 'contain',
+								backgroundSize: 'cover',
 								width: '1000px',
-								height: '250px',
+								height: '320px',
 							}}
 						/>
 						<Box
 							sx={{
 								backgroundImage: `url(/images/main/banner/003.png)`,
-								backgroundSize: 'contain',
+								backgroundSize: 'cover',
 								width: '1000px',
-								height: '250px',
+								height: '320px',
 							}}
 						/>
 						<Box
 							sx={{
 								backgroundImage: `url(/images/main/banner/004.png)`,
-								backgroundSize: 'contain',
-								width: '100%',
-								height: '250px',
+								backgroundSize: 'cover',
+								width: '1000px',
+								height: '320px',
 							}}
 						/>
 						<Box
 							sx={{
 								backgroundImage: `url(/images/main/banner/005.png)`,
-								backgroundSize: 'contain',
-								width: '100%',
-								height: '250px',
+								backgroundSize: 'cover',
+								width: '1000px',
+								height: '320px',
 							}}
 						/>
 					</Slider>
@@ -227,16 +227,17 @@ const Page: NextPage = () => {
 					alignItems={'center'}
 					my={5}
 				>
-					<Box display={'flex'} alignSelf={'end'} mr={32}>
-						<Button
-							sx={{
-								color: 'gray',
-							}}
-							onClick={() => router.push('/renewal/insight')}
-						>
-							인사이트 보러가기 &gt;
-						</Button>
-					</Box>
+					<Button
+						sx={{
+							color: 'gray',
+							cursor: 'pointer',
+							display: 'flex',
+							ml: 100,
+						}}
+						onClick={() => router.push('/renewal/insight')}
+					>
+						인사이트 보러가기 &gt;
+					</Button>
 					<Box display="flex" gap={3} flexWrap="wrap" mt={1} mb={3}>
 						{insightDataList?.map((item, index) => {
 							return (

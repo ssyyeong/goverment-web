@@ -12,7 +12,6 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
 import CloseIcon from '@mui/icons-material/Close';
-import { set } from 'date-fns';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
