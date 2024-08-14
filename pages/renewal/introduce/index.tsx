@@ -394,7 +394,7 @@ const Page: NextPage = () => {
 					MVP 전문 API Store
 				</Typography>
 				<img
-					src="/images/apistore/description.svg"
+					src="/images/apistore/description.png"
 					alt="img4"
 					width={600}
 				/>

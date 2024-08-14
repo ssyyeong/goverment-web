@@ -258,7 +258,12 @@ const Page: NextPage = () => {
 					contents={'모임 요청하기'}
 					variant={'text'}
 					color={'primary'}
-					onClick={() => setOpenPopUp(true)}
+					onClick={() => {
+						window.open(
+							'https://docs.google.com/forms/d/e/1FAIpQLSdfqiEZ3AO10u8sFatoK0pj3DA5O8-Ke5sUX9wF_doL341ocQ/viewform',
+							'_blank'
+						);
+					}}
 				></SupportiButton>
 				<Box display="flex" gap={1.2} flexWrap="wrap" my={2}>
 					<Typography
