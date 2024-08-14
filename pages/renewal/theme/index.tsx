@@ -49,13 +49,13 @@ const Page: NextPage = () => {
 
 	const regionsList = [
 		{
-			IMAGE: '/images/theme/지역별 1.png',
+			IMAGE: '/images/theme/지역별1.png',
 			CATEGORY: '서울지역',
 			TEXT1: '서울 스타트업 창업가 모임',
 			TEXT2: '서울/창업가모임/투자유치 (1/15)명',
 		},
 		{
-			IMAGE: '/images/theme/지역별 2.png',
+			IMAGE: '/images/theme/지역별2.png',
 			CATEGORY: '경기지역',
 			TEXT1: '안양시 초기 스타트업 창업가 모임',
 			TEXT2: '안양/창업가모임/제품개발 (1/10)명',
