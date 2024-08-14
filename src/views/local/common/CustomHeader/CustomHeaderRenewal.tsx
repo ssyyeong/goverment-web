@@ -100,9 +100,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '요금제 안내',
-			path: '/rate_plan',
+			path: '/renewal/rate_plan',
 			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/rate_plan');
 			},
 		},
 		{
@@ -198,9 +198,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '요금제 안내',
-			path: '/rate_plan',
+			path: '/renewal/rate_plan',
 			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/rate_plan');
 			},
 		},
 
@@ -337,7 +337,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		{
 			label: '요금제 안내',
 			onClick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/rate_plan');
 			},
 		},
 		{
