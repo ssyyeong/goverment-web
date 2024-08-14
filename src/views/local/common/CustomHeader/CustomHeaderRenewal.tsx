@@ -336,13 +336,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 * 마이페이지
 	 */
 	const mypage = [
-		{
-			label: '지표관리',
-			path: '/internal_service/indicator_management/financial',
-			onclick: () => {
-				router.push('/internal_service/indicator_management/financial');
-			},
-		},
+		// {
+		// 	label: '지표관리',
+		// 	path: '/internal_service/indicator_management/financial',
+		// 	onclick: () => {
+		// 		router.push('/internal_service/indicator_management/financial');
+		// 	},
+		// },
 		{
 			label: '마이페이지',
 			path: '/my_page/edit_profile',
