@@ -38,7 +38,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '서포티 소개',
 			path: '/introduce',
 			onclick: () => {
-				router.push('/renewal/introduce');
+				router.push('/introduce');
 			},
 		},
 
@@ -46,7 +46,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '마켓 소개',
 			path: '/external_service/market_place/introduce',
 			onclick: () => {
-				router.push('/renewal/market_place/introduce');
+				router.push('/external_service/market_place/introduce');
 			},
 		},
 		{
@@ -88,14 +88,14 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: 'API Store',
 			path: '/external_service/api_store',
 			onclick: () => {
-				router.push('/renewal/api_store');
+				router.push('/external_service/api_store');
 			},
 		},
 		{
 			label: '인사이트',
-			path: '/renewal/insight',
+			path: '/external_service/insight',
 			onclick: () => {
-				router.push('/renewal/insight');
+				router.push('/external_service/insight');
 			},
 		},
 		{
@@ -471,7 +471,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 								display: { xs: 'flex', md: 'none' },
 							}}
 						>
-							<Box onClick={() => router.push('/renewal')}>
+							<Box onClick={() => router.push('/')}>
 								<img
 									src="/images/logo/Suppor-T1.png"
 									alt="logo"
@@ -604,7 +604,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 										marginRight: '15px',
 										marginTop: '25px',
 									}}
-									onClick={() => router.push('/renewal')}
+									onClick={() => router.push('/')}
 								/>
 							</Box>
 

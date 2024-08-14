@@ -518,6 +518,7 @@ const Page: NextPage = () => {
 									width: '100%',
 									textAlign: 'center',
 									mb: 1,
+									height: '175px',
 								}}
 							>
 								{/** 구독권 이름 */}
@@ -556,7 +557,7 @@ const Page: NextPage = () => {
 									</Typography>
 								)}
 								{/** 할인 적용된 금액 */}
-								{
+								{ratePlan.TYPE !== 'WELCOME_EVENT' && (
 									<Box
 										display="flex"
 										gap={1}
@@ -591,7 +592,7 @@ const Page: NextPage = () => {
 											/ {isYear ? '연' : '월'}
 										</Typography>
 									</Box>
-								}
+								)}
 							</Box>
 
 							<Box
