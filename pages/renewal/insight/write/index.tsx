@@ -144,7 +144,7 @@ const Page: NextPage = () => {
 				>
 					<Typography
 						fontWeight={'600'}
-						variant="caption"
+						variant="body1"
 						width={'130px'}
 					>
 						썸네일 이미지

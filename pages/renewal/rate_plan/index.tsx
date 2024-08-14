@@ -332,7 +332,6 @@ const Page: NextPage = () => {
 				flexWrap={'wrap'}
 				justifyContent={'center'}
 				width={'100%'}
-				// mt={10}
 			>
 				<Box
 					sx={{
@@ -602,21 +601,6 @@ const Page: NextPage = () => {
 									width: '100%',
 								}}
 							>
-								{/** 추가 설명 */}
-								{/* {ratePlan.TYPE !== 'WELCOME_EVENT' && (
-									<Box display="flex" mb={1.5}>
-										<Typography mr={0.5}>
-											세미나 컨설팅 이용가능 포인트
-										</Typography>
-										<Typography
-											color="primary"
-											sx={{ textDecoration: 'underline' }}
-										>
-											{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
-										</Typography>
-										<Typography>제공</Typography>
-									</Box>
-								)} */}
 								<Typography
 									variant="subtitle1"
 									sx={{
@@ -629,7 +613,9 @@ const Page: NextPage = () => {
 								>
 									{ratePlan.TYPE === 'PRODUCT'
 										? '합리적인 지표 관리를 통해 성장하고 싶으신 분들에게 추천합니다.'
-										: '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'}
+										: ratePlan.TYPE === 'BLACK'
+										? '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'
+										: '별도 문의'}
 								</Typography>
 
 								{/** 구독권 상세 내용 */}
@@ -673,48 +659,6 @@ const Page: NextPage = () => {
 																			') '}
 																		{item}
 																	</Typography>
-																	{/* {item.includes(
-																		'시드권'
-																	) && (
-																		<Tooltip
-																			title={
-																				'확인'
-																			}
-																			arrow
-																			placement="top"
-																			slotProps={{
-																				popper: {
-																					modifiers:
-																						[
-																							{
-																								name: 'offset',
-																								options:
-																									{
-																										offset: [
-																											0,
-																											-14,
-																										],
-																									},
-																							},
-																						],
-																				},
-																			}}
-																		>
-																			<IconButton
-																				sx={{
-																					mt: -1,
-																				}}
-																				size="small"
-																				onClick={() =>
-																					console.log(
-																						idx
-																					)
-																				}
-																			>
-																				<HelpOutlineIcon fontSize="small" />
-																			</IconButton>
-																		</Tooltip>
-																	)} */}
 																</Box>
 																<img
 																	src={
@@ -815,31 +759,26 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
-
-							{/* {ratePlan.TYPE === 'BLACK' && !permission && (
-								<SupportiButton
-									variant="contained"
-									style={{
-										width: '90%',
-										marginTop: 'auto',
-										marginBottom: '16px',
-										backgroundImage:
-											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
-									}}
-									contents={'사용 신청하기'}
-									onClick={() => {
-										if (!access) {
-											setAlertModalType('login');
-											setAlertModal(true);
-											return;
-										}
-										setRecommenderModal(true);
-									}}
-								/>
-							)} */}
 						</Box>
 					);
 				})}
+			</Box>
+			<Box
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+				mt={10}
+				width="100%"
+				flexDirection={'column'}
+				gap={5}
+			>
+				<Typography variant="h3" color="primary.main">
+					{' '}
+					티켓제{' '}
+				</Typography>
+				<Typography variant="h6">
+					현재 요금제가 준비 중입니다. 별도 상담을 통해 구매하세요.
+				</Typography>
 			</Box>
 
 			{/** 플랜별 상세 기능 비교 헤더 영역 */}
