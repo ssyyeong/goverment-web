@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import SupportiButton from '../../src/views/global/SupportiButton';
-import { useAppMember } from '../../src/hooks/useAppMember';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
