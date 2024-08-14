@@ -86,9 +86,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: 'API Store',
-			path: '/rate_plan',
+			path: '/renewal/api_store',
 			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/api_store');
 			},
 		},
 		{
@@ -184,9 +184,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 
 		{
 			label: 'API Store',
-			path: '/rate_plan',
+			path: '/renewal/api_store',
 			onclick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/api_store');
 			},
 		},
 		{
@@ -325,7 +325,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		{
 			label: 'API Store',
 			onClick: () => {
-				router.push('/rate_plan');
+				router.push('/renewal/api_store');
 			},
 		},
 		{

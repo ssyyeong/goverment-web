@@ -379,6 +379,7 @@ const Page: NextPage = () => {
 						fontSize: '50px',
 						color: 'primary.main',
 						margin: 'auto',
+						cursor: 'pointer',
 					}}
 					onClick={() => {
 						onMoveToFocus(focusFirst);
@@ -393,7 +394,13 @@ const Page: NextPage = () => {
 				alignItems={'center'}
 				mx={'auto'}
 				my={20}
-			></Box>
+			>
+				<img
+					src="/images/market_place/introduce.png"
+					alt="introduce"
+					style={{ width: '100%' }}
+				/>
+			</Box>
 			{/** 섹션 5 */}
 			<Box
 				textAlign={'center'}
