@@ -36,7 +36,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const mobileMenu = [
 		{
 			label: '서포티 소개',
-			path: '/renewal/introduce',
+			path: '/introduce',
 			onclick: () => {
 				router.push('/renewal/introduce');
 			},
@@ -44,49 +44,49 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 
 		{
 			label: '마켓 소개',
-			path: '/renewal/market_place/introduce',
+			path: '/external_service/market_place/introduce',
 			onclick: () => {
 				router.push('/renewal/market_place/introduce');
 			},
 		},
 		{
 			label: '마켓 플레이스',
-			path: '/renewal/market_place',
+			path: '/external_service/market_place',
 			onclick: () => {
-				router.push('/renewal/market_place');
+				router.push('/external_service/market_place');
 			},
 		},
 		{
 			label: '컨설팅',
-			path: '/renewal/consulting',
+			path: '/external_service/consulting',
 			onclick: () => {
-				router.push('/renewal/consulting');
+				router.push('/external_service/consulting');
 			},
 		},
 		{
 			label: '세미나',
-			path: '/renewal/seminar',
+			path: '/external_service/seminar',
 			onclick: () => {
-				router.push('/renewal/seminar');
+				router.push('/external_service/seminar');
 			},
 		},
 		{
 			label: '멘토링',
-			path: '/renewal/mentoring',
+			path: '/external_service/mentoring',
 			onclick: () => {
-				router.push('/renewal/mentoring');
+				router.push('/external_service/mentoring');
 			},
 		},
 		{
 			label: '테마',
-			path: '/renewal/theme',
+			path: '/external_service/theme',
 			onclick: () => {
-				router.push('/renewal/theme');
+				router.push('/external_service/theme');
 			},
 		},
 		{
 			label: 'API Store',
-			path: '/renewal/api_store',
+			path: '/external_service/api_store',
 			onclick: () => {
 				router.push('/renewal/api_store');
 			},
@@ -100,9 +100,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '요금제 안내',
-			path: '/renewal/rate_plan',
+			path: '/external_service/rate_plan',
 			onclick: () => {
-				router.push('/renewal/rate_plan');
+				router.push('/external_service/rate_plan');
 			},
 		},
 		{
@@ -133,74 +133,74 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const unLoginMenu = [
 		{
 			label: '서포티 소개',
-			path: '/renewal/introduce',
+			path: '/introduce',
 			onclick: () => {
-				router.push('/renewal/introduce');
+				router.push('/introduce');
 			},
 		},
 
 		{
 			label: '마켓 소개',
-			path: '/renewal/market_place/introduce',
+			path: '/external_service/market_place/introduce',
 			onclick: () => {
-				router.push('/renewal/market_place/introduce');
+				router.push('/external_service/market_place/introduce');
 			},
 		},
 		{
 			label: '마켓 플레이스',
-			path: '/renewal/market_place',
+			path: '/external_service/market_place',
 			onclick: () => {
-				router.push('/renewal/market_place');
+				router.push('/external_service/market_place');
 			},
 		},
 		{
 			label: '컨설팅',
-			path: '/renewal/consulting',
+			path: '/external_service/consulting',
 			onclick: () => {
-				router.push('/renewal/consulting');
+				router.push('/external_service/consulting');
 			},
 		},
 		{
 			label: '세미나',
-			path: '/renewal/seminar',
+			path: '/external_service/seminar',
 			onclick: () => {
-				router.push('/renewal/seminar');
+				router.push('/external_service/seminar');
 			},
 		},
 		{
 			label: '멘토링',
-			path: '/renewal/mentoring',
+			path: '/external_service/mentoring',
 			onclick: () => {
-				router.push('/renewal/mentoring');
+				router.push('/external_service/mentoring');
 			},
 		},
 		{
 			label: '테마',
-			path: '/renewal/theme',
+			path: '/external_service/theme',
 			onclick: () => {
-				router.push('/renewal/theme');
+				router.push('/external_service/theme');
 			},
 		},
 
 		{
 			label: 'API Store',
-			path: '/renewal/api_store',
+			path: '/external_service/api_store',
 			onclick: () => {
-				router.push('/renewal/api_store');
+				router.push('/external_service/api_store');
 			},
 		},
 		{
 			label: '인사이트',
-			path: '/renewal/insight',
+			path: '/external_service/insight',
 			onclick: () => {
-				router.push('/renewal/insight');
+				router.push('/external_service/insight');
 			},
 		},
 		{
 			label: '요금제 안내',
-			path: '/renewal/rate_plan',
+			path: '/rate_plan',
 			onclick: () => {
-				router.push('/renewal/rate_plan');
+				router.push('/rate_plan');
 			},
 		},
 
@@ -228,7 +228,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const supporti = [
 		{
 			label: '서포티 소개',
-			path: '/renewal/introduce',
+			path: '/introduce',
 		},
 	];
 
@@ -238,28 +238,28 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const market = [
 		{
 			label: '소개',
-			path: '/renewal/market_place/introduce',
+			path: '/external_service/market_place/introduce',
 			onclick: () => {
-				router.push('/renewal/market_place/introduce');
+				router.push('/external_service/market_place/introduce');
 			},
 		},
 		{
 			label: '마켓 플레이스',
-			path: '/renewal/market_place',
+			path: '/external_service/market_place',
 			onclick: () => {
-				router.push('/renewal/market_place');
+				router.push('/external_service/market_place');
 			},
 		},
 		{
 			label: '컨설팅',
-			path: '/renewal/consulting',
+			path: '/external_service/consulting',
 			onclick: () => {
 				router.push('/external_service/consulting');
 			},
 		},
 		{
 			label: '세미나',
-			path: '/renewal/seminar',
+			path: '/external_service/seminar',
 			additionalOnclickFunction: () => {
 				gTagEvent({
 					action: 'seminar',
@@ -271,23 +271,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 		{
 			label: '멘토링',
-			path: '/renewal/mentoring',
+			path: '/external_service/mentoring',
 		},
 	];
-
-	/**
-	 * 테마
-	 */
-	// const theme = [
-	// 	{
-	// 		label: '안양',
-	// 		path: '/external_service/seminar',
-	// 	},
-	// 	{
-	// 		label: '소상공인',
-	// 		path: '/external_service/mentoring',
-	// 	},
-	// ];
 
 	/**
 	 * 고객 센터
@@ -295,15 +281,15 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	const customercenter = [
 		{
 			label: 'FAQ',
-			path: '/renewal/faq',
+			path: '/customer_service/faq',
 		},
 		{
 			label: '공지사항',
-			path: '/renewal/notice',
+			path: '/customer_service/notice',
 		},
 		{
 			label: '문의하기',
-			path: '/renewal/qna',
+			path: '/customer_service/qna',
 		},
 	];
 
@@ -319,25 +305,25 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		{
 			label: '테마',
 			onClick: () => {
-				router.push('/renewal/theme');
+				router.push('/external_service/theme');
 			},
 		},
 		{
 			label: 'API Store',
 			onClick: () => {
-				router.push('/renewal/api_store');
+				router.push('/external_service/api_store');
 			},
 		},
 		{
 			label: '인사이트',
 			onClick: () => {
-				router.push('/renewal/insight');
+				router.push('/external_service/insight');
 			},
 		},
 		{
 			label: '요금제 안내',
 			onClick: () => {
-				router.push('/renewal/rate_plan');
+				router.push('/rate_plan');
 			},
 		},
 		{
@@ -389,7 +375,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				{/* 메인 메뉴 버튼 */}
 				<Button
 					onClick={() => {
-						if (!menu.subMenu) menu.onClick();
+						if (!menu.subMenus) menu.onClick();
 					}}
 					onMouseEnter={(event) => {
 						setIsOpenMenu(true);

@@ -16,7 +16,6 @@ import SupportiButton from '../../src/views/global/SupportiButton';
 import BillingModal from '../../src/views/local/external_service/billingModal/BillingModal';
 import { useUserAccess } from '../../src/hooks/useUserAccess';
 import { SupportiAlertModal } from '../../src/views/global/SupportiAlertModal';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 import SupportiTheBlack from '../../src/modules/SupportiTheBlack/SupportiTheBlack';
 import { useAppMember } from '../../src/hooks/useAppMember';
@@ -75,10 +74,6 @@ const Page: NextPage = () => {
 	 */
 	const contentsDetail = [
 		{
-			title: 'SUPPORTV',
-			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
-		},
-		{
 			title: '서버지원',
 			description: 'AWS 서버 무상지원 (5천불 상당)',
 		},
@@ -87,38 +82,8 @@ const Page: NextPage = () => {
 			description: '재무/성과지표 관리 서비스',
 		},
 		{
-			title: '소셜링',
-			description: '무료 세미나, 커뮤니티 등록',
-		},
-		{
-			title: 'IR 피드백',
-			description: 'IR Deck 등록시 심사역 무료 피드백 제공',
-		},
-	];
-
-	/**
-	 * 부가 서비스
-	 */
-	const additionalService = [
-		// {
-		// 	title: '투자전략, 사업전략 24시간 Q&A',
-		// 	cost: '월 100,000원',
-		// },
-		{
-			title: '투자자 매칭 서비스 (1회)',
-			cost: '단건 300,000원',
-		},
-		// {
-		// 	title: '주단위 투자 관점 사업 마일스톤, 재무관리 서비스',
-		// 	cost: '월 100,000원',
-		// },
-		// {
-		// 	title: 'CEO 사업 Todo, 루틴관리 서비스',
-		// 	cost: '월 100,000원',
-		// },
-		{
-			title: '멘토링 서비스 (1회)',
-			cost: '단건 300,000원',
+			title: '인사이트',
+			description: '스타트업 대상 무료 콘텐츠 뉴스레터',
 		},
 	];
 
@@ -367,7 +332,6 @@ const Page: NextPage = () => {
 				flexWrap={'wrap'}
 				justifyContent={'center'}
 				width={'100%'}
-				// mt={10}
 			>
 				<Box
 					sx={{
@@ -637,21 +601,6 @@ const Page: NextPage = () => {
 									width: '100%',
 								}}
 							>
-								{/** 추가 설명 */}
-								{/* {ratePlan.TYPE !== 'WELCOME_EVENT' && (
-									<Box display="flex" mb={1.5}>
-										<Typography mr={0.5}>
-											세미나 컨설팅 이용가능 포인트
-										</Typography>
-										<Typography
-											color="primary"
-											sx={{ textDecoration: 'underline' }}
-										>
-											{ratePlan.POINT_AMOUNT.toLocaleString()}{' '}
-										</Typography>
-										<Typography>제공</Typography>
-									</Box>
-								)} */}
 								<Typography
 									variant="subtitle1"
 									sx={{
@@ -664,7 +613,9 @@ const Page: NextPage = () => {
 								>
 									{ratePlan.TYPE === 'PRODUCT'
 										? '합리적인 지표 관리를 통해 성장하고 싶으신 분들에게 추천합니다.'
-										: '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'}
+										: ratePlan.TYPE === 'BLACK'
+										? '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'
+										: '별도 문의'}
 								</Typography>
 
 								{/** 구독권 상세 내용 */}
@@ -708,48 +659,6 @@ const Page: NextPage = () => {
 																			') '}
 																		{item}
 																	</Typography>
-																	{/* {item.includes(
-																		'시드권'
-																	) && (
-																		<Tooltip
-																			title={
-																				'확인'
-																			}
-																			arrow
-																			placement="top"
-																			slotProps={{
-																				popper: {
-																					modifiers:
-																						[
-																							{
-																								name: 'offset',
-																								options:
-																									{
-																										offset: [
-																											0,
-																											-14,
-																										],
-																									},
-																							},
-																						],
-																				},
-																			}}
-																		>
-																			<IconButton
-																				sx={{
-																					mt: -1,
-																				}}
-																				size="small"
-																				onClick={() =>
-																					console.log(
-																						idx
-																					)
-																				}
-																			>
-																				<HelpOutlineIcon fontSize="small" />
-																			</IconButton>
-																		</Tooltip>
-																	)} */}
 																</Box>
 																<img
 																	src={
@@ -850,31 +759,26 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
-
-							{/* {ratePlan.TYPE === 'BLACK' && !permission && (
-								<SupportiButton
-									variant="contained"
-									style={{
-										width: '90%',
-										marginTop: 'auto',
-										marginBottom: '16px',
-										backgroundImage:
-											'linear-gradient(99deg, #8793AC 9%,#8895af  89%)',
-									}}
-									contents={'사용 신청하기'}
-									onClick={() => {
-										if (!access) {
-											setAlertModalType('login');
-											setAlertModal(true);
-											return;
-										}
-										setRecommenderModal(true);
-									}}
-								/>
-							)} */}
 						</Box>
 					);
 				})}
+			</Box>
+			<Box
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+				mt={10}
+				width="100%"
+				flexDirection={'column'}
+				gap={5}
+			>
+				<Typography variant="h3" color="primary.main">
+					{' '}
+					티켓제{' '}
+				</Typography>
+				<Typography variant="h6">
+					현재 요금제가 준비 중입니다. 별도 상담을 통해 구매하세요.
+				</Typography>
 			</Box>
 
 			{/** 플랜별 상세 기능 비교 헤더 영역 */}

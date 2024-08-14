@@ -7,10 +7,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
-import SupportiButton from '../../../src/views/global/SupportiButton';
+import SupportiButton from '../../src/views/global/SupportiButton';
 import { useRouter } from 'next/router';
-import SupportiInput from '../../../src/views/global/SupportiInput';
-import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
+import SupportiInput from '../../src/views/global/SupportiInput';
+import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
 
 const Page: NextPage = () => {
 	const router = useRouter();
@@ -302,7 +302,7 @@ const Page: NextPage = () => {
 							color: 'black',
 						}}
 						onClick={() => {
-							router.push('/renewal/market_place');
+							router.push('/external_service/market_place');
 						}}
 					/>
 				</Box>
@@ -359,7 +359,7 @@ const Page: NextPage = () => {
 							mt: 'auto',
 						}}
 						onClick={() => {
-							router.push('/renewal/theme');
+							router.push('/external_service/theme');
 						}}
 					/>
 				</Box>

@@ -50,7 +50,10 @@ function App({
 }: AppProps & { emotionCache: EmotionCache }) {
 	//* Mui ssr 설정
 	const CustomHeaderNoSSR = dynamic(
-		() => import('../src/views/local/common/CustomHeader/CustomHeader'),
+		() =>
+			import(
+				'../src/views/local/common/CustomHeader/CustomHeaderRenewal'
+			),
 		{
 			ssr: false,
 		}

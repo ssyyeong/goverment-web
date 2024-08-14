@@ -135,7 +135,7 @@ const Page: NextPage = () => {
 							setAlertModalType('login');
 							return;
 						}
-						router.push('/renewal/insight/write');
+						router.push('/external_service/insight/write');
 					}}
 					sx={{
 						display: 'block',
@@ -216,7 +216,7 @@ const Page: NextPage = () => {
 								}}
 								onClick={() => {
 									router.push(
-										`/renewal/insight/${item.INSIGHT_IDENTIFICATION_CODE}`
+										`/external_service/insight/${item.INSIGHT_IDENTIFICATION_CODE}`
 									);
 								}}
 							>
