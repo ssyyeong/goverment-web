@@ -22,11 +22,11 @@ const Page: NextPage = () => {
 			}}
 		>
 			<img
-				src="/images/market_place/001.png"
+				src="/images/market_place/introduce2.png"
 				alt="banner"
 				style={{ width: '100%', height: 'auto' }}
 			/>
-			<img
+			{/* <img
 				src="/images/market_place/002.png"
 				alt="banner"
 				style={{ width: '100%', height: 'auto' }}
@@ -50,7 +50,7 @@ const Page: NextPage = () => {
 				src="/images/market_place/006.png"
 				alt="banner"
 				style={{ width: '100%', height: 'auto' }}
-			/>
+			/> */}
 		</Box>
 	);
 };
