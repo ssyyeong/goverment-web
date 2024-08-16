@@ -208,6 +208,10 @@ const Page: NextPage = () => {
 				justifyContent={'center'}
 				bgcolor={'#f5f5f5'}
 				py={5}
+				px={{
+					xs: 2,
+					md: 0,
+				}}
 			>
 				<Typography variant={'h1'} fontWeight={'600'}>
 					창업가의 니즈에 맞춘 맞춤형 커뮤니티
@@ -230,6 +234,10 @@ const Page: NextPage = () => {
 				alignItems={'center'}
 				mt={5}
 				mb={5}
+				px={{
+					xs: 2,
+					md: 0,
+				}}
 			>
 				<Typography variant={'h5'} fontWeight={'600'} color={'primary'}>
 					🗺 지역별 커뮤니티{' '}
@@ -304,7 +312,14 @@ const Page: NextPage = () => {
 					width={'100%'}
 					justifyContent={'center'}
 					alignItems={'center'}
-					flexDirection={'row'}
+					flexDirection={{
+						xs: 'column',
+						md: 'row',
+					}}
+					px={{
+						xs: 2,
+						md: 0,
+					}}
 					mt={5}
 					pb={5}
 				>
@@ -323,6 +338,10 @@ const Page: NextPage = () => {
 				mb={5}
 				bgcolor={'#f5f5f5'}
 				py={5}
+				px={{
+					xs: 2,
+					md: 0,
+				}}
 			>
 				<Typography variant={'h5'} fontWeight={'600'} color={'red'}>
 					🎈 업종별 커뮤니티
@@ -381,7 +400,10 @@ const Page: NextPage = () => {
 					width={'100%'}
 					justifyContent={'center'}
 					alignItems={'center'}
-					flexDirection={'row'}
+					flexDirection={{
+						xs: 'column',
+						md: 'row',
+					}}
 					mt={5}
 					pb={5}
 				>
@@ -474,7 +496,10 @@ const Page: NextPage = () => {
 					width={'100%'}
 					justifyContent={'center'}
 					alignItems={'center'}
-					flexDirection={'row'}
+					flexDirection={{
+						xs: 'column',
+						md: 'row',
+					}}
 					mt={5}
 					pb={5}
 				>

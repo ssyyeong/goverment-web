@@ -553,7 +553,13 @@ const Page: NextPage = () => {
 											mt: 4,
 										}}
 									>
-										{ratePlan.PRICE.toLocaleString()}
+										{!isYear
+											? ratePlan.PRICE.toLocaleString()
+											: (
+													Number(ratePlan.PRICE) *
+													12 *
+													0.8
+											  ).toLocaleString()}
 									</Typography>
 								)}
 								{/** 할인 적용된 금액 */}
@@ -813,12 +819,17 @@ const Page: NextPage = () => {
 						'4px 17px 40px rgba(138.13, 138.13, 138.13, 0.15)',
 				}}
 			>
-				<Typography fontWeight={600}>프리권별 기능</Typography>
-				<Typography fontWeight={600}>FREE</Typography>
+				<Typography fontWeight={600} ml={8}>
+					프리권별 기능
+				</Typography>
+				<Typography fontWeight={600} ml={12}>
+					FREE
+				</Typography>
 				{ratePlanList.map((ratePlan, index) => {
 					return (
 						<Typography
 							fontWeight={600}
+							ml={10}
 							color={
 								ratePlan.NAME === 'PREMIUM'
 									? '#6659EE'
@@ -910,6 +921,7 @@ const Page: NextPage = () => {
 						flexDirection: 'column',
 						textAlign: 'center',
 						minHeight: '700px',
+						alignItems: 'center',
 					}}
 				>
 					{ratePlanList
@@ -959,6 +971,28 @@ const Page: NextPage = () => {
 										/>
 									);
 								}
+							);
+						})}
+				</Box>
+				<Box
+					display="flex"
+					sx={{
+						justifyContent: 'space-around',
+						flexDirection: 'column',
+						textAlign: 'center',
+						minHeight: '700px',
+					}}
+				>
+					{ratePlanList
+						.filter((item) => item.TYPE === 'WELCOME_EVENT')
+						.map((ratePlan, index) => {
+							return (
+								<Typography
+									fontWeight={500}
+									color={'primary.main'}
+								>
+									별도 문의
+								</Typography>
 							);
 						})}
 				</Box>

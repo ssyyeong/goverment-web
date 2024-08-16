@@ -104,7 +104,7 @@ const Page: NextPage = () => {
 					value={category}
 					setValue={setCategory}
 					type="select"
-					width={{ xs: '30%', md: '30%' }}
+					width={{ xs: '100%', md: '30%' }}
 				/>
 				<Typography variant="body1" fontWeight={'bold'}>
 					제목
@@ -176,18 +176,26 @@ const Page: NextPage = () => {
 						});
 					}}
 				/>
-				<Button
-					variant="contained"
-					onClick={registerInsight}
-					sx={{
-						width: '15%',
-						height: '40px',
-						alignSelf: 'center',
-						mt: 2,
+				<Box
+					width={{
+						xs: '50%',
+						md: '15%',
 					}}
+					justifyContent={'center'}
+					alignSelf={'center'}
+					display={'flex'}
 				>
-					등록하기
-				</Button>
+					<Button
+						variant="contained"
+						onClick={registerInsight}
+						sx={{
+							height: '40px',
+							mt: 2,
+						}}
+					>
+						등록하기
+					</Button>
+				</Box>
 			</Box>
 		</Box>
 	);

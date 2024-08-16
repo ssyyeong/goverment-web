@@ -117,13 +117,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '문의하기',
 			path: '/customer_service/qna',
 		},
-		{
-			label: '지표 관리',
-			path: '/internal_service/indicator_management/financial',
-			onclick: () => {
-				router.push('/internal_service/indicator_management/financial');
-			},
-		},
+		// {
+		// 	label: '지표 관리',
+		// 	path: '/internal_service/indicator_management/financial',
+		// 	onclick: () => {
+		// 		router.push('/internal_service/indicator_management/financial');
+		// 	},
+		// },
 		{
 			label: '마이페이지',
 			path: '/my_page/edit_profile',

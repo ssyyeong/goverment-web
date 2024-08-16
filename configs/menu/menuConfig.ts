@@ -150,6 +150,16 @@ const mypageMenu: IMenu[] = [
 		icon: '/images/icons/consulting-reservation.png',
 	},
 	{
+		label: '인사이트 히스토리',
+		path: '/my_page/insight_history',
+		icon: '/images/icons/expert.png',
+	},
+	{
+		label: '마켓플레이스 히스토리',
+		path: '/my_page/market_place_history',
+		icon: '/images/icons/government.png',
+	},
+	{
 		label: '마이티켓',
 		path: '/my_page/my_cupon',
 		icon: '/images/icons/cupon.png',
@@ -165,21 +175,21 @@ const mypageMenu: IMenu[] = [
 	// 	icon: '/images/icons/seminar-reservation.png',
 	// },
 
-	{
-		label: '커피챗 신청',
-		icon: '/images/icons/coffee.png',
-		path: '/my_page/coffee_chat',
-		submenu: [
-			{
-				label: '스페셜 커피챗 히스토리',
-				path: '/my_page/coffee_chat/special',
-			},
-			{
-				label: '커피챗 히스토리',
-				path: '/my_page/coffee_chat/general',
-			},
-		],
-	},
+	// {
+	// 	label: '커피챗 신청',
+	// 	icon: '/images/icons/coffee.png',
+	// 	path: '/my_page/coffee_chat',
+	// 	submenu: [
+	// 		{
+	// 			label: '스페셜 커피챗 히스토리',
+	// 			path: '/my_page/coffee_chat/special',
+	// 		},
+	// 		{
+	// 			label: '커피챗 히스토리',
+	// 			path: '/my_page/coffee_chat/general',
+	// 		},
+	// 	],
+	// },
 	// {
 	// 	label: '대시보드',
 	// 	path: '/internal_service/indicator_management/achievement',

@@ -199,7 +199,16 @@ const Page: NextPage = () => {
 			{insightDataList?.length === 0 ? (
 				<Nodata />
 			) : (
-				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
+				<Box
+					display="flex"
+					gap={3}
+					flexWrap="wrap"
+					my={3}
+					justifyContent={{
+						xs: 'center',
+						md: 'flex-start',
+					}}
+				>
 					{insightDataList?.map((item, index) => {
 						return (
 							<Box

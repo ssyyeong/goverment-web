@@ -281,7 +281,10 @@ const Page: NextPage = () => {
 				mt={5}
 				mb={5}
 				display={'flex'}
-				flexDirection={'row'}
+				flexDirection={{
+					xs: 'column',
+					sm: 'row',
+				}}
 				justifyContent={'space-between'}
 				p={5}
 				bgcolor={'grey.300'}
@@ -332,7 +335,10 @@ const Page: NextPage = () => {
 				width={'100%'}
 				mb={10}
 				display={'flex'}
-				flexDirection={'row'}
+				flexDirection={{
+					xs: 'column',
+					sm: 'row',
+				}}
 				justifyContent={'space-between'}
 				p={5}
 			>
@@ -363,14 +369,21 @@ const Page: NextPage = () => {
 						}}
 					/>
 				</Box>
-				<img
-					src="/images/theme/theme.png"
-					alt="image"
-					width={'50%'}
-					style={{
-						marginRight: '20px',
+				<Box
+					width={{
+						xs: '100%',
+						sm: '50%',
 					}}
-				/>
+				>
+					<img
+						src="/images/theme/theme.png"
+						alt="image"
+						width={'100%'}
+						style={{
+							marginRight: '20px',
+						}}
+					/>
+				</Box>
 			</Box>
 			{/* 섹션2 */}
 			<Box
@@ -415,7 +428,14 @@ const Page: NextPage = () => {
 				<Typography variant={'h2'} fontWeight={'600'} mt={10}>
 					쉽고 간단한 프로세스
 				</Typography>
-				<Box display={'flex'} flexDirection={'row'} gap={1}>
+				<Box
+					display={'flex'}
+					flexDirection={{
+						xs: 'column',
+						sm: 'row',
+					}}
+					textAlign={'center'}
+				>
 					<Typography variant={'h4'}>
 						회사 내 주니어 개발자만으로
 					</Typography>
@@ -424,7 +444,15 @@ const Page: NextPage = () => {
 					</Typography>
 					<Typography variant={'h4'}>만들 수 있습니다.</Typography>
 				</Box>
-				<Box display={'flex'} flexDirection={'row'} gap={1}>
+				<Box
+					display={'flex'}
+					flexDirection={{
+						xs: 'column',
+						sm: 'row',
+					}}
+					gap={1}
+					textAlign={'center'}
+				>
 					<Typography variant={'h4'}>
 						개발자가 없으시다면 저희가
 					</Typography>
@@ -537,8 +565,7 @@ const Page: NextPage = () => {
 							서비스 문의
 						</Typography>
 						<Typography variant={'body1'} mb={1}>
-							대표님들의 개발이 쉬워지도록 비즈니스 솔루션,
-							Support-T
+							창업가들의 든든한 성공 파트너, Support-T
 						</Typography>
 						<TextField
 							fullWidth
@@ -575,7 +602,7 @@ const Page: NextPage = () => {
 								label={
 									'[필수] 요청하신 문의 내용에 대한 서비스 제공을 위해 필요한 최소한의 개인정보 제공에 동의합니다.'
 								}
-								width={'400px'}
+								width={'100%'}
 							/>
 						</Box>
 

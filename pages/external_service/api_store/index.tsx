@@ -250,7 +250,15 @@ const Page: NextPage = () => {
 					<Typography variant={'h2'} fontWeight={'600'} mt={10}>
 						쉽고 간단한 프로세스
 					</Typography>
-					<Box display={'flex'} flexDirection={'row'} gap={1}>
+					<Box
+						display={'flex'}
+						flexDirection={{
+							xs: 'column',
+							md: 'row',
+						}}
+						textAlign={'center'}
+						gap={1}
+					>
 						<Typography variant={'h4'}>
 							회사 내 주니어 개발자만으로
 						</Typography>
@@ -261,7 +269,15 @@ const Page: NextPage = () => {
 							만들 수 있습니다.
 						</Typography>
 					</Box>
-					<Box display={'flex'} flexDirection={'row'} gap={1}>
+					<Box
+						display={'flex'}
+						flexDirection={{
+							xs: 'column',
+							md: 'row',
+						}}
+						gap={1}
+						textAlign={'center'}
+					>
 						<Typography variant={'h4'}>
 							개발자가 없으시다면 저희가
 						</Typography>
@@ -281,6 +297,7 @@ const Page: NextPage = () => {
 					mt: 20,
 					alignItems: 'center',
 				}}
+				textAlign={'center'}
 			>
 				<Typography variant={'h2'} fontWeight={'600'}>
 					도입 고객사
@@ -375,8 +392,7 @@ const Page: NextPage = () => {
 							서비스 문의
 						</Typography>
 						<Typography variant={'body1'} mb={1}>
-							대표님들의 개발이 쉬워지도록 비즈니스 솔루션,
-							Support-T
+							창업가들의 든든한 성공 파트너, Support-T
 						</Typography>
 						<TextField
 							fullWidth
@@ -413,7 +429,7 @@ const Page: NextPage = () => {
 								label={
 									'[필수] 요청하신 문의 내용에 대한 서비스 제공을 위해 필요한 최소한의 개인정보 제공에 동의합니다.'
 								}
-								width={'400px'}
+								width={'100%'}
 							/>
 						</Box>
 

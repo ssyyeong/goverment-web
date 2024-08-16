@@ -246,9 +246,17 @@ const Page: NextPage = () => {
 			{marketPlaceDataList?.length === 0 ? (
 				<Nodata />
 			) : (
-				<Box display="flex" gap={3} flexWrap="wrap" my={3}>
+				<Box
+					display="flex"
+					gap={3}
+					flexWrap="wrap"
+					my={3}
+					justifyContent={{
+						xs: 'center',
+						md: 'flex-start',
+					}}
+				>
 					{marketPlaceDataList?.map((item, index) => {
-						console.log(JSON.parse(item.IMAGE)[0]);
 						return (
 							<Box
 								key={index}

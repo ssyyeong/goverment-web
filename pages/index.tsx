@@ -169,48 +169,33 @@ const Page: NextPage = () => {
 	return (
 		<Grid container width={'100%'}>
 			{/** 섹션 1 */}
-			<Grid container display={'flex'} alignSelf={'center'}>
-				<Box width={'100%'} alignSelf="center">
+			<Grid container display={'flex'}>
+				<Box width={'100%'}>
 					<Slider {...settings}>
-						<Box
-							sx={{
-								backgroundImage: `url(/images/main/banner/001.png)`,
-								backgroundSize: 'cover',
-								width: '1000px',
-								height: '320px',
-							}}
+						<img
+							src="/images/main/banner/001.png"
+							alt="banner"
+							style={{ width: '100%', height: '250px' }}
 						/>
-						<Box
-							sx={{
-								backgroundImage: `url(/images/main/banner/002.png)`,
-								backgroundSize: 'cover',
-								width: '1000px',
-								height: '320px',
-							}}
+						<img
+							src="/images/main/banner/002.png"
+							alt="banner"
+							style={{ width: '100%', height: '250px' }}
 						/>
-						<Box
-							sx={{
-								backgroundImage: `url(/images/main/banner/003.png)`,
-								backgroundSize: 'cover',
-								width: '1000px',
-								height: '320px',
-							}}
+						<img
+							src="/images/main/banner/003.png"
+							alt="banner"
+							style={{ width: '100%', height: '250px' }}
 						/>
-						<Box
-							sx={{
-								backgroundImage: `url(/images/main/banner/004.png)`,
-								backgroundSize: 'cover',
-								width: '1000px',
-								height: '320px',
-							}}
+						<img
+							src="/images/main/banner/004.png"
+							alt="banner"
+							style={{ width: '100%', height: '250px' }}
 						/>
-						<Box
-							sx={{
-								backgroundImage: `url(/images/main/banner/005.png)`,
-								backgroundSize: 'cover',
-								width: '1000px',
-								height: '320px',
-							}}
+						<img
+							src="/images/main/banner/005.png"
+							alt="banner"
+							style={{ width: '100%', height: '250px' }}
 						/>
 					</Slider>
 				</Box>
@@ -227,18 +212,38 @@ const Page: NextPage = () => {
 					alignItems={'center'}
 					my={5}
 				>
-					<Button
-						sx={{
-							color: 'gray',
-							cursor: 'pointer',
-							display: 'flex',
-							ml: 100,
+					<Box
+						ml={{
+							xs: 'auto',
+							sm: 100,
+							mb: 1,
 						}}
-						onClick={() => router.push('/renewal/insight')}
 					>
-						인사이트 보러가기 &gt;
-					</Button>
-					<Box display="flex" gap={3} flexWrap="wrap" mt={1} mb={3}>
+						<Button
+							sx={{
+								color: 'gray',
+								cursor: 'pointer',
+								display: 'flex',
+							}}
+							onClick={() => router.push('/renewal/insight')}
+						>
+							인사이트 보러가기 &gt;
+						</Button>
+					</Box>
+					<Box
+						display="flex"
+						gap={3}
+						flexWrap="wrap"
+						mt={1}
+						mb={3}
+						sx={{
+							width: '90%',
+							margin: 'auto',
+							display: 'flex',
+							flexWrap: 'wrap',
+							justifyContent: 'center',
+						}}
+					>
 						{insightDataList?.map((item, index) => {
 							return (
 								<Box
@@ -394,7 +399,10 @@ const Page: NextPage = () => {
 				flexDirection={'column'}
 				alignItems={'center'}
 				mx={'auto'}
-				my={20}
+				my={{
+					xs: 0,
+					sm: 20,
+				}}
 			>
 				<img
 					src="/images/market_place/introduce.png"
@@ -474,8 +482,14 @@ const Page: NextPage = () => {
 										flexWrap={'wrap'}
 									>
 										<Box
-											width={'350px'}
-											height="200px"
+											width={{
+												xs: '250px',
+												sm: '350px',
+											}}
+											height={{
+												xs: '280px',
+												sm: '200px',
+											}}
 											textAlign={'left'}
 											p={4}
 										>
