@@ -136,11 +136,10 @@ const Page: NextPage = () => {
 							display={'flex'}
 							flexDirection={'column'}
 							justifyContent={'center'}
-							width={120}
-							height={120}
+							width={140}
+							height={140}
 							bgcolor={'white'}
 							alignItems={'center'}
-							p={5}
 							borderRadius={5}
 						>
 							<SentimentSatisfiedAltIcon sx={{ fontSize: 30 }} />
@@ -149,18 +148,19 @@ const Page: NextPage = () => {
 								fontWeight={'600'}
 								mt={2}
 							>
-								API명
+								서버관리
+								<br />
+								api
 							</Typography>
 						</Box>
 						<Box
 							display={'flex'}
 							flexDirection={'column'}
 							justifyContent={'center'}
-							width={120}
-							height={120}
+							width={140}
+							height={140}
 							bgcolor={'white'}
 							alignItems={'center'}
-							p={5}
 							borderRadius={5}
 						>
 							<SentimentSatisfiedAltIcon sx={{ fontSize: 30 }} />
@@ -169,7 +169,50 @@ const Page: NextPage = () => {
 								fontWeight={'600'}
 								mt={2}
 							>
-								API명
+								admin
+								<br />
+								api
+							</Typography>
+						</Box>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							justifyContent={'center'}
+							width={140}
+							height={140}
+							bgcolor={'white'}
+							alignItems={'center'}
+							borderRadius={5}
+						>
+							<SentimentSatisfiedAltIcon sx={{ fontSize: 30 }} />
+							<Typography
+								variant={'h6'}
+								fontWeight={'600'}
+								mt={2}
+							>
+								UI
+								<br />
+								api
+							</Typography>
+						</Box>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							justifyContent={'center'}
+							width={140}
+							height={140}
+							bgcolor={'white'}
+							alignItems={'center'}
+							borderRadius={5}
+						>
+							<SentimentSatisfiedAltIcon sx={{ fontSize: 30 }} />
+							<Typography
+								variant={'h6'}
+								fontWeight={'600'}
+								mt={2}
+							>
+								utility
+								<br /> api
 							</Typography>
 						</Box>
 					</Box>
