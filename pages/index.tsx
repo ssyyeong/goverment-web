@@ -53,7 +53,7 @@ const Page: NextPage = () => {
 
 	const data1 = [
 		{
-			text1: 'A : 자금이 부족한데 투자를 받아야 할지 보증 대출을 이용해야 할지 모르겠어요?',
+			text1: 'A : 자금이 부족한데 투자를 받아야 할지 보증 대출을 이용해야 할지 모르겠어요!',
 			text2: '',
 		},
 		{
@@ -645,7 +645,7 @@ const Page: NextPage = () => {
 					variant="h1"
 					color={'primary.main'}
 				>
-					Support your business support
+					SUPPOR-T supports your business needs
 				</Typography>
 			</Box>
 			{/* <Grid item xs={12}>

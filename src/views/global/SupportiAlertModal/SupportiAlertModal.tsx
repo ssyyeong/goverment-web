@@ -55,6 +55,9 @@ interface ISupportiAlertModalProps {
 		| 'marketPlaceApply'
 		| 'marketPlaceApplySuccess'
 		| 'marketPlaceApplyFail'
+		| 'rateInquiryApply'
+		| 'rateInquiryApplySuccess'
+		| 'rateInquiryApplyFail'
 		| 'noAccount'
 		| 'unReady';
 
@@ -452,6 +455,35 @@ const SupportiAlertModal = (props: ISupportiAlertModalProps) => {
 		marketPlaceApplyFail: {
 			type: 'error',
 			title: '이미 혜택 신청을 하셨습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		rateInquiryApply: {
+			type: 'success',
+			title: '문의를 남기시겠습니까?',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: true,
+		},
+		rateInquiryApplySuccess: {
+			type: 'success',
+			title: '문의가 완료되었습니다. 추후 연락드리겠습니다.',
+			content: '확인',
+			onclick: () => {
+				props.handleClose();
+				props.customHandleClose && props.customHandleClose();
+			},
+			cancelButtonAvailable: false,
+		},
+		rateInquiryApplyFail: {
+			type: 'error',
+			title: '이미 문의를 하셨습니다.',
 			content: '확인',
 			onclick: () => {
 				props.handleClose();

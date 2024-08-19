@@ -48,12 +48,9 @@ const Page: NextPage = () => {
 	/**
 	 * 알럿 모달 타입
 	 */
-	const [alertModalType, setAlertModalType] = React.useState<
-		| 'login'
-		| 'marketPlaceApply'
-		| 'marketPlaceApplySuccess'
-		| 'marketPlaceApplyFail'
-	>('marketPlaceApply');
+	const [alertModalType, setAlertModalType] = React.useState<'login'>(
+		'login'
+	);
 
 	const [id, setId] = useState<string>('');
 	/**

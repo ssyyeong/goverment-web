@@ -107,7 +107,13 @@ const Page: NextPage = () => {
 	 * 알럿 모달 타입
 	 */
 	const [alertModalType, setAlertModalType] = React.useState<
-		'success' | 'login' | 'subscribe' | 'point' | 'already'
+		| 'success'
+		| 'login'
+		| 'subscribe'
+		| 'point'
+		| 'already'
+		| 'rateInquiryApply'
+		| 'rateInquiryApplySuccess'
 	>('success');
 
 	/**
@@ -161,6 +167,22 @@ const Page: NextPage = () => {
 	}, []);
 
 	const label = { inputProps: { 'aria-label': 'Color switch demo' } };
+
+	// 문의 생성
+	const createInquiry = async () => {
+		// partnerShipInquiryController.createItem(
+		// 	{
+		// 		NAME: name,
+		// 		EMAIL: email,
+		// 		PHONE_NUMBER: phoneNumber,
+		// 	},
+		// 	(res) => {
+		// 		setOpenPopUp(false);
+		// 		resetInquiryData();
+		// 		alert('문의가 접수되었습니다.');
+		// 	}
+		// );
+	};
 
 	return (
 		<Box
@@ -563,7 +585,7 @@ const Page: NextPage = () => {
 									</Typography>
 								)}
 								{/** 할인 적용된 금액 */}
-								{ratePlan.TYPE !== 'WELCOME_EVENT' && (
+								{ratePlan.TYPE !== 'WELCOME_EVENT' ? (
 									<Box
 										display="flex"
 										gap={1}
@@ -598,6 +620,21 @@ const Page: NextPage = () => {
 											/ {isYear ? '연' : '월'}
 										</Typography>
 									</Box>
+								) : (
+									<Box
+										display="flex"
+										justifyContent="end"
+										flexDirection={'column'}
+									>
+										<Typography
+											variant="h2"
+											fontWeight={'bold'}
+											color={'primary'}
+											sx={{ mt: 5 }}
+										>
+											별도 문의
+										</Typography>
+									</Box>
 								)}
 							</Box>
 
@@ -622,7 +659,7 @@ const Page: NextPage = () => {
 										? '합리적인 지표 관리를 통해 성장하고 싶으신 분들에게 추천합니다.'
 										: ratePlan.TYPE === 'BLACK'
 										? '내 사업만의 특별한 서비스를 지원받고 싶으신 분들에게 추천합니다.'
-										: '별도 문의'}
+										: ''}
 								</Typography>
 
 								{/** 구독권 상세 내용 */}
@@ -644,42 +681,45 @@ const Page: NextPage = () => {
 												{content.DETAIL.split(',').map(
 													(item, idx) => {
 														return (
-															<Box
-																display="flex"
-																justifyContent={
-																	'space-between'
-																}
-																mb={1}
-															>
-																<Box display="flex">
-																	<Typography
-																		sx={{
-																			wordBreak:
-																				'keep-all',
-																		}}
-																		color={
-																			'secondary.dark'
+															item != '' && (
+																<Box
+																	display="flex"
+																	justifyContent={
+																		'space-between'
+																	}
+																	mb={1}
+																>
+																	<Box display="flex">
+																		<Typography
+																			sx={{
+																				wordBreak:
+																					'keep-all',
+																			}}
+																			color={
+																				'secondary.dark'
+																			}
+																		>
+																			·{' '}
+																			{
+																				item
+																			}
+																		</Typography>
+																	</Box>
+
+																	<img
+																		src={
+																			'/images/icons/ratePlanChecked.svg'
 																		}
-																	>
-																		{idx +
-																			1 +
-																			') '}
-																		{item}
-																	</Typography>
+																		alt={
+																			'check'
+																		}
+																		style={{
+																			width: '16px',
+																			height: '16px',
+																		}}
+																	/>
 																</Box>
-																<img
-																	src={
-																		'/images/icons/ratePlanChecked.svg'
-																	}
-																	alt={
-																		'check'
-																	}
-																	style={{
-																		width: '16px',
-																		height: '16px',
-																	}}
-																/>
-															</Box>
+															)
 														);
 													}
 												)}
@@ -766,6 +806,29 @@ const Page: NextPage = () => {
 									}}
 								/>
 							)}
+
+							{ratePlan.TYPE === 'WELCOME_EVENT' && (
+								<SupportiButton
+									variant="contained"
+									style={{
+										width: '90%',
+										marginTop: 'auto',
+										marginBottom: '16px',
+										color: 'primary.light',
+									}}
+									contents={'문의하기'}
+									onClick={() => {
+										if (!access) {
+											setAlertModalType('login');
+											setAlertModal(true);
+											return;
+										}
+										setAlertModalType('rateInquiryApply');
+										setAlertModal(true);
+										return;
+									}}
+								/>
+							)}
 						</Box>
 					);
 				})}
@@ -786,15 +849,34 @@ const Page: NextPage = () => {
 				<Typography variant="h6">
 					현재 요금제가 준비 중입니다. 별도 상담을 통해 구매하세요.
 				</Typography>
+				<SupportiButton
+					contents={'문의하기'}
+					onClick={() => {
+						if (!access) {
+							setAlertModalType('login');
+							setAlertModal(true);
+							return;
+						}
+						setAlertModalType('rateInquiryApply');
+						setAlertModal(true);
+						return;
+					}}
+					variant={'contained'}
+					color={'primary'}
+					style={{
+						width: 150,
+					}}
+				/>
 			</Box>
-
 			{/** 플랜별 상세 기능 비교 헤더 영역 */}
-
 			<Box
 				display="flex"
 				gap={1}
 				my={10}
-				mt={30}
+				mt={{
+					md: 20,
+					xs: 5,
+				}}
 				flexDirection={{
 					md: 'row',
 					xs: 'column',
@@ -1024,6 +1106,15 @@ const Page: NextPage = () => {
 			<SupportiAlertModal
 				type={alertModalType}
 				open={alertModal}
+				customHandleClose={
+					alertModalType === 'rateInquiryApply'
+						? () => {
+								setAlertModal(false);
+								setAlertModalType('rateInquiryApplySuccess');
+								setAlertModal(true);
+						  }
+						: undefined
+				}
 				handleClose={() => setAlertModal(false)}
 			/>
 			{supportiTheBlack.SupportiBlackPayModal({

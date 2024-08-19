@@ -28,14 +28,16 @@ const Page: NextPage = () => {
 	const [apply, setApply] = React.useState<boolean>(false);
 
 	const data = [
-		// {
-		// 	srcPath: '/images/logo/partners/하임벤처투자.png',
-		// 	alt: '하임벤처투자',
-		// },
-		// {
-		// 	srcPath: '/images/logo/partners/CY.png',
-		// 	alt: 'CY',
-		// },
+		{
+			srcPath: '/images/logo/partners/하임벤처투자.png',
+			alt: '하임벤처투자',
+			width: 150,
+		},
+		{
+			srcPath: '/images/logo/partners/CY.png',
+			alt: 'CY',
+			width: 100,
+		},
 		{
 			srcPath: '/images/logo/partners/신용보증기금.svg',
 			alt: '신용보증기금',
@@ -567,13 +569,25 @@ const Page: NextPage = () => {
 										<img
 											src={item.srcPath}
 											alt={item.alt}
-											width={'300px'}
-											height={'60px'}
-											key={index}
+											height={
+												item.srcPath.endsWith('svg')
+													? '60px'
+													: '40px'
+											}
+											width={
+												item.width
+													? item.width
+													: item.srcPath.endsWith(
+															'svg'
+													  )
+													? '300px'
+													: '100px'
+											}
 											style={{
 												objectFit: 'contain',
 											}}
 										/>
+										// </Box>
 									);
 								})}
 							</Box>
