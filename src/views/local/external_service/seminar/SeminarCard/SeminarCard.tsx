@@ -58,34 +58,18 @@ const SeminarCard = (props: ISeminarData) => {
 			}}
 			onClick={() => {
 				// 세미나 상세 페이지로 이동
-				//추후 삭제(renwal)
-				if (router.asPath.includes('renewal')) {
-					if (props.type === 'seminar')
-						router.push(
-							`/renewal/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
-						);
-					else if (props.type === 'consulting')
-						router.push(
-							`/renewal/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
-						);
-					else
-						router.push(
-							`/renewal/mentoring/${props.data.MENTORING_PRODUCT_IDENTIFICATION_CODE}`
-						);
-				} else {
-					if (props.type === 'seminar')
-						router.push(
-							`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
-						);
-					else if (props.type === 'consulting')
-						router.push(
-							`/external_service/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
-						);
-					else
-						router.push(
-							`/external_service/mentoring/${props.data.MENTORING_PRODUCT_IDENTIFICATION_CODE}`
-						);
-				}
+				if (props.type === 'seminar')
+					router.push(
+						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+					);
+				else if (props.type === 'consulting')
+					router.push(
+						`/external_service/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
+					);
+				else
+					router.push(
+						`/external_service/mentoring/${props.data.MENTORING_PRODUCT_IDENTIFICATION_CODE}`
+					);
 			}}
 		>
 			<Image

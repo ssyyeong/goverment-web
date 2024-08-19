@@ -283,7 +283,7 @@ const Page: NextPage = () => {
 				<img src="/images/apistore/img2.svg" alt="img2" width={700} />
 				<img src="/images/apistore/img3.svg" alt="img3" width={700} />
 
-				<Box
+				{/* <Box
 					display={'flex'}
 					flexDirection={'column'}
 					justifyContent={'center'}
@@ -329,9 +329,9 @@ const Page: NextPage = () => {
 						</Typography>
 						<Typography variant={'h4'}>도와드립니다.</Typography>
 					</Box>
-				</Box>
+				</Box> */}
 			</Box>
-			<Box
+			{/* <Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -351,8 +351,8 @@ const Page: NextPage = () => {
 					mt={2}
 					gap={2}
 					flexDirection={'column'}
-				>
-					{/* <Box
+				> */}
+			{/* <Box
 						display={'flex'}
 						flexDirection={'column'}
 						justifyContent={'center'}
@@ -374,7 +374,7 @@ const Page: NextPage = () => {
 							}}
 						/>
 					</Box> */}
-					<img
+			{/* <img
 						src="/images/apistore/partners.svg"
 						alt="logo"
 						width={700}
@@ -397,10 +397,9 @@ const Page: NextPage = () => {
 					>
 						오픈 직전부터 많은 회사들이 사용하고 있습니다.
 					</Typography>
-				</Box>
-			</Box>
+				</Box> */}
+			{/* </Box> */}
 			<Box
-				mt={10}
 				sx={{
 					backgroundImage: `url(/images/apistore/bgImg.svg)`,
 					backgroundSize: 'cover',

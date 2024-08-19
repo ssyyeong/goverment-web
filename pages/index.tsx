@@ -51,6 +51,20 @@ const Page: NextPage = () => {
 		FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
 	});
 
+	const data1 = [
+		{
+			text1: 'A : 자금이 부족한데 투자를 받아야 할지 보증 대출을 이용해야 할지 모르겠어요?',
+			text2: '',
+		},
+		{
+			text1: 'B : 시간도 돈도 부족한 우리, 어디에 자원을 집중해야 할까요?',
+			text2: ' ',
+		},
+		{
+			text1: 'C : 제품을 잘 만들고 싶은데 어떻게 해야 할까요?',
+			text2: '',
+		},
+	];
 	//* Functions
 	function SamplePrevArrow(props) {
 		const { className, style, onClick } = props;
@@ -132,31 +146,31 @@ const Page: NextPage = () => {
 		);
 	};
 
-	useEffect(() => {
-		getFaqList(faqTab);
-		//faq 카테고리 리스트 조회
-		const faqCategoryController = new DefaultController('FaqBoardCategory');
-		faqCategoryController.findAllItems(
-			{},
-			(res) => {
-				const categoryList: any = [
-					{
-						CATEGORY: '전체',
-						FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
-					},
-				];
-				res.data.result.rows.map((item: any) => {
-					categoryList.push({
-						CATEGORY: item.CATEGORY,
-						FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE:
-							item.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
-					});
-				});
-				setFaqCategoryList(categoryList);
-			},
-			(err) => console.log(err)
-		);
-	}, []);
+	// useEffect(() => {
+	// 	getFaqList(faqTab);
+	// 	//faq 카테고리 리스트 조회
+	// 	const faqCategoryController = new DefaultController('FaqBoardCategory');
+	// 	faqCategoryController.findAllItems(
+	// 		{},
+	// 		(res) => {
+	// 			const categoryList: any = [
+	// 				{
+	// 					CATEGORY: '전체',
+	// 					FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE: 0,
+	// 				},
+	// 			];
+	// 			res.data.result.rows.map((item: any) => {
+	// 				categoryList.push({
+	// 					CATEGORY: item.CATEGORY,
+	// 					FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE:
+	// 						item.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
+	// 				});
+	// 			});
+	// 			setFaqCategoryList(categoryList);
+	// 		},
+	// 		(err) => console.log(err)
+	// 	);
+	// }, []);
 
 	useEffect(() => {
 		getInsight();
@@ -221,11 +235,14 @@ const Page: NextPage = () => {
 					>
 						<Button
 							sx={{
+								mb: 1,
 								color: 'gray',
 								cursor: 'pointer',
 								display: 'flex',
 							}}
-							onClick={() => router.push('/renewal/insight')}
+							onClick={() =>
+								router.push('/external_service/insight')
+							}
 						>
 							인사이트 보러가기 &gt;
 						</Button>
@@ -260,7 +277,7 @@ const Page: NextPage = () => {
 									}}
 									onClick={() => {
 										router.push(
-											`/renewal/insight/${item.INSIGHT_IDENTIFICATION_CODE}`
+											`/external_service/insight/${item.INSIGHT_IDENTIFICATION_CODE}`
 										);
 									}}
 								>
@@ -376,9 +393,11 @@ const Page: NextPage = () => {
 					mb={5}
 					sx={{ lineHeight: '1.5', textAlign: 'center' }}
 				>
-					창업가를 위한 마켓플레이스
+					창업가를 위한 데이터 기반
 					<br />
-					필요한거 이 곳에 다있다!
+					마켓 플레이스
+					<br />
+					서포티
 				</Typography>
 				<ArrowDropDownCircleIcon
 					sx={{
@@ -395,22 +414,112 @@ const Page: NextPage = () => {
 			{/** 섹션 4 */}
 			<Box
 				ref={focusFirst}
+				width={'100%'}
+				bgcolor={'primary.light'}
 				display={'flex'}
 				flexDirection={'column'}
 				alignItems={'center'}
 				mx={'auto'}
 				my={{
 					xs: 0,
-					sm: 20,
+					sm: 15,
 				}}
+				px={2}
+				py={10}
 			>
-				<img
-					src="/images/market_place/introduce.png"
-					alt="introduce"
-					style={{ width: '100%' }}
-				/>
+				<Box
+					display={'flex'}
+					flexWrap={'wrap'}
+					gap={4}
+					justifyContent={'center'}
+					flexDirection={'column'}
+				>
+					<Typography
+						variant="h2"
+						fontWeight={'500'}
+						lineHeight={'1.5'}
+						sx={{
+							wordBreak: 'keep-all',
+							textAlign: 'center',
+						}}
+					>
+						창업가들에게 부족한
+						<br />
+						돈, 시간, 제품
+					</Typography>
+					{data1.map((item, index) => {
+						return (
+							<Box
+								p={3.5}
+								display={'flex'}
+								flexDirection={'column'}
+								borderRadius={4}
+								boxShadow={'rgb(213, 212, 239) 0px 4px 20px'}
+								key={index}
+							>
+								<Typography variant={'h5'} fontWeight={'500'}>
+									{item.text1}
+								</Typography>
+							</Box>
+						);
+					})}
+				</Box>
 			</Box>
 			{/** 섹션 5 */}
+			<Box
+				width={'100%'}
+				mb={5}
+				display={'flex'}
+				flexDirection={{
+					xs: 'column',
+					sm: 'row',
+				}}
+				gap={10}
+				px={5}
+				py={10}
+				justifyContent={'center'}
+			>
+				<Box display={'flex'} flexDirection={'column'}>
+					<img
+						src="/images/main/signup2.png"
+						alt="image"
+						width={700}
+						height={500}
+					/>
+				</Box>
+				<Box display={'flex'} flexDirection={'column'} mt={10}>
+					<Typography
+						variant="h3"
+						fontWeight={400}
+						lineHeight={'1.5'}
+						mb={2}
+					>
+						기본적인 데이터 입력만으로
+					</Typography>
+					<Typography
+						variant="h3"
+						fontWeight={600}
+						lineHeight={'2'}
+						ml={2}
+					>
+						1)맞춤형 솔루션 추천
+						<br />
+						2)IR 및 투자자 미팅
+						<br />
+						3)관심 테마 가입 및 커뮤니티 이용
+					</Typography>
+					<Typography
+						variant="h3"
+						fontWeight={400}
+						lineHeight={'1.5'}
+						mt={2}
+						ml={2}
+					>
+						이 모든 것이 가능합니다.
+					</Typography>
+				</Box>
+			</Box>
+			{/** 섹션 6 */}
 			<Box
 				textAlign={'center'}
 				display="flex"
@@ -531,8 +640,15 @@ const Page: NextPage = () => {
 						<KeyboardArrowRightIcon />
 					</IconButton>
 				</Box>
+				<Typography
+					sx={{ wordBreak: 'keep-all', textAlign: 'center' }}
+					variant="h1"
+					color={'primary.main'}
+				>
+					Support your business support
+				</Typography>
 			</Box>
-			<Grid item xs={12}>
+			{/* <Grid item xs={12}>
 				<Box
 					bgcolor={'grey.50'}
 					width={'80%'}
@@ -628,7 +744,7 @@ const Page: NextPage = () => {
 						}}
 					/>
 				</Box>
-			</Grid>
+			</Grid> */}
 		</Grid>
 	);
 };

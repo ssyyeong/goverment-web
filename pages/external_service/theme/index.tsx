@@ -3,25 +3,14 @@ import React, { useEffect } from 'react';
 import Slider from 'react-slick';
 
 import { Box, Grid, IconButton, Typography } from '@mui/material';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
-import MessageTwoToneIcon from '@mui/icons-material/MessageTwoTone';
-import HandshakeTwoToneIcon from '@mui/icons-material/HandshakeTwoTone';
-import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone';
-import PeopleTwoToneIcon from '@mui/icons-material/PeopleTwoTone';
-
-import CloseIcon from '@mui/icons-material/Close';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 import SupportiButton from '../../../src/views/global/SupportiButton';
-import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../../../src/views/global/SupportiInput';
 import ThemeCard from '../../../src/views/local/external_service/theme/ThemeCard/ThemeCard';
+import Nodata from '../../../src/views/global/NoData/NoData';
 
 const Page: NextPage = () => {
 	const partnerShipInquiryController = new DefaultController(
@@ -34,6 +23,10 @@ const Page: NextPage = () => {
 	const [name, setName] = React.useState('');
 	const [email, setEmail] = React.useState('');
 	const [phoneNumber, setPhoneNumber] = React.useState('');
+
+	const [category1, setCategory1] = React.useState('전체');
+	const [category2, setCategory2] = React.useState('전체');
+	const [category3, setCategory3] = React.useState('전체');
 
 	const regionCategory = [
 		'서울지역',
@@ -280,9 +273,15 @@ const Page: NextPage = () => {
 							border: '1px solid #c8c8c8',
 							borderRadius: 5,
 							cursor: 'pointer',
-							borderColor: '#c8c8c8',
+							borderColor:
+								category1 === '전체'
+									? 'primary.main'
+									: '#c8c8c8',
+							color: category1 === '전체' && 'primary.main',
 						}}
-						onClick={() => {}}
+						onClick={() => {
+							setCategory1('전체');
+						}}
 					>
 						전체
 					</Typography>
@@ -295,9 +294,15 @@ const Page: NextPage = () => {
 									border: '1px solid #c8c8c8',
 									borderRadius: 5,
 									cursor: 'pointer',
-									borderColor: '#c8c8c8',
+									borderColor:
+										category1 === item
+											? 'primary.main'
+											: '#c8c8c8',
+									color: category1 === item && 'primary.main',
 								}}
-								onClick={() => {}}
+								onClick={() => {
+									setCategory1(item);
+								}}
 							>
 								{item}
 							</Typography>
@@ -323,9 +328,32 @@ const Page: NextPage = () => {
 					mt={5}
 					pb={5}
 				>
-					{regionsList.map((item, index) => {
-						return <ThemeCard key={index} data={item} />;
-					})}
+					{regionsList.filter((item) => item.CATEGORY === category1)
+						.length > 0 || category1 == '전체' ? (
+						regionsList.map((item, index) => {
+							if (
+								category1 === '전체' ||
+								category1 === item.CATEGORY
+							) {
+								return <ThemeCard key={index} data={item} />;
+							}
+						})
+					) : (
+						// <Box>
+						// 	<img
+						// 		src="/images/main/prepare.png"
+						// 		alt="prepare"
+						// 		width={300}
+						// 		height={250}
+						// 	/>
+						// 	<Typography
+
+						// 	>
+						// 		해당 지역에는 현재 모임이 없습니다.
+						// 	</Typography>
+						// </Box>
+						<Nodata />
+					)}
 				</Box>
 			</Box>
 			{/* 섹션3 */}
@@ -370,9 +398,15 @@ const Page: NextPage = () => {
 							border: '1px solid #c8c8c8',
 							borderRadius: 5,
 							cursor: 'pointer',
-							borderColor: '#c8c8c8',
+							borderColor:
+								category2 === '전체'
+									? 'primary.main'
+									: '#c8c8c8',
+							color: category2 === '전체' && 'primary.main',
 						}}
-						onClick={() => {}}
+						onClick={() => {
+							setCategory2('전체');
+						}}
 					>
 						전체
 					</Typography>
@@ -385,9 +419,15 @@ const Page: NextPage = () => {
 									border: '1px solid #c8c8c8',
 									borderRadius: 5,
 									cursor: 'pointer',
-									borderColor: '#c8c8c8',
+									borderColor:
+										category2 === item
+											? 'primary.main'
+											: '#c8c8c8',
+									color: category2 === item && 'primary.main',
 								}}
-								onClick={() => {}}
+								onClick={() => {
+									setCategory2(item);
+								}}
 							>
 								{item}
 							</Typography>
@@ -408,7 +448,12 @@ const Page: NextPage = () => {
 					pb={5}
 				>
 					{industryList.map((item, index) => {
-						return <ThemeCard key={index} data={item} />;
+						if (
+							category2 === '전체' ||
+							category2 === item.CATEGORY
+						) {
+							return <ThemeCard key={index} data={item} />;
+						}
 					})}
 				</Box>
 			</Box>
@@ -464,9 +509,15 @@ const Page: NextPage = () => {
 							border: '1px solid #c8c8c8',
 							borderRadius: 5,
 							cursor: 'pointer',
-							borderColor: '#c8c8c8',
+							borderColor:
+								category3 === '전체'
+									? 'primary.main'
+									: '#c8c8c8',
+							color: category3 === '전체' && 'primary.main',
 						}}
-						onClick={() => {}}
+						onClick={() => {
+							setCategory3('전체');
+						}}
 					>
 						전체
 					</Typography>
@@ -479,9 +530,15 @@ const Page: NextPage = () => {
 									border: '1px solid #c8c8c8',
 									borderRadius: 5,
 									cursor: 'pointer',
-									borderColor: '#c8c8c8',
+									borderColor:
+										category3 === item
+											? 'primary.main'
+											: '#c8c8c8',
+									color: category3 == item && 'primary.main',
 								}}
-								onClick={() => {}}
+								onClick={() => {
+									setCategory3(item);
+								}}
 							>
 								{item}
 							</Typography>
@@ -504,7 +561,12 @@ const Page: NextPage = () => {
 					pb={5}
 				>
 					{overseasList.map((item, index) => {
-						return <ThemeCard key={index} data={item} />;
+						if (
+							category3 === '전체' ||
+							category3 === item.CATEGORY
+						) {
+							return <ThemeCard key={index} data={item} />;
+						}
 					})}
 				</Box>
 			</Box>

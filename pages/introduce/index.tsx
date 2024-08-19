@@ -4,7 +4,8 @@ import React, { useEffect } from 'react';
 import { Box, Grid, IconButton, TextField, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 import SupportiButton from '../../src/views/global/SupportiButton';
@@ -26,6 +27,49 @@ const Page: NextPage = () => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
 	const [apply, setApply] = React.useState<boolean>(false);
 
+	const data = [
+		// {
+		// 	srcPath: '/images/logo/partners/하임벤처투자.png',
+		// 	alt: '하임벤처투자',
+		// },
+		// {
+		// 	srcPath: '/images/logo/partners/CY.png',
+		// 	alt: 'CY',
+		// },
+		{
+			srcPath: '/images/logo/partners/신용보증기금.svg',
+			alt: '신용보증기금',
+		},
+		{
+			srcPath: '/images/logo/partners/법무법인도울.svg',
+			alt: '법무법인도울',
+		},
+		{
+			srcPath: '/images/logo/partners/메타소프트.svg',
+			alt: '메타소프트',
+		},
+		{
+			srcPath: '/images/logo/partners/자버.svg',
+			alt: '자버',
+		},
+		{
+			srcPath: '/images/logo/partners/교보생명.svg',
+			alt: '교보생명',
+		},
+		{
+			srcPath: '/images/logo/partners/나쵸코드.svg',
+			alt: '나쵸코드',
+		},
+		{
+			srcPath: '/images/logo/partners/화웨이.svg',
+			alt: '화웨이',
+		},
+		{
+			srcPath: '/images/logo/partners/원테이커.svg',
+			alt: '원테이커',
+		},
+	];
+
 	const data1 = [
 		{
 			text1: '내 서비스 만들어보고 싶은데,',
@@ -33,7 +77,7 @@ const Page: NextPage = () => {
 		},
 		{
 			text1: '투자는 어떻게 받지?',
-			text2: 'R 경험은 어디서 쌓아야 하나',
+			text2: 'IR 경험은 어디서 쌓아야 하나',
 		},
 		{
 			text1: '내 사업을 성장시킬 방법도,',
@@ -482,36 +526,69 @@ const Page: NextPage = () => {
 					gap={2}
 					flexDirection={'column'}
 				>
-					{/* <Box
-						display={'flex'}
-						flexDirection={'column'}
-						justifyContent={'center'}
-						width={120}
-						height={80}
-						bgcolor={'white'}
-						alignItems={'center'}
-						borderRadius={5}
-						border={'1px solid #c8c8c8'}
-						px={1}
+					<Box
+						display="flex"
+						justifyContent="center"
+						alignContent="center"
 					>
-						<img
-							src="/images/logo/partners/교보생명.svg"
-							alt="logo"
-							width={120}
-							height={80}
-							style={{
-								objectFit: 'fill',
+						<IconButton
+							onClick={() => {
+								containerRef?.current?.scrollBy({
+									left: -300,
+									behavior: 'smooth',
+								});
 							}}
-						/>
-					</Box> */}
-					<img
-						src="/images/apistore/partners.svg"
-						alt="logo"
-						width={700}
-						style={{
-							objectFit: 'fill',
-						}}
-					/>
+						>
+							<KeyboardArrowLeftIcon />
+						</IconButton>
+						<Box
+							ref={containerRef}
+							style={{
+								paddingBottom: 42,
+								paddingTop: 30,
+								overflowX: 'auto',
+							}}
+							sx={{
+								'&::-webkit-scrollbar': {
+									display: 'none',
+								},
+							}}
+						>
+							<Box
+								display="flex"
+								gap={'15%'}
+								mt={5}
+								mb={5}
+								ml={5}
+								maxWidth={'60vw'}
+							>
+								{data.map((item, index) => {
+									return (
+										<img
+											src={item.srcPath}
+											alt={item.alt}
+											width={'300px'}
+											height={'60px'}
+											key={index}
+											style={{
+												objectFit: 'contain',
+											}}
+										/>
+									);
+								})}
+							</Box>
+						</Box>
+						<IconButton
+							onClick={() => {
+								containerRef?.current?.scrollBy({
+									left: 300,
+									behavior: 'smooth',
+								});
+							}}
+						>
+							<KeyboardArrowRightIcon />
+						</IconButton>
+					</Box>
 					<Typography
 						variant={'h4'}
 						fontWeight={'600'}
