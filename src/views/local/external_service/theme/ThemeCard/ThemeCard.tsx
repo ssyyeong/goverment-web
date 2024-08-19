@@ -30,9 +30,14 @@ const ThemeCard = (props: IThemeData) => {
 				gap: 2,
 				textAlign: 'center',
 			}}
+			onClick={() =>
+				router.push(
+					`/external_service/theme/${props.data.id}?category=${props.data.majorCategory}`
+				)
+			}
 		>
 			<Image
-				src={props.data.IMAGE}
+				src={props.data.imgSrc}
 				alt="image"
 				width={240}
 				height={250}
@@ -48,21 +53,21 @@ const ThemeCard = (props: IThemeData) => {
 					wordBreak: 'keep-all',
 				}}
 			>
-				{props.data.CATEGORY}
+				{props.data.category}
 			</Typography>
 			<Typography
 				variant="h6"
 				fontWeight={600}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.TEXT1}
+				{props.data.subtitle}
 			</Typography>
 			<Typography
 				variant="body1"
 				fontWeight={400}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.TEXT2}
+				{props.data.summary}
 			</Typography>
 		</Box>
 	);

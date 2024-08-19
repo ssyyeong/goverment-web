@@ -315,10 +315,10 @@ const Page: NextPage = () => {
 								.length > 1
 								? 'column'
 								: 'row',
-
 						width: '100%',
 						alignContent: 'center',
 						justifyContent: 'center',
+						mt: 3,
 					}}
 				>
 					{/** 추가 상세 이미지 리스트 */}

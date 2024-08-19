@@ -11,6 +11,11 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import ThemeCard from '../../../src/views/local/external_service/theme/ThemeCard/ThemeCard';
 import Nodata from '../../../src/views/global/NoData/NoData';
+import {
+	industryThemeConfig,
+	overseasThemeConfig,
+	regionThemeConfig,
+} from '../../../configs/data/ThemeConfig';
 
 const Page: NextPage = () => {
 	const partnerShipInquiryController = new DefaultController(
@@ -40,21 +45,6 @@ const Page: NextPage = () => {
 		'제주도',
 	];
 
-	const regionsList = [
-		{
-			IMAGE: '/images/theme/지역별1.png',
-			CATEGORY: '서울지역',
-			TEXT1: '서울 스타트업 창업가 모임',
-			TEXT2: '서울/창업가모임/투자유치 (1/15)명',
-		},
-		{
-			IMAGE: '/images/theme/지역별2.png',
-			CATEGORY: '경기지역',
-			TEXT1: '안양시 초기 스타트업 창업가 모임',
-			TEXT2: '안양/창업가모임/제품개발 (1/10)명',
-		},
-	];
-
 	const industryCategory = [
 		'테크 스타트업',
 		'소상공인',
@@ -62,49 +52,7 @@ const Page: NextPage = () => {
 		'커머스',
 	];
 
-	const industryList = [
-		{
-			IMAGE: '/images/theme/업종별1.png',
-			CATEGORY: '테크 스타트업',
-			TEXT1: '24년 하반기 빠르게 개발 진행하실 창업가분 모십니다.',
-			TEXT2: 'MVP개발(1/30)명',
-		},
-		{
-			IMAGE: '/images/theme/업종별2.png',
-			CATEGORY: '소상공인',
-			TEXT1: '처음부터 천천히, 각 제품에 맞는 MVP개발 도와드립니다.',
-			TEXT2: 'MVP개발(1/15)명',
-		},
-		{
-			IMAGE: '/images/theme/업종별3.png',
-			CATEGORY: '커머스',
-			TEXT1: '기획부터 마케팅까지, 커머스 전문가와 함께하세요!',
-			TEXT2: '기획(1/30)명',
-		},
-	];
-
 	const overseasCategory = ['일본', '동남아시아'];
-
-	const overseasList = [
-		{
-			IMAGE: '/images/theme/해외매칭1.png',
-			CATEGORY: '일본',
-			TEXT1: '해외진출을 위한 해외시장조사단 모집합니다.',
-			TEXT2: '사전답사/시장조사 (1/5)명',
-		},
-		{
-			IMAGE: '/images/theme/해외매칭2.png',
-			CATEGORY: '일본',
-			TEXT1: '처음부터 천천히, 각 제품에 맞는 MVP개발 도와드립니다.',
-			TEXT2: '전문컨설팅/1:1멘토링 (1/3)명',
-		},
-		{
-			IMAGE: '/images/theme/해외매칭3.png',
-			CATEGORY: '동남아시아',
-			TEXT1: '동남아시아 진출에 관심있는 창업가라면 누구든 함께해요!',
-			TEXT2: '사전조사/커뮤니티 (1/30)명',
-		},
-	];
 
 	//* Functions
 	//BurnRate 섹션 화살표 커스텀
@@ -328,12 +276,13 @@ const Page: NextPage = () => {
 					mt={5}
 					pb={5}
 				>
-					{regionsList.filter((item) => item.CATEGORY === category1)
-						.length > 0 || category1 == '전체' ? (
-						regionsList.map((item, index) => {
+					{regionThemeConfig.filter(
+						(item: any) => item.category === category1
+					).length > 0 || category1 == '전체' ? (
+						regionThemeConfig.map((item: any, index) => {
 							if (
 								category1 === '전체' ||
-								category1 === item.CATEGORY
+								category1 === item.category
 							) {
 								return <ThemeCard key={index} data={item} />;
 							}
@@ -447,10 +396,10 @@ const Page: NextPage = () => {
 					mt={5}
 					pb={5}
 				>
-					{industryList.map((item, index) => {
+					{industryThemeConfig.map((item: any, index) => {
 						if (
 							category2 === '전체' ||
-							category2 === item.CATEGORY
+							category2 === item.category
 						) {
 							return <ThemeCard key={index} data={item} />;
 						}
@@ -560,10 +509,10 @@ const Page: NextPage = () => {
 					mt={5}
 					pb={5}
 				>
-					{overseasList.map((item, index) => {
+					{overseasThemeConfig.map((item: any, index) => {
 						if (
 							category3 === '전체' ||
-							category3 === item.CATEGORY
+							category3 === item.category
 						) {
 							return <ThemeCard key={index} data={item} />;
 						}
