@@ -25,20 +25,18 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
-import { useAppMember } from '../src/hooks/useAppMember';
-import SupportiButton from '../src/views/global/SupportiButton';
-import AccordianBox from '../src/views/local/common/AccordianBox/AccordianBox';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 type Props = {};
 
 const Page: NextPage = () => {
 	const router = useRouter();
-	const { memberId } = useAppMember();
 	const containerRef = React.useRef<HTMLDivElement>(null);
 	const focusFirst = React.useRef<HTMLDivElement>(null);
 
-	const businessInfoController = new DefaultController('Business'); // 유저 정보 최초 입력 컨트롤러 (비즈니스 정보)
 	const insightController = new DefaultController('Insight');
+
+	const cookie = new CookieManager();
 	//* States
 	/**
 	 * 인사이트 리스트
@@ -65,6 +63,7 @@ const Page: NextPage = () => {
 			text2: '',
 		},
 	];
+
 	//* Functions
 	function SamplePrevArrow(props) {
 		const { className, style, onClick } = props;
@@ -91,6 +90,7 @@ const Page: NextPage = () => {
 			</div>
 		);
 	}
+
 	const settings = {
 		dots: false,
 		infinite: true,
@@ -103,12 +103,6 @@ const Page: NextPage = () => {
 		autoplay: true,
 		autoplaySpeed: 3000,
 	};
-
-	function setCookie(name, value, exp) {
-		const date = new Date();
-		date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
-		document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
-	}
 
 	/**
 	 * 인사이트 리스트 가져오기
@@ -173,8 +167,11 @@ const Page: NextPage = () => {
 	// }, []);
 
 	useEffect(() => {
+		//꼭 삭제해야함
+		cookie.removeItemInCookies('ACCESS_TOKEN');
+
 		getInsight();
-	}, [memberId]);
+	}, []);
 
 	const onMoveToFocus = (focus: React.RefObject<HTMLDivElement>) => {
 		focus.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
