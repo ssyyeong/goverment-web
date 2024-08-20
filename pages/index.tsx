@@ -167,9 +167,6 @@ const Page: NextPage = () => {
 	// }, []);
 
 	useEffect(() => {
-		//꼭 삭제해야함
-		cookie.removeItemInCookies('ACCESS_TOKEN');
-
 		getInsight();
 	}, []);
 
