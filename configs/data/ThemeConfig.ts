@@ -83,14 +83,13 @@ const industryThemeConfig = [
 	{
 		id: 3,
 		majorCategory: '업종별',
-
 		category: '커머스',
 		subCategory1: '마케팅 창업가 모임',
 		subCategory2: '기획',
 		title: '커머스 전문가와 함께하는 기획',
 		subtitle: '기획부터 마케팅까지, 커머스 전문가와 함께하세요!',
 		summary: '마케팅 창업가 모임/기획(1/30)명',
-		imgSrc: '/images/theme/업종별2.png',
+		imgSrc: '/images/theme/업종별3.png',
 		count: 30,
 		online: true,
 		description: [

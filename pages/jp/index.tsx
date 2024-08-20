@@ -130,7 +130,7 @@ const Page: NextPage = () => {
 						marginTop: 5,
 					}}
 					onClick={() => {
-						if (cookie.getItemInCookies('ACCESS_TOKEN')) {
+						if (cookie.getItemInCookies('JP_ACCESS_TOKEN')) {
 							alert('이미 로그인 되어 있습니다.');
 							return;
 						}

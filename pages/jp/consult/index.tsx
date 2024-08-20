@@ -121,7 +121,7 @@ const Page: NextPage = () => {
 							locale == 'jp' ? '無料で始める' : '무료로 시작하기'
 						}
 						onClick={() => {
-							if (cookie.getItemInCookies('ACCESS_TOKEN')) {
+							if (cookie.getItemInCookies('JP_ACCESS_TOKEN')) {
 								locale == 'jp'
 									? alert('すでにログインしています。')
 									: alert('이미 로그인 되어 있습니다.');

@@ -51,7 +51,6 @@ const useAppMember = () => {
 	//* Cookie
 	const cookie = new CookieManager();
 	const accessToken = cookie.getItemInCookies('ACCESS_TOKEN');
-
 	//* Hooks
 	/**
 	 * 유저 아이디 가져오기

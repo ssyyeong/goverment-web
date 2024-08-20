@@ -45,11 +45,11 @@ const Page: NextPage = () => {
 			(res) => {
 				if (res.data.result !== null) {
 					cookie.setItemInCookies(
-						'ACCESS_TOKEN',
+						'JP_ACCESS_TOKEN',
 						res.data.result.NAME,
 						{
 							path: '/',
-							maxAge: 3600 * 24 * 30,
+							maxAge: 3600 * 24,
 						}
 					);
 					router.push('/jp');
