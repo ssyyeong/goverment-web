@@ -389,7 +389,7 @@ const Page: NextPage = () => {
 				>
 					창업가를 위한 데이터 기반
 					<br />
-					마켓 플레이스
+					맞춤형 성장 솔루션
 					<br />
 					서포티
 				</Typography>

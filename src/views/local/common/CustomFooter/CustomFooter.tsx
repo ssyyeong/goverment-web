@@ -57,17 +57,20 @@ const CustomFooter = (props: ICustomFooterProps) => {
 					}}
 				/>
 				<Container>
-					<Grid container spacing={7} pt={5} pb={3}>
-						<Grid item xs={12} md={4}>
+					<Grid container spacing={2} pt={5} pb={3}>
+						<Grid item xs={12} md={2}>
 							<img
 								src={'/images/logo/Suppor-TFulllogo.svg'}
 								alt="Logo"
 								width={'145px'}
 								height={'45px'}
-								style={{ cursor: 'pointer' }}
+								style={{
+									cursor: 'pointer',
+								}}
 								onClick={() => router.push('/')}
 							/>
 						</Grid>
+
 						<Grid item xs={12} md={8}>
 							<Box
 								display={'flex'}
@@ -96,6 +99,7 @@ const CustomFooter = (props: ICustomFooterProps) => {
 									</Typography>
 								))}
 							</Box>
+
 							<Box
 								flexWrap={'wrap'}
 								display={'flex'}
@@ -118,6 +122,18 @@ const CustomFooter = (props: ICustomFooterProps) => {
 									</Box>
 								))}
 							</Box>
+						</Grid>
+						<Grid item xs={12} md={2}>
+							<img
+								src={'/images/logo/partners/paple.svg'}
+								alt="Logo"
+								width={'80px'}
+								height={'45px'}
+								style={{
+									marginTop: '40px',
+								}}
+								onClick={() => {}}
+							/>
 						</Grid>
 					</Grid>
 					<Divider />
