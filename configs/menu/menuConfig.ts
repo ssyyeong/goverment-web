@@ -7,12 +7,6 @@ interface IMenu {
 }
 
 const dashboardMenu: IMenu[] = [
-	// {
-	// 	label: '비즈니스 개요',
-	// 	path: '/internal_service/business_info',
-	// 	icon: '/images/icons/business.svg',
-	// 	forBusiness: true,
-	// },
 	{
 		label: '재무 솔루션',
 		icon: '/images/icons/financial.svg',
