@@ -1,5 +1,5 @@
 //* 이메일정규식
-export const emailRegex = /^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/;
+export const emailRegex = /^[A-Za-z0-9+-_.]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/;
 //* 비밀번호정규식
 export const passwordRegex =
 	/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}/;
