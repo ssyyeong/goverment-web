@@ -54,10 +54,6 @@ const Page: NextPage = () => {
 	const router = useRouter();
 	//* Constants
 	const selectableIndicatorList = [
-		{
-			name: '데모데이',
-			path: '/internal_service/ir/demoday',
-		},
 		// {
 		// 	name: 'IR 데이터',
 		// 	path: '/internal_service/ir/management',

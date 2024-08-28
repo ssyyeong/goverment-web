@@ -74,10 +74,6 @@ const dashboardMenu: IMenu[] = [
 				label: '자료 관리',
 				path: '/internal_service/ir/management',
 			},
-			{
-				label: '데모데이',
-				path: '/internal_service/ir/demoday',
-			},
 		],
 	},
 	{
@@ -169,12 +165,6 @@ const mypageMenu: IMenu[] = [
 		path: '/my_page/ir_data',
 		icon: '/images/icons/ir.png',
 	},
-	// {
-	// 	label: 'IR 신청내역',
-	// 	path: '/my_page/ir_history',
-	// 	icon: '/images/icons/seminar-reservation.png',
-	// },
-
 	// {
 	// 	label: '커피챗 신청',
 	// 	icon: '/images/icons/coffee.png',

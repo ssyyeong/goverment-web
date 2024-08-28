@@ -103,7 +103,6 @@ const sideBarConfig: ISideBar = {
 					icon: <ViewListRoundedIcon />,
 					link: 'board',
 					children: [
-						{ label: '이벤트', link: 'event', children: [] },
 						{
 							label: '공지',
 							icon: <ReportIcon />,
