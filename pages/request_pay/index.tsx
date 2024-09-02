@@ -18,6 +18,7 @@ import SupportiInput from '../../src/views/global/SupportiInput';
 import SupportiButton from '../../src/views/global/SupportiButton';
 import sendAlimTalk from '../../src/function/sendAlimtalk';
 import Image from 'next/image';
+import axios from 'axios';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -94,30 +95,54 @@ const Page: NextPage = () => {
 		},
 	];
 	//* Functions
-	/**
-	 * 토스 결제 실행
-	 */
-	const tossPay = () => {
-		if (!paymentProgress) {
-			alert('결제 진행에 동의해주세요.');
-			return;
+	// const paypleAuth = async () => {
+	// 	//페이플 인증
+	// 	await axios
+	// 		.post(
+	// 			'https://democpay.payple.kr/php/auth.php',
+	// 			{
+	// 				cst_id: 'test',
+	// 				custKey: 'abcd1234567890',
+	// 				PCD_PAY_WORK: 'LINKREG',
+	// 			},
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					Referer: 'supporti.biz',
+	// 				},
+	// 			}
+	// 		)
+	// 		.then((res: any) => {
+	// 			//페이플 링크 생성
+	// 			console.log(res);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// };
+
+	const payple = () => {
+		const { PaypleCpayAuthCheck }: any = window;
+		let obj: any = {};
+		obj.clientKey = '0616817761CF1C463E033B7208F59421';
+		obj.PCD_PAY_TYPE = 'card';
+		obj.PCD_PAY_WORK = 'CERT';
+		obj.PCD_CARD_VER = '02';
+		obj.PCD_PAY_GOODS = content;
+		obj.PCD_PAY_TOTAL = amount;
+		obj.PCD_RST_URL = `/toss/success`;
+		obj.callbackFunction = getResult;
+
+		PaypleCpayAuthCheck(obj);
+	};
+
+	const getResult = (res: any) => {
+		if (res.PCD_PAY_RST === 'success') {
+			router.push(`/toss/success?PCD_AUTH_KEY=${res.PCD_AUTH_KEY}
+				&PCD_PAY_REQKEY=${res.PCD_PAY_REQKEY}`);
+		} else {
+			router.push('/toss/fail');
 		}
-		loadTossPayments(clientKey).then((tossPayments) => {
-			// 카드 결제 메서드 실행
-			tossPayments.requestPayment(paymentMethod, {
-				amount: Number(amount), // 가격
-				orderId: orderId, // 주문 id
-				orderName: content.toString(), // 결제 이름
-				customerName: name.toString(), // 판매자, 판매처 이름
-				successUrl:
-					process.env.NEXT_PUBLIC_WEB_HOST + `/toss/request_pay`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
-				failUrl: process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
-				validHours: 24, // 유효시간
-				cashReceipt: {
-					type: '소득공제',
-				},
-			});
-		});
 	};
 	/**
 	 * 알림톡 보내기
@@ -142,10 +167,11 @@ const Page: NextPage = () => {
 			setPaymentMode(false);
 		}
 	}, [params]);
+
 	return (
 		<Box p={{ xs: 2, md: 9 }}>
 			{/* 결제 요청 모드 */}
-			{!paymentMode && (
+			{paymentMode && (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
@@ -231,7 +257,7 @@ const Page: NextPage = () => {
 				</Box>
 			)}
 			{/* 결제 모드 */}
-			{paymentMode && (
+			{!paymentMode && (
 				<Grid
 					container
 					display={'flex'}
@@ -383,7 +409,7 @@ const Page: NextPage = () => {
 						<SupportiButton
 							variant="outlined"
 							contents={`${amount}원 결제하기`}
-							onClick={tossPay}
+							onClick={payple}
 							muiButtonProps={{
 								fullWidth: true,
 							}}

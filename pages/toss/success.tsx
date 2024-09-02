@@ -12,9 +12,9 @@ import { useAppMember } from '../../src/hooks/useAppMember';
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType } = router.query;
+	const { paymentKey, orderId, amount, paymentType, authKey, reqKey } =
+		router.query;
 	//* Controllers
-	const pointHistoryController = new DefaultController('PointHistory');
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
 	//* States
@@ -53,31 +53,32 @@ const Page: NextPage = () => {
 	};
 
 	/**
-	 * toss 에 결제 승인 요청
+	 * 결제 승인 요청
 	 */
 	const secretKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_SECRET_KEY;
 	const confirmPayment = async () => {
 		await axios
 			.post(
-				'https://api.tosspayments.com/v1/payments/confirm',
+				'https://cpay.payple.kr/php/PayCardConfirmAct.php?ACT_=PAYM',
 				{
-					paymentKey: paymentKey,
-					orderId: orderId,
-					amount: amount,
+					PCD_CST_ID: 'supporti',
+					PCD_CUST_KEY:
+						'45718aa42f4c54c183ae05b034d5f2bb012b384be023c11a6c62fd8bd31b75a6',
+					PCD_AUTH_KEY: router.query.PCD_AUTH_KEY,
+					PCD_PAY_REQKEY: router.query.PCD_PAY_REQKEY,
 				},
 				{
 					headers: {
-						Authorization:
-							'Basic ' +
-							Buffer.from(secretKey + ':').toString('base64'),
 						'Content-Type': 'application/json',
+						Referer: 'supporti.biz',
 					},
 				}
 			)
 			.then((response) => {
 				console.log(response);
 				console.log('결제 성공');
-				createPaymentHistory();
+				setLoading(false);
+				// createPaymentHistory();
 			});
 	};
 	//* Hooks
@@ -90,9 +91,9 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		setLoading(true);
-		if (paymentKey && memberId) {
-			confirmPayment();
-		}
+		// if (paymentKey) {
+		confirmPayment();
+		// }
 	}, [router.query, memberId]);
 
 	return (
