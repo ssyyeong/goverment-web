@@ -758,15 +758,26 @@ const Page: NextPage = () => {
 											? true
 											: false
 									}
-									contents={'시작하기'}
+									// contents={'시작하기'}
+									// onClick={() => {
+									// 	if (!access) {
+									// 		setAlertModalType('login');
+									// 		setAlertModal(true);
+									// 		return;
+									// 	}
+									// 	setPayModalData(ratePlan);
+									// 	setPayModal(true);
+									// }}
+									contents={'문의하기'}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
 											setAlertModal(true);
 											return;
 										}
-										setPayModalData(ratePlan);
-										setPayModal(true);
+										setAlertModalType('rateInquiryApply');
+										setAlertModal(true);
+										return;
 									}}
 								/>
 							)}
@@ -781,28 +792,39 @@ const Page: NextPage = () => {
 										backgroundImage:
 											'linear-gradient(99deg, #5583e4 9%, #4955e3 89%)',
 									}}
-									contents={
-										subscriptionInfo?.SubscriptionProduct
-											?.TYPE === 'BLACK'
-											? '구독중'
-											: '시작하기'
-									}
+									// contents={
+									// 	subscriptionInfo?.SubscriptionProduct
+									// 		?.TYPE === 'BLACK'
+									// 		? '구독중'
+									// 		: '시작하기'
+									// }
+									// onClick={() => {
+									// 	if (!access) {
+									// 		setAlertModalType('login');
+									// 		setAlertModal(true);
+									// 		return;
+									// 	}
+									// 	if (
+									// 		!(
+									// 			subscriptionInfo
+									// 				?.SubscriptionProduct
+									// 				?.TYPE === 'BLACK'
+									// 		)
+									// 	) {
+									// 		setPayModalData(ratePlan);
+									// 		setPayModal(true);
+									// 	}
+									// }}
+									contents={'문의하기'}
 									onClick={() => {
 										if (!access) {
 											setAlertModalType('login');
 											setAlertModal(true);
 											return;
 										}
-										if (
-											!(
-												subscriptionInfo
-													?.SubscriptionProduct
-													?.TYPE === 'BLACK'
-											)
-										) {
-											setPayModalData(ratePlan);
-											setPayModal(true);
-										}
+										setAlertModalType('rateInquiryApply');
+										setAlertModal(true);
+										return;
 									}}
 								/>
 							)}
