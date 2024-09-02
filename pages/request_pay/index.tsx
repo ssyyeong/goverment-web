@@ -171,7 +171,7 @@ const Page: NextPage = () => {
 	return (
 		<Box p={{ xs: 2, md: 9 }}>
 			{/* 결제 요청 모드 */}
-			{paymentMode && (
+			{!paymentMode && (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
@@ -257,7 +257,7 @@ const Page: NextPage = () => {
 				</Box>
 			)}
 			{/* 결제 모드 */}
-			{!paymentMode && (
+			{paymentMode && (
 				<Grid
 					container
 					display={'flex'}
