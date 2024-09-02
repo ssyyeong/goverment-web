@@ -8,6 +8,7 @@ import DefaultController from '@leanoncompany/supporti-ark-office-project/src/co
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAppMember } from '../../src/hooks/useAppMember';
+import SupportiButton from '../../src/views/global/SupportiButton';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -28,23 +29,23 @@ const Page: NextPage = () => {
 	/**
 	 * 결제 내역 생성
 	 */
-	const createPaymentHistory = () => {
-		paymentHistoryController.putData(
+	const createPaymentHistory = (PCD_PAY_OID) => {
+		paymentHistoryController.postData(
 			{
-				UPDATE_OPTION_KEY_LIST: {
-					TYPE: 'TICKET', //구독권과 구별하기 위한 TYPE
+				CREATE_OPTION_KEY_LIST: {
+					TYPE: 'LINK', //구독권과 구별하기 위한 TYPE
 					RESULT: 'SUCCESS', //성공여부("SUCCESS" or "FAIL")
-					ORDER_ID: orderId, //주문ID
+					ORDER_ID: PCD_PAY_OID, //주문ID
 					PAY_METHOD: '카드', //결제방식
 				},
 				FIND_OPTION_KEY_LIST: {},
 			},
-			`${paymentHistoryController.mergedPath}/update`,
+			`${paymentHistoryController.mergedPath}/create`,
 			(res) => {
 				console.log('결제 내역 생성 성공');
 				console.log('결제 성공');
 				setLoading(false);
-				router.push(route as string);
+				// router.push(route as string);
 			},
 			(err) => {
 				alert('결제 내역 생성 실패');
@@ -59,7 +60,7 @@ const Page: NextPage = () => {
 	const confirmPayment = async () => {
 		await axios
 			.post(
-				'https://cpay.payple.kr/php/PayCardConfirmAct.php?ACT_=PAYM',
+				'/payple/payments/confirm',
 				{
 					PCD_CST_ID: 'supporti',
 					PCD_CUST_KEY:
@@ -74,11 +75,11 @@ const Page: NextPage = () => {
 					},
 				}
 			)
-			.then((response) => {
+			.then((response: any) => {
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
-				// createPaymentHistory();
+				// createPaymentHistory(response.PCD_PAY_OID);
 			});
 	};
 	//* Hooks
@@ -108,9 +109,14 @@ const Page: NextPage = () => {
 			}}
 		>
 			<LoadingButton size="large" onClick={() => {}} loading={loading}>
-				<span> 결제가 완료되었습니다!</span>
+				<span>
+					{' '}
+					{loading
+						? '결제가 진행중입니다!'
+						: '결제가 완료되었습니다!'}
+				</span>
 			</LoadingButton>
-			<Typography
+			{/* <Typography
 				variant="h3"
 				fontWeight={'bold'}
 				sx={{
@@ -118,7 +124,20 @@ const Page: NextPage = () => {
 				}}
 			>
 				결제가 진행중입니다!
-			</Typography>
+			</Typography> */}
+			<SupportiButton
+				contents={'홈으로 이동'}
+				variant="contained"
+				style={{
+					width: '200px',
+					marginRight: 'auto',
+					marginLeft: 'auto',
+					marginTop: 5,
+				}}
+				onClick={() => {
+					router.push('/');
+				}}
+			/>
 		</Box>
 	);
 };

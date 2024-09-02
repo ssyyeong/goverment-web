@@ -67,6 +67,11 @@ const nextConfig = {
 				source: `${process.env.NEXT_PUBLIC_ROOT_ROUTE}/:path*`,
 				destination: `${process.env.REACT_APP_PROXY_HOST}${process.env.NEXT_PUBLIC_ROOT_ROUTE}/:path*`,
 			},
+			{
+				source: `/payple/:path*`,
+				destination:
+					'https://cpay.payple.kr/php/PayCardConfirmAct.php?ACT_=PAYM',
+			},
 		];
 	},
 };
@@ -77,7 +82,6 @@ const withTM = require('next-transpile-modules')([
 ]); // pass the modules you would like to see transpiled
 
 module.exports = withTM(nextConfig);
-
 
 // Injected content via Sentry wizard below
 
