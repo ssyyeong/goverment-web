@@ -6,32 +6,9 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
-import MessageTwoToneIcon from '@mui/icons-material/MessageTwoTone';
-import HandshakeTwoToneIcon from '@mui/icons-material/HandshakeTwoTone';
-import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone';
-import PeopleTwoToneIcon from '@mui/icons-material/PeopleTwoTone';
-
-import CloseIcon from '@mui/icons-material/Close';
-
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-
-import SupportiButton from '../../src/views/global/SupportiButton';
-import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
-import SupportiInput from '../../src/views/global/SupportiInput';
 
 const Page: NextPage = () => {
-	const partnerShipInquiryController = new DefaultController(
-		'PartnerShipInquiry'
-	);
-
 	const containerRef = React.useRef<HTMLDivElement>(null);
-
-	const [openPopUp, setOpenPopUp] = React.useState(false);
-	const [name, setName] = React.useState('');
-	const [email, setEmail] = React.useState('');
-	const [phoneNumber, setPhoneNumber] = React.useState('');
 
 	const data = [
 		{
@@ -132,28 +109,6 @@ const Page: NextPage = () => {
 		arrows: true,
 		nextArrow: <SampleNextArrow />,
 		prevArrow: <SamplePrevArrow />,
-	};
-
-	// 문의 데이터 초기화
-	const resetInquiryData = () => {
-		setName('');
-		setEmail('');
-		setPhoneNumber('');
-	};
-
-	// 문의 생성
-	const createInquiry = async () => {
-		partnerShipInquiryController.createItem(
-			{
-				NAME: name,
-				EMAIL: email,
-				PHONE_NUMBER: phoneNumber,
-			},
-			(res) => {
-				setOpenPopUp(false);
-				alert('문의가 접수되었습니다.');
-			}
-		);
 	};
 
 	useEffect(() => {

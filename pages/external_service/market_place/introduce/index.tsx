@@ -1,18 +1,10 @@
 import { NextPage } from 'next';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Box, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
-import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-
-import { useRouter } from 'next/router';
-
+// 마켓 플레이스 소개 페이지
 const Page: NextPage = () => {
-	const router = useRouter();
-	const partnerShipInquiryController = new DefaultController(
-		'PartnerShipInquiry'
-	);
-
 	return (
 		<Box
 			sx={{
@@ -26,31 +18,6 @@ const Page: NextPage = () => {
 				alt="banner"
 				style={{ width: '100%', height: 'auto' }}
 			/>
-			{/* <img
-				src="/images/market_place/002.png"
-				alt="banner"
-				style={{ width: '100%', height: 'auto' }}
-			/>
-			<img
-				src="/images/market_place/003.png"
-				alt="banner"
-				style={{ width: '100%', height: 'auto' }}
-			/>
-			<img
-				src="/images/market_place/004.png"
-				alt="banner"
-				style={{ width: '100%', height: 'auto' }}
-			/>
-			<img
-				src="/images/market_place/005.png"
-				alt="banner"
-				style={{ width: '100%', height: 'auto' }}
-			/>
-			<img
-				src="/images/market_place/006.png"
-				alt="banner"
-				style={{ width: '100%', height: 'auto' }}
-			/> */}
 		</Box>
 	);
 };

@@ -69,6 +69,7 @@ const Page: NextPage = () => {
 	const createInquiry = async () => {
 		partnerShipInquiryController.createItem(
 			{
+				CATEGORY: 'API STORE',
 				NAME: name,
 				EMAIL: email,
 				PHONE_NUMBER: phoneNumber,

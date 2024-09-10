@@ -21,7 +21,6 @@ const regionThemeConfig = [
 	{
 		id: 2,
 		majorCategory: '지역',
-
 		category: '경기지역',
 		subCategory1: '창업가모임',
 		subCategory2: '제품개발',
@@ -36,67 +35,6 @@ const regionThemeConfig = [
 			'새로운 아이디어에서 실제 제품까지, 아이디어를 현실로 만들어갈 동료들과 함께할 수 있는 기회입니다.',
 			'전문가들의 인사이트와 실용적인 워크숍을 통해 창업의 모든 과정을 배울 수 있는 자리가 될 것입니다.',
 			'지금 바로 참여하셔서 안양시에서 가장 혁신적인 스타트업 커뮤니티의 일원이 되세요!',
-		],
-	},
-];
-
-const industryThemeConfig = [
-	{
-		id: 1,
-		majorCategory: '업종별',
-		category: '테크 스타트업',
-		subCategory1: 'MVP개발',
-		subCategory2: '',
-		title: '24년 하반기 테크스타트업 모임',
-		subtitle: '24년 하반기 빠르게 개발 진행하실 창업가분 모십니다.',
-		summary: 'MVP개발(1/30)명',
-		imgSrc: '/images/theme/업종별1.png',
-		count: 30,
-		online: false,
-		description: [
-			'테크 스타트업 창업가를 위한 모임에 참여하고 싶으신가요? 최신 기술 트렌드와 개발 전략을 공유하는 이 자리에 여러분을 초대합니다!',
-			'혁신적인 솔루션을 개발하고 싶은 테크 창업가들을 위해, 업계 전문가들과의 네트워킹 기회를 제공합니다.',
-			'참여하여 여러분의 스타트업 아이디어를 실제 제품으로 변환하는 데 필요한 지식과 리소스를 얻어 가세요!',
-			'이번 모임에서는 AI, 빅데이터, IoT 등 최첨단 기술을 활용한 비즈니스 모델 구축에 대해 심도 있게 다룰 예정입니다. 기술 창업의 길을 함께 걸어가실 분들의 많은 참여 바랍니다!',
-		],
-	},
-	{
-		id: 2,
-		majorCategory: '업종별',
-
-		category: '소상공인',
-		subCategory1: 'MVP개발',
-		subCategory2: '',
-		title: '소상공인분들을 위한 개발 첫 걸음',
-		subtitle: '처음부터 천천히, 각 제품에 맞는 MVP개발 도와드립니다.',
-		summary: 'MVP개발(1/15)명',
-		imgSrc: '/images/theme/업종별2.png',
-		count: 15,
-		online: false,
-		description: [
-			'소상공인 여러분, MVP 개발의 첫걸음을 함께 시작해보세요! 이번 모임에서는 최소한의 자원으로 최대의 가치를 창출하는 MVP 전략을 공유합니다.',
-			'전문가와 함께하는 워크숍을 통해 시장 검증부터 제품 출시까지 단계별 접근법을 배울 수 있습니다.',
-			'또한 동종 업계 소상공인들과 네트워킹을 통해 경험과 아이디어를 공유하고, 귀하의 비즈니스 모델을 강화할 수 있는 기회를 제공합니다.',
-			'오늘 당장 참여하여 귀하의 사업 아이디어를 현실로 만드는 첫걸음을 떼세요!',
-		],
-	},
-	{
-		id: 3,
-		majorCategory: '업종별',
-		category: '커머스',
-		subCategory1: '마케팅 창업가 모임',
-		subCategory2: '기획',
-		title: '커머스 전문가와 함께하는 기획',
-		subtitle: '기획부터 마케팅까지, 커머스 전문가와 함께하세요!',
-		summary: '마케팅 창업가 모임/기획(1/30)명',
-		imgSrc: '/images/theme/업종별3.png',
-		count: 30,
-		online: true,
-		description: [
-			'커머스 분야의 창업을 꿈꾸는 분들을 위한 특별한 기회, 기획부터 마케팅까지 한자리에서 배우세요! 전문가와 함께하는 이 모임에서는 커머스 사업의 A부터 Z까지, 성공적인 시작을 위한 모든 것을 제공합니다.',
-			'시장 분석에서 제품 론칭, 온라인 마케팅 전략까지 실질적인 내용으로 가득 찬 워크숍에 참여하고, 여러분의 사업 아이디어를 현실로 만들어보세요.',
-			'네트워킹 세션을 통해 업계 선배들과 소중한 인사이트를 공유하며, 비즈니스 성장을 위한 실용적인 조언을 얻어 가세요. ',
-			'창업의 모든 과정을 한 자리에서 경험할 수 있는 이 기회를 놓치지 마세요!',
 		],
 	},
 ];
@@ -160,4 +98,4 @@ const overseasThemeConfig = [
 		],
 	},
 ];
-export { regionThemeConfig, industryThemeConfig, overseasThemeConfig };
+export { regionThemeConfig, overseasThemeConfig };

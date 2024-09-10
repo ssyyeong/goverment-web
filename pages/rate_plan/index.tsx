@@ -23,12 +23,17 @@ import Image from 'next/image';
 
 const Page: NextPage = () => {
 	//* Modules
+
 	const ratePlanController = new DefaultController('SubscriptionProduct');
 	const userSubscriptionController = new DefaultController(
 		'UserSubscription'
 	);
 	const { memberId } = useAppMember();
 	const router = useRouter();
+
+	const partnerShipInquiryController = new DefaultController(
+		'PartnerShipInquiry'
+	);
 
 	//* Constants
 	/**
@@ -96,6 +101,9 @@ const Page: NextPage = () => {
 	const [permission, setPermission] = React.useState<boolean | undefined>(
 		undefined
 	);
+	const [name, setName] = React.useState('');
+	const [email, setEmail] = React.useState('');
+	const [phoneNumber, setPhoneNumber] = React.useState('');
 
 	supportiTheBlack.checkPermission(setPermission);
 
@@ -170,18 +178,18 @@ const Page: NextPage = () => {
 
 	// 문의 생성
 	const createInquiry = async () => {
-		// partnerShipInquiryController.createItem(
-		// 	{
-		// 		NAME: name,
-		// 		EMAIL: email,
-		// 		PHONE_NUMBER: phoneNumber,
-		// 	},
-		// 	(res) => {
-		// 		setOpenPopUp(false);
-		// 		resetInquiryData();
-		// 		alert('문의가 접수되었습니다.');
-		// 	}
-		// );
+		partnerShipInquiryController.createItem(
+			{
+				CATEGORY: 'RATE_INQUIRY',
+				NAME: name,
+				EMAIL: email,
+				PHONE_NUMBER: phoneNumber,
+			},
+			(res) => {
+				setAlertModalType('rateInquiryApply');
+				setAlertModal(true);
+			}
+		);
 	};
 
 	return (
@@ -879,8 +887,7 @@ const Page: NextPage = () => {
 							setAlertModal(true);
 							return;
 						}
-						setAlertModalType('rateInquiryApply');
-						setAlertModal(true);
+						createInquiry();
 						return;
 					}}
 					variant={'contained'}

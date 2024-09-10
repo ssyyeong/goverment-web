@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import SupportiInput from '../../src/views/global/SupportiInput';
 import PopUpModal from '../../src/views/local/common/PopUpModal/PopUpModal';
 
+// 소개 페이지
 const Page: NextPage = () => {
 	const router = useRouter();
 	const partnerShipInquiryController = new DefaultController(
@@ -137,6 +138,7 @@ const Page: NextPage = () => {
 	const createInquiry = async () => {
 		partnerShipInquiryController.createItem(
 			{
+				CATEGORY: 'SUPPOR-T',
 				NAME: name,
 				EMAIL: email,
 				PHONE_NUMBER: phoneNumber,

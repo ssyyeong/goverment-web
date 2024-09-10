@@ -14,24 +14,12 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import moment from 'moment';
-import SupportiButton from '../../../src/views/global/SupportiButton';
-import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
-import { useUserAccess } from '../../../src/hooks/useUserAccess';
-import { useAppMember } from '../../../src/hooks/useAppMember';
-import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
-import CreditScoreIcon from '@mui/icons-material/CreditScore';
-import dynamic from 'next/dynamic';
-import {
-	industryThemeConfig,
-	overseasThemeConfig,
-	regionThemeConfig,
-} from '../../../configs/data/ThemeConfig';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { pid, category } = router.query;
+	const themeProductController = new DefaultController('ThemeProduct');
+	const { pid } = router.query;
 
 	//* States
 	/**
@@ -44,25 +32,15 @@ const Page: NextPage = () => {
 	 * 테마 데이터 조회
 	 */
 	useEffect(() => {
-		if (pid !== undefined && category !== undefined) {
-			if (category === '지역') {
-				const theme = regionThemeConfig.find(
-					(item: any) => item.id == pid
-				);
-				setThemeData(theme);
-			} else if (category === '업종별') {
-				const theme = industryThemeConfig.find(
-					(item: any) => item.id == pid
-				);
-				setThemeData(theme);
-			} else {
-				const theme = overseasThemeConfig.find(
-					(item: any) => item.id == pid
-				);
-				setThemeData(theme);
-			}
-		}
-	}, [pid, category]);
+		themeProductController.getOneItem(
+			{ THEME_PRODUCT_IDENTIFICATION_CODE: pid },
+			(res) => {
+				setThemeData(res.data.result);
+				console.log(res.data.result);
+			},
+			(err) => {}
+		);
+	}, [pid]);
 
 	return (
 		themeData != null && (
@@ -100,7 +78,7 @@ const Page: NextPage = () => {
 						borderRadius={2}
 					>
 						<Typography variant={'h4'} fontWeight={'600'}>
-							{themeData?.title}
+							{themeData?.TITLE}
 						</Typography>
 						<Box
 							display={'flex'}
@@ -119,13 +97,13 @@ const Page: NextPage = () => {
 							}}
 						>
 							<Typography variant={'body1'}>
-								{themeData?.subCategory1}
+								{themeData?.ThemeCategory?.CONTENT}
 							</Typography>
 							<Typography variant={'body1'}>
-								{themeData?.subCategory2}
+								{themeData?.ThemeSubCategory?.SUB_CONTENT}
 							</Typography>
 							<Typography variant={'body1'}>
-								정원 : {themeData?.count} 명
+								정원 : {themeData?.COUNT} 명
 							</Typography>
 
 							<Typography
@@ -138,7 +116,9 @@ const Page: NextPage = () => {
 									color: 'primary.main',
 								}}
 							>
-								{themeData?.online ? '온라인' : '오프라인'}
+								{themeData?.ONLINE_YN == 'Y'
+									? '온라인'
+									: '오프라인'}
 							</Typography>
 						</Box>
 					</Box>
@@ -152,7 +132,7 @@ const Page: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{themeData?.imgSrc != '' && (
+						{JSON.parse(themeData?.IMAGE).length > 0 && (
 							<>
 								<Box
 									sx={{
@@ -166,7 +146,7 @@ const Page: NextPage = () => {
 									}}
 								>
 									<img
-										src={themeData?.imgSrc}
+										src={JSON.parse(themeData?.IMAGE)[0]}
 										alt=""
 										width={'100%'}
 									/>
@@ -179,43 +159,48 @@ const Page: NextPage = () => {
 							flexDirection={'column'}
 							width={'100%'}
 							justifyContent={'center'}
+							alignItems={'center'}
 							marginTop={3}
 							px={{
 								md: 10,
 								xs: 0,
 							}}
 						>
-							{themeData?.description.map((item: any, index) => {
-								return (
-									<Box
-										key={index}
-										width={'100%'}
-										sx={{
-											display: 'flex',
-											flexDirection: {
-												md: 'row',
-												xs: 'column',
-											},
-											overflow: 'hidden',
-											marginTop: 2,
-										}}
-									>
-										<Typography
-											fontWeight={400}
-											variant="h5"
-											color={'#363636'}
+							{themeData?.DESCRIPTION.split('.').map(
+								(line, index) =>
+									index !==
+										themeData?.DESCRIPTION.split('.')
+											.length -
+											1 && (
+										<Box
+											key={index}
+											width={'100%'}
 											sx={{
-												wordBreak: 'keep-all',
 												display: 'flex',
-												flexWrap: 'wrap',
-												lineHeight: 1.5,
+												flexDirection: {
+													md: 'row',
+													xs: 'column',
+												},
+												overflow: 'hidden',
+												marginTop: 2,
 											}}
 										>
-											{item}
-										</Typography>
-									</Box>
-								);
-							})}
+											<Typography
+												fontWeight={400}
+												variant="h5"
+												color={'#363636'}
+												sx={{
+													wordBreak: 'keep-all',
+													display: 'flex',
+													flexWrap: 'wrap',
+													lineHeight: 1.5,
+												}}
+											>
+												{line}.
+											</Typography>
+										</Box>
+									)
+							)}
 						</Box>
 					</Box>
 				</Box>

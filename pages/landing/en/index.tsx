@@ -118,6 +118,7 @@ const Page: NextPage = () => {
 	const createInquiry = async () => {
 		partnerShipInquiryController.createItem(
 			{
+				CATEGORY: 'LANDING',
 				NAME: name,
 				EMAIL: email,
 				PHONE_NUMBER: phoneNumber,

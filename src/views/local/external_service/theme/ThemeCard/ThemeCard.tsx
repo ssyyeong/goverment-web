@@ -3,14 +3,6 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-// interface ISeminarCard {
-// 	title: string;
-// 	image: any;
-// 	description: string;
-// 	link?: string;
-// 	filter?: any[];
-// }
-
 interface IThemeData {
 	data: any;
 }
@@ -25,19 +17,21 @@ const ThemeCard = (props: IThemeData) => {
 				borderRadius: 2,
 				boxShadow: 'rgb(219, 219, 219) 0px 4px 10px',
 				width: '280px',
+				minWidth: '280px',
 				display: 'flex',
 				flexDirection: 'column',
 				gap: 2,
 				textAlign: 'center',
+				cursor: 'pointer',
 			}}
 			onClick={() =>
 				router.push(
-					`/external_service/theme/${props.data.id}?category=${props.data.majorCategory}`
+					`/external_service/theme/${props.data.THEME_PRODUCT_IDENTIFICATION_CODE}`
 				)
 			}
 		>
 			<Image
-				src={props.data.imgSrc}
+				src={JSON.parse(props.data.IMAGE)[0]}
 				alt="image"
 				width={240}
 				height={250}
@@ -53,21 +47,21 @@ const ThemeCard = (props: IThemeData) => {
 					wordBreak: 'keep-all',
 				}}
 			>
-				{props.data.category}
+				{props.data.SUB_CONTENT}
 			</Typography>
 			<Typography
 				variant="h6"
 				fontWeight={600}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.subtitle}
+				{props.data.TITLE}
 			</Typography>
 			<Typography
 				variant="body1"
 				fontWeight={400}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.summary}
+				{props.data.SUMMARY}
 			</Typography>
 		</Box>
 	);
