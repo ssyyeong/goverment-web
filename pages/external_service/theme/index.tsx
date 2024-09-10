@@ -241,7 +241,7 @@ const Page: NextPage = () => {
 								overflowX: 'auto',
 								'&::-webkit-scrollbar': {
 									height: '5px !important',
-									backgroundColor: 'white !important',
+									backgroundColor: '#f2f6ff !important',
 									padding: '0.5px',
 									borderRadius: '20px',
 								},

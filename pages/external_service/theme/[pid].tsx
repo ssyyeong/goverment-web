@@ -12,22 +12,60 @@ import {
 	RadioGroup,
 	Typography,
 } from '@mui/material';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { useUserAccess } from '../../../src/hooks/useUserAccess';
+import { useAppMember } from '../../../src/hooks/useAppMember';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	const themeProductController = new DefaultController('ThemeProduct');
 	const { pid } = router.query;
-
+	//* Hooks
+	const { access } = useUserAccess('SIGN_IN');
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId, memberEmailId } = useAppMember();
 	//* States
 	/**
 	 * 테마 데이터
 	 */
 	const [themeData, setThemeData] = React.useState<any>(null);
 
-	//* Hooks
+	/**
+	 * 알럿 모달
+	 */
+	const [alertModal, setAlertModal] = React.useState<boolean>(false);
+	/**
+	 * 알럿 모달 타입
+	 */
+	const [alertModalType, setAlertModalType] = React.useState<
+		'themeApplySuccess' | 'login' | 'already' | 'themeExceed' | 'themeApply'
+	>('themeApplySuccess');
+
+	const checkApplication = () => {
+		let result = false;
+
+		if (themeData?.ThemeApplications) {
+			for (let i = 0; i < themeData.ThemeApplications.length; i++) {
+				if (
+					themeData?.ThemeApplications[i].USE_YN == 'Y' &&
+					themeData?.ThemeApplications[i].CANCELED_YN == 'N' &&
+					themeData?.ThemeApplications[i]
+						.APP_MEMBER_IDENTIFICATION_CODE == memberId
+				) {
+					result = true;
+				}
+			}
+		}
+		return result;
+	};
+
 	/**
 	 * 테마 데이터 조회
 	 */
@@ -36,7 +74,6 @@ const Page: NextPage = () => {
 			{ THEME_PRODUCT_IDENTIFICATION_CODE: pid },
 			(res) => {
 				setThemeData(res.data.result);
-				console.log(res.data.result);
 			},
 			(err) => {}
 		);
@@ -105,6 +142,13 @@ const Page: NextPage = () => {
 							<Typography variant={'body1'}>
 								정원 : {themeData?.COUNT} 명
 							</Typography>
+							{themeData?.REAL_PRICE == 0 ? (
+								<Typography variant={'body1'}>무료</Typography>
+							) : (
+								<Typography variant={'body1'}>
+									{themeData?.REAL_PRICE} 원
+								</Typography>
+							)}
 
 							<Typography
 								sx={{
@@ -131,7 +175,45 @@ const Page: NextPage = () => {
 							justifyContent: 'center',
 							mt: 3,
 						}}
+						gap={5}
 					>
+						{/* 테마 내용 */}
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							width={'100%'}
+							p={2}
+							bgcolor={'#f9f9f9'}
+						>
+							<Box
+								width={'100%'}
+								sx={{
+									display: 'flex',
+									flexDirection: {
+										md: 'row',
+										xs: 'column',
+									},
+									overflow: 'hidden',
+									marginTop: 2,
+								}}
+								gap={3}
+							>
+								<LightbulbOutlinedIcon />
+								<Typography
+									fontWeight={600}
+									variant="h6"
+									color={'#363636'}
+									sx={{
+										wordBreak: 'break-word',
+										display: 'flex',
+										flexWrap: 'wrap',
+										lineHeight: 1.8,
+									}}
+								>
+									{themeData?.DESCRIPTION}
+								</Typography>
+							</Box>
+						</Box>
 						{JSON.parse(themeData?.IMAGE).length > 0 && (
 							<>
 								<Box
@@ -153,57 +235,42 @@ const Page: NextPage = () => {
 								</Box>
 							</>
 						)}
-						{/* 테마 내용 */}
-						<Box
-							display={'flex'}
-							flexDirection={'column'}
-							width={'100%'}
-							justifyContent={'center'}
-							alignItems={'center'}
-							marginTop={3}
-							px={{
-								md: 10,
-								xs: 0,
-							}}
-						>
-							{themeData?.DESCRIPTION.split('.').map(
-								(line, index) =>
-									index !==
-										themeData?.DESCRIPTION.split('.')
-											.length -
-											1 && (
-										<Box
-											key={index}
-											width={'100%'}
-											sx={{
-												display: 'flex',
-												flexDirection: {
-													md: 'row',
-													xs: 'column',
-												},
-												overflow: 'hidden',
-												marginTop: 2,
-											}}
-										>
-											<Typography
-												fontWeight={400}
-												variant="h5"
-												color={'#363636'}
-												sx={{
-													wordBreak: 'keep-all',
-													display: 'flex',
-													flexWrap: 'wrap',
-													lineHeight: 1.5,
-												}}
-											>
-												{line}.
-											</Typography>
-										</Box>
-									)
-							)}
-						</Box>
 					</Box>
 				</Box>
+				{/* 신청하기 버튼 */}
+				{/* <Box
+					display={'flex'}
+					width={'100%'}
+					position={'sticky'}
+					justifyContent={'center'}
+					bottom={0}
+					left={0}
+				>
+					<SupportiButton
+						contents={!checkApplication() ? '신청하기' : '신청완료'}
+						isGradient={true}
+						onClick={() => {}}
+						style={{
+							color: 'white',
+							width: '200px',
+						}}
+					/>
+				</Box> */}
+				{/* <SupportiAlertModal
+					type={alertModalType}
+					open={alertModal}
+					handleClose={() => setAlertModal(false)}
+					customHandleClose={
+						alertModalType == 'themeApply'
+							? () => {}
+							: alertModalType == 'themeApplySuccess'
+							? () => {
+								//결제 페이지로 이동
+									
+							  }
+							: undefined
+					}
+				/> */}
 			</Box>
 		)
 	);
