@@ -33,12 +33,14 @@ import {
 import { gTagEvent } from '../../../src/lib/gtag';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import dayjs from 'dayjs';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 const Page: NextPage = () => {
 	//* Modules
 	const appMemberController = new AppMemberController();
 	const alimTalkController = new AlimTalkController();
 	const router = useRouter();
+	const cookie = new CookieManager();
 	//* States
 	const [signupData, setSignupData] = useState<IUser>({} as IUser);
 	const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -257,6 +259,12 @@ const Page: NextPage = () => {
 
 					// 회원가입 완료 UI로 처리
 					setActiveStep(1);
+					// 첫 로그인 여부 체크 시 사용
+					cookie.setItemInCookies('IS_FIRST_LOGIN', 'FALSE', {
+						path: '/',
+						maxAge: 3600 * 24,
+					});
+					router.push('/auth/sign_in');
 				}
 			},
 			(err) => {}

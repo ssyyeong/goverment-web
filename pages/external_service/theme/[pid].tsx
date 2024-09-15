@@ -146,7 +146,7 @@ const Page: NextPage = () => {
 								<Typography variant={'body1'}>무료</Typography>
 							) : (
 								<Typography variant={'body1'}>
-									{themeData?.REAL_PRICE} 원
+									{themeData?.REAL_PRICE.toLocaleString()} 원
 								</Typography>
 							)}
 
@@ -189,29 +189,61 @@ const Page: NextPage = () => {
 								width={'100%'}
 								sx={{
 									display: 'flex',
-									flexDirection: {
-										md: 'row',
-										xs: 'column',
-									},
+									flexDirection: 'column',
 									overflow: 'hidden',
 									marginTop: 2,
 								}}
-								gap={3}
+								gap={0.2}
 							>
-								<LightbulbOutlinedIcon />
-								<Typography
-									fontWeight={600}
-									variant="h6"
-									color={'#363636'}
-									sx={{
-										wordBreak: 'break-word',
-										display: 'flex',
-										flexWrap: 'wrap',
-										lineHeight: 1.8,
-									}}
-								>
-									{themeData?.DESCRIPTION}
-								</Typography>
+								{themeData?.DESCRIPTION.split('.').map(
+									(line, index) =>
+										index === 0 ? (
+											<Box
+												sx={{
+													flexDirection: 'row',
+													display: 'flex',
+													flexWrap: 'wrap',
+													gap: 1,
+												}}
+											>
+												<LightbulbOutlinedIcon />
+												<Typography
+													fontWeight={600}
+													variant="h6"
+													color={'#363636'}
+													sx={{
+														wordBreak: 'break-word',
+														display: 'flex',
+														flexWrap: 'wrap',
+														lineHeight: 1.8,
+													}}
+												>
+													{line}.
+												</Typography>
+											</Box>
+										) : (
+											index !==
+												themeData?.DESCRIPTION.split(
+													'.'
+												).length -
+													1 && (
+												<Typography
+													fontWeight={600}
+													variant="h6"
+													color={'#363636'}
+													sx={{
+														ml: 4,
+														wordBreak: 'break-word',
+														display: 'flex',
+														flexWrap: 'wrap',
+														lineHeight: 1.8,
+													}}
+												>
+													{line}.
+												</Typography>
+											)
+										)
+								)}
 							</Box>
 						</Box>
 						{JSON.parse(themeData?.IMAGE).length > 0 && (

@@ -58,6 +58,7 @@ const Page: NextPage = () => {
 						label: 'local_login',
 						value: 1,
 					});
+
 					cookie.setItemInCookies(
 						'ACCESS_TOKEN',
 						res.data.result.accessToken,
@@ -66,6 +67,10 @@ const Page: NextPage = () => {
 							maxAge: autoLogin ? 3600 * 24 * 30 : 3600 * 24,
 						}
 					);
+					// 첫 로그인 여부 체크
+					if (cookie.getItemInCookies('IS_FIRST_LOGIN') === 'FALSE') {
+						cookie.setItemInCookies('IS_FIRST_LOGIN', 'TRUE');
+					}
 					memory.setData('memberName', res.data.result.FULL_NAME);
 					router.push('/');
 				} else {

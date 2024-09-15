@@ -22,22 +22,30 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import CloseIcon from '@mui/icons-material/Close';
 
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 
 import { CookieManager } from '@leanoncompany/supporti-utility';
-
-type Props = {};
+import { useAppMember } from '../src/hooks/useAppMember';
+import SupportiButton from '../src/views/global/SupportiButton';
+import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
 
 const Page: NextPage = () => {
 	const router = useRouter();
+	const { memberId } = useAppMember();
+
 	const containerRef = React.useRef<HTMLDivElement>(null);
 	const focusFirst = React.useRef<HTMLDivElement>(null);
 
 	const insightController = new DefaultController('Insight');
 
 	const cookie = new CookieManager();
+
 	//* States
+	const [openPopUp, setOpenPopUp] = React.useState(false); //테마 모달
+	const [selectTheme, setSelectTheme] = React.useState<string[]>([]);
+
 	/**
 	 * 인사이트 리스트
 	 */
@@ -62,6 +70,14 @@ const Page: NextPage = () => {
 			text1: 'C : 제품을 잘 만들고 싶은데 어떻게 해야 할까요?',
 			text2: '',
 		},
+	];
+
+	const themeList = [
+		'계좌개설',
+		'법인설립',
+		'1:1멘토링',
+		'오픈이노베이션',
+		'투자',
 	];
 
 	//* Functions
@@ -130,7 +146,6 @@ const Page: NextPage = () => {
 							tab.FAQ_BOARD_CATEGORY_IDENTIFICATION_CODE,
 				  }
 				: {};
-		console.log(findOption);
 		faqController.findAllItems(
 			findOption,
 			(res) => {
@@ -165,6 +180,20 @@ const Page: NextPage = () => {
 	// 		(err) => console.log(err)
 	// 	);
 	// }, []);
+
+	const closeThemePopUp = async () => {
+		setOpenPopUp(false);
+		await cookie.removeItemInCookies('IS_FIRST_LOGIN');
+	};
+
+	//테마 모달 처리
+	useEffect(() => {
+		if (memberId) {
+			if (cookie.getItemInCookies('IS_FIRST_LOGIN') === 'TRUE') {
+				setOpenPopUp(true);
+			}
+		}
+	}, [memberId]);
 
 	useEffect(() => {
 		getInsight();
@@ -739,6 +768,127 @@ const Page: NextPage = () => {
 					/>
 				</Box>
 			</Grid> */}
+			<PopUpModal
+				modalOpen={openPopUp}
+				setModalOpen={setOpenPopUp}
+				uiData={
+					<Box
+						display={'flex'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						gap={5}
+					>
+						<Box display={'flex'} flexDirection={'column'}>
+							<CloseIcon
+								sx={{
+									cursor: 'pointer',
+									position: 'absolute',
+									right: '15px',
+									top: '15px',
+								}}
+								onClick={() => closeThemePopUp()}
+							/>
+
+							<Typography
+								variant={'h4'}
+								fontWeight={'600'}
+								sx={{
+									textAlign: 'center',
+									my: 2,
+								}}
+							>
+								관심있는 테마를 선택해주세요.
+							</Typography>
+							<img
+								src="/images/main/Feedback.png"
+								alt="image"
+								width={200}
+								height={200}
+								style={{ margin: 'auto' }}
+							/>
+							<Box
+								display={'flex'}
+								gap={2}
+								flexWrap="wrap"
+								mt={3}
+								mb={2}
+							>
+								{themeList?.map((item, index) => {
+									return (
+										<Typography
+											key={index}
+											fontWeight={
+												selectTheme.includes(item) &&
+												700
+											}
+											sx={{
+												p: 1,
+												borderRadius: 4,
+												border: '1px solid #d1d1d1',
+												cursor: 'pointer',
+												color: selectTheme.includes(
+													item
+												)
+													? 'primary.main'
+													: 'common.black',
+											}}
+											onClick={() => {
+												if (
+													selectTheme.includes(item)
+												) {
+													setSelectTheme(
+														selectTheme.filter(
+															(data) =>
+																data !== item
+														)
+													);
+												} else {
+													setSelectTheme([
+														...selectTheme,
+														item,
+													]);
+												}
+											}}
+										>
+											{item}
+										</Typography>
+									);
+								})}
+							</Box>
+						</Box>
+
+						<Box display={'flex'} gap={2}>
+							<SupportiButton
+								contents={'테마 보러가기'}
+								variant="contained"
+								onClick={() => {
+									if (selectTheme.length > 0) {
+										closeThemePopUp();
+										router.push('/external_service/theme');
+									} else {
+										alert('테마를 선택해주세요.');
+									}
+								}}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+							<SupportiButton
+								contents={'닫기'}
+								variant="outlined"
+								onClick={() => closeThemePopUp()}
+								style={{
+									width: '150px',
+									marginRight: 'auto',
+									marginLeft: 'auto',
+								}}
+							/>
+						</Box>
+					</Box>
+				}
+			/>
 		</Grid>
 	);
 };
