@@ -141,7 +141,7 @@ const Page: NextPage = () => {
 			router.push(`/toss/success?PCD_AUTH_KEY=${res.PCD_AUTH_KEY}
 				&PCD_PAY_REQKEY=${res.PCD_PAY_REQKEY}`);
 		} else {
-			router.push('/toss/fail');
+			router.push('/toss/failed');
 		}
 	};
 	/**

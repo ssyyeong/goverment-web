@@ -36,6 +36,12 @@ const useAppMember = () => {
 	const [memberType, setMemberType] = useState<string | undefined>(undefined);
 
 	/**
+	 * 유저 첫 로그인 여부
+	 */
+	const [memberIsFirstLogin, setMemberIsFirstLogin] = useState<
+		string | undefined
+	>(undefined);
+	/**
 	 * 유저 포인트
 	 */
 	const [memberPoint, setMemberPoint] = useState<string | undefined>(
@@ -68,12 +74,14 @@ const useAppMember = () => {
 				`${appMemberController.mergedPath}/profile`,
 				(res) => {
 					if (res.data.result !== null) {
+						console.log(res.data);
 						setMemberId(
 							res.data.result.APP_MEMBER_IDENTIFICATION_CODE
 						);
 						setMemberEmailId(res.data.result.USER_NAME);
 						setMemberType(res.data.result.USER_GRADE);
 						setMemberName(res.data.result.FULL_NAME);
+						setMemberIsFirstLogin(res.data.result.IS_FIRST_LOGIN);
 						if (memberPoint !== undefined) return;
 						pointHistoryController.getPointSum(
 							{
@@ -117,6 +125,7 @@ const useAppMember = () => {
 		memberType,
 		memberPoint,
 		memberCoffeeChatProfileId,
+		memberIsFirstLogin,
 	};
 };
 

@@ -15,15 +15,20 @@ import {
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import { useRouter } from 'next/router';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
-import SupportiButton from '../../../src/views/global/SupportiButton';
-import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
 import { useUserAccess } from '../../../src/hooks/useUserAccess';
 import { useAppMember } from '../../../src/hooks/useAppMember';
+import SupportiButton from '../../../src/views/global/SupportiButton';
+import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal';
+import { set } from 'date-fns';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	const themeProductController = new DefaultController('ThemeProduct');
+	const themeApplicationController = new DefaultController(
+		'ThemeApplication'
+	);
+
 	const { pid } = router.query;
 	//* Hooks
 	const { access } = useUserAccess('SIGN_IN');
@@ -64,6 +69,20 @@ const Page: NextPage = () => {
 			}
 		}
 		return result;
+	};
+
+	const themeApply = () => {
+		themeApplicationController.createItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				THEME_PRODUCT_IDENTIFICATION_CODE: pid,
+			},
+			(res) => {
+				setAlertModalType('themeApplySuccess');
+				setAlertModal(true);
+			},
+			(err) => {}
+		);
 	};
 
 	/**
@@ -270,7 +289,7 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 				{/* 신청하기 버튼 */}
-				{/* <Box
+				<Box
 					display={'flex'}
 					width={'100%'}
 					position={'sticky'}
@@ -281,28 +300,47 @@ const Page: NextPage = () => {
 					<SupportiButton
 						contents={!checkApplication() ? '신청하기' : '신청완료'}
 						isGradient={true}
-						onClick={() => {}}
+						onClick={() => {
+							if (access) {
+								if (checkApplication()) {
+									setAlertModalType('already');
+									setAlertModal(true);
+								} else {
+									themeApply();
+								}
+							} else {
+								setAlertModalType('login');
+								setAlertModal(true);
+							}
+						}}
 						style={{
 							color: 'white',
 							width: '200px',
 						}}
 					/>
-				</Box> */}
-				{/* <SupportiAlertModal
+				</Box>
+				<SupportiAlertModal
 					type={alertModalType}
 					open={alertModal}
 					handleClose={() => setAlertModal(false)}
 					customHandleClose={
-						alertModalType == 'themeApply'
-							? () => {}
-							: alertModalType == 'themeApplySuccess'
+						alertModalType == 'themeApplySuccess'
 							? () => {
-								//결제 페이지로 이동
-									
+									//결제 페이지로 이동
+									router.push(
+										'/payment_link/1?productType=theme&productId=' +
+											pid +
+											'&productName=' +
+											themeData?.TITLE +
+											'&mid=' +
+											memberId +
+											'&price=' +
+											themeData?.REAL_PRICE
+									);
 							  }
 							: undefined
 					}
-				/> */}
+				/>
 			</Box>
 		)
 	);

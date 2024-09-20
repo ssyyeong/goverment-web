@@ -259,11 +259,6 @@ const Page: NextPage = () => {
 
 					// 회원가입 완료 UI로 처리
 					setActiveStep(1);
-					// 첫 로그인 여부 체크 시 사용
-					cookie.setItemInCookies('IS_FIRST_LOGIN', 'FALSE', {
-						path: '/',
-						maxAge: 3600 * 24,
-					});
 					router.push('/auth/sign_in');
 				}
 			},

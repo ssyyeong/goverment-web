@@ -13,8 +13,8 @@ import SupportiButton from '../../src/views/global/SupportiButton';
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
-	const { paymentKey, orderId, amount, paymentType, find_option } =
-		router.query;
+	const { paymentKey, orderId, find_option, productType } = router.query;
+	console.log(router.query);
 	//* Controllers
 	const paymentHistoryController = new DefaultController('PaymentHistory');
 	//* Constants
@@ -38,7 +38,7 @@ const Page: NextPage = () => {
 	//* Functions
 
 	useEffect(() => {
-		if (find_option) {
+		if (find_option && productType == 'MENTORING') {
 			const mentoringController = new DefaultController(
 				'MentoringProduct'
 			);
@@ -53,6 +53,7 @@ const Page: NextPage = () => {
 			);
 		}
 	}, [router.query]);
+
 	/**
 	 * 결제 내역 생성
 	 */
@@ -74,6 +75,7 @@ const Page: NextPage = () => {
 				console.log('결제 내역 생성 성공');
 				console.log('결제 성공');
 				setLoading(false);
+
 				// router.push(route as string);
 			},
 			(err) => {
@@ -83,50 +85,34 @@ const Page: NextPage = () => {
 	};
 
 	/**
-	 * toss 에 결제 승인 요청
+	 * payple 에 결제 승인 요청
 	 */
-	const secretKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_SECRET_KEY;
 	const confirmPayment = async () => {
 		await axios
 			.post(
-				'https://api.tosspayments.com/v1/payments/confirm',
+				'/payple/payments/confirm',
 				{
-					paymentKey: paymentKey,
-					orderId: orderId,
-					amount: amount,
+					PCD_CST_ID: 'supporti',
+					PCD_CUST_KEY:
+						'45718aa42f4c54c183ae05b034d5f2bb012b384be023c11a6c62fd8bd31b75a6',
+					PCD_AUTH_KEY: router.query.PCD_AUTH_KEY,
+					PCD_PAY_REQKEY: router.query.PCD_PAY_REQKEY,
 				},
 				{
 					headers: {
-						Authorization:
-							'Basic ' +
-							Buffer.from(secretKey + ':').toString('base64'),
 						'Content-Type': 'application/json',
+						Referer: 'supporti.biz',
 					},
 				}
 			)
-			.then((response) => {
-				setVirtualAccount(response.data.virtualAccount);
-
+			.then((response: any) => {
 				console.log(response);
 				console.log('결제 성공');
 				setLoading(false);
-
-				if (response.data.virtualAccount == null) {
-					createPaymentHistory('CARD');
-				} else {
-					console.log('가상 결제 계좌', virtualAccount);
-					createPaymentHistory('VIRTUAL_ACCOUNT');
-				}
-
-				// router.back();
-			})
-			.catch((e) => {
-				console.log(e);
-				console.log(e.response.data.message);
-				alert(e.response.data.message);
-				router.push('/');
+				createPaymentHistory(response.PCD_PAY_OID);
 			});
 	};
+
 	//* Hooks
 
 	/**

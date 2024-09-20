@@ -12,7 +12,6 @@ import {
 	RadioGroup,
 	Typography,
 } from '@mui/material';
-import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useRouter } from 'next/router';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SupportiInput from '../../src/views/global/SupportiInput';
@@ -24,13 +23,12 @@ const Page: NextPage = () => {
 	//* Modules
 	const { linkid } = useRouter().query;
 	const { userName } = useRouter().query;
-	const { productType, productName, productId, productLink } =
+	const { price, productType, productName, productId, productLink } =
 		useRouter().query;
 	const router = useRouter();
 	const { memberId } = useAppMember();
 
 	//* Constants
-	const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
 	const orderId = uuidv4();
 	//* States
 	const [customerName, setCustomerName] = useState<string>(
@@ -45,31 +43,44 @@ const Page: NextPage = () => {
 	//* Controller
 	const paymentLinkController = new DefaultController('PaymentLink');
 	const paymentHistoryController = new DefaultController('PaymentHistory');
+
 	//* Functions
 	/**
 	 * 결제 정보 가져오기
 	 */
 	const getPaymentLinkData = () => {
-		paymentLinkController.getOneItem(
-			{
-				PAYMENT_LINK_IDENTIFICATION_CODE: linkid,
-			},
-			(res) => {
-				if (res.data.result) {
-					setAmount(res.data.result.PRICE);
-					setOrderName(res.data.result.PAYMENT_LOG);
-					setCaution(res.data.result.NOTICE);
-				} else {
-					alert('올바르지 않은 접근 방법입니다.');
-					router.push('/');
-				}
-			}
-		);
+		setAmount(Number(price));
+		setOrderName(productName as string);
+		// paymentLinkController.getOneItem(
+		// 	{
+		// 		PAYMENT_LINK_IDENTIFICATION_CODE: linkid,
+		// 	},
+		// 	(res) => {
+		// 		if (res.data.result) {
+		// 			setAmount(res.data.result.PRICE);
+		// 			setOrderName(res.data.result.PAYMENT_LOG);
+		// 			setCaution(res.data.result.NOTICE);
+		// 		} else {
+		// 			alert('올바르지 않은 접근 방법입니다.');
+		// 			router.push('/');
+		// 		}
+		// 	}
+		// );
 	};
+
+	const getResult = (res: any) => {
+		if (res.PCD_PAY_RST === 'success') {
+			router.push(`/toss/link_success?PCD_AUTH_KEY=${res.PCD_AUTH_KEY}
+				&PCD_PAY_REQKEY=${res.PCD_PAY_REQKEY}&find_option=${productId}&productLink=${productLink}&productType=${productType}&orderId=${orderId}`);
+		} else {
+			router.push('/toss/failed');
+		}
+	};
+
 	/**
-	 * 토스 결제 실행
+	 * 결제 실행
 	 */
-	const tossPay = () => {
+	const payple = () => {
 		if (!memberId) return alert('로그인 후 결제해주세요!');
 
 		if (customerName === '') {
@@ -78,48 +89,48 @@ const Page: NextPage = () => {
 		}
 
 		// 히스토리 생성
-		paymentHistoryController.postData(
-			{
-				CREATE_OPTION_KEY_LIST: {
-					APP_MEMBER_IDENTIFICATION_CODE: memberId,
-					DESCRIPTION:
-						productType + ' 단건 결제' + '(' + productName + ')',
-					AMOUNT: Number(amount),
-					TYPE: 'TICKET',
-					ORDER_ID: orderId,
-					STATUS: 'WAITING',
+		paymentHistoryController
+			.postData(
+				{
+					CREATE_OPTION_KEY_LIST: {
+						APP_MEMBER_IDENTIFICATION_CODE: memberId,
+						DESCRIPTION:
+							productType +
+							' 단건 결제' +
+							'(' +
+							productName +
+							')',
+						AMOUNT: Number(amount),
+						TYPE: 'TICKET',
+						ORDER_ID: orderId,
+						STATUS: 'WAITING',
+					},
 				},
-			},
 
-			`${paymentHistoryController.mergedPath}/create`,
-			(res) => {
-				loadTossPayments(clientKey).then((tossPayments) => {
-					// 카드 결제 메서드 실행
-					tossPayments.requestPayment(paymentMethod, {
-						amount: Number(amount), // 가격
-						orderId: orderId, // 주문 id
-						orderName: orderName.toString(), // 결제 이름
-						customerName: customerName.toString(), // 판매자, 판매처 이름
+				`${paymentHistoryController.mergedPath}/create`,
+				async (res) => {}
+			)
+			.then((res) => {
+				const { PaypleCpayAuthCheck }: any = window;
+				let obj: any = {};
+				obj.clientKey = '0616817761CF1C463E033B7208F59421';
+				obj.PCD_PAY_TYPE = 'card';
+				obj.PCD_PAY_WORK = 'CERT';
+				obj.PCD_CARD_VER = '02';
+				obj.PCD_PAY_GOODS = productName;
+				obj.PCD_PAY_TOTAL = amount;
+				obj.PCD_RST_URL = `/toss/success`;
+				obj.callbackFunction = getResult;
 
-						successUrl:
-							process.env.NEXT_PUBLIC_WEB_HOST +
-							`/toss/link_success` +
-							`?route=${router.asPath}&find_option=${productId}&productLink=${productLink}`, // 결제 요청 성공시 리다이렉트 주소, 도메인 주소
-						failUrl:
-							process.env.NEXT_PUBLIC_WEB_HOST + `/toss/failed`, // 결제 요청 실패시 리다이렉트 주소, 도메인 주소
-						validHours: 24, // 유효시간
-						cashReceipt: {
-							type: '소득공제',
-						},
-					});
-				});
-			}
-		);
+				PaypleCpayAuthCheck(obj);
+			});
 	};
+
 	//* Hooks
 	useEffect(() => {
 		if (linkid) getPaymentLinkData();
 	}, [linkid]);
+
 	return (
 		<Box
 			width={'100%'}
@@ -155,10 +166,7 @@ const Page: NextPage = () => {
 							}}
 							value={paymentMethod}
 							onChange={(e) => {
-								if (
-									e.target.value === '카드' ||
-									e.target.value === '가상계좌'
-								)
+								if (e.target.value === '카드')
 									setPaymentMethod(e.target.value);
 							}}
 						>
@@ -166,11 +174,6 @@ const Page: NextPage = () => {
 								value="카드"
 								control={<Radio />}
 								label="카드"
-							/>
-							<FormControlLabel
-								value="가상계좌"
-								control={<Radio />}
-								label="가상계좌"
 							/>
 						</RadioGroup>
 					</FormControl>
@@ -248,7 +251,7 @@ const Page: NextPage = () => {
 						isGradient={true}
 						variant="contained"
 						onClick={() => {
-							tossPay();
+							payple();
 						}}
 						style={{
 							width: '100%',

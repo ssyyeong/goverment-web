@@ -30,14 +30,16 @@ import { CookieManager } from '@leanoncompany/supporti-utility';
 import { useAppMember } from '../src/hooks/useAppMember';
 import SupportiButton from '../src/views/global/SupportiButton';
 import PopUpModal from '../src/views/local/common/PopUpModal/PopUpModal';
+import { AppMemberController } from '../src/controller/AppMemberController';
 
 const Page: NextPage = () => {
 	const router = useRouter();
-	const { memberId } = useAppMember();
+	const { memberId, memberIsFirstLogin } = useAppMember();
 
 	const containerRef = React.useRef<HTMLDivElement>(null);
 	const focusFirst = React.useRef<HTMLDivElement>(null);
 
+	const appMemberController = new DefaultController('AppMember');
 	const insightController = new DefaultController('Insight');
 
 	const cookie = new CookieManager();
@@ -183,15 +185,22 @@ const Page: NextPage = () => {
 
 	const closeThemePopUp = async () => {
 		setOpenPopUp(false);
-		await cookie.removeItemInCookies('IS_FIRST_LOGIN');
+
+		appMemberController.updateItem(
+			{
+				APP_MEMBER_IDENTIFICATION_CODE: memberId,
+				IS_FIRST_LOGIN: 'N',
+			},
+			(res) => {
+				console.log(res);
+			}
+		);
 	};
 
 	//테마 모달 처리
 	useEffect(() => {
-		if (memberId) {
-			if (cookie.getItemInCookies('IS_FIRST_LOGIN') === 'TRUE') {
-				setOpenPopUp(true);
-			}
+		if (memberId && memberIsFirstLogin == 'Y') {
+			setOpenPopUp(true);
 		}
 	}, [memberId]);
 

@@ -56,7 +56,6 @@ const Page: NextPage = () => {
 	/**
 	 * 결제 승인 요청
 	 */
-	const secretKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_SECRET_KEY;
 	const confirmPayment = async () => {
 		await axios
 			.post(
