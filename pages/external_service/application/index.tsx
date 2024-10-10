@@ -174,15 +174,17 @@ const Page: NextPage = () => {
 					height={'100%'}
 				>
 					<Box
-						width={600}
-						height={700}
+						width={{
+							xs: '100%',
+							md: '40%',
+						}}
 						justifyContent={'center'}
 						alignSelf={'center'}
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
 							gap: 2,
-							p: 10,
+							p: 2,
 							alignItems: 'center',
 						}}
 						bgcolor={'white'}
