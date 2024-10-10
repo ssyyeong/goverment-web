@@ -120,6 +120,19 @@ const Page: NextPage = () => {
 
 	// 문의 생성
 	const createInquiry = async () => {
+		if (
+			name === '' ||
+			phoneNumber === '' ||
+			email === '' ||
+			company === '' ||
+			companyType === '' ||
+			request === '' ||
+			description === ''
+		) {
+			alert('모든 항목을 입력해주세요.');
+			return;
+		}
+
 		applicationFormController.createItem(
 			{
 				NAME: name,
