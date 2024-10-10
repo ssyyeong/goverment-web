@@ -176,15 +176,46 @@ const Page: NextPage = () => {
 					backgroundSize: 'cover',
 				}}
 				width={'100%'}
-				height={'90vh'}
+				height={{
+					xs: '150vh',
+					md: '130vh',
+				}}
 			>
+				<Box
+					width={'100%'}
+					textAlign={'center'}
+					display={'flex'}
+					flexDirection={'column'}
+					justifyContent={'center'}
+					pt={8}
+					px={{
+						xs: 2,
+						md: 0,
+					}}
+				>
+					<Typography variant={'h1'} fontWeight={'600'}>
+						창업가의 니즈에 맞춘 맞춤형 매칭 서비스
+					</Typography>
+					<Typography variant={'h4'} fontWeight={'400'} mt={3}>
+						학생 발명가부터 소상공인, 해외 진출을 꿈꾸는 창업가까지!
+					</Typography>
+					<Typography variant={'h4'} fontWeight={'400'} mt={1}>
+						당신이 가진 아이디어, 서포티가 현실로 이뤄드립니다.
+					</Typography>
+					<Typography variant={'h4'} fontWeight={'400'} mt={1}>
+						꿈을 현실로 만드는 그 첫걸음, 서포티와 함께 시작하세요.
+					</Typography>
+				</Box>
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
 					justifyContent={'center'}
 					alignItems={'center'}
 					width={'100%'}
-					height={'100%'}
+					mt={{
+						xs: 8,
+						md: 15,
+					}}
 				>
 					<Box
 						width={{
@@ -197,7 +228,7 @@ const Page: NextPage = () => {
 							display: 'flex',
 							flexDirection: 'column',
 							gap: 2,
-							p: 2,
+							p: 3,
 							alignItems: 'center',
 						}}
 						bgcolor={'white'}
