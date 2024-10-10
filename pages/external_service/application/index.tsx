@@ -42,10 +42,6 @@ const Page: NextPage = () => {
 			label: '중소기업',
 			value: '중소기업',
 		},
-		{
-			label: '대기업',
-			value: '대기업',
-		},
 	];
 
 	const requestList = [
