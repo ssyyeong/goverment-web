@@ -322,8 +322,8 @@ const Page: NextPage = () => {
 											borderTopLeftRadius: 5,
 											borderTopRightRadius: 5,
 											backgroundImage:
-												JSON.parse(item?.IMAGE).length >
-												0
+												JSON.parse(item?.IMAGE)
+													?.length > 0
 													? `url(${
 															JSON.parse(
 																item?.IMAGE

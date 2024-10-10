@@ -35,6 +35,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 */
 	const mobileMenu = [
 		{
+			label: '신청서',
+			path: '/external_service/application',
+			onclick: () => {
+				router.push('/external_service/application');
+			},
+		},
+		{
 			label: '서포티 소개',
 			path: '/introduce',
 			onclick: () => {
@@ -131,6 +138,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	];
 
 	const unLoginMenu = [
+		{
+			label: '신청서',
+			path: '/external_service/application',
+			onclick: () => {
+				router.push('/external_service/application');
+			},
+		},
 		{
 			label: '서포티 소개',
 			path: '/introduce',
@@ -294,6 +308,12 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	];
 
 	const pages = [
+		{
+			label: '신청서',
+			onClick: () => {
+				router.push('/external_service/application');
+			},
+		},
 		{
 			label: '서포티',
 			subMenus: supporti,
