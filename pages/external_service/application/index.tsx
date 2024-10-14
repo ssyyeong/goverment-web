@@ -239,19 +239,29 @@ const Page: NextPage = () => {
 							fullWidth
 							value={name}
 							type="name"
-							onChange={(e) => setName(e.target.value)}
+							onChange={(e) =>
+								setName(e.target.value.replace(/[0-9]/g, ''))
+							}
 							variant={'outlined'}
 							sx={{ mb: 2, bgcolor: 'white' }}
 							placeholder={'이름을 입력해주세요.'}
+							inputMode="text"
 						/>
 						<TextField
 							fullWidth
 							value={phoneNumber}
 							type="company"
-							onChange={(e) => setPhoneNumber(e.target.value)}
+							onChange={(e) =>
+								setPhoneNumber(
+									e.target.value.replace(/[^0-9]/g, '')
+								)
+							}
 							variant={'outlined'}
 							sx={{ mb: 2, bgcolor: 'white' }}
 							placeholder={'연락처를 입력해주세요.'}
+							inputProps={{
+								inputMode: 'numeric',
+							}}
 						/>
 						<TextField
 							fullWidth
@@ -261,6 +271,7 @@ const Page: NextPage = () => {
 							variant={'outlined'}
 							sx={{ mb: 2, bgcolor: 'white' }}
 							placeholder={'이메일주소를 입력해주세요.'}
+							inputMode="email"
 						/>
 						<TextField
 							fullWidth
@@ -270,6 +281,7 @@ const Page: NextPage = () => {
 							variant={'outlined'}
 							sx={{ mb: 2, bgcolor: 'white' }}
 							placeholder={'회사명을 입력해주세요.'}
+							inputMode="text"
 						/>
 						<SupportiInput
 							dataList={companyList}
