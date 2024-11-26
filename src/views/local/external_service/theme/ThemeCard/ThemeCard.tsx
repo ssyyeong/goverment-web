@@ -24,11 +24,15 @@ const ThemeCard = (props: IThemeData) => {
 				textAlign: 'center',
 				cursor: 'pointer',
 			}}
-			onClick={() =>
-				router.push(
-					`/external_service/theme/${props.data.THEME_PRODUCT_IDENTIFICATION_CODE}`
-				)
-			}
+			onClick={() => {
+				router.pathname.includes('jp')
+					? router.push(
+							`/jp/matching/theme/${props.data.THEME_PRODUCT_IDENTIFICATION_CODE}`
+					  )
+					: router.push(
+							`/external_service/theme/${props.data.THEME_PRODUCT_IDENTIFICATION_CODE}`
+					  );
+			}}
 		>
 			<Image
 				src={JSON.parse(props.data.IMAGE)[0]}
@@ -36,19 +40,21 @@ const ThemeCard = (props: IThemeData) => {
 				width={240}
 				height={250}
 			/>
-			<Typography
-				sx={{
-					p: 1,
-					border: '1px solid #c8c8c8',
-					borderRadius: 5,
-					cursor: 'pointer',
-					width: 'fit-content',
-					color: 'primary.main',
-					wordBreak: 'keep-all',
-				}}
-			>
-				{props.data.SUB_CONTENT}
-			</Typography>
+			{props.data.SUB_CONTENT && (
+				<Typography
+					sx={{
+						p: 1,
+						border: '1px solid #c8c8c8',
+						borderRadius: 5,
+						cursor: 'pointer',
+						width: 'fit-content',
+						color: 'primary.main',
+						wordBreak: 'keep-all',
+					}}
+				>
+					{props.data.SUB_CONTENT}
+				</Typography>
+			)}
 			<Typography
 				variant="h6"
 				fontWeight={600}

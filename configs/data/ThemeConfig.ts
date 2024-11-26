@@ -1,49 +1,7 @@
-const regionThemeConfig = [
-	{
-		id: 1,
-		majorCategory: '지역',
-		category: '서울지역',
-		subCategory1: '창업가모임',
-		subCategory2: '투자유치',
-		title: '서울 스타트업 창업가 모임',
-		subtitle: '서울 스타트업 창업가 모임',
-		summary: '서울/창업가모임/투자유치 (1/15)명',
-		imgSrc: '/images/theme/지역별1.png',
-		count: 15,
-		online: false,
-		description: [
-			'서울의 창업가 여러분, 혁신을 꿈꾸는 모든 이들을 위한 특별한 네트워킹 이벤트에 초대합니다!',
-			'이번 모임에서는 동종 업계의 창업가들과 지식을 공유하고, 소중한 인사이트를 얻을 수 있는 기회를 제공합니다.',
-			'풍부한 경험과 다양한 아이디어가 한데 모이는 이 자리에서, 당신의 스타트업을 한 단계 더 도약시킬 수 있는 영감을 얻어 가세요!',
-			'서울시의 스타트업 생태계가 한자리에 모이는 이번 모임, 놓치지 마세요!',
-		],
-	},
-	{
-		id: 2,
-		majorCategory: '지역',
-		category: '경기지역',
-		subCategory1: '창업가모임',
-		subCategory2: '제품개발',
-		title: '안양시 초기 스타트업 창업가 모임',
-		subtitle: '안양시 초기 스타트업 창업가 모임',
-		summary: '안양/창업가모임/제품개발 (1/10)명',
-		imgSrc: '/images/theme/지역별2.png',
-		count: 10,
-		online: false,
-		description: [
-			'안양시 스타트업 창업가 여러분, 혁신적인 제품 개발을 꿈꾸신다면 이 모임을 놓치지 마세요!',
-			'새로운 아이디어에서 실제 제품까지, 아이디어를 현실로 만들어갈 동료들과 함께할 수 있는 기회입니다.',
-			'전문가들의 인사이트와 실용적인 워크숍을 통해 창업의 모든 과정을 배울 수 있는 자리가 될 것입니다.',
-			'지금 바로 참여하셔서 안양시에서 가장 혁신적인 스타트업 커뮤니티의 일원이 되세요!',
-		],
-	},
-];
-
-const overseasThemeConfig = [
+const themeConfig = [
 	{
 		id: 1,
 		majorCategory: '해외매칭',
-
 		category: '일본',
 		subCategory1: '사전답사',
 		subCategory2: '시장조사',
@@ -63,7 +21,6 @@ const overseasThemeConfig = [
 	{
 		id: 2,
 		majorCategory: '해외매칭',
-
 		category: '일본',
 		subCategory1: '전문컨설팅',
 		subCategory2: '1:1멘토링',
@@ -98,4 +55,4 @@ const overseasThemeConfig = [
 		],
 	},
 ];
-export { regionThemeConfig, overseasThemeConfig };
+export { themeConfig };

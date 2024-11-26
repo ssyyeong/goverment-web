@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 
-import { Box, Grid, Switch, Typography } from '@mui/material';
+import { Box, Divider, Grid, Switch, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SupportiButton from '../../../src/views/global/SupportiButton';
 import { useRouter } from 'next/router';
@@ -9,6 +9,9 @@ import PopUpModal from '../../../src/views/local/common/PopUpModal/PopUpModal';
 import SupportiInput from '../../../src/views/global/SupportiInput';
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
+import { ServiceListLayout } from '../../../src/views/layout/ServiceListLayout';
+import Nodata from '../../../src/views/global/NoData/NoData';
+import ThemeCard from '../../../src/views/local/external_service/theme/ThemeCard/ThemeCard';
 
 const Page: NextPage = () => {
 	const router = useRouter();
@@ -20,6 +23,11 @@ const Page: NextPage = () => {
 	const cookie = new CookieManager();
 	const locale = cookie.getItemInCookies('LOCALE');
 
+	/**
+	 * 세미나 데이터 리스트
+	 */
+	const [seminarDataList, setSeminarDataList] = React.useState([]);
+
 	const [openPopUp, setOpenPopUp] = React.useState(false);
 	const [name, setName] = React.useState('');
 	const [company, setCompany] = React.useState('');
@@ -30,6 +38,23 @@ const Page: NextPage = () => {
 	const [field, setField] = React.useState('');
 	const [useService, setUseService] = React.useState(false);
 
+	const themeProductController = {
+		ko: new DefaultController('ThemeProduct'),
+		jp: new DefaultController('ThemeProductJp'),
+	};
+	const [themeProducts, setThemeProducts] = React.useState([]);
+
+	useEffect(() => {
+		themeProductController[locale as string].findAllItems(
+			{},
+			(res) => {
+				setThemeProducts(res.data.result.rows);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}, []);
 	//* Functions
 	/**
 	 * 설문조사 제출
@@ -99,6 +124,7 @@ const Page: NextPage = () => {
 					</Box>
 				</Box>
 			</Box>
+
 			<Box
 				display="flex"
 				flexDirection={'column'}
@@ -231,7 +257,8 @@ const Page: NextPage = () => {
 						? 'ミーティングの成功時のみ支払い、成功不可の場合は100%返金して行います。'
 						: '미팅 성사 시에만 지불, 성사 불가 시 100% 환불해 진행합니다.'}
 				</Typography>
-				<SupportiButton
+
+				{/* <SupportiButton
 					contents={
 						locale == 'jp'
 							? 'マッチングショートカット'
@@ -246,7 +273,7 @@ const Page: NextPage = () => {
 						marginLeft: 'auto',
 						marginRight: 'auto',
 					}}
-				/>
+				/> */}
 				{/* 제휴 문의 팝업 */}
 				<PopUpModal
 					modalOpen={openPopUp}
@@ -502,6 +529,107 @@ const Page: NextPage = () => {
 						</Box>
 					}
 				/>
+			</Box>
+			<Divider
+				sx={{
+					mb: 5,
+					width: '100%',
+					color: 'secondary.dark',
+				}}
+			/>
+			<ServiceListLayout
+				title={locale == 'jp' ? 'セミナー' : '세미나'}
+				dataList={seminarDataList}
+				type="seminar"
+			/>
+
+			<Box
+				display={'flex'}
+				flexDirection={'column'}
+				justifyContent={'center'}
+				alignItems={'center'}
+				mt={5}
+				mb={5}
+				px={{
+					xs: 2,
+					md: 0,
+				}}
+			>
+				<Typography variant={'h5'} fontWeight={'600'} color={'primary'}>
+					{locale == 'jp' ? '' : '📌 해외 매칭 커뮤니티'}
+				</Typography>
+				<Typography
+					variant={'h1'}
+					fontWeight={'600'}
+					mt={3}
+					textAlign={'center'}
+				>
+					{locale == 'jp' ? '' : '국제 비즈니스 기회를 탐색하고'}
+				</Typography>
+				<Typography
+					variant={'h1'}
+					fontWeight={'600'}
+					textAlign={'center'}
+				>
+					{locale == 'jp' ? '' : '해외 파트너와의 연결을 지원합니다.'}
+				</Typography>
+
+				<Box
+					display="flex"
+					gap={5}
+					justifyContent={'center'}
+					width={'100%'}
+					px={{
+						xs: 0,
+						md: 10,
+					}}
+					mt={5}
+					pb={5}
+					mb={10}
+					sx={{
+						overflowX: 'auto',
+						'&::-webkit-scrollbar': {
+							height: '5px !important',
+							backgroundColor: '#f2f6ff !important',
+							padding: '0.5px',
+							borderRadius: '20px',
+						},
+						'&::-webkit-scrollbar-thumb': {
+							backgroundColor: '#305edccc',
+							borderRadius: '20px',
+						},
+					}}
+				>
+					<Box display="flex" width={'100%'} gap={10}>
+						{themeProducts.length > 0 ? (
+							themeProducts.map(
+								(themeProduct: any, themeIndex) => {
+									return (
+										<ThemeCard
+											key={themeIndex}
+											data={themeProduct}
+										/>
+									);
+								}
+							)
+						) : (
+							// <Box>
+							// 	<img
+							// 		src="/images/main/prepare.png"
+							// 		alt="prepare"
+							// 		width={300}
+							// 		height={250}
+							// 	/>
+							// 	<Typography
+
+							// 	>
+							// 		해당 지역에는 현재 모임이 없습니다.
+							// 	</Typography>
+							// </Box>
+							<Nodata />
+						)}
+					</Box>
+				</Box>
 			</Box>
 		</Box>
 	);

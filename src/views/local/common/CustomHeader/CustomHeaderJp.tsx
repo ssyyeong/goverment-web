@@ -18,6 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import { useRouter } from 'next/router';
 import { CookieManager } from '@leanoncompany/supporti-utility';
+import SupportiButton from '../../../global/SupportiButton';
 
 interface ICustomHeaderProps {}
 
@@ -319,7 +320,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										X
 									</Typography>
 								</Box>
-								{cookie.getItemInCookies('ACCESS_TOKEN')
+								{cookie.getItemInCookies('JP_ACCESS_TOKEN')
 									? mobileMenu.map((page) => (
 											<MenuItem
 												key={page.label}
@@ -418,9 +419,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 							<Box
 								display={'flex'}
 								flexDirection={'row'}
-								justifyContent={'space-between'}
 								width={'100%'}
 								mt={1}
+								justifyContent={'space-between'}
 							>
 								<img
 									src={'/images/logo/Suppor-TFulllogo.svg'}
@@ -433,7 +434,25 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										marginTop: '10px',
 									}}
 									onClick={() => router.push('/jp')}
-								/>
+								/>{' '}
+								{cookie.getItemInCookies('JP_ACCESS_TOKEN') && (
+									<SupportiButton
+										contents={
+											cookie.getItemInCookies(
+												'LOCALE'
+											) === 'ko'
+												? '마이페이지'
+												: 'マイページ'
+										}
+										onClick={() => {
+											router.push('/jp/history');
+										}}
+										style={{
+											width: '100px',
+											marginTop: '5px',
+										}}
+									></SupportiButton>
+								)}
 								<ToggleButtonGroup
 									value={toLocale}
 									exclusive
