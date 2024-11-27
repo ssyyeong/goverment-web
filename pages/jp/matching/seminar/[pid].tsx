@@ -216,30 +216,19 @@ const Page: NextPage = () => {
 	}, [pid]);
 
 	return (
-		<Box
-			display={'flex'}
-			width={'100%'}
-			p={{
-				xs: 2,
-				md: 10,
-			}}
-			minHeight={'100vh'}
-			flexDirection={'column'}
-		>
+		<Box display={'flex'} width={'100%'} flexDirection={'column'} px={10}>
 			<Box
 				display={'flex'}
 				flexDirection={'column'}
 				width={{
-					md: '80%',
+					md: '50%',
 					xs: '100%',
 				}}
-				position={'relative'}
 				margin={'auto'}
 				p={{
 					xs: 1,
 					md: 5,
 				}}
-				minHeight={'90vh'}
 			>
 				{/* 세미나 헤더 */}
 				<Box

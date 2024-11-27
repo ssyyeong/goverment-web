@@ -97,7 +97,6 @@ const SeminarCard = (props: ISeminarData) => {
 						cursor: 'pointer',
 						width: 'fit-content',
 						color: 'primary.main',
-						wordBreak: 'keep-all',
 					}}
 				>
 					{props.data.SeminarCategory.CONTENT}
@@ -126,7 +125,7 @@ const SeminarCard = (props: ISeminarData) => {
 				fontWeight={600}
 				sx={{ wordBreak: 'keep-all' }}
 			>
-				{props.data.PRODUCT_NAME || props.data.TITLE}
+				{/* {props.data.PRODUCT_NAME || props.data.TITLE} */}
 			</Typography>
 			{props.type === 'mentoring' && (
 				<Typography>
