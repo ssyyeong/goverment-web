@@ -583,7 +583,9 @@ const Page: NextPage = () => {
 				}}
 			>
 				<Typography variant={'h5'} fontWeight={'600'} color={'primary'}>
-					{locale == 'jp' ? '' : '📌 해외 매칭 커뮤니티'}
+					{locale == 'jp'
+						? '📌 海外マッチングコミュニティ'
+						: '📌 해외 매칭 커뮤니티'}
 				</Typography>
 				<Typography
 					variant={'h1'}
@@ -591,14 +593,18 @@ const Page: NextPage = () => {
 					mt={3}
 					textAlign={'center'}
 				>
-					{locale == 'jp' ? '' : '국제 비즈니스 기회를 탐색하고'}
+					{locale == 'jp'
+						? '国際ビジネスの機会を模索して'
+						: '국제 비즈니스 기회를 탐색하고'}
 				</Typography>
 				<Typography
 					variant={'h1'}
 					fontWeight={'600'}
 					textAlign={'center'}
 				>
-					{locale == 'jp' ? '' : '해외 파트너와의 연결을 지원합니다.'}
+					{locale == 'jp'
+						? '海外パートナーとの接続をサポートします。'
+						: '해외 파트너와의 연결을 지원합니다.'}
 				</Typography>
 
 				<Box
