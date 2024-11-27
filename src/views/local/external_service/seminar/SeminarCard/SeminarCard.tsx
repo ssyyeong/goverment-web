@@ -4,6 +4,7 @@ import SupportiButton from '../../../../global/SupportiButton';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAppMember } from '../../../../../hooks/useAppMember';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 // interface ISeminarCard {
 // 	title: string;
@@ -24,6 +25,8 @@ const SeminarCard = (props: ISeminarData) => {
 	 * 유저 아이디 가져오는 훅
 	 */
 	const { memberId } = useAppMember();
+	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	const checkApplication = () => {
 		let result = false;
@@ -134,7 +137,15 @@ const SeminarCard = (props: ISeminarData) => {
 			)}
 			{/* <Typography>{props.data.DESCRIPTION}</Typography> */}
 			<SupportiButton
-				contents={checkApplication() ? '신청완료' : '신청하기'}
+				contents={
+					!checkApplication()
+						? locale == 'jp'
+							? '申請する'
+							: '신청하기'
+						: locale == 'jp'
+						? '申請完了'
+						: '신청완료'
+				}
 				variant="contained"
 				style={{
 					color: 'common.white',
