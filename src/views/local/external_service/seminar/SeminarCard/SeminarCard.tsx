@@ -58,11 +58,17 @@ const SeminarCard = (props: ISeminarData) => {
 			}}
 			onClick={() => {
 				// 세미나 상세 페이지로 이동
-				if (props.type === 'seminar')
-					router.push(
-						`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
-					);
-				else if (props.type === 'consulting')
+				if (props.type === 'seminar') {
+					if (router.pathname.includes('jp')) {
+						router.push(
+							`/jp/matching/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+						);
+					} else {
+						router.push(
+							`/external_service/seminar/${props.data.SEMINAR_PRODUCT_IDENTIFICATION_CODE}`
+						);
+					}
+				} else if (props.type === 'consulting')
 					router.push(
 						`/external_service/consulting/${props.data.CONSULTING_PRODUCT_IDENTIFICATION_CODE}`
 					);

@@ -22,12 +22,16 @@ import { useAppMember } from '../../../../src/hooks/useAppMember';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import dynamic from 'next/dynamic';
+import { CookieManager } from '@leanoncompany/supporti-utility';
 
 const Page: NextPage = () => {
 	//* Modules
 	const router = useRouter();
 	//* Controller
-	const seminarController = new DefaultController('SeminarProduct');
+	const seminarProductController = {
+		ko: new DefaultController('SeminarProduct'),
+		jp: new DefaultController('SeminarProductJp'),
+	};
 	const seminarApplicationController = new DefaultController(
 		'SeminarApplication'
 	);
@@ -74,6 +78,9 @@ const Page: NextPage = () => {
 		| 'seminarexceed'
 		| 'seminarApply'
 	>('seminarApplySuccess');
+
+	const cookie = new CookieManager();
+	const locale = cookie.getItemInCookies('LOCALE');
 
 	/**
 	 * 더보기
@@ -196,7 +203,7 @@ const Page: NextPage = () => {
 	 */
 	useEffect(() => {
 		if (pid !== undefined) {
-			seminarController.getOneItem(
+			seminarProductController[locale as string].getOneItem(
 				{ SEMINAR_PRODUCT_IDENTIFICATION_CODE: pid },
 				(res) => {
 					console.log(res.data.result);
@@ -245,7 +252,7 @@ const Page: NextPage = () => {
 					<Typography variant={'h4'} fontWeight={'600'}>
 						{seminarData?.PRODUCT_NAME}
 					</Typography>
-					<Box
+					{/* <Box
 						display={'flex'}
 						gap={3}
 						mt={{
@@ -296,7 +303,7 @@ const Page: NextPage = () => {
 								? '온라인'
 								: '오프라인'}
 						</Typography>
-					</Box>
+					</Box> */}
 				</Box>
 				{/* 세미나 내용 */}
 				{/* <Box

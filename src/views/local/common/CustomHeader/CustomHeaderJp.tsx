@@ -421,7 +421,6 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 								flexDirection={'row'}
 								width={'100%'}
 								mt={1}
-								justifyContent={'space-between'}
 							>
 								<img
 									src={'/images/logo/Suppor-TFulllogo.svg'}
@@ -435,6 +434,27 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									}}
 									onClick={() => router.push('/jp')}
 								/>{' '}
+								{!cookie.getItemInCookies(
+									'JP_ACCESS_TOKEN'
+								) && (
+									<SupportiButton
+										contents={
+											cookie.getItemInCookies(
+												'LOCALE'
+											) === 'ko'
+												? '로그인'
+												: 'ログイン'
+										}
+										onClick={() => {
+											router.push('/jp/sign_in');
+										}}
+										style={{
+											width: '100px',
+											marginTop: '5px',
+											ml: 20,
+										}}
+									></SupportiButton>
+								)}
 								{cookie.getItemInCookies('JP_ACCESS_TOKEN') && (
 									<SupportiButton
 										contents={
@@ -450,6 +470,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										style={{
 											width: '100px',
 											marginTop: '5px',
+											ml: 20,
 										}}
 									></SupportiButton>
 								)}

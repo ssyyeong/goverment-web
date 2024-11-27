@@ -42,6 +42,11 @@ const Page: NextPage = () => {
 		ko: new DefaultController('ThemeProduct'),
 		jp: new DefaultController('ThemeProductJp'),
 	};
+	const seminarProductController = {
+		ko: new DefaultController('SeminarProduct'),
+		jp: new DefaultController('SeminarProductJp'),
+	};
+
 	const [themeProducts, setThemeProducts] = React.useState([]);
 
 	useEffect(() => {
@@ -49,6 +54,16 @@ const Page: NextPage = () => {
 			{},
 			(res) => {
 				setThemeProducts(res.data.result.rows);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+
+		seminarProductController[locale as string].findAllItems(
+			{},
+			(res) => {
+				setSeminarDataList(res.data.result.rows);
 			},
 			(error) => {
 				console.log(error);
@@ -537,12 +552,24 @@ const Page: NextPage = () => {
 					color: 'secondary.dark',
 				}}
 			/>
-			<ServiceListLayout
-				title={locale == 'jp' ? 'セミナー' : '세미나'}
-				dataList={seminarDataList}
-				type="seminar"
-			/>
-
+			<Box
+				display="flex"
+				flexDirection={'column'}
+				justifyContent={'center'}
+				alignItems={'center'}
+				mt={5}
+				mb={5}
+				px={{
+					xs: 5,
+					md: 0,
+				}}
+			>
+				<ServiceListLayout
+					title={locale == 'jp' ? 'セミナー' : '세미나'}
+					dataList={seminarDataList}
+					type="seminar"
+				/>
+			</Box>
 			<Box
 				display={'flex'}
 				flexDirection={'column'}
@@ -580,7 +607,7 @@ const Page: NextPage = () => {
 					justifyContent={'center'}
 					width={'100%'}
 					px={{
-						xs: 0,
+						xs: 5,
 						md: 10,
 					}}
 					mt={5}
