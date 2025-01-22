@@ -34,13 +34,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 * 모바일 메뉴
 	 */
 	const mobileMenu = [
-		{
-			label: '신청서',
-			path: '/external_service/application',
-			onclick: () => {
-				router.push('/external_service/application');
-			},
-		},
+		// {
+		// 	label: '신청서',
+		// 	path: '/external_service/application',
+		// 	onclick: () => {
+		// 		router.push('/external_service/application');
+		// 	},
+		// },
 		{
 			label: '서포티 소개',
 			path: '/introduce',
@@ -124,13 +124,22 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '문의하기',
 			path: '/customer_service/qna',
 		},
-		// {
-		// 	label: '지표 관리',
-		// 	path: '/internal_service/indicator_management/financial',
-		// 	onclick: () => {
-		// 		router.push('/internal_service/indicator_management/financial');
-		// 	},
-		// },
+		{
+			label: '지표 관리',
+			path: '/internal_service/indicator_management/financial',
+			onclick: () => {
+				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+		{
+			label: '성과 지표',
+			path: '/internal_service/indicator_management/achievement',
+			onclick: () => {
+				router.push(
+					'/internal_service/indicator_management/achievement'
+				);
+			},
+		},
 		{
 			label: '마이페이지',
 			path: '/my_page/edit_profile',
@@ -138,13 +147,13 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	];
 
 	const unLoginMenu = [
-		{
-			label: '신청서',
-			path: '/external_service/application',
-			onclick: () => {
-				router.push('/external_service/application');
-			},
-		},
+		// {
+		// 	label: '신청서',
+		// 	path: '/external_service/application',
+		// 	onclick: () => {
+		// 		router.push('/external_service/application');
+		// 	},
+		// },
 		{
 			label: '서포티 소개',
 			path: '/introduce',
@@ -307,13 +316,35 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 	];
 
-	const pages = [
+	/**
+	 * 지표관리
+	 */
+	const indication = [
 		{
-			label: '신청서',
-			onClick: () => {
-				router.push('/external_service/application');
+			label: '성과 지표',
+			path: '/internal_service/indicator_management/achievement',
+			onclick: () => {
+				router.push(
+					'/internal_service/indicator_management/achievement'
+				);
 			},
 		},
+		{
+			label: '재무 지표',
+			path: '/internal_service/indicator_management/financial',
+			onclick: () => {
+				router.push('/internal_service/indicator_management/financial');
+			},
+		},
+	];
+
+	const pages = [
+		// {
+		// 	label: '신청서',
+		// 	onClick: () => {
+		// 		router.push('/external_service/application');
+		// 	},
+		// },
 		{
 			label: '서포티',
 			subMenus: supporti,
@@ -341,6 +372,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
+			label: '지표관리',
+			subMenus: indication,
+		},
+		{
 			label: '요금제 안내',
 			onClick: () => {
 				router.push('/rate_plan');
@@ -356,13 +391,6 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	 * 마이페이지
 	 */
 	const mypage = [
-		// {
-		// 	label: '지표관리',
-		// 	path: '/internal_service/indicator_management/financial',
-		// 	onclick: () => {
-		// 		router.push('/internal_service/indicator_management/financial');
-		// 	},
-		// },
 		{
 			label: '마이페이지',
 			path: '/my_page/edit_profile',
@@ -648,9 +676,6 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 									alignContent={'center'}
 								>
 									{mypage.map((menu: any, idx) => {
-										// return menu.subMenus ? (
-										// 	handleMypageMenu(menu, idx)
-										// ) :
 										return (
 											<Button
 												onClick={menu.onclick}
