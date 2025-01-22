@@ -37,6 +37,7 @@ import { AccountCalculation } from '../../../../src/views/local/internal_service
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import LinkIcon from '@mui/icons-material/Link';
 import LinkedCategoryListModal from '../../../../src/views/local/internal_service/financial_solution/account_manage/LinkedCategoryListModal/LinkedCategoryListModal';
+import { useUserAccess } from '../../../../src/hooks/useUserAccess';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -114,6 +115,26 @@ const Page: NextPage = () => {
 	const [donutChart, setDonutChart] = useState<any>(undefined);
 
 	const [expenseDonutChart, setExpenseDonutChart] = useState<any>(undefined);
+
+	/**
+	 * 유저 아이디 가져오는 훅
+	 */
+	const { memberId } = useAppMember();
+	/**
+	 * 로그인 여부 가져오는 훅
+	 */
+	const { access } = useUserAccess('SIGN_IN');
+
+	/**
+	 * 로그인 체크
+	 */
+	useEffect(() => {
+		if (access === false) {
+			alert('로그인 후 이용해주세요.');
+			router.push('/auth/sign_in');
+			return;
+		}
+	}, [memberId, access]);
 
 	//* Constants
 
@@ -542,11 +563,6 @@ const Page: NextPage = () => {
 		);
 	};
 
-	//* Hooks
-	/**
-	 * 유저 아이디 정보 가져오는 훅
-	 */
-	const { memberId } = useAppMember();
 	/**
 	 * 알러트
 	 */

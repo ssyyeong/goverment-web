@@ -15,6 +15,8 @@ import GuidelineModal from '../../../../src/views/local/internal_service/indicat
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import RenewalKpiCard from '../../../../src/views/local/internal_service/indicator_management/IndicatorManagementBoard/Kpi/RenewalKpiCard/RenewalKpiCard';
 import GuideLine from '../../../../src/views/local/common/GuideLine/GuideLine';
+import { useUserAccess } from '../../../../src/hooks/useUserAccess';
+import { useRouter } from 'next/router';
 
 type TSelectableIndicator = {
 	name: string;
@@ -22,6 +24,8 @@ type TSelectableIndicator = {
 };
 
 const Page: NextPage = () => {
+	const router = useRouter();
+
 	//* Modules
 	/**
 	 * OKR 컨트롤러
@@ -161,82 +165,96 @@ const Page: NextPage = () => {
 
 	const userAccess = true;
 
+	/**
+	 * 로그인 여부 가져오는 훅
+	 */
+	const { access } = useUserAccess('SIGN_IN');
+
+	/**
+	 * 로그인 체크
+	 */
+	useEffect(() => {
+		if (access === false) {
+			alert('로그인 후 이용해주세요.');
+			router.push('/auth/sign_in');
+			return;
+		}
+	}, [memberId, access]);
+
 	return (
 		memberId && (
-				// <InternalServiceDrawer type="dashboard" loading={loading}>
-				<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
-					{/* 컨텐츠 레이아웃 */}
-					{userAccess === true && (
-						<InternalServiceLayout
-							title="성과 관리"
-							subTitle="우리 회사의 지표를 설정하고 목표 달성률, 
+			// <InternalServiceDrawer type="dashboard" loading={loading}>
+			<Box bgcolor={'primary.light'} sx={{ p: { xs: 2, md: 10 } }}>
+				{/* 컨텐츠 레이아웃 */}
+				{userAccess === true && (
+					<InternalServiceLayout
+						title="성과 관리"
+						subTitle="우리 회사의 지표를 설정하고 목표 달성률, 
 							달성에 대한 정도를 시각화해서 보실 수 있어요"
-							image="/images/main/indicatorHead.webp"
-							mobileImage="/images/main/indicatorHeadMobile.webp"
+						image="/images/main/indicatorHead.webp"
+						mobileImage="/images/main/indicatorHeadMobile.webp"
+					>
+						<Box
+							display="flex"
+							justifyContent={'space-between'}
+							alignItems={'center'}
+							pb={1}
+							mb={1}
+							px={{ sm: 0, xs: 2 }}
 						>
-							<Box
-								display="flex"
-								justifyContent={'space-between'}
-								alignItems={'center'}
-								pb={1}
-								mb={1}
-								px={{ sm: 0, xs: 2 }}
-							>
-								{/* 지표 (OKR / KPI) 선택 영역 */}
-								<Box display={'flex'} gap={3}>
-									{selectableIndicatorList.map(
-										(selectableIndicator) => (
-											<Typography
-												variant="h4"
-												fontWeight={'800'}
-												onClick={() => {
-													setSelectedIndicator(
-														selectableIndicator
-													);
-												}}
-												sx={{
-													color:
-														selectableIndicator.name ===
-														selectedIndicator.name
-															? 'primary.main'
-															: 'grey',
-													cursor: 'pointer',
-												}}
-											>
-												{selectableIndicator.name}
-											</Typography>
-										)
-									)}
-								</Box>
-
-								{/* <GuideLine link={'https://www.naver.com'} /> */}
+							{/* 지표 (OKR / KPI) 선택 영역 */}
+							<Box display={'flex'} gap={3}>
+								{selectableIndicatorList.map(
+									(selectableIndicator) => (
+										<Typography
+											variant="h4"
+											fontWeight={'800'}
+											onClick={() => {
+												setSelectedIndicator(
+													selectableIndicator
+												);
+											}}
+											sx={{
+												color:
+													selectableIndicator.name ===
+													selectedIndicator.name
+														? 'primary.main'
+														: 'grey',
+												cursor: 'pointer',
+											}}
+										>
+											{selectableIndicator.name}
+										</Typography>
+									)
+								)}
 							</Box>
-							<Typography
-								color={'secondary.dark'}
-								sx={{ mb: 2, pb: 1 }}
-								px={{ sm: 0, xs: 2 }}
-								lineHeight={1.5}
-							>
-								{selectedIndicator.name === 'OKR'
-									? '서포티의 OKR관리를 이용해 보다 쉽게 전사목표와 하위목표를 설계하고 달성까지 함께 하세요!'
-									: '서포티의 KPI관리를 이용해 보다 쉽게 성과관리를 하고 목표달성까지 함께 하세요!'}
-							</Typography>
-							{/* 지표 보드 영역 */}
-							<IndicatorManagementBoard
-								key={JSON.stringify(selectedIndicator)}
-								{...selectedIndicator.indicatorManagementBoardProps}
-								name={selectedIndicator.name}
-								triggerKey={triggerKey}
-								setTriggerKey={setTriggerKey}
-								loading={loading}
-								setLoading={setLoading}
-								selectableKpiCategoryList={
-									selectableCategoryList
-								}
-							/>
-						</InternalServiceLayout>
-					)}
-				</Box>
+
+							{/* <GuideLine link={'https://www.naver.com'} /> */}
+						</Box>
+						<Typography
+							color={'secondary.dark'}
+							sx={{ mb: 2, pb: 1 }}
+							px={{ sm: 0, xs: 2 }}
+							lineHeight={1.5}
+						>
+							{selectedIndicator.name === 'OKR'
+								? '서포티의 OKR관리를 이용해 보다 쉽게 전사목표와 하위목표를 설계하고 달성까지 함께 하세요!'
+								: '서포티의 KPI관리를 이용해 보다 쉽게 성과관리를 하고 목표달성까지 함께 하세요!'}
+						</Typography>
+						{/* 지표 보드 영역 */}
+						<IndicatorManagementBoard
+							key={JSON.stringify(selectedIndicator)}
+							{...selectedIndicator.indicatorManagementBoardProps}
+							name={selectedIndicator.name}
+							triggerKey={triggerKey}
+							setTriggerKey={setTriggerKey}
+							loading={loading}
+							setLoading={setLoading}
+							selectableKpiCategoryList={selectableCategoryList}
+						/>
+					</InternalServiceLayout>
+				)}
+			</Box>
 			// </InternalServiceDrawer>
 		)
 	);
