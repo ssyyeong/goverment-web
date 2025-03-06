@@ -264,8 +264,14 @@ const Page: NextPage = () => {
 			.get(api, {
 				headers: {
 					'Content-Type': 'application/json',
+					Accept: 'application/json',
 					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
 				},
+				auth: {
+					username: 'leanon',
+					password: 'leanon2025!',
+				},
+				withCredentials: true,
 			})
 			.then((res) => {
 				setUsedOfCompany(res.data.data.cmpdUseCapacity);
@@ -303,7 +309,9 @@ const Page: NextPage = () => {
 					Accept: '*/*',
 					'Accept-Encoding': 'gzip, deflate, br',
 					'Cmpn-Cd': 'CA007',
+					'Content-Type': 'application/json',
 				},
+				withCredentials: true,
 			})
 			.then((res) => {
 				if (tab === 'tab1') {
@@ -349,11 +357,13 @@ const Page: NextPage = () => {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 				Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
+				Accept: 'application/json',
 			},
 			auth: {
 				username: 'leanon',
 				password: 'leanon2025!',
 			},
+			withCredentials: true,
 		});
 	};
 
@@ -386,12 +396,14 @@ const Page: NextPage = () => {
 				url: api,
 				data: formData,
 				headers: {
+					'Content-Type': 'multipart/form-data',
 					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
 				},
 				auth: {
 					username: 'leanon',
 					password: 'leanon2025!',
 				},
+				withCredentials: true,
 			});
 
 			// 성공 시 목록 새로고침
@@ -418,6 +430,7 @@ const Page: NextPage = () => {
 					username: 'leanon',
 					password: 'leanon2025!',
 				},
+				withCredentials: true,
 			})
 			.then((res) => {
 				alert('파일 삭제 성공');
@@ -524,11 +537,13 @@ const Page: NextPage = () => {
 										headers: {
 											'Content-Type': 'application/json',
 											Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
+											Accept: 'application/json',
 										},
 										auth: {
 											username: 'leanon',
 											password: 'leanon2025!',
 										},
+										withCredentials: true,
 									})
 									.then((res) => {
 										setCompanyFileList(res.data);

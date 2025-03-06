@@ -62,8 +62,14 @@ const Page: NextPage = () => {
 			.get(api, {
 				headers: {
 					'Content-Type': 'application/json',
+					Accept: 'application/json',
 					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
 				},
+				auth: {
+					username: 'leanon',
+					password: 'leanon2025!',
+				},
+				withCredentials: true,
 			})
 			.then((res) => {
 				console.log(res);
