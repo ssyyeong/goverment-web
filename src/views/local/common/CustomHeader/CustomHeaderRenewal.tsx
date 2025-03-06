@@ -84,11 +84,18 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/external_service/mentoring');
 			},
 		},
+		// {
+		// 	label: '테마',
+		// 	path: '/external_service/theme',
+		// 	onclick: () => {
+		// 		router.push('/external_service/theme');
+		// 	},
+		// },
 		{
-			label: '테마',
-			path: '/external_service/theme',
+			label: '통합 자료실',
+			path: '/external_service/data_room',
 			onclick: () => {
-				router.push('/external_service/theme');
+				router.push('/external_service/data_room');
 			},
 		},
 		{
@@ -99,10 +106,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '인사이트',
-			path: '/external_service/insight',
+			label: '지식아카이브',
+			path: '/external_service/archive',
 			onclick: () => {
-				router.push('/external_service/insight');
+				router.push('/external_service/archive');
 			},
 		},
 		{
@@ -197,14 +204,20 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/external_service/mentoring');
 			},
 		},
+		// {
+		// 	label: '테마',
+		// 	path: '/external_service/theme',
+		// 	onclick: () => {
+		// 		router.push('/external_service/theme');
+		// 	},
+		// },
 		{
-			label: '테마',
-			path: '/external_service/theme',
+			label: '통합 자료실',
+			path: '/external_service/data_room',
 			onclick: () => {
-				router.push('/external_service/theme');
+				router.push('/external_service/data_room');
 			},
 		},
-
 		{
 			label: 'API Store',
 			path: '/external_service/api_store',
@@ -213,10 +226,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '인사이트',
-			path: '/external_service/insight',
+			label: '지식아카이브',
+			path: '/external_service/archive',
 			onclick: () => {
-				router.push('/external_service/insight');
+				router.push('/external_service/archive');
 			},
 		},
 		{
@@ -353,10 +366,16 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			label: '마켓',
 			subMenus: market,
 		},
+		// {
+		// 	label: '테마',
+		// 	onClick: () => {
+		// 		router.push('/external_service/theme');
+		// 	},
+		// },
 		{
-			label: '테마',
+			label: '통합 자료실',
 			onClick: () => {
-				router.push('/external_service/theme');
+				router.push('/external_service/data_room');
 			},
 		},
 		{
@@ -366,9 +385,9 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 			},
 		},
 		{
-			label: '인사이트',
+			label: '지식아카이브',
 			onClick: () => {
-				router.push('/external_service/insight');
+				router.push('/external_service/archive');
 			},
 		},
 		{
