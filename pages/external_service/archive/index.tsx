@@ -11,6 +11,7 @@ import { SupportiAlertModal } from '../../../src/views/global/SupportiAlertModal
 import { useAppMember } from '../../../src/hooks/useAppMember';
 import SupportiPagination from '../../../src/views/global/SupportiPagination';
 import axios from 'axios';
+import { SupportBusinessManagementController } from '../../../src/controller/SupportBusinessManagementController';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -51,31 +52,23 @@ const Page: NextPage = () => {
 	 */
 	const { memberId } = useAppMember();
 
+	const controller = new SupportBusinessManagementController();
+
 	//* Functions
 	/**
 	 * 아카이브 리스트 가져오기
 	 */
 	const getArchive = async () => {
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/archive/main';
-		await axios
-			.get(api, {
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-				},
-				auth: {
-					username: 'leanon',
-					password: 'leanon2025!',
-				},
-				withCredentials: true,
-			})
-			.then((res) => {
-				console.log(res);
-				setArchiveData1List(res.data.data.automotiveList);
-				setArchiveData2List(res.data.data.cosmeticList);
-			});
+		controller.getArchive(
+			{},
+			(res) => {
+				setArchiveData1List(res.data.result.data.automotiveList);
+				setArchiveData2List(res.data.result.data.cosmeticList);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
 	};
 
 	/**

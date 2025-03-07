@@ -22,6 +22,7 @@ import axios from 'axios';
 import FileUploadModal from '../../../src/views/local/common/FileUpModal/FileUpModal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { SupportBusinessManagementController } from '../../../src/controller/SupportBusinessManagementController';
 
 type ModalMode = 'create' | 'update';
 
@@ -254,72 +255,45 @@ const Page: NextPage = () => {
 	const [modalMode, setModalMode] = useState<ModalMode>('create');
 	const [selectedFile, setSelectedFile] = useState<SelectedFileType>(null);
 
+	const controller = new SupportBusinessManagementController();
+
 	/**
 	 * 용량 가져오기
 	 */
 	const getStorage = async () => {
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/srv/pay/dashboard/?cmpnCd=CA007';
-		await axios
-			.get(api, {
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-				},
-				auth: {
-					username: 'leanon',
-					password: 'leanon2025!',
-				},
-				withCredentials: true,
-			})
-			.then((res) => {
-				setUsedOfCompany(res.data.data.cmpdUseCapacity);
-				setPercentageOfCompany(
-					(res.data.data.cmpdUseCapacity / res.data.data.maxStrg) *
-						100
-				);
-				setUsedTotal(res.data.data.presentAllStrg);
-				setPercentageTotal(
-					(res.data.data.presentAllStrg / res.data.data.maxStrg) * 100
-				);
-				setTotal(res.data.data.maxStrg);
-				setUsedOfProject(res.data.data.projUseCapacity);
-				setPercentageOfProject(
-					(res.data.data.projUseCapacity / res.data.data.maxStrg) *
-						100
-				);
-			});
+		controller.getStorage({}, (res) => {
+			setUsedOfCompany(res.data.result.data.cmpdUseCapacity);
+			setPercentageOfCompany(
+				(res.data.result.data.cmpdUseCapacity /
+					res.data.result.data.maxStrg) *
+					100
+			);
+			setUsedTotal(res.data.result.data.presentAllStrg);
+			setPercentageTotal(
+				(res.data.result.data.presentAllStrg /
+					res.data.result.data.maxStrg) *
+					100
+			);
+			setTotal(res.data.result.data.maxStrg);
+			setUsedOfProject(res.data.result.data.projUseCapacity);
+			setPercentageOfProject(
+				(res.data.result.data.projUseCapacity /
+					res.data.result.data.maxStrg) *
+					100
+			);
+		});
 	};
 
 	const getFileList = async () => {
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/';
-		const url =
-			tab === 'tab1'
-				? 'library/cmpn-drive/search'
-				: 'library/list/CA007/ca007';
-		await axios
-			.get(api + url, {
-				auth: {
-					username: 'leanon',
-					password: 'leanon2025!',
-				},
-				headers: {
-					Accept: '*/*',
-					'Accept-Encoding': 'gzip, deflate, br',
-					'Cmpn-Cd': 'CA007',
-					'Content-Type': 'application/json',
-				},
-				withCredentials: true,
-			})
-			.then((res) => {
-				if (tab === 'tab1') {
-					setCompanyFileList(res.data);
-				} else {
-					setProjectFileList(res.data);
-				}
+		if (tab === 'tab1') {
+			controller.getFileListByCompany({}, (res) => {
+				setCompanyFileList(res.data.result);
 			});
+		} else {
+			controller.getFileListByProject({}, (res) => {
+				setProjectFileList(res.data.result);
+			});
+		}
 	};
 
 	const handleFileSubmit = async (fileData: {
@@ -346,25 +320,21 @@ const Page: NextPage = () => {
 		tag: string;
 		file: File | null;
 	}) => {
-		console.log('파일 등록:', fileData);
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/';
-		const formData = new FormData();
-		formData.append('title', fileData.title);
-		formData.append('tag', fileData.tag);
-		formData.append('file', fileData.file);
-		await axios.post(api + 'library/cmpn-drive/upload', formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-				Accept: 'application/json',
+		controller.createFile(
+			{
+				title: fileData.title,
+				tag: fileData.tag,
+				file: fileData.file,
 			},
-			auth: {
-				username: 'leanon',
-				password: 'leanon2025!',
+			(res) => {
+				// 성공 시 처리
+				getFileList();
 			},
-			withCredentials: true,
-		});
+			(err) => {
+				// 에러 처리
+				console.error('파일 생성 실패:', err);
+			}
+		);
 	};
 
 	const handleFileUpdate = async (fileData: {
@@ -374,68 +344,38 @@ const Page: NextPage = () => {
 	}) => {
 		if (!selectedFile?.cmpnCd) return;
 
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/library/cmpn/save';
-		const formData = new FormData();
-
-		formData.append('cmpnCd', selectedFile.cmpnCd);
-		formData.append('librarySeq', selectedFile.librarySeq);
-		formData.append('title', fileData.title);
-		formData.append('writerId', selectedFile.writerId);
-		formData.append('role', selectedFile.role);
-		formData.append('tags', selectedFile.tags);
-		formData.append('fileSeq', selectedFile.fileSeq);
-
-		if (fileData.file) {
-			formData.append('file', fileData.file);
-		}
-
-		try {
-			await axios({
-				method: 'post',
-				url: api,
-				data: formData,
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-				},
-				auth: {
-					username: 'leanon',
-					password: 'leanon2025!',
-				},
-				withCredentials: true,
-			});
-
-			// 성공 시 목록 새로고침
-			getFileList();
-		} catch (error) {
-			console.error('파일 업데이트 실패:', error);
-		}
+		controller.updateFile(
+			{
+				cmpnCd: selectedFile.cmpnCd,
+				librarySeq: selectedFile.librarySeq,
+				title: fileData.title,
+				writerId: selectedFile.writerId,
+				role: selectedFile.role,
+				tags: selectedFile.tags,
+				fileSeq: selectedFile.fileSeq,
+			},
+			(res) => {
+				// 성공 시 목록 새로고침
+				getFileList();
+			},
+			(err) => {
+				// 에러 처리
+				console.error('파일 업데이트 실패:', err);
+			}
+		);
 	};
 
 	const deleteData = async (cmpnCd: string, librarySeq: string) => {
-		const api =
-			'http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/library/cmpn/delete';
-		const body = {
-			cmpnCd: cmpnCd,
-			librarySeq: librarySeq,
-		};
-		await axios
-			.post(api, body, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-				},
-				auth: {
-					username: 'leanon',
-					password: 'leanon2025!',
-				},
-				withCredentials: true,
-			})
-			.then((res) => {
+		controller.deleteFile(
+			{
+				cmpnCd: cmpnCd,
+				librarySeq: librarySeq,
+			},
+			(res) => {
 				alert('파일 삭제 성공');
 				getFileList();
-			});
+			}
+		);
 	};
 
 	/**
@@ -530,24 +470,14 @@ const Page: NextPage = () => {
 						<SupportiButton
 							contents={'검색'}
 							onClick={async () => {
-								const api = `http://lb-cymake-dev-868890701.ap-northeast-2.elb.amazonaws.com:9400/api/library/cmpn-drive/search?search-keyword=' +
-								searchText`;
-								await axios
-									.get(api, {
-										headers: {
-											'Content-Type': 'application/json',
-											Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-											Accept: 'application/json',
-										},
-										auth: {
-											username: 'leanon',
-											password: 'leanon2025!',
-										},
-										withCredentials: true,
-									})
-									.then((res) => {
+								controller.searchFile(
+									{
+										text: searchText,
+									},
+									(res) => {
 										setCompanyFileList(res.data);
-									});
+									}
+								);
 							}}
 							variant="contained"
 							style={{ width: '10% ', backgroundColor: 'gray' }}

@@ -69,4 +69,108 @@ export class SupportBusinessManagementController extends ControllerABC {
 			failCallback
 		);
 	}
+
+	public getArchive(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/archive_list`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public getStorage(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/storage`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public getFileListByCompany(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/file_list_by_company`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public getFileListByProject(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/file_list_by_project`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public createFile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/create_file`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public updateFile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/update_file`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public deleteFile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.postData(
+			args,
+			`${this.mergedPath}/delete_file`,
+			successCallback,
+			failCallback
+		);
+	}
+
+	public searchFile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		super.getData(
+			args,
+			`${this.mergedPath}/search_file`,
+			successCallback,
+			failCallback
+		);
+	}
 }
