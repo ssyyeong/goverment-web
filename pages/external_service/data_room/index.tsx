@@ -475,7 +475,7 @@ const Page: NextPage = () => {
 										text: searchText,
 									},
 									(res) => {
-										setCompanyFileList(res.data);
+										setCompanyFileList(res.data.result);
 									}
 								);
 							}}
