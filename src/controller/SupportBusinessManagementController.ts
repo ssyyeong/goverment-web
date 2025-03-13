@@ -121,12 +121,26 @@ export class SupportBusinessManagementController extends ControllerABC {
 			failCallback
 		);
 	}
+	public uploadFile(
+		args: { [key: string]: any },
+		successCallback?: (response: any) => void,
+		failCallback?: (err: any) => void
+	): any {
+		console.log(args);
+		super.postData(
+			args,
+			`${this.mergedPath}/upload_file`,
+			successCallback,
+			failCallback
+		);
+	}
 
 	public createFile(
 		args: { [key: string]: any },
 		successCallback?: (response: any) => void,
 		failCallback?: (err: any) => void
 	): any {
+		console.log(args);
 		super.postData(
 			args,
 			`${this.mergedPath}/create_file`,

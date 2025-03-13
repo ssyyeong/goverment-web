@@ -303,7 +303,7 @@ const Page: NextPage = () => {
 	}) => {
 		try {
 			if (modalMode === 'create') {
-				await handleFileCreate(fileData);
+				await handleFileUpload(fileData);
 			} else {
 				await handleFileUpdate(fileData);
 			}
@@ -315,7 +315,7 @@ const Page: NextPage = () => {
 		}
 	};
 
-	const handleFileCreate = async (fileData: {
+	const handleFileUpload = async (fileData: {
 		title: string;
 		tags: string;
 		file: File | null;
@@ -325,39 +325,37 @@ const Page: NextPage = () => {
 		// 파일 읽기 시작
 		reader.readAsArrayBuffer(file); // 또는 readAsDataURL(file)
 		reader.onloadend = async () => {
-			console.log(file);
 			//* Save image
 			const formData = new FormData();
-			formData.append('file', file, file.name);
+			formData.append('file', file);
 			formData.append('driveType', 'CMPD');
-			axios
-				.post(
-					'https://buyermatching247.com/api/blob/upload',
-					formData,
-					{
-						headers: {
-							Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
-							'Content-Type': 'multipart/form-data',
-						},
-					}
-				)
-				.then((res) => {
-					console.log(res);
-				});
-			// axios
-			// 	.post(
-			// 		'http://localhost:4021/api/user/support_business_management/upload_file',
-			// 		formData,
-			// 		{
-			// 			headers: {
-			// 				'Content-Type': 'multipart/form-data',
-			// 			},
-			// 		}
-			// 	)
-			// 	.then((res) => {
-			// 		getFileList();
-			// 	});
+
+			controller.uploadFile(
+				formData,
+				(res) => {
+					handleFileCreate(fileData, res.data.result.data.fileSeq);
+				},
+				(err) => {
+					console.error('파일 생성 실패:', err);
+				}
+			);
 		};
+	};
+
+	const handleFileCreate = async (data: any, fileSeq: string) => {
+		controller.createFile(
+			{
+				fileSeq: fileSeq,
+				title: data.title,
+				tags: data.tags,
+			},
+			(res) => {
+				getFileList();
+			},
+			(err) => {
+				console.error('파일 생성 실패:', err);
+			}
+		);
 	};
 
 	const handleFileUpdate = async (fileData: {
@@ -365,8 +363,6 @@ const Page: NextPage = () => {
 		tags: string;
 		file: File | null;
 	}) => {
-		console.log(fileData.tags);
-
 		controller.updateFile(
 			{
 				cmpnCd: selectedFile.cmpnCd,
