@@ -17,13 +17,13 @@ import CloseIcon from '@mui/icons-material/Close';
 interface FileUploadModalProps {
 	mode: 'create' | 'update';
 	title?: string;
-	tag?: string;
+	tags?: string;
 	file?: string; // 파일명이 문자열로 들어옴
 	open: boolean;
 	onClose: () => void;
 	onSubmit: (fileData: {
 		title: string;
-		tag: string;
+		tags: string;
 		file: File | null;
 	}) => void;
 }
@@ -31,14 +31,14 @@ interface FileUploadModalProps {
 const FileUploadModal: React.FC<FileUploadModalProps> = ({
 	mode,
 	title: initialTitle = '',
-	tag: initialTag = '',
+	tags: initialTag = '',
 	file: initialFileName = '',
 	open,
 	onClose,
 	onSubmit,
 }) => {
 	const [title, setTitle] = useState('');
-	const [tag, setTag] = useState('');
+	const [tags, setTags] = useState('');
 	const [file, setFile] = useState<File | null>(null);
 	const [error, setError] = useState(false);
 
@@ -58,9 +58,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
 			setError(true);
 			return;
 		}
-		onSubmit({ title, tag, file });
+		onSubmit({ title, tags, file });
 		setTitle('');
-		setTag('');
+		setTags('');
 		setFile(null);
 		setError(false);
 		onClose();
@@ -70,7 +70,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
 		if (!open) return; // 모달이 열릴 때만 초기값 설정
 
 		setTitle(initialTitle);
-		setTag(initialTag);
+		setTags(initialTag);
 
 		// 기존 파일명이 있다면 표시만 하고 실제 파일 업로드는 새로 받기
 		if (initialFileName) {
@@ -105,8 +105,8 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
 					fullWidth
 					label="태그"
 					variant="outlined"
-					value={tag}
-					onChange={(e) => setTag(e.target.value)}
+					value={tags}
+					onChange={(e) => setTags(e.target.value)}
 					sx={{ mb: 2 }}
 				/>
 
@@ -121,12 +121,14 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
 					padding={3}
 					textAlign="center"
 				>
-					<input
-						type="file"
-						id="file-upload"
-						style={{ display: 'none' }}
-						onChange={handleFileChange}
-					/>
+					<form encType="multipart/form-data">
+						<input
+							type="file"
+							id="file-upload"
+							style={{ display: 'none' }}
+							onChange={handleFileChange}
+						/>
+					</form>
 					<label htmlFor="file-upload">
 						<Button
 							component="span"
