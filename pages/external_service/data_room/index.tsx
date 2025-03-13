@@ -368,7 +368,7 @@ const Page: NextPage = () => {
 				cmpnCd: selectedFile.cmpnCd,
 				librarySeq: selectedFile.librarySeq,
 				title: fileData.title,
-				tags: selectedFile.tags,
+				tags: fileData.tags,
 				fileSeq: selectedFile.fileSeq,
 			},
 			(res) => {
