@@ -298,7 +298,7 @@ const Page: NextPage = () => {
 
 	const handleFileSubmit = async (fileData: {
 		title: string;
-		tag: string;
+		tags: string;
 		file: File | null;
 	}) => {
 		try {
@@ -317,40 +317,61 @@ const Page: NextPage = () => {
 
 	const handleFileCreate = async (fileData: {
 		title: string;
-		tag: string;
+		tags: string;
 		file: File | null;
 	}) => {
-		controller.createFile(
-			{
-				title: fileData.title,
-				tag: fileData.tag,
-				file: fileData.file,
-			},
-			(res) => {
-				// 성공 시 처리
-				getFileList();
-			},
-			(err) => {
-				// 에러 처리
-				console.error('파일 생성 실패:', err);
-			}
-		);
+		let reader = new FileReader();
+		let file = fileData.file;
+		// 파일 읽기 시작
+		reader.readAsArrayBuffer(file); // 또는 readAsDataURL(file)
+		reader.onloadend = async () => {
+			console.log(file);
+			//* Save image
+			const formData = new FormData();
+			formData.append('file', file, file.name);
+			formData.append('driveType', 'CMPD');
+			axios
+				.post(
+					'https://buyermatching247.com/api/blob/upload',
+					formData,
+					{
+						headers: {
+							Authorization: `Basic bGVhbm9uOmxlYW5vbjIwMjUh`,
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				)
+				.then((res) => {
+					console.log(res);
+				});
+			// axios
+			// 	.post(
+			// 		'http://localhost:4021/api/user/support_business_management/upload_file',
+			// 		formData,
+			// 		{
+			// 			headers: {
+			// 				'Content-Type': 'multipart/form-data',
+			// 			},
+			// 		}
+			// 	)
+			// 	.then((res) => {
+			// 		getFileList();
+			// 	});
+		};
 	};
 
 	const handleFileUpdate = async (fileData: {
 		title: string;
-		tag: string;
+		tags: string;
 		file: File | null;
 	}) => {
-		if (!selectedFile?.cmpnCd) return;
+		console.log(fileData.tags);
 
 		controller.updateFile(
 			{
 				cmpnCd: selectedFile.cmpnCd,
 				librarySeq: selectedFile.librarySeq,
 				title: fileData.title,
-				writerId: selectedFile.writerId,
-				role: selectedFile.role,
 				tags: selectedFile.tags,
 				fileSeq: selectedFile.fileSeq,
 			},
@@ -602,7 +623,7 @@ const Page: NextPage = () => {
 				}}
 				onSubmit={handleFileSubmit}
 				title={selectedFile?.title}
-				tag={selectedFile?.tags}
+				tags={selectedFile?.tags}
 				file={selectedFile?.file}
 			/>
 		</Box>
