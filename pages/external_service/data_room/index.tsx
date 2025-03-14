@@ -365,7 +365,6 @@ const Page: NextPage = () => {
 	}) => {
 		controller.updateFile(
 			{
-				cmpnCd: selectedFile.cmpnCd,
 				librarySeq: selectedFile.librarySeq,
 				title: fileData.title,
 				tags: fileData.tags,
