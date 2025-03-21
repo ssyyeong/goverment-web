@@ -243,6 +243,7 @@ const Page: NextPage = () => {
 				NEEDED_SERVICE:
 					tabs === 'BUSINESS' ? JSON.stringify(needService) : null,
 				IR_FILE: JSON.stringify(signupData.IR_FILE),
+				IS_FIRST_LOGIN: 'Y',
 			},
 			(res) => {
 				if (res.data.result) {
