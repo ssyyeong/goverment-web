@@ -168,7 +168,27 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 				router.push('/introduce');
 			},
 		},
-
+		{
+			label: '지원사업 조회',
+			path: '/internal_service/government/research',
+			onclick: () => {
+				router.push('/internal_service/government/research');
+			},
+		},
+		{
+			label: '지원사업 관리',
+			path: '/internal_service/government/management',
+			onclick: () => {
+				router.push('/internal_service/government/management');
+			},
+		},
+		{
+			label: '지원사업 컨설팅',
+			path: '/internal_service/government/consulting',
+			onclick: () => {
+				router.push('/internal_service/government/consulting');
+			},
+		},
 		{
 			label: '마켓 소개',
 			path: '/external_service/market_place/introduce',
@@ -351,6 +371,33 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		},
 	];
 
+	/**
+	 * 지원사업
+	 */
+	const government = [
+		{
+			label: '조회',
+			path: '/internal_service/government/research',
+			onclick: () => {
+				router.push('/internal_service/government/research');
+			},
+		},
+		{
+			label: '관리',
+			path: '/internal_service/government/management',
+			onclick: () => {
+				router.push('/internal_service/government/management');
+			},
+		},
+		{
+			label: '컨설팅',
+			path: '/internal_service/government/consulting',
+			onclick: () => {
+				router.push('/internal_service/government/consulting');
+			},
+		},
+	];
+
 	const pages = [
 		// {
 		// 	label: '신청서',
@@ -361,6 +408,10 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		{
 			label: '서포티',
 			subMenus: supporti,
+		},
+		{
+			label: '지원사업',
+			subMenus: government,
 		},
 		{
 			label: '마켓',
