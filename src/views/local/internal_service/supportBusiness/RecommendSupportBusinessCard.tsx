@@ -51,12 +51,14 @@ const RecommendSupportBusinessCard = (
 							borderStyle: 'solid',
 						}}
 					>
-						D-
-						{moment(props.supportBusiness.END_DATE).diff(
-							moment(),
-							'days'
-						)}
-						일
+						{moment(props.supportBusiness.END_DATE) < moment()
+							? '만료'
+							: 'D-' +
+							  moment(props.supportBusiness.END_DATE).diff(
+									moment(),
+									'days'
+							  ) +
+							  '일'}
 					</Typography>
 				</Box>
 				<Box
