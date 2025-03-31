@@ -38,6 +38,9 @@ type SelectedFileType = {
 } | null;
 
 const Page: NextPage = () => {
+	const router = useRouter();
+	const { type } = router.query;
+
 	const getCompanyHeaderData: TableHeaderProps[] = [
 		{
 			label: '',
@@ -232,8 +235,6 @@ const Page: NextPage = () => {
 		},
 	];
 
-	const router = useRouter();
-
 	//* States
 	const [tab, setTab] = React.useState<'tab1' | 'tab2'>('tab1');
 	const [searchText, setSearchText] = React.useState<string>('');
@@ -398,9 +399,14 @@ const Page: NextPage = () => {
 	 *  용량 가져오기
 	 */
 	useEffect(() => {
+		if (type === 'company') {
+			setTab('tab1');
+		} else {
+			setTab('tab2');
+		}
 		getStorage();
 		getFileList();
-	}, [tab]);
+	}, [tab, type]);
 
 	return (
 		<Box

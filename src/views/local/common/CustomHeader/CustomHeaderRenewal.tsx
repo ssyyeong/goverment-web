@@ -350,6 +350,26 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 	];
 
 	/**
+	 * 통합 자료실
+	 */
+	const integration = [
+		{
+			label: '기업 자료실',
+			path: '/external_service/data_room?type=company',
+			onclick: () => {
+				router.push('/external_service/data_room?type=company');
+			},
+		},
+		{
+			label: '프로젝트 자료실',
+			path: '/external_service/data_room?type=project',
+			onclick: () => {
+				router.push('/external_service/data_room?type=project');
+			},
+		},
+	];
+
+	/**
 	 * 지표관리
 	 */
 	const indication = [
@@ -425,9 +445,7 @@ const CustomHeader2 = (props: ICustomHeaderProps) => {
 		// },
 		{
 			label: '통합 자료실',
-			onClick: () => {
-				router.push('/external_service/data_room');
-			},
+			subMenus: integration,
 		},
 		{
 			label: 'API Store',

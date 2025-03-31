@@ -26,6 +26,8 @@ import { useRouter } from 'next/router';
 import { SubsidyByItemController } from '../../../../../src/controller/SubsidyByItemController';
 import SupportSearchModal from '../../../../../src/views/local/internal_service/government/SupportSearchModal/SupportSearchModal';
 import addCommaToNumber from '../../../../../src/function/DataFormatter/addCommaToNumber';
+import moment from 'moment';
+import { useUserAccess } from '../../../../../src/hooks/useUserAccess';
 
 const Page: NextPage = () => {
 	//* Modules
@@ -190,9 +192,20 @@ const Page: NextPage = () => {
 	const { open, setOpen, setType, type } = useAlert({});
 
 	/**
+	 * 로그인 여부 가져오는 훅
+	 */
+	const { access } = useUserAccess('SIGN_IN');
+
+	/**
 	 * 유저 정보 가져오기
 	 */
 	React.useEffect(() => {
+		if (access === false) {
+			alert('로그인 후 이용해주세요.');
+			router.push('/auth/sign_in');
+			return;
+		}
+
 		appMemberController.getData(
 			{},
 			`${appMemberController.mergedPath}/profile`,
@@ -489,8 +502,13 @@ const Page: NextPage = () => {
 			},
 			essential: true,
 			type: 'datepicker',
-			setValue: (value: string) =>
-				setSupportBusiness({ ...supportBusiness, START_DATE: value }),
+			setValue: (value: string) => {
+				if (dayjs(value).isBefore(dayjs(), 'day')) {
+					alert('지원 사업 시작일은 오늘 또는 이후여야 합니다.');
+					return;
+				}
+				setSupportBusiness({ ...supportBusiness, START_DATE: value });
+			},
 			grid: {
 				xs: 10,
 				sm: 10,
@@ -506,8 +524,13 @@ const Page: NextPage = () => {
 			},
 			essential: true,
 			type: 'datepicker',
-			setValue: (value: string) =>
-				setSupportBusiness({ ...supportBusiness, END_DATE: value }),
+			setValue: (value: string) => {
+				if (dayjs(value).isBefore(dayjs(), 'day')) {
+					alert('지원 사업 종료일은 오늘 또는 이후여야 합니다.');
+					return;
+				}
+				setSupportBusiness({ ...supportBusiness, END_DATE: value });
+			},
 			grid: {
 				xs: 10,
 				sm: 10,
@@ -580,13 +603,17 @@ const Page: NextPage = () => {
 			value: supportBusiness.OPERATING_COST,
 			additionalProps: {
 				placeholder: '총 사업비(원)을 입력해주세요.',
+				type: 'number',
+				min: 0,
 			},
 			essential: true,
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
 				setSupportBusiness({
 					...supportBusiness,
-					OPERATING_COST: value,
-				}),
+					OPERATING_COST: numericValue,
+				});
+			},
 			grid: {
 				xs: 12,
 				sm: 5.8,
@@ -597,13 +624,22 @@ const Page: NextPage = () => {
 			value: supportBusiness.SUPPORT_COST_RATE,
 			additionalProps: {
 				placeholder: '지원금 비율을 입력해주세요',
+				type: 'number',
+				min: 0,
+				max: 100,
 			},
 			essential: true,
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
 				setSupportBusiness({
 					...supportBusiness,
-					SUPPORT_COST_RATE: value,
-				}),
+					SUPPORT_COST_RATE: numericValue,
+					BUSINESS_CONTRIBUTION_RATE: String(100 - newValue),
+				});
+			},
 			grid: {
 				xs: 12,
 				sm: 5.8,
@@ -615,9 +651,11 @@ const Page: NextPage = () => {
 					sx={{ mt: 1, ml: '80%' }}
 				>
 					{supportBusiness.OPERATING_COST != 0
-						? addCommaToNumber(supportBusiness.OPERATING_COST *
-						  0.01 *
-						  supportBusiness.SUPPORT_COST_RATE)
+						? addCommaToNumber(
+								supportBusiness.OPERATING_COST *
+									0.01 *
+									supportBusiness.SUPPORT_COST_RATE
+						  )
 						: 0}{' '}
 					원
 				</Typography>
@@ -628,13 +666,22 @@ const Page: NextPage = () => {
 			value: supportBusiness.BUSINESS_CONTRIBUTION_RATE,
 			additionalProps: {
 				placeholder: '기업부담금 비율을 입력해주세요',
+				type: 'number',
+				min: 0,
+				max: 100,
 			},
 			essential: true,
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
 				setSupportBusiness({
 					...supportBusiness,
-					BUSINESS_CONTRIBUTION_RATE: value,
-				}),
+					BUSINESS_CONTRIBUTION_RATE: numericValue,
+					SUPPORT_COST_RATE: String(100 - newValue),
+				});
+			},
 			grid: {
 				xs: 12,
 				sm: 5.8,
@@ -646,9 +693,11 @@ const Page: NextPage = () => {
 					sx={{ mt: 1, ml: '80%' }}
 				>
 					{supportBusiness.OPERATING_COST != 0
-						? addCommaToNumber(supportBusiness.OPERATING_COST *
-						  0.01 *
-						  supportBusiness.BUSINESS_CONTRIBUTION_RATE)
+						? addCommaToNumber(
+								supportBusiness.OPERATING_COST *
+									0.01 *
+									supportBusiness.BUSINESS_CONTRIBUTION_RATE
+						  )
 						: 0}{' '}
 					원
 				</Typography>
@@ -722,11 +771,16 @@ const Page: NextPage = () => {
 			phase: 'PHASE1',
 			essential: true,
 			type: 'datepicker',
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				if (dayjs(value).isBefore(dayjs(), 'day')) {
+					alert('지원 사업 등록 마감일은 오늘 이후여야 합니다.');
+					return;
+				}
 				setSupportBusiness({
 					...supportBusiness,
 					DEAD_LINE_DATE: value,
-				}),
+				});
+			},
 			grid: {
 				xs: 10,
 				sm: 10,
@@ -782,6 +836,11 @@ const Page: NextPage = () => {
 											sx={{ mb: 1 }}
 										>
 											{item.label}
+											{item.essential && (
+												<span style={{ color: 'red' }}>
+													*
+												</span>
+											)}
 										</Typography>
 										<SupportiInput
 											value={item.value}
@@ -971,14 +1030,15 @@ const Page: NextPage = () => {
 					p={4}
 					mt={3}
 				>
-					<Typography fontWeight={'700'} variant="h6" mb={2}>
-						지원금 계상
-					</Typography>
-					<Box
-						// display={'flex'}
-						// justifyContent={'space-between'}
-						alignItems={'center'}
-					>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography fontWeight={'700'} variant="h6">
+							지원금 계상
+						</Typography>
+						<Typography color="text.secondary" fontSize="14px">
+							(모든 항목은 숫자만 입력 가능합니다)
+						</Typography>
+					</Box>
+					<Box alignItems={'center'}>
 						<Grid container gap={1}>
 							{supportBusinessManagementData
 								.slice(16, 21)
