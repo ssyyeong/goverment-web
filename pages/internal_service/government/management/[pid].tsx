@@ -579,18 +579,62 @@ const Page: NextPage = () => {
 		{
 			label: '지원금 비율(%)',
 			key: 'SUPPORT_COST_RATE',
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
+				setSupportBusinessManagement({
+					...supportBusinessManagement,
+					SUPPORT_COST_RATE: numericValue,
+					BUSINESS_CONTRIBUTION_RATE: String(100 - newValue),
+				});
+			},
 		},
 		{
 			label: '부담금 비율(%)',
 			key: 'BUSINESS_CONTRIBUTION_RATE',
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
+				setSupportBusinessManagement({
+					...supportBusinessManagement,
+					BUSINESS_CONTRIBUTION_RATE: numericValue,
+					SUPPORT_COST_RATE: String(100 - newValue),
+				});
+			},
 		},
 		{
 			label: '현금 비율(%)',
 			key: 'CASH_RATE',
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
+				setSupportBusinessManagement({
+					...supportBusinessManagement,
+					CASH_RATE: numericValue,
+					VIRTUAL_CASH_RATE: String(100 - newValue),
+				});
+			},
 		},
 		{
 			label: '현물 비율(%)',
 			key: 'VIRTUAL_CASH_RATE',
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
+				setSupportBusinessManagement({
+					...supportBusinessManagement,
+					VIRTUAL_CASH_RATE: numericValue,
+					CASH_RATE: String(100 - newValue),
+				});
+			},
 		},
 	];
 	console.log(
@@ -1050,49 +1094,23 @@ const Page: NextPage = () => {
 															item.key
 														]
 													}
-													setValue={(value) => {
-														setSupportBusinessManagement(
-															{
-																...supportBusinessManagement,
-																[item.key]:
-																	value,
-															}
-														);
+													setValue={item.setValue}
+													type={'number'}
+													additionalProps={{
+														min: 0,
+														max: 100,
 													}}
-													type={'text'}
 												/>
-												{item.key !==
-													'OPERATING_COST' && (
-													<Typography
-														my="auto"
-														color="primary.main"
-													>
-														{supportBusinessManagement.OPERATING_COST !=
-														0
-															? addCommaToNumber(
-																	supportBusinessManagement.OPERATING_COST *
-																		0.01 *
-																		supportBusinessManagement[
-																			item
-																				.key
-																		]
-															  )
-															: 0}{' '}
-														원
-													</Typography>
-												)}
+												<Typography>%</Typography>
 											</Box>
 										) : (
 											<Typography fontWeight={'500'}>
-												{item.key === 'OPERATING_COST'
-													? addCommaToNumber(
-															supportBusinessManagement[
-																item.key
-															]
-													  )
-													: supportBusinessManagement[
-															item.key
-													  ]}
+												{
+													supportBusinessManagement[
+														item.key
+													]
+												}
+												%
 											</Typography>
 										)}
 									</Box>

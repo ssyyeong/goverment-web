@@ -6,7 +6,6 @@ import { Box, BoxProps, Typography } from '@mui/material';
 import InternalServiceDrawer from '../../../../src/views/local/internal_service/common/InternalServiceDrawer';
 import { InternalServiceLayout } from '../../../../src/views/layout/InternalServiceLayout';
 import SupportiButton from '../../../../src/views/global/SupportiButton';
-import Calendar from 'react-calendar';
 import moment from 'moment';
 import Schedule from '../../../../src/views/local/internal_service/supportBusiness/Schedule/Schedule';
 import { SupportBusinessManagementController } from '../../../../src/controller/SupportBusinessManagementController';
@@ -103,6 +102,7 @@ const Page: NextPage = () => {
 				APP_MEMBER_IDENTIFICATION_CODE: memberId,
 			},
 			(res) => {
+				console.log('result', res.data.result);
 				setManagementSupportBusiness(res.data.result);
 			},
 			(err) => {
@@ -121,6 +121,8 @@ const Page: NextPage = () => {
 				},
 			},
 			(res) => {
+				console.log('result2', res.data.result);
+
 				setOnGoingManagementSupportBusiness(res.data.result);
 			},
 			(err) => {

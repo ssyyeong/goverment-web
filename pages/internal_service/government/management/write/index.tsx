@@ -708,62 +708,88 @@ const Page: NextPage = () => {
 			value: supportBusiness.CASH_RATE,
 			additionalProps: {
 				placeholder: '기업부담 현금 비율을 입력해주세요',
+				type: 'number',
+				min: 0,
+				max: 100,
 			},
 			essential: true,
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
 				setSupportBusiness({
 					...supportBusiness,
-					CASH_RATE: value,
-				}),
+					CASH_RATE: numericValue,
+					VIRTUAL_CASH_RATE: String(100 - newValue),
+				});
+			},
 			grid: {
 				xs: 12,
 				sm: 5.8,
 			},
-			// additionalComponent: (
-			// 	<Typography
-			// 		my="auto"
-			// 		color="primary.main"
-			// 		sx={{ mt: 1, ml: '80%' }}
-			// 	>
-			// 		{supportBusiness.OPERATING_COST != 0
-			// 			? supportBusiness.OPERATING_COST *
-			// 			  0.01 *
-			// 			  supportBusiness.BUSINESS_CONTRIBUTION_RATE
-			// 			: 0}{' '}
-			// 		원
-			// 	</Typography>
-			// ),
+			additionalComponent: (
+				<Typography
+					my="auto"
+					color="primary.main"
+					sx={{ mt: 1, ml: '80%' }}
+				>
+					{supportBusiness.OPERATING_COST != 0
+						? addCommaToNumber(
+								supportBusiness.OPERATING_COST *
+									0.01 *
+									supportBusiness.BUSINESS_CONTRIBUTION_RATE *
+									0.01 *
+									supportBusiness.CASH_RATE
+						  )
+						: 0}{' '}
+					원
+				</Typography>
+			),
 		},
 		{
 			label: '기업부담 현물 비율(%)',
 			value: supportBusiness.VIRTUAL_CASH_RATE,
 			additionalProps: {
 				placeholder: '기업부담 현물 비율을 입력해주세요',
+				type: 'number',
+				min: 0,
+				max: 100,
 			},
 			essential: true,
-			setValue: (value: string) =>
+			setValue: (value: string) => {
+				const numericValue = value.replace(/[^0-9]/g, '');
+				const newValue = Number(numericValue);
+				if (newValue > 100) return;
+
 				setSupportBusiness({
 					...supportBusiness,
-					VIRTUAL_CASH_RATE: value,
-				}),
+					VIRTUAL_CASH_RATE: numericValue,
+					CASH_RATE: String(100 - newValue),
+				});
+			},
 			grid: {
 				xs: 12,
 				sm: 5.8,
 			},
-			// additionalComponent: (
-			// 	<Typography
-			// 		my="auto"
-			// 		color="primary.main"
-			// 		sx={{ mt: 1, ml: '80%' }}
-			// 	>
-			// 		{supportBusiness.OPERATING_COST != 0
-			// 			? supportBusiness.OPERATING_COST *
-			// 			  0.01 *
-			// 			  supportBusiness.BUSINESS_CONTRIBUTION_RATE
-			// 			: 0}{' '}
-			// 		원
-			// 	</Typography>
-			// ),
+			additionalComponent: (
+				<Typography
+					my="auto"
+					color="primary.main"
+					sx={{ mt: 1, ml: '80%' }}
+				>
+					{supportBusiness.OPERATING_COST != 0
+						? addCommaToNumber(
+								supportBusiness.OPERATING_COST *
+									0.01 *
+									supportBusiness.BUSINESS_CONTRIBUTION_RATE *
+									0.01 *
+									supportBusiness.VIRTUAL_CASH_RATE
+						  )
+						: 0}{' '}
+					원
+				</Typography>
+			),
 		},
 		{
 			label: '제출 마감일',
