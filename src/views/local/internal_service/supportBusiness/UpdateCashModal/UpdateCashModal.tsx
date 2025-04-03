@@ -71,29 +71,39 @@ const UpdateCashModal = (props: IUpdateCashModalProps) => {
 											]
 										}
 										setValue={(value) => {
+											const totalAmount =
+												parseInt(value) || 0;
+											const supportAmount = Math.round(
+												totalAmount *
+													props.targetItem
+														.support_cost_rate *
+													0.01
+											);
+											const businessAmount = Math.round(
+												totalAmount *
+													props.targetItem
+														.business_contribution_rate *
+													0.01
+											);
+
 											if (
-												value > props.totalOperatingCost
+												totalAmount >
+												props.totalOperatingCost
 											) {
 												alert(
 													'총 사업비를 초과할 수 없습니다.'
 												);
 												return;
 											}
+
 											let temp = JSON.parse(
 												props.targetItem.cost
 											)[0];
 											temp['지원금'][props.subsidyTab] =
-												value *
-												props.targetItem
-													.support_cost_rate *
-												0.01;
+												supportAmount;
 											temp['기업부담금'][
 												props.subsidyTab
-											] =
-												value *
-												props.targetItem
-													.business_contribution_rate *
-												0.01;
+											] = businessAmount;
 
 											props.setTargetItem({
 												...props.targetItem,

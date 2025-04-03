@@ -322,13 +322,45 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	// };
 
 	const updateSubsidyByItem = () => {
-		if (
-			JSON.parse(targetItem.cost)[0]?.['지원금'][props.subsidyTab] >
-			props.totalOperatingCost
-		) {
+		// 현재 수정 중인 항목의 금액 계산
+		const costData = JSON.parse(targetItem.cost)[0];
+		const currentSupportAmount =
+			Number(costData['지원금'][props.subsidyTab]) || 0;
+		const currentBusinessAmount =
+			Number(costData['기업부담금'][props.subsidyTab]) || 0;
+
+		// 다른 모든 항목의 금액 합계 계산
+		const otherItemsTotal = subSidyByItems
+			.filter(
+				(item) =>
+					item.SUBSIDY_BY_ITEM_IDENTIFICATION_CODE !== targetItem.id
+			)
+			.reduce((total, item) => {
+				const itemCostData = JSON.parse(item.SUPPORT_COST)[0];
+				const supportAmount =
+					Number(itemCostData['지원금'][props.subsidyTab]) || 0;
+				const businessAmount =
+					Number(itemCostData['기업부담금'][props.subsidyTab]) || 0;
+				return total + supportAmount + businessAmount;
+			}, 0);
+
+		// 전체 총액 계산 (현재 수정 중인 항목 + 다른 모든 항목)
+		const totalAmount =
+			currentSupportAmount + currentBusinessAmount + otherItemsTotal;
+
+		console.log(
+			'현재 수정 중인 항목 금액:',
+			currentSupportAmount + currentBusinessAmount
+		);
+		console.log('다른 항목들의 총액:', otherItemsTotal);
+		console.log('전체 총액:', totalAmount);
+		console.log('총 사업비:', props.totalOperatingCost);
+
+		if (totalAmount > props.totalOperatingCost) {
 			alert('총 사업비를 초과할 수 없습니다.');
 			return;
 		}
+
 		// 업데이트 치기
 		cashUpdateController.updateCash(
 			{
@@ -1064,85 +1096,6 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 							</Grid>
 						)}
 						{subSidyByItems?.map((item, index) => (
-							// <Grid
-							// 	item
-							// 	display={'flex'}
-							// 	justifyContent={'center'}
-							// 	alignItems={'center'}
-							// 	px={1}
-							// 	borderBottom={'0.5px solid #ccc'}
-							// 	borderRight={'0.5px solid #ccc'}
-							// 	key={index}
-							// 	py={
-							// 		isEditMode &&
-							// 		props.subsidyTab === '사용금액' &&
-							// 		targetItem.id === item.id
-							// 			? 1.52
-							// 			: 2.192
-							// 	}
-							// >
-							// 	{isEditMode &&
-							// 	props.subsidyTab === '사용금액' &&
-							// 	targetItem.id === item.id ? (
-							// 		<Box display="flex" gap={1}>
-							// 			<SupportiInput
-							// 				type="text"
-							// 				value={
-							// 					JSON.parse(
-							// 						targetItem.cost
-							// 					)[0]?.[item.group].사용금액
-							// 				}
-							// 				setValue={(value) => {
-							// 					let temp = JSON.parse(
-							// 						targetItem.cost
-							// 					)[0];
-							// 					temp[item.group].사용금액 =
-							// 						value;
-							// 					setTargetItem({
-							// 						...targetItem,
-							// 						cost: JSON.stringify([
-							// 							temp,
-							// 						]),
-							// 					});
-							// 				}}
-							// 				style={{
-							// 					height: '25px',
-							// 					width: '80px',
-							// 				}}
-							// 			/>
-							// 			<Box
-							// 				sx={{
-							// 					width: '30px',
-							// 					height: '20px',
-							// 					borderRadius: '3px',
-							// 					backgroundColor:
-							// 						'secondary.dark',
-							// 					p: '3px',
-							// 					my: 'auto',
-							// 					cursor: 'pointer',
-							// 				}}
-							// 				onClick={() => {
-							// 					setIsEditMode(false);
-							// 				}}
-							// 			>
-							// 				<Typography color="white">
-							// 					완료
-							// 				</Typography>
-							// 			</Box>
-							// 		</Box>
-							// 	) : (
-							// 		<Typography py={3.118}>
-							// 			{addCommaToNumber(
-							// 				JSON.parse(item.SUPPORT_COST)[0]?.[
-							// 					'지원금'
-							// 				]?.[props.subsidyTab] +
-							// 					JSON.parse(
-							// 						item.SUPPORT_COST
-							// 					)[0]?.['기업부담금']?.[props.subsidyTab]
-							// 			)}
-							// 		</Typography>
-							// 	)}
-							// </Grid>
 							<Grid
 								item
 								display={'flex'}
