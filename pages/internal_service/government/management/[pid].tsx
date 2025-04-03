@@ -575,6 +575,12 @@ const Page: NextPage = () => {
 		{
 			label: '총 사업비(원)',
 			key: 'OPERATING_COST',
+			setValue: (value: string) => {
+				setSupportBusinessManagement({
+					...supportBusinessManagement,
+					OPERATING_COST: value,
+				});
+			},
 		},
 		{
 			label: '지원금 비율(%)',
@@ -1101,16 +1107,27 @@ const Page: NextPage = () => {
 														max: 100,
 													}}
 												/>
-												<Typography>%</Typography>
+												<Typography>
+													{item.key ===
+													'OPERATING_COST'
+														? '원'
+														: '%'}
+												</Typography>
 											</Box>
 										) : (
 											<Typography fontWeight={'500'}>
-												{
-													supportBusinessManagement[
-														item.key
-													]
-												}
-												%
+												{item.key === 'OPERATING_COST'
+													? addCommaToNumber(
+															supportBusinessManagement[
+																item.key
+															]
+													  )
+													: supportBusinessManagement[
+															item.key
+													  ]}
+												{item.key === 'OPERATING_COST'
+													? '원'
+													: '%'}
 											</Typography>
 										)}
 									</Box>
@@ -1128,6 +1145,9 @@ const Page: NextPage = () => {
 								}
 								handleSubsidyTabChange={handleSubsidyTabChange}
 								getSupportBusiness={getSupportBusiness}
+								totalOperatingCost={
+									supportBusinessManagement?.OPERATING_COST
+								}
 							/>
 						</Box>
 					)}

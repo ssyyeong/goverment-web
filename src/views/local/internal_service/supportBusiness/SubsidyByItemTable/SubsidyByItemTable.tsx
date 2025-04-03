@@ -17,6 +17,7 @@ interface ISubsidyByItemTableProps {
 	handleSubsidyTabChange: (type: string) => void;
 	subsidyTab?: string;
 	getSupportBusiness: () => void;
+	totalOperatingCost: number;
 }
 
 const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
@@ -321,6 +322,13 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 	// };
 
 	const updateSubsidyByItem = () => {
+		if (
+			JSON.parse(targetItem.cost)[0]?.['지원금'][props.subsidyTab] >
+			props.totalOperatingCost
+		) {
+			alert('총 사업비를 초과할 수 없습니다.');
+			return;
+		}
 		// 업데이트 치기
 		cashUpdateController.updateCash(
 			{
@@ -465,9 +473,6 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 											}}
 											onClick={() => {
 												setIsEditMode(!isEditMode);
-												console.log(
-													subSidyByItems[index]
-												);
 												setTargetItem({
 													...targetItem,
 													id: subSidyByItems[index]
@@ -1240,6 +1245,7 @@ const SubsidyByItemTable = (props: ISubsidyByItemTableProps) => {
 					setTargetItem={setTargetItem}
 					subsidyTab={props.subsidyTab}
 					phase={props.supportBusinessManagement.PHASE}
+					totalOperatingCost={props.totalOperatingCost}
 				/>
 			</Box>
 		)

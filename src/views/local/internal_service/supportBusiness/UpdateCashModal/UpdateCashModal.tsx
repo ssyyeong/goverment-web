@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import {
-	Box,
-	BoxProps,
-	Grid,
-	IconButton,
-	Switch,
-	Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import SupportiModal from '../../../../global/SupportiModal';
 import SupportiButton from '../../../../global/SupportiButton';
 import { useAppMember } from '../../../../../hooks/useAppMember';
-import { v4 as uuidv4 } from 'uuid';
-import router from 'next/router';
 import SupportiInput from '../../../../global/SupportiInput';
 
 interface IUpdateCashModalProps {
@@ -23,24 +14,10 @@ interface IUpdateCashModalProps {
 	setTargetItem: any;
 	subsidyTab: any;
 	phase: string;
+	totalOperatingCost: number;
 }
 
 const UpdateCashModal = (props: IUpdateCashModalProps) => {
-	//* Controller
-
-	//* Constants
-
-	//* State
-
-	//* Function
-
-	//* Hooks
-
-	/**
-	 * 유저 아이디 가져오는 훅
-	 */
-	const { memberId } = useAppMember();
-
 	return (
 		props.targetItem.cost &&
 		props.subsidyTab && (
@@ -94,6 +71,14 @@ const UpdateCashModal = (props: IUpdateCashModalProps) => {
 											]
 										}
 										setValue={(value) => {
+											if (
+												value > props.totalOperatingCost
+											) {
+												alert(
+													'총 사업비를 초과할 수 없습니다.'
+												);
+												return;
+											}
 											let temp = JSON.parse(
 												props.targetItem.cost
 											)[0];
@@ -139,7 +124,8 @@ const UpdateCashModal = (props: IUpdateCashModalProps) => {
 							}}
 							additionalProps={{
 								readOnly:
-									props.subsidyTab === '총 금액' && props.phase === 'PHASE1'
+									props.subsidyTab === '총 금액' &&
+									props.phase === 'PHASE1'
 										? true
 										: false,
 							}}
@@ -151,8 +137,9 @@ const UpdateCashModal = (props: IUpdateCashModalProps) => {
 						<SupportiInput
 							type="text"
 							additionalProps={{
-								readOnly: 
-									props.subsidyTab === '총 금액' && props.phase === 'PHASE1'
+								readOnly:
+									props.subsidyTab === '총 금액' &&
+									props.phase === 'PHASE1'
 										? true
 										: false,
 							}}
