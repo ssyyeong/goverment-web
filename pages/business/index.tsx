@@ -27,7 +27,7 @@ const Page: NextPage = () => {
 
 	useEffect(() => {
 		//로그인 체크
-		if (cookie.getItemInCookies('BUSINESS_ACCESS_TOKEN') === null) {
+		if (cookie.getItemInCookies('BUSINESS_ACCESS_TOKEN') === undefined) {
 			alert('로그인 후 이용해주세요');
 			router.push('/business/sign_in');
 		} else {
