@@ -70,10 +70,10 @@ function App({
 			ssr: false,
 		}
 	);
-	const CustomHeaderRenewalNoSSR = dynamic(
+	const CustomHeaderBusinessNoSSR = dynamic(
 		() =>
 			import(
-				'../src/views/local/common/CustomHeader/CustomHeaderRenewal'
+				'../src/views/local/common/CustomHeader/CustomHeaderBusiness'
 			),
 		{
 			ssr: false,
@@ -208,11 +208,11 @@ src="https://www.facebook.com/tr?id=395660438718831&ev=PageView&noscript=1"
 					router={router}
 					anotherFooter={<CustomFooterNoSSR />}
 				/>
-			) : router.pathname.includes('jp') ? (
+			) : router.pathname.includes('business') ? (
 				<Entry
 					disableBreadCrumb={true}
 					memory={memory}
-					customHeader={<CustomHeaderJpNoSSR />}
+					customHeader={<CustomHeaderBusinessNoSSR />}
 					configs={{
 						sidebar: {
 							...sideBarConfig,
@@ -227,7 +227,7 @@ src="https://www.facebook.com/tr?id=395660438718831&ev=PageView&noscript=1"
 						head: { title: '서포티' },
 						header: navigatorConfig,
 						footer: footerConfig,
-						useFooter: true,
+						useFooter: false,
 					}}
 					cache={{
 						emotion: emotionCache,
