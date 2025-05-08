@@ -26,7 +26,13 @@ const Page: NextPage = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		fetchMeetingList();
+		//로그인 체크
+		if (cookie.getItemInCookies('BUSINESS_ACCESS_TOKEN') === null) {
+			alert('로그인 후 이용해주세요');
+			router.push('/business/sign_in');
+		} else {
+			fetchMeetingList();
+		}
 	}, []);
 
 	const fetchMeetingList = async () => {
