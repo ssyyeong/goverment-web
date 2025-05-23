@@ -105,6 +105,3 @@ dist
 
 # Sentry Config File
 .sentryclirc
-
-# NPM configuration
-.npmrc
