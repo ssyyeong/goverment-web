@@ -6,6 +6,7 @@ const nextConfig = {
 	env: {
 		REACT_APP_PROXY_HOST: process.env.REACT_APP_PROXY_HOST,
 	},
+	basePath: '/gsic',
 	images: {
 		remotePatterns: [
 			{

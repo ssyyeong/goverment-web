@@ -49,38 +49,11 @@ function App({
 	router,
 }: AppProps & { emotionCache: EmotionCache }) {
 	//* Mui ssr 설정
-	const CustomHeaderNoSSR = dynamic(
-		() =>
-			import(
-				'../src/views/local/common/CustomHeader/CustomHeaderRenewal'
-			),
-		{
-			ssr: false,
-		}
-	);
-	const CustomHeaderJpNoSSR = dynamic(
-		() => import('../src/views/local/common/CustomHeader/CustomHeaderJp'),
-		{
-			ssr: false,
-		}
-	);
-	const CustomHeaderEnNoSSR = dynamic(
-		() => import('../src/views/local/common/CustomHeader/CustomHeaderEn'),
-		{
-			ssr: false,
-		}
-	);
 	const CustomHeaderBusinessNoSSR = dynamic(
 		() =>
 			import(
 				'../src/views/local/common/CustomHeader/CustomHeaderBusiness'
 			),
-		{
-			ssr: false,
-		}
-	);
-	const CustomFooterNoSSR = dynamic(
-		() => import('../src/views/local/common/CustomFooter/CustomFooter'),
 		{
 			ssr: false,
 		}
@@ -121,24 +94,6 @@ function App({
             `,
 					}}
 				/>
-				{/* <script
-					dangerouslySetInnerHTML={{
-						__html: `!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '395660438718831');
-fbq('track', 'PageView');
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=395660438718831&ev=PageView&noscript=1"
-/></noscript>
-`,
-					}}
-				/> */}
 				<script
 					dangerouslySetInnerHTML={{
 						__html: `!function(f,b,e,v,n,t,s){
@@ -172,113 +127,40 @@ src="https://www.facebook.com/tr?id=395660438718831&ev=PageView&noscript=1"
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script src="https://cpay.payple.kr/js/v1/payment.js" />
-
-			{router.pathname.includes('/en') ? (
-				<Entry
-					disableBreadCrumb={true}
-					memory={memory}
-					customHeader={<CustomHeaderEnNoSSR />}
-					configs={{
-						sidebar: {
-							...sideBarConfig,
-							...{
-								signIn: {
-									tokenExpireHours: 1,
-									signInSuccessLink: '/login',
-								},
-								plugin: [],
+			<Entry
+				disableBreadCrumb={true}
+				memory={memory}
+				customHeader={<CustomHeaderBusinessNoSSR />}
+				configs={{
+					sidebar: {
+						...sideBarConfig,
+						...{
+							signIn: {
+								tokenExpireHours: 1,
+								signInSuccessLink: '/login',
 							},
+							plugin: [],
 						},
-						head: { title: '서포티' },
-						header: navigatorConfig,
-						footer: footerConfig,
-						useFooter: true,
-					}}
-					cache={{
-						emotion: emotionCache,
-						theme: themeConfig,
-					}}
-					Component={Component}
-					useAuthCheck={false}
-					pageProps={pageProps}
-					disableSideBar={true}
-					disableGutturs={true}
-					containerPaddingX={'0'}
-					containerMaxWidth={'3000px !important'}
-					router={router}
-					anotherFooter={<CustomFooterNoSSR />}
-				/>
-			) : router.pathname.includes('business') ? (
-				<Entry
-					disableBreadCrumb={true}
-					memory={memory}
-					customHeader={<CustomHeaderBusinessNoSSR />}
-					configs={{
-						sidebar: {
-							...sideBarConfig,
-							...{
-								signIn: {
-									tokenExpireHours: 1,
-									signInSuccessLink: '/login',
-								},
-								plugin: [],
-							},
-						},
-						head: { title: '서포티' },
-						header: navigatorConfig,
-						footer: footerConfig,
-						useFooter: false,
-					}}
-					cache={{
-						emotion: emotionCache,
-						theme: themeConfig,
-					}}
-					Component={Component}
-					useAuthCheck={false}
-					pageProps={pageProps}
-					disableSideBar={true}
-					disableGutturs={true}
-					containerPaddingX={'0'}
-					containerMaxWidth={'3000px !important'}
-					router={router}
-					anotherFooter={<CustomFooterJpNoSSR />}
-				/>
-			) : (
-				<Entry
-					disableBreadCrumb={true}
-					memory={memory}
-					customHeader={<CustomHeaderNoSSR />}
-					configs={{
-						sidebar: {
-							...sideBarConfig,
-							...{
-								signIn: {
-									tokenExpireHours: 1,
-									signInSuccessLink: '/login',
-								},
-								plugin: [],
-							},
-						},
-						head: { title: '서포티' },
-						header: navigatorConfig,
-						footer: footerConfig,
-						useFooter: true,
-					}}
-					cache={{
-						emotion: emotionCache,
-						theme: themeConfig,
-					}}
-					Component={Component}
-					useAuthCheck={false}
-					pageProps={pageProps}
-					disableSideBar={true}
-					disableGutturs={true}
-					containerPaddingX={'0'}
-					containerMaxWidth={'3000px !important'}
-					router={router}
-					anotherFooter={<CustomFooterNoSSR />}
-				/>
-			)}
+					},
+					head: { title: '서포티' },
+					header: navigatorConfig,
+					footer: footerConfig,
+					useFooter: false,
+				}}
+				cache={{
+					emotion: emotionCache,
+					theme: themeConfig,
+				}}
+				Component={Component}
+				useAuthCheck={false}
+				pageProps={pageProps}
+				disableSideBar={true}
+				disableGutturs={true}
+				containerPaddingX={'0'}
+				containerMaxWidth={'3000px !important'}
+				router={router}
+				anotherFooter={<CustomFooterJpNoSSR />}
+			/>
 		</React.Fragment>
 	);
 }

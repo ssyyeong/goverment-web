@@ -20,7 +20,7 @@ import {
 import { CookieManager } from '@leanoncompany/supporti-utility';
 import DefaultController from '@leanoncompany/supporti-ark-office-project/src/controller/default/DefaultController';
 import CloseIcon from '@mui/icons-material/Close';
-import SupportiInput from '../src/views/global/SupportiInput';
+import SupportiInput from '../../src/views/global/SupportiInput';
 
 interface BusinessInfo {
 	COMPANY_NAME: string;
@@ -31,10 +31,7 @@ interface BusinessInfo {
 	IS_CORPORATION: string;
 	FORMATION_DATE: string;
 	PREVIOUS_YEAR_SALES_AMOUNT: string;
-	IR_DECK: {
-		FILE_NAME: string;
-		FILE_URL: string;
-	};
+	IR_DECK: string;
 	WANTED_MATCHING_FIELD: string[];
 	PROVIDED_MATCHING_FIELD: string[];
 }
@@ -60,11 +57,8 @@ const MyPage: NextPage = () => {
 	];
 	const cookie = new CookieManager();
 	const controller = new DefaultController('GsicBusiness');
-
-	const [businessId, setBusinessId] = useState<string>('');
 	const [businessInfo, setBusinessInfo] = useState<BusinessInfo | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [isFirstEdit, setIsFirstEdit] = useState<boolean>(false);
 	const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 	const [editedInfo, setEditedInfo] = useState<BusinessInfo | null>(null);
 
@@ -86,11 +80,8 @@ const MyPage: NextPage = () => {
 				GSIC_MEMBER_IDENTIFICATION_CODE: id,
 			},
 			(res) => {
+				console.log(res.data.result);
 				if (res.data.result.rows.length > 0) {
-					setBusinessId(
-						res.data.result.rows[0]
-							.GSIC_BUSINESS_IDENTIFICATION_CODE
-					);
 					setBusinessInfo({
 						COMPANY_NAME: res.data.result.rows[0].COMPANY_NAME,
 						REPRESENTATIVE_NAME:
@@ -103,7 +94,7 @@ const MyPage: NextPage = () => {
 						FORMATION_DATE: res.data.result.rows[0].FORMATION_DATE,
 						PREVIOUS_YEAR_SALES_AMOUNT:
 							res.data.result.rows[0].PREVIOUS_YEAR_SALES_AMOUNT,
-						IR_DECK: JSON.parse(res.data.result.rows[0].IR_DECK),
+						IR_DECK: res.data.result.rows[0].IR_DECK,
 						WANTED_MATCHING_FIELD: JSON.parse(
 							res.data.result.rows[0].WANTED_MATCHING_FIELD
 						),
@@ -114,7 +105,6 @@ const MyPage: NextPage = () => {
 				} else {
 					setBusinessInfo(null);
 					setIsEditModalOpen(true);
-					setIsFirstEdit(true);
 				}
 				setIsLoading(false);
 			},
@@ -126,40 +116,23 @@ const MyPage: NextPage = () => {
 
 	const handleEditClick = () => {
 		setEditedInfo(businessInfo);
-		setIrDeckFile(
-			businessInfo?.IR_DECK || {
-				FILE_NAME: 'ppt, pdf, hwp, pcdx, zip (200mb이하)',
-				FILE_URL: '',
-			}
-		);
 		setIsEditModalOpen(true);
 	};
 
 	const handleCloseEditModal = () => {
 		setIsEditModalOpen(false);
 		setEditedInfo(null);
-		setIrDeckFile({
-			FILE_NAME: 'ppt, pdf, hwp, pcdx, zip (200mb이하)',
-			FILE_URL: '',
-		});
 	};
 
 	const handleSaveEdit = async () => {
+		const id = await cookie.getItemInCookies(
+			'GSIC_MEMBER_IDENTIFICATION_CODE'
+		);
+
 		setBusinessInfo(editedInfo);
+		setIsEditModalOpen(false);
 
-		if (isFirstEdit) {
-			createBusinessInfo();
-		} else {
-			updateBusinessInfo();
-		}
-	};
-
-	const createBusinessInfo = async () => {
-		const id = await cookie.getItemInCookies(
-			'GSIC_MEMBER_IDENTIFICATION_CODE'
-		);
-
-		controller.create(
+		controller.update(
 			{
 				GSIC_MEMBER_IDENTIFICATION_CODE: id,
 				COMPANY_NAME: editedInfo?.COMPANY_NAME,
@@ -172,41 +145,7 @@ const MyPage: NextPage = () => {
 				FORMATION_DATE: editedInfo?.FORMATION_DATE,
 				PREVIOUS_YEAR_SALES_AMOUNT:
 					editedInfo?.PREVIOUS_YEAR_SALES_AMOUNT,
-				IR_DECK: JSON.stringify(irDeckFile),
-				WANTED_MATCHING_FIELD: JSON.stringify(
-					editedInfo?.WANTED_MATCHING_FIELD
-				),
-				PROVIDED_MATCHING_FIELD: JSON.stringify(
-					editedInfo?.PROVIDED_MATCHING_FIELD
-				),
-			},
-			(res) => {
-				alert('정보가 생성되었습니다.');
-				fetchMyPageData();
-			}
-		);
-	};
-
-	const updateBusinessInfo = async () => {
-		const id = await cookie.getItemInCookies(
-			'GSIC_MEMBER_IDENTIFICATION_CODE'
-		);
-
-		controller.updateItem(
-			{
-				GSIC_BUSINESS_IDENTIFICATION_CODE: businessId,
-				GSIC_MEMBER_IDENTIFICATION_CODE: id,
-				COMPANY_NAME: editedInfo?.COMPANY_NAME,
-				REPRESENTATIVE_NAME: editedInfo?.REPRESENTATIVE_NAME,
-				PHONE_NUMBER: editedInfo?.PHONE_NUMBER,
-				EMAIL: editedInfo?.EMAIL,
-				BUSINESS_ITEM_INTRODUCTION:
-					editedInfo?.BUSINESS_ITEM_INTRODUCTION,
-				IS_CORPORATION: editedInfo?.IS_CORPORATION,
-				FORMATION_DATE: editedInfo?.FORMATION_DATE,
-				PREVIOUS_YEAR_SALES_AMOUNT:
-					editedInfo?.PREVIOUS_YEAR_SALES_AMOUNT,
-				IR_DECK: JSON.stringify(irDeckFile),
+				IR_DECK: JSON.stringify(irDeckFile.FILE_URL),
 				WANTED_MATCHING_FIELD: JSON.stringify(
 					editedInfo?.WANTED_MATCHING_FIELD
 				),
@@ -216,10 +155,9 @@ const MyPage: NextPage = () => {
 			},
 			(res) => {
 				alert('정보가 수정되었습니다.');
-				fetchMyPageData();
-				setIsEditModalOpen(false);
 			}
 		);
+		alert('정보가 수정되었습니다.');
 	};
 
 	const handleFieldChange = (field: keyof BusinessInfo, value: any) => {
@@ -236,40 +174,39 @@ const MyPage: NextPage = () => {
 		value,
 	}: {
 		label: string;
-		value: string | React.ReactNode;
+		value: string | null;
 	}) => (
 		<Box
 			sx={{
-				py: 2,
+				py: 1.5,
 				display: 'flex',
 				justifyContent: 'space-between',
-				alignItems: 'flex-start',
-				borderBottom: '1px solid #EEEEEE',
-				'&:last-child': {
-					borderBottom: 'none',
-				},
+				alignItems: 'center',
 			}}
 		>
 			<Typography
 				sx={{
-					fontSize: '15px',
+					fontSize: '16px',
 					color: '#666666',
-					minWidth: '140px',
 				}}
 			>
 				{label}
 			</Typography>
-			<Box
+			<Typography
 				sx={{
+					fontSize: '16px',
+					fontWeight: 500,
+					color: '#333333',
+					textAlign: 'right',
 					flex: 1,
 					ml: 2,
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 1,
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+					whiteSpace: 'nowrap',
 				}}
 			>
-				{value}
-			</Box>
+				{value || '-'}
+			</Typography>
 		</Box>
 	);
 
@@ -433,138 +370,19 @@ const MyPage: NextPage = () => {
 								/>
 								<InfoItem
 									label="IR DECK 파일"
-									value={
-										<Box
-											sx={{
-												display: 'flex',
-												alignItems: 'center',
-												gap: 1,
-											}}
-										>
-											<Typography
-												sx={{
-													fontSize: '15px',
-													fontWeight: 500,
-													color: '#333333',
-													overflow: 'hidden',
-													textOverflow: 'ellipsis',
-													whiteSpace: 'nowrap',
-												}}
-											>
-												{
-													businessInfo.IR_DECK
-														?.FILE_NAME
-												}
-											</Typography>
-											{businessInfo.IR_DECK?.FILE_URL && (
-												<Button
-													variant="outlined"
-													size="small"
-													onClick={() =>
-														window.open(
-															businessInfo.IR_DECK
-																?.FILE_URL,
-															'_blank'
-														)
-													}
-													sx={{
-														borderColor:
-															'primary.main',
-														color: 'primary.main',
-														fontSize: '13px',
-														py: 0.5,
-														px: 1.5,
-														'&:hover': {
-															borderColor:
-																'primary.dark',
-															backgroundColor:
-																'rgba(25, 118, 210, 0.04)',
-														},
-													}}
-												>
-													다운로드
-												</Button>
-											)}
-										</Box>
-									}
+									value={businessInfo.IR_DECK}
 								/>
 								<InfoItem
 									label="원하는 매칭 분야"
-									value={
-										<Box
-											sx={{
-												display: 'flex',
-												flexWrap: 'wrap',
-												gap: 0.5,
-											}}
-										>
-											{businessInfo.WANTED_MATCHING_FIELD.map(
-												(field, index) => (
-													<Box
-														key={index}
-														sx={{
-															px: 1.5,
-															py: 0.5,
-															bgcolor:
-																'rgba(25, 118, 210, 0.1)',
-															borderRadius:
-																'20px',
-														}}
-													>
-														<Typography
-															sx={{
-																fontSize:
-																	'13px',
-																color: '#1976d2',
-																fontWeight: 500,
-															}}
-														>
-															{field}
-														</Typography>
-													</Box>
-												)
-											)}
-										</Box>
-									}
+									value={businessInfo.WANTED_MATCHING_FIELD.join(
+										', '
+									)}
 								/>
 								<InfoItem
 									label="제공 가능한 매칭 분야"
-									value={
-										<Box
-											sx={{
-												display: 'flex',
-												flexWrap: 'wrap',
-												gap: 0.5,
-											}}
-										>
-											{businessInfo.PROVIDED_MATCHING_FIELD.map(
-												(field, index) => (
-													<Box
-														key={index}
-														sx={{
-															px: 1.5,
-															py: 0.5,
-															bgcolor:
-																'rgba(25, 118, 210, 0.1)',
-															borderRadius:
-																'20px',
-														}}
-													>
-														<Typography
-															sx={{
-																fontSize:
-																	'13px',
-																color: '#1976d2',
-																fontWeight: 500,
-															}}
-														>
-															{field}
-														</Typography>
-													</Box>
-												)
-											)}
-										</Box>
-									}
+									value={businessInfo.PROVIDED_MATCHING_FIELD.join(
+										', '
+									)}
 								/>
 							</>
 						)
@@ -727,17 +545,6 @@ const MyPage: NextPage = () => {
 										},
 									}}
 								/>
-								{irDeckFile.FILE_URL && (
-									<Typography
-										sx={{
-											fontSize: '13px',
-											color: '#666666',
-											mt: 1,
-										}}
-									>
-										현재 파일: {irDeckFile.FILE_NAME}
-									</Typography>
-								)}
 							</Box>
 							<FormControl fullWidth>
 								<InputLabel>원하는 매칭 분야</InputLabel>

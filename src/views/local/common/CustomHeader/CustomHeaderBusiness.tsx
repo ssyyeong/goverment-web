@@ -36,48 +36,48 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 	 */
 	const mobileMenu = [
 		{
-			label: '미팅일지',
-			path: '/business',
+			label: '기업 정보',
+			path: '/',
 			onclick: () => {
-				router.push('/business');
+				router.push('/');
 			},
 		},
 		{
-			label: '프로그램',
-			path: '/business/program',
+			label: '관내 매칭',
+			path: '/in_area_matching',
 			onclick: () => {
-				router.push('/business/program');
+				router.push('/in_area_matching');
 			},
 		},
 		{
-			label: '마이페이지',
-			path: '/business/my_page',
+			label: '관외 매칭',
+			path: '/out_office_matching',
 			onclick: () => {
-				router.push('/business/my_page');
+				router.push('/out_office_matching');
 			},
 		},
 	];
 
 	const pages = [
 		{
-			label: '미팅일지',
-			path: '/business',
+			label: '기업 정보',
+			path: '/',
 			onclick: () => {
-				router.push('/business');
+				router.push('/');
 			},
 		},
 		{
-			label: '프로그램',
-			path: '/business/program',
+			label: '관내 매칭',
+			path: '/in_area_matching',
 			onclick: () => {
-				router.push('/business/program');
+				router.push('/in_area_matching');
 			},
 		},
 		{
-			label: '마이페이지',
-			path: '/business/my_page',
+			label: '관외 매칭',
+			path: '/out_office_matching',
 			onclick: () => {
-				router.push('/business/my_page');
+				router.push('/out_office_matching');
 			},
 		},
 	];
@@ -140,7 +140,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 			}}
 			margin={'auto'}
 		>
-			{cookie.getItemInCookies('BUSINESS_ACCESS_TOKEN') && (
+			{cookie.getItemInCookies('GSIC_MEMBER_IDENTIFICATION_CODE') && (
 				<AppBar
 					position="static"
 					sx={{
@@ -174,9 +174,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									display: { xs: 'flex', md: 'none' },
 								}}
 							>
-								<Box onClick={() => router.push('/jp')}>
+								<Box onClick={() => router.push('/')}>
 									<img
-										src="/images/logo/business_logo.png"
+										src="/images/logo.png"
 										alt="logo"
 										width={'45px'}
 										height={'45px'}
@@ -237,7 +237,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 										mb={2}
 									>
 										<img
-											src="/images/logo/business_logo.png"
+											src="/images/logo.png"
 											alt="logo"
 											width={'45px'}
 											height={'45px'}
@@ -289,7 +289,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 									mt={1}
 								>
 									<img
-										src={'/images/logo/business_logo.png'}
+										src={'/images/logo.png'}
 										alt="Logo"
 										width={'45px'}
 										height={'45px'}
@@ -298,7 +298,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 											marginRight: '15px',
 											marginTop: '10px',
 										}}
-										onClick={() => router.push('/business')}
+										onClick={() => router.push('/')}
 									/>{' '}
 								</Box>
 								<Box
