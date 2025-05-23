@@ -12,7 +12,6 @@
 		"@emotion/styled": "^11.10.5",
 		"@leanoncompany/supporti-ark-office-project": "^0.0.416",
 		"@leanoncompany/supporti-react-ui": "^0.0.1",
-		"@leanoncompany/supporti-utility": "^0.0.1",
 		"@metamask/detect-provider": "^2.0.0",
 		"@mui/icons-material": "^5.11.0",
 		"@mui/lab": "^5.0.0-alpha.155",
